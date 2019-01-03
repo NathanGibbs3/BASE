@@ -1,2 +1,10 @@
+<!--README.md file for Github Repo-->
 # BASE
-The continuation of BASE. Originally by @securideas. A web front-end to query and analyze the alerts coming from a SNORT IDS system.
+
+## The Basic Analysis and Security Engine.
+A web front-end to query and analyze alerts coming from a SNORT IDS system.
+
+Based on the code from the Analysis Console for Intrusion Databases (ACID) 
+project.
+
+This repo is a continuation of the excellent work done by @securideas, et al.
