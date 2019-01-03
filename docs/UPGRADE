@@ -1,0 +1,62 @@
+Basic Analysis and Security Engine (BASE) v1.4.3 (gabi)
+   
+By Kevin Johnson <kjohnson@secureideas.net , http://www.secureideas.net>
+    and the BASE Development Team
+Portions by Roman Danyliw <rdd@cert.org>, <roman@danyliw.com>
+
+Project Website: http://base.secureideas.net
+Sourceforge Site: http://sourceforge.net/projects/secureideas
+
+CVS     :  cvs.sourceforge.net
+
+-------------------------------------------------------------------------------
+** Copyright (C) 2004 Kevin Johnson
+** Portions Copyright (C) 2000, 2001, 2002 Carnegie Mellon University
+**
+** This program is free software; you can redistribute it and/or modify
+** it under the terms of the GNU General Public License as published by
+** the Free Software Foundation; either version 2 of the License, or
+** (at your option) any later version.
+**
+** This program is distributed in the hope that it will be useful,
+** but WITHOUT ANY WARRANTY; without even the implied warranty of
+** MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+** GNU General Public License for more details.
+**
+** You should have received a copy of the GNU General Public License
+** along with this program; if not, write to the Free Software
+** Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+-------------------------------------------------------------------------------
+
+I. Upgrade
+_____________________________________
+
+    A. Upgrade from ACID
+    _________________________________
+    
+    To upgrade from an install of ACID, all that you need to do is copy the
+    relevant settings into base_conf.php.  These would be the location of
+    ADODB, along with all of the database configuration information.
+    
+    You can also run the setup program by accessing {URL to base}/setup/
+    e.g. http://127.0.0.1/base/setup/
+    
+    B. Upgrade from 1.x version of BASE
+    _________________________________
+
+    To upgrade from a previous version of BASE, you will need to copy the
+    configuration from your current base_conf.php to the example on provided
+    as base_conf.php.dist.  This is because of various changes needed for bug
+    fixes.
+    
+    C. Upgrade from a previous version of BASE prior to 1.0
+    _________________________________
+    
+    To upgrade from a previous version of BASE, you will need to copy the
+    configuration from your current base_conf.php to the example on provided
+    as base_conf.php.dist.  This is because of changes needed for the language
+    support.
+    
+    If you are running MYSQL, you will also need to execute the
+    upgrade_0.9.x_to_1.0-mysql.sql file to fix an issue with the field size
+    of the usr_passwd field.

@@ -1,0 +1,139 @@
+The TEAM
+========================================================
+- Kevin Johnson
+        - Project Lead
+        
+- Sean Muller
+        - Project Manager
+
+- Tim Rupp
+        - Core Developer
+
+- Alejandro Flores
+        - Core Developer
+
+- Jon Hart
+	- Core Developer
+
+- Christian Svensson
+        - Core Tester
+
+- James Fields
+        - Core Developer
+
+
+The IMPLEMENTATION (contributions)
+========================================================
+- Chris Shepherd (Original Team Member)
+        - Bug Fixes
+        - PHP 5 Support
+
+- Joel Esler
+        - Project Lead
+        
+- Doug Mackie
+        - Perl support
+        
+- Walter Brock
+        - New Look and Feel
+
+- Michael Stone
+        - Performance Fixes
+        - IP Cache expiry issue
+        - Multiple PostgreSQL changes
+
+- Scott Elgram & Jean-Marc
+        - Flow-Portscan patch
+        
+- Jason Dixon
+        - Various Postgres fixes and testing
+        - Display issues
+
+- Alan Vallance
+        - MSSQL bug fixes
+        
+- C. Bensend
+        - PostGRES fixes
+
+- Michiel Brendel
+        - Setup fixes
+
+- pr00f
+        - Bug Fixes
+        
+- Randy McEoin
+        - Look and Feel changes
+
+- Justin Best
+        - Bug Fix
+
+- Ethan Chai
+        - Bug Fix
+        
+- Bruce Briggs
+        - Bug Fix
+
+- Vladimir Anufriev
+        - Oracle Support
+        
+- João Mota
+        - Translation help
+
+TRANSLATIONS
+========================================================
+
+    - Chinese -- Johnson Chiang
+    - Czech -- Michal Mertl
+    - Danish -- Kim Christensen
+    - Finnish -- Elmo Mäntynen
+    - French -- Maurice Lanselle
+    - German -- Menrath Johann
+    - Indonesian -- Rachim Tamsjadi
+    - Italian -- DJ Echelon
+    - Japanese -- Kenji
+    - Norwegian -- Ole-Martin Bækkeli
+    - Polish -- Michal Fraszek
+    - Portuguese -- Pedro Walter
+    - Russian -- Dmitry Purgin
+    - Simplified Chinese -- Hai Xie
+    - Spanish -- Jason Santos
+    - Swedish -- Jimmy Hansson
+    - Turkish -- Umut Nacak
+
+
+Original ACID credits
+========================================================
+- Stuart Stock <stuart@broadword.com>
+      - Sensor statistics
+      - Sensor lookup routines
+
+- Jeff Seely <jeff_seely@broadword.com>
+      - Alert statistics given an IP address
+
+- Paul Harrington <paul@pizza.org>
+      - Regex code to make the signatures hyperlink
+
+- Bill Marquette <wlmarque@hewitt.com>
+      - Java-script for selecting alerts in the Query Results
+
+- Steve Halligan <agent33@geeksquad.com>
+      - Emailing query results
+
+The People with IDEAS and BUG hunting... thanks 
+========================================================
+- Jed Pickel <jed@pickel.net>
+      - Author of the Snort database plugin
+      - All sorts of architecture discussions for the ACID design
+
+- The previous work of Yen-Ming Chen <yenming.chen@foundstone.com>
+  and Silicon Defense <www.silicondefense.com> (SnortSnarf) in the
+  domain of Snort log analysis needs to be acknowledged.
+
+- Jason Haar <jason.haar@timble.co.nz>
+- Erik Fichtner <emf@servervault.com>
+- Jason Jin <jason@dataprompt.com>
+- Alan Clegg <abc@bsdi.com>
+- Nathan Spande <nspande@fool.com>
+- Len Burns <lenb@sasquatch.com>
+- Borja Marcos <borjam@sarenet.es>
+- Jacco Tunnissen <jacco@connexus.nl>

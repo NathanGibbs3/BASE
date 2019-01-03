@@ -1,0 +1,18 @@
+--- scripts/base_maintenance.pl.orig	2007-09-02 22:36:03.000000000 +0200
++++ scripts/base_maintenance.pl	2008-06-13 12:10:55.000000000 +0200
+@@ -29,7 +29,7 @@
+ 
+ # Change below URL to match the one for your install
+ my($url, $user, $pwd);
+-$url = "http://127.0.0.1/~kjohnson/base/base_maintenance.php";
++$url = "http://127.0.0.1/base/base_maintenance.php";
+ 
+ # Set $user to the username used to log in.
+ # Leave blank if you do not use Authentication in BASE
+@@ -85,4 +85,4 @@ if ($resp->code != 200 )
+     my $code;
+     $code = $resp->code;
+     print "An Error occurred while posting the form!\n The error was a $code\n\n";
+-}
+\ No newline at end of file
++}

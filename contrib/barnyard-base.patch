@@ -1,0 +1,135 @@
+diff -ur barnyard-0.2.0/src/output-plugins/Makefile.in barnyard-local/src/output-plugins/Makefile.in
+--- barnyard-0.2.0/src/output-plugins/Makefile.in	2004-05-01 12:52:16.000000000 -0400
++++ barnyard-local/src/output-plugins/Makefile.in	2007-11-19 12:21:00.000000000 -0500
+@@ -89,7 +89,7 @@
+ op_alert_syslog.o op_log_pcap.o op_acid_db.o op_alert_csv.o op_sguil.o \
+ op_alert_syslog2.o op_alert_console.o
+ AR = ar
+-CFLAGS = @CFLAGS@
++CFLAGS = @CFLAGS@ -DENABLE_ACID_EVENT_LOGGING
+ COMPILE = $(CC) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
+ CCLD = $(CC)
+ LINK = $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(LDFLAGS) -o $@
+diff -ur barnyard-0.2.0/src/output-plugins/op_acid_db.c barnyard-local/src/output-plugins/op_acid_db.c
+--- barnyard-0.2.0/src/output-plugins/op_acid_db.c	2007-04-02 16:54:17.000000000 -0400
++++ barnyard-local/src/output-plugins/op_acid_db.c	2007-07-30 13:29:52.000000000 -0400
+@@ -13,6 +13,13 @@
+ 
+ /*  I N C L U D E S  *****************************************************/
+ 
++/*
++ * Add -DENABLE_ACID_EVENT_LOGGING to enable logging directly
++ * to acid_event
++ *
++ * -- jfh@ufl.edu
++ */
++
+ 
+ #include <string.h>
+ #include <stdlib.h>
+@@ -122,6 +129,15 @@
+ char *PostgresEscapeString(PGconn *, char *string);
+ #endif /* ENABLE_POSTGRES */
+ 
++#ifdef ENABLE_ACID_EVENT_LOGGING
++
++int AcidEventInsert(OpAcidDb_Data *op_data, int sid, int cid, int signature, char *sig_name,
++        int sig_class_id, int sig_priority, char *timestamp, int ip_src, 
++        int ip_dst, int ip_proto, int layer4_sport, int layer4_dport);
++
++#endif
++
++
+ /* Global variables */
+ static char sql_buffer[MAX_QUERY_SIZE];
+ 
+@@ -322,6 +338,16 @@
+             }
+             break;
+     }
++
++#ifdef ENABLE_ACID_EVENT_LOGGING
++
++    LogMessage("Should run AcidEventInsert\n");
++    AcidEventInsert(op_data, op_data->sensor_id, op_data->event_id, acid_sig_id, sid->msg, 
++            class_type->id, record->event.priority, timestamp,  record->sip, record->dip, 
++            record->protocol, record->sp, record->dp);
++
++#endif
++
+     ++op_data->event_id;
+     return 0;
+ }
+@@ -400,10 +426,51 @@
+                 InsertPayloadData(op_data, &p);
+         }
+     }
+-    ++op_data->event_id;
++
++#ifdef ENABLE_ACID_EVENT_LOGGING
++
++    AcidEventInsert(op_data, op_data->sensor_id, op_data->event_id, acid_sig_id, sid->msg, 
++            class_type ? class_type->id : 0, record->log.event.priority, timestamp, ntohl(p.iph->ip_src.s_addr), 
++            ntohl(p.iph->ip_dst.s_addr), p.iph->ip_proto, p.sp, p.dp);
++
++#endif
++
++++op_data->event_id;
+     return 0;
+ }
+ 
++#ifdef ENABLE_ACID_EVENT_LOGGING
++
++static char *acid_event_sql_format = "INSERT into acid_event ( "
++        "sid, cid, signature, sig_name, sig_class_id, sig_priority, "
++        "timestamp, ip_src, ip_dst, ip_proto, layer4_sport, layer4_dport "
++    ") VALUES ( "
++        "'%u', '%u', '%u', '%s', '%u', '%u', '%s', '%u', '%u', '%u', '%u', '%u'"
++    ")";
++
++int AcidEventInsert(OpAcidDb_Data *op_data, int sid, int cid, int signature, char *sig_name,
++        int sig_class_id, int sig_priority, char *timestamp, int ip_src, 
++        int ip_dst, int ip_proto, int layer4_sport, int layer4_dport) { 
++
++    /* LogMessage("DEBUG: In AcidEventInsert\n"); */
++
++    if (snprintf(sql_buffer, MAX_QUERY_SIZE, acid_event_sql_format,  
++                 sid, cid, signature, sig_name, sig_class_id, sig_priority, 
++                 timestamp, ip_src, ip_dst, ip_proto, layer4_sport, layer4_dport) < MAX_QUERY_SIZE) { 
++        /* LogMessage("DEBUG: current query: %s\n", sql_buffer); */
++        Insert(op_data, sql_buffer, NULL);
++    }
++
++    if (snprintf(sql_buffer, MAX_QUERY_SIZE, 
++                "UPDATE sensor set last_cid = '%u' where sid = '%u'", 
++                cid, sid) < MAX_QUERY_SIZE) { 
++        Insert(op_data, sql_buffer, NULL);
++    }
++    return 0;
++
++}
++#endif
++
+ int InsertIPData(OpAcidDb_Data *op_data, Packet *p)
+ {
+     if(op_data->detail)
+@@ -1225,6 +1292,8 @@
+ {
+     int mysqlErrno;
+     int result;
++    int retcode;
++
+     while((result = mysql_query(mysql, sql) != 0))
+     {
+         mysqlErrno = mysql_errno(mysql);
+@@ -1239,8 +1308,9 @@
+                 || (mysqlErrno == CR_SERVER_GONE_ERROR))
+         {
+             LogMessage("Lost connection to MySQL server.  Reconnecting\n");
+-            while(mysql_ping(mysql) != 0)
++            while((retcode = mysql_ping(mysql)) != 0)
+             {
++                LogMessage("mysql_ping error(%i): %s\n", mysqlErrno, mysql_error(mysql));
+                 if(BarnyardSleep(15))
+                     return result;
+             }

@@ -1,0 +1,599 @@
+  - 09/01/2004 0.9.7 (Initial Release)
+    - First Release
+    - Packaged application as BASE
+    - Split individual files into a more manageable directory structure
+        (more work necessary there)
+    - Updated ADODB link and information
+  - 09/04/2004 0.9.7.1 (Francis)
+    - Added Credits
+    - Changed TODO
+    - Changed css file for different look (kinda) :)
+    - Removed commented code that was floating around
+    - Updated Whois entry for ARIN
+    - Updated the ADODB information in the README... missed it there!<grin>
+    - Fixed various typos and display changes
+  - 10/14/2004 0.9.8 (dhara)
+    - PHP 5 support -- Chris Shepherd
+    - Fixed datetime to timestamp error in create_base_tbls_pgsql.sql [ 1025011 ]
+    - Changed comment banner
+    - Added start of the capabilities class -- Chris Shepard
+    - Changing ADODB to PEAR:DB -- Kevin Johnson
+    - Added header to prevent direct access to certain pages -- Kevin Johnson
+    - Changed title bar -- Kevin Johnson
+    - Changed Function names in HTML output file -- Kevin
+    - Changed Display of the summary graphs -- Kevin
+    - Created the user class -- Kevin
+    - Created the start of the auth system -- Kevin
+    - Created acid2base_tbls_mysql.sql -- Kevin
+    - Change html file to php in prep for the template system -- Kevin
+    - Various typos..... -- Kevin
+    - Added /admin/ and various files within it -- Kevin
+    - Expanded year dropdowns to 2010 -- Kevin
+    - Changed look to use Walter B's CSS and various tweaks -- Kevin
+    - Moved around the front page -- Kevin
+    - Added variables to base_conf.php.dist
+    - Created dispYearOptions() to handle the year issue (so ignore the expanded
+        change item above<grin)-- Kevin
+  - 10/28/2004 0.9.9 (brenna)
+    - Started PDF work
+    - Changed all acid functions to base functions -- Kevin
+      - base_db.inc.php
+      - base_net.inc.php
+    - Added GPL file -- Kevin
+    - Moved around the base_conf.php.dist -- Kevin
+    - Changed external links bug [1051873] -- Kevin
+      - Removed SamSpade links
+    - Added User Preferences page
+    - Completed Auth functions
+    - Fixed Sort bug [1051872] -- Chris Shepherd
+    - Added URL signature reference -- Thanks Joel Esler
+    - Fixed error in include on base_stat_common.php -- Thanks Justin Best
+    - Completed all of the $BASE_path/ for includes -- Kevin
+    - Added listing of users to admin pages. -- Kevin
+  - 11/21/2004 1.0 (denise)
+    - Added patch from nobody
+    - Finished the User stuff!
+      - This framework will continue to be built upon
+        but as of right now, I would consider it stable! -- Kevin
+    - base_stat_common.php changed sensorCnt to return sensors with no events
+      -created new function to handle this
+    - added images directory.
+    - Fixed issue where people couldn't add a user if UseAuth was off -- Kevin
+    - Change admin pages to match the naming of the rest of the project
+    - Role management system -- Kevin
+    - Minor look changes -- Joel and Kevin
+    - Created languages directory -- Kevin
+    - Started building the language files -- Kevin
+    - /setup/ program -- Kevin
+    - /help/ work
+    - moved app_faq to /help
+    - Built start of help icon system used in the setup system
+    - Added nessus ref to base_conf.dist -- Thanks Christian Svensson
+    - English -- Kevin Johnson
+    - Japanese -- Kenji
+    - French -- Maurice Lanselle and Sebastien Desse
+    - Norwegian -- Ole-Martin Bækkeli
+    - Swedish -- Jimmy Hansson
+    - German -- Menrath Johann
+    - Portuguese -- Pedro Walter
+    - Russian -- Dmitry Purgin
+    - Spanish -- Jason Santos
+    - Italian -- DJ Echelon
+    - Danish -- Kim Christensen
+    - Formatting change to base_signature.inc.php -- Randy McEoin
+    - Fixed error where menu appeared on the login page -- Kevin Johnson
+    - Fixed error with menus in the footer on any page but base_main.php
+    - Added check on each page to determine if you are logged in
+    - Added Refresh to multiple pages. RFE [1048873]
+    - Added BASE tables to the PostGRES and the MSSQL files
+    - Fixed password size in the database files
+    - Added Upgrade script for 0.9.x -> 1.0 for MYSQL
+    - Fixed issue with MSSQL tables creation commands
+    - Added New Flow-Portscan functionality -- Scott Elgram & Jean-Marc
+  - 1/17/2005 1.0.1 (michelle)
+    - Finnish -- Elmo Mäntynen
+    - Chinese -- Johnson Chiang
+    - Indonesian -- Rachim Tamsjadi
+    - Alert Group fixes -- Tim Rupp
+    - Fixed the postgres sql files -- Kevin
+    - Fixed various Postgress issues -- Kevin
+    - Working on limiting includes -- Kevin
+    - Fixed setup bugs -- Michiel Brendel
+    - Removed regex from base_db.inc.php and related WHERE clauses -- Kevin
+    - Added better display of the error messages -- Jason Dixon
+    - Fixed for "Duplicate Entry" errors -- pr00f at users.sourceforge.net
+    - Fixed issue with adding a user after deleting one that was not the last
+      user added. -- Kevin
+    - Fixed some graphing issues -- Kevin
+    - Fixed the MSSQL setup scripts to correctly insert roles -- Alan Vallance
+    - Fixed setup issues with postgres -- Jason Dixon
+  - 2/13/2005 1.0.2 (racquel)
+    - Fixed host cache expiry issue -- Thanks to Michael Stone for the heads up
+    - Fixed search issue with PHP 5 -- Tim Rupp
+    - Added fix to increase performance on time based queries for MySQL -- Michael Stone
+    - Fixed potential navigation fatal error seen with some PHP5 installations -- Tim Rupp
+    - All HTTP_*_VARS have been changed to newer superglobals -- Tim Rupp
+    - Fixed bug #1114778, duplicate defines in lang files -- Tim Rupp
+    - Fixed bug #1118792, Errors creating Postgres tables -- Kevin Johnson
+    - Added DShield.org IP Info page -- Kevin Johnson
+    - External IP links open in a new window -- Kevin Johnson
+    - Portuguese Translation fixes -- Thiago Martins
+    - Fixed bug #1111841 -- Alejandro Flores
+    - Summary Statistics box added to base_stat_alerts page, RFE from Joel -- Tim Rupp
+    - Fixed out of memory error in Graph Alert Data on vanilla installs of PHP5 -- Tim Rupp
+    - Changed setup to not check for indexes unless you are using MySQL -- Kevin Johnson
+    - Footer link changes and look and feel -- Kevin and Joel
+    - Cleaned up conf files -- Kevin Johnson
+    - Uses isc.sans.org port database for more information -- Kevin Johnson
+    - Updated all Language files to ensure proper spacing between items and added
+      links to Members list -- Joel Esler
+    - New packaging directory structure -- Kevin Hoffman
+  - 4/3/2005 1.1 (elizabeth)
+    - Patch for PostgreSQL setup -- C. Bensend
+    - Added further comments to BASE_urlpath in base_conf -- Kevin Johnson for Jeff Kell
+    - Fixed bug #1123243 Call to undefined function in Whois Cache-- Tim Rupp
+    - Fixed a mixup that is on the Source and Destination Ports pages in the title -- Tim Rupp
+    - Fixed bug #1123247, Listing users with no users error -- Kevin Johnson
+    - Implemented RFE #1048868 Packet display -- Kevin Johnson
+    - Fixed bug #1123815. Applied patch submitted by anonymous user on SF  -- Tim Rupp
+    - Added $BASE_installID to base_conf.php to enable a unique install id -- Kevin Johnson for Al Reust
+    - Fixed bug #1116034 Lack of distinct results after clicking Src IP -- Tim Rupp for Alejandro Flores
+    - More fixes to the portuguese language file -- Thiago Martins
+    - Fixed bug #1143574 -- Tim Rupp
+    - Implemented RFE #1122502 Access to the archive database from the one BASE install -- Kevin Johnson
+    - Fixed bug #1144817 Pie charts not working -- Tim Rupp and Alejandro Flores
+    - Fixed Bug #1145254 Archive Database switching -- Kevin Johnson
+    - Fixed error in German language file -- Heinrich Lieker
+    - Added the FAQ to the docs/ -- Joel Esler
+    - Fixed Bug #1150681 Database summary display for the archives -- Kevin Johnson
+    - Put Archive in the title bar -- Kevin Johnson
+    - Fixed Bug #1150688 Archive Actions -- Kevin Johnson
+    - Implemented RFE #1150696 (Needs much more work) -- Kevin Johnson
+    - Implemented RFE #1150789 Adding Archive to the hdr -- Kevin Johnson
+    - Started Implementing RFE #1114443 Support for Oracle -- Kevin Johnson
+    - Moved Payload Display link to the Payload section of the display -- Kevin
+    - Fixed Signature lookup for new Snort.org web site -- Kevin
+    - Fixed Bug #1164491 IP Links sorting issue -- Kevin Johnson
+    - Created cookie so that if you had selected clean payload display it would stick -- Kevin
+    - Created stand alone maintenance program -- Kevin
+    - Fixed bug in base_maintenance.pl -- Doug Mackie
+    - Fixed bug #1166158 Search Criteria lost -- Kevin Johnson
+    - Added authentication support to base_maintenance.pl -- Kevin Johnson
+    - Made the default in base_conf.php to not resolve FQDN -- Kevin
+    - Moved FORM tag before Timing box -- Kevin Johnson
+    - Fixed error with emailing from the AG page -- Ethan Chai
+    - Simplified search form -- Thom Dosedel
+    - Fixed much of the search sort issues -- Bruce Briggs
+    - Fixed Bug #1168587 PHP safe mode breaks BASE -- Kevin Johnson
+    - Implemented RFE #1144818 Simplify the graph form -- Thom Dosedel
+    - Fixed error where setup would die silently -- Thanks Jeff Nathan
+    - Fixed error with actions again -- Alejandro Flores and Tim Rupp
+    - Replaced jpgraph with PEAR::Image_Graph -- Alejandro Flores
+    - Removed $ChartLib_path and updated docs -- Kevin Johnson
+    - Added check to verify that the archive DB exists before allowing use of it -- Kevin Johnson
+    - Updated Spanish language file -- Ricardo Montañana Gómez
+    - Implemented RFE #1150696 Themes -- Kevin Johnson
+    - Fixed Search page "cannot use string as array offset" error again. Should be fixed for good now. -- Tim Rupp
+  - 4/8/2005 1.1.2 (zora)
+    - Added setting the archive_exists var to the setup system -- Kevin Johnson
+    - Fixed sort order bug -- Jonathan W Miner
+    - Fixed issue with TimeStamps -- Michael Stone
+    - Fixed Fatal error in some installs -- Michael Stone
+  - 6/13/2005 1.1.3 (lynn)
+    - Many performance change for Postgres -- Michael Stone
+    - Added options to base_conf.php to increase performance -- Michael Stone
+    - Fixed issue with show_stats (Need to change this based on Alejandro's change to the front page-- Kevin Johnson
+    - Changed default for $avoid_counts -- Kevin
+    - Czech language added -- Michal Mertl
+    - Oracle script work -- John Evans and Kevin Johnson
+    - Fixed off by one bug -- Jonathan W Miner
+    - Added custom footer option -- Jonathan W Miner
+    - Clean up of jpGraph leftovers -- Kevin Johnson
+    - Fixed ARIN lookup since their change -- Jonathan W Minor
+    - HTML Fixes for W3C.org compliance -- Jonathan W Minor
+    - Query change to speed up today queries -- Michael Stone
+    - Fixed README -- Kevin Johnson
+    - Oracle support -- Vladimir Anufriev
+    - Simplified Chinese language files -- Hai Xie (xxxss@msn.com)
+    - Form work -- Bruce Briggs and Kevin Johnson
+    - Table width changes -- Kevin Johnson for Thinh Pham
+    - Added Red theme -- Kevin Johnson
+    - Updated FAQ -- Joel Esler
+    - Typo in french.lang.php -- Dominik Gehl
+    - Fixed bug #1199128, Search with multiple Time criteria is broken -- Tim Rupp
+    - Fixed bug #1183916, Incorrect count/list of Unique alerts after deleting some -- Tim Rupp
+    - Fixed bug #1208972, Auto Refresh -- Tim Rupp
+    - Fixed bug #1214307, icat.nist.gov link error -- Thinh Pham
+  - 8/8/2005 1.1.4 (cheryl)
+    - Fixed bug #1220169 typo in create_base_tbls_mysql.sql -- Kevin Johnson
+    - This typo was in all of the sql files -- Kevin
+    - Changes to docs -- Kevin
+    - Added a bunch of translation stuff -- João
+    - Added Polish Language -- Michal Fraszek
+    - Fixed issue with lang files -- Kevin Johnson
+    - Updated Polish Language file -- Michal Fraszek
+    - Fixed issue with English lang file -- Christian Svensson
+    - Translated most of the //NEW varibles in the swedish lang file -- Christian Svensson
+    - Fixed bug #1253176, URL reference with BleedingSnort rules -- Kevin Johnson
+  - 10/9/2005 1.2.0 (betty)
+    - Fix for bugs #1256237 and #1254318 -- Tim Rupp
+    - Patch to add Binary download -- Juergen Leising
+    - Fixed bug #1249911, ASCII representation with base64 encoding -- Kevin Johnson (from anonymous)
+    - Fixed quote issue in base_stat_iplink.php -- Michael Stone
+    - Fixed sort of alerts by address -- Alex Butcher
+    - Added ISC Source/Subnet report -- Alex Butcher
+    - Added other sources of port information -- Alex Butcher
+    - Added TrustedSource IP lookup -- Alex Butcher
+    - Fixed Portscan issue with emails -- Nikns Siankin
+    - Added local reference to read sigs from a directory in the BASE install -- Kevin J for Juergen
+  - 10/30/2005 1.2.1 (kris)
+    - Added black theme -- Nick Whitehill
+    - Fixed Bug #1338142 SQL Injection vulnerability -- Kevin Johnson
+    - Fixed URL for sstats and display for the external port links (Patch #1333209) -- Jonathan W Minor
+    - Added better erroring if some forms of SQL injection happen -- Doug Mackie
+  - 1/12/2006 1.2.2 (cindy)
+    - Added Turkish -- Umut Nacak
+    - Changed login button to actually say login -- Jonathan W Minor
+    - Fixed issue with signature names and MySQL 5.0 -- Kade P. Cole
+    - Fixed Bug# 1347623 auto-refresh ignored for stat pages -- Shane Castle
+    - Fixed Sort order issues -- Timothy Doty
+    - Applied patch from Debian maintainer for final SQL injection fix -- Kevin
+    - Updated prject lead comments -- Kevin
+    - Added Portscan Information -- Kevin for Nikns
+  - 3/19/2006 1.2.4 (melissa)
+    - Fixed issue with PostGRES and schema in base_db.inc.php -- Kevin J and Nikns
+    - Fixed bug #1284695 Error in SQL with PostgreSQL -- Kevin J and Nikns
+    - Fixed issues displaying PortScans -- Nikns
+    - Fixed sig_class (bug #1407325) and sig_priority filter bug -- Nikns and Max Valdez (garaged)
+    - Fixed bug #1408387 Archive move and Email summary issues -- Nikns
+    - Fixed bug when, after setup, archive database wasn't used -- Nikns
+    - Fixed PostgreSQL archive database support -- Nikns
+    - Fixed bug #1313261 Unable to use actions in base_stat_sensor.php -- Nikns
+    - Fixed bug #1371532 First of month timestamp issue -- Nikns
+    - Fixed bug #1406945 Lost alert order when switching between payload display -- Nikns
+    - Fixed bug #1413712 base_conf.php file path issue under MS Windows -- garaged
+    - Fixed search by signature name -- Nikns
+    - Converted sql/create_base_tbls_mssql_extra.sql to CRLF line terminators -- Nikns
+    - Fixed broken auth system for MSSQL -- Nikns
+    - Changed MSSQL schema for table acid_event, sig_name now has type VARCHAR instead of TEXT -- Nikns
+    - Fixed bug #1307250 broken base_stat_alerts.php with MSSQL -- Nikns
+    - Fixed bug #1413594 Force to use alert database for auth system stuff -- Nikns
+    - Setup fix, on error form values are remembered, default language is English -- garaged  
+    - Uppercased name 'Archive' in base_main.php (in sync with base_hdr1.php) -- Nikns
+    - Fixed support for actions in base_stat_class.php -- Nikns 
+    - Fixed bug #1418660 Broken search by IP criteria -- Nikns
+    - Added checkboxes and fixed support for actions in base_stat_iplink.php -- Nikns
+    - Implemented RFE #1123382 support for actions in base_stat_uaddr.php -- Nikns
+    - Implemented support for actions in base_stat_ports.php -- Nikns
+    - Fixed bug #1422575 when empty email sent even if action unsuccessful -- Nikns
+    - Fixed bug #1424033 Unable to Graph Alert Detection Time -- Nikns
+    - Fixed bug #1426089 Score removed from email address -- Nikns
+    - Fixed bug #1210542 and #1288402 Packet display mode issues -- Nikns
+    - Detect archiving duplicates with select queries instead of catching db conflict error -- Nikns
+    - Fixed bug #1430686 Update alert cache for archived alert right after it is coppied to archive db -- Nikns
+    - Implemented archiving support for schema 107 -- Nikns
+    - Added sig_gid (signature generator id) to snort signature reference url for schema 107 -- Nikns
+    - session_start() on base_conf.php avoiding repetition, easier to handle with debug output -- garaged
+    - debug_mode needs to be off on login (index.php:45 ) -- garaged
+    - Fixed bug #1275536 Unable to download binary payload in Internet Explorer when using SSL -- Nikns
+    - Implemented archiving support for FLoP extended database schema -- Nikns
+    - Implemented rebuild of packet in pcap format for FLoP extended database -- Nikns
+    - Added display of MAC addresses in base_query_alert.php for FLoP extended database -- Nikns
+    - Fixed BASE authentication bypass in standalone mode for base_maintenance.php -- Nikns
+    - Added HTTP response codes on authentication failure in base_maintenance.php for standalone mode -- Nikns
+    - Fixed bug #1341286 Show IP header length in bytes, not words -- Juergen Leising
+    - In plain display mode several sequential non-ASCII payload characters join together displaying their count -- Nikns
+    - Changed input type of the password field in useradmin -- Kevin Johnson
+  - 6/4/2006 1.2.5 (sarah)
+    - Added base64 encoding support for MAC addresses presented on the screen for FLoP extended database -- Juergen Leising
+    - Added base64 encoding support for rebuild of packet in pcap format for FLoP extended database -- Juergen Leising
+    - Fixed issue with Oracle and schema version in base_db.inc.php -- Nikns
+    - Fixed bug when alerts with sig references would fail to archive causing duplicates error -- Nikns
+    - Added base64 encoding support for ICMP payload additional table in base_qry_alert.php -- Juergen Leising
+    - Added check for PHP Logging Level against E_NOTICES in setup/index.php -- Nikns
+    - Fixed bug when certain preprocessor alerts would not be cached (for example arpspoof) -- Nikns
+    - Added setup/setup_db.inc.php with CreateBASEAG() to resolve redundancy in setup and base_db_setup.php -- Nikns
+    - Removed unnecessary and broken search index stuff from Create BASE AG, since schemas are already with them  -- Nikns
+    - Added XSSPrintSafe() (array safe htmlspecilchars() function) and made filterSql() use ADOdb qmagic() -- Nikns
+    - Changed input type of the password field to actually be password in setup3.php -- Nikns
+    - Filtered all unfiltred (mainly auth system stuff) $_POST and $_GET variables using filterSql() -- Nikns
+    - Santized all $_SERVER variables to be protected against XSS attacks -- Nikns
+    - Added "Clear Data Tables" option in base_maintenance.php and "Repair Tables" option to execute CreateBASEAG() -- Nikns
+    - Make use of FLoP's event reference. Signature name of alert which trigered "Tagged Packet" alert is shown too -- Nikns
+    - Updated chinese.lang.php -- Johnson Chiang
+    - Fixed Time error in searches -- Jeff Kell
+    - Fixed refresh issue with ~ directories -- Kevin Johnson
+    - Fixed cookie stored data and authentication scheme to correct Nikns' report on session forge issue -- GaRaGeD
+    - Updated link to the Nessus plug in DB -- Jonathan W Miner 
+    - Fixed display after deleting alerts -- Bruce Briggs
+    - Fixed Bug #1466392 - Back button doesn't work after refresh. -- Juergen Leising
+    - Patches from jhart@spoofed.org to add missing ICMP and TCP type and codes - GaRaGeD
+    - add support for ICMP redirect decoding. - Jon Hart
+    - add decoding support for ICMP source quench and ICMP parameter problem - Jon Hart
+    - split up "flags" into DF and MF, much like tcp flags are currently handled - Jon Hart
+ - 7/23/2006 1.2.6 (christine)
+    - Added check for base_users and base_roles tables in base_main.php - Kevin Johnson
+    - Added . to VAR_PUNC to fix query issue - Kevin johnson
+    - Fixed issue with base_users table being required - Kevin Johnson
+    - Added search punctuation fix - Bruce Briggs
+    - Added FQDN to display -- Jonathan W Miner
+    - PrintForm() fixes - Bruce Briggs
+    - Settings for automatic expansion of the IP and Payload Criteria on Search screen - Bruce Briggs
+    - Save the fields entered on the Search screen for Back button proper refilling - Bruce Briggs
+    - RFE #1520185 Add support for managing last_cid - Eric Jacobsen
+    - Changed show_rows to 49 in base_conf.php.dist to fix IE 6/7 bug - Bruce Briggs
+    - Fixed link to FAQ - Juergen Leising
+    - Fixed VAR_BOOLEAN error and some typos in the footer - Eric Jacobsen
+    - Trivial patch to make base_stat_time.php use GET insted of POST to avoid the 'resend data' warning on refresh - GaRaGeD
+    - Added base-rss.php to the contrib section - Dan Michitsch
+- 11/17/2006 1.2.7 (karen)
+    - Improved HTML <table> output in "base_qry_alert.php" -- Jonathan W Miner
+    - Remove message when 0 alerts -- Jonathan W Miner
+    - PrintBase64PacketPayload fix for payload lenght modulo = 0 -- Juergen Leising
+    - Added empty function to ProtocolFieldCriteria -- Kevin Johnson
+    - Fixed issue if sig_gid was empty -- Valter Santos
+    - Added SnortUnified, a perl replacement for Barnyard -- Jason Brvenik
+    - Updated base-rss.php -- Dan Michitsch
+- 2/19/2007 1.3.5 (marie)
+    - Applied patch to fix bug #1602391 [IP Fragments] -- Juergen Leising
+    - Fix typo in setup4.php -- Jonathan W Miner
+    - Updated footer for site location -- Kevin Johnson
+    - Trivial patch to correct IPFieldCriteria::Description() on base_state_citems.inc.php -- GaRaGeD
+    - Another trivial check for ProtocolFieldCriteria::Description() array correctness -- GaRaGeD
+    - Patch to fix Bug#1550613 Payload queries fail due to inconsistent case -- Kevin J for "nobody"
+    - Patch to fix extra <table> in base_main.php -- Jonathan W Miner
+    - Added pcap download functionality for individual alerts -- Jon Hart
+    - Added logout functionality when internal authentication is used -- Jon Hart
+    - Updated README -- Kevin J
+    - Updated Ports list -- Kevin J
+- 5/13/2007 1.3.6 (louise)
+    - Fixed issues with graphing Bug#166596 -- Kevin J
+    - Fixed Bug#1666340 MySQL Syntax error with base_net.inc.php -- Kevin J
+    - Patch to fix display of index.php -- Jonathon W Miner
+    - Patch to fix Bug#1669265 Memory Leak in base_cache.inc.php -- Stephen Sadowski
+    - Fixed Bug#167508 BACK text not commented out when history disabled -- Kevin Johnson for Jordan Wiens
+    - Fixed Bug #1680965 - SANS IP Lookup fails -- Kevin Johnson for Jordan Wiens
+    = Fixed major amounts of errors with undefined vars. -- Marek Cruz
+    - Updated tons of HTML for complience -- Marek Cruz
+    - Fixed misspelled constants -- Marek Cruz
+    - Fixed CreateBASEAG function -- Marek Cruz
+    - Fixed check for Image_Graph -- Marek Cruz
+    - Removed portsdb.org as it is no longer valid -- Marek Cruz
+- 7/8/2007 1.3.8 (jodie)
+    - Fixed base_conf_contents.php to include colored alerts -- Jonathan W Miner
+    - Fixed base_main.php to remove an extra table and repair two column display -- Jonathan W Miner
+    - Added exit() to the redirect to fix security hole -- Jon Hart
+    - removed fpdf file to save room since we are not using them. -- Kevin Johnson
+    - Fixed bug #1723928 Top Right, Database and User not shown -- Kevin Johnson
+    - Added base_header wrapper, please use it instead of header if you're not sure -- GaRaGeD
+    - Fixed Bug #1675094 snort signature information links broken (really a hack!) -- Kevin Johnson
+    - Fixed Bug #1689885 Maybe need count(DISTINCT ip_src) to sort by IP correctly -- Kevin Johnson
+    - Fixed Bug #1649659 Use of archive DB seems broken in "karen" release -- Kevin Johnson
+    - Cleaned a warning -- Marek Cruz
+    - Spanish install guide -- Daniel Medianero
+- 11/20/2007 1.3.9 (anne)
+    - Update to Spanish -- David Gil
+    - Bug #1750697 base_header() is undefined fixed -- Juergen and Kevin Johnson
+    - Bug #1680965 sans lookup fails -- Jordan Wiens
+    - Updated Chinese language file -- Randy
+    - Added Sean Muller as the Project Manager -- Kevin Johnson
+    - Fixed error in contrib/base-rss.php -- Dan
+    - Added INSTALL and INSTALL.rtf files to docs directory -- Sean Muller
+    - Bug #1801192 XSS bug in BASE fixed -- Kevin Johnson and Sean Muller (Discovered by Daniel Medianero)
+    - Bug #1760615 Sort order ignored -- Kevin Johnson and Jordan Wiens
+- 4/25/2008 1.4.0 (katherine)
+    - Fixed index.php redirect -- Kevin Johnson for Terry Burton
+    - Fixed Bug #1836274 base_qry_alert.php Showing corrupt HTML -- Kevin Johnson
+    - Fixed error in norwegian.lang.php with the SEARCH tag -- Kevin Johnson for Ronny Hansen
+    - Fixed Bug #1859481 You have an error in your SQL syntax -- Juergen Leising
+    - Fixed Bug #1846317 Paging does not work in base_stat_sensor.php -- Kevin Marion
+    - Updated Chinese language file -- Johnson Chiang
+    - Fixed Bug #1886513 Line Duplication -- Kevin Johnson
+    - Multiple graphing fixes -- Juergen Leising
+    - Added country support for source and destination ip in 
+      "graph alert data"; feature request no. 1399907 -- Juergen Leising
+    - Added Worldmap feature -- Juergen Leising
+    - Fixed Query bug regarding time -- Juergen Leising
+    - Added BASE64 support for TCP options -- Juergen Leising
+    - Added Vendor MAC Map -- Juergen Leising
+    - Added patch for Barnyard from University of Florida -- Kevin Johnson
+    - Updated INSTALL documents -- Sean Muller
+    - Added debug function calls -- Juergen Leising
+    - Fixed setup issues -- Juergen Leising
+
+- 06/29/2008 1.4.1 (lara)
+    - Fixed moving alerts with empty sig_priority -- Kevin Johnson for Michel Lundell
+    - Added support for new chart type "unique alerts vs. number of 
+      alerts". Feature request no. 1659968 -- Juergen Leising
+    - Further fixes in the setup procedure -- Juergen Leising
+    - Disabled the pcap download possibility for sfportscan alerts, as
+      these are just pseudo packets rather than real packets from the
+      network.  Answer to bug no. 1885673 -- Juergen Leising
+    - Workaround and fixes for the bugs reported under no. 1699443 
+      1. "Fatal error: Call to a member function MoveNext() on a non-object 
+          in /var/www/base-127/includes/base_db.inc.php on line 463".
+         Workaround.
+      2. Improved error handling in base_action.inc.php:
+         Errors are now shown in regular mode rather than with
+         $debug_mode > 1.  Not every kind of error is a duplicate error.
+      3. Fixed baseGetHostByAddr() in base_net.inc.php in cases, 
+         where it does not get provided with a numerical ("dotted") 
+         IP address.  This is the heart of the bug reported under this
+         number by the original poster twstdpear.  The "ERROR: invalid 
+         input syntax for integer is a rather late state", though.
+      4. Fixed a violation of referential integrity, that does not
+         get accepted by postgresql, at least not by those ones of
+         version 8.x.  Cf. base_action.inc.php, where I have essentially
+         moved the actions around the table "event" upwards, so that
+         these lines get performed prior to lines that change/update
+         any other tables.
+         -- Juergen Leising
+    - Same or at least similar problem as under no. 1699443 sub 1.
+      seems to be the one reported in 
+      https://sourceforge.net/forum/forum.php?thread_id=2014650&forum_id=404428
+      Workaround. -- Juergen Leising
+    - Workaround for bug no. 1762491.  Related to the last
+      two points (if not identical) -- Juergen Leising
+    - Fix for bug no. 1974990 -- Juergen Leising
+    - Added information to the docs about how to fix a pear::image::graph
+      library bug preventing legends from being displayed with pie charts
+      -- Juergen Leising
+    - Added information to the docs about how to fix a missing fonts problem
+      -- Juergen Leising
+    - Fixes in PrintPortscanEvents().  Reaction to 
+      https://sourceforge.net/forum/forum.php?thread_id=2035110&forum_id=404428
+      -- Juergen Leising
+    - Workaround for a potential bug in preg_replace(); should solve
+      problem mentioned in 
+      https://sourceforge.net/forum/forum.php?thread_id=1916121&forum_id=404428
+      -- Juergen Leising
+    - Some changes to the translations in
+      languages/german.lang.php  -- Juergen Leising
+    - Added patch from Chris Ryan for german.lang.php -- Juergen Leising
+    - Increased memory limit from 50 to 128 MB in base_graph_common.php
+      as proposed by Chris Ryan on
+      http://sourceforge.net/forum/forum.php?thread_id=2084987&forum_id=404428
+      -- Juergen Leising
+    - Added completely rewritten base.spec for building rpm packages
+      of BASE. -- Juergen Leising
+    - Workaround in base_graph_common.php for the case that signature
+      classification names are missing.  Even in this case different
+      bars should be displayed, not just one "unclassified" one.
+      -- Juergen Leising
+    - Fixed small HTML bugs in the query form.  -- Juergen Leising
+    - Fixed syntax error in setup1.php in case of a wrong adodb path -- Juergen Leising
+    - All of the sensors are now displayed in the search form.  Same problem
+      as in UpdateAlertCache() in base-php4/includes/base_cache.inc.php.
+      -- Juergen Leising
+    - Fixed SQL error with sig_priority when queried coming from the
+      query form. -- Juergen Leising
+    - Fixed "Select Signature from List" in the query form -- Juergen Leising
+    - Added a README about the usage of Jason Brvenik's SnortUnified plugin.
+      -- Juergen Leising
+    - Fixed some smaller issues with Jason Brvenik's SnortUnified plugin
+      and adjusted the whole plugin to perl-5.10 and Net::Packet-3.25,
+      as shipped with fedora 9. -- Juergen Leising
+      perl-5.10, as shipped with fedora 9. -- Juergen Leising
+    - Fix for bug no. 2001211. -- Juergen Leising
+    - Updated base.spec. The base-contrib rpm should now be installable
+      under fedora 9.
+    - uf_csv.pl puts out IP addresses in human readable form, now. -- Juergen Leising
+    - Newly generated coordinates file world_map6.txt. -- Juergen Leising
+    - Any potential relative paths of the adodb library are now
+      converted to an absolute path -- Juergen Leising
+    - Signatures from http://www.emergingthreats.net/ point now to
+      http://docs.emergingthreats.net/SID -- Juergen Leising 
+
+
+4/03/2009 1.4.2 (chandy)
+    - EmThreats_link opens now in separate browser window -- Juergen Leising for Micah Gersten
+    - A new reference "[rule]" points now to base_local_rules.php, 
+      which displays a particular rule for a given rules id (sid).
+      Prerequisite for this is that "local_rules_dir" in base_conf.php
+      points to an actually existing and readable/searchable directory which 
+      contains the snort rules.  Please note, that a web server
+      is usually NOT allowed to access any files outside of its
+      document root.  Feature request by Chris Ryan, cf.
+      https://sourceforge.net/forum/message.php?msg_id=5310420
+      https://sourceforge.net/forum/message.php?msg_id=5311517
+      -- Juergen Leising
+    - Update of base.spec; works with fedora 10 -- Juergen Leising
+    - I have applied two patches submitted by asavenkov
+      with regard to the oci8 driver (oracle 10), cf.
+      https://sourceforge.net/forum/message.php?msg_id=5795641
+      https://sourceforge.net/forum/message.php?msg_id=5796556
+      -- Juergen Leising
+    - The "email-the-alerts"-variables were defined twice at different
+      locations in base_conf.php.  Fixed this.  -- Juergen Leising
+    - Emails from BASE containing one or more alerts include now a
+      "To:"-header, as well.  Bug report no. 2234733 -- Juergen Leising
+    - $sort_order, once it has been chosen, survives now a possible "action",
+      even in base_stat_uaddr.php, base_stat_ports.php, base_stat_iplink.php,
+      base_stat_class.php and base_stat_sensor.php. 
+      Bug no. 2234745. -- Juergen Leising
+    - The refresh-problem, when an "action" has been taken, is now fixed in
+      base_stat_uaddr.php, base_stat_ports.php, base_stat_iplink.php,
+      base_stat_class.php and base_stat_sensor.php, as well. 
+      Bug no. 1681012. -- Juergen Leising
+    - I have corrected the way ICMP redirect messages are displayed
+      by BASE, inspired by Bruno G. San Alejo. -- Juergen Leising
+    - Several preprocessor events that did not get stored in the acid_event
+      table, so far, are now processed and displayed by BASE.  This affects
+      all those preprocessors which have sig names that do NOT start with
+      a "spp_" prefix. -- Juergen Leising
+    - Fixed bug with archiving IP options. -- Juergen Leising
+
+5/14/09 1.4.3 (gabi)
+    - XSS Flaws fixed in alert groups -- Kevin Johnson
+    - Possible SQL injection flaw fixed in AG -- Kevin Johnson
+    - XSS Flaws fixed in base_qry files -- Kevin Johnson
+    - Multiple XSS flaws fixed in citems -- Kevin Johnson
+
+5/30/09 1.4.3.1 (zig)
+    - Multiple XSS flaws fixed in User and Role management -- Kevin Johnson
+
+7/24/09 1.4.4 (dawn)
+    - Fixed SQL injection flaw reported by Peter Österberg -- Kevin Johnson
+    - Removed debug code that has triggered "WARNING: The following query 
+      key has not been implemented, yet." - Bugs no. 2813925, 2808291,
+      2798983 and 2828709 -- Juergen Leising
+    - Signature names were displayed as raw html rather than as real names
+      with clickable URLs. Fix for bug no. 2803137. -- Juergen Leising
+    - Rewrote code that produces a link to a local directory with 
+      documentation for alerts in front of the signature names.  
+      Proposal for this was filed as bug no. 2808527.  
+      Thanks go to Akos Daniel. -- Juergen Leising
+    - Applied and roughly tested patch that was submitted anonymously 
+      under bug no. 2825018.  It affects the email feature. -- Juergen Leising
+    - Fix for PHP Warning:  array_count_values(): Can only count STRING and 
+      INTEGER values! in base_qry_common.php -- Juergen Leising
+    - Fix for Undefined variable: sf_portscan_flag -- Juergen Leising
+    - Fix for the link "local whois": 
+      -- IP addresses updated and moved to the configuration file
+      -- No storage to cache in case of negative whois responses
+      -- New search strings to find out when the whois query should be 
+         forwarded to some other whois server, other than the original one.
+      This bug has been casually mentioned at
+      http://sourceforge.net/forum/forum.php?thread_id=3331857&forum_id=404428  
+      -- Juergen Leising
+    - Fixed Cross site scripting and local file include in base_local_rules.php -- Kevin Johnson Reported by Clint Ruoho
+
+11/03/09 1.4.5 (lilias)
+    - Fix for a bug with the archiving of alerts: While the alerts have been
+      archived correctly, any lookups of them in the archive database have
+      failed, because connecting to the archive database was performed
+      using the baseConnect() method only, and several sql queries in
+      base_qry_alert() are simply not compatible with baseConnect().
+      Using basePConnect() fixes this.  Actually, more a more a workaround
+      than a real fix.  Bug was reported at:
+     	https://sourceforge.net/forum/message.php?msg_id=7609952
+      -- Juergen Leising
+    - Fixed more XSS flaws in base_local_rules.php -- Thanks to Dave Hull for the scan -- Kevin Johnson
+    - Updated Snort SID lookup for new functionality in the snort.org web site -- Kevin Johnson
+    - Fixed src and dest IP address encoding problem in base_payload.php. Thanks to Brian
+      Brzezicki and Brad Benson (bug #2889623).  This refers to non-flop
+      databases only.
+    - Temporary fix for bug #2874199 -- Juergen Leising
+    - Fixed pcap download for FLoP-extended databases on 64-bit platforms. 
+      -- Juergen Leising
+    - Changed the default sort order from "none" to "time_d" (= descending order)
+      as suggested by Brian in bug #2899177 -- Juergen Leising
+    - Added some debug code to take on bug #2880551 -- Juergen Leising
+    - Fixed "Call to undefined method ProtocolFieldCriteria::ProtocolFieldCriteria() in /usr/share/base-1.4.5/includes/base_state_citems.inc.php" -- Juergen Leising
+    - More memory seems to be necessary for the world map functions. 256MB
+      should be enough, for now. Cf. base_graph_main.php. -- Juergen Leising 
+    - The font system in the PEAR::Image::Graph and Canvas library is
+      broken on fedora 12 with php-5.3.  This can not be fixed from inside BASE,
+      any more.  However, a fix is possible, if the IMAGE_CANVAS_SYSTEM_FONT_PATH
+      in /usr/share/pear/Image/Canvas.php from the PEAR::Image::Canvas
+      library gets defined properly.  The fontmap.txt file does NOT matter,
+      any more.  See docs/README.graph_alert_data for details. -- Juergen Leising
+    - Fixed bug with the labelling of the x-axis with the signature 
+      classifications chart. -- Juergen Leising
+    - Updated base-rss in the contrib -- Dan Michitsch
+    - Fixed Snort SID lookup, as described by Shawn Jefferson on the
+      "Snort-users" mailing list on Feb, 23rd 2010.  Such a lookup needs a URL,
+      such as http://www.snort.org/search/sid/1-2003 -- Juergen Leising
+
+
+

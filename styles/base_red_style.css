@@ -1,0 +1,326 @@
+/*******************************************************************************
+** Basic Analysis and Security Engine (BASE)
+** Copyright (C) 2004 BASE Project Team
+** Copyright (C) 2000 Carnegie Mellon University
+**
+** (see the file 'base_main.php' for license details)
+**
+** Project Leads: Kevin Johnson <kjohnson@secureideas.net>
+**                Sean Muller <samwise_diver@users.sourceforge.net>
+** Built upon work by Roman Danyliw <rdd@cert.org>, <roman@danyliw.com>
+**
+** Purpose: Main Style Sheet
+********************************************************************************
+** Authors:
+********************************************************************************
+** Kevin Johnson <kjohnson@secureideas.net
+** W. Brock (added simple blue theme)
+**
+********************************************************************************
+*/
+BODY {
+    BACKGROUND-COLOR: #FFFFFF;
+    FONT-FAMILY: arial, helvetica;
+    font-size: 10pt;
+    margin: 10px;
+}
+
+div.errorMsg {
+    FONT-FAMILY: arial, helvetica;
+    font-size: 14pt;
+    font-weight: bold;
+    color: #FF0000;
+}
+
+P,B,A,BODY,FORM,TD,INPUT,SELECT,OPTION,TR,OL,UL,MENU,BLOCKQUOTE,FONT,DIV,H4,H5,H6
+    {
+    FONT-FAMILY: arial, helvetica, sans-serif;
+    font-size: 10pt;
+}
+
+H3 {
+    FONT-FAMILY: arial, helvetica, sans-serif;
+    font-size: 12pt;
+}
+
+H2 {
+    FONT-FAMILY: arial, helvetica, sans-serif;
+    font-size: 14pt;
+}
+
+H1 {
+    FONT-FAMILY: arial, helvetica, sans-serif;
+    font-size: 16pt;
+}
+
+code,PRE {
+    FONT-FAMILY: courier;
+    font-size: 10pt;
+}
+
+A {
+    font-weight: bold;
+    text-decoration: none;
+    color: #223399;
+}
+
+A.largemenuitem {
+    font-weight: bold;
+    text-decoration: none;
+    color: #FFFFFF;
+    font-size: 12pt;
+}
+
+A.menuitem {
+    font-weight: bold;
+    text-decoration: none;
+    color: #FFFFFF;
+    font-size: 10pt;
+}
+
+table {
+    
+}
+
+table.summarygraph {
+    BORDER-STYLE: groove;
+}
+
+td.mainheader {
+    FONT-FAMILY: arial, helvetica;
+    COLOR: black;
+    BACKGROUND-COLOR: #791E1E;
+}
+
+td.mainheadertitle {
+    FONT-FAMILY: arial, helvetica;
+    COLOR: white;
+    BACKGROUND-COLOR: #791E1E;
+    font-size: 26pt;
+}
+
+td.menuitem {
+    font-weight: bold;
+    text-decoration: none;
+    color: #FFFFFF;
+    font-size: 10pt;
+    BACKGROUND-COLOR: #791E1E;
+}
+
+td.newsitem {
+    FONT-FAMILY: arial, helvetica;
+    COLOR: black;
+    BACKGROUND-COLOR: #FFFFFF;
+    font-size: 10pt;
+}
+
+td.newsdate {
+    FONT-FAMILY: arial, helvetica;
+    COLOR: black;
+    BACKGROUND-COLOR: yellow;
+    font-size: 10pt;
+}
+
+table.srchcriteria {
+    border-width: medium;
+    border-color: blue;
+    border-style: solid;
+}
+
+td.plfieldhdr {
+    FONT-FAMILY: arial, helvetica;
+    COLOR: #000000;
+    BACKGROUND-COLOR: #C2C2C2;
+    font-size: 10pt;
+    font-weight: bold;
+    text-align: center;
+}
+
+td.plfield {
+    FONT-FAMILY: verdana, arial, helvetica;
+    COLOR: black;
+    BACKGROUND-COLOR: white;
+    font-size: 10pt;
+    text-align: center;
+}
+
+td.metatitle {
+    FONT-FAMILY: verdana, arial, helvetica;
+    font-weight: normal;
+    COLOR: #666666;
+    BACKGROUND-COLOR: #EDEDED;
+    font-size: 10pt;
+}
+
+td.iptitle {
+    FONT-FAMILY: verdana, arial, helvetica;
+    font-weight: normal;
+    COLOR: #666666;
+    BACKGROUND-COLOR: #EDEDED;
+    font-size: 10pt;
+}
+
+td.layer4title {
+    FONT-FAMILY: verdana, arial, helvetica;
+    font-weight: normal;
+    COLOR: #666666;
+    BACKGROUND-COLOR: #EDEDED;
+    font-size: 10pt;
+}
+
+td.payloadtitle {
+    FONT-FAMILY: verdana, arial, helvetica;
+    font-weight: normal;
+    COLOR: #666666;
+    BACKGROUND-COLOR: #EDEDED;
+    font-size: 10pt;
+}
+
+td.sectiontitle {
+    FONT-FAMILY: verdana, arial, helvetica;
+    font-weight: bold;
+    COLOR: white;
+    BACKGROUND-COLOR: #791E1E;
+    font-size: 10pt;
+}
+
+div.mainheadertitle {
+    FONT-FAMILY: arial, helvetica;
+    COLOR: white;
+    BACKGROUND-COLOR: #791E1E;
+    font-size: 26pt;
+    BORDER: double;
+    padding: 3px;
+}
+
+div.mainfootertext {
+    FONT-FAMILY: arial, helvetica;
+    COLOR: white;
+    BACKGROUND-COLOR: #791E1E;
+    font-size: 12pt;
+    BORDER: double;
+    padding: 3px;
+}
+
+div.mainheadermenu {
+    BACKGROUND-COLOR: #791E1E;
+    COLOR: white;
+    BORDER: double;
+    padding: 3px;
+}
+
+div.systemstats {
+    font-size: 11px;
+    color: #F2F4EA;
+    font-family: Arial;
+    border: double;
+    width: 400px;
+    background: #791E1E;
+    padding: 3px;
+}
+
+div.stats {
+    font-size: 11px;
+    color: #F2F4EA;
+    font-family: Arial;
+    border: double;
+    background: #791E1E;
+    padding: 3px;
+}
+
+div.systemdebug {
+    font-size: 10px;
+    color: #666666;
+    font-family: Arial;
+    border: double;
+    width: 150px;
+    background: #cccccc;
+    padding: 3px;
+}
+
+div.nonascii {
+    color: #c2c2c2;
+}
+
+table.query {
+    background: #cccccc;
+}
+
+td.setupTitle {
+    font-size: 16px;
+    color: #000000;
+    font-family: Arial;
+    text-align: center;
+}
+
+td.setupKey {
+    font-size: 12px;
+    color: #000000;
+    font-family: Arial;
+    text-align: right;
+}
+
+td.setupValue {
+    font-size: 12px;
+    color: #000000;
+    font-family: Arial;
+    text-align: left;
+}
+
+div.code {
+    font-size: 10px;
+    color: #000000;
+    font-family: Arial;
+    border: double;
+    background: #cccccc;
+    padding: 3px;
+}
+
+.main_quick_surf {
+    font-family: arial, helvetica;
+    color: white;
+    background-color: #791E1E;
+    font-size: 26pt;
+    text-align: center;
+}
+
+.main_quick_surf_2 {
+    font-family: arial, helvetica;
+    color: white;
+    background-color: #791E1E;
+    font-size: 26pt;
+    text-align: left;
+}
+
+.main_quick_surf A:link {
+    color: white;
+}
+
+.main_quick_surf A:visited {
+    color: white;
+}
+
+.main_quick_surf_2 A:link {
+    color: white;
+}
+
+.main_quick_surf_2 A:visited {
+    color: white;
+}
+
+/* search menu styles */
+li.zMenu0 {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+a.zMenu0 {
+    display: block;
+    position: relative;
+    background-color: silver;
+    padding: 3px;
+    text-decoration: none;
+    color: Navy;
+    margin-top: 10px;
+}
