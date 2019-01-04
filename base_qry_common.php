@@ -773,10 +773,10 @@ function ProcessCriteria()
            }
         }
         /* if have chosen the address type to be both source and destination */
-        if ( ereg("ip_both", $tmp) )
-        {
-           $tmp_src = ereg_replace("ip_both","ip_src",$tmp);
-           $tmp_dst = ereg_replace("ip_both","ip_dst",$tmp);
+		if ( preg_match("/ip_both/", $tmp) )
+		{
+			$tmp_src = preg_replace("/ip_both/","ip_src",$tmp);
+			$tmp_dst = preg_replace("/ip_both/","ip_dst",$tmp);
            
            if ( $ip_addr[$i][2] == '=' )
              $tmp = "(".$tmp_src.') OR ('.$tmp_dst.')';

@@ -139,7 +139,7 @@ function GetSingleSignatureReference($ref_system, $ref_tag, $style)
       {
          if ($tmp_ref_system_name == "snort")
          {
-           if (ereg("([0-9]+):([0-9]+)", $ref_tag, $backref))
+			if (preg_match("/([0-9]+):([0-9]+)/", $ref_tag, $backref))
            {
              if ($backref[1] == "1")
              {

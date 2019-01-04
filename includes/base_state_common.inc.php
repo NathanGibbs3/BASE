@@ -181,7 +181,7 @@ function CleanVariable($item, $valid_data, $exception = "")
    if ( ($valid_data & VAR_SCORE) > 0 ) 
       $regex_mask = $regex_mask . "\-";
 
-   return ereg_replace("[^".$regex_mask."]", "", $item);
+	return preg_replace("/[^".$regex_mask."]/", "", $item);
 }
 
 /* ***********************************************************************

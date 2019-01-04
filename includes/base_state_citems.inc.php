@@ -963,7 +963,7 @@ class IPAddressCriteria extends MultipleElementCriteria
       for ( $i = 0; $i < $this->criteria_cnt; $i++ )
       {
         if ( (isset ($this->criteria[$i][3])) &&
-             (ereg("([0-9]*)\.([0-9]*)\.([0-9]*)\.([0-9]*)", $this->criteria[$i][3])) )
+			(preg_match("/([0-9]*)\.([0-9]*)\.([0-9]*)\.([0-9]*)/", $this->criteria[$i][3])) )
         {
            $tmp_ip_str = $this->criteria[$i][7] = $this->criteria[$i][3];
            $this->criteria[$i][3] = strtok($tmp_ip_str, ".");

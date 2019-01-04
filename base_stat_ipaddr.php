@@ -135,7 +135,7 @@ function PrintPortscanEvents($db, $ip)
    print "</PRE><BR>\n";
    */
 
-   if(ereg($ip, $contents)) {
+	if(preg_match("/". $ip . "/", $contents)) {
      $total++;
      if( $total % 2 == 0 ) {
         $color="DDDDDD";
@@ -143,7 +143,7 @@ function PrintPortscanEvents($db, $ip)
         $color="FFFFFF";
      }
 
-     $contents = ereg_replace("  ", " ", $contents);
+	$contents = preg_replace("/  /", " ", $contents);
      $elements = explode(" ", $contents);
 
      echo '<tr bgcolor="'.$color.'"><td align="center">'.

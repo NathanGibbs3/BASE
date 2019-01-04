@@ -252,7 +252,7 @@ function PushHistory()
    if ( isset($_POST['current_view']) ) $query_string .= "&amp;current_view=".$_POST['current_view'];
    if ( isset($_POST['submit']) ) $query_string .= "&amp;submit=".$_POST['submit'];
 
-   $query_string = ereg_replace("back=1&", "", CleanVariable($query_string, VAR_PERIOD | VAR_DIGIT | VAR_PUNC | VAR_LETTER));
+	$query_string = preg_replace("/back=1&/", "", CleanVariable($query_string, VAR_PERIOD | VAR_DIGIT | VAR_PUNC | VAR_LETTER));
 
    ++$_SESSION['back_list_cnt'];
    $_SESSION['back_list'][$_SESSION['back_list_cnt']] =  

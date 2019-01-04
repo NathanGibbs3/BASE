@@ -209,7 +209,7 @@ class baseCon {
      /* ** Begin DB specific SQL fix-up ** */
      if ($this->DB_type == "mssql")
      {
-        $sql = eregi_replace("''", "NULL", $sql);
+        $sql = preg_replace("/''/i", "NULL", $sql);
      }
 
      if ($this->DB_type == "oci8")
