@@ -34,10 +34,20 @@ class baseCon {
   var $lastSQL;
   var $version;
   var $sql_trace;
+	var $DB_class;
 
   function baseCon($type) 
   {
      $this->DB_type = $type;
+	/* Are we a Mysql type? Note it in Object structure. */
+	if (
+		$type == "mysql" || $type == "mysqlt" || $type == "maxsql"
+		|| $type == "mysqli"
+	) {
+		$this->DB_class = 1;
+	}else{
+		$this->DB_class = 0;
+	}
   }
 
   function baseDBConnect($method, $database, $host, $port, $username, $password, $force = 0)
@@ -108,7 +118,7 @@ class baseCon {
 
      /* Set the database schema version number */
      $sql = "SELECT vseq FROM schema";
-     if ($this->DB_type == "mysql") $sql = "SELECT vseq FROM `schema`"; 
+	if ( $this->DB_class == 1 ) $sql = "SELECT vseq FROM `schema`";
      if ($this->DB_type == "mssql") $sql = "SELECT vseq FROM [schema]";
 
      $result = $this->DB->Execute($sql);
@@ -171,7 +181,7 @@ class baseCon {
      /* Set the database schema version number */
      $sql = "SELECT vseq FROM schema"; 
      if ($this->DB_type == "mssql") $sql = "SELECT vseq FROM [schema]";
-     if ($this->DB_type == "mysql") $sql = "SELECT vseq FROM `schema`";
+	if ( $this->DB_class == 1 ) $sql = "SELECT vseq FROM `schema`";
 
      $result = $this->DB->Execute($sql);
      if ( $this->baseErrorMessage() != "" )
@@ -231,9 +241,7 @@ class baseCon {
         $rs = new baseRS($this->DB->Execute($sql), $this->DB_type);
      else
      {
-        if ( ($this->DB_type == "mysql") || ($this->DB_type == "mysqlt") || 
-             ($this->DB_type == "maxsql") )
-        {
+        if ( $this->DB_class == 1 ) {
            $rs =  new baseRS($this->DB->Execute($sql." LIMIT ".$start_row.", ".$num_rows),
                              $this->DB_type);
            $limit_str = " LIMIT ".$start_row.", ".$num_rows;
@@ -321,8 +329,7 @@ class baseCon {
    * the current point, so it can't be here and needs to be in the actual script after calling this function
    *  -- srh (02/01/2001)
    */
-     if ( ($this->DB_type == "mysql") || ($this->DB_type == "mysqlt") || 
-          ($this->DB_type == "maxsql") || ($this->DB_type == "mssql"))
+	if ( $this->DB_class == 1 || $this->DB_type == "mssql" )
         return $this->DB->Insert_ID();
      else if ($this->DB_type == "postgres" ||($this->DB_type == "oci8"))
         return -1;   
@@ -336,8 +343,7 @@ class baseCon {
 
   function baseSQL_YEAR($func_param, $op, $timestamp)
   {
-     if ( ($this->DB_type == "mysql") || ($this->DB_type == "mysqlt") || 
-          ($this->DB_type == "maxsql") || ($this->DB_type == "mssql") )
+	if ( $this->DB_class == 1 || $this->DB_type == "mssql" )
         return " YEAR($func_param) $op $timestamp ";
      else if( $this->DB_type == "oci8" )
         return " to_number( to_char( $func_param, 'RRRR' ) ) $op $timestamp ";
@@ -347,8 +353,7 @@ class baseCon {
 
   function baseSQL_MONTH($func_param, $op, $timestamp)
   {
-     if ( ($this->DB_type == "mysql") || ($this->DB_type == "mysqlt") || 
-          ($this->DB_type == "maxsql") || ($this->DB_type == "mssql") )
+	if ( $this->DB_class == 1 || $this->DB_type == "mssql" )
         return " MONTH($func_param) $op $timestamp ";
      else if( $this->DB_type == "oci8" )
         return " to_number( to_char( $func_param, 'MM' ) ) $op $timestamp ";
@@ -358,7 +363,7 @@ class baseCon {
 
   function baseSQL_DAY($func_param, $op, $timestamp)
   {
-     if ( ($this->DB_type == "mysql") || ($this->DB_type == "mysqlt") || ($this->DB_type == "maxsql") )
+	if ( $this->DB_class == 1 )
         return " DAYOFMONTH($func_param) $op $timestamp ";
      else if($this->DB_type == "oci8")
         return " to_number( to_char( $func_param, 'DD' ) ) $op $timestamp ";
@@ -370,7 +375,7 @@ class baseCon {
 
   function baseSQL_HOUR($func_param, $op, $timestamp)
   {
-     if ( ($this->DB_type == "mysql") || ($this->DB_type == "mysqlt") || ($this->DB_type == "maxsql") )
+	if ( $this->DB_class == 1 )
         return " HOUR($func_param) $op $timestamp ";
      else if($this->DB_type == "oci8")
         return " to_number( to_char( $func_param, 'HH' ) ) $op $timestamp ";
@@ -382,7 +387,7 @@ class baseCon {
 
   function baseSQL_MINUTE($func_param, $op, $timestamp)
   {
-     if ( ($this->DB_type == "mysql") || ($this->DB_type == "mysqlt") || ($this->DB_type == "maxsql") )
+	if ( $this->DB_class == 1 )
         return " MINUTE($func_param) $op $timestamp ";
      else if($this->DB_type == "oci8")
         return " to_number( to_char( $func_param, 'MI' ) ) $op $timestamp ";
@@ -394,7 +399,7 @@ class baseCon {
 
   function baseSQL_SECOND($func_param, $op, $timestamp)
   {
-     if ( ($this->DB_type == "mysql") || ($this->DB_type == "mysqlt") || ($this->DB_type == "maxsql") )
+	if ( $this->DB_class == 1 )
         return " SECOND($func_param) $op $timestamp ";
      else if($this->DB_type == "oci8")
         return " to_number( to_char( $func_param, 'SS' ) ) $op $timestamp ";
@@ -406,8 +411,7 @@ class baseCon {
 
   function baseSQL_UNIXTIME($func_param, $op, $timestamp)
   {
-     if ( ($this->DB_type == "mysql") || ($this->DB_type == "mysqlt") || ($this->DB_type == "maxsql") )
-     {
+	if ( $this->DB_class == 1 ) {
         return " UNIX_TIMESTAMP($func_param) $op $timestamp ";
      }
      else if($this->DB_type == "oci8")
@@ -432,7 +436,7 @@ class baseCon {
 
   function baseSQL_TIMESEC($func_param, $op, $timestamp)
   {
-     if ( ($this->DB_type == "mysql") || ($this->DB_type == "mysqlt") || ($this->DB_type == "maxsql") )
+	if ( $this->DB_class == 1 )
         return " TIME_TO_SEC($func_param) $op $timestamp ";
      else if($this->DB_type == "oci8")
         return " to_number( $func_param ) $op $timestamp ";
@@ -478,11 +482,21 @@ class baseRS {
 
   var $row;
   var $DB_type;
+	var $DB_class;
 
   function baseRS($id, $type) 
   {
      $this->row = $id;
      $this->DB_type = $type;
+	/* Are we a Mysql type? Note it in Object structure. */
+	if (
+		$type == "mysql" || $type == "mysqlt" || $type == "maxsql"
+		|| $type == "mysqli"
+	) {
+		$this->DB_class = 1;
+	}else{
+		$this->DB_class = 0;
+	}
   }
 
   function baseFetchRow()
@@ -549,7 +563,7 @@ class baseRS {
  
      // Is This if statement necessary?  -- Kevin
      /* MS SQL Server 7, MySQL, Sybase, and Postgres natively support this function */ 
-     if ( ($this->DB_type == "mysql") || ($this->DB_type == "mysqlt") || ($this->DB_type == "maxsql") ||
+	if ( $this->DB_class == 1 ||
           ($this->DB_type == "mssql") || ($this->DB_type == "sybase") || ($this->DB_type == "postgres") || ($this->DB_type == "oci8"))
         return $this->row->RecordCount();
 
