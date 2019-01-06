@@ -82,10 +82,18 @@ function verify_php_build($DBtype)
 
   if ( ($DBtype == "mysql") || ($DBtype == "mysqlt") )
   {
+	/* Under PHP 7.x, use mysqli ADODB driver & gracefully deprecate the mysql
+	& mysqlt drivers. */
+	if ( $version[0] == 7 ) {
+		if ( !(function_exists("mysqli_connect")) ) {
+			return "<FONT COLOR=\"#FF0000\">"._ERRPHPERROR."</FONT>: "._ERRPHPMYSQLISUP;
+		}
+	}else{
      if ( !(function_exists("mysql_connect")) )
      {
         return "<FONT COLOR=\"#FF0000\">"._ERRPHPERROR."</FONT>: "._ERRPHPMYSQLSUP;
      }
+	}
   }
   else if ( $DBtype == "postgres" )
   {
