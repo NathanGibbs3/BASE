@@ -1,5 +1,6 @@
 <!--README.md file for Github Repo-->
-# BASE
+# BASE 
+[![Build Status](https://travis-ci.com/NathanGibbs3/BASE.svg?branch=travis-ci)](https://travis-ci.com/NathanGibbs3/BASE)
 
 ## The Basic Analysis and Security Engine.
 A web front-end to query and analyze alerts coming from a SNORT IDS system.
