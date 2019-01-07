@@ -381,30 +381,36 @@ function returnContents()
     $external_whois_link = \'http://www.dnsstuff.com/tools/whois.ch?ip=\';
    
 
-    /* Local whois */
- 		/* IP addresses of whois servers. Updated on Aug, 1st 2009.
+		/* Local whois */
+		/* IP addresses of whois servers. Updated on Jan, 6th 2019.
 		 *
-		 * Name:    whois.arin.net
-		 * Addresses:  199.212.0.43
+		 * Name:		whois.arin.net
+		 * Addresses:	199.212.0.46
 		 *
-		 * Name:    whois4.apnic.net
-		 * Address:  202.12.29.13
-		 * Aliases:  whois.apnic.net
+		 * Name:		whois.apnic.net
+		 * Address:		23.239.6.76
 		 *
-		 * Name:    whois.ripe.net
-		 * Address:  193.0.6.135
+		 * Name:		whois.ripe.net
+		 * Address:		193.0.6.135
 		 *
-		 * Name:    whois.nic.ad.jp
-		 * Address:  192.41.192.40
+		 * Name:		whois.nic.ad.jp
+		 * Address:		192.41.192.40
 		 *
+		 * Name:		whos.afrinic.net
+		 * Address:		196.216.2.21
+		 *
+		 * Name:		whos.lannic.net
+		 * Address:		200.3.14.10
 		 */
 
-	  $arin_ip  = "199.212.0.43";
-  	$apnic_ip = "202.12.29.13";
-	  $ripe_ip  = "193.0.6.135";
-  	$jnic_ip  = "192.41.192.40";
+$arin_ip  = "199.212.0.46";
+$apnic_ip = "23.239.6.76";
+$ripe_ip  = "193.0.6.135";
+$jnic_ip  = "192.41.192.40";
+$afrinic_ip = "196.216.2.21";
+$lacnic_ip = "200.3.14.10";
 
- 
+
      /* DNS query */
     $external_dns_link = \'http://www.dnsstuff.com/tools/ptr.ch?ip=\';
     
