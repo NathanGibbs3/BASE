@@ -1,25 +1,26 @@
 language: php
+
 php:
-	- '4.0'
-		dist: precise
-	- '5.0'
-		dist: precise
-	- '5.1'
-		dist: precise
-	- '5.2'
-		dist: precise
-	- '5.3'
-		dist: precise
-	- '5.4'
-	- '5.6'
-	- '7.0'
-	- '7.1'
-	- '7.2'
-	- '7.3'
-	- nightly
+  - '4.0'
+    dist: precise
+  - '5.0'
+    dist: precise
+  - '5.1'
+    dist: precise
+  - '5.2'
+    dist: precise
+  - '5.3'
+    dist: precise
+  - '5.4'
+  - '5.6'
+  - '7.0'
+  - '7.1'
+  - '7.2'
+  - '7.3'
+  - nightly
 
 before_install:
-	- sudo apt-get update > /dev/null
+  - sudo apt-get update > /dev/null
 
 script:
-	- php -f index.php
+  - php -f index.php
