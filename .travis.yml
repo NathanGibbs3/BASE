@@ -1,4 +1,11 @@
+---
 language: php
+
+# blocklist
+branches:
+  except:
+    - docs
+    - gh-ops
 
 matrix:
   include:
@@ -6,15 +13,18 @@ matrix:
       dist: precise
     - php: 5.3
       dist: precise
-
-php:
-  - '5.4'
-  - '5.6'
-  - '7.0'
-  - '7.1'
-  - '7.2'
-  - '7.3'
-  - nightly
+    - php: 5.4
+    - php: 5.6
+    - php: 7.0
+      if: branch != php5only
+    - php: 7.1
+      if: branch != php5only
+    - php: 7.2
+      if: branch != php5only
+    - php: 7.3
+      if: branch != php5only
+    - php: nightly
+      if: branch != php5only
 
 before_install:
   - sudo apt-get update > /dev/null
