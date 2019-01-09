@@ -6,8 +6,6 @@ branches:
   - docs
   - gh-ops
 
-php:
-
 matrix:
   include:
     - php: 5.2
