@@ -1,0 +1,246 @@
+
+Troubleshooting:
+
+1. Missing labels, missing fonts, font errors with PEAR::Image:Graph library:
+
+a) Problem:
+
+/var/log/httpd/error_log:
+
+(...)
+
+[Sun Dec 13 00:30:29 2009] [error] [client 127.0.0.1] PHP Warning:  imagettfbbox(): Could not find/open font in /usr/share/pear/Image/Canvas/GD.php on line 1308, referer: http://localhost/base/base_graph_main.php
+[Sun Dec 13 00:30:29 2009] [error] [client 127.0.0.1] PHP Warning:  imagettfbbox(): Could not find/open font in /usr/share/pear/Image/Canvas/GD.php on line 1308, referer: http://localhost/base/base_graph_main.php
+[Sun Dec 13 00:30:29 2009] [error] [client 127.0.0.1] PHP Warning:  imagettfbbox(): Could not find/open font in /usr/share/pear/Image/Canvas/GD.php on line 1308, referer: http://localhost/base/base_graph_main.php
+
+(...)
+
+[Sun Dec 13 00:30:29 2009] [error] [client 127.0.0.1] PHP Warning:  Division by zero in /usr/share/pear/Image/Canvas/GD.php on line 1386, referer: http://localhost/base/base_graph_main.php
+
+(...)
+
+
+
+b) Solution for php versions < 5.3:
+
+The fonts can be configured in fontmap.txt and in base_conf.php.
+
+
+aa) In base_conf.php:
+
+$graph_font_name = "Verdana";
+
+
+bb) The file fontmap.txt can be found in the PEAR directory
+under Image/Canvas/Fonts/, e.g.:
+
+/usr/share/pear/Image/Canvas/Fonts/fontmap.txt
+
+One possibility on fedora 9 could be, for example:
+
+rpm -Uvh dejavu-lgc-fonts-2.24-3.fc9.noarch.rpm
+
+vim /usr/share/pear/Image/Canvas/Fonts/fontmap.txt
+
+Verdana,/usr/share/fonts/dejavu/DejaVuLGCSans.ttf
+Verdana Bold,/usr/share/fonts/dejavu/DejaVuLGCSans-Bold.ttf
+Verdana Bold Italic,/usr/share/fonts/dejavu/DejaVuLGCSans-BoldOblique.ttf
+Verdana Italic,/usr/share/fonts/dejavu/DejaVuSans-Oblique.ttf
+
+
+
+
+
+c) Solution for php versions >= 5.3:
+
+While for php versions < 5.3 configuring
+
+/usr/share/pear/Image/Canvas/Fonts/fontmap.txt
+
+did lead to proper fonts, this does not seem to work, any more, for
+newer php versions.  At least in fedora 12 the fontmap.txt file
+is now in
+
+/usr/share/pear/data/Image_Canvas/Image/Canvas/Fonts/fontmap.txt
+
+but this is not reflected by the PEAR::Image::Canvas library.  The
+library does not find fontmap.txt, any more.
+
+So ignore fontmap.txt completely and do the following:
+
+aa) In base_conf.php:
+
+$graph_font_name = "DejaVuSans";
+
+
+bb) Apply the following patch to /usr/share/pear/Image/Canvas.php, 
+provided that the font file DejaVuSans.ttf can be found in 
+/usr/share/fonts/dejavu/.
+Of course, you can adjust this to your own system and your own ideas:
+
+
+--- Canvas.php.orig	2009-09-07 23:48:11.000000000 +0200
++++ Canvas.php	2009-12-13 00:27:11.789528105 +0100
+@@ -43,7 +43,8 @@ if (!defined('IMAGE_CANVAS_SYSTEM_FONT_P
+         /**
+           * @ignore
+           */
+-        define('IMAGE_CANVAS_SYSTEM_FONT_PATH', '');
++        // define('IMAGE_CANVAS_SYSTEM_FONT_PATH', '/usr/share/pear/data/Image_Canvas/Image/Canvas/Fonts/');
++        define('IMAGE_CANVAS_SYSTEM_FONT_PATH', '/usr/share/fonts/dejavu/');
+     }
+ }
+ 
+
+
+
+
+2. Missing legends with pie-charts:
+
+a) Problem:
+
+All of the pie-charts lack the legends.  You do not know which colour
+stands for what.
+
+b) Solution:
+
+This is a bug in the PEAR::Image::Graph library.  A quick fix for this
+has been proposed as PEAR bug no. 8055:
+
+	http://pear.php.net/bugs/8055
+
+And here is the patch against pear/Image/Graph/Plot/Pie.php:
+
+
+
+--- Pie.php.orig	2007-03-14 00:26:21.000000000 +0100
++++ Pie.php	2008-06-09 14:08:17.000000000 +0200
+@@ -499,7 +499,7 @@ class Image_Graph_Plot_Pie extends Image
+         if (is_array($this->_dataset)) {
+             
+             $this->_canvas->startGroup(get_class($this) . '_' . $this->_title);
+-            $this->_clip(true);
++            //$this->_clip(true);
+             
+             $totals = $this->_getTotals();
+             $totals['CENTER_X'] = (int) (($this->_left + $this->_right) / 2);
+@@ -613,11 +613,11 @@ class Image_Graph_Plot_Pie extends Image
+                 }
+             }
+             unset($keys);
+-            $this->_clip(false);
++            //$this->_clip(false);
+             $this->_canvas->endGroup();
+         }
+     }
+ 
+ }
+ 
+-?>
+\ No newline at end of file
++?>
+
+
+
+
+
+3. Call to undefined method Image_Graph_Element::Image_Graph_Element()
+
+a) Problem:
+
+/var/log/httpd/error_log:
+
+PHP Fatal error:  Call to undefined method Image_Graph_Element::Image_Graph_Element() in /usr/share/pear/Image/Graph.php on line 136, referer: http://localhost/base/base_graph_main.php
+
+
+
+
+b) Solution:
+
+php-5.3 seems to insist on explicitely written constructors.  So give it
+what it wants:
+
+Apply the following patch to /usr/share/pear/Image/Graph/Element.php:
+
+
+--- Element.php.orig	2009-07-28 04:49:20.000000000 +0200
++++ Element.php	2009-12-11 12:46:58.676680274 +0100
+@@ -148,6 +148,17 @@ class Image_Graph_Element extends Image_
+      */
+     var $_padding = array('left' => 0, 'top' => 0, 'right' => 0, 'bottom' => 0);
+ 
++
++
++
++    function Image_Graph_Element()
++    {
++
++    }
++
++
++
++
+     /**
+      * Sets the background fill style of the element
+      *
+@@ -760,4 +771,4 @@ class Image_Graph_Element extends Image_
+     }
+ 
+ }
+-?>
+\ No newline at end of file
++?>
+
+
+
+
+
+
+4. Call to undefined method Image_Graph_Marker::Image_Graph_Marker()
+
+a) Problem:
+
+/var/log/httpd/error_log:
+
+PHP Fatal error:  Call to undefined method Image_Graph_Marker::Image_Graph_Marker() in /usr/share/pear/Image/Graph/Marker/Value.php on line 74, referer: http://localhost/base/base_graph_main.php
+
+
+b) Solution:
+
+php-5.3 seems to insist on explicitely written constructors.  So give it
+what it wants:
+
+Apply the following patch to /usr/share/pear/Image/Graph/Marker.php: 
+
+
+--- Marker.php.orig	2009-07-28 04:49:20.000000000 +0200
++++ Marker.php	2009-12-11 12:58:21.504557696 +0100
+@@ -67,6 +67,16 @@ class Image_Graph_Marker extends Image_G
+      */
+     var $_size = 6;
+ 
++
++    function Image_Graph_Marker()
++    {
++
++    }
++
++
++
++
++
+     /**
+      * Set the 'size' of the marker
+      *
+@@ -120,4 +130,4 @@ class Image_Graph_Marker extends Image_G
+ 
+ }
+ 
+-?>
+\ No newline at end of file
++?>
+
+
+
+
+
