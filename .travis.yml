@@ -7,6 +7,10 @@ branches:
     - documentation
     - gh-ops
 
+services:
+  - mysql
+  - postgresql
+
 matrix:
   include:
     - php: 5.2
