@@ -1,0 +1,137 @@
+
+How do I install a base rpm?
+
+  By installing the actual rpm AND additionally by installing
+  the ADODB library manually.  Currently there does not exist any
+  adodb rpm for fedora 9.  At least I haven't found one.
+
+  rpm -ivh base-cvs_20080616-1.noarch.rpm
+
+  Alternatively: yum localinstall base-cvs_20080616-1.noarch.rpm
+
+  http://adodb.sourceforge.net/
+  tar -xvzf adodb495.tgz
+  cp -a adodb /var/www/html/
+  chown -R apache.apache /var/www/html/adodb
+  chcon -R -h -t httpd_sys_content_t /var/www/html/adodb
+
+
+  Further rpm's base depends on (in this example: fedora 9):
+
+  rpm -Uvh php-gd-5.2.5-7.fc9.i386.rpm
+  rpm -Uvh php-pear-1.7.1-2.fc9.noarch.rpm
+  rpm -Uvh php-pear-Image-Color-1.0.2-3.fc7.noarch.rpm
+  rpm -Uvh php-pear-Image-Canvas-0.3.1-1.fc8.noarch.rpm
+  rpm -Uvh php-pear-Image-Graph-0.7.2-2.fc7.noarch.rpm
+  rpm -Uvh php-pear-Numbers-Roman-1.0.2-2.fc9.noarch.rpm
+  rpm -Uvh php-pear-Image-Graph-roman-0.7.2-2.fc7.noarch.rpm
+  rpm -Uvh php-pear-Numbers-Words-0.15.0-2.fc7.noarch.rpm
+  rpm -Uvh php-pear-Image-Graph-words-0.7.2-2.fc7.noarch.rpm
+
+
+
+
+How do I install base without SELinux related relabeling of
+the base directory?
+
+  rpm -ivh --nopost base-cvs_20080616-1.noarch.rpm
+  # A manual "service httpd reload" afterwards might be necessary, 
+  # though, to inform apache about /etc/httpd/conf.d/base.conf.
+
+
+How do I install base without any SELinux stuff at all?  Neither do I
+have any SELinux packages installed nor do I intend to change this
+nor do I like it, at all, nor do I want to get bothered with any SELinux
+configuration or relabeling.
+
+  rpm -ivh --nodeps --nopost base-cvs_20080616-1.noarch.rpm
+  # A manual "service httpd reload" afterwards might be necessary, 
+  # though, to inform apache about /etc/httpd/conf.d/base.conf.
+
+
+How do I upgrade an rpm?
+
+  rpm -Uvh base-cvs_20080616-1.noarch.rpm
+
+
+How do I remove an rpm?
+
+  rpm -e base
+
+
+How do I remove an rpm without any SELinux commands being run?
+
+  rpm -e --nopostun base
+
+
+How do I remove base without base_conf.php also being deleted?
+
+  rpm -e --nopreun base
+
+
+Which files belong to the base package?
+
+  rpm -q -l base
+
+
+How do I prepare my computer for building my own rpm's as an
+ordinary user?
+
+  rpm -ivh rpmdevtools-6.6-1.fc9.noarch
+
+  rpmdev-setuptree
+
+  # The directory where all the SPECS, RPMS, SOURCES directories can be
+  # found is now in ~/rpmbuild
+  
+  # Add information about your gpg signing key:
+  vim ~/.rpmmacros
+
+  %_signature gpg
+  %_gpgbin /usr/bin/gpg
+  %_gpg_name 0x12345678
+
+  # And now, provide me with a *.spec template:
+  rpmdev-newspec -o my_new_app.spec
+  # or
+  rpmdev-newspec -o my_new_pear_app.spec -T php-pear
+  # Cf. templates in: /etc/rpmdevtools
+
+ 
+
+How do I build my own rpm's, based on base.spec?
+
+  ls -1 SOURCES
+  base-cvs_20080616.tar.gz
+  base_maintenance.pl.patch
+
+  ls -1 SPECS
+  base.spec
+
+  cd SPECS
+  vim base.spec
+
+    Version: cvs_20080616
+    Release: 0
+
+  rpmdev-bumpspec -u "John Doe <John's@email.address.net>" -c "Fixed this and that" base.spec
+  rpmlint base.spec
+  rpmbuild --quiet -ba base.spec
+
+  cd ../RPMS/noarch
+  rpmlint base-cvs_20080616-1.noarch.rpm
+  rpmlint base-contrib-cvs_20080616-1.noarch.rpm
+  rpm --addsign base-cvs_20080616-1.noarch.rpm
+  rpm --addsign base-contrib-cvs_20080616-1.noarch.rpm
+  rpm --checksig base-cvs_20080616-1.noarch.rpm
+  rpm --checksig base-contrib-cvs_20080616-1.noarch.rpm
+  rpm -Uvh --test base-cvs_20080616-1.noarch.rpm
+  rpm -Uvh --test base-contrib-cvs_20080616-1.noarch.rpm
+
+  cd ../../SRPMS
+  rpmlint base-cvs_20080616-1.src.rpm
+  rpm --addsign base-cvs_20080616-1.src.rpm
+  rpm --checksig base-cvs_20080616-1.src.rpm
+  rpm -Uvh --test base-cvs_20080616-1.src.rpm
+
+

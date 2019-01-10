@@ -1,0 +1,109 @@
+
+A. How to set up a test account on fedora 11:
+
+# On fedora 11 they use an additional daemon to do the actual SMTP-AUTH:
+# saslauthd.  This daemon is configured to hook with the PAM system,
+# which looks into /etc/passwd and /etc/shadow.
+
+useradd mozilla
+
+passwd mozilla
+# We choose the password "secret" for now.  A bad password, I know.
+# For this docu it is ok.
+
+
+
+vim base_conf.php
+$action_email_smtp_host = 'host.example.com';
+$action_email_smtp_localhost = 'example.com';
+$action_email_smtp_auth = 1;
+$action_email_smtp_user = 'mozilla';
+$action_email_smtp_pw = 'secret';
+$action_email_from = 'mozilla';
+$action_email_subject = 'BASE Incident Report';
+$action_email_msg = '';
+$action_email_mode = 0;
+
+
+
+vim /usr/lib64/sasl2/Sendmail.conf
+pwcheck_method:saslauthd
+
+
+
+vim /etc/sysconfig/saslauthd
+SOCKETDIR=/var/run/saslauthd
+MECH=pam
+FLAGS=
+
+
+service saslauthd start
+
+
+# Now choose an alert and send it to "user1":
+# "Email alert(s) (full)" "user1"
+
+
+
+
+B. Troubleshooting:
+
+I. Increase the logging of the email server:
+
+vim /etc/sysconfig/sendmail
+SENDMAIL_OPTARG="-X /var/log/maillog "
+
+
+service sendmail restart
+
+
+II. Watch the logfiles:
+
+tail -f /var/log/messages
+
+tail -f /var/log/maillog
+
+tail -f /var/log/httpd/error_log
+
+tail -f /var/log/httpd/ssl_error_log
+
+
+
+III. Debug saslauthd:
+
+vim /etc/sysconfig/saslauthd
+FLAGS="-d " 
+
+service saslauthd restart
+
+
+
+IV. Deal with SELINUX issues:
+
+1. Create a local policy module:
+
+grep saslauthd /var/log/audit/audit.log* | audit2allow -Mmysaslauthd1
+semodule -i mysaslauthd1.pp
+
+
+2. Allow apache to connect to port 25 of localhost:
+
+setsebool -P httpd_can_network_connect=1
+
+ 
+
+V. Check whether sendmail is listening:
+
+lsof -n -i :25
+
+And remember: localhost is 127.0.0.1. Whereas 192.168.1.2 is most
+probably NOT localhost. It may be example.com or the like.
+
+
+
+VI. Check whether the authentication via saslauthd is basically working:
+
+testsaslauthd -u mozilla -p secret -s smtp
+0: OK "Success."
+
+
