@@ -12,8 +12,9 @@ services:
   - postgresql
 
 env:
-  - DB=mysql
-  - DB=postgres
+  matrix:
+    - DB=mysql
+    - DB=postgres
 
 matrix:
   include:
@@ -46,7 +47,7 @@ before_script:
   - sh -c "echo Setup BASE Tables DB"
   - sh -c "if [ '$DB' = 'mysql' ]; then mysql snort < sql/create_base_tbls_mysql.sql >> output-mysql.txt; fi"
   - sh -c "if [ '$DB' = 'postgress' ]; then psql -d snort -f sql/create_base_tbls_pysql.sql >> output-pqsql.txt; fi"
-  - sh -c "if [ '$DB' = 'postgress' ]; then echo Setup Referential Integrity"
+  - sh -c "if [ '$DB' = 'postgress' ]; then echo Setup Referential Integrity"; fi"
   - sh -c "if [ '$DB' = 'postgress' ]; then psql -d snort -f sql/create_base_tbls_pysql_extra.sql >> output-pqsql.txt; fi"
 
 script:
