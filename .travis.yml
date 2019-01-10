@@ -11,6 +11,10 @@ services:
   - mysql
   - postgresql
 
+env:
+  - DB=mysql
+  - DB=postgres
+
 matrix:
   include:
     - php: 5.2
