@@ -4,7 +4,7 @@ language: php
 # blocklist
 branches:
   except:
-    - docs
+    - documentation
     - gh-ops
 
 matrix:
