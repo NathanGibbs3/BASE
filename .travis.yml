@@ -12,29 +12,38 @@ services:
   - postgresql
 
 env:
-  matrix:
-    - DB=mysql
-    - DB=postgres
+  - DB=mysql
+  - DB=postgres
 
 matrix:
   include:
     - php: 5.2
       dist: precise
+      env: DB=postgres
     - php: 5.3
       dist: precise
+      env: DB=postgres
     - php: 5.4
+      env: DB=postgres
     - php: 5.5
+      env: DB=postgres
     - php: 5.6
+      env: DB=postgres
     - php: 7.0
       if: branch != php5only
+      env: DB=postgres
     - php: 7.1
       if: branch != php5only
+      env: DB=postgres
     - php: 7.2
       if: branch != php5only
+      env: DB=postgres
     - php: 7.3
       if: branch != php5only
+      env: DB=postgres
     - php: nightly
       if: branch != php5only
+      env: DB=postgres
 
 before_install:
   - sudo apt-get update > /dev/null
