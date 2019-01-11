@@ -14,10 +14,6 @@ services:
 
 # Adds build for each of these to default matrix.
 
-dist:
-  - precise
-  - trusty
-
 php:
   - 5.2
   - 5.3
@@ -38,10 +34,10 @@ env:
 # Default matrix overlay.
 matrix:
   exclude:
-    - php: 5.2
-      dist: trusty
-    - php: 5.3
-      dist: trusty
+    - dist: trusty
+      php: 5.2
+    - dist: trusty
+      php: 5.3
   include:
     - php: 5.2
       dist: precise
