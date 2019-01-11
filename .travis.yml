@@ -12,8 +12,9 @@ services:
   - postgresql
 
 env:
-  - DB=mysql
-  - DB=postgres
+  matrix:
+    - DB=mysql
+    - DB=postgres
 
 matrix:
   include:
