@@ -11,10 +11,9 @@ services:
   - mysql
   - postgresql
 
+# Default DB
 env:
-  matrix:
-    - DB=mysql
-    - DB=postgres
+  - DB=mysql
 
 matrix:
   include:
