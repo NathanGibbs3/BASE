@@ -13,6 +13,11 @@ services:
   - postgresql
 
 # Adds build for each of these to default matrix.
+
+dist:
+  - precise
+  - trusty
+
 php:
   - 5.2
   - 5.3
