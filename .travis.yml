@@ -57,10 +57,11 @@ jobs:
     - script: sh -c "if [ '$DB' = 'mysql' ]; then mysql snort < sql/create_base_tbls_mysql.sql >> output-mysql.txt; fi"
     - stage: Add Referential Integrity Postgress
       script: sh -c "if [ '$DB' = 'postgress' ]; then psql -d snort -f sql/create_base_tbls_pysql_extra.sql >> output-pqsql.txt; fi"
-    - stage: Test App
-      script: php -f index.php
 
 before_install:
   - sudo apt-get update > /dev/null
 
 before_script:
+
+script:
+  - php -f index.php
