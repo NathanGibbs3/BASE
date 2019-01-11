@@ -13,6 +13,17 @@ services:
   - postgresql
 
 # Adds build for each of these to default matrix.
+php:
+  - 5.2
+  - 5.3
+  - 5.4
+  - 5.5
+  - 5.6
+  - 7.0
+  - 7.1
+  - 7.2
+  - 7.3
+  - nightly
 env:
   matrix:
     - DB=mysql
@@ -20,6 +31,11 @@ env:
 
 # Default matrix overlay.
 matrix:
+  exclude:
+    - php 5.2
+      dist trusty
+    - php 5.3
+      dist trusty
   include:
     - php: 5.2
       dist: precise
@@ -48,7 +64,7 @@ script:
   - sh -c "if [ '$DB' = 'postgres' ]; then psql -c 'DROP DATABASE IF EXISTS snort;' -U postgres > output-pqsql.txt; fi"
   - sh -c "if [ '$DB' = 'postgres' ]; then psql -c 'CREATE DATABASE snort;' -U postgres >> output-pqsql.txt; fi"
   - sh -c "if [ '$DB' = 'mysql' ]; then mysql -e 'CREATE DATABASE IF NOT EXISTS snort;' > output-mysql.txt; fi"
-  - sh -c "if [ '$DB' = 'postgress' ]; then psql -d snort -f sql/create_base_tbls_pysql.sql >> output-pqsql.txt; fi"
+  - sh -c "if [ '$DB' = 'postgres' ]; then psql -d snort -f sql/create_base_tbls_pysql.sql >> output-pqsql.txt; fi"
   - sh -c "if [ '$DB' = 'mysql' ]; then mysql snort < sql/create_base_tbls_mysql.sql >> output-mysql.txt; fi"
-  - sh -c "if [ '$DB' = 'postgress' ]; then psql -d snort -f sql/create_base_tbls_pysql_extra.sql >> output-pqsql.txt; fi"
+  - sh -c "if [ '$DB' = 'postgres' ]; then psql -d snort -f sql/create_base_tbls_pysql_extra.sql >> output-pqsql.txt; fi"
   - php -f index.php
