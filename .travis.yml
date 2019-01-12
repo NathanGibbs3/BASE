@@ -80,16 +80,16 @@ install:
 before_script:
 
 script:
-  - sh -c "if [ '$DB' = 'postgres' ]; then psql -c 'DROP DATABASE IF EXISTS snort;' -U postgres > output-pqsql.txt; fi"
-  - sh -c "if [ '$DB' = 'postgres' ]; then psql -c 'CREATE DATABASE snort;' -U postgres >> output-pqsql.txt; fi"
-  - sh -c "if [ '$DB' = 'mysql' ]; then mysql -e 'CREATE DATABASE IF NOT EXISTS snort;' > output-mysql.txt; fi"
-  - sh -c "if [ '$DB' = 'postgres' ]; then psql -d snort -f sql/create_base_tbls_pgsql.sql >> output-pqsql.txt; fi"
-  - sh -c "if [ '$DB' = 'mysql' ]; then mysql snort < sql/create_base_tbls_mysql.sql >> output-mysql.txt; fi"
-  - sh -c "if [ '$DB' = 'postgres' ]; then psql -d snort -f sql/create_base_tbls_pgsql_extra.sql >> output-pqsql.txt; fi"
+  - sh -c "if [ '$DB' = 'postgres' ]; then psql -c 'DROP DATABASE IF EXISTS snort;' -U postgres; fi"
+  - sh -c "if [ '$DB' = 'postgres' ]; then psql -c 'CREATE DATABASE snort;' -U postgres; fi"
+  - sh -c "if [ '$DB' = 'mysql' ]; then mysql -e 'CREATE DATABASE IF NOT EXISTS snort;'; fi"
+  - sh -c "if [ '$DB' = 'postgres' ]; then psql -d snort -f sql/create_base_tbls_pgsql.sql; fi"
+  - sh -c "if [ '$DB' = 'mysql' ]; then mysql snort < sql/create_base_tbls_mysql.sql; fi"
+  - sh -c "if [ '$DB' = 'postgres' ]; then psql -d snort -f sql/create_base_tbls_pgsql_extra.sql; fi"
   - php -f index.php
   # Coveralls Support
   - mkdir -p build/logs
-  - php vendor/bin/phpunit -c phpunit.xml.dist
+  - phpunit -c phpunit.xml.dist
 
 after_success:
   - travis_retry php vendor/bin/php-coveralls -v
