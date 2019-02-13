@@ -18,68 +18,90 @@ matrix:
     - php: 5.2
       dist: precise
       env: DB=mysql
+      env: Composer=0
     - php: 5.2
       dist: precise
       env: DB=postgres
+      env: Composer=0
     - php: 5.3
       dist: precise
       env: DB=mysql
+      env: Composer=1
     - php: 5.3
       dist: precise
       env: DB=postgres
+      env: Composer=1
     - php: 5.4
       env: DB=mysql
+      env: Composer=1
     - php: 5.4
       env: DB=postgres
+      env: Composer=1
     - php: 5.5
       env: DB=mysql
+      env: Composer=1
     - php: 5.5
       env: DB=postgres
+      env: Composer=1
     - php: 5.6
       env: DB=mysql
+      env: Composer=1
     - php: 5.6
       env: DB=postgres
+      env: Composer=1
     - php: 7.0
       if: branch != php5only
       env: DB=mysql
+      env: Composer=1
     - php: 7.0
       if: branch != php5only
       env: DB=postgres
+      env: Composer=1
     - php: 7.1
       if: branch != php5only
       env: DB=mysql
+      env: Composer=1
     - php: 7.1
       if: branch != php5only
       env: DB=postgres
+      env: Composer=1
     - php: 7.2
       if: branch != php5only
       env: DB=mysql
+      env: Composer=1
     - php: 7.2
       if: branch != php5only
       env: DB=postgres
+      env: Composer=1
     - php: 7.3
       if: branch != php5only
       env: DB=mysql
+      env: Composer=1
     - php: 7.3
       if: branch != php5only
       env: DB=postgres
+      env: Composer=1
     - php: nightly
       if: branch != php5only
       env: DB=mysql
+      env: Composer=1
     - php: nightly
       if: branch != php5only
       env: DB=postgres
+      env: Composer=1
 
 before_install:
   - sudo apt-get update > /dev/null
 
 install:
-  - curl -s http://getcomposer.org/installer | php
-  - php composer.phar install --dev --no-interaction
+  # Composer Support PHP 5.3.2+
+  - sh -c "if [ '$Composer' = 1 ]; then curl -s http://getcomposer.org/installer | php; fi"
+  - sh -c "if [ '$Composer' = 1 ]; then php composer.phar install --dev --no-interaction; fi"
 
 before_script:
 
 script:
+  - mkdir -p build/logs
   - sh -c "if [ '$DB' = 'postgres' ]; then psql -c 'DROP DATABASE IF EXISTS snort;' -U postgres; fi"
   - sh -c "if [ '$DB' = 'postgres' ]; then psql -c 'CREATE DATABASE snort;' -U postgres; fi"
   - sh -c "if [ '$DB' = 'mysql' ]; then mysql -e 'CREATE DATABASE IF NOT EXISTS snort;'; fi"
@@ -87,10 +109,9 @@ script:
   - sh -c "if [ '$DB' = 'mysql' ]; then mysql snort < sql/create_base_tbls_mysql.sql; fi"
   - sh -c "if [ '$DB' = 'postgres' ]; then psql -d snort -f sql/create_base_tbls_pgsql_extra.sql; fi"
   - php -f index.php
-  # Coveralls Support
-  - mkdir -p build/logs
   - phpunit -c phpunit.xml.dist
 
 after_success:
-  - travis_retry php php-coveralls -v
+  # Coveralls Support PHP 5.3+
+  - sh -c "if [ '$Composer' = 1 ]; then php php-coveralls -v; fi"
 ...
