@@ -2,6 +2,11 @@
     "require": {
     },
     "require-dev": {
+        "php" : "^5.2",
+        "php-coveralls/php-coveralls": "^1.1",
+    },
+    "require-dev": {
+        "php" : "^5.5 || ^7.0",
         "php-coveralls/php-coveralls": "^2.1",
         "phpunit/phpcov": "^2.0"
     }

@@ -89,7 +89,7 @@ script:
   - php -f index.php
   # Coveralls Support
   - mkdir -p build/logs
-  - php phpunit -c phpunit.xml.dist
+  - phpunit -c phpunit.xml.dist
 
 after_success:
   - travis_retry php php-coveralls -v
