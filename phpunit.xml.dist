@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<phpunit>
+<phpunit
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:noNamespaceSchemaLocation="vendor/phpunit/phpunit/phpunit.xsd"
+	colors="true"
+	verbose="true"
+>
 	<filter>
 		<whitelist>
 			<directory suffix=".php">./</directory>
@@ -10,9 +15,21 @@
 				<directory>./rpm</directory>
 				<directory>./sql</directory>
 				<directory>./styles</directory>
+				<directory>./tests</directory>
 			</exclude>
 		</whitelist>
 	</filter>
+	
+	<testsuites>
+		<testsuite name="BASE test suite">
+			<directory>./tests/</directory>
+		</testsuite>
+	</testsuites>
+	
+	<php>
+		<ini name="error_reporting" value="E_ALL" />
+	</php>
+	
 	<logging>
 		<log type="coverage-clover" target="build/logs/clover.xml"/>
 	</logging>
