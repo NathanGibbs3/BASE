@@ -20,11 +20,11 @@
 		</whitelist>
 	</filter>
 	
-<!--	<testsuites>
+	<testsuites>
 		<testsuite name="BASE test suite">
 			<directory>./tests/</directory>
 		</testsuite>
-	</testsuites>-->
+	</testsuites>
 	
 	<php>
 		<ini name="error_reporting" value="E_ALL" />
