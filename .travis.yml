@@ -83,6 +83,7 @@ install:
   # Composer Support PHP 5.3.2+
   - sh -c "if [ '$Composer' = 1 ]; then curl -s http://getcomposer.org/installer | php; fi"
   - sh -c "if [ '$Composer' = 1 ]; then php composer.phar install --dev --no-interaction; fi"
+  - sh -c "if [ '$Composer' = 1 ]; then composer require --dev php-coveralls/php-coveralls; fi"
 
 before_script:
 
@@ -99,5 +100,5 @@ script:
 
 after_success:
   # Coveralls Support PHP 5.3+
-  - sh -c "if [ '$Composer' = 1 ]; then vendor/bin/php-coveralls -v; fi"
+  - sh -c "if [ '$Composer' = 1 ]; then php-coveralls -v; fi"
 ...
