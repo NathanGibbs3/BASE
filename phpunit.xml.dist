@@ -16,6 +16,7 @@
 				<directory>./sql</directory>
 				<directory>./styles</directory>
 				<directory>./tests</directory>
+				<directory>./vendor</directory>
 			</exclude>
 		</whitelist>
 	</filter>
