@@ -20,17 +20,14 @@
 			</exclude>
 		</whitelist>
 	</filter>
-	
 	<testsuites>
 		<testsuite name="BASE test suite">
 			<directory>./tests/</directory>
 		</testsuite>
 	</testsuites>
-	
 	<php>
 		<ini name="error_reporting" value="E_ALL" />
 	</php>
-	
 	<logging>
 		<log type="coverage-clover" target="build/logs/clover.xml"/>
 	</logging>

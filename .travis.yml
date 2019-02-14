@@ -98,8 +98,8 @@ script:
   - phpunit -c phpunit.xml.dist
 
 after_success:
-  # Coveralls 1.x Support PHP 5.3+  
-  - sh -c "if [ '$Composer' = 1 &&  Coveralls=1 ]; then php vendor/bin/coveralls -v; fi"
+  # Coveralls 1.x Support PHP 5.3+
+  - sh -c "if [ '$Composer' = 1 &&  '$Coveralls' = 1 ]; then php vendor/bin/coveralls -v; fi"
   # Coveralls 2.x Support PHP 5.5+
-  - sh -c "if [ '$Composer' = 1 &&  Coveralls=2 ]; then php vendor/bin/php-coveralls -v; fi"
+  - sh -c "if [ '$Composer' = 1 &&  '$Coveralls' = 2 ]; then php vendor/bin/php-coveralls -v; fi"
 ...
