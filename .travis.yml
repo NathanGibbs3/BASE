@@ -17,58 +17,58 @@ matrix:
   include:
     - php: 5.2
       dist: precise
-      env: DB=mysql Composer=0 XDebug=1
+      env: DB=mysql Composer=0 XDebug=1 Coveralls=0
     - php: 5.2
       dist: precise
-      env: DB=postgres Composer=0 XDebug=1
+      env: DB=postgres Composer=0 XDebug=1 Coveralls=0
     - php: 5.3
       dist: precise
-      env: DB=mysql Composer=1 XDebug=0
+      env: DB=mysql Composer=1 XDebug=0 Coveralls=1
     - php: 5.3
       dist: precise
-      env: DB=postgres Composer=1 XDebug=0
+      env: DB=postgres Composer=1 XDebug=0 Coveralls=1
     - php: 5.4
-      env: DB=mysql Composer=1 XDebug=0
+      env: DB=mysql Composer=1 XDebug=0 Coveralls=1
     - php: 5.4
-      env: DB=postgres Composer=1 XDebug=0
+      env: DB=postgres Composer=1 XDebug=0 Coveralls=1
     - php: 5.5
-      env: DB=mysql Composer=1 XDebug=0
+      env: DB=mysql Composer=1 XDebug=0 Coveralls=2
     - php: 5.5
-      env: DB=postgres Composer=1 XDebug=0
+      env: DB=postgres Composer=1 XDebug=0 Coveralls=2
     - php: 5.6
-      env: DB=mysql Composer=1 XDebug=0
+      env: DB=mysql Composer=1 XDebug=0 Coveralls=2
     - php: 5.6
-      env: DB=postgres Composer=1 XDebug=0
+      env: DB=postgres Composer=1 XDebug=0 Coveralls=2
     - php: 7.0
       if: branch != php5only
-      env: DB=mysql Composer=1 XDebug=0
+      env: DB=mysql Composer=1 XDebug=0 Coveralls=2
     - php: 7.0
       if: branch != php5only
-      env: DB=postgres Composer=1 XDebug=0
+      env: DB=postgres Composer=1 XDebug=0 Coveralls=2
     - php: 7.1
       if: branch != php5only
-      env: DB=mysql Composer=1 XDebug=0
+      env: DB=mysql Composer=1 XDebug=0 Coveralls=2
     - php: 7.1
       if: branch != php5only
-      env: DB=postgres Composer=1 XDebug=0
+      env: DB=postgres Composer=1 XDebug=0 Coveralls=2
     - php: 7.2
       if: branch != php5only
-      env: DB=mysql Composer=1 XDebug=0
+      env: DB=mysql Composer=1 XDebug=0 Coveralls=2
     - php: 7.2
       if: branch != php5only
-      env: DB=postgres Composer=1 XDebug=0
+      env: DB=postgres Composer=1 XDebug=0 Coveralls=2
     - php: 7.3
       if: branch != php5only
-      env: DB=mysql Composer=1 XDebug=0
+      env: DB=mysql Composer=1 XDebug=0 Coveralls=2
     - php: 7.3
       if: branch != php5only
-      env: DB=postgres Composer=1 XDebug=0
+      env: DB=postgres Composer=1 XDebug=0 Coveralls=2
     - php: nightly
       if: branch != php5only
-      env: DB=mysql Composer=0 XDebug=0
+      env: DB=mysql Composer=0 XDebug=0 Coveralls=2
     - php: nightly
       if: branch != php5only
-      env: DB=postgres Composer=0 XDebug=0
+      env: DB=postgres Composer=0 XDebug=0 Coveralls=2
 
 cache:
   directories:
@@ -98,6 +98,8 @@ script:
   - phpunit -c phpunit.xml.dist
 
 after_success:
-  # Coveralls Support PHP 5.3+
-  - sh -c "if [ '$Composer' = 1 ]; then php vendor/bin/php-coveralls -v; fi"
+  # Coveralls 1.x Support PHP 5.3+  
+  - sh -c "if [ '$Composer' = 1 &&  Coveralls=1 ]; then php vendor/bin/coveralls -v; fi"
+  # Coveralls 2.x Support PHP 5.5+
+  - sh -c "if [ '$Composer' = 1 &&  Coveralls=2 ]; then php vendor/bin/php-coveralls -v; fi"
 ...
