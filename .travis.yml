@@ -85,7 +85,7 @@ install:
   - sh -c "if [ '$Composer' = '1' ]; then php composer.phar install --dev --no-interaction; fi"
 
 before_script:
-  - ./tests/setphpunit.sh
+  - source ./tests/setphpunit.sh
 
 script:
   - mkdir -p build/logs
