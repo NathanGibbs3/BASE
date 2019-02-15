@@ -98,11 +98,11 @@ script:
   - php -f index.php
   - ./tests/utf-8lint.sh
   # Use system phpunit
-  - sh -c "if [ '$CompU' = '0' ]; then phpunit --version; fi"
-  - sh -c "if [ '$CompU' = '0' ]; then phpunit -c phpunit.xml.dist; fi"
+  - sh -c "if [ '$ComPU' = '0' ]; then phpunit --version; fi"
+  - sh -c "if [ '$ComPU' = '0' ]; then phpunit -c phpunit.xml.dist; fi"
   # Use composer phpunit
-  - sh -c "if [ '$CompU' = '1' ]; then vendor/bin/phpunit --version; fi"
-  - sh -c "if [ '$CompU' = '1' ]; then vendor/bin/phpunit -c phpunit.xml.dist; fi"
+  - sh -c "if [ '$ComPU' = '1' ]; then vendor/bin/phpunit --version; fi"
+  - sh -c "if [ '$ComPU' = '1' ]; then vendor/bin/phpunit -c phpunit.xml.dist; fi"
 
 after_success:
   # Coveralls 1.x Support PHP 5.3+
