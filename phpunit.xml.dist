@@ -34,7 +34,7 @@
 	<testsuites>
 		<testsuite name="BASE test suite">
 			<!-- PHP 5.2x Only Tests -->
-			<directory phpVersion="5.3.0" phpVersionOperator="<">/path/to/files</directory>>./tests/php5.2</directory>
+			<directory phpVersion="5.3.0" phpVersionOperator="<">./tests/php5.2</directory>
 			<!-- PHP 5.3+ Tests -->
 			<directory phpVersion="5.3.0">./tests</directory>
 		</testsuite>
