@@ -1,17 +1,17 @@
 <?php
 
-class BlankTest extends PHPUnit_Framework_TestCase
-{
-    public function testSomething()
-    {
-        // Optional: Test anything here, if you want.
-        $this->assertTrue(true, 'This should already work.');
-
-        // Stop here and mark this test as incomplete.
-        $this->markTestIncomplete(
-          'Placeholder Blank Test.'
-        );
-    }
+class BlankTest extends PHPUnit_Framework_TestCase {
+	// Tests go here.
+	public function testSomething() {
+		$this->assertTrue(
+			true,
+			'Working Blank Test.'
+		);
+		// Stop here and mark test incomplete.
+		//$this->markTestIncomplete(
+		//	'Incomplete Blank Test.'
+		//);
+	}
 }
 
 ?>
