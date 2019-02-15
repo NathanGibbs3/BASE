@@ -31,7 +31,7 @@
 	</filter>
 	<testsuites>
 		<testsuite name="BASE test suite">
-			<directory>./tests/</directory>
+			<directory>./tests</directory>
 		</testsuite>
 	</testsuites>
 	<php>

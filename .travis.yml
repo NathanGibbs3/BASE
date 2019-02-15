@@ -95,6 +95,7 @@ script:
   - sh -c "if [ '$DB' = 'mysql' ]; then mysql snort < sql/create_base_tbls_mysql.sql; fi"
   - sh -c "if [ '$DB' = 'postgres' ]; then psql -d snort -f sql/create_base_tbls_pgsql_extra.sql; fi"
   - php -f index.php
+  - ./tests/utf-8lint.sh
   - phpunit -c phpunit.xml.dist
 
 after_success:
