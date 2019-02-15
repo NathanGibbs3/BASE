@@ -32,15 +32,11 @@
 		</whitelist>
 	</filter>
 	<testsuites>
-		<testsuite name="BASE test suite">
-			<!-- PHP 5.2x Only Tests -->
+		<testsuite name="BASE test suite PHP 5.2x">
 			<directory phpVersion="5.3.0" phpVersionOperator="&lt;">./tests/php5.2</directory>
-			<!-- PHP 5.3+ Tests -->
-			<directory phpVersion="5.3.0">./tests
-				<exclude>
-					<directory>./tests/php5.2</directory>
-				</exclude>
-			</directory>
+		</testsuite>
+		<testsuite name="BASE test suite PHP 5.3+">
+			<directory phpVersion="5.3.0">./tests/php</directory>
 		</testsuite>
 	</testsuites>
 	<php>
