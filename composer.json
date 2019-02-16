@@ -1,6 +1,7 @@
 {
 	"require": {
-		"pear/mail_mime": ">=1.5.2"
+		"pear/mail_mime": ">=1.5.2",
+		"pear/mail": ">=1.4.1"
 	},
 	"require-dev": {
 		"phpunit/phpunit": ">=4.8.28",
