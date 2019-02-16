@@ -79,11 +79,12 @@ before_install:
 
 install:
   # XDebug for PHP 5.2x
-  - sh -c "if [ '$XDebug' = '1' ]; then pecl install xdebug-2.2.7; fi"
+  # - sh -c "if [ '$XDebug' = '1' ]; then pecl install xdebug-2.2.7; fi"
+  - sh -c "if [ '$XDebug' = '1' ]; then sudo apt-get install php5-xdebug; fi"
   - sh -c "if [ '$XDebug' = '1' ]; then pear install mail Mail_Mime; fi"
   # Composer Support PHP 5.3.2+
   - sh -c "if [ '$Composer' = '1' ]; then curl -s http://getcomposer.org/installer | php; fi"
-  - sh -c "if [ '$Composer' = '1' ]; then php composer.phar install --dev --no-interaction; fi"
+  - sh -c "if [ '$Composer' = '1' ]; then php composer.phar install --no-interaction; fi"
 
 before_script:
   - mkdir -p build/logs
