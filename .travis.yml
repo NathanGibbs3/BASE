@@ -102,9 +102,10 @@ script:
   - sh -c "if [ '$DB' = 'postgres' ]; then psql -d snort -f sql/create_base_tbls_pgsql_extra.sql; fi"
   - php -f index.php
   - ./tests/utf-8lint.sh
+  - which phpunit
   # Use system phpunit
   - sh -c "if [ '$ComPU' = '0' ]; then phpunit --version; fi"
-  - sh -c "if [ '$ComPU' = '0' ] && [ '$XDebug' = '1' ]; then php -d xdebug.profiler_enable=on phpunit -c phpunit.xml.dist; fi"
+  - sh -c "if [ '$ComPU' = '0' ] && [ '$XDebug' = '1' ]; then php -d xdebug.profiler_enable=on `which phpunit` -c phpunit.xml.dist; fi"
   - sh -c "if [ '$ComPU' = '0' ] && [ '$XDebug' = '0' ]; then phpunit -c phpunit.xml.dist; fi"
   # Use composer phpunit
   - sh -c "if [ '$ComPU' = '1' ]; then vendor/bin/phpunit --version; fi"
