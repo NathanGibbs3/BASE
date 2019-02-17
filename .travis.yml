@@ -17,58 +17,58 @@ matrix:
   include:
     - php: 5.2
       dist: precise
-      env: DB=mysql Coveralls=0
+      env: DB=mysql
     - php: 5.2
       dist: precise
-      env: DB=postgres Coveralls=0
+      env: DB=postgres
     - php: 5.3
       dist: precise
-      env: DB=mysql Coveralls=1
+      env: DB=mysql
     - php: 5.3
       dist: precise
-      env: DB=postgres Coveralls=1
+      env: DB=postgres
     - php: 5.4
-      env: DB=mysql Coveralls=1
+      env: DB=mysql
     - php: 5.4
-      env: DB=postgres Coveralls=1
+      env: DB=postgres
     - php: 5.5
-      env: DB=mysql Coveralls=2
+      env: DB=mysql
     - php: 5.5
-      env: DB=postgres Coveralls=2
+      env: DB=postgres
     - php: 5.6
-      env: DB=mysql Coveralls=2
+      env: DB=mysql
     - php: 5.6
-      env: DB=postgres Coveralls=2
+      env: DB=postgres
     - php: 7.0
       if: branch != php5only
-      env: DB=mysql Coveralls=2
+      env: DB=mysql
     - php: 7.0
       if: branch != php5only
-      env: DB=postgres Coveralls=2
+      env: DB=postgres
     - php: 7.1
       if: branch != php5only
-      env: DB=mysql Coveralls=2
+      env: DB=mysql
     - php: 7.1
       if: branch != php5only
-      env: DB=postgres Coveralls=2
+      env: DB=postgres
     - php: 7.2
       if: branch != php5only
-      env: DB=mysql Coveralls=2
+      env: DB=mysql
     - php: 7.2
       if: branch != php5only
-      env: DB=postgres Coveralls=2
+      env: DB=postgres
     - php: 7.3
       if: branch != php5only
-      env: DB=mysql Coveralls=2
+      env: DB=mysql
     - php: 7.3
       if: branch != php5only
-      env: DB=postgres Coveralls=2
+      env: DB=postgres
     - php: nightly
       if: branch != php5only
-      env: DB=mysql Coveralls=2
+      env: DB=mysql
     - php: nightly
       if: branch != php5only
-      env: DB=postgres Coveralls=2
+      env: DB=postgres
 
 cache:
   directories:
@@ -79,7 +79,6 @@ before_install:
   - source ./tests/setupenv.sh
 
 install:
-  - mkdir -p build/logs
   - mv ${HOME}/.phpenv/versions/$(phpenv version-name)/etc/conf.d/xdebug.ini ${HOME}/xdebug.ini || return 0
   # XDebug for PHP 5.2x
   - sh -c "if [ '$XDebug' = '1' ]; then pecl install xdebug-2.2.7; fi"
