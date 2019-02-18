@@ -29,7 +29,6 @@ else
 		export ComPU=0
 	fi
 fi
-echo "PHPUnit Executable: $pu"
-if [ "$TRAVIS" == "true" ]; then
-	export PUx=$pu
-fi
+echo "Running PHPUnit: $pu"
+$pu --version
+$pu -c phpunit.xml.dist
