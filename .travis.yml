@@ -77,8 +77,8 @@ cache:
 before_install:
   - sudo apt-get update > /dev/null
   - source ./tests/setupenv.sh
-  - php --ri xdebug
   - php --ini
+  - cat ${HOME}/.phpenv/versions/$(phpenv version-name)/etc/php.ini
 
 install:
   # XDebug for PHP 5.2x
