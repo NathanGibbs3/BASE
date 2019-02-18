@@ -77,6 +77,8 @@ cache:
 before_install:
   - sudo apt-get update > /dev/null
   - source ./tests/setupenv.sh
+  - php --ri xdebug
+  - php --ini
 
 install:
   # XDebug for PHP 5.2x
@@ -107,7 +109,7 @@ script:
   # Use composer phpunit
   - sh -c "if [ '$ComPU' = '1' ]; then vendor/bin/phpunit --version; fi"
 #  - sh -c "if [ '$ComPU' = '1' ]; then vendor/bin/phpunit -c phpunit.xml.dist; fi"
-  - $PUX -c phpunit.xml.dist
+  - sh -c "$PUX -c phpunit.xml.dist; fi"
   - rm ${HOME}/.phpenv/versions/$(phpenv version-name)/etc/conf.d/xdebug.ini || return 0
 
 after_success:
