@@ -14,21 +14,15 @@ pvr=`echo $puv|sed -r -e "s/^[0-9]\.[0-9]\.//"`
 
 echo "System PHPUnit Version: $puv"
 if [ "$TRAVIS" != "true" ]; then
-	syspu=`which $pu`
-	echo "              Location: $syspu"
+	echo "              Location: `which $pu`"
 fi
 if [ "$pvM" == "4" ] && [ "$pvm" == "8" ] && [ "$pvr" \< "28" ]; then
 	echo "Using Composer PHPUnit"
-	pu="vendor/bin/$pu"
-	if [ "$TRAVIS" == "true" ]; then
-		export ComPU=1
-	fi
+	px="vendor/bin/$pu"
 else
 	echo "Using System PHPUnit"
-	if [ "$TRAVIS" == "true" ]; then
-		export ComPU=0
-	fi
+	px=$pu
 fi
+$px --version
 echo "Running PHPUnit: $pu"
-$pu --version
-$pu -c phpunit.xml.dist
+$px -c $pu.xml.dist
