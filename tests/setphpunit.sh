@@ -7,14 +7,16 @@ else
 fi
 
 pu=phpunit
-syspu=`which $pu`
-puv=`phpunit --version|sed -e "s/^PHPUnit\s//" -e "s/\sby.*$//"`
+puv=`$pu --version|sed -e "s/^PHPUnit\s//" -e "s/\sby.*$//"`
 pvM=`echo $puv|sed -r -e "s/\.[0-9]\.[0-9]+$//"`
 pvm=`echo $puv|sed -r -e "s/^[0-9]\.//" -e "s/\.[0-9]+$//"`
 pvr=`echo $puv|sed -r -e "s/^[0-9]\.[0-9]\.//"`
 
 echo "System PHPUnit Version: $puv"
-echo "              Location: $syspu"
+if [ "$TRAVIS" != "true" ]; then
+	syspu=`which $pu`
+	echo "              Location: $syspu"
+fi
 if [ "$pvM" == "4" ] && [ "$pvm" == "8" ] && [ "$pvr" \< "28" ]; then
 	echo "Using Composer PHPUnit"
 	pu="vendor/bin/$pu"
@@ -27,13 +29,7 @@ else
 		export ComPU=0
 	fi
 fi
-if [ "$XDebug" == "1" ]; then
-#	pux="php -d xdebug.profiler_enable=on $syspu"
-	pux="$pu -d xdebug.profiler_enable=on"
-else
-	pux=$pu
-fi
-echo "PHPUnit Executable: $pux"
+echo "PHPUnit Executable: $pu"
 if [ "$TRAVIS" == "true" ]; then
-	export PUX=$pux
+	export PUx=$pu
 fi

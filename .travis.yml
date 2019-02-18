@@ -76,23 +76,25 @@ cache:
 
 before_install:
   - sudo apt-get update > /dev/null
-  - source ./tests/setupenv.sh
+  # Where to look if installed modules in PHP don't work. :-)
+  # Like xdebug on PHP 5.2
   - php --ini
+  - source ./tests/setupenv.sh
 
 install:
-  # XDebug for PHP 5.2x
+  # Fix XDebug on PHP 5.2x. Load Custom xdebug.ini from repo
   - sh -c "if [ '$XDebug' = '1' ]; then cp ./tests/5.2-xdebug.ini ${HOME}/.phpenv/versions/$(phpenv version-name)/etc/conf.d/xdebug.ini; fi"
   - sh -c "if [ '$XDebug' = '1' ]; then pear install mail Mail_Mime; fi"
-  - mv ${HOME}/.phpenv/versions/$(phpenv version-name)/etc/conf.d/xdebug.ini ${HOME}/xdebug.ini || return 0
   # Composer Support PHP 5.3.2+
+  - sh -c "if [ '$Composer' = '1' ]; then mv ${HOME}/.phpenv/versions/$(phpenv version-name)/etc/conf.d/xdebug.ini ${HOME}/xdebug.ini; fi"
   - sh -c "if [ '$Composer' = '1' ]; then curl -s http://getcomposer.org/installer | php; fi"
   - sh -c "if [ '$Composer' = '1' ]; then php composer.phar install --no-interaction; fi"
+  - sh -c "if [ '$Composer' = '1' ]; then mv ${HOME}/xdebug.ini ${HOME}/.phpenv/versions/$(phpenv version-name)/etc/conf.d/xdebug.ini; fi"
 
 before_script:
   - source ./tests/setphpunit.sh
 
 script:
-  - cp ${HOME}/xdebug.ini ${HOME}/.phpenv/versions/$(phpenv version-name)/etc/conf.d/xdebug.ini || return 0
   - sh -c "if [ '$DB' = 'postgres' ]; then psql -c 'DROP DATABASE IF EXISTS snort;' -U postgres; fi"
   - sh -c "if [ '$DB' = 'postgres' ]; then psql -c 'CREATE DATABASE snort;' -U postgres; fi"
   - sh -c "if [ '$DB' = 'mysql' ]; then mysql -e 'CREATE DATABASE IF NOT EXISTS snort;'; fi"
@@ -101,16 +103,15 @@ script:
   - sh -c "if [ '$DB' = 'postgres' ]; then psql -d snort -f sql/create_base_tbls_pgsql_extra.sql; fi"
   - php -f index.php
   - ./tests/utf-8lint.sh
-  - which phpunit
+  - echo "Running PHPUnit: $PUx"
+  - $PUx --version
+  - $PUx -c phpunit.xml.dist
   # Use system phpunit
-  - sh -c "if [ '$ComPU' = '0' ]; then phpunit --version; fi"
-#  - sh -c "if [ '$ComPU' = '0' ] && [ '$XDebug' = '1' ]; then php -d xdebug.profiler_enable=on `which phpunit` -c phpunit.xml.dist; fi"
-#  - sh -c "if [ '$ComPU' = '0' ] && [ '$XDebug' = '0' ]; then phpunit -c phpunit.xml.dist; fi"
+  #- sh -c "if [ '$ComPU' = '0' ]; then phpunit --version; fi"
+  #- sh -c "if [ '$ComPU' = '0' ]; then phpunit -c phpunit.xml.dist; fi"
   # Use composer phpunit
-  - sh -c "if [ '$ComPU' = '1' ]; then vendor/bin/phpunit --version; fi"
-#  - sh -c "if [ '$ComPU' = '1' ]; then vendor/bin/phpunit -c phpunit.xml.dist; fi"
-  - sh -c "$PUX -c phpunit.xml.dist; fi"
-  - rm ${HOME}/.phpenv/versions/$(phpenv version-name)/etc/conf.d/xdebug.ini || return 0
+  #- sh -c "if [ '$ComPU' = '1' ]; then vendor/bin/phpunit --version; fi"
+  #- sh -c "if [ '$ComPU' = '1' ]; then vendor/bin/phpunit -c phpunit.xml.dist; fi"
 
 after_success:
   # Coveralls 1.x Support PHP 5.3+
