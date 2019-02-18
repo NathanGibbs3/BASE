@@ -28,7 +28,7 @@ else
 	fi
 fi
 if [ "$XDebug" == "1" ]; then
-	pux="php -d xdebug.profiler_enable=on $pu"
+	pux="php -d xdebug.profiler_enable=on $syspu"
 else
 	pux=$pu
 fi
