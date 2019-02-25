@@ -12,9 +12,13 @@ services:
   - mysql
   - postgresql
 
-# setup specific postgresql
-addons:
-  postgresql: "8.0"
+# setup specific postgresql version
+# addons:
+#  postgresql: "8.0"
+#  apt:
+#    packages:
+#    - postgresql-8.0
+#    - postgresql-client-8.0
 
 # Default matrix overlay.
 matrix:
