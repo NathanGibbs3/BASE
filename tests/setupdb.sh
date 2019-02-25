@@ -7,7 +7,7 @@ else
 fi
 
 if [ "$DB" = "postgres" ]; then
-	if [ "$TRAVIS" == "true" ]
+	if [ "$TRAVIS" == "true" ]; then
 		echo "Creating $DB Database snort"
 		psql -c 'DROP DATABASE IF EXISTS snort;' -U postgres
 		psql -c 'CREATE DATABASE snort;' -U postgres
@@ -17,7 +17,7 @@ if [ "$DB" = "postgres" ]; then
 		psql -d snort -f sql/create_base_tbls_pgsql_extra.sql
 	fi
 elif [ "$DB" = "mysql" ]; then
-	if [ "$TRAVIS" == "true" ]
+	if [ "$TRAVIS" == "true" ]; then
 		echo "Creating $DB Database snort"
 		mysql -e 'CREATE DATABASE IF NOT EXISTS snort;'
 		echo "Creating BASE Tables"
