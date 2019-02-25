@@ -7,7 +7,7 @@ else
 fi
 
 td=`pwd|sed -e "s/^.*\///"`
-OM=/var/lib/ieee-data/oui.txt
+OM=/usr/share/ieee-data/oui.txt
 PF=base_mac_prefixes.map
 
 	if [ "$td" == "tests" ]; then

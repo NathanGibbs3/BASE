@@ -82,9 +82,10 @@ before_install:
   - source ./tests/setupenv.sh
 
 install:
+  - pear install mail
   # Fix XDebug on PHP 5.2x. Load Custom xdebug.ini from repo
   - sh -c "if [ '$XDebug' = '1' ]; then cp ./tests/5.2-xdebug.ini ${HOME}/.phpenv/versions/$(phpenv version-name)/etc/conf.d/xdebug.ini; fi"
-  - sh -c "if [ '$XDebug' = '1' ]; then pear install mail Mail_Mime; fi"
+  - sh -c "if [ '$XDebug' = '1' ]; then pear install Mail_Mime; fi"
   # Composer Support PHP 5.3.2+
   - sh -c "if [ '$Composer' = '1' ]; then mv ${HOME}/.phpenv/versions/$(phpenv version-name)/etc/conf.d/xdebug.ini ${HOME}/xdebug.ini; fi"
   - sh -c "if [ '$Composer' = '1' ]; then curl -s http://getcomposer.org/installer | php; fi"
