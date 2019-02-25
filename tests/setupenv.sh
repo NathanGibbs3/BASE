@@ -42,12 +42,12 @@ echo "System PHP Version: $puv"
 
 # No XDebug on travis-ci PHP 5.2x
 if [ "$pvM" \< "5" ] || ( [ "$pvM" == "5" ] && [ "$pvm" \< "3" ]); then
-	echo "PHP Extension XDebug not installed"
+	echo "PHP XDebug disabled"
 	if [ "$1" == "" ] && [ "$TRAVIS" == "true" ]; then
 		export XDebug=1
 	fi
 else
-	echo "PHP Extension XDebug installed"
+	echo "PHP XDebug enabled"
 	if [ "$1" == "" ] && [ "$TRAVIS" == "true" ]; then
 		export XDebug=0
 	fi

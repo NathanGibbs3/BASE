@@ -5,7 +5,14 @@ class base_commonTest extends PHPUnit_Framework_TestCase {
 	public function testGetVendorReturnsUnknown() {
 		$this->assertEquals(
 			'unknown',
-			GetVendor(001266),
+			GetVendor('FFFFFF'),
+			'Unexpected Return Value.'
+		);
+	}
+	public function testGetVendorReturnsPrivate() {
+		$this->assertEquals(
+			' Private',
+			GetVendor('00006C'),
 			'Unexpected Return Value.'
 		);
 		// Stop here and mark test incomplete.
