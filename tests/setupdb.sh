@@ -13,7 +13,7 @@ if [ "$DB" = "postgres" ]; then
 		psql -c 'CREATE DATABASE snort;' -U postgres
 		echo "Pulling $DB SNORT Table creation scripts from"
 		echo "https://github.com/firnsy/barnyard2"
-		wget https://github.com/firnsy/barnyard2/blob/master/schemas/create_postgresql
+		wget https://raw.githubusercontent.com/firnsy/barnyard2/master/schemas/create_postgresql
 		if [ -a ./create_postgresql ]; then
 			echo "Creating SNORT Tables"
 			psql -d snort -f ./create_postgresql
@@ -31,7 +31,7 @@ elif [ "$DB" = "mysql" ]; then
 		mysql -e 'CREATE DATABASE IF NOT EXISTS snort;'
 		echo "Pulling $DB SNORT Table creation scripts from"
 		echo "https://github.com/firnsy/barnyard2"
-		wget https://github.com/firnsy/barnyard2/blob/master/schemas/create_mysql
+		wget https://raw.githubusercontent.com/firnsy/barnyard2/master/schemas/create_mysql
 		if [ -a ./create_mysql ]; then
 			echo "Creating SNORT Tables"
 			mysql -D snort < ./create_mysql
