@@ -81,6 +81,7 @@ matrix:
 cache:
   directories:
     - $HOME/.composer/cache
+    - /tmp/pear/cache
 
 before_install:
   - sudo apt-get update > /dev/null
@@ -90,8 +91,7 @@ before_install:
   - source ./tests/setupenv.sh
 
 install:
-  - pear config-get cache_dir
-  - pear install mail Mail_Mime
+  - pear -v install mail Mail_Mime
   # Fix XDebug on PHP 5.2x. Load Custom xdebug.ini from repo
   - sh -c "if [ '$XDebug' = '1' ]; then cp ./tests/5.2-xdebug.ini ${HOME}/.phpenv/versions/$(phpenv version-name)/etc/conf.d/xdebug.ini; fi"
   # Composer Support PHP 5.3.2+
