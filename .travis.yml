@@ -83,6 +83,9 @@ cache:
     - $HOME/.composer/cache
     - /tmp/pear/cache
 
+notifications:
+  webhooks: https://coveralls.io/webhook
+
 before_install:
   - sudo apt-get update > /dev/null
   # Where to look if installed modules in PHP don't work. :-)
@@ -91,7 +94,7 @@ before_install:
   - source ./tests/setupenv.sh
 
 install:
-  - pear -v install mail Mail_Mime
+  - pear install mail Mail_Mime
   # Fix XDebug on PHP 5.2x. Load Custom xdebug.ini from repo
   - sh -c "if [ '$XDebug' = '1' ]; then cp ./tests/5.2-xdebug.ini ${HOME}/.phpenv/versions/$(phpenv version-name)/etc/conf.d/xdebug.ini; fi"
   # Composer Support PHP 5.3.2+
