@@ -1067,9 +1067,11 @@ function Action_archive_alert_op($sid, $cid, &$db, $action_arg, &$ctx)
          if (isset($tmp_row) && !empty($tmp_row))
          {
            $ref_id = $tmp_row[0];
-
-           $sql = "SELECT ref_system_id, ref_tag FROM reference ".
-                  "WHERE ref_id='".$ref_id."'";
+			if ( $db->DB_class == 1 ) { /* Mysql & MariaDB */
+				$sql = "SELECT `ref_system_id`, ref_tag FROM reference WHERE ref_id='".$ref_id."'";
+			}else{ /* Everyone else */
+				$sql = "SELECT ref_system_id, ref_tag FROM reference WHERE ref_id='".$ref_id."'";
+			}
            $tmp_result2 = $db->baseExecute($sql);
            $tmp_row2 = $tmp_result2->baseFetchRow();   
            $tmp_result2->baseFreeRows();
@@ -1222,8 +1224,11 @@ function Action_archive_alert_op($sid, $cid, &$db, $action_arg, &$ctx)
      for ( $j = 0; $j < $sig_reference_cnt; $j++ )
      {
         /* get the ID of the reference system */
-        $tmp_sql = "SELECT ref_system_id FROM reference_system WHERE ".
-                   "ref_system_name = '".$sig_reference[$j][2]."'";
+		if ( $db->DB_class == 1 ) { /* Mysql & MariaDB */
+			$tmp_sql = "SELECT `ref_system_id` FROM reference_system WHERE ref_system_name = '".$sig_reference[$j][2]."'";
+		}else{ /* Everyone else */
+			$tmp_sql = "SELECT ref_system_id FROM reference_system WHERE ref_system_name = '".$sig_reference[$j][2]."'";
+		}
         $tmp_result = $db2->baseExecute($tmp_sql);
         $tmp_row = $tmp_result->baseFetchRow();
         $tmp_result->baseFreeRows();
@@ -1249,11 +1254,11 @@ function Action_archive_alert_op($sid, $cid, &$db, $action_arg, &$ctx)
         {
            $ref_system_id = -1;
         }
-
-        $sql = "SELECT ref_id FROM reference WHERE ".
-               "ref_system_id='".$ref_system_id."' AND ".
-               "ref_tag='".$sig_reference[$j][1]."'";
-
+		if ( $db->DB_class == 1 ) { /* Mysql & MariaDB */
+			$sql = "SELECT ref_id FROM reference WHERE `ref_system_id`='".$ref_system_id."' AND ref_tag='".$sig_reference[$j][1]."'";
+		}else{ /* Everyone else */
+			$sql = "SELECT ref_id FROM reference WHERE ref_system_id='".$ref_system_id."' AND ref_tag='".$sig_reference[$j][1]."'";
+		}
         if ($db->DB_type == "mssql")
         {
            /* MSSQL doesn't allow "=" with TEXT data types, but it does
@@ -1273,12 +1278,12 @@ function Action_archive_alert_op($sid, $cid, &$db, $action_arg, &$ctx)
         {
            $ref_id = $tmp_row[0];
            $tmp_result->baseFreeRows();
-        }
-        else
-        {
-           $sql = "INSERT INTO reference (ref_system_id, ref_tag) ".
-                  " VALUES (".$sig_reference[$j][0].",'".
-                              $sig_reference[$j][1]."')";
+		}else{
+			if ( $db->DB_class == 1 ) { /* Mysql & MariaDB */
+				$sql = "INSERT INTO reference (`ref_system_id`, ref_tag) VALUES (".$sig_reference[$j][0].",'".$sig_reference[$j][1]."')";
+			}else{ /* Everyone else */
+				$sql = "INSERT INTO reference (ref_system_id, ref_tag) VALUES (".$sig_reference[$j][0].",'".$sig_reference[$j][1]."')";
+			}
            $db2->baseExecute($sql);
            $ref_id = $db2->baseInsertID(); 
 

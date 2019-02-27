@@ -683,11 +683,11 @@ function NewBASEDBConnection($path, $type)
       include($path."\\adodb.inc.php");
    }
 
-	/* Under PHP 7.x, use mysqli ADODB driver & gracefully deprecate the mysql
+	/* Under PHP 7+, use mysqli ADODB driver & gracefully deprecate the mysql
 	& mysqlt drivers. */
 	if ( $type == "mysql" || $type == "mysqlt" ) {
 		$version = explode( ".", phpversion() );
-		if ( $version[0] == 7 ) {
+		if ( $version[0] >= 7 ) {
 			$type = "mysqli";
 		}
 	}
