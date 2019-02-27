@@ -13,21 +13,21 @@ PF=base_mac_prefixes.map
 	if [ "$td" == "tests" ]; then
 		OF="./bmpm.tmp"
 	elif [ "$td" == "BASE" ]; then
-		OF="./$PF"
+		if [ "$TRAVIS" != "true" ]; then
+			OF="./tests/bmpm.tmp"
+		else
+			OF="./$PF"
+		fi
 	else
 		OF=''
 	fi
 
 if [ -a $OM ]; then
 	if [ "$OF" == "" ]; then
-		cat $OM | egrep "^[[:xdigit:]]{6}"|sed -r -e "s/\s+\(base 16\)\s+/  /"|sed -r -e "s/ +?\r$//"|sort|sed -r -e "s/\b[A-Z]{2,}/\L\0/g"|sed -e "s/\b./\u\0/g"
+		cat $OM | egrep "^[[:xdigit:]]{6}"|sort|sed -r -e "s/\s+\(base 16\)\s+/  /" -r -e "s/ +?\r$//" -r -e "s/\b[A-Z]{2,}/\L\0/g" -e "s/\b./\u\0/g"
 	else
-		if [ "$TRAVIS" != "true" ]; then
-			OF="./tests/bmpm.tmp"
-		else
-			echo "Rebuilding $PF"
-		fi
-		cat $OM | egrep "^[[:xdigit:]]{6}"|sed -r -e "s/\s+\(base 16\)\s+/  /"|sed -r -e "s/ +?\r$//"|sort|sed -r -e "s/\b[A-Z]{2,}/\L\0/g"|sed -e "s/\b./\u\0/g" > $OF
+		echo "Rebuilding $PF"
+		cat $OM | egrep "^[[:xdigit:]]{6}"|sort|sed -r -e "s/\s+\(base 16\)\s+/  /" -r -e "s/ +?\r$//" -r -e "s/\b[A-Z]{2,}/\L\0/g" -e "s/\b./\u\0/g" > $OF
 	fi
 else
 	echo "System Mac Prefix DB does not exist"

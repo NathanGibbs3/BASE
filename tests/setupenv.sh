@@ -68,6 +68,8 @@ else
 		export Composer=1
 	fi
 fi
+cov=`composer --version|sed -e "s/^Composer version //" -r -e "s/ [0-9]+.*$//"`
+echo "System Composer Version: $cov"
 
 if [ "$Composer" == "0" ]; then
 	echo "PHP Coveralls not supported"
