@@ -11,7 +11,6 @@ if [ "$TRAVIS" != "true" ]; then
 	if which $pu > /dev/null; then # Composer present
 		echo "PHP Composer installed"
 		Composer=2
-		px=$pu
 	else
 		echo "PHP Composer not installed"
 		# Can we install it?
@@ -23,6 +22,8 @@ if [ "$Composer" = "1" ]; then
 		curl -s http://getcomposer.org/installer | php
 	fi
 	px="php $pu.phar"
+elif [ "$Composer" = "2" ]; then
+	px=$pu
 else
 	echo "PHP Composer install not supported"
 	if [ "$TRAVIS" != "true" ]; then
