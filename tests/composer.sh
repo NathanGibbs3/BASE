@@ -7,9 +7,12 @@ else
 fi
 
 pu=composer
-if which $pu; then # Composer present
+if which $pu > /dev/null; then # Composer present
 	echo "PHP Composer installed"
-	#Composer=2
+	if [ "$TRAVIS" != "true" ]; then
+		Composer=2
+	fi
+	px=$pu
 	puv=`$pu --version|sed -e "s/^Composer version //" -r -e "s/ [0-9]+.*$//"`
 	#pvM=`echo $puv|sed -r -e "s/\.[0-9]\.[0-9]+$//"`
 	#pvm=`echo $puv|sed -r -e "s/^[0-9]\.//" -e "s/\.[0-9]+$//"`
@@ -25,7 +28,9 @@ else # Can we install it?
 		px=$pu
 	else
 		echo "PHP Composer install not supported"
-		#Composer=0
+		if [ "$TRAVIS" != "true" ]; then
+			Composer=0
+		fi
 	fi
 fi
 
@@ -35,7 +40,7 @@ if [ "$Composer" \> "0" ]; then
 	fi
 	echo "System Composer Version: $puv"
 	if [ "$TRAVIS" != "true" ]; then
-		echo "              Location: `which $pu`"
+		echo "               Location: `which $pu`"
 	fi
 	$px --version
 	if [ "$TRAVIS" == "true" ]; then 
