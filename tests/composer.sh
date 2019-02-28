@@ -7,34 +7,34 @@ else
 fi
 
 pu=composer
-if which $pu > /dev/null; then # Composer present
-	echo "PHP Composer installed"
-	if [ "$TRAVIS" != "true" ]; then
+if [ "$TRAVIS" != "true" ]; then
+	if which $pu > /dev/null; then # Composer present
+		echo "PHP Composer installed"
 		Composer=2
-	fi
-	px=$pu
-	puv=`$pu --version|sed -e "s/^Composer version //" -r -e "s/ [0-9]+.*$//"`
-	#pvM=`echo $puv|sed -r -e "s/\.[0-9]\.[0-9]+$//"`
-	#pvm=`echo $puv|sed -r -e "s/^[0-9]\.//" -e "s/\.[0-9]+$//"`
-	#pvr=`echo $puv|sed -r -e "s/^[0-9]\.[0-9]\.//"`
-else # Can we install it?
-	echo "PHP Composer not installed"
-	if [ "$Composer" = "1" ]; then
-		if [ "$TRAVIS" == "true" ]; then # Only install on travis
-			curl -s http://getcomposer.org/installer | php
-		fi
-		px="php $pu.phar"
-	elif [ "$Composer" = "2" ]; then
 		px=$pu
 	else
-		echo "PHP Composer install not supported"
-		if [ "$TRAVIS" != "true" ]; then
-			Composer=0
-		fi
+		echo "PHP Composer not installed"
+		# Can we install it?
+	fi
+fi
+
+if [ "$Composer" = "1" ]; then
+	if [ "$TRAVIS" == "true" ]; then # Only install on travis
+		curl -s http://getcomposer.org/installer | php
+	fi
+	px="php $pu.phar"
+else
+	echo "PHP Composer install not supported"
+	if [ "$TRAVIS" != "true" ]; then
+		Composer=0
 	fi
 fi
 
 if [ "$Composer" \> "0" ]; then
+	puv=`$pu --version|sed -e "s/^Composer version //" -r -e "s/ [0-9]+.*$//"`
+	#pvM=`echo $puv|sed -r -e "s/\.[0-9]\.[0-9]+$//"`
+	#pvm=`echo $puv|sed -r -e "s/^[0-9]\.//" -e "s/\.[0-9]+$//"`
+	#pvr=`echo $puv|sed -r -e "s/^[0-9]\.[0-9]\.//"`
 	if [ "$TRAVIS" == "true" ]; then # Disable XDebug
 		mv ${HOME}/.phpenv/versions/$(phpenv version-name)/etc/conf.d/xdebug.ini ${HOME}/xdebug.ini
 	fi

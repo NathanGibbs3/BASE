@@ -16,17 +16,21 @@ if  [ "$1" == "" ]; then
 	else
 		pv="./tests/$pv"
 	fi
-	if which php; then
-		bail=0
-		if [ -a $pv ]; then
-			puv=`php $pv`
+	if [ "$TRAVIS" != "true" ]; then
+		if which php > /dev/null; then
+			if [ -a $pv ]; then
+				puv=`php $pv`
+				bail=0
+			else
+				echo "Not Running in Local test environment"
+				bail=1
+			fi
 		else
-			echo "Not Running in Local test environment"
+			echo "PHP not installed"
 			bail=1
 		fi
 	else
-		echo "PHP not installed"
-		bail=1
+		bail=0
 	fi
 	if [ "$bail" == "1" ]; then
 		echo "Exiting"
@@ -62,14 +66,19 @@ else
 	fi
 fi
 
-if which composer; then # Composer present
-	echo "PHP Composer installed"
-	Composer=2
-	if [ "$1" == "" ] && [ "$TRAVIS" == "true" ]; then
-		export Composer=2
+if [ "$TRAVIS" != "true" ]; then
+	if which composer > /dev/null; then # Composer present
+		echo "PHP Composer installed"
+		Composer=2
+		if [ "$1" == "" ] && [ "$TRAVIS" == "true" ]; then
+			export Composer=2
+		fi
+	else
+		echo "PHP Composer not installed"
+		Composer=0
 	fi
-else # Can we install it?
-	echo "PHP Composer not installed"
+fi
+if [ "$Composer" \< "1" ]; then # Can we install it?
 	# Composer won't install on PHP < 5.3x or nightly currently PHP 8.x
 	if [ "$pvM" \< "5" ] || ( [ "$pvM" == "5" ] && [ "$pvm" \< "3" ] ) || [ "$pvM" \> "7" ]; then
 		echo "PHP Composer install not supported"
