@@ -30,6 +30,7 @@ if  [ "$1" == "" ]; then
 			bail=1
 		fi
 	else
+		puv=`php $pv`
 		bail=0
 	fi
 	if [ "$bail" == "1" ]; then
