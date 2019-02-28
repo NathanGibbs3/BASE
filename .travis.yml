@@ -98,10 +98,11 @@ install:
   # Fix XDebug on PHP 5.2x. Load Custom xdebug.ini from repo
   - sh -c "if [ '$XDebug' = '1' ]; then cp ./tests/5.2-xdebug.ini ${HOME}/.phpenv/versions/$(phpenv version-name)/etc/conf.d/xdebug.ini; fi"
   # Composer Support PHP 5.3.2+
-  - sh -c "if [ '$Composer' = '1' ]; then mv ${HOME}/.phpenv/versions/$(phpenv version-name)/etc/conf.d/xdebug.ini ${HOME}/xdebug.ini; fi"
-  - sh -c "if [ '$Composer' = '1' ]; then curl -s http://getcomposer.org/installer | php; fi"
-  - sh -c "if [ '$Composer' = '1' ]; then php composer.phar install --no-interaction; fi"
-  - sh -c "if [ '$Composer' = '1' ]; then mv ${HOME}/xdebug.ini ${HOME}/.phpenv/versions/$(phpenv version-name)/etc/conf.d/xdebug.ini; fi"
+  - sh -c "if [ '$Composer' != '0' ]; then ./tests/composer.sh; fi"
+  #- sh -c "if [ '$Composer' != '0' ]; then mv ${HOME}/.phpenv/versions/$(phpenv version-name)/etc/conf.d/xdebug.ini ${HOME}/xdebug.ini; fi"
+  #- sh -c "if [ '$Composer' = '1' ]; then curl -s http://getcomposer.org/installer | php; fi"
+  #- sh -c "if [ '$Composer' = '1' ]; then php composer.phar install --no-interaction; fi"
+  #- sh -c "if [ '$Composer' != '0' ]; then mv ${HOME}/xdebug.ini ${HOME}/.phpenv/versions/$(phpenv version-name)/etc/conf.d/xdebug.ini; fi"
 
 before_script:
 
@@ -113,7 +114,7 @@ script:
 
 after_success:
   # Coveralls 1.x Support PHP 5.3+
-  - sh -c "if [ '$Composer' = '1' ] && [ '$Coveralls' = '1' ]; then vendor/bin/coveralls --exclude-no-stmt -v; fi"
+  - sh -c "if [ '$Composer' != '0' ] && [ '$Coveralls' = '1' ]; then vendor/bin/coveralls --exclude-no-stmt -v; fi"
   # Coveralls 2.x Support PHP 5.5+
-  - sh -c "if [ '$Composer' = '1' ] && [ '$Coveralls' = '2' ]; then vendor/bin/php-coveralls --exclude-no-stmt -v; fi"
+  - sh -c "if [ '$Composer' != '0' ] && [ '$Coveralls' = '2' ]; then vendor/bin/php-coveralls --exclude-no-stmt -v; fi"
 ...

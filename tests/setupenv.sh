@@ -16,10 +16,19 @@ if  [ "$1" == "" ]; then
 	else
 		pv="./tests/$pv"
 	fi
-	if [ -a $pv ]; then
-		puv=`php $pv`
+	if which php; then
+		bail=0
+		if [ -a $pv ]; then
+			puv=`php $pv`
+		else
+			echo "Not Running in Local test environment"
+			bail=1
+		fi
 	else
-		echo "Not Running in Local test environment"
+		echo "PHP not installed"
+		bail=1
+	fi
+	if [ "$bail" == "1" ]; then
 		echo "Exiting"
 		exit
 	fi
@@ -40,7 +49,6 @@ pvm=`echo $puv|sed -r -e "s/^[0-9]\.//" -e "s/\.[0-9]+?.*$//"`
 pvr=`echo $puv|sed -r -e "s/^[0-9]\.[0-9]\.//"`
 
 echo "System PHP Version: $puv"
-
 # No XDebug on travis-ci PHP 5.2x
 if [ "$pvM" \< "5" ] || ( [ "$pvM" == "5" ] && [ "$pvm" \< "3" ]); then
 	echo "PHP XDebug disabled"
@@ -54,24 +62,31 @@ else
 	fi
 fi
 
-# Composer won't install on PHP < 5.3x or nightly currently PHP 8.x
-if [ "$pvM" \< "5" ] || ( [ "$pvM" == "5" ] && [ "$pvm" \< "3" ] ) || [ "$pvM" == "8" ]; then
-	echo "PHP Composer not supported"
-	Composer=0
+if which composer; then # Composer present
+	echo "PHP Composer installed"
+	Composer=2
 	if [ "$1" == "" ] && [ "$TRAVIS" == "true" ]; then
-		export Composer=0
+		export Composer=2
 	fi
-else
-	echo "PHP Composer supported"
-	Composer=1
-	if [ "$1" == "" ] && [ "$TRAVIS" == "true" ]; then
-		export Composer=1
+else # Can we install it?
+	echo "PHP Composer not installed"
+	# Composer won't install on PHP < 5.3x or nightly currently PHP 8.x
+	if [ "$pvM" \< "5" ] || ( [ "$pvM" == "5" ] && [ "$pvm" \< "3" ] ) || [ "$pvM" \> "7" ]; then
+		echo "PHP Composer install not supported"
+		Composer=0
+		if [ "$1" == "" ] && [ "$TRAVIS" == "true" ]; then
+			export Composer=0
+		fi
+	else
+		echo "PHP Composer install supported"
+		Composer=1
+		if [ "$1" == "" ] && [ "$TRAVIS" == "true" ]; then
+			export Composer=1
+		fi
 	fi
 fi
-cov=`composer --version|sed -e "s/^Composer version //" -r -e "s/ [0-9]+.*$//"`
-echo "System Composer Version: $cov"
 
-if [ "$Composer" == "0" ]; then
+if [ "$Composer" \< "1" ]; then
 	echo "PHP Coveralls not supported"
 	if [ "$1" == "" ] && [ "$TRAVIS" == "true" ]; then
 		export Coveralls=0
