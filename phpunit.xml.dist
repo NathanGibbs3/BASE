@@ -9,7 +9,7 @@
 	verbose="true"
 >
 	<filter>
-		<whitelist>
+		<whitelist processUncoveredFilesFromWhitelist="true">
 			<directory suffix=".php">./</directory>
 			<exclude>
 				<directory>./contrib</directory>
