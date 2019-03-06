@@ -109,6 +109,8 @@ script:
   - php -f index.php
 
 after_success:
+  # CodeCov
+  - bash <(curl -s https://codecov.io/bash)
   # Coveralls 1.x Support PHP 5.3+
   - sh -c "if [ '$Composer' != '0' ] && [ '$Coveralls' = '1' ]; then vendor/bin/coveralls --exclude-no-stmt -v; fi"
   # Coveralls 2.x Support PHP 5.5+
