@@ -2,7 +2,12 @@
 	"name": "NathanGibbs3/BASE",
 	"type": "project",
 	"description": "A web app to query and analyze alerts coming from a SNORT IDS system.",
-	"keywords": "infosec php php5 php7",
+	"keywords": [
+		"infosec",
+		"php",
+		"php5",
+		"php7"
+	],
 	"homepage": "https://github.com/NathanGibbs3/BASE",
 	"support": {
 		"forum": "https://sourceforge.net/p/secureideas/discussion",
