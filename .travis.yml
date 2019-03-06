@@ -112,6 +112,8 @@ script:
 
 after_success:
   - ls ./build/logs
+  - ls -lR|grep ".*\.xml$"
+  - ls -lR|grep "clover*"
   # CodeCov
   - bash <(curl -s https://codecov.io/bash)
   # Coveralls 1.x Support PHP 5.3+

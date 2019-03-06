@@ -121,6 +121,7 @@ else
 fi
 
 if [ "$1" == "" ] && [ "$td" != "tests" ]; then
+	echo "Current directory: `pwd`"
 	echo "Creating Build Log Directory"
 	mkdir -p build/logs
 fi
