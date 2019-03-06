@@ -91,6 +91,8 @@ before_install:
   # Where to look if installed modules in PHP don't work. :-)
   # Like xdebug on PHP 5.2
   - php --ini
+  # What modules are actually installed
+  - php -m
   - source ./tests/setupenv.sh
 
 install:
@@ -109,6 +111,7 @@ script:
   - php -f index.php
 
 after_success:
+  - ls ./build/logs
   # CodeCov
   - bash <(curl -s https://codecov.io/bash)
   # Coveralls 1.x Support PHP 5.3+
