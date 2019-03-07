@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:noNamespaceSchemaLocation="vendor/phpunit/phpunit/phpunit.xsd"
+	bootstrap="./tests/bootstrap.php"
+	colors="true"
+	stopOnError="false"
+	stopOnFailure="false"
+	verbose="true"
+>
+	<filter>
+		<whitelist>
+			<directory suffix=".php">./</directory>
+			<exclude>
+				<directory>./contrib</directory>
+				<directory>./docs</directory>
+				<directory>./images</directory>
+				<directory>./rpm</directory>
+				<directory>./sql</directory>
+				<directory>./styles</directory>
+				<directory>./tests</directory>
+				<directory>./vendor</directory>
+				<file>languages/czech.lang.php</file>
+				<file>languages/danish.lang.php</file>
+				<file>languages/finnish.lang.php</file>
+				<file>languages/french.lang.php</file>
+				<file>languages/italian.lang.php</file>
+				<file>languages/norwegian.lang.php</file>
+				<file>languages/russian.lang.php</file>
+				<file>languages/swedish.lang.php</file>
+				<file>languages/turkish.lang.php</file>
+			</exclude>
+		</whitelist>
+	</filter>
+	<testsuites>
+		<testsuite name="BASE test suite PHP 5.2x">
+			<directory phpVersion="5.3.0" phpVersionOperator="&lt;">./tests/php5.2</directory>
+		</testsuite>
+		<testsuite name="BASE test suite PHP 5.3+">
+			<directory phpVersion="5.3.0">./tests/php</directory>
+		</testsuite>
+	</testsuites>
+	<php>
+		<ini name="error_reporting" value="E_ALL" />
+	</php>
+	<logging>
+		<log type="coverage-clover" target="build/logs/clover.xml"/>
+	</logging>
+</phpunit>
