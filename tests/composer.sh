@@ -1,18 +1,19 @@
 #! /bin/bash
 
 if [ "$TRAVIS" == "true" ] && [ "$CI" == "true" ] && [ "$HAS_JOSH_K_SEAL_OF_APPROVAL" == "true" ]; then
-	echo "Running on Travis-CI"
+	echo "Running on Travis-CI."
 else
-	echo "Not Running on Travis-CI"
+	echo "Not Running on Travis-CI."
 fi
 
 pu=composer
 if [ "$TRAVIS" != "true" ]; then
+	echo -n "PHP Composer "
 	if which $pu > /dev/null; then # Composer present
-		echo "PHP Composer installed"
+		echo "installed."
 		Composer=2
 	else
-		echo "PHP Composer not installed"
+		echo "not installed."
 		# Can we install it?
 	fi
 fi
@@ -25,7 +26,7 @@ if [ "$Composer" = "1" ]; then
 elif [ "$Composer" = "2" ]; then
 	px=$pu
 else
-	echo "PHP Composer install not supported"
+	echo "PHP Composer install not supported."
 	if [ "$TRAVIS" != "true" ]; then
 		Composer=0
 	fi

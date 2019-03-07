@@ -1,9 +1,9 @@
 #! /bin/bash
 
 if [ "$TRAVIS" == "true" ] && [ "$CI" == "true" ] && [ "$HAS_JOSH_K_SEAL_OF_APPROVAL" == "true" ]; then
-	echo "Running on Travis-CI"
+	echo "Running on Travis-CI."
 else
-	echo "Not Running on Travis-CI"
+	echo "Not Running on Travis-CI."
 fi
 
 td=`pwd|sed -e "s/^.*\///"`
@@ -11,39 +11,36 @@ OM=/usr/share/ieee-data/oui.txt
 PF=base_mac_prefixes.map
 
 if [ ! -f $OM ]; then
-	echo "No System Mac Prefix DB"
+	echo "No System Mac Prefix DB."
 	if [ "$td" == "tests" ]; then
 		OM=./oui.txt
 	elif [ "$td" == "BASE" ]; then
 		OM=./tests/oui.txt
 	else
-		OM=''
-	fi
-	if [ "$OM" != "" ]; then
-		echo "Pulling DB from"
-		echo "http://standards-oui.ieee.org"
-		wget -nv http://standards-oui.ieee.org/oui/oui.txt
-		echo "Using Local Mac Prefix DB"
-	else
-		echo "Not Running in Local test environment"
-		echo "Exiting"
+		echo "Not Running in Local test environment."
+		echo "Exiting."
 		exit
 	fi
+	echo "Pulling DB from: http://standards-oui.ieee.org"
+	wget -nv http://standards-oui.ieee.org/oui/oui.txt
+	echo "Using Local Mac Prefix DB."
 else
-	echo "Using System Mac Prefix DB"
+	echo "Using System Mac Prefix DB."
 fi
 
-	if [ "$td" == "tests" ]; then
-		OF="./bmpm"
-	elif [ "$td" == "BASE" ]; then
-		if [ "$TRAVIS" != "true" ]; then
-			OF="./tests/bmpm"
-		else
-			OF="./$PF"
-		fi
+if [ "$td" == "tests" ]; then
+	OF="./bmpm"
+elif [ "$td" == "BASE" ]; then
+	if [ "$TRAVIS" != "true" ]; then
+		OF="./tests/bmpm"
 	else
-		OF=''
+		OF="./$PF"
 	fi
+else
+	echo "Not Running in Local test environment."
+	echo "Exiting."
+	exit
+fi
 
 if [ -a $OM ]; then
 	# Sorted MAC List
@@ -69,5 +66,5 @@ if [ -a $OM ]; then
 		cat "$OF.tmp0" > "$OF.txt"
 	fi
 else
-	echo "System Mac Prefix DB does not exist"
+	echo "System Mac Prefix DB does not exist."
 fi

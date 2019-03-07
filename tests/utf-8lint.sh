@@ -52,6 +52,6 @@ if [[ $LANG =~ UTF-8$ ]]; then
 		fi
 	fi
 else
-	echo "Cannot run test"
-	echo "System locale must support UTF-8"
+	echo "Cannot run test."
+	echo "System locale must support UTF-8."
 fi

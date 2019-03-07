@@ -1,18 +1,19 @@
 #! /bin/bash
 
 if [ "$TRAVIS" == "true" ] && [ "$CI" == "true" ] && [ "$HAS_JOSH_K_SEAL_OF_APPROVAL" == "true" ]; then
-	echo "Running on Travis-CI"
+	echo "Running on Travis-CI."
 else
-	echo "Not Running on Travis-CI"
+	echo "Not Running on Travis-CI."
 fi
 
 pu=phpunit
+echo -n "PHPUnit "
 if [ "$TRAVIS" != "true" ]; then
 	if which $pu > /dev/null; then # PHPUnit present
-		echo "PHPUnit installed"
+		echo "installed."
 	else
-		echo "PHPUnit not installed"
-		echo "Exiting"
+		echo "not installed."
+		echo "Exiting."
 		exit
 	fi
 fi
@@ -25,10 +26,10 @@ if [ "$TRAVIS" != "true" ]; then
 	echo "              Location: `which $pu`"
 fi
 if [ "$pvM" == "4" ] && [ "$pvm" == "8" ] && [ "$pvr" \< "28" ]; then
-	echo "Using Composer PHPUnit"
+	echo "Using Composer PHPUnit."
 	px="vendor/bin/$pu"
 else
-	echo "Using System PHPUnit"
+	echo "Using System PHPUnit."
 	px=$pu
 fi
 $px --version

@@ -3,10 +3,10 @@
 td=`pwd|sed -e "s/^.*\///"`
 
 if [ "$TRAVIS" == "true" ] && [ "$CI" == "true" ] && [ "$HAS_JOSH_K_SEAL_OF_APPROVAL" == "true" ]; then
-	echo "Running on Travis-CI"
+	echo "Running on Travis-CI."
 	export COVERALLS_PARALLEL=true
 else
-	echo "Not Running on Travis-CI"
+	echo "Not Running on Travis-CI."
 fi
 
 if  [ "$1" == "" ]; then
@@ -22,11 +22,11 @@ if  [ "$1" == "" ]; then
 				puv=`php $pv`
 				bail=0
 			else
-				echo "Not Running in Local test environment"
+				echo "Not Running in Local test environment."
 				bail=1
 			fi
 		else
-			echo "PHP not installed"
+			echo "PHP not installed."
 			bail=1
 		fi
 	else
@@ -34,7 +34,7 @@ if  [ "$1" == "" ]; then
 		bail=0
 	fi
 	if [ "$bail" == "1" ]; then
-		echo "Exiting"
+		echo "Exiting."
 		exit
 	fi
 else
@@ -54,41 +54,44 @@ pvm=`echo $puv|sed -r -e "s/^[0-9]\.//" -e "s/\.[0-9]+?.*$//"`
 pvr=`echo $puv|sed -r -e "s/^[0-9]\.[0-9]\.//"`
 
 echo "System PHP Version: $puv"
-# No XDebug on travis-ci PHP 5.2x
+echo -n "PHP XDebug "
+# XDebug not enabled on travis-ci PHP 5.2x
 if [ "$pvM" \< "5" ] || ( [ "$pvM" == "5" ] && [ "$pvm" \< "3" ]); then
-	echo "PHP XDebug disabled"
+	echo "disabled."
 	if [ "$1" == "" ] && [ "$TRAVIS" == "true" ]; then
-		export XDebug=1
+		# Fix XDebug on travis-ci PHP 5.2x.
+		# Solution: Load Custom xdebug.ini from repo
+		echo "Enabling PHP XDebug."
+		cp ./tests/5.2-xdebug.ini ${HOME}/.phpenv/versions/$(phpenv version-name)/etc/conf.d/xdebug.ini
 	fi
 else
-	echo "PHP XDebug enabled"
-	if [ "$1" == "" ] && [ "$TRAVIS" == "true" ]; then
-		export XDebug=0
-	fi
+	echo "enabled."
 fi
 
 if [ "$TRAVIS" != "true" ]; then
+	echo -n "PHP Composer "
 	if which composer > /dev/null; then # Composer present
-		echo "PHP Composer installed"
+		echo "installed."
 		Composer=2
 		if [ "$1" == "" ] && [ "$TRAVIS" == "true" ]; then
 			export Composer=2
 		fi
 	else
-		echo "PHP Composer not installed"
+		echo "not installed."
 		Composer=0
 	fi
 fi
+echo -n "PHP Composer "
 if [ "$Composer" \< "1" ]; then # Can we install it?
 	# Composer won't install on PHP < 5.3x or nightly currently PHP 8.x
 	if [ "$pvM" \< "5" ] || ( [ "$pvM" == "5" ] && [ "$pvm" \< "3" ] ) || [ "$pvM" \> "7" ]; then
-		echo "PHP Composer install not supported"
+		echo "install not supported."
 		Composer=0
 		if [ "$1" == "" ] && [ "$TRAVIS" == "true" ]; then
 			export Composer=0
 		fi
 	else
-		echo "PHP Composer install supported"
+		echo "install supported."
 		Composer=1
 		if [ "$1" == "" ] && [ "$TRAVIS" == "true" ]; then
 			export Composer=1
@@ -103,18 +106,19 @@ if [ "$Composer" \< "1" ]; then # Can we install it?
 	fi
 fi
 
+echo -n "PHP Coveralls "
 if [ "$Composer" \< "1" ]; then
-	echo "PHP Coveralls not supported"
+	echo "not supported."
 	if [ "$1" == "" ] && [ "$TRAVIS" == "true" ]; then
 		export Coveralls=0
 	fi
 elif [ "$pvM" == "5" ] && ( [ "$pvm" \> "2" ] && [ "$pvm" \< "5" ] ); then
-	echo "PHP Coveralls 1x supported"
+	echo "1x supported."
 	if [ "$1" == "" ] && [ "$TRAVIS" == "true" ]; then
 		export Coveralls=1
 	fi
 else
-	echo "PHP Coveralls 2x supported"
+	echo "2x supported."
 	if [ "$1" == "" ] && [ "$TRAVIS" == "true" ]; then
 		export Coveralls=2
 	fi
@@ -122,6 +126,6 @@ fi
 
 if [ "$1" == "" ] && [ "$td" != "tests" ]; then
 	echo "Current directory: `pwd`"
-	echo "Creating Build Log Directory"
+	echo "Creating Build Log Directory: `pwd`/build/logs"
 	mkdir -p build/logs
 fi
