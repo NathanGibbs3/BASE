@@ -1,6 +1,6 @@
 ---
 name: Code Issue Template
-about: Code Issue Template
+about: Code Issues
 title: ''
 labels: ''
 assignees: ''
