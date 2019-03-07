@@ -5,7 +5,7 @@ CT1="ubmitting $CCR"
 
 if [ "$TRAVIS" == "true" ] && [ "$CI" == "true" ] && [ "$HAS_JOSH_K_SEAL_OF_APPROVAL" == "true" ]; then
 	echo "Running on Travis-CI."
-	if [ ! -f ./build/logs/clover.xml ]; then
+	if [ -f ./build/logs/clover.xml ]; then
 		echo "S$CT1 to Codecov.io"
 		bash <(curl -s https://codecov.io/bash)
 		if [ "$Composer" != "0" ]; then
