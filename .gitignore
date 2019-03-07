@@ -1,2 +1,5 @@
-# PHPUnit Local Testing noise
+# Local PHPUnit Testing noise
 /build
+# Local Composer noise
+/composer.phar
+/vendor
