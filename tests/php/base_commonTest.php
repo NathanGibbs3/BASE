@@ -12,15 +12,25 @@ class base_commonTest extends TestCase {
 	}
 	public function testGetVendorReturnsPrivate() {
 		$this->assertEquals(
-			' Private',
+			'Private',
 			GetVendor('00006C'),
 			'Unexpected Return Value.'
 		);
-		// Stop here and mark test incomplete.
-		//$this->markTestIncomplete(
-		//	'Incomplete Test.'
-		//);
 	}
+	public function testGetVendorReturnsCantopenvendormap() {
+		rename ("./base_mac_prefixes.map","./base_mac_prefixes.tmp");
+		$this->assertEquals(
+			"Can't open vendor map.",
+			GetVendor('00006C'),
+			'Unexpected Return Value.'
+		);
+		rename ("./base_mac_prefixes.tmp","./base_mac_prefixes.map");
+	}
+	// Add code to a function if needed.
+	// Stop here and mark test incomplete.
+	//$this->markTestIncomplete(
+	//	'Incomplete Test.'
+	//);
 }
 
 ?>

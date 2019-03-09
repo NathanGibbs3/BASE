@@ -50,24 +50,22 @@ function GetSensorName($sid, $db)
     return $name;
 }
 
-function GetVendor($mac)
-{
-    $mac = str_replace(":", "", $mac);
-    $mac = substr($mac, 0, 6);
-    $vendor = 'unknown';
-
-    if (@$fp = fopen("base_mac_prefixes.map", "r")) {
-       while (!feof($fp)) {
-           $line = fgets($fp);
-           if (strcmp($mac, substr($line, 0, 6)) == 0)
-               $vendor = substr($line, 7, strlen($line)-8);
-       }
-       fclose($fp);
-    } 
-    else 
-       return "can't open vendor map";
-
-    return $vendor;
+function GetVendor($mac) {
+	$mac = str_replace(":", "", $mac);
+	$mac = substr($mac, 0, 6);
+	$vendor = 'unknown';
+	if (@$fp = fopen("base_mac_prefixes.map", "r")) {
+		while (!feof($fp)) {
+			$line = fgets($fp);
+			if (strcmp($mac, substr($line, 0, 6)) == 0) {
+				$vendor = substr($line, 8, strlen($line)-9);
+			}
+		}
+		fclose($fp);
+	}else{
+		return "Can't open vendor map.";
+	}
+	return $vendor;
 }
 
 function InputSafeSQL (&$SQLstr)

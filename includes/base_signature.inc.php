@@ -90,7 +90,11 @@ function GetRefSystemName($ref_system_id, $db)
 
    $ref_system_name = "";
 
-   $tmp_sql = "SELECT ref_system_name FROM reference_system WHERE ref_system_id='".$ref_system_id."'";
+	if ( $db->DB_class == 1 ) { /* Mysql & MariaDB */
+		$tmp_sql = "SELECT ref_system_name FROM reference_system WHERE `ref_system_id`='".$ref_system_id."'";
+	}else{ /* Everyone else */
+		$tmp_sql = "SELECT ref_system_name FROM reference_system WHERE ref_system_id='".$ref_system_id."'";
+	}
    $tmp_result = $db->baseExecute($tmp_sql);
    if ( $tmp_result )
    {
@@ -230,8 +234,11 @@ function GetSignatureReference($sig_id, $db, $style)
          for ( $i = 0; $i < $num_references; $i++)
          {
             $mysig_ref = $tmp_sig_ref->baseFetchRow();
-   
-            $temp_sql = "SELECT ref_system_id, ref_tag FROM reference WHERE ref_id='".$mysig_ref[1]."'";
+		if ( $db->DB_class == 1 ) { /* Mysql & MariaDB */
+			$temp_sql = "SELECT `ref_system_id`, ref_tag FROM reference WHERE ref_id='".$mysig_ref[1]."'";
+		}else{ /* Everyone else */
+			$temp_sql = "SELECT ref_system_id, ref_tag FROM reference WHERE ref_id='".$mysig_ref[1]."'";
+		}
             $tmp_ref_tag = $db->baseExecute($temp_sql);
    
             if ( $tmp_ref_tag )

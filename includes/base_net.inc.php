@@ -348,9 +348,7 @@ function GetWhoisRaw($ipaddr, $whois_addr)
 
 function CallWhoisServer($ipaddr, &$whois_server)
 {
-	GLOBAL $arin_ip, $apnic_ip, $ripe_ip, $jnic_ip, $debug_mode;
-
-
+	GLOBAL $arin_ip, $apnic_ip, $ripe_ip, $jnic_ip, $afrinic_ip, $lacnic_ip, $debug_mode;
 
   $whois_server = "ARIN";
   $response = GetWhoisRaw($ipaddr, $arin_ip);
@@ -369,7 +367,13 @@ function CallWhoisServer($ipaddr, &$whois_server)
   {
      $response = GetWhoisRaw($ipaddr, $jnic_ip);
      $whois_server = "JNIC";
-  }
+	}else if ( stristr($response, "Allocated to AfriNIC") ) {
+		$response = GetWhoisRaw($ipaddr, $afrinic_ip);
+		$whois_server = "AFR";
+	}else if ( stristr($response, "Allocated to LACNIC") ) {
+		$response = GetWhoisRaw($ipaddr, $lacnic_ip);
+		$whois_server = "LAC";
+	}
 
   return $response;
 } 

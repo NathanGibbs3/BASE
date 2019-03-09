@@ -8,11 +8,12 @@ class BlankTest extends TestCase {
 			true,
 			'Working Blank Test.'
 		);
-		// Stop here and mark test incomplete.
-		//$this->markTestIncomplete(
-		//	'Incomplete Blank Test.'
-		//);
 	}
+	// Add code to a function if needed.
+	// Stop here and mark test incomplete.
+	//$this->markTestIncomplete(
+	//	'Incomplete Test.'
+	//);
 }
 
 ?>

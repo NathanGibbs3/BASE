@@ -82,9 +82,9 @@ function verify_php_build($DBtype)
 
   if ( ($DBtype == "mysql") || ($DBtype == "mysqlt") )
   {
-	/* Under PHP 7.x, use mysqli ADODB driver & gracefully deprecate the mysql
+	/* Under PHP 7+, use mysqli ADODB driver & gracefully deprecate the mysql
 	& mysqlt drivers. */
-	if ( $version[0] == 7 ) {
+	if ( $version[0] >= 7 ) {
 		if ( !(function_exists("mysqli_connect")) ) {
 			return "<FONT COLOR=\"#FF0000\">"._ERRPHPERROR."</FONT>: "._ERRPHPMYSQLISUP;
 		}
