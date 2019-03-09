@@ -26,17 +26,25 @@ class BaseCriteria
 {
    var $criteria;
    var $export_name;
-
    var $db;
    var $cs;
+	/* Placeholders to support function overrides */
+	var $value;
+	var $value1;
+	var $value2;
+	var $value3;
 
    function BaseCriteria(&$db, &$cs, $name)
    { 
      $this->db =& $db;
      $this->cs =& $cs;
-
      $this->export_name = $name;
      $this->criteria = NULL;
+		/* NULL Placeholders */
+		$this->value = NULL;
+		$this->value1 = NULL;
+		$this->value2 = NULL;
+		$this->value3 = NULL;
    }
 
    function Init()
@@ -57,32 +65,22 @@ class BaseCriteria
    {
      /* clean/validate the criteria */
    }
-
-   function SanitizeElement()
-   {
-     /* clean/validate the criteria */
-   }
- 
-   function PrintForm()
-   {
-     /* prints the HTML form to input the criteria */
-   }
-
-   function AddFormItem()
-   {
-     /* adding another item to the HTML form  */
-   }
-
+	function SanitizeElement($value) {
+		/* clean/validate the criteria */
+	}
+	function PrintForm($value1, $value2, $value3) {
+		/* prints the HTML form to input the criteria */
+	}
+	function AddFormItem(&$value1, $value2) {
+		/* adding another item to the HTML form  */
+	}
    function GetFormItemCnt()
    {
      /* returns the number of items in this form element  */
-   }   
-
-   function SetFormItemCnt()
-   {
-     /* sets the number of items in this form element */
    }
- 
+	function SetFormItemCnt($value) {
+		/* sets the number of items in this form element */
+	}
    function Set($value)
    {
      /* set the value of this criteria */
@@ -97,12 +95,9 @@ class BaseCriteria
    {
      /* convert this criteria to SQL */
    }
- 
-   function Description()
-   {
-     /* generate human-readable description of this criteria */
-   }
-
+	function Description($value) {
+		/* generate human-readable description of this criteria */
+	}
    function isEmpty()
    {
      /* returns if the criteria is empty */
@@ -117,12 +112,9 @@ class SingleElementCriteria extends BaseCriteria
 
       $_SESSION[$this->export_name] = &$this->criteria;
    }
-
-   function Sanitize()
-   {
-      $this->SanitizeElement(); 
-   }
-
+	function Sanitize() {
+		$this->SanitizeElement('');
+	}
    function GetFormItemCnt()
    {
       return -1;
@@ -380,9 +372,7 @@ class SignatureCriteria extends SingleElementCriteria
    function Clear()
    {
    }
-
-   function SanitizeElement()
-   {
+	function SanitizeElement($value) {
       if (!isset($this->criteria[0]) || !isset($this->criteria[1])) {
           $this->criteria = array(0 => '', 1 => '');
       }
@@ -391,10 +381,8 @@ class SignatureCriteria extends SingleElementCriteria
       $this->criteria[1] = filterSql(@$this->criteria[1]); /* signature name */
       $this->criteria[2] = CleanVariable(@$this->criteria[2], "", array("=", "!="));
       $this->criteria[3] = filterSql(@$this->criteria[3]); /* signature name from the signature list */
-   }
-
-   function PrintForm()
-   {
+	}
+	function PrintForm($value1, $value2, $value3) {
       if (!@is_array($this->criteria))
         $this->criteria = array();
 
@@ -431,15 +419,11 @@ class SignatureCriteria extends SingleElementCriteria
          }
          echo '</SELECT><BR>';
       }
-      
-   } 
-
+	}
    function ToSQL()
    {
    }
-
-   function Description()
-   {
+	function Description($value) {
       $tmp = $tmp_human = "";
 
 
@@ -494,7 +478,7 @@ class SignatureCriteria extends SingleElementCriteria
       }
       
       return $tmp;
-   }
+	}
 };  /* SignatureCriteria */
 
 
@@ -510,14 +494,10 @@ class SignatureClassificationCriteria extends SingleElementCriteria
    {
     /* clears the criteria */
    }
-
-   function SanitizeElement()
-   {
-      $this->criteria = CleanVariable($this->criteria, VAR_DIGIT);
-   }
-
-   function PrintForm()
-   {
+	function SanitizeElement($value) {
+		$this->criteria = CleanVariable($this->criteria, VAR_DIGIT);
+	}
+	function PrintForm($value1, $value2, $value3) {
      if ( $this->db->baseGetDBversion() >= 103 )
      {
 
@@ -536,16 +516,13 @@ class SignatureClassificationCriteria extends SingleElementCriteria
            $tmp_result->baseFreeRows();
         }
         echo '</SELECT>&nbsp;&nbsp';
-     }     
-   }
-
+     }
+	}
    function ToSQL()
    {
     /* convert this criteria to SQL */
    }
-
-   function Description()
-   {
+	function Description($value) {
       $tmp = "";
 
       if ( $this->db->baseGetDBversion() >= 103 )
@@ -563,7 +540,7 @@ class SignatureClassificationCriteria extends SingleElementCriteria
       }
 
       return $tmp;
-   }
+	}
 };  /* SignatureClassificationCriteria */
 
 class SignaturePriorityCriteria extends SingleElementCriteria
@@ -578,19 +555,15 @@ class SignaturePriorityCriteria extends SingleElementCriteria
    {
     /* clears the criteria */
    }
-
-   function SanitizeElement()
-   {
+	function SanitizeElement($value) {
      if (!isset($this->criteria[0]) || !isset($this->criteria[1])) {
          $this->criteria = array(0 => '', 1 => '');
      }
 
       $this->criteria[0] = CleanVariable(@$this->criteria[0], "", array("=", "!=", "<", "<=", ">", ">="));
       $this->criteria[1] = CleanVariable(@$this->criteria[1], VAR_DIGIT);
-   }
-
-   function PrintForm()
-   {
+	}
+	function PrintForm($value1, $value2, $value3) {
      if ( $this->db->baseGetDBversion() >= 103 )
      {
   		if (!@is_array($this->criteria))                 
@@ -619,16 +592,13 @@ class SignaturePriorityCriteria extends SingleElementCriteria
             $tmp_result->baseFreeRows();
         }
         echo '</SELECT>&nbsp;&nbsp';
-      }     
-    }
- 
+      }
+	}
     function ToSQL()
     {
     /* convert this criteria to SQL */
     }
- 
-    function Description()
-    {
+	function Description($value) {
        $tmp = "";
        if (!isset($this->criteria[1])) {
            $this->criteria = array(0 => '', 1 => '');
@@ -648,9 +618,9 @@ class SignaturePriorityCriteria extends SingleElementCriteria
        }
  
        return $tmp;
-    }
- };  /* SignaturePriorityCriteria */
- 
+	}
+};  /* SignaturePriorityCriteria */
+
 class AlertGroupCriteria extends SingleElementCriteria
 {
    function Init()
@@ -662,15 +632,10 @@ class AlertGroupCriteria extends SingleElementCriteria
    {
     /* clears the criteria */
    }
-
-   function SanitizeElement()
-   {
-      $this->criteria = CleanVariable($this->criteria, VAR_DIGIT);
-   }
-
-   function PrintForm()
-   {
-
+	function SanitizeElement($value) {
+		$this->criteria = CleanVariable($this->criteria, VAR_DIGIT);
+	}
+	function PrintForm($value1, $value2, $value3) {
       echo '<SELECT NAME="ag">
              <OPTION VALUE=" " '.chk_select($this->criteria, " ").'>'._DISPANYAG;
 
@@ -685,15 +650,12 @@ class AlertGroupCriteria extends SingleElementCriteria
          $tmp_result->baseFreeRows();
       }
       echo '</SELECT>&nbsp;&nbsp;';
-   }
-
+	}
    function ToSQL()
    {
     /* convert this criteria to SQL */
    }
-
-   function Description()
-   {
+	function Description($value) {
       $tmp = "";
 
       if ( $this->criteria != " " && $this->criteria != "" )
@@ -701,7 +663,7 @@ class AlertGroupCriteria extends SingleElementCriteria
                     $this->cs->GetClearCriteriaString($this->export_name).'<BR>';
 
       return $tmp;
-   }
+	}
 };  /* AlertGroupCriteria */
 
 class SensorCriteria extends SingleElementCriteria
@@ -715,15 +677,11 @@ class SensorCriteria extends SingleElementCriteria
    {
      /* clears the criteria */
    }
- 
-   function SanitizeElement()
-   {
-      $this->criteria = CleanVariable($this->criteria, VAR_DIGIT);
-   }
- 
-   function PrintForm()
-   {
-			GLOBAL $debug_mode;
+	function SanitizeElement($value) {
+		$this->criteria = CleanVariable($this->criteria, VAR_DIGIT);
+	}
+	function PrintForm($value1, $value2, $value3) {
+		GLOBAL $debug_mode;
 
 
       // How many sensors do we have?
@@ -784,15 +742,12 @@ class SensorCriteria extends SingleElementCriteria
       $tmp_result->baseFreeRows();
 
       echo '</SELECT>&nbsp;&nbsp';
-   }
- 
+	}
    function ToSQL()
    {
      /* convert this criteria to SQL */
    }
- 
-   function Description()
-   {
+	function Description($value) {
      $tmp = "";
 
      if ( $this->criteria != " " && $this->criteria != "" )
@@ -801,7 +756,7 @@ class SensorCriteria extends SingleElementCriteria
                $this->cs->GetClearCriteriaString($this->export_name).'<BR>';
 
       return $tmp;
-   }
+	}
 };  /* SensorCriteria */
 
 class TimeCriteria extends MultipleElementCriteria
@@ -840,9 +795,7 @@ class TimeCriteria extends MultipleElementCriteria
       // Destroy the old copy
       unset($curArr);
    }
- 
-   function PrintForm()
-   {
+	function PrintForm($value1, $value2, $value3) {
       for ( $i = 0; $i < $this->criteria_cnt; $i++ )
       {
 		if (!@is_array($this->criteria[$i]))
@@ -889,15 +842,12 @@ class TimeCriteria extends MultipleElementCriteria
             echo '    <INPUT TYPE="submit" NAME="submit" VALUE="'._ADDTIME.'">';
          echo '<BR>';
       }
-   }
-
+	}
    function ToSQL()
    {
      /* convert this criteria to SQL */
    }
- 
-   function Description()
-   {
+	function Description($value) {
      $tmp = "";
      for ($i = 0; $i < $this->criteria_cnt; $i++)
      {
@@ -928,7 +878,7 @@ class TimeCriteria extends MultipleElementCriteria
        $tmp = $tmp.$this->cs->GetClearCriteriaString($this->export_name);
 
      return $tmp;
-   }
+	}
 };  /* TimeCriteria */
 
 class IPAddressCriteria extends MultipleElementCriteria 
@@ -982,10 +932,8 @@ class IPAddressCriteria extends MultipleElementCriteria
    {
      /* clears the criteria */
    }
- 
-   function SanitizeElement()
-   { 
-	$i = 0;
+	function SanitizeElement($value) {
+		$i = 0;
       // Make copy of old element array
       $curArr = $this->criteria[$i];
       // Sanitize element
@@ -1001,10 +949,8 @@ class IPAddressCriteria extends MultipleElementCriteria
       $this->criteria[$i][9] = @CleanVariable($curArr[9], "", array("AND", "OR"));
       // Destroy copy
       unset($curArr);
-   }
- 
-   function PrintForm()
-   {
+	}
+	function PrintForm($value1, $value2, $value3) {
       for ( $i = 0; $i < $this->criteria_cnt; $i++ )
       {
 		if (!is_array(@$this->criteria[$i]))
@@ -1043,15 +989,12 @@ class IPAddressCriteria extends MultipleElementCriteria
           echo '    <INPUT TYPE="submit" NAME="submit" VALUE="'._ADDADDRESS.'">';
         echo '<BR>';
       }
-   }
- 
+	}
    function ToSQL()
    {
      /* convert this criteria to SQL */
    }
- 
-   function Description()
-   {
+	function Description($value) {
       $human_fields["ip_src"] = _SOURCE;
       $human_fields["ip_dst"] = _DEST;
       $human_fields["ip_both"] = _SORD;
@@ -1105,7 +1048,7 @@ class IPAddressCriteria extends MultipleElementCriteria
       }
 
       return $tmp2;
-   }
+	}
 };  /* IPAddressCriteria */
 
 class IPFieldCriteria extends ProtocolFieldCriteria
@@ -1132,23 +1075,18 @@ class IPFieldCriteria extends ProtocolFieldCriteria
                                           "ip_csum" => "chksum",
                                           "ip_len"  => "length"));
    }
-
-   function PrintForm()
-   {
-      parent::PrintForm($this->valid_field_list, _DISPFIELD, _ADDIPFIELD);
-   }
-
+	function PrintForm($value1, $value2, $value3) {
+		parent::PrintForm($this->valid_field_list, _DISPFIELD, _ADDIPFIELD);
+	}
    function ToSQL()
    {
      /* convert this criteria to SQL */
    }
- 
-   function Description()
-   {
+	function Description($value) {
       return parent::Description( array_merge( array ( "" => "", 
                                                        "LIKE" => _CONTAINS,
                                                        "=" => "="), $this->valid_field_list ) );  
-   }
+	}
 };
 
 class TCPPortCriteria extends ProtocolFieldCriteria
@@ -1171,22 +1109,17 @@ class TCPPortCriteria extends ProtocolFieldCriteria
                                     array ("layer4_sport" => _SOURCEPORT,
                                            "layer4_dport" => _DESTPORT));
    }
-
-   function PrintForm()
-   {
-      parent::PrintForm($this->valid_field_list, _DISPPORT, _ADDTCPPORT);
-   }
-
+	function PrintForm($value1, $value2, $value3) {
+		parent::PrintForm($this->valid_field_list, _DISPPORT, _ADDTCPPORT);
+	}
    function ToSQL()
    {
      /* convert this criteria to SQL */
    }
- 
-   function Description()
-   {
-      return parent::Description(array_merge( array("" => "",  
+	function Description($value) {
+		return parent::Description(array_merge( array("" => "",  
                                                     "=" => "="), $this->valid_field_list) );
-   }
+	}
 };  /* TCPPortCriteria */
 
 class TCPFieldCriteria extends ProtocolFieldCriteria
@@ -1216,21 +1149,16 @@ class TCPFieldCriteria extends ProtocolFieldCriteria
                                            "tcp_res" => "res",
                                            "tcp_csum" => "chksum"));
    }
-
-   function PrintForm()
-   {
-      parent::PrintForm($this->valid_field_list, _DISPFIELD, _ADDTCPFIELD);
-   }
-
+	function PrintForm($value1, $value2, $value3) {
+		parent::PrintForm($this->valid_field_list, _DISPFIELD, _ADDTCPFIELD);
+	}
    function ToSQL()
    {
      /* convert this criteria to SQL */
    }
- 
-   function Description()
-   {
-      return parent::Description(array_merge ( array("" => ""), $this->valid_field_list) );
-   }
+	function Description($value) {
+		return parent::Description(array_merge ( array("" => ""), $this->valid_field_list) );
+	}
 };  /* TCPFieldCriteria */
 
 class TCPFlagsCriteria extends SingleElementCriteria
@@ -1252,15 +1180,11 @@ class TCPFlagsCriteria extends SingleElementCriteria
    {
      /* clears the criteria */
    }
- 
-   function SanitizeElement()
-   {
-      $this->criteria = CleanVariable($this->criteria, VAR_DIGIT);
-   }
- 
-   function PrintForm()
-   {
-       		if (!is_array($this->criteria[0]))
+	function SanitizeElement($value) {
+		$this->criteria = CleanVariable($this->criteria, VAR_DIGIT);
+	}
+	function PrintForm($value1, $value2, $value3) {
+		if (!is_array($this->criteria[0]))
 			$this->criteria = array();
 
       echo '<TD><SELECT NAME="tcp_flags[0]"><OPTION VALUE=" " '.chk_select($this->criteria[0]," ").'>'._DISPFLAGS;
@@ -1276,15 +1200,12 @@ class TCPFlagsCriteria extends SingleElementCriteria
       echo '    <INPUT TYPE="checkbox" NAME="tcp_flags[2]" VALUE="2"   '.chk_check($this->criteria[2],"2").'> [SYN] &nbsp';
       echo '    <INPUT TYPE="checkbox" NAME="tcp_flags[1]" VALUE="1"   '.chk_check($this->criteria[1],"1").'> [FIN] &nbsp';
       echo '  </FONT>';
-   }
-
+	}
    function ToSQL()
    {
      /* convert this criteria to SQL */
    }
- 
-   function Description()
-   {
+	function Description($value) {
       $human_fields["1"] = "F";
       $human_fields["2"] = "S";
       $human_fields["4"] = "R";
@@ -1311,8 +1232,7 @@ class TCPFlagsCriteria extends SingleElementCriteria
       }
 
       return $tmp;
-   }
-
+	}
    function isEmpty()
    {
      if ( strlen($this->criteria) != 0 && ($this->criteria[0] != "") && ($this->criteria[0] != " ") )
@@ -1342,22 +1262,17 @@ class UDPPortCriteria extends ProtocolFieldCriteria
                                     array ("layer4_sport" => _SOURCEPORT,
                                            "layer4_dport" => _DESTPORT));
    }
-
-   function PrintForm()
-   {
-      parent::PrintForm($this->valid_field_list, _DISPPORT, _ADDUDPPORT);
-   }
-
+	function PrintForm($value1, $value2, $value3) {
+		parent::PrintForm($this->valid_field_list, _DISPPORT, _ADDUDPPORT);
+	}
    function ToSQL()
    {
      /* convert this criteria to SQL */
    }
- 
-   function Description()
-   {
-      return parent::Description(array_merge( array("" => "",  
+	function Description($value) {
+		return parent::Description(array_merge( array("" => "",  
                                                     "=" => "="), $this->valid_field_list) );
-   }
+	}
 };  /* UDPPortCriteria */
 
 class UDPFieldCriteria extends ProtocolFieldCriteria
@@ -1380,21 +1295,16 @@ class UDPFieldCriteria extends ProtocolFieldCriteria
                                     array ("udp_len" => "length",
                                            "udp_csum" => "chksum"));
    }
-
-   function PrintForm()
-   {
-      parent::PrintForm($this->valid_field_list, _DISPFIELD, _ADDUDPFIELD);
-   }
-
+	function PrintForm($value1, $value2, $value3) {
+		parent::PrintForm($this->valid_field_list, _DISPFIELD, _ADDUDPFIELD);
+	}
    function ToSQL()
    {
      /* convert this criteria to SQL */
    }
- 
-   function Description()
-   {
-      return parent::Description(array_merge ( array("" => ""), $this->valid_field_list) );
-   }
+	function Description($value) {
+		return parent::Description(array_merge ( array("" => ""), $this->valid_field_list) );
+	}
 };  /* UDPFieldCriteria */
 
 class ICMPFieldCriteria extends ProtocolFieldCriteria
@@ -1420,21 +1330,16 @@ class ICMPFieldCriteria extends ProtocolFieldCriteria
                                            "icmp_seq"  => "seq #",
                                            "icmp_csum" => "chksum"));
    }
-
-   function PrintForm()
-   {
-      parent::PrintForm($this->valid_field_list, _DISPFIELD, _ADDICMPFIELD);
-   }
-
+	function PrintForm($value1, $value2, $value3) {
+		parent::PrintForm($this->valid_field_list, _DISPFIELD, _ADDICMPFIELD);
+	}
    function ToSQL()
    {
      /* convert this criteria to SQL */
    }
- 
-   function Description()
-   {
-      return parent::Description(array_merge ( array("" => ""), $this->valid_field_list) );
-   }
+	function Description($value) {
+		return parent::Description(array_merge ( array("" => ""), $this->valid_field_list) );
+	}
 };  /* ICMPFieldCriteria */
 
 class Layer4Criteria extends SingleElementCriteria
@@ -1448,14 +1353,10 @@ class Layer4Criteria extends SingleElementCriteria
    {
      /* clears the criteria */
    }
- 
-   function SanitizeElement()
-   {
-      $this->criteria = CleanVariable($this->criteria, "", array("UDP", "TCP", "ICMP", "RawIP"));
-   }
- 
-   function PrintForm()
-   {
+	function SanitizeElement($value) {
+		$this->criteria = CleanVariable($this->criteria, "", array("UDP", "TCP", "ICMP", "RawIP"));
+	}
+	function PrintForm($value1, $value2, $value3) {
       if ( $this->criteria != "" )
          echo '<INPUT TYPE="submit" NAME="submit" VALUE="'._NOLAYER4.'"> &nbsp';
       if ( $this->criteria == "TCP" )
@@ -1475,15 +1376,12 @@ class Layer4Criteria extends SingleElementCriteria
            <INPUT TYPE="submit" NAME="submit" VALUE="TCP"> &nbsp
            <INPUT TYPE="submit" NAME="submit" VALUE="UDP">
            <INPUT TYPE="submit" NAME="submit" VALUE="ICMP">';
-   }
-
+	}
    function ToSQL()
    {
      /* convert this criteria to SQL */
    }
- 
-   function Description()
-   {
+	function Description($value) {
       if ( $this->criteria == "TCP" )
          return _QCTCPCRIT;
       else if ( $this->criteria == "UDP" )
@@ -1492,7 +1390,7 @@ class Layer4Criteria extends SingleElementCriteria
          return _QCICMPCRIT ;
       else
          return _QCLAYER4CRIT;
-   }
+	}
 };  /* Layer4Criteria */
 
 class DataCriteria extends MultipleElementCriteria 
@@ -1558,9 +1456,7 @@ class DataCriteria extends MultipleElementCriteria
       // Destroy the copy
       unset($curArr);
    }
- 
-   function PrintForm()
-   {
+	function PrintForm($value1, $value2, $value3) {
 	            if (!is_array(@$this->criteria[0]))  
 			$this->criteria = array();
 
@@ -1595,15 +1491,12 @@ class DataCriteria extends MultipleElementCriteria
             echo '    <INPUT TYPE="submit" NAME="submit" VALUE="'._ADDPAYLOAD.'">';
          echo '<BR>';
       }
-   }
-
+	}
    function ToSQL()
    {
      /* convert this criteria to SQL */
    }
- 
-   function Description()
-   {
+	function Description($value) {
       $human_fields["LIKE"] = _CONTAINS;
       $human_fields["NOT LIKE"] = _DOESNTCONTAIN;
       $human_fields[""] = ""; 
@@ -1630,7 +1523,7 @@ class DataCriteria extends MultipleElementCriteria
          $tmp = $tmp.$this->cs->GetClearCriteriaString($this->export_name);
 
       return $tmp;
-   }
+	}
 };
 
 ?>
