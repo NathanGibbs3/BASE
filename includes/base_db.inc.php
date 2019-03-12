@@ -40,10 +40,7 @@ class baseCon {
   {
      $this->DB_type = $type;
 	/* Are we a Mysql type? Note it in Object structure. */
-	if (
-		$type == "mysql" || $type == "mysqlt" || $type == "maxsql"
-		|| $type == "mysqli"
-	) {
+	if ( $type == "mysql" || $type == "mysqlt" || $type == "maxsql" ) {
 		$this->DB_class = 1;
 	}else{
 		$this->DB_class = 0;
@@ -489,10 +486,7 @@ class baseRS {
      $this->row = $id;
      $this->DB_type = $type;
 	/* Are we a Mysql type? Note it in Object structure. */
-	if (
-		$type == "mysql" || $type == "mysqlt" || $type == "maxsql"
-		|| $type == "mysqli"
-	) {
+	if ( $type == "mysql" || $type == "mysqlt" || $type == "maxsql" ) {
 		$this->DB_class = 1;
 	}else{
 		$this->DB_class = 0;
@@ -682,18 +676,17 @@ function NewBASEDBConnection($path, $type)
       VerifyDBAbstractionLib($path."\\adodb.inc.php");
       include($path."\\adodb.inc.php");
    }
-
-	/* Under PHP 7+, use mysqli ADODB driver & gracefully deprecate the mysql
-	& mysqlt drivers. */
+	/* On PHP 7+, use mysqli ADODB driver & gracefully deprecate the mysql &
+	mysqlt drivers. */
+	$tmptype = $type;
 	if ( $type == "mysql" || $type == "mysqlt" ) {
 		$version = explode( ".", phpversion() );
 		if ( $version[0] >= 7 ) {
-			$type = "mysqli";
+			$tmptype = "mysqli";
 		}
 	}
-   ADOLoadCode($type);
-
-   return new baseCon($type);
+	ADOLoadCode($tmptype);
+	return new baseCon($type);
 }
 
 function MssqlKludgeValue($text)
