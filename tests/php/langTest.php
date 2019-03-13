@@ -39,11 +39,13 @@ class Lto { // Lang Test Object.
 	var $obj;
 	var $tobj;
 	function __construct ($Tobj) {
-		GLOBAL $BASE_path, $BASE_installID;
+		GLOBAL $BASE_path, $BASE_installID, $debug_mode;
 		$file = $Tobj->lf;
 		$this->obj = $file;
 		$this->tobj = $Tobj;
-		print "Testing  file: $BASE_path/languages/$file\n";
+		if ($debug_mode > 0) {
+			print "Testing  file: $BASE_path/languages/$file\n";
+		}
 		include_once("$BASE_path/languages/$file");
 	}
 	public function Test() {
