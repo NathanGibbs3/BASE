@@ -63,6 +63,8 @@ if [ "$pvM" \< "5" ] || ( [ "$pvM" == "5" ] && [ "$pvm" \< "3" ]); then
 		# Solution: Load Custom xdebug.ini from repo
 		echo "Enabling PHP XDebug."
 		cp ./tests/5.2-xdebug.ini ${HOME}/.phpenv/versions/$(phpenv version-name)/etc/conf.d/xdebug.ini
+		echo "Enabling PHP 5.2x Code Coverage fix."
+		cp ./tests/5.2-base_conf.php ${HOME}/base_conf.php
 	fi
 else
 	echo "enabled."
