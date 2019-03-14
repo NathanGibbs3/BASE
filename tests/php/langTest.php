@@ -27,9 +27,6 @@ class langTest extends TestCase {
 		$this->assertTrue(is_array($this->files), 'Test Set Invalid Type.');
 		$this->assertNotEmpty($this->files, 'Test Set Empty.');
 	}
-	/**
-	 * @expectedException PHPUnit_Framework_Error_Notice
-	 */
 	public function testLocale() {
 		GLOBAL $BASE_path, $BASE_installID, $debug_mode;
 		$files = $this->files;
@@ -47,11 +44,9 @@ class langTest extends TestCase {
 			$this->assertTrue(defined('_LOCALESTR2'),'Locale UTF-8 not defined');
 			$this->assertTrue(defined('_LOCALESTR3'),'Locale Language not defined');
 			$this->assertTrue(defined('_STRFTIMEFORMAT'),'Locale Time Format not defined');
+			return; // Kill Switch for constant based LF
 		}
 	}
-	/**
-	 * @expectedException PHPUnit_Framework_Error_Notice
-	 */
 	public function testCommonPhrases() {
 		GLOBAL $BASE_path, $BASE_installID, $debug_mode;
 		$files = $this->files;
@@ -270,11 +265,9 @@ class langTest extends TestCase {
 			$this->assertTrue(defined('_TYPE'),'type not defined');
 			$this->assertTrue(defined('_NEXT'),'Next not defined');
 			$this->assertTrue(defined('_PREVIOUS'),'Previous not defined');
+			return; // Kill Switch for constant based LF
 		}
 	}
-	/**
-	 * @expectedException PHPUnit_Framework_Error_Notice
-	 */
 	public function testMenuItems() {
 		GLOBAL $BASE_path, $BASE_installID, $debug_mode;
 		$files = $this->files;
@@ -295,7 +288,7 @@ class langTest extends TestCase {
 			// DEFINE('_USERMAN','User Management');
 			// DEFINE('_LISTU','List users');
 			// DEFINE('_CREATEU','Create a user');
-			// DEFINE('_ROLEMA!N','Role Management');
+			// DEFINE('_ROLEMAN','Role Management');
 			// DEFINE('_LISTR','List Roles');
 			// DEFINE('_CREATER','Create a Role');
 			// DEFINE('_LISTALL','List All');
@@ -336,11 +329,9 @@ class langTest extends TestCase {
 			$this->assertTrue(defined('_CLEARGROUPS'),'Clear Group not defined');
 			$this->assertTrue(defined('_CHNGPWD'),'Change password not defined');
 			$this->assertTrue(defined('_DISPLAYU'),'Display user not defined');
+			return; // Kill Switch for constant based LF
 		}
 	}
-	/**
-	 * @expectedException PHPUnit_Framework_Error_Notice
-	 */
 	public function testOneLiners() {
 		GLOBAL $BASE_path, $BASE_installID, $debug_mode;
 		$files = $this->files;
@@ -356,11 +347,9 @@ class langTest extends TestCase {
 			// DEFINE('_LOGINERROR','User does not exist or your password was incorrect!<br>Please try again');
 			$this->assertTrue(defined('_FOOTER'),'Footer Text not defined.');
 			$this->assertTrue(defined('_LOGINERROR'),'Login Error Text not defined.');
+			return; // Kill Switch for constant based LF
 		}
 	}
-	/**
-	 * @expectedException PHPUnit_Framework_Error_Notice
-	 */
 	public function testTDforfilebase_main_php() {
 		GLOBAL $BASE_path, $BASE_installID, $debug_mode;
 		$files = $this->files;
@@ -370,6 +359,7 @@ class langTest extends TestCase {
 			}
 			include_once("$BASE_path/languages/$file");
 			// Test base_main.php
+			return; // Kill Switch for constant based LF
 		}
 	}
 	// Add code to a function if needed.

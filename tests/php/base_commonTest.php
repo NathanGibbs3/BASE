@@ -28,9 +28,7 @@ class base_commonTest extends TestCase {
 	}
 	// Add code to a function if needed.
 	// Stop here and mark test incomplete.
-	//$this->markTestIncomplete(
-	//	'Incomplete Test.'
-	//);
+	//$this->markTestIncomplete('Incomplete Test.');
 }
 
 ?>

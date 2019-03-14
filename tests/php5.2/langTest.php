@@ -3,7 +3,16 @@
 // Will test for specific defines in /languages/*.lang.php
 // Verify that all the data for a complete translation is present.
 // Does not verify the accuracy of the translation. :-)
-class langTest extends PHPUnit_Framework_TestCase {
+
+// The language files are constant based, not variable based.
+// This makes testing problematic as constants can't be redefined.
+// Another Issue to fix, but at least this file puts the test foundation
+// in place. :-)
+
+// Iterate through the language file testing for common defines, and in the
+// future variables.
+
+class BlankTest extends PHPUnit_Framework_TestCase {
 	// Pre Test Setup.
 	var $files;
 	protected function setUp() {
@@ -34,6 +43,7 @@ class langTest extends PHPUnit_Framework_TestCase {
 			$this->assertTrue(defined('_LOCALESTR2'),'Locale UTF-8 not defined');
 			$this->assertTrue(defined('_LOCALESTR3'),'Locale Language not defined');
 			$this->assertTrue(defined('_STRFTIMEFORMAT'),'Locale Time Format not defined');
+			return; // Kill Switch for constant based LF
 		}
 	}
 	public function testCommonPhrases() {
@@ -254,6 +264,7 @@ class langTest extends PHPUnit_Framework_TestCase {
 			$this->assertTrue(defined('_TYPE'),'type not defined');
 			$this->assertTrue(defined('_NEXT'),'Next not defined');
 			$this->assertTrue(defined('_PREVIOUS'),'Previous not defined');
+			return; // Kill Switch for constant based LF
 		}
 	}
 	public function testMenuItems() {
@@ -317,6 +328,7 @@ class langTest extends PHPUnit_Framework_TestCase {
 			$this->assertTrue(defined('_CLEARGROUPS'),'Clear Group not defined');
 			$this->assertTrue(defined('_CHNGPWD'),'Change password not defined');
 			$this->assertTrue(defined('_DISPLAYU'),'Display user not defined');
+			return; // Kill Switch for constant based LF
 		}
 	}
 	public function testOneLiners() {
@@ -334,6 +346,7 @@ class langTest extends PHPUnit_Framework_TestCase {
 			// DEFINE('_LOGINERROR','User does not exist or your password was incorrect!<br>Please try again');
 			$this->assertTrue(defined('_FOOTER'),'Footer Text not defined.');
 			$this->assertTrue(defined('_LOGINERROR'),'Login Error Text not defined.');
+			return; // Kill Switch for constant based LF
 		}
 	}
 	public function testTDforfilebase_main_php() {
@@ -345,13 +358,12 @@ class langTest extends PHPUnit_Framework_TestCase {
 			}
 			include_once("$BASE_path/languages/$file");
 			// Test base_main.php
+			return; // Kill Switch for constant based LF
 		}
 	}
 	// Add code to a function if needed.
 	// Stop here and mark test incomplete.
-	//$this->markTestIncomplete(
-	//	'Incomplete Test.'
-	//);
+	//$this->markTestIncomplete('Incomplete Test.');
 }
 
 function langfiles() { // Returns array of lang files.
