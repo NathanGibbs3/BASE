@@ -97,6 +97,7 @@ before_install:
   - source ./tests/setupenv.sh
 
 install:
+  - pear -V
   - pear install mail Mail_Mime
   # Composer Support PHP 5.3.2+
   - sh -c "if [ '$Composer' != '0' ]; then ./tests/composer.sh; fi"
