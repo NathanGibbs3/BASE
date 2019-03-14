@@ -47,6 +47,7 @@
 		</testsuite>
 	</testsuites>
 	<php>
+		<includePath>includes</includePath>
 		<ini name="error_reporting" value="E_ALL" />
 	</php>
 	<logging>
