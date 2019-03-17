@@ -30,33 +30,40 @@ include_once("$BASE_path/includes/base_constants.inc.php");
 include_once("$BASE_path/includes/base_action.inc.php");
 // include_once("$BASE_path/includes/base_capabilities.php"); //Commented out by Kevin for testing
 
-class QueryState
-{
-  var $canned_query_list = NULL;
-  var $num_result_rows = -1;
-  var $current_canned_query = "";
-  var $current_sort_order = "";
-  var $current_view = -1;
-  var $show_rows_on_screen = -1;
-  var $valid_action_list = NULL;
-  var $action;
-  var $valid_action_op_list = NULL;
-  var $action_arg;
-  var $action_lst;
-  var $action_chk_lst = NULL;
-  var $action_sql;
+class QueryState {
+	var $canned_query_list = NULL;
+	var $num_result_rows = -1;
+	var $current_canned_query = "";
+	var $current_sort_order = "";
+	var $current_view = -1;
+	var $show_rows_on_screen = -1;
+	var $valid_action_list = NULL;
+	var $action;
+	var $valid_action_op_list = NULL;
+	var $action_arg;
+	var $action_lst;
+	var $action_chk_lst = NULL;
+	var $action_sql;
 
-  function QueryState()
-  {
-    $this->ReadState();
-
-    if ( $this->num_result_rows == "" )
-       $this->num_result_rows = -1;
-
-    if ( $this->current_view == "" )
-       $this->current_view = -1;
-  }
-
+	function __construct() { // PHP 5+ constructor Shim.
+		// Class/Method agnostic shim code.
+		$SCname = get_class();
+		if ( method_exists($this, $SCname) ) {
+			$SCargs = func_get_args();
+			call_user_func_array(array($this, $SCname), $SCargs);
+		}else{
+			trigger_error("Class: $SCname No Legacy Constructor.\n");
+		}
+	}
+	function QueryState() { // PHP 4x constructor.
+		$this->ReadState();
+		if ( $this->num_result_rows == "" ) {
+			$this->num_result_rows = -1;
+		}
+		if ( $this->current_view == "" ) {
+			$this->current_view = -1;
+		}
+	}
   function AddCannedQuery($caller, $caller_num, $caller_desc, $caller_sort)
   {
     $this->canned_query_list [$caller] = array($caller_num, $caller_desc, $caller_sort);

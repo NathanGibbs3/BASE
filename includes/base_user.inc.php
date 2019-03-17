@@ -26,22 +26,29 @@
  **/
 defined( '_BASE_INC' ) or die( 'Accessing this file directly is not allowed.' );
 
-class BaseUserPrefs
-{
-    var $db;
-    
-    function BaseUserPrefs()
-    {
-        // Constructor
-        GLOBAL $DBlib_path, $DBtype, $db_connect_method, $alert_dbname, $alert_host,
-                            $alert_port, $alert_user, $alert_password;
-        $db = NewBASEDBConnection($DBlib_path, $DBtype);
-        $db->baseDBConnect($db_connect_method, $alert_dbname, $alert_host,
-                            $alert_port, $alert_user, $alert_password);
-        $this->db = $db;
-    }
-    
-    
+class BaseUserPrefs {
+	var $db;
+
+	function __construct() { // PHP 5+ constructor Shim.
+		// Class/Method agnostic shim code.
+		$SCname = get_class();
+		if ( method_exists($this, $SCname) ) {
+			$SCargs = func_get_args();
+			call_user_func_array(array($this, $SCname), $SCargs);
+		}else{
+			trigger_error("Class: $SCname No Legacy Constructor.\n");
+		}
+	}
+	function BaseUserPrefs() { // PHP 4x constructor.
+		GLOBAL $DBlib_path, $DBtype, $db_connect_method, $alert_dbname,
+		$alert_host, $alert_port, $alert_user, $alert_password;
+		$db = NewBASEDBConnection($DBlib_path, $DBtype);
+		$db->baseDBConnect(
+			$db_connect_method, $alert_dbname, $alert_host, $alert_port,
+			$alert_user, $alert_password
+		);
+		$this->db = $db;
+	}
 }
 
 ?>
