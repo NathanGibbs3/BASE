@@ -1,5 +1,5 @@
 {
-	"name": "NathanGibbs3/BASE",
+	"name": "nathanGibbs3/base",
 	"type": "project",
 	"description": "A web app to query and analyze alerts coming from a SNORT IDS system.",
 	"keywords": [
