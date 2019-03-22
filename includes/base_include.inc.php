@@ -19,6 +19,7 @@
 ********************************************************************************
 */
 defined( '_BASE_INC' ) or die( 'Accessing this file directly is not allowed.' );
+include_once("$BASE_path/includes/base_lang.inc.php");
 include_once("$BASE_path/includes/base_db.inc.php");
 include_once("$BASE_path/includes/base_output_html.inc.php");
 include_once("$BASE_path/includes/base_state_common.inc.php");
