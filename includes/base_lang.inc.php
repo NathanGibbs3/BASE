@@ -17,7 +17,8 @@
 defined( '_BASE_INC' ) or die( 'Accessing this file directly is not allowed.' );
 
 class UILang{
-	var $UI_Lang;
+	var $Lang;
+	var $Locale;
 
 	function __construct($UILang) { // PHP 5+ constructor Shim.
 		// Class/Method agnostic shim code.
@@ -30,7 +31,13 @@ class UILang{
 		}
 	}
 	function UILang($UILang) { // PHP 4x constructor.
-		$this->UI_Lang = $UILang;
+		// Include Translation Data
+		include("$BASE_path/languages/$UILang.lang.php");
+		$this->Lang = $UILang;
+	}
+	function SetUILocale() { // Sets locale from translation data or defaults to system locale.
+		setlocale (LC_TIME, '_LOCALESTR1', '_LOCALESTR2', '_LOCALESTR3', "");
+		$this->Locale = setlocale(LC_TIME, "0");
 	}
 }
 
