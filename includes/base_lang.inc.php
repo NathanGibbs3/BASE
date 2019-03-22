@@ -31,6 +31,7 @@ class UILang{
 	}
 	function UILang($UILang) { // PHP 4x constructor.
 		$this->UI_Lang = $UILang;
+	}
 }
 
 ?>
