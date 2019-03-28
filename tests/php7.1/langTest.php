@@ -45,10 +45,9 @@ class langTest extends TestCase {
 				print "Creating UILang Class: $tmp for $lang\n";
 			}
 			// Expect errors as we Transition the TD Data
-			$this->expectException("PHPUnit_Framework_Error");
-			$$tmp = new UILang($lang);
+			$this->expectException("PHPUnit\Framework\Error\Error");
 			$this->assertInstanceOf(
-				UILang::class, $$tmp
+				'UILang', new UILang($lang), "Class for $lang not created."
 			);
 		}
 	}
@@ -56,7 +55,7 @@ class langTest extends TestCase {
 		$lang = 'invalid';
 		$tmp = "UI$lang";
 		// Expect errors as we Transition the TD Data
-		$this->expectException("PHPUnit_Framework_Error");
+		$this->expectException("PHPUnit\Framework\Error\Error");
 		$$tmp = new UILang($lang);
 		$this->assertEquals(
 			'english',
@@ -70,7 +69,7 @@ class langTest extends TestCase {
 		foreach($langs as $lang){
 			$tmp = "UI$lang";
 			// Expect errors as we Transition the TD Data
-			$this->expectException("PHPUnit_Framework_Error");
+			$this->expectException("PHPUnit\Framework\Error\Error");
 			$$tmp = new UILang($lang);
 			$file = $$tmp->TDF;
 			if ($debug_mode > 0) {
@@ -91,7 +90,7 @@ class langTest extends TestCase {
 				print "Testing  file: $BASE_path/languages/$file\n";
 			}
 			// Expect errors as we Transition the TD Data
-			$this->expectException("PHPUnit_Framework_Error");
+			$this->expectException("PHPUnit\Framework\Error\Error");
 			include_once("$BASE_path/languages/$file");
 			// Test common phrases
 			// DEFINE('_CHARSET','iso-8859-1');
@@ -313,7 +312,7 @@ class langTest extends TestCase {
 				print "Testing  file: $BASE_path/languages/$file\n";
 			}
 			// Expect errors as we Transition the TD Data
-			$this->expectException("PHPUnit_Framework_Error");
+			$this->expectException("PHPUnit\Framework\Error\Error");
 			include_once("$BASE_path/languages/$file");
 			// Test Menu items
 			// DEFINE('_HOME','Home');
@@ -378,7 +377,7 @@ class langTest extends TestCase {
 				print "Testing  file: $BASE_path/languages/$file\n";
 			}
 			// Expect errors as we Transition the TD Data
-			$this->expectException("PHPUnit_Framework_Error");
+			$this->expectException("PHPUnit\Framework\Error\Error");
 			include_once("$BASE_path/languages/$file");
 			// Test Files with one line of translation data.
 				//base_footer.php
@@ -397,7 +396,7 @@ class langTest extends TestCase {
 				print "Testing  file: $BASE_path/languages/$file\n";
 			}
 			// Expect errors as we Transition the TD Data
-			$this->expectException("PHPUnit_Framework_Error");
+			$this->expectException("PHPUnit\Framework\Error\Error");
 			include_once("$BASE_path/languages/$file");
 			// Test base_main.php
 		}

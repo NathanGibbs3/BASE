@@ -46,9 +46,8 @@ class langTest extends TestCase {
 			}
 			// Expect errors as we Transition the TD Data
 			$this->expectException("PHPUnit_Framework_Error");
-			$$tmp = new UILang($lang);
 			$this->assertInstanceOf(
-				UILang::class, $$tmp
+				'UILang', new UILang($lang), "Class for $lang not created."
 			);
 		}
 	}
