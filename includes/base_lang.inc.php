@@ -17,8 +17,10 @@
 defined( '_BASE_INC' ) or die( 'Accessing this file directly is not allowed.' );
 
 class UILang{
+	var $TDF;
 	var $Lang;
 	var $Locale;
+	var $Timefmt;
 
 	function __construct($UILang) { // PHP 5+ constructor Shim.
 		// Class/Method agnostic shim code.
@@ -27,17 +29,46 @@ class UILang{
 			$SCargs = func_get_args();
 			call_user_func_array(array($this, $SCname), $SCargs);
 		}else{
-			trigger_error("Class: $SCname No Legacy Constructor.\n");
+			trigger_error(
+				"Class: $SCname No Legacy Constructor.\n",
+				E_USER_ERROR
+			);
 		}
 	}
 	function UILang($UILang) { // PHP 4x constructor.
+		GLOBAL $BASE_path, $BASE_installID;
+		$TDF = "$BASE_path/languages/$UILang.lang.php";
+		if (!file_exists($TDF)) {
+			// Default to english if language is not supported.
+			$TDF = "$BASE_path/languages/english.lang.php";
+		}
 		// Include Translation Data
-		include("$BASE_path/languages/$UILang.lang.php");
+		include_once($TDF);
 		$this->Lang = $UILang;
+		$this->TDF = $TDF;
+		// Store Locales
+		if ( is_array($UI_Locales) ) {
+			$this->Locale = $UI_Locales;
+		}else{
+			$this->Locale = NULL;
+		}
 	}
-	function SetUILocale() { // Sets locale from translation data or defaults to system locale.
-		setlocale (LC_TIME, '_LOCALESTR1', '_LOCALESTR2', '_LOCALESTR3', "");
-		$this->Locale = setlocale(LC_TIME, "0");
+	// Sets locale from translation data or defaults to system locale.
+	function SetUILocale() {
+		if ( is_array($this->Locale) ) { // Var Based
+			$Ret = setlocale (LC_TIME, $this->Locale, "");
+		}else{ // Const based
+			$Ret = setlocale (LC_TIME, '_LOCALESTR1', '_LOCALESTR2', '_LOCALESTR3', "");
+		}
+		if ($Ret != FALSE) {
+			$this->Locale = setlocale(LC_TIME, "0");
+		}else{
+			$this->Locale = NULL;
+		}
+		return $Ret;
+	}
+	function SetUITimeFmt() {
+		$this->Timefmt = '_STRFTIMEFORMAT';
 	}
 }
 

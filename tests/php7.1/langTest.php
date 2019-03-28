@@ -16,8 +16,10 @@ use PHPUnit\Framework\TestCase;
 class langTest extends TestCase {
 	// Pre Test Setup.
 	var $files;
+	var $langs;
 	protected function setUp(): void {
 		$this->files = langfiles();
+		$this->langs = validlangs();
 	}
 	// Tests go here.
 	public function testSetOK() {
@@ -27,24 +29,58 @@ class langTest extends TestCase {
 		$this->assertTrue(is_array($this->files), 'Test Set Invalid Type.');
 		$this->assertNotEmpty($this->files, 'Test Set Empty.');
 	}
-	public function testLocale() {
+	public function testLangListOK() {
+		$this->assertNotNull($this->langs, 'Lang List Not found.');
+		// $this->assertIsArray($this->files, 'Test Set Invalid Type.');
+		// Equivalent of above for Older PHPUnit's :-)
+		$this->assertTrue(is_array($this->langs), 'Lnag List Invalid Type.');
+		$this->assertNotEmpty($this->langs, 'Lang List Empty.');
+	}
+	public function testClassCanBeCreatredFromLTDFiles () {
 		GLOBAL $BASE_path, $BASE_installID, $debug_mode;
-		$files = $this->files;
-		foreach($files as $file){
+		$langs = $this->langs;
+		foreach($langs as $lang){
+			$tmp = "UI$lang";
 			if ($debug_mode > 0) {
-				print "Testing  file: $BASE_path/languages/$file\n";
+				print "Creating UILang Class: $tmp for $lang\n";
 			}
-			include_once("$BASE_path/languages/$file");
+			// Expect errors as we Transition the TD Data
+			$this->expectException("PHPUnit_Framework_Error");
+			$$tmp = new UILang($lang);
+			$this->assertInstanceOf(
+				UILang::class, $$tmp
+			);
+		}
+	}
+	public function testClassDefaultsToEnglishOnInvlaidLTDFile () {
+		$lang = 'invalid';
+		$tmp = "UI$lang";
+		// Expect errors as we Transition the TD Data
+		$this->expectException("PHPUnit_Framework_Error");
+		$$tmp = new UILang($lang);
+		$this->assertEquals(
+			'english',
+			$$tmp->Lang,
+			'Class did not deafult to english.'
+		);
+	}
+	public function testSetUILocaleReturnsTrue() {
+		GLOBAL $BASE_path, $BASE_installID, $debug_mode;
+		$langs = $this->langs;
+		foreach($langs as $lang){
+			$tmp = "UI$lang";
+			// Expect errors as we Transition the TD Data
+			$this->expectException("PHPUnit_Framework_Error");
+			$$tmp = new UILang($lang);
+			$file = $$tmp->TDF;
+			if ($debug_mode > 0) {
+				print "Testing  file: $file\n";
+			}
 			// Test Locale
-			// DEFINE('_LOCALESTR1', 'eng_ENG.ISO8859-1');
-			// DEFINE('_LOCALESTR2', 'eng_ENG.utf-8');
-			// DEFINE('_LOCALESTR3', 'english');
+			$this->assertTrue(is_array($$tmp->Locale), "Locales not defined in $file.");
+			$this->assertTrue($$tmp->SetUILocale(), 'Locale Not Set');
 			// DEFINE('_STRFTIMEFORMAT','%a %B %d, %Y %H:%M:%S'); //see strftime() sintax
-			$this->assertTrue(defined('_LOCALESTR1'),'Locale ISO not defined');
-			$this->assertTrue(defined('_LOCALESTR2'),'Locale UTF-8 not defined');
-			$this->assertTrue(defined('_LOCALESTR3'),'Locale Language not defined');
-			$this->assertTrue(defined('_STRFTIMEFORMAT'),'Locale Time Format not defined');
-			return; // Kill Switch for constant based LF
+			//$this->assertTrue(defined('_STRFTIMEFORMAT'),'Locale Time Format not defined');
 		}
 	}
 	public function testCommonPhrases() {
@@ -54,6 +90,8 @@ class langTest extends TestCase {
 			if ($debug_mode > 0) {
 				print "Testing  file: $BASE_path/languages/$file\n";
 			}
+			// Expect errors as we Transition the TD Data
+			$this->expectException("PHPUnit_Framework_Error");
 			include_once("$BASE_path/languages/$file");
 			// Test common phrases
 			// DEFINE('_CHARSET','iso-8859-1');
@@ -265,7 +303,6 @@ class langTest extends TestCase {
 			$this->assertTrue(defined('_TYPE'),'type not defined');
 			$this->assertTrue(defined('_NEXT'),'Next not defined');
 			$this->assertTrue(defined('_PREVIOUS'),'Previous not defined');
-			return; // Kill Switch for constant based LF
 		}
 	}
 	public function testMenuItems() {
@@ -275,6 +312,8 @@ class langTest extends TestCase {
 			if ($debug_mode > 0) {
 				print "Testing  file: $BASE_path/languages/$file\n";
 			}
+			// Expect errors as we Transition the TD Data
+			$this->expectException("PHPUnit_Framework_Error");
 			include_once("$BASE_path/languages/$file");
 			// Test Menu items
 			// DEFINE('_HOME','Home');
@@ -329,7 +368,6 @@ class langTest extends TestCase {
 			$this->assertTrue(defined('_CLEARGROUPS'),'Clear Group not defined');
 			$this->assertTrue(defined('_CHNGPWD'),'Change password not defined');
 			$this->assertTrue(defined('_DISPLAYU'),'Display user not defined');
-			return; // Kill Switch for constant based LF
 		}
 	}
 	public function testOneLiners() {
@@ -339,6 +377,8 @@ class langTest extends TestCase {
 			if ($debug_mode > 0) {
 				print "Testing  file: $BASE_path/languages/$file\n";
 			}
+			// Expect errors as we Transition the TD Data
+			$this->expectException("PHPUnit_Framework_Error");
 			include_once("$BASE_path/languages/$file");
 			// Test Files with one line of translation data.
 				//base_footer.php
@@ -347,7 +387,6 @@ class langTest extends TestCase {
 			// DEFINE('_LOGINERROR','User does not exist or your password was incorrect!<br>Please try again');
 			$this->assertTrue(defined('_FOOTER'),'Footer Text not defined.');
 			$this->assertTrue(defined('_LOGINERROR'),'Login Error Text not defined.');
-			return; // Kill Switch for constant based LF
 		}
 	}
 	public function testTDforfilebase_main_php() {
@@ -357,14 +396,42 @@ class langTest extends TestCase {
 			if ($debug_mode > 0) {
 				print "Testing  file: $BASE_path/languages/$file\n";
 			}
+			// Expect errors as we Transition the TD Data
+			$this->expectException("PHPUnit_Framework_Error");
 			include_once("$BASE_path/languages/$file");
 			// Test base_main.php
-			return; // Kill Switch for constant based LF
 		}
 	}
 	// Add code to a function if needed.
 	// Stop here and mark test incomplete.
 	//$this->markTestIncomplete('Incomplete Test.');
+}
+
+function validlangs() { // Returns array of langs.
+	GLOBAL $BASE_path, $debug_mode;
+	$testfiles = array();
+	$prefix = "$BASE_path/languages/*.lang.php";
+	$files = glob("$prefix");
+	if(is_array($files) && !empty($files)){
+		if ($debug_mode > 0) {
+			print "Will test the following languages:\n";
+		}
+		foreach($files as $match){
+			$bpt= preg_replace("/\//","\/",$BASE_path);
+			$match = preg_replace( "/$bpt\/languages\//", "", $match);
+			$match = preg_replace( "/\.lang\.php/", "", $match);
+			$testfiles[]=$match;
+			if ($debug_mode > 0) {
+				print "$match\n";
+			}
+		}
+	}else{
+		$testfiles = NULL;
+		if ($debug_mode > 0) {
+			print "Empty Lang List\n";
+		}
+	}
+	return $testfiles;
 }
 
 function langfiles() { // Returns array of lang files.

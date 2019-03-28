@@ -33,9 +33,10 @@
   include_once("$BASE_path/base_ag_common.php");
 
   ($debug_time_mode >= 1) ? $et = new EventTiming($debug_time_mode) : '';
+// Create UI Language Abstraction Onject
+$UIL = new UILang($BASE_Language);
   $cs = new CriteriaState("base_ag_main.php");
   $cs->ReadState();
-  
 
   $qs = new QueryState();
   $submit = ImportHTTPVar("submit", VAR_ALPHA | VAR_SPACE, array(_SELECTED, _ALLONSCREEN, _ENTIREQUERY));

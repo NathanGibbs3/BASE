@@ -23,9 +23,8 @@
 */
 
 //locale
-DEFINE('_LOCALESTR1', 'eng_ENG.ISO8859-1');
-DEFINE('_LOCALESTR2', 'eng_ENG.utf-8');
-DEFINE('_LOCALESTR3', 'english');
+$UI_Locales = array( 'eng_ENG.ISO8859-1', 'eng_ENG.utf-8', 'english' );
+// Time Format
 DEFINE('_STRFTIMEFORMAT','%a %B %d, %Y %H:%M:%S'); //see strftime() sintax
 
 //common phrases

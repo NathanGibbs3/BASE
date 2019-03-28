@@ -29,9 +29,8 @@
 ********************************************************************************
 */
 //locale
-DEFINE('_LOCALESTR1', 'pt_PT.ISO8859-1');
-DEFINE('_LOCALESTR2', 'pt_PT.utf-8');
-DEFINE('_LOCALESTR3', 'portuguese');
+$UI_Locales = array( 'pt_PT.ISO8859-1', 'pt_PT.utf-8', 'portuguese' );
+// Time Format
 DEFINE('_STRFTIMEFORMAT','%a %d de %b de %Y %H:%M:%S');
 
 //common phrases

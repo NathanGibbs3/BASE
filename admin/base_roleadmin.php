@@ -26,9 +26,11 @@
   include_once("$BASE_path/base_stat_common.php");
 
   $et = new EventTiming($debug_time_mode);
+// Create UI Language Abstraction Onject
+$UIL = new UILang($BASE_Language);
   $cs = new CriteriaState("admin/base_roleadmin.php");
   $cs->ReadState();
-  
+
   // Check role out and redirect if needed -- Kevin
   $roleneeded = 1;
   $BUser = new BaseUser();

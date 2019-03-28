@@ -373,11 +373,9 @@ function DataRows2sql($field, $cnt, $data_encode, &$s_sql)
   return 0;
 }
 
-function PrintCriteria($caller)
-{
-  GLOBAL $db, $cs, $last_num_alerts, $save_criteria;
-
-  /* Generate the Criteria entered into a human readable form */  
+function PrintCriteria($caller) {
+	GLOBAL $db, $cs, $last_num_alerts, $save_criteria, $UIL;
+	// Generate the Criteria entered into a human readable form.
   $save_criteria = '
    <TABLE CELLSPACING=1 CELLPADDING=2 BORDER=0 BGCOLOR="#FFFFFF">
     <TR>
@@ -491,11 +489,7 @@ function PrintCriteria($caller)
 
   
   $save_criteria .= '</TABLE>'; 
-
-  if (!setlocale (LC_TIME, _LOCALESTR1))
-       	if (!setlocale (LC_TIME, _LOCALESTR2))
-	        setlocale (LC_TIME, _LOCALESTR3);
-  
+	$UIL->SetUILocale();
   $save_criteria = '&nbsp;<B>'._QUERIED.'</B><FONT> : '.strftime(_STRFTIMEFORMAT).'</FONT>'.
                    '<TABLE BORDER=0 CELLSPACING=0 CELLPADDING=2 BGCOLOR="#000000">'.
                    '<TR><TD>'.

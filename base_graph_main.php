@@ -103,9 +103,11 @@
 
 
   ($debug_time_mode >= 1) ? $et = new EventTiming($debug_time_mode) : '';
+// Create UI Language Abstraction Onject
+$UIL = new UILang($BASE_Language);
   $cs = new CriteriaState("base_stat_alerts.php");
   $cs->ReadState();
-  
+
   $submit = ImportHTTPVar("submit", VAR_ALPHA | VAR_SPACE);
 
   /**

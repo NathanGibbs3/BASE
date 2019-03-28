@@ -26,9 +26,8 @@
 */
 
 //locale
-DEFINE('_LOCALESTR1', 'eng_ENG.ISO8859-1'); //NEW
-DEFINE('_LOCALESTR2', 'eng_ENG.utf-8'); //NEW
-DEFINE('_LOCALESTR3', 'english'); //NEW
+$UI_Locales = array( 'eng_ENG.ISO8859-1', 'eng_ENG.utf-8', 'english' );
+// Time Format
 DEFINE('_STRFTIMEFORMAT','%a %B %d, %Y %H:%M:%S'); //NEW - see strftime() sintax
 
 // основные фразы

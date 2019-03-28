@@ -44,6 +44,7 @@
   $start = time();
    require("base_conf.php");
    include_once("$BASE_path/includes/base_auth.inc.php");
+	include_once("$BASE_path/includes/base_lang.inc.php");
    include_once("$BASE_path/includes/base_db.inc.php");
    include_once("$BASE_path/includes/base_output_html.inc.php");
    include_once("$BASE_path/base_common.php");
@@ -91,6 +92,9 @@
           echo ('<a href="base_main.php?archive=1">' . _USEARCHIDB . '</a>');
       }
   }
+// Create UI Language Abstraction Onject
+$UIL = new UILang($BASE_Language);
+
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <!-- <?php echo _TITLE . $BASE_VERSION; ?> -->
@@ -129,6 +133,7 @@ if ($tmp_str != "") {
     echo $tmp_str;
     die();
 }
+
 ?>
 <table width="100%" style="border:0;padding:0">
   <tr>
@@ -262,12 +267,7 @@ echo '
 if ($event_cache_auto_update == 1) {
     UpdateAlertCache($db);
 }
-
-if (!setlocale(LC_TIME, _LOCALESTR1)) {
-    if (!setlocale (LC_TIME, _LOCALESTR2)) {
-        setlocale (LC_TIME, _LOCALESTR3);
-    }
-    
+if (!$UIL->SetUILocale()) {
     printf("<strong>"._QUERIED." </strong> : %s<br />" , strftime(_STRFTIMEFORMAT));
     if (isset($_COOKIE['archive']) && $_COOKIE['archive'] == 1) {
         printf("<strong>"._DATABASE."</strong> %s &nbsp;&nbsp;&nbsp;(<strong>"._SCHEMAV."</strong> %d) \n<br />\n", 
@@ -280,7 +280,6 @@ if (!setlocale(LC_TIME, _LOCALESTR1)) {
             $db->baseGetDBversion()
         );
     }
-    
     StartStopTime($start_time, $end_time, $db);
     if ($start_time != "") {
         printf("<strong>"._TIMEWIN."</strong> [%s] - [%s]\n", $start_time, $end_time);

@@ -35,6 +35,8 @@
   include_once("$BASE_path/base_common.php");
 
   $et = new EventTiming($debug_time_mode);
+// Create UI Language Abstraction Onject
+$UIL = new UILang($BASE_Language);
   $cs = new CriteriaState("base_stat_ipaddr.php");
   $cs->ReadState();
 
@@ -134,7 +136,6 @@ function PrintPortscanEvents($db, $ip)
    var_dump($contents);
    print "</PRE><BR>\n";
    */
-
 	if(preg_match("/". $ip . "/", $contents)) {
      $total++;
      if( $total % 2 == 0 ) {
@@ -142,8 +143,7 @@ function PrintPortscanEvents($db, $ip)
      }else{
         $color="FFFFFF";
      }
-
-	$contents = preg_replace("/  /", " ", $contents);
+		$contents = preg_replace("/  /", " ", $contents);
      $elements = explode(" ", $contents);
 
      echo '<tr bgcolor="'.$color.'"><td align="center">'.

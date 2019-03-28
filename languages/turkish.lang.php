@@ -24,9 +24,8 @@
 */
 
 //locale
-DEFINE('_LOCALESTR1', 'tur_TUR.ISO8859-9');
-DEFINE('_LOCALESTR2', 'tur_TUR.utf-8');
-DEFINE('_LOCALESTR3', 'turkish');
+$UI_Locales = array( 'tur_TUR.ISO8859-9', 'tur_TUR.utf-8', 'turkish' );
+// Time Format
 DEFINE('_STRFTIMEFORMAT','%a %B %d, %Y %H:%M:%S'); //see strftime() sintax
 
 //common phrases

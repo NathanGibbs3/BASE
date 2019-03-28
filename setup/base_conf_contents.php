@@ -522,9 +522,6 @@ $lacnic_ip = "200.3.14.10";
     
     // _BASE_INC is a variable set to prevent direct access to certain include files....
     define( \'_BASE_INC\', 1 );
-    
-    // Include for languages
-    include("$BASE_path/languages/$BASE_Language.lang.php");
     ?>';
     return $contents;
 }

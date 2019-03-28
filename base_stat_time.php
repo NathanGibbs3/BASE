@@ -128,7 +128,8 @@ function PrintTimeProfile()
   $time_sep = ImportHTTPVar("time_sep", VAR_ALPHA);
   $time = ImportHTTPVar("time", VAR_DIGIT);
   $submit = ImportHTTPVar("submit", VAR_ALPHA | VAR_SPACE);
-
+// Create UI Language Abstraction Onject
+$UIL = new UILang($BASE_Language);
   $cs = new CriteriaState("base_stat_alerts.php");
   $cs->ReadState();
 
