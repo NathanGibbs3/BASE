@@ -44,7 +44,22 @@ class langTest extends PHPUnit_Framework_TestCase {
 				print "Creating UILang Class: $tmp for $lang\n";
 			}
 			// Expect errors as we Transition the TD Data
-			$this->expectException("PHPUnit_Framework_Error");
+			if (
+				!method_exists('PHPUnit_Runner_Version','id')
+				|| version_compare(PHPUnit_Runner_Version::id(), '4.0', '<')
+			) {
+				$this->markTestIncomplete('need phpunit >= 4.0 to run this test');
+			}elseif (
+				version_compare(PHPUnit_Runner_Version::id(), '5.0', '<')
+			){ // PHPUnit 4x
+				$this->setExpectException("PHPUnit_Framework_Error");
+			}elseif (
+				version_compare(PHPUnit_Runner_Version::id(), '8.0', '<')
+			){ // PHPUnit 5+
+				$this->expectException("PHPUnit_Framework_Error");
+			}else{ // PHPUnit 8+
+				$this->expectException("PHPUnit\Framework\Error\Error");
+			}
 			$this->assertInstanceOf(
 				'UILang', new UILang($lang), "Class for $lang not created."
 			);
@@ -54,7 +69,22 @@ class langTest extends PHPUnit_Framework_TestCase {
 		$lang = 'invalid';
 		$tmp = "UI$lang";
 		// Expect errors as we Transition the TD Data
-		$this->expectException("PHPUnit_Framework_Error");
+		if (
+			!method_exists('PHPUnit_Runner_Version','id')
+			|| version_compare(PHPUnit_Runner_Version::id(), '4.0', '<')
+		) {
+			$this->markTestIncomplete('need phpunit >= 4.0 to run this test');
+		}elseif (
+			version_compare(PHPUnit_Runner_Version::id(), '5.0', '<')
+		){ // PHPUnit 4x
+			$this->setExpectException("PHPUnit_Framework_Error");
+		}elseif (
+			version_compare(PHPUnit_Runner_Version::id(), '8.0', '<')
+		){ // PHPUnit 5+
+			$this->expectException("PHPUnit_Framework_Error");
+		}else{ // PHPUnit 8+
+			$this->expectException("PHPUnit\Framework\Error\Error");
+		}
 		$$tmp = new UILang($lang);
 		$this->assertEquals(
 			'english',
@@ -68,7 +98,22 @@ class langTest extends PHPUnit_Framework_TestCase {
 		foreach($langs as $lang){
 			$tmp = "UI$lang";
 			// Expect errors as we Transition the TD Data
-			$this->expectException("PHPUnit_Framework_Error");
+			if (
+				!method_exists('PHPUnit_Runner_Version','id')
+				|| version_compare(PHPUnit_Runner_Version::id(), '4.0', '<')
+			) {
+				$this->markTestIncomplete('need phpunit >= 4.0 to run this test');
+			}elseif (
+				version_compare(PHPUnit_Runner_Version::id(), '5.0', '<')
+			){ // PHPUnit 4x
+				$this->setExpectException("PHPUnit_Framework_Error");
+			}elseif (
+				version_compare(PHPUnit_Runner_Version::id(), '8.0', '<')
+			){ // PHPUnit 5+
+				$this->expectException("PHPUnit_Framework_Error");
+			}else{ // PHPUnit 8+
+				$this->expectException("PHPUnit\Framework\Error\Error");
+			}
 			$$tmp = new UILang($lang);
 			$file = $$tmp->TDF;
 			if ($debug_mode > 0) {
@@ -89,7 +134,22 @@ class langTest extends PHPUnit_Framework_TestCase {
 				print "Testing  file: $BASE_path/languages/$file\n";
 			}
 			// Expect errors as we Transition the TD Data
-			$this->expectException("PHPUnit_Framework_Error");
+			if (
+				!method_exists('PHPUnit_Runner_Version','id')
+				|| version_compare(PHPUnit_Runner_Version::id(), '4.0', '<')
+			) {
+				$this->markTestIncomplete('need phpunit >= 4.0 to run this test');
+			}elseif (
+				version_compare(PHPUnit_Runner_Version::id(), '5.0', '<')
+			){ // PHPUnit 4x
+				$this->setExpectException("PHPUnit_Framework_Error");
+			}elseif (
+				version_compare(PHPUnit_Runner_Version::id(), '8.0', '<')
+			){ // PHPUnit 5+
+				$this->expectException("PHPUnit_Framework_Error");
+			}else{ // PHPUnit 8+
+				$this->expectException("PHPUnit\Framework\Error\Error");
+			}
 			include_once("$BASE_path/languages/$file");
 			// Test common phrases
 			// DEFINE('_CHARSET','iso-8859-1');
@@ -311,7 +371,22 @@ class langTest extends PHPUnit_Framework_TestCase {
 				print "Testing  file: $BASE_path/languages/$file\n";
 			}
 			// Expect errors as we Transition the TD Data
-			$this->expectException("PHPUnit_Framework_Error");
+			if (
+				!method_exists('PHPUnit_Runner_Version','id')
+				|| version_compare(PHPUnit_Runner_Version::id(), '4.0', '<')
+			) {
+				$this->markTestIncomplete('need phpunit >= 4.0 to run this test');
+			}elseif (
+				version_compare(PHPUnit_Runner_Version::id(), '5.0', '<')
+			){ // PHPUnit 4x
+				$this->setExpectException("PHPUnit_Framework_Error");
+			}elseif (
+				version_compare(PHPUnit_Runner_Version::id(), '8.0', '<')
+			){ // PHPUnit 5+
+				$this->expectException("PHPUnit_Framework_Error");
+			}else{ // PHPUnit 8+
+				$this->expectException("PHPUnit\Framework\Error\Error");
+			}
 			include_once("$BASE_path/languages/$file");
 			// Test Menu items
 			// DEFINE('_HOME','Home');
@@ -376,7 +451,22 @@ class langTest extends PHPUnit_Framework_TestCase {
 				print "Testing  file: $BASE_path/languages/$file\n";
 			}
 			// Expect errors as we Transition the TD Data
-			$this->expectException("PHPUnit_Framework_Error");
+			if (
+				!method_exists('PHPUnit_Runner_Version','id')
+				|| version_compare(PHPUnit_Runner_Version::id(), '4.0', '<')
+			) {
+				$this->markTestIncomplete('need phpunit >= 4.0 to run this test');
+			}elseif (
+				version_compare(PHPUnit_Runner_Version::id(), '5.0', '<')
+			){ // PHPUnit 4x
+				$this->setExpectException("PHPUnit_Framework_Error");
+			}elseif (
+				version_compare(PHPUnit_Runner_Version::id(), '8.0', '<')
+			){ // PHPUnit 5+
+				$this->expectException("PHPUnit_Framework_Error");
+			}else{ // PHPUnit 8+
+				$this->expectException("PHPUnit\Framework\Error\Error");
+			}
 			include_once("$BASE_path/languages/$file");
 			// Test Files with one line of translation data.
 				//base_footer.php
@@ -395,7 +485,22 @@ class langTest extends PHPUnit_Framework_TestCase {
 				print "Testing  file: $BASE_path/languages/$file\n";
 			}
 			// Expect errors as we Transition the TD Data
-			$this->expectException("PHPUnit_Framework_Error");
+			if (
+				!method_exists('PHPUnit_Runner_Version','id')
+				|| version_compare(PHPUnit_Runner_Version::id(), '4.0', '<')
+			) {
+				$this->markTestIncomplete('need phpunit >= 4.0 to run this test');
+			}elseif (
+				version_compare(PHPUnit_Runner_Version::id(), '5.0', '<')
+			){ // PHPUnit 4x
+				$this->setExpectException("PHPUnit_Framework_Error");
+			}elseif (
+				version_compare(PHPUnit_Runner_Version::id(), '8.0', '<')
+			){ // PHPUnit 5+
+				$this->expectException("PHPUnit_Framework_Error");
+			}else{ // PHPUnit 8+
+				$this->expectException("PHPUnit\Framework\Error\Error");
+			}
 			include_once("$BASE_path/languages/$file");
 			// Test base_main.php
 		}
