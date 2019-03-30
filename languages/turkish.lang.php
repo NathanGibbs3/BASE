@@ -23,10 +23,10 @@
 ********************************************************************************
 */
 
-//locale
+// Locales
 $UI_Locales = array( 'tur_TUR.ISO8859-9', 'tur_TUR.utf-8', 'turkish' );
-// Time Format
-DEFINE('_STRFTIMEFORMAT','%a %B %d, %Y %H:%M:%S'); //see strftime() sintax
+// Time Format - See strftime() syntax.
+$UI_Timefmt = '%a %B %d, %Y %H:%M:%S';
 
 //common phrases
 DEFINE('_CHARSET','iso-8859-9');

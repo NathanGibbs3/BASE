@@ -39,6 +39,9 @@ class UILang{
 		GLOBAL $BASE_path, $BASE_installID;
 		$TDF = "$BASE_path/languages/$UILang.lang.php";
 		if (!file_exists($TDF)) {
+//			trigger_error(
+//				"No TD found for Language: $UILang. Default to english"
+//			);
 			// Default to english if language is not supported.
 			$TDF = "$BASE_path/languages/english.lang.php";
 		}
@@ -47,11 +50,16 @@ class UILang{
 		$this->Lang = $UILang;
 		$this->TDF = $TDF;
 		// Store Locales
-		if ( is_array($UI_Locales) ) {
-			$this->Locale = $UI_Locales;
-		}else{
-			$this->Locale = NULL;
-		}
+//		if ( isset($UI_Locales) ) {
+			if ( is_array($UI_Locales) ) {
+				$this->Locale = $UI_Locales;
+			}else{
+				$this->Locale = NULL;
+			}
+//		}else{
+//			$this->Locale = NULL;
+//		}
+		$this->SetUITimefmt($UI_Timefmt);
 	}
 	// Sets locale from translation data or defaults to system locale.
 	function SetUILocale() {
@@ -67,8 +75,13 @@ class UILang{
 		}
 		return $Ret;
 	}
-	function SetUITimeFmt() {
-		$this->Timefmt = '_STRFTIMEFORMAT';
+	// Sets Time format from translation data.
+	function SetUITimeFmt($UI_Timefmt) {
+		if ( isset($UI_Timefmt) ) { // Var Based
+			$this->Timefmt = $UI_Timefmt;
+		}else{ // Const based
+			$this->Timefmt = '_STRFTIMEFORMAT';
+		}
 	}
 }
 

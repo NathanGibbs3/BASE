@@ -46,12 +46,12 @@ class langTest extends TestCase {
 		$this->assertNotEmpty($this->langs, 'Lang List Empty.');
 	}
 	public function testClassCanBeCreatredFromLTDFiles () {
-		GLOBAL $BASE_path, $BASE_installID, $debug_mode;
+		GLOBAL $debug_mode;
 		$langs = $this->langs;
 		foreach($langs as $lang){
 			$tmp = "UI$lang";
 			if ($debug_mode > 0) {
-				print "Creating UILang Class: $tmp for $lang\n";
+				print "\nCreating UILang Class: $tmp for $lang.";
 			}
 			// Expect errors as we Transition Translation Data
 			$PHPUV = $this->PHPUV;
@@ -83,6 +83,8 @@ class langTest extends TestCase {
 		}else{ // PHPUnit 6+
 			$this->expectException("PHPUnit\Framework\Error\Error");
 		}
+		// Add exception msg
+		// "No TD found for Language: invalid. Default to english"
 		$$tmp = new UILang($lang);
 		$this->assertEquals(
 			'english',
@@ -91,7 +93,7 @@ class langTest extends TestCase {
 		);
 	}
 	public function testSetUILocaleReturnsTrue() {
-		GLOBAL $BASE_path, $BASE_installID, $debug_mode;
+		GLOBAL $debug_mode;
 		$langs = $this->langs;
 		foreach($langs as $lang){
 			$tmp = "UI$lang";
@@ -106,23 +108,53 @@ class langTest extends TestCase {
 			}else{ // PHPUnit 6+
 				$this->expectException("PHPUnit\Framework\Error\Error");
 			}
+			if ($debug_mode > 0) {
+				print "\n" . __FUNCTION__ . " Testing language: $lang";
+			}
 			$$tmp = new UILang($lang);
+			// Will not run until TD is transitioned.
 			$file = $$tmp->TDF;
 			if ($debug_mode > 0) {
-				print "Testing  file: $file\n";
+				print "\n" . __FUNCTION__ . " Testing TD file: $file";
 			}
 			// Test Locale
 			$this->assertTrue(is_array($$tmp->Locale), "Locales not defined in $file.");
 			$this->assertTrue($$tmp->SetUILocale(), 'Locale Not Set');
-			// DEFINE('_STRFTIMEFORMAT','%a %B %d, %Y %H:%M:%S'); //see strftime() sintax
-			//$this->assertTrue(defined('_STRFTIMEFORMAT'),'Locale Time Format not defined');
+		}
+	}
+	public function testSetUITimefmt() {
+		GLOBAL $debug_mode;
+		$langs = $this->langs;
+		foreach($langs as $lang){
+			$tmp = "UI$lang";
+			// Expect errors as we Transition Translation Data
+			$PHPUV = $this->PHPUV;
+			if (version_compare($PHPUV, '4.0', '<')) {
+				$this->markTestIncomplete('Requires Phpunit 4+ to run.');
+			}elseif (version_compare($PHPUV, '5.0', '<')) { // PHPUnit 4x
+				$this->setExpectedException("PHPUnit_Framework_Error");
+			}elseif (version_compare($PHPUV, '6.0', '<')) { // PHPUnit 5x
+				$this->expectException("PHPUnit_Framework_Error");
+			}else{ // PHPUnit 6+
+				$this->expectException("PHPUnit\Framework\Error\Error");
+			}
+			if ($debug_mode > 0) {
+				print "\n" . __FUNCTION__ . " Testing language: $lang";
+			}
+			$$tmp = new UILang($lang);
+			// Will not run until TD is transitioned.
+			$file = $$tmp->TDF;
+			if ($debug_mode > 0) {
+				print "\n" . __FUNCTION__ . " Testing TD file: $file";
+			}
+			$this->assertTrue(isset($$$tmp->Timefmt),'Time Format Not Set');
 		}
 	}
 	public function testCommonPhrases() {
 		GLOBAL $BASE_path, $BASE_installID, $debug_mode;
 		$files = $this->files;
 		foreach($files as $file){
-			if ($debug_mode > 0) {
+			if ($debug_mode > 1) {
 				print "Testing  file: $BASE_path/languages/$file\n";
 			}
 			// Expect errors as we Transition Translation Data
@@ -353,7 +385,7 @@ class langTest extends TestCase {
 		GLOBAL $BASE_path, $BASE_installID, $debug_mode;
 		$files = $this->files;
 		foreach($files as $file){
-			if ($debug_mode > 0) {
+			if ($debug_mode > 1) {
 				print "Testing  file: $BASE_path/languages/$file\n";
 			}
 			// Expect errors as we Transition Translation Data
@@ -427,7 +459,7 @@ class langTest extends TestCase {
 		GLOBAL $BASE_path, $BASE_installID, $debug_mode;
 		$files = $this->files;
 		foreach($files as $file){
-			if ($debug_mode > 0) {
+			if ($debug_mode > 1) {
 				print "Testing  file: $BASE_path/languages/$file\n";
 			}
 			// Expect errors as we Transition Translation Data
@@ -455,7 +487,7 @@ class langTest extends TestCase {
 		GLOBAL $BASE_path, $BASE_installID, $debug_mode;
 		$files = $this->files;
 		foreach($files as $file){
-			if ($debug_mode > 0) {
+			if ($debug_mode > 1) {
 				print "Testing  file: $BASE_path/languages/$file\n";
 			}
 			// Expect errors as we Transition Translation Data
@@ -484,7 +516,7 @@ function validlangs() { // Returns array of langs.
 	$prefix = "$BASE_path/languages/*.lang.php";
 	$files = glob("$prefix");
 	if(is_array($files) && !empty($files)){
-		if ($debug_mode > 0) {
+		if ($debug_mode > 1) {
 			print "Will test the following languages:\n";
 		}
 		foreach($files as $match){
@@ -492,13 +524,13 @@ function validlangs() { // Returns array of langs.
 			$match = preg_replace( "/$bpt\/languages\//", "", $match);
 			$match = preg_replace( "/\.lang\.php/", "", $match);
 			$testfiles[]=$match;
-			if ($debug_mode > 0) {
+			if ($debug_mode > 1) {
 				print "$match\n";
 			}
 		}
 	}else{
 		$testfiles = NULL;
-		if ($debug_mode > 0) {
+		if ($debug_mode > 1) {
 			print "Empty Lang List\n";
 		}
 	}
@@ -511,20 +543,20 @@ function langfiles() { // Returns array of lang files.
 	$prefix = "$BASE_path/languages/*.lang.php";
 	$files = glob("$prefix");
 	if(is_array($files) && !empty($files)){
-		if ($debug_mode > 0) {
+		if ($debug_mode > 1) {
 			print "Will test the following files:\n";
 		}
 		foreach($files as $match){
 			$bpt= preg_replace("/\//","\/",$BASE_path);
 			$match = preg_replace( "/$bpt\/languages\//", "", $match);
 			$testfiles[]=$match;
-			if ($debug_mode > 0) {
+			if ($debug_mode > 1) {
 				print "$match\n";
 			}
 		}
 	}else{
 		$testfiles = NULL;
-		if ($debug_mode > 0) {
+		if ($debug_mode > 1) {
 			print "Empty Test Set\n";
 		}
 	}

@@ -268,7 +268,7 @@ if ($event_cache_auto_update == 1) {
     UpdateAlertCache($db);
 }
 if (!$UIL->SetUILocale()) {
-    printf("<strong>"._QUERIED." </strong> : %s<br />" , strftime(_STRFTIMEFORMAT));
+	printf("<strong>"._QUERIED." </strong> : %s<br />" , strftime($UIL->Timefmt));
     if (isset($_COOKIE['archive']) && $_COOKIE['archive'] == 1) {
         printf("<strong>"._DATABASE."</strong> %s &nbsp;&nbsp;&nbsp;(<strong>"._SCHEMAV."</strong> %d) \n<br />\n", 
 	    ($archive_dbname.'@'.$archive_host. ($archive_port != "" ? ':'.$archive_port : "") ),

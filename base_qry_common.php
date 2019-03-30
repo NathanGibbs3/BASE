@@ -476,34 +476,36 @@ function PrintCriteria($caller) {
      $save_criteria .= '<I> &nbsp;&nbsp; '._NONE.' </I></TD></TR>';
   }
 
-  /* Payload ************** */
-  $save_criteria .= '<TR>
-        <TD CLASS="payloadtitle">'._QCPAYCRIT.'</TD>
-        <TD>';
+	// Payload
+	$save_criteria .= "\n".str_repeat ( "\t",9 ).'<tr>'.
+	"\n".str_repeat ( "\t",10 ).'<td class="payloadtitle">'._QCPAYCRIT.'</td>'.
+	"\n".str_repeat ( "\t",10 ).'<td>';
 	if ( !$cs->criteria['data']->isEmpty() ) {
 		$save_criteria .= $cs->criteria['data']->Description('');
 	}else{
-		$save_criteria .= '<I> &nbsp;&nbsp; '._ANY.' </I>';
+		$save_criteria .= '<i> &nbsp;&nbsp; '._ANY.' </i>';
 	}
-  $save_criteria .= '&nbsp;&nbsp;</TD></TR>';
-
-  
-  $save_criteria .= '</TABLE>'; 
+	$save_criteria .= '&nbsp;&nbsp;</td>'.
+	"\n".str_repeat ( "\t",9 ).'</tr>'.
+	"\n".str_repeat ( "\t",8 ).'</table>';
+	// Search criteria Display
 	$UIL->SetUILocale();
-  $save_criteria = '&nbsp;<B>'._QUERIED.'</B><FONT> : '.strftime(_STRFTIMEFORMAT).'</FONT>'.
-                   '<TABLE BORDER=0 CELLSPACING=0 CELLPADDING=2 BGCOLOR="#000000">'.
-                   '<TR><TD>'.
-         
-                   '<TABLE BORDER=0 CELLSPACING=0 CELLPADDING=1 BGCOLOR="#DDDDDD"><TR><TD>'.
-
-                   $save_criteria.
-
-                   '</TD></TR></TABLE>'.
-
-                   '</TD></TR>'.
-                   '</TABLE>';
-
-  echo $save_criteria;
+	// Table summary needs to be translated.
+	$save_criteria =
+		'&nbsp;<b>'._QUERIED.'</b> : '.strftime($UIL->Timefmt).
+		"\n".str_repeat ( "\t",4 ).
+		'<table border=0 cellspacing=0 callpadding=2 bgcolor="#000000"'.
+		' summary="Search Criteria">'.
+		"\n".str_repeat ( "\t",5 ).'<tr><td>'.
+		"\n".str_repeat ( "\t",6 ).
+		'<table border=0 cellspacing=0 cellpadding=1 bgcolor="#DDDDDD">'.
+		"\n".str_repeat ( "\t",7 ).'<tr><td>'.
+		"\n".str_repeat ( "\t",8 ).$save_criteria.
+		"\n".str_repeat ( "\t",7 ).'</td></tr>'.
+		"\n".str_repeat ( "\t",6 ).'</table>'.
+		"\n".str_repeat ( "\t",5 ).'</td></tr>'.
+		"\n".str_repeat ( "\t",4 ).'</table>';
+	echo $save_criteria;
 }
 
 /********************************************************************************************/

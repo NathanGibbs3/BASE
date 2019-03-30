@@ -22,10 +22,10 @@
 ********************************************************************************
 */
 
-//locale
+// Locales
 $UI_Locales = array( 'eng_ENG.ISO8859-1', 'eng_ENG.utf-8', 'english' );
-// Time Format
-DEFINE('_STRFTIMEFORMAT','%a %B %d, %Y %H:%M:%S'); //NEW - see strftime() sintax
+// Time Format - See strftime() syntax.
+$UI_Timefmt = '%a %B %d, %Y %H:%M:%S';
 
 //common phrases
 DEFINE('_CHARSET','iso-8859-1');

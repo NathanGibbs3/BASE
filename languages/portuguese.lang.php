@@ -28,10 +28,11 @@
 ** 01/02/2005 - Finalização dos ítens não traduzidos
 ********************************************************************************
 */
-//locale
+
+// Locales
 $UI_Locales = array( 'pt_PT.ISO8859-1', 'pt_PT.utf-8', 'portuguese' );
-// Time Format
-DEFINE('_STRFTIMEFORMAT','%a %d de %b de %Y %H:%M:%S');
+// Time Format - See strftime() syntax.
+$UI_Timefmt = '%a %d de %b de %Y %H:%M:%S';
 
 //common phrases
 DEFINE('_CHARSET','UTF-8');
