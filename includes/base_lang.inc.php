@@ -50,16 +50,20 @@ class UILang{
 		$this->Lang = $UILang;
 		$this->TDF = $TDF;
 		// Store Locales
-//		if ( isset($UI_Locales) ) {
+		if ( isset($UI_Locales) ) {
 			if ( is_array($UI_Locales) ) {
 				$this->Locale = $UI_Locales;
 			}else{
 				$this->Locale = NULL;
 			}
-//		}else{
-//			$this->Locale = NULL;
-//		}
-		$this->SetUITimefmt($UI_Timefmt);
+		}else{
+			$this->Locale = NULL;
+		}
+		if ( isset($UI_Timefmt) ) {
+			$this->SetUITimefmt($UI_Timefmt);
+		}else{
+			$this->SetUITimefmt('');
+		}
 	}
 	// Sets locale from translation data or defaults to system locale.
 	function SetUILocale() {

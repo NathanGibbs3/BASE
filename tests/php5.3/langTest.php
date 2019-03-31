@@ -19,8 +19,39 @@ class langTest extends TestCase {
 	var $langs;
 	var $PHPUV;
 	protected function setUp() {
-		$this->files = langfiles();
-		$this->langs = validlangs();
+		GLOBAL $BASE_path, $debug_mode;
+		$ll = installedlangs();
+		// Verify Lang List
+		$this->assertNotNull($ll, 'No Langs installed.');
+		// $this->assertIsArray($this->files, 'Test Set Invalid Type.');
+		// Equivalent of above for Older PHPUnit's :-)
+		$this->assertTrue(is_array($ll), 'Lnag List not array.');
+		$this->assertNotEmpty($ll, 'Lang List Empty.');
+		$this->langs = $ll;
+		// Lang List OK. Build TD File List. :-)
+		if ($debug_mode > 1) {
+			print "\nWill test the following files:";
+		}
+		foreach($ll as $match){
+			$match .= '.lang.php';
+			if ($debug_mode > 1) {
+				print "\n$match";
+			}
+			// Test for standardized TD file names here.
+//			$this->assertEquals(
+//				REGEX,
+//				$match,
+//				"\nNon Standard TD file name: $match"
+//			);
+			$lf[]=$match;
+		}
+		// Verify TD File List
+		// $this->assertIsArray($this->files, 'Test Set Invalid Type.');
+		// Equivalent of above for Older PHPUnit's :-)
+		$this->assertTrue(is_array($lf), 'TD File List not array.');
+		$this->assertNotEmpty($lf, 'TD File List Empty.');
+		// TD File List OK. :-)
+		$this->files = $lf;
 		if ( method_exists('PHPUnit_Runner_Version','id')) {
 			$this->PHPUV = PHPUnit_Runner_Version::id();
 		}elseif (method_exists('PHPUnit\Runner\Version','id')) {
@@ -31,20 +62,6 @@ class langTest extends TestCase {
 		}
 	}
 	// Tests go here.
-	public function testSetOK() {
-		$this->assertNotNull($this->files, 'Test Set Not found.');
-		// $this->assertIsArray($this->files, 'Test Set Invalid Type.');
-		// Equivalent of above for Older PHPUnit's :-)
-		$this->assertTrue(is_array($this->files), 'Test Set Invalid Type.');
-		$this->assertNotEmpty($this->files, 'Test Set Empty.');
-	}
-	public function testLangListOK() {
-		$this->assertNotNull($this->langs, 'Lang List Not found.');
-		// $this->assertIsArray($this->files, 'Test Set Invalid Type.');
-		// Equivalent of above for Older PHPUnit's :-)
-		$this->assertTrue(is_array($this->langs), 'Lnag List Invalid Type.');
-		$this->assertNotEmpty($this->langs, 'Lang List Empty.');
-	}
 	public function testClassCanBeCreatredFromLTDFiles () {
 		GLOBAL $debug_mode;
 		$langs = $this->langs;
@@ -92,7 +109,7 @@ class langTest extends TestCase {
 			'Class did not deafult to english.'
 		);
 	}
-	public function testSetUILocaleReturnsTrue() {
+	public function testSetUILocale() {
 		GLOBAL $debug_mode;
 		$langs = $this->langs;
 		foreach($langs as $lang){
@@ -118,8 +135,16 @@ class langTest extends TestCase {
 				print "\n" . __FUNCTION__ . " Testing TD file: $file";
 			}
 			// Test Locale
-			$this->assertTrue(is_array($$tmp->Locale), "Locales not defined in $file.");
-			$this->assertTrue($$tmp->SetUILocale(), 'Locale Not Set');
+			if (is_null($$tmp->Locale) ) {
+				if ( !$$tmp->SetUILocale() ){
+					$this->markTestSkipped(
+						'Locale not implemented or locale(s) do not exist.'
+					);
+				}
+			}else{
+				$this->assertTrue(is_array($$tmp->Locale), "Locales not defined in $file.");
+			}
+			$this->assertNotNull($$tmp->Locale, 'Locale Not Set');
 		}
 	}
 	public function testSetUITimefmt() {
@@ -147,7 +172,7 @@ class langTest extends TestCase {
 			if ($debug_mode > 0) {
 				print "\n" . __FUNCTION__ . " Testing TD file: $file";
 			}
-			$this->assertTrue(isset($$$tmp->Timefmt),'Time Format Not Set');
+			$this->assertTrue(isset($$tmp->Timefmt),'Time Format Not Set');
 		}
 	}
 	public function testCommonPhrases() {
@@ -510,57 +535,30 @@ class langTest extends TestCase {
 	//$this->markTestIncomplete('Incomplete Test.');
 }
 
-function validlangs() { // Returns array of langs.
+function installedlangs() { // Returns array of langs.
 	GLOBAL $BASE_path, $debug_mode;
-	$testfiles = array();
+	$ll = array();
 	$prefix = "$BASE_path/languages/*.lang.php";
 	$files = glob("$prefix");
 	if(is_array($files) && !empty($files)){
 		if ($debug_mode > 1) {
-			print "Will test the following languages:\n";
+			print "\nWill test the following languages:";
 		}
+		$bpt= preg_replace("/\//","\/",$BASE_path);
 		foreach($files as $match){
-			$bpt= preg_replace("/\//","\/",$BASE_path);
 			$match = preg_replace( "/$bpt\/languages\//", "", $match);
 			$match = preg_replace( "/\.lang\.php/", "", $match);
-			$testfiles[]=$match;
+			$ll[]=$match;
 			if ($debug_mode > 1) {
-				print "$match\n";
+				print "\n$match";
 			}
 		}
 	}else{
-		$testfiles = NULL;
+		$ll = NULL;
 		if ($debug_mode > 1) {
-			print "Empty Lang List\n";
+			print "\nEmpty Lang List";
 		}
 	}
-	return $testfiles;
+	return $ll;
 }
-
-function langfiles() { // Returns array of lang files.
-	GLOBAL $BASE_path, $debug_mode;
-	$testfiles = array();
-	$prefix = "$BASE_path/languages/*.lang.php";
-	$files = glob("$prefix");
-	if(is_array($files) && !empty($files)){
-		if ($debug_mode > 1) {
-			print "Will test the following files:\n";
-		}
-		foreach($files as $match){
-			$bpt= preg_replace("/\//","\/",$BASE_path);
-			$match = preg_replace( "/$bpt\/languages\//", "", $match);
-			$testfiles[]=$match;
-			if ($debug_mode > 1) {
-				print "$match\n";
-			}
-		}
-	}else{
-		$testfiles = NULL;
-		if ($debug_mode > 1) {
-			print "Empty Test Set\n";
-		}
-	}
-	return $testfiles;
-}
-
 ?>
