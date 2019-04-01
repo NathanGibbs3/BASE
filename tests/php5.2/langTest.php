@@ -1,4 +1,5 @@
 <?php
+use PHPUnit\Framework\TestCase;
 
 // Will test for specific defines in /languages/*.lang.php
 // Verify that all the data for a complete translation is present.
@@ -16,6 +17,7 @@ class langTest extends PHPUnit_Framework_TestCase {
 	// Pre Test Setup.
 	var $files;
 	var $langs;
+	var $UIL;
 	var $PHPUV;
 	protected function setUp() {
 		GLOBAL $BASE_path, $debug_mode;
@@ -141,7 +143,10 @@ class langTest extends PHPUnit_Framework_TestCase {
 					);
 				}
 			}else{
-				$this->assertTrue(is_array($$tmp->Locale), "Locales not defined in $file.");
+				$this->assertTrue(
+					is_array($$tmp->Locale),
+					"Locales not defined in $file."
+				);
 			}
 			$this->assertNotNull($$tmp->Locale, 'Locale Not Set');
 		}
@@ -171,7 +176,10 @@ class langTest extends PHPUnit_Framework_TestCase {
 			if ($debug_mode > 0) {
 				print "\n" . __FUNCTION__ . " Testing TD file: $file";
 			}
-			$this->assertTrue(isset($$tmp->Timefmt),'Time Format Not Set');
+			$this->assertTrue(
+				isset($$tmp->Timefmt),
+				"Time Format not set in $file"
+			);
 		}
 	}
 	public function testCommonPhrases() {

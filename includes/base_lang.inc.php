@@ -29,10 +29,12 @@ class UILang{
 			$SCargs = func_get_args();
 			call_user_func_array(array($this, $SCname), $SCargs);
 		}else{
+			// @codeCoverageIgnoreStart
 			trigger_error(
 				"Class: $SCname No Legacy Constructor.\n",
 				E_USER_ERROR
 			);
+			// @codeCoverageIgnoreEnd
 		}
 	}
 	function UILang($UILang) { // PHP 4x constructor.
@@ -62,7 +64,7 @@ class UILang{
 		if ( isset($UI_Timefmt) ) {
 			$this->SetUITimefmt($UI_Timefmt);
 		}else{
-			$this->SetUITimefmt('');
+			$this->SetUITimefmt(NULL);
 		}
 	}
 	// Sets locale from translation data or defaults to system locale.
@@ -75,7 +77,9 @@ class UILang{
 		if ($Ret != FALSE) {
 			$this->Locale = setlocale(LC_TIME, "0");
 		}else{
+			// @codeCoverageIgnoreStart
 			$this->Locale = NULL;
+			// @codeCoverageIgnoreEnd
 		}
 		return $Ret;
 	}

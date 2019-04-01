@@ -1,4 +1,5 @@
 <?php
+use PHPUnit\Framework\TestCase;
 
 // These tests should init the UILang class with a legacy
 // TD (Translation Data) file.
@@ -36,39 +37,20 @@ class legacylangTest extends PHPUnit_Framework_TestCase {
 		$this->langs = $ll;
 		$lf = "$ll.lang.php";
 		$this->files = $lf;
-		$file = "$BASE_path/tests/$lf";
+		$file = "$BASE_path/languages/$lf";
 		if ($debug_mode > 1) {
 			print "\nTesting  file: $file";
 		}
 		$tmp = "UI$ll";
-		if ($debug_mode > 0) {
-//			print "\nCreating UILang Class: $tmp for $lang.";
-		}
 		copy ("$BASE_path/tests/$lf","$BASE_path/languages/$lf");
 		$this->assertInstanceOf(
-			'UILang', $this->UIL = new UILang($ll), "Class for $ll not created."
+			'UILang',
+			$this->UIL = new UILang($ll),
+			"Class for $ll not created."
 		);
 		unlink ("$BASE_path/languages/$lf");
-
-//		include_once($file);
 	}
 	// Tests go here.
-//	public function testClassCanBeCreatred () {
-//		GLOBAL $BASE_path, $debug_mode;
-//		$lang = $this->langs;
-//		$lf = $this->files;
-//		$tmp = "UI$lang";
-//		if ($debug_mode > 0) {
-//			print "\nCreating UILang Class: $tmp for $lang.";
-//		}
-//		copy ("$BASE_path/tests/$lf","$BASE_path/languages/$lf");
-//		$this->assertInstanceOf(
-//			'UILang', new UILang($lang), "Class for $lang not created."
-//		);
-//		unlink ("$BASE_path/languages/$lf");
-//	}
-
-
 	// Tests Phase 1.
 	public function testLocale() { // Test Locale info.
 		// DEFINE('_LOCALESTR1', 'eng_ENG.ISO8859-1');
@@ -400,7 +382,10 @@ class legacylangTest extends PHPUnit_Framework_TestCase {
 		if ($debug_mode > 0) {
 			print "\n" . __FUNCTION__ . " Testing TD file: $file";
 		}
-		$this->assertTrue(isset($$tmp->Timefmt),'Time Format Not Set');
+		$this->assertTrue(
+			isset($$tmp->Timefmt),
+			"Time Format not set in $file"
+		);
 	}
 
 	// Add code to a function if needed.
