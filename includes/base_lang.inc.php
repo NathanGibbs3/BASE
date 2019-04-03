@@ -22,6 +22,8 @@ class UILang{
 	var $Lang;
 	var $Locale;
 	var $Timefmt;
+	var $Charset;
+	var $Title;
 
 	function __construct($UILang) { // PHP 5+ constructor Shim.
 		// Class/Method agnostic shim code.
@@ -67,18 +69,29 @@ class UILang{
 		}else{
 			$this->SetUITimefmt(NULL);
 		}
+		if ( isset($UI_Charset) ) {
+			$this->SetUICharset($UI_Charset);
+		}else{
+			$this->SetUICharset(NULL);
+		}
+		if ( isset($UI_Title) ) {
+			$this->SetUITitle($UI_Title);
+		}else{
+			$this->SetUITitle(NULL);
+		}
 	}
 	// Sets locale from translation data or defaults to system locale.
 	function SetUILocale() {
 		if ( is_array($this->Locale) ) { // Var Based
 			$Ret = setlocale (LC_TIME, $this->Locale, "");
 		}else{ // Const based
-			$Ret = setlocale (LC_TIME, '_LOCALESTR1', '_LOCALESTR2', '_LOCALESTR3', "");
+			$Ret = setlocale (LC_TIME, _LOCALESTR1, _LOCALESTR2, _LOCALESTR3, "");
 		}
 		if ($Ret != FALSE) {
 			$this->Locale = setlocale(LC_TIME, "0");
 		}else{
 			// @codeCoverageIgnoreStart
+			// This code path is implementation dependent.
 			$this->Locale = NULL;
 			// @codeCoverageIgnoreEnd
 		}
@@ -89,9 +102,24 @@ class UILang{
 		if ( isset($UI_Timefmt) ) { // Var Based
 			$this->Timefmt = $UI_Timefmt;
 		}else{ // Const based
-			$this->Timefmt = '_STRFTIMEFORMAT';
+			$this->Timefmt = _STRFTIMEFORMAT;
+		}
+	}
+	// Sets HTML Content-Type charset from translation data.
+	function SetUICharset($UI_Charset) {
+		if ( isset($UI_Charset) ) { // Var Based
+			$this->Charset = $UI_Charset;
+		}else{ // Const based
+			$this->Charset = _CHARSET;
+		}
+	}
+	// ets HTML Common Page Title from translation data.
+	function SetUITitle($UI_Title) {
+		if ( isset($UI_Title) ) { // Var Based
+			$this->Title = $UI_Title;
+		}else{ // Const based
+			$this->Title = _TITLE;
 		}
 	}
 }
-
 ?>

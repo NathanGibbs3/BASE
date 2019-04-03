@@ -92,7 +92,7 @@
           echo ('<a href="base_main.php?archive=1">' . _USEARCHIDB . '</a>');
       }
   }
-$UIL = new UILang($BASE_Language); // Create UI Language Abstraction Onject
+$UIL = new UILang($BASE_Language); // Create UI Language Abstraction Object.
 PrintPageStart(1);
 include("$BASE_path/base_hdr1.php");
 if ($debug_mode == 1) {

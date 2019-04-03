@@ -23,14 +23,15 @@
 ********************************************************************************
 */
 
-// Locales
+// Locales.
 $UI_Locales = array( 'tur_TUR.ISO8859-9', 'tur_TUR.utf-8', 'turkish' );
 // Time Format - See strftime() syntax.
 $UI_Timefmt = '%a %B %d, %Y %H:%M:%S';
+// UI Init.
+$UI_Charset = 'iso-8859-9';
+$UI_Title = 'Basic Analysis and Security Engine';
 
 //common phrases
-DEFINE('_CHARSET','iso-8859-9');
-DEFINE('_TITLE','Basic Analysis and Security Engine');
 DEFINE('_FRMLOGIN','Oturum Aç:');
 DEFINE('_FRMPWD','Parola:');
 DEFINE('_SOURCE','Kaynak');

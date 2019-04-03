@@ -1,5 +1,4 @@
 <?php
-use PHPUnit\Framework\TestCase;
 
 // Will test for specific defines in /languages/*.lang.php
 // Verify that all the data for a complete translation is present.
@@ -182,8 +181,70 @@ class langTest extends PHPUnit_Framework_TestCase {
 			);
 		}
 	}
+	public function testSetUICharset() {
+		GLOBAL $debug_mode;
+		$langs = $this->langs;
+		foreach($langs as $lang){
+			$tmp = "UI$lang";
+			// Expect errors as we Transition Translation Data
+			$PHPUV = $this->PHPUV;
+			if (version_compare($PHPUV, '4.0', '<')) {
+				$this->markTestIncomplete('Requires Phpunit 4+ to run.');
+			}elseif (version_compare($PHPUV, '5.0', '<')) { // PHPUnit 4x
+				$this->setExpectedException("PHPUnit_Framework_Error");
+			}elseif (version_compare($PHPUV, '6.0', '<')) { // PHPUnit 5x
+				$this->expectException("PHPUnit_Framework_Error");
+			}else{ // PHPUnit 6+
+				$this->expectException("PHPUnit\Framework\Error\Error");
+			}
+			if ($debug_mode > 0) {
+				print "\n" . __FUNCTION__ . " Testing language: $lang";
+			}
+			$$tmp = new UILang($lang);
+			// Will not run until TD is transitioned.
+			$file = $$tmp->TDF;
+			if ($debug_mode > 0) {
+				print "\n" . __FUNCTION__ . " Testing TD file: $file";
+			}
+			$this->assertTrue(
+				isset($$tmp->Charset),
+				"HTML Charset not set in $file"
+			);
+		}
+	}
+	public function testSetUITitle() {
+		GLOBAL $debug_mode;
+		$langs = $this->langs;
+		foreach($langs as $lang){
+			$tmp = "UI$lang";
+			// Expect errors as we Transition Translation Data
+			$PHPUV = $this->PHPUV;
+			if (version_compare($PHPUV, '4.0', '<')) {
+				$this->markTestIncomplete('Requires Phpunit 4+ to run.');
+			}elseif (version_compare($PHPUV, '5.0', '<')) { // PHPUnit 4x
+				$this->setExpectedException("PHPUnit_Framework_Error");
+			}elseif (version_compare($PHPUV, '6.0', '<')) { // PHPUnit 5x
+				$this->expectException("PHPUnit_Framework_Error");
+			}else{ // PHPUnit 6+
+				$this->expectException("PHPUnit\Framework\Error\Error");
+			}
+			if ($debug_mode > 0) {
+				print "\n" . __FUNCTION__ . " Testing language: $lang";
+			}
+			$$tmp = new UILang($lang);
+			// Will not run until TD is transitioned.
+			$file = $$tmp->TDF;
+			if ($debug_mode > 0) {
+				print "\n" . __FUNCTION__ . " Testing TD file: $file";
+			}
+			$this->assertTrue(
+				isset($$tmp->Title),
+				"HTML Title not set in $file"
+			);
+		}
+	}
 	public function testCommonPhrases() {
-		GLOBAL $BASE_path, $BASE_installID, $debug_mode;
+		GLOBAL $BASE_path, $debug_mode;
 		$files = $this->files;
 		foreach($files as $file){
 			if ($debug_mode > 1) {
@@ -202,8 +263,6 @@ class langTest extends PHPUnit_Framework_TestCase {
 			}
 			include_once("$BASE_path/languages/$file");
 			// Test common phrases
-			// DEFINE('_CHARSET','iso-8859-1');
-			// DEFINE('_TITLE','Basic Analysis and Security Engine (BASE) '.$BASE_installID);
 			// DEFINE('_FRMLOGIN','Login:');
 			// DEFINE('_FRMPWD','Password:');
 			// DEFINE('_SOURCE','Source');
@@ -307,8 +366,6 @@ class langTest extends PHPUnit_Framework_TestCase {
 			// DEFINE('_TYPE','type');
 			// DEFINE('_NEXT','Next');
 			// DEFINE('_PREVIOUS','Previous');
-			$this->assertTrue(defined('_CHARSET'),'Charset not defined');
-			$this->assertTrue(defined('_TITLE'),'Title not defined');
 			$this->assertTrue(defined('_FRMLOGIN'),'Login: not defined');
 			$this->assertTrue(defined('_FRMPWD'),'Password: not defined');
 			$this->assertTrue(defined('_SOURCE'),'Source not defined');

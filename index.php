@@ -43,7 +43,7 @@ if ( $Use_Auth_System == 0 ) {
     base_header("Location: base_main.php");
 }
 
-$UIL = new UILang($BASE_Language); // Create UI Language Abstraction Onject
+$UIL = new UILang($BASE_Language); // Create UI Language Abstraction Object.
 if (isset($_POST['submit'])) {
     $debug_mode = 0; // wont login with debug_mode
     $BASEUSER   = new BaseUser();

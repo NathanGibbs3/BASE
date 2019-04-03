@@ -1,5 +1,5 @@
 <?php
-$title = _TITLE . " (BASE) $BASE_installID";
+$title = $UIL->Title . " (BASE) $BASE_installID";
 if ( isset($_COOKIE['archive']) && $_COOKIE['archive'] == 1 ) {
 	$title .= ' -- ARCHIVE';
 }

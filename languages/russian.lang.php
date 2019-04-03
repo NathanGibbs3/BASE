@@ -25,14 +25,15 @@
 ********************************************************************************
 */
 
-// Locales
+// Locales.
 $UI_Locales = array( 'eng_ENG.ISO8859-1', 'eng_ENG.utf-8', 'english' );
 // Time Format - See strftime() syntax.
 $UI_Timefmt = '%a %B %d, %Y %H:%M:%S';
+// UI Init.
+$UI_Charset = 'windows-1251';
+$UI_Title = 'Базовый движок анализа и безопасности';
 
 // основные фразы
-DEFINE('_CHARSET','windows-1251');
-DEFINE('_TITLE','Базовый движок анализа и безопасности');
 DEFINE('_FRMLOGIN','Логин:');
 DEFINE('_FRMPWD','Пароль:');
 DEFINE('_SOURCE','Источник');

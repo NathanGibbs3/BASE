@@ -20,9 +20,10 @@ defined( '_BASE_INC' ) or die( 'Accessing this file directly is not allowed.' );
 
 function PrintPageStart ($refresh = 0, $page_title = '') {
 	GLOBAL $BASE_VERSION, $BASE_installID, $base_style, $BASE_urlpath,
-	$html_no_cache, $refresh_stat_page, $stat_page_refresh_time;
+	$html_no_cache, $refresh_stat_page, $stat_page_refresh_time, $UIL;
 	$MHE = '<meta http-equiv="';
-	$title = _TITLE . " (BASE) $BASE_installID $BASE_VERSION";
+	$Charset = $UIL->Charset;
+	$title = $UIL->Title . " (BASE) $BASE_installID $BASE_VERSION";
 	if ($page_title != ''){
 		$title .= ' : ' . $page_title;
 	}
@@ -33,7 +34,7 @@ function PrintPageStart ($refresh = 0, $page_title = '') {
 	print "\n".'<!-- '. $title . ' -->';
 	print "\n".'<html>';
 	print "\n".str_repeat ( "\t",1 ).'<head>';
-	print "\n".str_repeat ( "\t",2 ).$MHE.'Content-Type" content="text/html; charset='. _CHARSET .'">';
+	print "\n".str_repeat ( "\t",2 ).$MHE.'Content-Type" content="text/html; charset='. $Charset .'">';
 	if ( $html_no_cache == 1 ) {
 		print "\n".str_repeat ( "\t",2 ).$MHE.'pragma" content="no-cache">';
 	}
@@ -52,7 +53,7 @@ function PrintPageStart ($refresh = 0, $page_title = '') {
 
 function PrintBASESubHeader($page_title, $page_name, $back_link, $refresh = 0, $page = "") {
 	GLOBAL $debug_mode, $BASE_installID, $BASE_path, $BASE_urlpath,
-	$html_no_cache, $max_script_runtime, $Use_Auth_System, $base_style;
+	$html_no_cache, $max_script_runtime, $Use_Auth_System, $base_style, $UIL;
 	if ( ini_get("safe_mode") != true ) {
 		set_time_limit($max_script_runtime);
 	}

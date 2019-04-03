@@ -46,8 +46,7 @@
   $db = NewBASEDBConnection($DBlib_path, $DBtype);
   $db->baseDBConnect($db_connect_method,
                      $alert_dbname, $alert_host, $alert_port, $alert_user, $alert_password);
-// Create UI Language Abstraction Onject
-$UIL = new UILang($BASE_Language);
+$UIL = new UILang($BASE_Language); // Create UI Language Abstraction Object.
   $cs = new CriteriaState("base_stat_ports.php");
   $cs->ReadState();
 

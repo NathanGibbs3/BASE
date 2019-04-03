@@ -1,5 +1,4 @@
 <?php
-use PHPUnit\Framework\TestCase;
 
 // These tests should init the UILang class with a legacy
 // TD (Translation Data) file.
@@ -346,7 +345,6 @@ class legacylangTest extends PHPUnit_Framework_TestCase {
 		if ($debug_mode > 0) {
 			print "\n" . __FUNCTION__ . " Testing language: $lang";
 		}
-		//$$tmp = new UILang($lang);
 		$$tmp = $this->UIL;
 		// Will not run until TD is transitioned.
 		$file = $$tmp->TDF;
@@ -375,7 +373,6 @@ class legacylangTest extends PHPUnit_Framework_TestCase {
 		if ($debug_mode > 0) {
 			print "\n" . __FUNCTION__ . " Testing language: $lang";
 		}
-		//$$tmp = new UILang($lang);
 		$$tmp = $this->UIL;
 		// Will not run until TD is transitioned.
 		$file = $$tmp->TDF;
@@ -385,6 +382,42 @@ class legacylangTest extends PHPUnit_Framework_TestCase {
 		$this->assertTrue(
 			isset($$tmp->Timefmt),
 			"Time Format not set in $file"
+		);
+	}
+	public function testSetUICharset() {
+		GLOBAL $debug_mode;
+		$lang = $this->langs;
+		$tmp = "UI$lang";
+		if ($debug_mode > 0) {
+			print "\n" . __FUNCTION__ . " Testing language: $lang";
+		}
+		$$tmp = $this->UIL;
+		// Will not run until TD is transitioned.
+		$file = $$tmp->TDF;
+		if ($debug_mode > 0) {
+			print "\n" . __FUNCTION__ . " Testing TD file: $file";
+		}
+		$this->assertTrue(
+			isset($$tmp->Charset),
+			"HTML Charset not set in $file"
+		);
+	}
+	public function testSetUITitle() {
+		GLOBAL $debug_mode;
+		$lang = $this->langs;
+		$tmp = "UI$lang";
+		if ($debug_mode > 0) {
+			print "\n" . __FUNCTION__ . " Testing language: $lang";
+		}
+		$$tmp = $this->UIL;
+		// Will not run until TD is transitioned.
+		$file = $$tmp->TDF;
+		if ($debug_mode > 0) {
+			print "\n" . __FUNCTION__ . " Testing TD file: $file";
+		}
+		$this->assertTrue(
+			isset($$tmp->Title),
+			"HTML Title not set in $file"
 		);
 	}
 

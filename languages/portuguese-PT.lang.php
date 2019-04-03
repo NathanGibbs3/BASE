@@ -31,14 +31,15 @@
 ********************************************************************************
 */
 
-// Locale
+// Locale.
 $UI_Locales = array( 'pt_PT.ISO8859-1', 'pt_PT.utf-8', 'portuguese' );
 // Time Format - See strftime() syntax.
 $UI_Timefmt = '%a %d de %b de %Y %H:%M:%S';
+// UI Init.
+$UI_Charset = 'UTF-8';
+$UI_Title = 'Basic Analysis and Security Engine';
 
 //common phrases
-DEFINE('_CHARSET','UTF-8');
-DEFINE('_TITLE','Basic Analysis and Security Engine');
 DEFINE('_FRMLOGIN','Nome:');
 DEFINE('_FRMPWD','Senha:');
 DEFINE('_SOURCE','Origem');

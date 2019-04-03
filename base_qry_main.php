@@ -77,8 +77,7 @@
   include_once("$BASE_path/base_qry_common.php");
 
   $et = new EventTiming($debug_time_mode);
-// Create UI Language Abstraction Onject
-$UIL = new UILang($BASE_Language);
+$UIL = new UILang($BASE_Language); // Create UI Language Abstraction Object.
   $cs = new CriteriaState("base_qry_main.php", "&amp;new=1&amp;submit="._QUERYDBP);
 
   // Check role out and redirect if needed -- Kevin

@@ -28,8 +28,7 @@
   include_once("$BASE_path/setup/setup_db.inc.php");
 
   $et = new EventTiming($debug_time_mode);
-// Create UI Language Abstraction Onject
-$UIL = new UILang($BASE_Language);
+$UIL = new UILang($BASE_Language); // Create UI Language Abstraction Object.
   $cs = new CriteriaState("base_maintenance.php");
   $cs->ReadState();
 

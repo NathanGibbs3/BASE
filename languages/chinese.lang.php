@@ -23,14 +23,15 @@
 ********************************************************************************
 */
 
-// Locales
+// Locales.
 $UI_Locales = array( 'eng_ENG.ISO8859-1', 'eng_ENG.utf-8', '繁體中文' );
 // Time Format - See strftime() syntax.
 $UI_Timefmt = '%a %B %d, %Y %H:%M:%S';
+// UI Init.
+$UI_Charset = 'UTF-8';
+$UI_Title = '安全基本分析引擎';
 
 //common phrases
-DEFINE('_CHARSET','UTF-8');
-DEFINE('_TITLE','安全基本分析引擎');
 DEFINE('_FRMLOGIN','使用者登入:');
 DEFINE('_FRMPWD','密碼:');
 DEFINE('_SOURCE','來源');

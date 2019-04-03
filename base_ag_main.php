@@ -33,8 +33,7 @@
   include_once("$BASE_path/base_ag_common.php");
 
   ($debug_time_mode >= 1) ? $et = new EventTiming($debug_time_mode) : '';
-// Create UI Language Abstraction Onject
-$UIL = new UILang($BASE_Language);
+$UIL = new UILang($BASE_Language); // Create UI Language Abstraction Object.
   $cs = new CriteriaState("base_ag_main.php");
   $cs->ReadState();
 

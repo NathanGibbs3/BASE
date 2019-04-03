@@ -35,8 +35,7 @@
   include_once("$BASE_path/base_common.php");
 
   $et = new EventTiming($debug_time_mode);
-// Create UI Language Abstraction Onject
-$UIL = new UILang($BASE_Language);
+$UIL = new UILang($BASE_Language); // Create UI Language Abstraction Object.
   $cs = new CriteriaState("base_stat_ipaddr.php");
   $cs->ReadState();
 
