@@ -32,7 +32,7 @@ $UI_Timefmt = '%a %B %d, %Y %H:%M:%S';
 
 // основные фразы
 DEFINE('_CHARSET','windows-1251');
-DEFINE('_TITLE','Базовый движок анализа и безопасности (BASE) '.$BASE_installID);
+DEFINE('_TITLE','Базовый движок анализа и безопасности');
 DEFINE('_FRMLOGIN','Логин:');
 DEFINE('_FRMPWD','Пароль:');
 DEFINE('_SOURCE','Источник');

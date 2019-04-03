@@ -30,7 +30,7 @@ $UI_Timefmt = '%a %B %d, %Y %H:%M:%S';
 
 //common phrases
 DEFINE('_CHARSET','UTF-8');
-DEFINE('_TITLE','安全基本分析引擎(BASE) '.$BASE_installID);
+DEFINE('_TITLE','安全基本分析引擎');
 DEFINE('_FRMLOGIN','使用者登入:');
 DEFINE('_FRMPWD','密碼:');
 DEFINE('_SOURCE','來源');

@@ -30,8 +30,8 @@ $UI_Timefmt = '%a %B %d, %Y %H:%M:%S';
 
 //common phrases
 DEFINE('_CHARSET','iso-8859-1');
-DEFINE('_TITLE','Basic Analysis and Security Engine (BASE) '.$BASE_installID);
-// Basic Analysis and Security Engine (BASE)
+DEFINE('_TITLE','Basic Analysis and Security Engine');
+// Basic Analysis and Security Engine
 DEFINE('_FRMLOGIN','Identifiant:');
 // Login:
 DEFINE('_FRMPWD','Mot de passe:');

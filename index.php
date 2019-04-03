@@ -43,6 +43,7 @@ if ( $Use_Auth_System == 0 ) {
     base_header("Location: base_main.php");
 }
 
+$UIL = new UILang($BASE_Language); // Create UI Language Abstraction Onject
 if (isset($_POST['submit'])) {
     $debug_mode = 0; // wont login with debug_mode
     $BASEUSER   = new BaseUser();
@@ -56,23 +57,9 @@ if (isset($_POST['submit'])) {
 
     $displayError = 1;
     $errorMsg     = _LOGINERROR;
-} 
-?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
-<!-- <?php echo _TITLE . $BASE_VERSION; ?> -->
-<html>
-
-<head>
-  <meta http-equiv="Content-Type" content="text/html; charset=<?php echo(_CHARSET); ?>" />
-  <meta http-equiv="pragma" content="no-cache" />
-  <title><?php echo(_TITLE . $BASE_VERSION); ?></title>
-  <link rel="stylesheet" type="text/css" href="./styles/<?php echo($base_style); ?>" />
-</head>
-<body onload="javascript:document.loginform.login.focus();">
-  <div class="mainheadertitle">&nbsp;
-<?php echo _TITLE; ?>
-  </div><br />
-<?php
+}
+PrintPageStart();
+include("$BASE_path/base_hdr1.php");
 if ($displayError == 1)
 {
     echo "<div class='errorMsg' align='center'>$errorMsg</div>";
@@ -82,7 +69,7 @@ if ($displayError == 1)
   <table width="75%" style='border:0;padding:0;margin:auto;'>
     <tr>
       <td align="right" width="50%"><?php echo _FRMLOGIN; ?>&nbsp;</td>
-      <td align="left" width="50%"><input type="text" name="login"></td>
+      <td align="left" width="50%"><input type="text" name="login" autofocus="autofocus"></td>
     </tr>
     <tr>
       <td align="right"><?php echo _FRMPWD; ?>&nbsp;</td>

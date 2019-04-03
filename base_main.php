@@ -92,26 +92,9 @@
           echo ('<a href="base_main.php?archive=1">' . _USEARCHIDB . '</a>');
       }
   }
-// Create UI Language Abstraction Onject
-$UIL = new UILang($BASE_Language);
-
-?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
-<!-- <?php echo _TITLE . $BASE_VERSION; ?> -->
-<html>
-<head>
-  <meta http-equiv="Content-Type" content="text/html; charset=<?php echo _CHARSET; ?>">
-  <meta http-equiv="pragma" content="no-cache">
-<?php
-PrintFreshPage($refresh_stat_page, $stat_page_refresh_time);
-$archiveDisplay = (isset($_COOKIE['archive']) && $_COOKIE['archive'] == 1) ? "-- ARCHIVE" : "";
-echo ('<title>' . _TITLE . $BASE_VERSION . $archiveDisplay . '</title>
-<link rel="stylesheet" type="text/css" href="styles/' . $base_style . '">');
-?>
-</head>
-<body>
-  <div class="mainheadertitle">&nbsp;<?php echo _TITLE . $archiveDisplay; ?></div>
-<?php
+$UIL = new UILang($BASE_Language); // Create UI Language Abstraction Onject
+PrintPageStart(1);
+include("$BASE_path/base_hdr1.php");
 if ($debug_mode == 1) {
     PrintPageHeader();
 }

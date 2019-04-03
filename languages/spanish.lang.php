@@ -29,7 +29,7 @@ $UI_Locales = array( 'eng_ENG.ISO8859-1', 'eng_ENG.utf-8', 'english' );
 $UI_Timefmt = '%a %B %d, %Y %H:%M:%S';
 
 //common phrases
-DEFINE('_TITLE','Basic Analysis and Security Engine (BASE) ');
+DEFINE('_TITLE','Basic Analysis and Security Engine');
 DEFINE('_FRMLOGIN','Usuario:');
 DEFINE('_FRMPWD','Clave:');
 DEFINE('_SOURCE','Origen');
