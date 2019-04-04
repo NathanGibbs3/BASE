@@ -1,17 +1,24 @@
 <?php
 use PHPUnit\Framework\TestCase;
 
-// Will test for specific defines in /languages/*.lang.php
-// Verify that all the data for a complete translation is present.
-// Does not verify the accuracy of the translation. :-)
+// These tests should iteratively init the UILang class with new
+// TD (Translation Data) files.
 
-// The language files are constant based, not variable based.
-// This makes testing problematic as constants can't be redefined.
-// Another Issue to fix, but at least this file puts the test foundation
-// in place. :-)
+// The legacy TD format is constant based, not variable based.
+// This makes iterative testing problematic as constants can't be redefined.
 
-// Iterate through the language file testing for common defines, and in the
-// future variables.
+// The UILang class is designed to work with either legacy
+// TD Files ( _CONSTANSTS ), or new TD Files ( $variables ).
+
+// While switching the BASE code to use UILang and migrating the underlying
+// TD format, we want to ensure that UILang can gracefully work with new TD
+// files.
+
+// Will iteratively init UILang from files in /languages/*.lang.php
+// Verify that UILang inits with all the data for a complete translation.
+// Will not verify the accuracy of the translation. :-)
+// Test with various malformed files to verify UILang inits into a sensible
+// state.
 
 class langTest extends TestCase {
 	// Pre Test Setup.
@@ -87,7 +94,7 @@ class langTest extends TestCase {
 			);
 		}
 	}
-	public function testClassDefaultsToEnglishOnInvlaidLTDFile () {
+	public function testTDFNotExistClassDefaultsToEnglish() {
 		$lang = 'invalid';
 		$tmp = "UI$lang";
 		// Expect errors as we Transition Translation Data
@@ -107,8 +114,44 @@ class langTest extends TestCase {
 		$this->assertEquals(
 			'english',
 			$$tmp->Lang,
-			'Class did not deafult to english.'
+			'Class did not deafult Lang to english.'
 		);
+	}
+	public function testTDFUILocaleInvalidClassDefaultsToNULL() {
+		GLOBAL $debug_mode, $BASE_path;
+		$lang = 'broken';
+		$lf = "$lang.lang.php";
+		$tmp = "UI$lang";
+		// Expect errors as we Transition Translation Data
+		$PHPUV = $this->PHPUV;
+		if (version_compare($PHPUV, '4.0', '<')) {
+			$this->markTestIncomplete('Requires Phpunit 4+ to run.');
+		}elseif (version_compare($PHPUV, '5.0', '<')) { // PHPUnit 4x
+			$this->setExpectedException("PHPUnit_Framework_Error");
+		}elseif (version_compare($PHPUV, '6.0', '<')) { // PHPUnit 5x
+			$this->expectException("PHPUnit_Framework_Error");
+		}else{ // PHPUnit 6+
+			$this->expectException("PHPUnit\Framework\Error\Error");
+		}
+		if ($debug_mode > 0) {
+			print "\n" . __FUNCTION__ . " Testing language: $lang";
+		}
+		copy ("$BASE_path/tests/$lf","$BASE_path/languages/$lf");
+		$$tmp = new UILang($lang);
+		// Will not run until TD is transitioned.
+		$file = $$tmp->TDF;
+		if ($debug_mode > 0) {
+			print "\n" . __FUNCTION__ . " Testing TD file: $file";
+		}
+		// Test Locale
+		$this->assertFalse(
+			is_array($$tmp->Locale),
+			"Locales array set, cannot test with $file."
+		);
+		$this->assertNull(
+			$$tmp->Locale, 'Class did not deafult Locale to NULL.'
+		);
+		unlink ("$BASE_path/languages/$lf");
 	}
 	public function testSetUILocale() {
 		GLOBAL $debug_mode;
@@ -598,6 +641,15 @@ class langTest extends TestCase {
 	// Add code to a function if needed.
 	// Stop here and mark test incomplete.
 	//$this->markTestIncomplete('Incomplete Test.');
+	protected function tearDown(): void {
+		// Make sure we remove this file from lanuages.
+		// Can remove this once we transition to new TD format.
+		GLOBAL $BASE_path;
+		$lang = 'broken';
+		$lf = "$lang.lang.php";
+		copy ("$BASE_path/tests/$lf","$BASE_path/languages/$lf");
+		unlink ("$BASE_path/languages/$lf");
+	}
 }
 
 function installedlangs() { // Returns array of langs.

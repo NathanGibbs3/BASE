@@ -33,6 +33,7 @@ class UILang{
 			call_user_func_array(array($this, $SCname), $SCargs);
 		}else{
 			// @codeCoverageIgnoreStart
+			// Should never execute.
 			trigger_error(
 				"Class: $SCname No Legacy Constructor.\n",
 				E_USER_ERROR
