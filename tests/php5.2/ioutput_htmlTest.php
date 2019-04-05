@@ -7,7 +7,7 @@
  */
 class output_htmlTest extends PHPUnit_Framework_TestCase {
 	// Pre Test Setup.
-	protected $backupGlobalsBlacklist = ['html_no_cache','UIL'];
+	protected $backupGlobalsBlacklist = array('html_no_cache','UIL');
 	// Tests go here.
 	public function testPageStartDefaults() {
 		GLOBAL $BASE_path, $BASE_installID, $BASE_VERSION, $UIL, $base_style;
@@ -44,6 +44,26 @@ class output_htmlTest extends PHPUnit_Framework_TestCase {
 		;
 		$this->expectOutputString($expected);
 		PageStart(0,'Custom Title');
+		unset($GLOBALS['UIL']);
+	}
+	public function testPageStartArchiveTitle() {
+		GLOBAL $BASE_path, $BASE_installID, $BASE_VERSION, $UIL, $base_style;
+		$_COOKIE['archive'] = 1;
+		$MHE = '<meta http-equiv="';
+		$UIL = new UILang('english');
+		$ETitle = "$UIL->Title (BASE) $BASE_installID $BASE_VERSION"
+		.' -- ARCHIVE';
+		$ECS = $UIL->Charset;
+		$expected =
+		'<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">'
+		. "\n<!-- $ETitle -->\n<html>\n\t<head>"
+		."\n\t\t$MHE"."Content-Type\" content=\"text/html; charset=$ECS\">"
+		."\n\t\t<title>$ETitle</title>"
+		."\n\t\t<link rel=\"stylesheet\" type=\"text/css\""
+		." HREF=\"/styles/$base_style\">\n\t</head>\n\t<body>";
+		;
+		$this->expectOutputString($expected);
+		PageStart();
 		unset($GLOBALS['UIL']);
 	}
 	public function testPageStartNoCacheON() {

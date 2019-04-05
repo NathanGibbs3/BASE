@@ -15,7 +15,7 @@ $refresh_all_pages = 0;
 $stat_page_refresh_time = 180;
 $debug_mode = 0;
 
-print "   Testing with: $BASE_installID $BASE_VERSION\n";
+print "   Testing with: (BASE) $BASE_installID $BASE_VERSION\n";
 print "Testing code in: $BASE_path\n";
 
 # include("$BASE_path/includes/base_constants.inc.php");
