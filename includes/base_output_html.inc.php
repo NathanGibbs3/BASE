@@ -18,7 +18,7 @@
 // Ensure the conf file has been loaded.  Prevent direct access to this file.
 defined( '_BASE_INC' ) or die( 'Accessing this file directly is not allowed.' );
 
-function PrintPageStart ($refresh = 0, $page_title = '') {
+function PageStart ($refresh = 0, $page_title = '') {
 	GLOBAL $BASE_VERSION, $BASE_installID, $base_style, $BASE_urlpath,
 	$html_no_cache, $refresh_stat_page, $stat_page_refresh_time, $UIL;
 	$MHE = '<meta http-equiv="';
@@ -51,13 +51,18 @@ function PrintPageStart ($refresh = 0, $page_title = '') {
 	print "\n".str_repeat ( "\t",1 ).'<body>';
 }
 
+function PageEnd () {
+	print "\n".str_repeat ( "\t",1 ).'</body>';
+	print "\n".'</html>';
+}
+
 function PrintBASESubHeader($page_title, $page_name, $back_link, $refresh = 0, $page = "") {
 	GLOBAL $debug_mode, $BASE_installID, $BASE_path, $BASE_urlpath,
 	$html_no_cache, $max_script_runtime, $Use_Auth_System, $base_style, $UIL;
 	if ( ini_get("safe_mode") != true ) {
 		set_time_limit($max_script_runtime);
 	}
-	PrintPageStart($refresh, $page_title);
+	PageStart($refresh, $page_title);
 	include("$BASE_path/base_hdr1.php");
 	include("$BASE_path/base_hdr2.php");
 	echo "<TABLE WIDTH=\"100%\"><TR><TD ALIGN=RIGHT>".$back_link."</TD></TR></TABLE><BR>";

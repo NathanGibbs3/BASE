@@ -58,7 +58,7 @@ if (isset($_POST['submit'])) {
     $displayError = 1;
     $errorMsg     = _LOGINERROR;
 }
-PrintPageStart();
+PageStart();
 include("$BASE_path/base_hdr1.php");
 if ($displayError == 1)
 {
@@ -84,7 +84,6 @@ if ($displayError == 1)
   </table>
 </form>
 <?php
-  include("$BASE_path/base_footer.php");
+include("$BASE_path/base_footer.php");
+PageEnd();
 ?>
-</body>
-</html>

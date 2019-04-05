@@ -66,13 +66,10 @@
   // Check role out and redirect if needed -- Kevin
   $roleneeded = 10000;
   $BUser = new BaseUser();
-  //if (($Use_Auth_System == 1) && ($BUser->hasRole($roleneeded) == 0))
-  if ($Use_Auth_System == 1)
-  {
-      if ($BUser->hasRole($roleneeded) == 0)
-          base_header("Location: $BASE_urlpath/index.php");
-  }
-
+	if ($Use_Auth_System == 1) {
+		if ($BUser->hasRole($roleneeded) == 0)
+			base_header("Location: $BASE_urlpath/index.php");
+	}
   // Set cookie to use the correct db.
   if (isset($_GET['archive']))
   {
@@ -93,7 +90,7 @@
       }
   }
 $UIL = new UILang($BASE_Language); // Create UI Language Abstraction Object.
-PrintPageStart(1);
+PageStart(1);
 include("$BASE_path/base_hdr1.php");
 if ($debug_mode == 1) {
     PrintPageHeader();
@@ -317,6 +314,5 @@ $stop = time();
 if ($debug_time_mode > 0) {
     echo "<div class='systemdebug'>[" . _LOADEDIN . "&nbsp;" .($stop - $start)." seconds]</div>";
 }
+PageEnd();
 ?>
-</body>
-</html>
