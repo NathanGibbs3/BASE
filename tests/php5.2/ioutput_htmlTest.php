@@ -2,12 +2,9 @@
 
 /**
  * A necessary evil for anything touching UILang during TD Transition.
- * @preserveGlobalState disabled
  * @runTestsInSeparateProcesses
  */
 class output_htmlTest extends PHPUnit_Framework_TestCase {
-	// Pre Test Setup.
-	protected $backupGlobalsBlacklist = array('html_no_cache','UIL');
 	// Tests go here.
 	public function testPageStartDefaults() {
 		GLOBAL $BASE_path, $BASE_installID, $BASE_VERSION, $UIL, $base_style;
@@ -25,7 +22,6 @@ class output_htmlTest extends PHPUnit_Framework_TestCase {
 		;
 		$this->expectOutputString($expected);
 		PageStart();
-		unset($GLOBALS['UIL']);
 	}
 	public function testPageStartCustomTitle() {
 		GLOBAL $BASE_path, $BASE_installID, $BASE_VERSION, $UIL, $base_style;
@@ -44,7 +40,6 @@ class output_htmlTest extends PHPUnit_Framework_TestCase {
 		;
 		$this->expectOutputString($expected);
 		PageStart(0,'Custom Title');
-		unset($GLOBALS['UIL']);
 	}
 	public function testPageStartArchiveTitle() {
 		GLOBAL $BASE_path, $BASE_installID, $BASE_VERSION, $UIL, $base_style;
@@ -64,7 +59,6 @@ class output_htmlTest extends PHPUnit_Framework_TestCase {
 		;
 		$this->expectOutputString($expected);
 		PageStart();
-		unset($GLOBALS['UIL']);
 	}
 	public function testPageStartNoCacheON() {
 		GLOBAL $BASE_path, $BASE_installID, $BASE_VERSION, $UIL, $base_style,
@@ -85,7 +79,6 @@ class output_htmlTest extends PHPUnit_Framework_TestCase {
 		;
 		$this->expectOutputString($expected);
 		PageStart();
-		unset($GLOBALS['UIL']);
 	}
 	public function testPageStartRefreshON() {
 		GLOBAL $BASE_path, $BASE_installID, $BASE_VERSION, $UIL, $base_style,
@@ -106,7 +99,6 @@ class output_htmlTest extends PHPUnit_Framework_TestCase {
 		;
 		$this->expectOutputString($expected);
 		PageStart(1);
-		unset($GLOBALS['UIL']);
 	}
 	public function testPageEndOutputsExpected() {
 		$this->expectOutputString(

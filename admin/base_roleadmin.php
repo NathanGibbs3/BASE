@@ -29,15 +29,14 @@
 $UIL = new UILang($BASE_Language); // Create UI Language Abstraction Object.
   $cs = new CriteriaState("admin/base_roleadmin.php");
   $cs->ReadState();
-
-  // Check role out and redirect if needed -- Kevin
-  $roleneeded = 1;
-  $BUser = new BaseUser();
-  if (($BUser->hasRole($roleneeded) == 0) && ($Use_Auth_System == 1))
-    base_header("Location: ". $BASE_urlpath . "/base_main.php");
-
-  $page_title = _ROLEADMIN;
-    
+if ($Use_Auth_System == 1) {
+	// Check role out and redirect if needed -- Kevin
+	$roleneeded = 1;
+	$BUser = new BaseUser();
+	if (($BUser->hasRole($roleneeded) == 0)){
+		base_header("Location: ". $BASE_urlpath . "/base_main.php");
+	}else{
+		$page_title = _ROLEADMIN;
   // I would like to clean this up later into a display class or set of functions -- Kevin
   switch ($_GET['action'])
   {
@@ -137,14 +136,15 @@ $UIL = new UILang($BASE_Language); // Create UI Language Abstraction Object.
       $pagebody = $tmpHTML;
       break;
   }
-    // Start the output to the page.....
-    PrintBASESubHeader($page_title, $page_title, $cs->GetBackLink(), $refresh_all_pages);
-
-    PrintBASEAdminMenuHeader();
-
-        echo($pagebody);
-    PrintBASEAdminMenuFooter();
-    
-    PrintBASESubFooter();
-    echo "</body>\r\n</html>";
+		// Start the output to the page.....
+		PrintBASESubHeader($page_title, $page_title, $cs->GetBackLink(), $refresh_all_pages);
+		PrintBASEAdminMenuHeader();
+		echo($pagebody);
+		PrintBASEAdminMenuFooter();
+		PrintBASESubFooter();
+		PageEnd();
+	}
+}else{
+	base_header("Location: ". $BASE_urlpath . "/base_main.php");
+}
 ?>

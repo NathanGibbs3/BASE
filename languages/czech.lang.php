@@ -31,10 +31,11 @@ $UI_Timefmt = '%a %B %d, %Y %H:%M:%S';
 // UI Init.
 $UI_Charset = 'iso-8859-2';
 $UI_Title = 'Basic Analysis and Security Engine';
+// Authentication Data.
+$UI_ADUN = 'Login';
+$UI_ADPW = 'Heslo';
 
 //common phrases
-DEFINE('_FRMLOGIN','Login:');
-DEFINE('_FRMPWD','Heslo:');
 DEFINE('_SOURCE','Zdroj');
 DEFINE('_SOURCENAME','Jméno zdoje');
 DEFINE('_DEST','Cíl');

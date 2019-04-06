@@ -30,12 +30,11 @@ $UI_Timefmt = '%a %B %d, %Y %H:%M:%S';
 // UI Init.
 $UI_Charset = 'iso-8859-1';
 $UI_Title = 'Basic Analysis and Security Engine';
+// Authentication Data.
+$UI_ADUN = 'Identifiant';
+$UI_ADPW = 'Mot de passe';
 
 //common phrases
-DEFINE('_FRMLOGIN','Identifiant:');
-// Login:
-DEFINE('_FRMPWD','Mot de passe:');
-// Password:
 DEFINE('_SOURCE','Source');
 // Source
 DEFINE('_SOURCENAME','Nom de la Source');

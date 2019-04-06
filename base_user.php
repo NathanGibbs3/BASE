@@ -26,6 +26,9 @@
   include_once("$BASE_path/base_common.php");
   include_once("$BASE_path/base_stat_common.php");
 
+$UIL = new UILang($BASE_Language); // Create UI Language Abstraction Object.
+$LoginDesc = $UIL->ADA['DescUN'];
+
    // Check role out and redirect if needed -- Kevin
   $roleneeded = 10000;
   $BUser = new BaseUser();
@@ -82,7 +85,7 @@
         $form = "<table border=1 class='query'>";
         $form = $form . "<tr><td width='25%' align='right'>"._FRMUID."</td>";
         $form = $form . "<td align='left'>". $userinfo[0] ."</td></tr>";
-        $form = $form . "<tr><td width='25%' align='right'>"._FRMLOGIN."</td>";
+			$form = $form . "<tr><td width='25%' align='right'>$LoginDesc:</td>";
         $form = $form . "<td align='left'>". $userinfo[1] ."</td></tr>";
         $form = $form . "<tr><td width='25%' align='right'>"._FRMFULLNAME."</td>";
         $form = $form . "<td align='left'>". $userinfo[3] ."</td></tr>";
@@ -114,6 +117,6 @@
     </tr>
 </table></div>&nbsp;&nbsp;&nbsp;</td><td><?php echo($page_body); ?></td></tr></table>
 <?php
-    PrintBASESubFooter();
-    echo "</body>\r\n</html>";
+PrintBASESubFooter();
+PageEnd();
 ?>

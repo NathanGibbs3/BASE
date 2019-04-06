@@ -43,16 +43,14 @@ class legacylangTest extends TestCase {
 		}
 		$tmp = "UI$ll";
 		copy ("$BASE_path/tests/$lf","$BASE_path/languages/$lf");
-		$this->assertInstanceOf(
-			'UILang',
-			$this->UIL = new UILang($ll),
-			"Class for $ll not created."
-		);
-		unlink ("$BASE_path/languages/$lf");
 	}
 	// Tests go here.
 	// Tests Phase 1.
 	public function testLocale() { // Test Locale info.
+		$ll = $this->langs;
+		$this->assertInstanceOf('UILang',$this->UIL = new UILang($ll),
+			"Class for $ll not created."
+		);
 		// DEFINE('_LOCALESTR1', 'eng_ENG.ISO8859-1');
 		// DEFINE('_LOCALESTR2', 'eng_ENG.utf-8');
 		// DEFINE('_LOCALESTR3', 'english');
@@ -63,6 +61,10 @@ class legacylangTest extends TestCase {
 		$this->assertTrue(defined('_STRFTIMEFORMAT'),'Locale Time Format not defined');
 	}
 	public function testCommonPhrases() { // Test common phrases.
+		$ll = $this->langs;
+		$this->assertInstanceOf('UILang',$this->UIL = new UILang($ll),
+			"Class for $ll not created."
+		);
 		// DEFINE('_CHARSET','iso-8859-1');
 		// DEFINE('_TITLE','Basic Analysis and Security Engine (BASE) '.$BASE_installID);
 		// DEFINE('_FRMLOGIN','Login:');
@@ -274,6 +276,10 @@ class legacylangTest extends TestCase {
 		$this->assertTrue(defined('_PREVIOUS'),'Previous not defined');
 	}
 	public function testMenuItems() { // Test Menu items
+		$ll = $this->langs;
+		$this->assertInstanceOf('UILang',$this->UIL = new UILang($ll),
+			"Class for $ll not created."
+		);
 		// DEFINE('_HOME','Home');
 		// DEFINE('_SEARCH','Search');
 		// DEFINE('_AGMAINT','Alert Group Maintenance');
@@ -328,6 +334,10 @@ class legacylangTest extends TestCase {
 		$this->assertTrue(defined('_DISPLAYU'),'Display user not defined');
 	}
 	public function testOneLiners() { // TD File sections with one line data.
+		$ll = $this->langs;
+		$this->assertInstanceOf('UILang',$this->UIL = new UILang($ll),
+			"Class for $ll not created."
+		);
 		//base_footer.php
 			// DEFINE('_FOOTER',' (by <A class="largemenuitem" href="mailto:base@secureideas.net">Kevin Johnson</A> and the <A class="largemenuitem" href="http://sourceforge.net/project/memberlist.php?group_id=103348">BASE Project Team</A><BR>Built on ACID by Roman Danyliw )');
 			$this->assertTrue(defined('_FOOTER'),'Footer Text not defined.');
@@ -336,22 +346,63 @@ class legacylangTest extends TestCase {
 			$this->assertTrue(defined('_LOGINERROR'),'Login Error Text not defined.');
 	}
 	public function testTDforfilebase_main_php() { // Test base_main.php
+		$ll = $this->langs;
+		$this->assertInstanceOf('UILang',$this->UIL = new UILang($ll),
+			"Class for $ll not created."
+		);
 	}
 
 	// Tests Phase 2.
-	public function testSetUILocale() {
-		GLOBAL $debug_mode;
+	public function testADASetItemInvalidThrowsError() {
+		GLOBAL $Use_Auth_System;
 		$lang = $this->langs;
 		$tmp = "UI$lang";
-		if ($debug_mode > 0) {
-			print "\n" . __FUNCTION__ . " Testing language: $lang";
-		}
+		$tf = __FUNCTION__;
+		$this->LogTC($tf,'language',$lang);
+		$this->assertInstanceOf('UILang',$this->UIL = new UILang($lang),
+			"Class for $lang not created."
+		);
 		$$tmp = $this->UIL;
-		// Will not run until TD is transitioned.
 		$file = $$tmp->TDF;
-		if ($debug_mode > 0) {
-			print "\n" . __FUNCTION__ . " Testing TD file: $file";
+		$this->LogTC($tf,'TD file',$file);
+		if ($Use_Auth_System == 1) {
+			$key = 'INVALID';
+			$kD = 'Invalid Item';
+			$EEM = "Invalid Set Request for: $key.";
+			$PHPUV = $this->GetPHPUV();
+			if (version_compare($PHPUV, '4.0', '<')) {
+				$this->markTestSkipped('Requires Phpunit 4+ to run.');
+			}elseif (version_compare($PHPUV, '5.0', '<')) { // PHPUnit 4x
+				$this->setExpectedException(
+					"PHPUnit_Framework_Error_Notice",
+					$EEM
+				);
+			}elseif (version_compare($PHPUV, '6.0', '<')) { // PHPUnit 5x
+				$this->expectException("PHPUnit_Framework_Error_Notice");
+				$this->expectExceptionMessage($EEM);
+			}else{ // PHPUnit 6+
+				$this->expectException("PHPUnit\Framework\Error\Notice");
+				$this->expectExceptionMessage($EEM);
+			}
+			$$tmp->SetUIADItem($key,$kD);
+		}else{
+			$this->markTestSkipped(
+				'Tese requires Enabled Auth System to run.'
+			);
 		}
+	}
+
+	public function testSetUILocale() {
+		$lang = $this->langs;
+		$tmp = "UI$lang";
+		$tf = __FUNCTION__;
+		$this->LogTC($tf,'language',$lang);
+		$this->assertInstanceOf('UILang',$this->UIL = new UILang($lang),
+			"Class for $lang not created."
+		);
+		$$tmp = $this->UIL;
+		$file = $$tmp->TDF;
+		$this->LogTC($tf,'TD file',$file);
 		// Test Locale
 		if (is_null($$tmp->Locale) ) {
 			if ( !$$tmp->SetUILocale() ){
@@ -368,62 +419,179 @@ class legacylangTest extends TestCase {
 		$this->assertNotNull($$tmp->Locale, 'Locale Not Set');
 	}
 	public function testSetUITimefmt() {
-		GLOBAL $debug_mode;
 		$lang = $this->langs;
 		$tmp = "UI$lang";
-		if ($debug_mode > 0) {
-			print "\n" . __FUNCTION__ . " Testing language: $lang";
-		}
+		$tf = __FUNCTION__;
+		$this->LogTC($tf,'language',$lang);
+		$this->assertInstanceOf('UILang',$this->UIL = new UILang($lang),
+			"Class for $lang not created."
+		);
 		$$tmp = $this->UIL;
-		// Will not run until TD is transitioned.
 		$file = $$tmp->TDF;
-		if ($debug_mode > 0) {
-			print "\n" . __FUNCTION__ . " Testing TD file: $file";
-		}
+		$this->LogTC($tf,'TD file',$file);
 		$this->assertTrue(
 			isset($$tmp->Timefmt),
 			"Time Format not set in $file"
 		);
 	}
 	public function testSetUICharset() {
-		GLOBAL $debug_mode;
 		$lang = $this->langs;
 		$tmp = "UI$lang";
-		if ($debug_mode > 0) {
-			print "\n" . __FUNCTION__ . " Testing language: $lang";
-		}
+		$tf = __FUNCTION__;
+		$this->LogTC($tf,'language',$lang);
+		$this->assertInstanceOf('UILang',$this->UIL = new UILang($lang),
+			"Class for $lang not created."
+		);
 		$$tmp = $this->UIL;
-		// Will not run until TD is transitioned.
 		$file = $$tmp->TDF;
-		if ($debug_mode > 0) {
-			print "\n" . __FUNCTION__ . " Testing TD file: $file";
-		}
+		$this->LogTC($tf,'TD file',$file);
 		$this->assertTrue(
 			isset($$tmp->Charset),
 			"HTML Charset not set in $file"
 		);
 	}
 	public function testSetUITitle() {
-		GLOBAL $debug_mode;
 		$lang = $this->langs;
 		$tmp = "UI$lang";
-		if ($debug_mode > 0) {
-			print "\n" . __FUNCTION__ . " Testing language: $lang";
-		}
+		$tf = __FUNCTION__;
+		$this->LogTC($tf,'language',$lang);
+		$this->assertInstanceOf('UILang',$this->UIL = new UILang($lang),
+			"Class for $lang not created."
+		);
 		$$tmp = $this->UIL;
-		// Will not run until TD is transitioned.
 		$file = $$tmp->TDF;
-		if ($debug_mode > 0) {
-			print "\n" . __FUNCTION__ . " Testing TD file: $file";
-		}
+		$this->LogTC($tf,'TD file',$file);
 		$this->assertTrue(
 			isset($$tmp->Title),
 			"HTML Title not set in $file"
 		);
+	}
+	public function testAsDisabledADADefaultstoNULL() {
+		GLOBAL $Use_Auth_System;
+		$Use_Auth_System = 0;
+		$lang = $this->langs;
+		$tmp = "UI$lang";
+		$tf = __FUNCTION__;
+		$this->LogTC($tf,'language',$lang);
+		$this->assertInstanceOf('UILang',$this->UIL = new UILang($lang),
+			"Class for $lang not created."
+		);
+		$$tmp = $this->UIL;
+		$file = $$tmp->TDF;
+		$this->LogTC($tf,'TD file',$file);
+		if ($Use_Auth_System == 0) {
+			$this->assertNull($$tmp->ADA,
+				"Auth System Disabled.\n"
+				."Auth Data Structure did not default to NULL."
+			);
+		}else{
+			$this->markTestSkipped(
+				'Tese requires Disabled Auth System to run.'
+			);
+		}
+	}
+	public function testAsEnabledADADefaultstoArray() {
+		GLOBAL $Use_Auth_System;
+		$lang = $this->langs;
+		$tmp = "UI$lang";
+		$tf = __FUNCTION__;
+		$this->LogTC($tf,'language',$lang);
+		$this->assertInstanceOf('UILang',$this->UIL = new UILang($lang),
+			"Class for $lang not created."
+		);
+		$$tmp = $this->UIL;
+		$file = $$tmp->TDF;
+		$this->LogTC($tf,'TD file',$file);
+		if ($Use_Auth_System == 1) {
+			$this->assertTrue(is_array($$tmp->ADA),
+				"Auth System Enabled.\n"
+				."Auth Data Structure did not default to Array."
+			);
+		}else{
+			$this->markTestSkipped(
+				'Tese requires Enabled Auth System to run.'
+			);
+		}
+	}
+	public function testADASetItemLoginDesc() {
+		GLOBAL $Use_Auth_System;
+		$lang = $this->langs;
+		$tmp = "UI$lang";
+		$tf = __FUNCTION__;
+		$this->LogTC($tf,'language',$lang);
+		$this->assertInstanceOf('UILang',$this->UIL = new UILang($lang),
+			"Class for $lang not created."
+		);
+		$$tmp = $this->UIL;
+		$file = $$tmp->TDF;
+		$this->LogTC($tf,'TD file',$file);
+		if ($Use_Auth_System == 1) {
+			$key = 'DescUN';
+			$kD = 'Login Desc';
+			$this->assertArrayHasKey($key, $$tmp->ADA,
+				"Unset Auth DS Item $kD: Key: $key\n"
+			);
+		}else{
+			$this->markTestSkipped(
+				'Tese requires Enabled Auth System to run.'
+			);
+		}
+	}
+	public function testADASetItemPWDesc() {
+		GLOBAL $Use_Auth_System;
+		$lang = $this->langs;
+		$tmp = "UI$lang";
+		$tf = __FUNCTION__;
+		$this->LogTC($tf,'language',$lang);
+		$this->assertInstanceOf('UILang',$this->UIL = new UILang($lang),
+			"Class for $lang not created."
+		);
+		$$tmp = $this->UIL;
+		$file = $$tmp->TDF;
+		$this->LogTC($tf,'TD file',$file);
+		if ($Use_Auth_System == 1) {
+			$key = 'DescPW';
+			$kD = 'Password Desc';
+			$this->assertArrayHasKey($key, $$tmp->ADA,
+				"Unset Auth DS Item $kD: Key: $key\n"
+			);
+		}else{
+			$this->markTestSkipped(
+				'Tese requires Enabled Auth System to run.'
+			);
+		}
+	}
+
+
+	protected function tearDown() {
+		// Make sure we remove this file from lanuages.
+		GLOBAL $BASE_path;
+		$lf = $this->files;
+		unlink ("$BASE_path/languages/$lf");
+	}
+
+	private function GetPHPUV () { // Get PHPUnit Version
+		if ( method_exists('PHPUnit_Runner_Version','id')) {
+			$Ret = PHPUnit_Runner_Version::id();
+		}elseif (method_exists('PHPUnit\Runner\Version','id')) {
+			$Ret = PHPUnit\Runner\Version::id();
+		}else{
+			$Ret = 0.0;
+		}
+		return $Ret;
+	}
+
+	private function LogTC ($cf,$Item,$Value) { // Output to Test Console
+		GLOBAL $debug_mode;
+		if ($debug_mode > 0) {
+			print "\n$cf Testing $Item: $Value";
+		}
 	}
 
 	// Add code to a function if needed.
 	// Stop here and mark test incomplete.
 	//$this->markTestIncomplete('Incomplete Test.');
 }
+
+
 ?>

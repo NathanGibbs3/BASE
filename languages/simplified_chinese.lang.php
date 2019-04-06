@@ -30,10 +30,11 @@ $UI_Timefmt = '%a %B %d, %Y %H:%M:%S';
 // UI Init.
 $UI_Charset = 'utf-8';
 $UI_Title = '基本安全分析引擎';
+// Authentication Data.
+$UI_ADUN = '用户登录';
+$UI_ADPW = '密码';
 
 //common phrases
-DEFINE('_FRMLOGIN','用户登录:');
-DEFINE('_FRMPWD','密码:');
 DEFINE('_SOURCE','来源');
 DEFINE('_SOURCENAME','来源名称');
 DEFINE('_DEST','目的');

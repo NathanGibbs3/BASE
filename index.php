@@ -44,6 +44,8 @@ if ( $Use_Auth_System == 0 ) {
 }
 
 $UIL = new UILang($BASE_Language); // Create UI Language Abstraction Object.
+$LoginDesc = $UIL->ADA['DescUN'];
+$PWDesc = $UIL->ADA['DescPW'];
 if (isset($_POST['submit'])) {
     $debug_mode = 0; // wont login with debug_mode
     $BASEUSER   = new BaseUser();
@@ -60,30 +62,35 @@ if (isset($_POST['submit'])) {
 }
 PageStart();
 include("$BASE_path/base_hdr1.php");
-if ($displayError == 1)
-{
-    echo "<div class='errorMsg' align='center'>$errorMsg</div>";
+if ($displayError == 1) {
+	print "\n".str_repeat ( "\t",3 )."<div class='errorMsg' align='center'>";
+	print "\n".str_repeat ( "\t",4 ). $errorMsg;
+	print "\n".str_repeat ( "\t",3 ).'</div>';
 }
-?>
-<form action="index.php" method="post" name="loginform">
-  <table width="75%" style='border:0;padding:0;margin:auto;'>
-    <tr>
-      <td align="right" width="50%"><?php echo _FRMLOGIN; ?>&nbsp;</td>
-      <td align="left" width="50%"><input type="text" name="login" autofocus="autofocus"></td>
-    </tr>
-    <tr>
-      <td align="right"><?php echo _FRMPWD; ?>&nbsp;</td>
-      <td align="left"><input type="password" name="password" /></td>
-    </tr>
-    <tr>
-      <td colspan="2" align="center">
-        <input type="submit" name="submit" value="Login" />
-        <input type="reset" name="reset" />
-      </td>
-    </tr>
-  </table>
-</form>
-<?php
+print "\n".str_repeat ( "\t",3 ).'<form';
+print "\n".str_repeat ( "\t",4 ).'action="index.php"';
+print "\n".str_repeat ( "\t",4 ).'method="post"';
+print "\n".str_repeat ( "\t",4 ).'name="loginform"';
+print "\n".str_repeat ( "\t",3 ).'><table';
+print "\n".str_repeat ( "\t",4 ).'width="75%"';
+print "\n".str_repeat ( "\t",4 )."style='border:0;padding:0;margin:auto;'";
+print "\n".str_repeat ( "\t",3 ).'><tr><td align="right" width="50%">';
+print "\n".str_repeat ( "\t",4 )."$LoginDesc:&nbsp;";
+print "\n".str_repeat ( "\t",3 ).'</td><td align="left" width="50%">';
+print "\n".str_repeat ( "\t",4 ).'<input type="text" name="login"';
+print "\n".str_repeat ( "\t",4 ).'autofocus="autofocus" />';
+print "\n".str_repeat ( "\t",3 ).'</td></tr><tr><td align="right">';
+print "\n".str_repeat ( "\t",4 )."$PWDesc:&nbsp;";
+print "\n".str_repeat ( "\t",3 ).'</td><td align="left">';
+print "\n".str_repeat ( "\t",4 ).'<input type="password" name="password" />';
+print "\n".str_repeat ( "\t",3 ).'</td></tr><tr>';
+print "\n".str_repeat ( "\t",4 ).'<td colspan="2" align="center">';
+print "\n".str_repeat ( "\t",5 ).'<input';
+print "\n".str_repeat ( "\t",6 ).'type="submit" name="submit" value="Login"';
+print "\n".str_repeat ( "\t",5 ).'/>';
+print "\n".str_repeat ( "\t",5 ).'<input type="reset" name="reset" />';
+print "\n".str_repeat ( "\t",4 ).'</td></tr>';
+print "\n".str_repeat ( "\t",3 ).'</table></form>';
 include("$BASE_path/base_footer.php");
 PageEnd();
 ?>

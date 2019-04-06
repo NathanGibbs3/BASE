@@ -30,10 +30,11 @@ $UI_Timefmt = '%a %B %d, %Y %H:%M:%S';
 // UI Init.
 $UI_Charset = 'UTF-8';
 $UI_Title = 'Basic Analysis and Security Engine 日本';
+// Authentication Data.
+$UI_ADUN = 'ログイン';
+$UI_ADPW = 'パスワード';
 
 //common phrases
-DEFINE('_FRMLOGIN','ログイン:');
-DEFINE('_FRMPWD','パスワード:');
 DEFINE('_SOURCE','発信元');
 DEFINE('_SOURCENAME','発信元　名前');
 DEFINE('_DEST','発信先');

@@ -30,10 +30,11 @@ $UI_Timefmt = '%a %B %d, %Y %H:%M:%S';
 // UI Init.
 $UI_Charset = 'iso-8859-1';
 $UI_Title = 'Motore di Sicurezza e Analisi Basilare';
+// Authentication Data.
+$UI_ADUN = 'Login';
+$UI_ADPW = 'Password';
 
 //common phrases
-DEFINE('_FRMLOGIN','Login:');
-DEFINE('_FRMPWD','Password:');
 DEFINE('_SOURCE','Sorgente');
 DEFINE('_SOURCENAME','Nome Sorgente');
 DEFINE('_DEST','Destinazione');

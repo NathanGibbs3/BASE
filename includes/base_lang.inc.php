@@ -24,6 +24,7 @@ class UILang{
 	var $Timefmt;
 	var $Charset;
 	var $Title;
+	var $ADA;
 
 	function __construct($UILang) { // PHP 5+ constructor Shim.
 		// Class/Method agnostic shim code.
@@ -35,6 +36,7 @@ class UILang{
 			// @codeCoverageIgnoreStart
 			// Should never execute.
 			trigger_error(
+				// Will need to add this message to the TD.
 				"Class: $SCname No Legacy Constructor.\n",
 				E_USER_ERROR
 			);
@@ -42,10 +44,11 @@ class UILang{
 		}
 	}
 	function UILang($UILang) { // PHP 4x constructor.
-		GLOBAL $BASE_path, $BASE_installID;
+		GLOBAL $BASE_path, $BASE_installID, $Use_Auth_System;
 		$TDF = "$BASE_path/languages/$UILang.lang.php";
 		if (!file_exists($TDF)) {
 //			trigger_error(
+				// Will need to add this message to the TD.
 //				"No TD found for Language: $UILang. Default to english"
 //			);
 			// Default to english if language is not supported.
@@ -59,7 +62,7 @@ class UILang{
 		if ( isset($UI_Locales) ) {
 			if ( is_array($UI_Locales) ) {
 				$this->Locale = $UI_Locales;
-			}else{
+			}else{ // Invalid format of Locale in TDF.
 				$this->Locale = NULL;
 			}
 		}else{
@@ -79,6 +82,22 @@ class UILang{
 			$this->SetUITitle($UI_Title);
 		}else{
 			$this->SetUITitle(NULL);
+		}
+		// Will not execute if Auth Sys is disabled.
+		if ($Use_Auth_System == 1) {
+			$this->ADA = array();
+			if ( isset($UI_ADUN) ) {
+				$this->SetUIADItem('DescUN',$UI_ADUN);
+			}else{
+				$this->SetUIADItem('DescUN',NULL);
+			}
+			if ( isset($UI_ADPW) ) {
+				$this->SetUIADItem('DescPW',$UI_ADPW);
+			}else{
+				$this->SetUIADItem('DescPW',NULL);
+			}
+		}else{
+			$this->ADA = NULL;
 		}
 	}
 	// Sets locale from translation data or defaults to system locale.
@@ -114,12 +133,38 @@ class UILang{
 			$this->Charset = _CHARSET;
 		}
 	}
-	// ets HTML Common Page Title from translation data.
+	// Sets HTML Common Page Title from translation data.
 	function SetUITitle($UI_Title) {
 		if ( isset($UI_Title) ) { // Var Based
 			$this->Title = $UI_Title;
 		}else{ // Const based
 			$this->Title = _TITLE;
+		}
+	}
+	// Sets Authentication Data Item from translation data.
+	function SetUIADItem($Item,$Value) {
+		GLOBAL $Use_Auth_System;
+		// Will not execute if Auth Sys is disabled.
+		if ($Use_Auth_System == 1) {
+			switch ($Item) {
+				case 'DescUN';
+					if ( isset($Value) ) { // Var Based
+						$this->ADA[$Item] = $Value;
+					}else{ // Const based
+						$this->ADA[$Item] = _FRMLOGIN;
+					}
+					break;
+				case 'DescPW';
+					if ( isset($Value) ) { // Var Based
+						$this->ADA[$Item] = $Value;
+					}else{ // Const based
+						$this->ADA[$Item] = _FRMPWD;
+					}
+					break;
+				default;
+					// Will need to add this message to the TD.
+					trigger_error("Invalid Set Request for: $Item.\n");
+			}
 		}
 	}
 }

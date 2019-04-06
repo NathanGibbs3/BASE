@@ -23,12 +23,15 @@ function PageStart ($refresh = 0, $page_title = '') {
 	$html_no_cache, $refresh_stat_page, $stat_page_refresh_time, $UIL;
 	$MHE = '<meta http-equiv="';
 	$Charset = $UIL->Charset;
-	$title = $UIL->Title . " (BASE) $BASE_installID $BASE_VERSION";
-	if ($page_title != ''){
-		$title .= ' : ' . $page_title;
-	}
-	if ( isset($_COOKIE['archive']) && $_COOKIE['archive'] == 1 ) {
-		$title .= ' -- ARCHIVE';
+	$title = $UIL->Title . " (BASE)";
+	if ( !preg_match("/(base_denied|index).php/", $_SERVER['SCRIPT_NAME']) ) {
+		$title .= " $BASE_installID $BASE_VERSION";
+		if ($page_title != ''){
+			$title .= ' : ' . $page_title;
+		}
+		if ( isset($_COOKIE['archive']) && $_COOKIE['archive'] == 1 ) {
+			$title .= ' -- ARCHIVE';
+		}
 	}
 	print '<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">';
 	print "\n".'<!-- '. $title . ' -->';

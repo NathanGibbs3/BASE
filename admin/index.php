@@ -49,5 +49,5 @@ $UIL = new UILang($BASE_Language); // Create UI Language Abstraction Object.
     PrintBASEAdminMenuFooter();
 
     PrintBASESubFooter();
-    echo "</body>\r\n</html>";
+PageEnd();
 ?>
