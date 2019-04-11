@@ -216,18 +216,24 @@ class langTest extends TestCase {
 			$this->LogTC($tf,'TD file',$file);
 			// Test Locale
 			if (is_null($$tmp->Locale) ) {
-				if ( !$$tmp->SetUILocale() ){
-					$this->markTestSkipped(
-						'Locale not implemented or locale(s) do not exist.'
-					);
-				}
+				$this->markTestSkipped("Legacy format TDF: $file.");
 			}else{
 				$this->assertTrue(
 					is_array($$tmp->Locale),
 					"Locales not defined in $file."
 				);
+				if ( !$$tmp->SetUILocale() ){
+					$this->markTestSkipped(
+						'Locale not implemented or locale(s) do not exist.'
+					);
+				}else{
+					$this->assertNotNull($$tmp->Locale, 'Locale Not Set');
+					$this->assertFalse(
+						is_array($$tmp->Locale),
+						'Locale not Set'
+					);
+				}
 			}
-			$this->assertNotNull($$tmp->Locale, 'Locale Not Set');
 		}
 	}
 	public function testSetUITimefmt() {

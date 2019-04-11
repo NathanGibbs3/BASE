@@ -103,7 +103,8 @@ class UILang{
 	// Sets locale from translation data or defaults to system locale.
 	function SetUILocale() {
 		if ( is_array($this->Locale) ) { // Var Based
-			$Ret = setlocale (LC_TIME, $this->Locale, "");
+			array_push( $this->Locale, "");
+			$Ret = setlocale (LC_TIME, $this->Locale);
 		}else{ // Const based
 			$Ret = setlocale (LC_TIME, _LOCALESTR1, _LOCALESTR2, _LOCALESTR3, "");
 		}

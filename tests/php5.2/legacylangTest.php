@@ -403,19 +403,25 @@ class legacylangTest extends PHPUnit_Framework_TestCase {
 		$file = $$tmp->TDF;
 		$this->LogTC($tf,'TD file',$file);
 		// Test Locale
-		if (is_null($$tmp->Locale) ) {
+		if (is_array($$tmp->Locale) ) {
+			$this->markTestSkipped("New format TDF: $file.");
+		}else{
+			$this->assertNull(
+				$$tmp->Locale,
+				'Legacy Locale did not init to NULL'
+			);
 			if ( !$$tmp->SetUILocale() ){
 				$this->markTestSkipped(
 					'Locale not implemented or locale(s) do not exist.'
 				);
+			}else{
+				$this->assertNotNull($$tmp->Locale, 'Locale Not Set');
+				$this->assertFalse(
+					is_array($$tmp->Locale),
+					'Locale not Set'
+				);
 			}
-		}else{
-			$this->assertTrue(
-				is_array($$tmp->Locale),
-				"Locales not defined in $file."
-			);
 		}
-		$this->assertNotNull($$tmp->Locale, 'Locale Not Set');
 	}
 	public function testSetUITimefmt() {
 		$lang = $this->langs;
