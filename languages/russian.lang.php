@@ -36,8 +36,10 @@ $UI_Title = 'Базовый движок анализа и безопасности';
 $UI_ADUN = 'Логин';
 $UI_ADPW = 'Пароль';
 
+// Common Phrases
+$UI_CP_SOURCE = 'Источник';
+
 // основные фразы
-DEFINE('_SOURCE','Источник');
 DEFINE('_SOURCENAME','Имя источника');
 DEFINE('_DEST','Назначение');
 DEFINE('_DESTNAME','Имя назначения');

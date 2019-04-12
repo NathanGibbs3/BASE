@@ -34,8 +34,10 @@ $UI_Title = '安全基本分析引擎';
 $UI_ADUN = '使用者登入';
 $UI_ADPW = '密碼';
 
+// Common Phrases
+$UI_CP_SOURCE = '來源';
+
 //common phrases
-DEFINE('_SOURCE','來源');
 DEFINE('_SOURCENAME','來源名稱');
 DEFINE('_DEST','目地');
 DEFINE('_DESTNAME','目地名稱');

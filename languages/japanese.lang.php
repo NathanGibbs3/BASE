@@ -34,8 +34,10 @@ $UI_Title = 'Basic Analysis and Security Engine 日本';
 $UI_ADUN = 'ログイン';
 $UI_ADPW = 'パスワード';
 
+// Common Phrases
+$UI_CP_SOURCE = '発信元';
+
 //common phrases
-DEFINE('_SOURCE','発信元');
 DEFINE('_SOURCENAME','発信元　名前');
 DEFINE('_DEST','発信先');
 DEFINE('_DESTNAME','送信先　名前');

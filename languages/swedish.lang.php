@@ -34,8 +34,10 @@ $UI_Title = 'Basic Analysis and Security Engine';
 $UI_ADUN = 'Logga in';
 $UI_ADPW = 'Lösenord';
 
+// Common Phrases
+$UI_CP_SOURCE = 'Källa';
+
 //common phrases
-DEFINE('_SOURCE','Källa');
 DEFINE('_SOURCENAME','Käll namn');
 DEFINE('_DEST','Destination');
 DEFINE('_DESTNAME','Dest. Namn');

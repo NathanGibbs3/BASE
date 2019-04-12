@@ -944,12 +944,13 @@ class IPAddressCriteria extends MultipleElementCriteria {
 	function IPAddressCriteria(
 		&$db, &$cs, $export_name, $element_cnt
 	) { // PHP 4x constructor.
+		GLOBAL $UIL;
 		$tdb =& $db;
 		$cs =& $cs;
 		parent::MultipleElementCriteria(
 			$tdb, $cs, $export_name, $element_cnt,
 			array (
-				"ip_src" => _SOURCE,
+				"ip_src" => $UIL->CPA['Source'],
 				"ip_dst" => _DEST,
 				"ip_both" => _SORD
 			)
@@ -1045,7 +1046,8 @@ class IPAddressCriteria extends MultipleElementCriteria {
      /* convert this criteria to SQL */
    }
 	function Description($value) {
-      $human_fields["ip_src"] = _SOURCE;
+		GLOBAL $UIL;
+		$human_fields["ip_src"] = $UIL->CPA['Source'];
       $human_fields["ip_dst"] = _DEST;
       $human_fields["ip_both"] = _SORD;
       $human_fields[""] = ""; 

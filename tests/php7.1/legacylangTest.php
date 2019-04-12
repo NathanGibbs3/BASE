@@ -368,7 +368,7 @@ class legacylangTest extends TestCase {
 		if ($Use_Auth_System == 1) {
 			$key = 'INVALID';
 			$kD = 'Invalid Item';
-			$EEM = "Invalid Set Request for: $key.";
+			$EEM = "Invalid AD Set Request for: $key.";
 			$PHPUV = $this->GetPHPUV();
 			if (version_compare($PHPUV, '4.0', '<')) {
 				$this->markTestSkipped('Requires Phpunit 4+ to run.');
@@ -387,9 +387,41 @@ class legacylangTest extends TestCase {
 			$$tmp->SetUIADItem($key,$kD);
 		}else{
 			$this->markTestSkipped(
-				'Tese requires Enabled Auth System to run.'
+				'Test requires Enabled Auth System to run.'
 			);
 		}
+	}
+	public function testCPASetItemInvalidThrowsError() {
+		GLOBAL $Use_Auth_System;
+		$lang = $this->langs;
+		$tmp = "UI$lang";
+		$tf = __FUNCTION__;
+		$this->LogTC($tf,'language',$lang);
+		$this->assertInstanceOf('UILang',$this->UIL = new UILang($lang),
+			"Class for $lang not created."
+		);
+		$$tmp = $this->UIL;
+		$file = $$tmp->TDF;
+		$this->LogTC($tf,'TD file',$file);
+		$key = 'INVALID';
+		$kD = 'Invalid Item';
+		$EEM = "Invalid CP Set Request for: $key.";
+		$PHPUV = $this->GetPHPUV();
+		if (version_compare($PHPUV, '4.0', '<')) {
+			$this->markTestSkipped('Requires Phpunit 4+ to run.');
+		}elseif (version_compare($PHPUV, '5.0', '<')) { // PHPUnit 4x
+			$this->setExpectedException(
+				"PHPUnit_Framework_Error_Notice",
+				$EEM
+			);
+		}elseif (version_compare($PHPUV, '6.0', '<')) { // PHPUnit 5x
+			$this->expectException("PHPUnit_Framework_Error_Notice");
+			$this->expectExceptionMessage($EEM);
+		}else{ // PHPUnit 6+
+			$this->expectException("PHPUnit\Framework\Error\Notice");
+			$this->expectExceptionMessage($EEM);
+		}
+		$$tmp->SetUICPItem($key,$kD);
 	}
 
 	public function testSetUILocale() {
@@ -492,7 +524,7 @@ class legacylangTest extends TestCase {
 			);
 		}else{
 			$this->markTestSkipped(
-				'Tese requires Disabled Auth System to run.'
+				'Test requires Disabled Auth System to run.'
 			);
 		}
 	}
@@ -515,7 +547,7 @@ class legacylangTest extends TestCase {
 			);
 		}else{
 			$this->markTestSkipped(
-				'Tese requires Enabled Auth System to run.'
+				'Test requires Enabled Auth System to run.'
 			);
 		}
 	}
@@ -539,7 +571,7 @@ class legacylangTest extends TestCase {
 			);
 		}else{
 			$this->markTestSkipped(
-				'Tese requires Enabled Auth System to run.'
+				'Test requires Enabled Auth System to run.'
 			);
 		}
 	}
@@ -563,9 +595,43 @@ class legacylangTest extends TestCase {
 			);
 		}else{
 			$this->markTestSkipped(
-				'Tese requires Enabled Auth System to run.'
+				'Test requires Enabled Auth System to run.'
 			);
 		}
+	}
+	public function testCPADefaultstoArray() {
+		GLOBAL $Use_Auth_System;
+		$lang = $this->langs;
+		$tf = __FUNCTION__;
+		$tmp = "UI$lang";
+		$this->LogTC($tf,'language',$lang);
+		$this->assertInstanceOf('UILang',$this->UIL = new UILang($lang),
+			"Class for $lang not created."
+		);
+		$$tmp = $this->UIL;
+		$file = $$tmp->TDF;
+		$this->LogTC($tf,'TD file',$file);
+		$this->assertTrue(is_array($$tmp->CPA),
+			"Common Phrase Structure did not default to Array."
+		);
+	}
+	public function testCPASetItemSource() {
+		GLOBAL $Use_Auth_System;
+		$lang = $this->langs;
+		$tf = __FUNCTION__;
+		$tmp = "UI$lang";
+		$this->LogTC($tf,'language',$lang);
+		$this->assertInstanceOf('UILang',$this->UIL = new UILang($lang),
+			"Class for $lang not created."
+		);
+		$$tmp = $this->UIL;
+		$file = $$tmp->TDF;
+		$this->LogTC($tf,'TD file',$file);
+		$key = 'Source';
+		$kD = 'Source';
+		$this->assertArrayHasKey($key, $$tmp->CPA,
+			"Unset CP Item $kD: Key: $key\n"
+		);
 	}
 
 

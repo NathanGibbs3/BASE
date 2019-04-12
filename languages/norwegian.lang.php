@@ -33,8 +33,10 @@ $UI_Title = 'Basic Analysis and Security Engine';
 $UI_ADUN = 'Brukernavn';
 $UI_ADPW = 'Passord';
 
+// Common Phrases
+$UI_CP_SOURCE = 'Kilde';
+
 //common phrases
-DEFINE('_SOURCE','Kilde');
 DEFINE('_SOURCENAME','Kildenavn');
 DEFINE('_DEST','Destinasjon');
 DEFINE('_DESTNAME','Dest. navn');

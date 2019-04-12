@@ -397,7 +397,7 @@ function ICMPType2str($icmp_type)
           return "Echo Reply";
       case 3:                             /* ICMP_DEST_UNREACH */
           return "Destination Unreachable";
-      case 4:                             /* ICMP_SOURCE_QUENCH */
+      case 4:	// ICMP Source Quench
           return "Source Quench";
       case 5:                             /* ICMP_REDIRECT */
           return "Redirect";
@@ -406,7 +406,7 @@ function ICMPType2str($icmp_type)
       case 9:
           return "Router Advertisement";
       case 10:
-          return "Router Solicitation"; 
+          return "Router Solicitation";
       case 11:                            /* ICMP_TIME_EXCEEDED */
           return "Time Exceeded";
       case 12:                            /* ICMP_PARAMETERPROB */

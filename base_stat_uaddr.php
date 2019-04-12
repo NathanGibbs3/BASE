@@ -34,8 +34,10 @@
  include("$BASE_path/includes/base_constants.inc.php");
  include("$BASE_path/includes/base_include.inc.php");
  include_once("$BASE_path/base_db_common.php");
- include_once("$BASE_path/base_common.php"); 
+ include_once("$BASE_path/base_common.php");
  include_once("$BASE_path/base_qry_common.php");
+
+$UIL = new UILang($BASE_Language); // Create UI Language Object.
 
  $addr_type = ImportHTTPVar("addr_type", VAR_DIGIT);
  $submit = ImportHTTPVar("submit", VAR_ALPHA | VAR_SPACE, array(_SELECTED, _ALLONSCREEN, _ENTIREQUERY));
@@ -55,7 +57,6 @@
   $db = NewBASEDBConnection($DBlib_path, $DBtype);
   $db->baseDBConnect($db_connect_method,
                      $alert_dbname, $alert_host, $alert_port, $alert_user, $alert_password);
-$UIL = new UILang($BASE_Language); // Create UI Language Abstraction Object.
 $cs = new CriteriaState("base_stat_uaddr.php", "&amp;addr_type=$addr_type");
 
  $cs->ReadState();

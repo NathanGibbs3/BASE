@@ -35,8 +35,10 @@ $UI_Title = 'Basic Analysis and Security Engine';
 $UI_ADUN = 'Login';
 $UI_ADPW = 'Heslo';
 
+// Common Phrases
+$UI_CP_SOURCE = 'Zdroj';
+
 //common phrases
-DEFINE('_SOURCE','Zdroj');
 DEFINE('_SOURCENAME','Jméno zdoje');
 DEFINE('_DEST','Cíl');
 DEFINE('_DESTNAME','Jméno cíle');

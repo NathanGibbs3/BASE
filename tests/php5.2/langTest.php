@@ -168,7 +168,7 @@ class langTest extends PHPUnit_Framework_TestCase {
 		if ($Use_Auth_System == 1) {
 			$key = 'INVALID';
 			$kD = 'Invalid Item';
-			$EEM = "Invalid Set Request for: $key.";
+			$EEM = "Invalid AD Set Request for: $key.";
 			$PHPUV = $this->GetPHPUV();
 			if (version_compare($PHPUV, '4.0', '<')) {
 				$this->markTestSkipped('Requires Phpunit 4+ to run.');
@@ -187,9 +187,50 @@ class langTest extends PHPUnit_Framework_TestCase {
 			$$tmp->SetUIADItem($key,$kD);
 		}else{
 			$this->markTestSkipped(
-				'Tese requires Enabled Auth System to run.'
+				'Test requires Enabled Auth System to run.'
 			);
 		}
+	}
+	public function testCPASetItemInvalidThrowsError() {
+		GLOBAL $Use_Auth_System;
+		$lang = 'english';
+		$tmp = "UI$lang";
+		$tf = __FUNCTION__;
+		$this->LogTC($tf,'language',$lang);
+		// Expect errors as we Transition Translation Data
+		$PHPUV = $this->PHPUV;
+		if (version_compare($PHPUV, '4.0', '<')) {
+			$this->markTestSkipped('Requires Phpunit 4+ to run.');
+		}elseif (version_compare($PHPUV, '5.0', '<')) { // PHPUnit 4x
+			$this->setExpectedException("PHPUnit_Framework_Error");
+		}elseif (version_compare($PHPUV, '6.0', '<')) { // PHPUnit 5x
+			$this->expectException("PHPUnit_Framework_Error");
+		}else{ // PHPUnit 6+
+			$this->expectException("PHPUnit\Framework\Error\Error");
+		}
+		$$tmp = new UILang($lang);
+		// Will not run until TD is transitioned.
+		$file = $$tmp->TDF;
+		$this->LogTC($tf,'TD file',$file);
+		$key = 'INVALID';
+		$kD = 'Invalid Item';
+		$EEM = "Invalid CP Set Request for: $key.";
+		$PHPUV = $this->GetPHPUV();
+		if (version_compare($PHPUV, '4.0', '<')) {
+			$this->markTestSkipped('Requires Phpunit 4+ to run.');
+		}elseif (version_compare($PHPUV, '5.0', '<')) { // PHPUnit 4x
+			$this->setExpectedException(
+				"PHPUnit_Framework_Error_Notice",
+				$EEM
+			);
+		}elseif (version_compare($PHPUV, '6.0', '<')) { // PHPUnit 5x
+			$this->expectException("PHPUnit_Framework_Error_Notice");
+			$this->expectExceptionMessage($EEM);
+		}else{ // PHPUnit 6+
+			$this->expectException("PHPUnit\Framework\Error\Notice");
+			$this->expectExceptionMessage($EEM);
+		}
+		$$tmp->SetUICPItem($key,$kD);
 	}
 
 	public function testSetUILocale() {
@@ -350,7 +391,7 @@ class langTest extends PHPUnit_Framework_TestCase {
 				);
 			}else{
 				$this->markTestSkipped(
-					'Tese requires Disabled Auth System to run.'
+					'Test requires Disabled Auth System to run.'
 				);
 			}
 		}
@@ -384,7 +425,7 @@ class langTest extends PHPUnit_Framework_TestCase {
 				);
 			}else{
 				$this->markTestSkipped(
-					'Tese requires Enabled Auth System to run.'
+					'Test requires Enabled Auth System to run.'
 				);
 			}
 		}
@@ -419,7 +460,7 @@ class langTest extends PHPUnit_Framework_TestCase {
 				);
 			}else{
 				$this->markTestSkipped(
-					'Tese requires Enabled Auth System to run.'
+					'Test requires Enabled Auth System to run.'
 				);
 			}
 		}
@@ -454,9 +495,65 @@ class langTest extends PHPUnit_Framework_TestCase {
 				);
 			}else{
 				$this->markTestSkipped(
-					'Tese requires Enabled Auth System to run.'
+					'Test requires Enabled Auth System to run.'
 				);
 			}
+		}
+	}
+	public function testCPADefaultstoArray() {
+		GLOBAL $Use_Auth_System;
+		$langs = $this->langs;
+		$tf = __FUNCTION__;
+		foreach($langs as $lang){
+			$tmp = "UI$lang";
+			$this->LogTC($tf,'language',$lang);
+			// Expect errors as we Transition Translation Data
+			$PHPUV = $this->PHPUV;
+			if (version_compare($PHPUV, '4.0', '<')) {
+				$this->markTestSkipped('Requires Phpunit 4+ to run.');
+			}elseif (version_compare($PHPUV, '5.0', '<')) { // PHPUnit 4x
+				$this->setExpectedException("PHPUnit_Framework_Error");
+			}elseif (version_compare($PHPUV, '6.0', '<')) { // PHPUnit 5x
+				$this->expectException("PHPUnit_Framework_Error");
+			}else{ // PHPUnit 6+
+				$this->expectException("PHPUnit\Framework\Error\Error");
+			}
+			$$tmp = new UILang($lang);
+			// Will not run until TD is transitioned.
+			$file = $$tmp->TDF;
+			$this->LogTC($tf,'TD file',$file);
+			$this->assertTrue(is_array($$tmp->CPA),
+				"Common Phrase Structure did not default to Array."
+			);
+		}
+	}
+	public function testCPASetItemSource() {
+		GLOBAL $Use_Auth_System;
+		$langs = $this->langs;
+		$tf = __FUNCTION__;
+		foreach($langs as $lang){
+			$tmp = "UI$lang";
+			$this->LogTC($tf,'language',$lang);
+			// Expect errors as we Transition Translation Data
+			$PHPUV = $this->PHPUV;
+			if (version_compare($PHPUV, '4.0', '<')) {
+				$this->markTestSkipped('Requires Phpunit 4+ to run.');
+			}elseif (version_compare($PHPUV, '5.0', '<')) { // PHPUnit 4x
+				$this->setExpectedException("PHPUnit_Framework_Error");
+			}elseif (version_compare($PHPUV, '6.0', '<')) { // PHPUnit 5x
+				$this->expectException("PHPUnit_Framework_Error");
+			}else{ // PHPUnit 6+
+				$this->expectException("PHPUnit\Framework\Error\Error");
+			}
+			$$tmp = new UILang($lang);
+			// Will not run until TD is transitioned.
+			$file = $$tmp->TDF;
+			$this->LogTC($tf,'TD file',$file);
+			$key = 'Source';
+			$kD = 'Source';
+			$this->assertArrayHasKey($key, $$tmp->CPA,
+				"Unset CP Item $kD: Key: $key\n"
+			);
 		}
 	}
 
@@ -482,7 +579,6 @@ class langTest extends PHPUnit_Framework_TestCase {
 			}
 			include_once("$BASE_path/languages/$file");
 			// Test common phrases
-			// DEFINE('_SOURCE','Source');
 			// DEFINE('_SOURCENAME','Source Name');
 			// DEFINE('_DEST','Destination');
 			// DEFINE('_DESTNAME','Dest. Name');
@@ -583,7 +679,6 @@ class langTest extends PHPUnit_Framework_TestCase {
 			// DEFINE('_TYPE','type');
 			// DEFINE('_NEXT','Next');
 			// DEFINE('_PREVIOUS','Previous');
-			$this->assertTrue(defined('_SOURCE'),'Source not defined');
 			$this->assertTrue(defined('_SOURCENAME'),'Source Name not defined');
 			$this->assertTrue(defined('_DEST'),'Destination not defined');
 			$this->assertTrue(defined('_DESTNAME'),'Dest. Name not defined');

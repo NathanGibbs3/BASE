@@ -34,8 +34,10 @@ $UI_Title = 'Basic Analysis and Security Engine';
 $UI_ADUN = 'Oturum Aç';
 $UI_ADPW = 'Parola';
 
+// Common Phrases
+$UI_CP_SOURCE = 'Kaynak';
+
 //common phrases
-DEFINE('_SOURCE','Kaynak');
 DEFINE('_SOURCENAME','Kaynak Adý');
 DEFINE('_DEST','Varýþ');
 DEFINE('_DESTNAME','Varýþ Adý');

@@ -34,9 +34,10 @@ $UI_Title = 'Basic Analysis and Security Engine';
 $UI_ADUN = 'Identifiant';
 $UI_ADPW = 'Mot de passe';
 
+// Common Phrases
+$UI_CP_SOURCE = 'Source';
+
 //common phrases
-DEFINE('_SOURCE','Source');
-// Source
 DEFINE('_SOURCENAME','Nom de la Source');
 // Source Name
 DEFINE('_DEST','Destination');

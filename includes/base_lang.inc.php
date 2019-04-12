@@ -25,6 +25,7 @@ class UILang{
 	var $Charset;
 	var $Title;
 	var $ADA;
+	var $CPA;
 
 	function __construct($UILang) { // PHP 5+ constructor Shim.
 		// Class/Method agnostic shim code.
@@ -99,6 +100,11 @@ class UILang{
 		}else{
 			$this->ADA = NULL;
 		}
+		if ( isset($UI_CP_SOURCE) ) {
+			$this->SetUICPItem('Source',$UI_CP_SOURCE);
+		}else{
+			$this->SetUICPItem('Source',NULL);
+		}
 	}
 	// Sets locale from translation data or defaults to system locale.
 	function SetUILocale() {
@@ -164,8 +170,30 @@ class UILang{
 					break;
 				default;
 					// Will need to add this message to the TD.
-					trigger_error("Invalid Set Request for: $Item.\n");
+					trigger_error("Invalid AD Set Request for: $Item.\n");
 			}
+		}
+	}
+	// Sets Common Phrase Item from translation data.
+	function SetUICPItem($Item,$Value) {
+		switch ($Item) {
+			case 'Source';
+				if ( isset($Value) ) { // Var Based
+					$this->CPA[$Item] = $Value;
+				}else{ // Const based
+					$this->CPA[$Item] = _SOURCE;
+				}
+				break;
+			case 'DescPW';
+				if ( isset($Value) ) { // Var Based
+			//		$this->CPA[$Item] = $Value;
+				}else{ // Const based
+			//		$this->CPA[$Item] = _FRMPWD;
+				}
+				break;
+			default;
+				// Will need to add this message to the TD.
+				trigger_error("Invalid CP Set Request for: $Item.\n");
 		}
 	}
 }

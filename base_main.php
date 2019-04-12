@@ -114,11 +114,13 @@ if ($tmp_str != "") {
     die();
 }
 
-?>
-<table width="100%" style="border:0;padding:0">
-  <tr>
-    <td align="left" rowspan="2">
-<?php
+print "\n".str_repeat ( "\t",2 ).'<table';
+print "\n".str_repeat ( "\t",3 ).'width="100%"';
+print "\n".str_repeat ( "\t",3 ).'style="border:0;padding:0"';
+print "\n".str_repeat ( "\t",2 ).'>';
+print "\n".str_repeat ( "\t",3 ).'<tr>';
+print "\n".str_repeat ( "\t",4 ).'<td align="left" rowspan="2">';
+
 // Various things for the snapshot functiuonality on the first page.... Kevin
 $tmp_month = date("m");
 $tmp_day = date("d");
@@ -163,6 +165,10 @@ $tmp_today         = 'base_qry_main.php?new=1'.$today.'&amp;submit='._QUERYDBP.'
 $tmp_today_unique  = 'base_stat_alerts.php?time_cnt=1'.$today;
 $tmp_sip           = 'base_stat_uaddr.php?addr_type=1&amp;sort_order=occur_d&amp;time_cnt=1'.$today;
 $tmp_dip           = 'base_stat_uaddr.php?addr_type=2&amp;sort_order=occur_d&amp;time_cnt=1'.$today;
+
+$tmp_Source = $UIL->CPA['Source'];
+$tmp_DSO = '&amp;sort_order=occur_d';
+
 echo '
           <div class="stats">
             <table width="100%" class="systemstats">
@@ -214,22 +220,26 @@ echo '
 
               <tr class="main_quick_surf">
 	            <td style="text-align:left;">- '._FREGSOURCEP.'</td>
-	            <td><a href="base_stat_ports.php?caller=most_frequent&amp;port_type=1&amp;proto=-1&amp;sort_order=occur_d">'._ANYPROTO.'</a></td>
-	            <td><a href="base_stat_ports.php?caller=most_frequent&amp;port_type=1&amp;proto=6&amp;sort_order=occur_d">TCP</a></td>
-	            <td><a href="base_stat_ports.php?caller=most_frequent&amp;port_type=1&amp;proto=17&amp;sort_order=occur_d">UDP</a></td>
+	            <td><a href="base_stat_ports.php?caller=most_frequent&amp;port_type=1&amp;proto=-1'.$tmp_DSO.'">'._ANYPROTO.'</a></td>
+	            <td><a href="base_stat_ports.php?caller=most_frequent&amp;port_type=1&amp;proto=6'.$tmp_DSO.'">TCP</a></td>
+	            <td><a href="base_stat_ports.php?caller=most_frequent&amp;port_type=1&amp;proto=17'.$tmp_DSO.'">UDP</a></td>
 	          </tr>
       
               <tr class="main_quick_surf">
 	            <td style="text-align:left;">- '._FREGDESTP.'</td>
-	            <td><a href="base_stat_ports.php?caller=most_frequent&amp;port_type=2&amp;proto=-1&amp;sort_order=occur_d">'._ANYPROTO.'</a></td>
-	            <td><a href="base_stat_ports.php?caller=most_frequent&amp;port_type=2&amp;proto=6&amp;sort_order=occur_d">TCP</a></td>
-	            <td><a href="base_stat_ports.php?caller=most_frequent&amp;port_type=2&amp;proto=17&amp;sort_order=occur_d">UDP</a></td>
+	            <td><a href="base_stat_ports.php?caller=most_frequent&amp;port_type=2&amp;proto=-1'.$tmp_DSO.'">'._ANYPROTO.'</a></td>
+	            <td><a href="base_stat_ports.php?caller=most_frequent&amp;port_type=2&amp;proto=6'.$tmp_DSO.'">TCP</a></td>
+	            <td><a href="base_stat_ports.php?caller=most_frequent&amp;port_type=2&amp;proto=17'.$tmp_DSO.'">UDP</a></td>
 	          </tr>
 
               <tr class="main_quick_surf">
-	            <td style="text-align:left;">- '._MOSTFREQUENT . $freq_num_uaddr . " " ._ADDRESSES.":".'</td>
-                <td><a href="base_stat_uaddr.php?caller=most_frequent&amp;addr_type=1&amp;sort_order=occur_d">'._SOURCE.'</a></td>
-                <td><a href="base_stat_uaddr.php?caller=most_frequent&amp;addr_type=2&amp;sort_order=occur_d">'._DEST.'</a></td>
+	            <td style="text-align:left;">- '._MOSTFREQUENT . $freq_num_uaddr . " " ._ADDRESSES.":".'</td>';
+print "\n".str_repeat ( "\t",5 ).'<td>';
+print "\n".str_repeat ( "\t",6 ).'<a href="base_stat_uaddr.php?caller=most_frequent&amp;addr_type=1'.$tmp_DSO.'">';
+print "\n".str_repeat ( "\t",7 ).$tmp_Source;
+print "\n".str_repeat ( "\t",6 ).'</a>';
+print "\n".str_repeat ( "\t",5 ).'</td>';
+echo'                <td><a href="base_stat_uaddr.php?caller=most_frequent&amp;addr_type=2'.$tmp_DSO.'">'._DEST.'</a></td>
 	          </tr>
 
               <tr class="main_quick_surf_2">
@@ -237,7 +247,7 @@ echo '
 	          </tr>
 
 	          <tr class="main_quick_surf_2">
-	            <td colspan=2>- <a href="base_stat_alerts.php?caller=most_frequent&amp;sort_order=occur_d">'._MOSTFREQUENT . $freq_num_alerts . " " ._UNIALERTS.'</a></td>
+	            <td colspan=2>- <a href="base_stat_alerts.php?caller=most_frequent'.$tmp_DSO.'">'._MOSTFREQUENT . $freq_num_alerts . " " ._UNIALERTS.'</a></td>
 	          </tr>
 	        </table>
           </div>
