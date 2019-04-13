@@ -191,6 +191,7 @@ div.mainheadertitle {
     font-size: 26pt;
     BORDER: double;
     padding: 3px;
+	padding-left: 15px;
 }
 
 div.mainfootertext {

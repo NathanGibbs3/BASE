@@ -33,13 +33,12 @@ $UI_Title = 'Motore di Sicurezza e Analisi Basilare';
 // Authentication Data.
 $UI_ADUN = 'Login';
 $UI_ADPW = 'Password';
-
 // Common Phrases
 $UI_CP_SrcDesc = 'Sorgente';
 $UI_CP_SrcName = 'Nome Sorgente';
+$UI_CP_DstDesc = 'Destinazione';
 
 //common phrases
-DEFINE('_DEST','Destinazione');
 DEFINE('_DESTNAME','Nome Dest.');
 DEFINE('_SORD','Sorg. o Dest.');
 DEFINE('_EDIT','Modifica');

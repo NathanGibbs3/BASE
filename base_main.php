@@ -164,6 +164,7 @@ $tmp_sip           = 'base_stat_uaddr.php?addr_type=1&amp;sort_order=occur_d&amp
 $tmp_dip           = 'base_stat_uaddr.php?addr_type=2&amp;sort_order=occur_d&amp;time_cnt=1'.$today;
 
 $tmp_Source = $UIL->CPA['SrcDesc'];
+$tmp_Dest = $UIL->CPA['DstDesc'];
 $tmp_DSO = '&amp;sort_order=occur_d';
 
 echo '
@@ -231,16 +232,17 @@ echo '
 
               <tr class="main_quick_surf">
 	            <td style="text-align:left;">- '._MOSTFREQUENT . $freq_num_uaddr . " " ._ADDRESSES.":".'</td>';
-print "\n".str_repeat ( "\t",5 ).'<td>';
-print "\n".str_repeat ( "\t",6 ).'<a href="base_stat_uaddr.php?caller=most_frequent&amp;addr_type=1'.$tmp_DSO.'">';
-print "\n".str_repeat ( "\t",7 ).$tmp_Source;
-print "\n".str_repeat ( "\t",6 ).'</a>';
-print "\n".str_repeat ( "\t",5 ).'</td>';
-echo'                <td><a href="base_stat_uaddr.php?caller=most_frequent&amp;addr_type=2'.$tmp_DSO.'">'._DEST.'</a></td>
-	          </tr>
-
-              <tr class="main_quick_surf_2">
-	            <td colspan=2>- <a href="base_stat_alerts.php?caller=last_alerts&amp;sort_order=last_d">'._MOSTRECENT.$last_num_ualerts._UNIALERTS.'</a></td>
+print "\n".str_repeat("\t",5).'<td>';
+print "\n".str_repeat("\t",6).'<a href="base_stat_uaddr.php?caller=most_frequent&amp;addr_type=1'.$tmp_DSO.'">';
+print "\n".str_repeat("\t",7).$tmp_Source;
+print "\n".str_repeat("\t",6).'</a>';
+print "\n".str_repeat("\t",5).'</td><td>';
+print "\n".str_repeat("\t",6).'<a href="base_stat_uaddr.php?caller=most_frequent&amp;addr_type=2'.$tmp_DSO.'">';
+print "\n".str_repeat("\t",7).$tmp_Dest;
+print "\n".str_repeat("\t",6).'</a>';
+print "\n".str_repeat("\t",5).'</td>';
+print "\n".str_repeat("\t",4).'</tr><tr class="main_quick_surf_2">';
+echo'	            <td colspan=2>- <a href="base_stat_alerts.php?caller=last_alerts&amp;sort_order=last_d">'._MOSTRECENT.$last_num_ualerts._UNIALERTS.'</a></td>
 	          </tr>
 
 	          <tr class="main_quick_surf_2">

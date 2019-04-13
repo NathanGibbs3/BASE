@@ -33,13 +33,12 @@ $UI_Title = 'Basic Analysis and Security Engine';
 // Authentication Data.
 $UI_ADUN = 'Logga in';
 $UI_ADPW = 'Lösenord';
-
 // Common Phrases
 $UI_CP_SrcDesc = 'Källa';
 $UI_CP_SrcName = 'Käll namn';
+$UI_CP_DstDesc = 'Destination';
 
 //common phrases
-DEFINE('_DEST','Destination');
 DEFINE('_DESTNAME','Dest. Namn');
 DEFINE('_SORD','Src or Dest');
 DEFINE('_EDIT','Edit');

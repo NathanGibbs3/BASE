@@ -33,13 +33,12 @@ $UI_Title = '基本安全分析引擎';
 // Authentication Data.
 $UI_ADUN = '用户登录';
 $UI_ADPW = '密码';
-
 // Common Phrases
 $UI_CP_SrcDesc = '来源';
 $UI_CP_SrcName = '来源名称';
+$UI_CP_DstDesc = '目的';
 
 //common phrases
-DEFINE('_DEST','目的');
 DEFINE('_DESTNAME','目的名称');
 DEFINE('_SORD','来源或目的');
 DEFINE('_EDIT','编辑');

@@ -649,6 +649,23 @@ class legacylangTest extends TestCase {
 			"Unset CP Item $kD: Key: $key\n"
 		);
 	}
+	public function testCPASetItemDstDesc() {
+		$lang = $this->langs;
+		$tf = __FUNCTION__;
+		$tmp = "UI$lang";
+		$this->LogTC($tf,'language',$lang);
+		$this->assertInstanceOf('UILang',$this->UIL = new UILang($lang),
+			"Class for $lang not created."
+		);
+		$$tmp = $this->UIL;
+		$file = $$tmp->TDF;
+		$this->LogTC($tf,'TD file',$file);
+		$key = 'DstDesc';
+		$kD = 'Destination';
+		$this->assertArrayHasKey($key, $$tmp->CPA,
+			"Unset CP Item $kD: Key: $key\n"
+		);
+	}
 
 
 	protected function tearDown() {

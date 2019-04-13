@@ -395,7 +395,7 @@ function ICMPType2str($icmp_type)
   {
       case 0:                             /* ICMP_ECHOREPLY */
           return "Echo Reply";
-      case 3:                             /* ICMP_DEST_UNREACH */
+      case 3:	// ICMP Dest Unreach
           return "Destination Unreachable";
       case 4:	// ICMP Source Quench
           return "Source Quench";
