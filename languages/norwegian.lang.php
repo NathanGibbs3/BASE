@@ -36,9 +36,9 @@ $UI_ADPW = 'Passord';
 $UI_CP_SrcDesc = 'Kilde';
 $UI_CP_SrcName = 'Kildenavn';
 $UI_CP_DstDesc = 'Destinasjon';
+$UI_CP_DstName = 'Dest. navn';
 
 //common phrases
-DEFINE('_DESTNAME','Dest. navn');
 DEFINE('_SORD','Kilde eller Dest.');
 DEFINE('_EDIT','Endre');
 DEFINE('_DELETE','Slett');

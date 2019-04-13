@@ -37,9 +37,9 @@ $UI_ADPW = 'Lösenord';
 $UI_CP_SrcDesc = 'Källa';
 $UI_CP_SrcName = 'Käll namn';
 $UI_CP_DstDesc = 'Destination';
+$UI_CP_DstName = 'Dest. Namn';
 
 //common phrases
-DEFINE('_DESTNAME','Dest. Namn');
 DEFINE('_SORD','Src or Dest');
 DEFINE('_EDIT','Edit');
 DEFINE('_DELETE','Radera');

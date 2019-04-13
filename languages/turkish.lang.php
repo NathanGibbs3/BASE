@@ -37,9 +37,9 @@ $UI_ADPW = 'Parola';
 $UI_CP_SrcDesc = 'Kaynak';
 $UI_CP_SrcName = 'Kaynak Adý';
 $UI_CP_DstDesc = 'Varýþ';
+$UI_CP_DstName = 'Varýþ Adý';
 
 //common phrases
-DEFINE('_DESTNAME','Varýþ Adý');
 DEFINE('_SORD','Kaynak veya Varýþ');
 DEFINE('_EDIT','Düzenle');
 DEFINE('_DELETE','Sil');

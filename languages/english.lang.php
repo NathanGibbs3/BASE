@@ -36,9 +36,9 @@ $UI_ADPW = 'Password';
 $UI_CP_SrcDesc = 'Source';
 $UI_CP_SrcName = 'Source Name';
 $UI_CP_DstDesc = 'Destination';
+$UI_CP_DstName = 'Dest. Name';
 
 //common phrases
-DEFINE('_DESTNAME','Dest. Name');
 DEFINE('_SORD','Src or Dest');
 DEFINE('_EDIT','Edit');
 DEFINE('_DELETE','Delete');

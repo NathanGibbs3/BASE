@@ -37,9 +37,9 @@ $UI_ADPW = 'パスワード';
 $UI_CP_SrcDesc = '発信元';
 $UI_CP_SrcName = '発信元　名前';
 $UI_CP_DstDesc = '発信先';
+$UI_CP_DstName = '送信先　名前';
 
 //common phrases
-DEFINE('_DESTNAME','送信先　名前');
 DEFINE('_SORD','発信元 or 送信先');
 DEFINE('_EDIT','編集');
 DEFINE('_DELETE','削除');

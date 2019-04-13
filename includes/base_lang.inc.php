@@ -115,6 +115,11 @@ class UILang{
 		}else{
 			$this->SetUICPItem('DstDesc',NULL);
 		}
+		if ( isset($UI_CP_DstName) ) {
+			$this->SetUICPItem('DstName',$UI_CP_DstDesc);
+		}else{
+			$this->SetUICPItem('DstName',NULL);
+		}
 	}
 	// Sets locale from translation data or defaults to system locale.
 	function SetUILocale() {
@@ -206,6 +211,13 @@ class UILang{
 					$this->CPA[$Item] = $Value;
 				}else{ // Const based
 					$this->CPA[$Item] = _DEST;
+				}
+				break;
+			case 'DstName';
+				if ( isset($Value) ) { // Var Based
+					$this->CPA[$Item] = $Value;
+				}else{ // Const based
+					$this->CPA[$Item] = _DESTNAME;
 				}
 				break;
 			default;

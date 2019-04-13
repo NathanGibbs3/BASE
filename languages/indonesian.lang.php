@@ -37,9 +37,9 @@ $UI_ADPW = 'Kata Sandi';
 $UI_CP_SrcDesc = 'Sumber';
 $UI_CP_SrcName = 'Nama Sumber';
 $UI_CP_DstDesc = 'Sasaran';
+$UI_CP_DstName = 'Nama Sasaran';
 
 //common phrases
-DEFINE('_DESTNAME','Nama Sasaran');
 DEFINE('_SORD','Sumber atau Sasaran');
 DEFINE('_EDIT','Edit');
 DEFINE('_DELETE','Hapus');

@@ -42,9 +42,9 @@ $UI_ADPW = 'Salasana';
 $UI_CP_SrcDesc = 'Lähde';
 $UI_CP_SrcName = 'Lähteen nimi';
 $UI_CP_DstDesc = 'Kohde';
+$UI_CP_DstName = 'Kohteen Nimi';
 
 //common phrases
-DEFINE('_DESTNAME','Kohteen Nimi');
 DEFINE('_SORD','Lähteen nimi');
 DEFINE('_EDIT','Muokkaa');
 DEFINE('_DELETE','Poista');

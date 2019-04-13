@@ -37,10 +37,9 @@ $UI_ADPW = 'Mot de passe';
 $UI_CP_SrcDesc = 'Source';
 $UI_CP_SrcName = 'Nom de la Source';
 $UI_CP_DstDesc = 'Destination';
+$UI_CP_DstName = 'Nom de la Destination';
 
 //common phrases
-DEFINE('_DESTNAME','Nom de la Destination');
-// Dest. Name
 DEFINE('_SORD','Src ou Dest');
 // Src or Dest
 DEFINE('_EDIT','Modifier');

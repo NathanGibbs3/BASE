@@ -173,6 +173,7 @@ function PrintPacketLookupBrowseButtons($seq, $save_sql, $db, &$previous_button,
 
 $UIL = new UILang($BASE_Language); // Create UI Language Object.
 $SrcName = $UIL->CPA['SrcName'];
+$DstName = $UIL->CPA['DstName'];
 // This call can include "#xx-(xx-xx)" values and "submit" values.
 $submit = ImportHTTPVar("submit", VAR_DIGIT | VAR_PUNC | VAR_LETTER, array(_SELECTED, _ALLONSCREEN, _ENTIREQUERY));
 
@@ -449,23 +450,24 @@ $submit = ImportHTTPVar("submit", VAR_DIGIT | VAR_PUNC | VAR_LETTER, array(_SELE
   echo '                 <TD class="plfield">'.htmlspecialchars($myrow2[10]).'<BR>= 0x'.dechex($myrow2[10]).'</TD></TR>';
   echo '         </TABLE>';
 
-  if ( $resolve_IP == 1 )
-  {
-     echo '  <TR>
-              <TD>
-                <TABLE BORDER=1 CELLPADDING=4>
-                  <TR><TD CLASS="iptitle" ALIGN=CENTER ROWSPAN=2>FQDN</TD>';
-print "\n".str_repeat ("\t",5).'<td class="plfieldhdr">'.$SrcName.'</td>';
-echo '                       <TD class="plfieldhdr">'._DESTNAME.'</TD>
-                  </TR>
-                  <TR><TD class="plfield">'.
+if ( $resolve_IP == 1 ) {
+	print "\n".str_repeat("\t",3).'<tr><td>';
+	print "\n".str_repeat("\t",4).'<table border=1 cellpadding=4>';
+	print "\n".str_repeat("\t",5).'<tr>';
+	print "\n".str_repeat("\t",6).'<td class="iptitle" align=center rowspan=2>';
+	print "\n".str_repeat("\t",7).'FQDN';
+	print "\n".str_repeat("\t",6).'</td>';
+	print "\n".str_repeat("\t",6).'<td class="plfieldhdr">'.$SrcName.'</td>';
+	print "\n".str_repeat("\t",6).'<td class="plfieldhdr">'.$DstName.'</td>';
+	print "\n".str_repeat("\t",5).'</tr><tr>';
+echo'                  <TD class="plfield">'.
                       (baseGetHostByAddr(baseLong2IP($myrow2[0]),
                                         $db, $dns_cache_lifetime)).'</TD>
                       <TD class="plfield">'.
                       (baseGetHostByAddr(baseLong2IP($myrow2[1]),
                                          $db, $dns_cache_lifetime)).'</TD>
                   </TR>
-                 </TABLE>     
+                 </TABLE>
             </TR>';
   }
 

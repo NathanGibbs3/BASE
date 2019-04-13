@@ -38,9 +38,9 @@ $UI_ADPW = 'Heslo';
 $UI_CP_SrcDesc = 'Zdroj';
 $UI_CP_SrcName = 'Jméno zdoje';
 $UI_CP_DstDesc = 'Cíl';
+$UI_CP_DstName = 'Jméno cíle';
 
 //common phrases
-DEFINE('_DESTNAME','Jméno cíle');
 DEFINE('_SORD','Zdroj n. cíl');
 DEFINE('_EDIT','Upravit');
 DEFINE('_DELETE','Smazat');

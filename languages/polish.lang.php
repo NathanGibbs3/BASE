@@ -38,9 +38,9 @@ $UI_ADPW = 'Haslo';
 $UI_CP_SrcDesc = 'Zrodlowy';
 $UI_CP_SrcName = 'Nazwa Zrodlowa';
 $UI_CP_DstDesc = 'Docelowy';
+$UI_CP_DstName = 'Nazwa Docelowa';
 
 //common phrases
-DEFINE('_DESTNAME','Nazwa Docelowa');
 DEFINE('_SORD','Zrodlowy lub Docelowy');
 DEFINE('_EDIT','Edycja');
 DEFINE('_DELETE','Kasuj');

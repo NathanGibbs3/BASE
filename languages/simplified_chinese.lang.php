@@ -37,9 +37,9 @@ $UI_ADPW = '密码';
 $UI_CP_SrcDesc = '来源';
 $UI_CP_SrcName = '来源名称';
 $UI_CP_DstDesc = '目的';
+$UI_CP_DstName = '目的名称';
 
 //common phrases
-DEFINE('_DESTNAME','目的名称');
 DEFINE('_SORD','来源或目的');
 DEFINE('_EDIT','编辑');
 DEFINE('_DELETE','删除');
