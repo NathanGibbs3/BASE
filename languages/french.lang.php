@@ -35,11 +35,10 @@ $UI_ADUN = 'Identifiant';
 $UI_ADPW = 'Mot de passe';
 
 // Common Phrases
-$UI_CP_SOURCE = 'Source';
+$UI_CP_SrcDesc = 'Source';
+$UI_CP_SrcName = 'Nom de la Source';
 
 //common phrases
-DEFINE('_SOURCENAME','Nom de la Source');
-// Source Name
 DEFINE('_DEST','Destination');
 // Destination
 DEFINE('_DESTNAME','Nom de la Destination');

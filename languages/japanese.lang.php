@@ -35,10 +35,10 @@ $UI_ADUN = 'ログイン';
 $UI_ADPW = 'パスワード';
 
 // Common Phrases
-$UI_CP_SOURCE = '発信元';
+$UI_CP_SrcDesc = '発信元';
+$UI_CP_SrcName = '発信元　名前';
 
 //common phrases
-DEFINE('_SOURCENAME','発信元　名前');
 DEFINE('_DEST','発信先');
 DEFINE('_DESTNAME','送信先　名前');
 DEFINE('_SORD','発信元 or 送信先');

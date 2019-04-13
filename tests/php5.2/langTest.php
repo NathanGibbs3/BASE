@@ -527,8 +527,7 @@ class langTest extends PHPUnit_Framework_TestCase {
 			);
 		}
 	}
-	public function testCPASetItemSource() {
-		GLOBAL $Use_Auth_System;
+	public function testCPASetItemSrcDesc() {
 		$langs = $this->langs;
 		$tf = __FUNCTION__;
 		foreach($langs as $lang){
@@ -549,8 +548,36 @@ class langTest extends PHPUnit_Framework_TestCase {
 			// Will not run until TD is transitioned.
 			$file = $$tmp->TDF;
 			$this->LogTC($tf,'TD file',$file);
-			$key = 'Source';
+			$key = 'SrcDesc';
 			$kD = 'Source';
+			$this->assertArrayHasKey($key, $$tmp->CPA,
+				"Unset CP Item $kD: Key: $key\n"
+			);
+		}
+	}
+	public function testCPASetItemSrcName() {
+		$langs = $this->langs;
+		$tf = __FUNCTION__;
+		foreach($langs as $lang){
+			$tmp = "UI$lang";
+			$this->LogTC($tf,'language',$lang);
+			// Expect errors as we Transition Translation Data
+			$PHPUV = $this->PHPUV;
+			if (version_compare($PHPUV, '4.0', '<')) {
+				$this->markTestSkipped('Requires Phpunit 4+ to run.');
+			}elseif (version_compare($PHPUV, '5.0', '<')) { // PHPUnit 4x
+				$this->setExpectedException("PHPUnit_Framework_Error");
+			}elseif (version_compare($PHPUV, '6.0', '<')) { // PHPUnit 5x
+				$this->expectException("PHPUnit_Framework_Error");
+			}else{ // PHPUnit 6+
+				$this->expectException("PHPUnit\Framework\Error\Error");
+			}
+			$$tmp = new UILang($lang);
+			// Will not run until TD is transitioned.
+			$file = $$tmp->TDF;
+			$this->LogTC($tf,'TD file',$file);
+			$key = 'SrcName';
+			$kD = 'Source Name';
 			$this->assertArrayHasKey($key, $$tmp->CPA,
 				"Unset CP Item $kD: Key: $key\n"
 			);
@@ -579,7 +606,6 @@ class langTest extends PHPUnit_Framework_TestCase {
 			}
 			include_once("$BASE_path/languages/$file");
 			// Test common phrases
-			// DEFINE('_SOURCENAME','Source Name');
 			// DEFINE('_DEST','Destination');
 			// DEFINE('_DESTNAME','Dest. Name');
 			// DEFINE('_SORD','Src or Dest');
@@ -679,7 +705,6 @@ class langTest extends PHPUnit_Framework_TestCase {
 			// DEFINE('_TYPE','type');
 			// DEFINE('_NEXT','Next');
 			// DEFINE('_PREVIOUS','Previous');
-			$this->assertTrue(defined('_SOURCENAME'),'Source Name not defined');
 			$this->assertTrue(defined('_DEST'),'Destination not defined');
 			$this->assertTrue(defined('_DESTNAME'),'Dest. Name not defined');
 			$this->assertTrue(defined('_SORD'),'Src or Dest not defined');

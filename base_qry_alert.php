@@ -171,8 +171,10 @@ function PrintPacketLookupBrowseButtons($seq, $save_sql, $db, &$previous_button,
    *  to the history.
    */
 
-  /* This call can include "#xx-(xx-xx)" values and "submit" values. */
-  $submit = ImportHTTPVar("submit", VAR_DIGIT | VAR_PUNC | VAR_LETTER, array(_SELECTED, _ALLONSCREEN, _ENTIREQUERY)); 
+$UIL = new UILang($BASE_Language); // Create UI Language Object.
+$SrcName = $UIL->CPA['SrcName'];
+// This call can include "#xx-(xx-xx)" values and "submit" values.
+$submit = ImportHTTPVar("submit", VAR_DIGIT | VAR_PUNC | VAR_LETTER, array(_SELECTED, _ALLONSCREEN, _ENTIREQUERY));
 
   $_SERVER["QUERY_STRING"] = "submit=".rawurlencode($submit);
 
@@ -452,9 +454,9 @@ function PrintPacketLookupBrowseButtons($seq, $save_sql, $db, &$previous_button,
      echo '  <TR>
               <TD>
                 <TABLE BORDER=1 CELLPADDING=4>
-                  <TR><TD CLASS="iptitle" ALIGN=CENTER ROWSPAN=2>FQDN</TD>
-                       <TD class="plfieldhdr">'._SOURCENAME.'</TD>
-                       <TD class="plfieldhdr">'._DESTNAME.'</TD>
+                  <TR><TD CLASS="iptitle" ALIGN=CENTER ROWSPAN=2>FQDN</TD>';
+print "\n".str_repeat ("\t",5).'<td class="plfieldhdr">'.$SrcName.'</td>';
+echo '                       <TD class="plfieldhdr">'._DESTNAME.'</TD>
                   </TR>
                   <TR><TD class="plfield">'.
                       (baseGetHostByAddr(baseLong2IP($myrow2[0]),
@@ -1073,5 +1075,5 @@ function PrintPacketLookupBrowseButtons($seq, $save_sql, $db, &$previous_button,
 
   $et->Mark("Get Query Elements");
   $et->PrintTiming();
-  echo "</body>\r\n</html>";
+PageEnd();
 ?>

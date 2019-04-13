@@ -40,10 +40,10 @@ $UI_ADUN = 'Login';
 $UI_ADPW = 'Salasana';
 
 // Common Phrases
-$UI_CP_SOURCE = 'Lähde';
+$UI_CP_SrcDesc = 'Lähde';
+$UI_CP_SrcName = 'Lähteen nimi';
 
 //common phrases
-DEFINE('_SOURCENAME','Lähteen nimi');
 DEFINE('_DEST','Kohde');
 DEFINE('_DESTNAME','Kohteen Nimi');
 DEFINE('_SORD','Lähteen nimi');

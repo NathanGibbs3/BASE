@@ -35,10 +35,10 @@ $UI_ADUN = '用户登录';
 $UI_ADPW = '密码';
 
 // Common Phrases
-$UI_CP_SOURCE = '来源';
+$UI_CP_SrcDesc = '来源';
+$UI_CP_SrcName = '来源名称';
 
 //common phrases
-DEFINE('_SOURCENAME','来源名称');
 DEFINE('_DEST','目的');
 DEFINE('_DESTNAME','目的名称');
 DEFINE('_SORD','来源或目的');

@@ -100,10 +100,15 @@ class UILang{
 		}else{
 			$this->ADA = NULL;
 		}
-		if ( isset($UI_CP_SOURCE) ) {
-			$this->SetUICPItem('Source',$UI_CP_SOURCE);
+		if ( isset($UI_CP_SrcDesc) ) {
+			$this->SetUICPItem('SrcDesc',$UI_CP_SrcDesc);
 		}else{
-			$this->SetUICPItem('Source',NULL);
+			$this->SetUICPItem('SrcDesc',NULL);
+		}
+		if ( isset($UI_CP_SrcName) ) {
+			$this->SetUICPItem('SrcName',$UI_CP_SrcName);
+		}else{
+			$this->SetUICPItem('SrcName',NULL);
 		}
 	}
 	// Sets locale from translation data or defaults to system locale.
@@ -177,18 +182,18 @@ class UILang{
 	// Sets Common Phrase Item from translation data.
 	function SetUICPItem($Item,$Value) {
 		switch ($Item) {
-			case 'Source';
+			case 'SrcDesc';
 				if ( isset($Value) ) { // Var Based
 					$this->CPA[$Item] = $Value;
 				}else{ // Const based
 					$this->CPA[$Item] = _SOURCE;
 				}
 				break;
-			case 'DescPW';
+			case 'SrcName';
 				if ( isset($Value) ) { // Var Based
-			//		$this->CPA[$Item] = $Value;
+					$this->CPA[$Item] = $Value;
 				}else{ // Const based
-			//		$this->CPA[$Item] = _FRMPWD;
+					$this->CPA[$Item] = _SOURCENAME;
 				}
 				break;
 			default;

@@ -89,7 +89,7 @@
           echo ('<a href="base_main.php?archive=1">' . _USEARCHIDB . '</a>');
       }
   }
-$UIL = new UILang($BASE_Language); // Create UI Language Abstraction Object.
+$UIL = new UILang($BASE_Language); // Create UI Language Object.
 PageStart(1);
 include("$BASE_path/base_hdr1.php");
 if ($debug_mode == 1) {
@@ -114,12 +114,9 @@ if ($tmp_str != "") {
     die();
 }
 
-print "\n".str_repeat ( "\t",2 ).'<table';
-print "\n".str_repeat ( "\t",3 ).'width="100%"';
-print "\n".str_repeat ( "\t",3 ).'style="border:0;padding:0"';
-print "\n".str_repeat ( "\t",2 ).'>';
-print "\n".str_repeat ( "\t",3 ).'<tr>';
-print "\n".str_repeat ( "\t",4 ).'<td align="left" rowspan="2">';
+print "\n".str_repeat("\t",2).'<table width="100%" style="border:0;padding:0">';
+print "\n".str_repeat("\t",3).'<tr>';
+print "\n".str_repeat("\t",4).'<td align="left" rowspan="2">';
 
 // Various things for the snapshot functiuonality on the first page.... Kevin
 $tmp_month = date("m");
@@ -166,7 +163,7 @@ $tmp_today_unique  = 'base_stat_alerts.php?time_cnt=1'.$today;
 $tmp_sip           = 'base_stat_uaddr.php?addr_type=1&amp;sort_order=occur_d&amp;time_cnt=1'.$today;
 $tmp_dip           = 'base_stat_uaddr.php?addr_type=2&amp;sort_order=occur_d&amp;time_cnt=1'.$today;
 
-$tmp_Source = $UIL->CPA['Source'];
+$tmp_Source = $UIL->CPA['SrcDesc'];
 $tmp_DSO = '&amp;sort_order=occur_d';
 
 echo '

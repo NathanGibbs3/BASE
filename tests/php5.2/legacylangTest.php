@@ -355,8 +355,8 @@ class legacylangTest extends PHPUnit_Framework_TestCase {
 	public function testADASetItemInvalidThrowsError() {
 		GLOBAL $Use_Auth_System;
 		$lang = $this->langs;
-		$tmp = "UI$lang";
 		$tf = __FUNCTION__;
+		$tmp = "UI$lang";
 		$this->LogTC($tf,'language',$lang);
 		$this->assertInstanceOf('UILang',$this->UIL = new UILang($lang),
 			"Class for $lang not created."
@@ -393,8 +393,8 @@ class legacylangTest extends PHPUnit_Framework_TestCase {
 	public function testCPASetItemInvalidThrowsError() {
 		GLOBAL $Use_Auth_System;
 		$lang = $this->langs;
-		$tmp = "UI$lang";
 		$tf = __FUNCTION__;
+		$tmp = "UI$lang";
 		$this->LogTC($tf,'language',$lang);
 		$this->assertInstanceOf('UILang',$this->UIL = new UILang($lang),
 			"Class for $lang not created."
@@ -425,8 +425,8 @@ class legacylangTest extends PHPUnit_Framework_TestCase {
 
 	public function testSetUILocale() {
 		$lang = $this->langs;
-		$tmp = "UI$lang";
 		$tf = __FUNCTION__;
+		$tmp = "UI$lang";
 		$this->LogTC($tf,'language',$lang);
 		$this->assertInstanceOf('UILang',$this->UIL = new UILang($lang),
 			"Class for $lang not created."
@@ -457,8 +457,8 @@ class legacylangTest extends PHPUnit_Framework_TestCase {
 	}
 	public function testSetUITimefmt() {
 		$lang = $this->langs;
-		$tmp = "UI$lang";
 		$tf = __FUNCTION__;
+		$tmp = "UI$lang";
 		$this->LogTC($tf,'language',$lang);
 		$this->assertInstanceOf('UILang',$this->UIL = new UILang($lang),
 			"Class for $lang not created."
@@ -473,8 +473,8 @@ class legacylangTest extends PHPUnit_Framework_TestCase {
 	}
 	public function testSetUICharset() {
 		$lang = $this->langs;
-		$tmp = "UI$lang";
 		$tf = __FUNCTION__;
+		$tmp = "UI$lang";
 		$this->LogTC($tf,'language',$lang);
 		$this->assertInstanceOf('UILang',$this->UIL = new UILang($lang),
 			"Class for $lang not created."
@@ -489,8 +489,8 @@ class legacylangTest extends PHPUnit_Framework_TestCase {
 	}
 	public function testSetUITitle() {
 		$lang = $this->langs;
-		$tmp = "UI$lang";
 		$tf = __FUNCTION__;
+		$tmp = "UI$lang";
 		$this->LogTC($tf,'language',$lang);
 		$this->assertInstanceOf('UILang',$this->UIL = new UILang($lang),
 			"Class for $lang not created."
@@ -507,8 +507,8 @@ class legacylangTest extends PHPUnit_Framework_TestCase {
 		GLOBAL $Use_Auth_System;
 		$Use_Auth_System = 0;
 		$lang = $this->langs;
-		$tmp = "UI$lang";
 		$tf = __FUNCTION__;
+		$tmp = "UI$lang";
 		$this->LogTC($tf,'language',$lang);
 		$this->assertInstanceOf('UILang',$this->UIL = new UILang($lang),
 			"Class for $lang not created."
@@ -530,8 +530,8 @@ class legacylangTest extends PHPUnit_Framework_TestCase {
 	public function testAsEnabledADADefaultstoArray() {
 		GLOBAL $Use_Auth_System;
 		$lang = $this->langs;
-		$tmp = "UI$lang";
 		$tf = __FUNCTION__;
+		$tmp = "UI$lang";
 		$this->LogTC($tf,'language',$lang);
 		$this->assertInstanceOf('UILang',$this->UIL = new UILang($lang),
 			"Class for $lang not created."
@@ -553,8 +553,8 @@ class legacylangTest extends PHPUnit_Framework_TestCase {
 	public function testADASetItemLoginDesc() {
 		GLOBAL $Use_Auth_System;
 		$lang = $this->langs;
-		$tmp = "UI$lang";
 		$tf = __FUNCTION__;
+		$tmp = "UI$lang";
 		$this->LogTC($tf,'language',$lang);
 		$this->assertInstanceOf('UILang',$this->UIL = new UILang($lang),
 			"Class for $lang not created."
@@ -577,8 +577,8 @@ class legacylangTest extends PHPUnit_Framework_TestCase {
 	public function testADASetItemPWDesc() {
 		GLOBAL $Use_Auth_System;
 		$lang = $this->langs;
-		$tmp = "UI$lang";
 		$tf = __FUNCTION__;
+		$tmp = "UI$lang";
 		$this->LogTC($tf,'language',$lang);
 		$this->assertInstanceOf('UILang',$this->UIL = new UILang($lang),
 			"Class for $lang not created."
@@ -614,8 +614,7 @@ class legacylangTest extends PHPUnit_Framework_TestCase {
 			"Common Phrase Structure did not default to Array."
 		);
 	}
-	public function testCPASetItemSource() {
-		GLOBAL $Use_Auth_System;
+	public function testCPASetItemSrcDesc() {
 		$lang = $this->langs;
 		$tf = __FUNCTION__;
 		$tmp = "UI$lang";
@@ -626,8 +625,25 @@ class legacylangTest extends PHPUnit_Framework_TestCase {
 		$$tmp = $this->UIL;
 		$file = $$tmp->TDF;
 		$this->LogTC($tf,'TD file',$file);
-		$key = 'Source';
+		$key = 'SrcDesc';
 		$kD = 'Source';
+		$this->assertArrayHasKey($key, $$tmp->CPA,
+			"Unset CP Item $kD: Key: $key\n"
+		);
+	}
+	public function testCPASetItemSrcName() {
+		$lang = $this->langs;
+		$tf = __FUNCTION__;
+		$tmp = "UI$lang";
+		$this->LogTC($tf,'language',$lang);
+		$this->assertInstanceOf('UILang',$this->UIL = new UILang($lang),
+			"Class for $lang not created."
+		);
+		$$tmp = $this->UIL;
+		$file = $$tmp->TDF;
+		$this->LogTC($tf,'TD file',$file);
+		$key = 'SrcName';
+		$kD = 'Source Name';
 		$this->assertArrayHasKey($key, $$tmp->CPA,
 			"Unset CP Item $kD: Key: $key\n"
 		);

@@ -950,7 +950,7 @@ class IPAddressCriteria extends MultipleElementCriteria {
 		parent::MultipleElementCriteria(
 			$tdb, $cs, $export_name, $element_cnt,
 			array (
-				"ip_src" => $UIL->CPA['Source'],
+				"ip_src" => $UIL->CPA['SrcDesc'],
 				"ip_dst" => _DEST,
 				"ip_both" => _SORD
 			)
@@ -1047,7 +1047,7 @@ class IPAddressCriteria extends MultipleElementCriteria {
    }
 	function Description($value) {
 		GLOBAL $UIL;
-		$human_fields["ip_src"] = $UIL->CPA['Source'];
+		$human_fields["ip_src"] = $UIL->CPA['SrcDesc'];
       $human_fields["ip_dst"] = _DEST;
       $human_fields["ip_both"] = _SORD;
       $human_fields[""] = ""; 

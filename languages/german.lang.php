@@ -36,10 +36,10 @@ $UI_ADUN = 'Login';
 $UI_ADPW = 'Passwort';
 
 // Common Phrases
-$UI_CP_SOURCE = 'Quellen';
+$UI_CP_SrcDesc = 'Quellen';
+$UI_CP_SrcName = 'Quellname';
 
 //common phrases
-DEFINE('_SOURCENAME','Quellname');
 DEFINE('_DEST','Ziele');
 DEFINE('_DESTNAME','Zielname');
 DEFINE('_SORD','Quelle oder Ziel');

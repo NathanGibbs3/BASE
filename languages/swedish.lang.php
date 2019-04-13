@@ -35,10 +35,10 @@ $UI_ADUN = 'Logga in';
 $UI_ADPW = 'Lösenord';
 
 // Common Phrases
-$UI_CP_SOURCE = 'Källa';
+$UI_CP_SrcDesc = 'Källa';
+$UI_CP_SrcName = 'Käll namn';
 
 //common phrases
-DEFINE('_SOURCENAME','Käll namn');
 DEFINE('_DEST','Destination');
 DEFINE('_DESTNAME','Dest. Namn');
 DEFINE('_SORD','Src or Dest');

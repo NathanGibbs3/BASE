@@ -35,10 +35,10 @@ $UI_ADUN = 'Login';
 $UI_ADPW = 'Kata Sandi';
 
 // Common Phrases
-$UI_CP_SOURCE = 'Sumber';
+$UI_CP_SrcDesc = 'Sumber';
+$UI_CP_SrcName = 'Nama Sumber';
 
 //common phrases
-DEFINE('_SOURCENAME','Nama Sumber');
 DEFINE('_DEST','Sasaran');
 DEFINE('_DESTNAME','Nama Sasaran');
 DEFINE('_SORD','Sumber atau Sasaran');

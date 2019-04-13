@@ -41,10 +41,10 @@ $UI_ADUN = 'Nome';
 $UI_ADPW = 'Senha';
 
 // Common Phrases
-$UI_CP_SOURCE = 'Origem';
+$UI_CP_SrcDesc = 'Origem';
+$UI_CP_SrcName = 'Nome da Origem';
 
 //common phrases
-DEFINE('_SOURCENAME','Nome da Origem');
 DEFINE('_DEST','Destino');
 DEFINE('_DESTNAME','Nome do Destino');
 DEFINE('_SORD','Origem ou Destino');
