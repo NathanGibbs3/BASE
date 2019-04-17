@@ -171,70 +171,63 @@ class UILang{
 	// Sets Authentication Data Item from translation data.
 	function SetUIADItem($Item,$Value) {
 		GLOBAL $Use_Auth_System;
-		// Will not execute if Auth Sys is disabled.
-		if ($Use_Auth_System == 1) {
-			switch ($Item) {
-				case 'DescUN';
-					if ( isset($Value) ) { // Var Based
-						$this->ADA[$Item] = $Value;
-					}else{ // Const based
-						$this->ADA[$Item] = _FRMLOGIN;
+		if ($Use_Auth_System == 1) { // Run only if Auth Sys is enabled.
+			$Items = array ( 'DescUN', 'DescPW' );
+			if (in_array($Item, $Items)) {
+				if ( isset($Value) ) { // Var Based
+					$this->ADA[$Item] = $Value;
+				}else{ // Const based
+					switch ($Item) {
+						case 'DescUN';
+							$this->ADA[$Item] = _FRMLOGIN;
+							break;
+						case 'DescPW';
+							$this->ADA[$Item] = _FRMPWD;
+							break;
+						default;
+							// Will need to add this message to the TD.
+							trigger_error(
+								"Invalid AD Set Request for: $Item.\n"
+							);
 					}
-					break;
-				case 'DescPW';
-					if ( isset($Value) ) { // Var Based
-						$this->ADA[$Item] = $Value;
-					}else{ // Const based
-						$this->ADA[$Item] = _FRMPWD;
-					}
-					break;
-				default;
-					// Will need to add this message to the TD.
-					trigger_error("Invalid AD Set Request for: $Item.\n");
+				}
+			}else{
+				// Will need to add this message to the TD.
+				trigger_error("Invalid AD Set Request for: $Item.\n");
 			}
 		}
 	}
 	// Sets Common Phrase Item from translation data.
 	function SetUICPItem($Item,$Value) {
-		switch ($Item) {
-			case 'SrcDesc';
-				if ( isset($Value) ) { // Var Based
-					$this->CPA[$Item] = $Value;
-				}else{ // Const based
-					$this->CPA[$Item] = _SOURCE;
+		$Items = array ( 'SrcDesc', 'SrcName', 'DstDesc', 'DstName', 'SrcDst' );
+		if (in_array($Item, $Items)) {
+			if ( isset($Value) ) { // Var Based
+				$this->CPA[$Item] = $Value;
+			}else{ // Const based
+				switch ($Item) {
+					case 'SrcDesc';
+						$this->CPA[$Item] = _SOURCE;
+						break;
+					case 'SrcName';
+						$this->CPA[$Item] = _SOURCENAME;
+						break;
+					case 'DstDesc';
+						$this->CPA[$Item] = _DEST;
+						break;
+					case 'DstName';
+						$this->CPA[$Item] = _DESTNAME;
+						break;
+					case 'SrcDst';
+						$this->CPA[$Item] = _SORD;
+						break;
+					default;
+						// Will need to add this message to the TD.
+						trigger_error("Invalid CP Set Request for: $Item.\n");
 				}
-				break;
-			case 'SrcName';
-				if ( isset($Value) ) { // Var Based
-					$this->CPA[$Item] = $Value;
-				}else{ // Const based
-					$this->CPA[$Item] = _SOURCENAME;
-				}
-				break;
-			case 'DstDesc';
-				if ( isset($Value) ) { // Var Based
-					$this->CPA[$Item] = $Value;
-				}else{ // Const based
-					$this->CPA[$Item] = _DEST;
-				}
-				break;
-			case 'DstName';
-				if ( isset($Value) ) { // Var Based
-					$this->CPA[$Item] = $Value;
-				}else{ // Const based
-					$this->CPA[$Item] = _DESTNAME;
-				}
-				break;
-			case 'SrcDst';
-				if ( isset($Value) ) { // Var Based
-					$this->CPA[$Item] = $Value;
-				}else{ // Const based
-					$this->CPA[$Item] = _SORD;
-				}
-				break;
-			default;
-				// Will need to add this message to the TD.
-				trigger_error("Invalid CP Set Request for: $Item.\n");
+			}
+		}else{
+			// Will need to add this message to the TD.
+			trigger_error("Invalid CP Set Request for: $Item.\n");
 		}
 	}
 }
