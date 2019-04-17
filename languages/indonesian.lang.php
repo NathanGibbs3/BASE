@@ -38,9 +38,9 @@ $UI_CP_SrcDesc = 'Sumber';
 $UI_CP_SrcName = 'Nama Sumber';
 $UI_CP_DstDesc = 'Sasaran';
 $UI_CP_DstName = 'Nama Sasaran';
+$UI_CP_SrcDst = 'Sumber atau Sasaran';
 
 //common phrases
-DEFINE('_SORD','Sumber atau Sasaran');
 DEFINE('_EDIT','Edit');
 DEFINE('_DELETE','Hapus');
 DEFINE('_ID','ID');

@@ -952,7 +952,7 @@ class IPAddressCriteria extends MultipleElementCriteria {
 			array (
 				"ip_src" => $UIL->CPA['SrcDesc'],
 				"ip_dst" => $UIL->CPA['DstDesc'],
-				"ip_both" => _SORD
+				"ip_both" => $UIL->CPA['SrcDst']
 			)
 		);
 	}
@@ -1014,7 +1014,7 @@ class IPAddressCriteria extends MultipleElementCriteria {
                     <OPTION VALUE="ip_src" '.chk_select(@$this->criteria[$i][1],"ip_src").'>'._SHORTSOURCE.'
                     <OPTION VALUE="ip_dst" '.chk_select(@$this->criteria[$i][1],"ip_dst").'>'._SHORTDEST.'
                     <OPTION VALUE="ip_both" '.chk_select(@$this->criteria[$i][1],"ip_both").'>'._SHORTSOURCEORDEST.'
-                   </SELECT>'; 
+                   </SELECT>';
          echo '    <SELECT NAME="ip_addr['.$i.'][2]">
                     <OPTION VALUE="="  '.chk_select(@$this->criteria[$i][2],"="). '>=
                     <OPTION VALUE="!=" '.chk_select(@$this->criteria[$i][2],"!=").'>!=
@@ -1041,23 +1041,19 @@ class IPAddressCriteria extends MultipleElementCriteria {
         echo '<BR>';
       }
 	}
-   function ToSQL()
-   {
-     /* convert this criteria to SQL */
-   }
+	function ToSQL() { // Convert this criteria to SQL.
+	}
 	function Description($value) {
 		GLOBAL $UIL;
 		$human_fields["ip_src"] = $UIL->CPA['SrcDesc'];
 		$human_fields["ip_dst"] = $UIL->CPA['DstDesc'];
-      $human_fields["ip_both"] = _SORD;
-      $human_fields[""] = ""; 
-      $human_fields["LIKE"] = _CONTAINS;
-      $human_fields["="] = "=";  
+		$human_fields["ip_both"] = $UIL->CPA['SrcDst'];
+		$human_fields[""] = "";
+		$human_fields["LIKE"] = _CONTAINS;
+		$human_fields["="] = "=";
 
-      $tmp2 = "";
-
-      for ( $i = 0; $i < $this->criteria_cnt; $i++ )
-      {
+		$tmp2 = "";
+		for ( $i = 0; $i < $this->criteria_cnt; $i++ ) {
          $tmp = "";
          if ( isset($this->criteria[$i][3]) && $this->criteria[$i][3] != "" )
          {

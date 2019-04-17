@@ -38,9 +38,9 @@ $UI_CP_SrcDesc = 'Kilde';
 $UI_CP_SrcName = 'Kilde Navn';
 $UI_CP_DstDesc = 'Destination';
 $UI_CP_DstName = 'Dest. Navn';
+$UI_CP_SrcDst = 'Kilde eller Dest.';
 
 //common phrases
-DEFINE('_SORD','Kilde eller Dest.');
 DEFINE('_EDIT','Rediger');
 DEFINE('_DELETE','Slet');
 DEFINE('_ID','ID');

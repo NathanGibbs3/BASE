@@ -682,6 +682,23 @@ class legacylangTest extends PHPUnit_Framework_TestCase {
 			"Unset CP Item $kD: Key: $key\n"
 		);
 	}
+	public function testCPASetItemSrcDst() {
+		$lang = $this->langs;
+		$tf = __FUNCTION__;
+		$tmp = "UI$lang";
+		$this->LogTC($tf,'language',$lang);
+		$this->assertInstanceOf('UILang',$this->UIL = new UILang($lang),
+			"Class for $lang not created."
+		);
+		$$tmp = $this->UIL;
+		$file = $$tmp->TDF;
+		$this->LogTC($tf,'TD file',$file);
+		$key = 'SrcDst';
+		$kD = 'Src or Dest';
+		$this->assertArrayHasKey($key, $$tmp->CPA,
+			"Unset CP Item $kD: Key: $key\n"
+		);
+	}
 
 
 	protected function tearDown() {

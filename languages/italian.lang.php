@@ -38,9 +38,9 @@ $UI_CP_SrcDesc = 'Sorgente';
 $UI_CP_SrcName = 'Nome Sorgente';
 $UI_CP_DstDesc = 'Destinazione';
 $UI_CP_DstName = 'Nome Dest.';
+$UI_CP_SrcDst = 'Sorg. o Dest.';
 
 //common phrases
-DEFINE('_SORD','Sorg. o Dest.');
 DEFINE('_EDIT','Modifica');
 DEFINE('_DELETE','Elimina');
 DEFINE('_ID','ID');

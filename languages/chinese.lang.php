@@ -38,9 +38,9 @@ $UI_CP_SrcDesc = '來源';
 $UI_CP_SrcName = '來源名稱';
 $UI_CP_DstDesc = '目地';
 $UI_CP_DstName = '目地名稱';
+$UI_CP_SrcDst = '來源或目地';
 
 //common phrases
-DEFINE('_SORD','來源或目地');
 DEFINE('_EDIT','編輯');
 DEFINE('_DELETE','刪除');
 DEFINE('_ID','識別碼');

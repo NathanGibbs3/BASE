@@ -40,9 +40,9 @@ $UI_CP_SrcDesc = 'Источник';
 $UI_CP_SrcName = 'Имя источника';
 $UI_CP_DstDesc = 'Назначение';
 $UI_CP_DstName = 'Имя назначения';
+$UI_CP_SrcDst = 'Источник или назначение';
 
 // основные фразы
-DEFINE('_SORD','Источник или назначение');
 DEFINE('_EDIT','Редактировать');
 DEFINE('_DELETE','Удалить');
 DEFINE('_ID','ID');

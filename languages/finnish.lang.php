@@ -43,9 +43,9 @@ $UI_CP_SrcDesc = 'Lähde';
 $UI_CP_SrcName = 'Lähteen nimi';
 $UI_CP_DstDesc = 'Kohde';
 $UI_CP_DstName = 'Kohteen Nimi';
+$UI_CP_SrcDst = 'Lähteen nimi';
 
 //common phrases
-DEFINE('_SORD','Lähteen nimi');
 DEFINE('_EDIT','Muokkaa');
 DEFINE('_DELETE','Poista');
 DEFINE('_ID','ID');//#

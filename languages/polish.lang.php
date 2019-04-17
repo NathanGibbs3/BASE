@@ -39,9 +39,9 @@ $UI_CP_SrcDesc = 'Zrodlowy';
 $UI_CP_SrcName = 'Nazwa Zrodlowa';
 $UI_CP_DstDesc = 'Docelowy';
 $UI_CP_DstName = 'Nazwa Docelowa';
+$UI_CP_SrcDst = 'Zrodlowy lub Docelowy';
 
 //common phrases
-DEFINE('_SORD','Zrodlowy lub Docelowy');
 DEFINE('_EDIT','Edycja');
 DEFINE('_DELETE','Kasuj');
 DEFINE('_ID','ID');

@@ -39,9 +39,9 @@ $UI_CP_SrcDesc = 'Quellen';
 $UI_CP_SrcName = 'Quellname';
 $UI_CP_DstDesc = 'Ziele';
 $UI_CP_DstName = 'Zielname';
+$UI_CP_SrcDst = 'Quelle oder Ziel';
 
 //common phrases
-DEFINE('_SORD','Quelle oder Ziel');
 DEFINE('_EDIT','Bearbeiten');
 DEFINE('_DELETE','Entfernen');
 DEFINE('_ID','ID');
