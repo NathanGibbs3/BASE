@@ -374,8 +374,7 @@ class legacylangTest extends TestCase {
 				$this->markTestSkipped('Requires Phpunit 4+ to run.');
 			}elseif (version_compare($PHPUV, '5.0', '<')) { // PHPUnit 4x
 				$this->setExpectedException(
-					"PHPUnit_Framework_Error_Notice",
-					$EEM
+					"PHPUnit_Framework_Error_Notice", $EEM
 				);
 			}elseif (version_compare($PHPUV, '6.0', '<')) { // PHPUnit 5x
 				$this->expectException("PHPUnit_Framework_Error_Notice");
@@ -440,8 +439,7 @@ class legacylangTest extends TestCase {
 			$this->markTestSkipped("New format TDF: $file.");
 		}else{
 			$this->assertNull(
-				$$tmp->Locale,
-				'Legacy Locale did not init to NULL'
+				$$tmp->Locale, 'Legacy Locale did not init to NULL'
 			);
 			if ( !$$tmp->SetUILocale() ){
 				$this->markTestSkipped(
@@ -626,11 +624,7 @@ class legacylangTest extends TestCase {
 		$$tmp = $this->UIL;
 		$file = $$tmp->TDF;
 		$this->LogTC($tf,'TD file',$file);
-		$key = 'SrcDesc';
-		$kD = 'Source';
-		$this->assertArrayHasKey($key, $$tmp->CPA,
-			"Unset CP Item $kD: Key: $key\n"
-		);
+		$this->CPAHas($$tmp,'SrcDesc','Source');
 	}
 	public function testCPASetItemSrcName() {
 		$lang = $this->langs;
@@ -643,11 +637,7 @@ class legacylangTest extends TestCase {
 		$$tmp = $this->UIL;
 		$file = $$tmp->TDF;
 		$this->LogTC($tf,'TD file',$file);
-		$key = 'SrcName';
-		$kD = 'Source Name';
-		$this->assertArrayHasKey($key, $$tmp->CPA,
-			"Unset CP Item $kD: Key: $key\n"
-		);
+		$this->CPAHas($$tmp,'SrcName','Source Name');
 	}
 	public function testCPASetItemDstDesc() {
 		$lang = $this->langs;
@@ -660,11 +650,7 @@ class legacylangTest extends TestCase {
 		$$tmp = $this->UIL;
 		$file = $$tmp->TDF;
 		$this->LogTC($tf,'TD file',$file);
-		$key = 'DstDesc';
-		$kD = 'Destination';
-		$this->assertArrayHasKey($key, $$tmp->CPA,
-			"Unset CP Item $kD: Key: $key\n"
-		);
+		$this->CPAHas($$tmp,'DstDesc','Destination');
 	}
 	public function testCPASetItemDstName() {
 		$lang = $this->langs;
@@ -677,11 +663,7 @@ class legacylangTest extends TestCase {
 		$$tmp = $this->UIL;
 		$file = $$tmp->TDF;
 		$this->LogTC($tf,'TD file',$file);
-		$key = 'DstName';
-		$kD = 'Dest. Name';
-		$this->assertArrayHasKey($key, $$tmp->CPA,
-			"Unset CP Item $kD: Key: $key\n"
-		);
+		$this->CPAHas($$tmp,'DstName','Dest. Name');
 	}
 	public function testCPASetItemSrcDst() {
 		$lang = $this->langs;
@@ -694,11 +676,7 @@ class legacylangTest extends TestCase {
 		$$tmp = $this->UIL;
 		$file = $$tmp->TDF;
 		$this->LogTC($tf,'TD file',$file);
-		$key = 'SrcDst';
-		$kD = 'Src or Dest';
-		$this->assertArrayHasKey($key, $$tmp->CPA,
-			"Unset CP Item $kD: Key: $key\n"
-		);
+		$this->CPAHas($$tmp,'SrcDst','Src or Dest');
 	}
 
 
@@ -725,6 +703,12 @@ class legacylangTest extends TestCase {
 		if ($debug_mode > 0) {
 			print "\n$cf Testing $Item: $Value";
 		}
+	}
+
+	private function CPAHas ($UIL, $Key, $KeyDesc) {
+		$this->assertArrayHasKey($Key, $UIL->CPA,
+			"Unset CP Item $KeyDesc: Key: $Key\n"
+		);
 	}
 
 	// Add code to a function if needed.

@@ -135,13 +135,13 @@ class langTest extends PHPUnit_Framework_TestCase {
 		$file = $$tmp->TDF;
 		$this->LogTC($tf,'Invalid TD file',$file);
 		// Test Locale
-		$this->assertFalse(
-			is_array($$tmp->Locale),
-			"Locales array set, cannot test with $file."
-		);
-		$this->assertNull(
-			$$tmp->Locale, 'Class did not deafult Locale to NULL.'
-		);
+		if (is_array($$tmp->Locale) ) {
+			$this->markTestSkipped("Valid TDF: $file.");
+		}else{
+			$this->assertNull(
+				$$tmp->Locale, 'Class did not deafult Locale to NULL.'
+			);
+		}
 		unlink ("$BASE_path/languages/$lf");
 	}
 	public function testADASetItemInvalidThrowsError() {
@@ -174,8 +174,7 @@ class langTest extends PHPUnit_Framework_TestCase {
 				$this->markTestSkipped('Requires Phpunit 4+ to run.');
 			}elseif (version_compare($PHPUV, '5.0', '<')) { // PHPUnit 4x
 				$this->setExpectedException(
-					"PHPUnit_Framework_Error_Notice",
-					$EEM
+					"PHPUnit_Framework_Error_Notice", $EEM
 				);
 			}elseif (version_compare($PHPUV, '6.0', '<')) { // PHPUnit 5x
 				$this->expectException("PHPUnit_Framework_Error_Notice");
@@ -548,11 +547,7 @@ class langTest extends PHPUnit_Framework_TestCase {
 			// Will not run until TD is transitioned.
 			$file = $$tmp->TDF;
 			$this->LogTC($tf,'TD file',$file);
-			$key = 'SrcDesc';
-			$kD = 'Source';
-			$this->assertArrayHasKey($key, $$tmp->CPA,
-				"Unset CP Item $kD: Key: $key\n"
-			);
+			$this->CPAHas($$tmp,'SrcDesc','Source');
 		}
 	}
 	public function testCPASetItemSrcName() {
@@ -576,11 +571,7 @@ class langTest extends PHPUnit_Framework_TestCase {
 			// Will not run until TD is transitioned.
 			$file = $$tmp->TDF;
 			$this->LogTC($tf,'TD file',$file);
-			$key = 'SrcName';
-			$kD = 'Source Name';
-			$this->assertArrayHasKey($key, $$tmp->CPA,
-				"Unset CP Item $kD: Key: $key\n"
-			);
+			$this->CPAHas($$tmp,'SrcName','Source Name');
 		}
 	}
 	public function testCPASetItemDstDesc() {
@@ -604,11 +595,7 @@ class langTest extends PHPUnit_Framework_TestCase {
 			// Will not run until TD is transitioned.
 			$file = $$tmp->TDF;
 			$this->LogTC($tf,'TD file',$file);
-			$key = 'DstDesc';
-			$kD = 'Destination';
-			$this->assertArrayHasKey($key, $$tmp->CPA,
-				"Unset CP Item $kD: Key: $key\n"
-			);
+			$this->CPAHas($$tmp,'DstDesc','Destination');
 		}
 	}
 	public function testCPASetItemDstName() {
@@ -632,11 +619,7 @@ class langTest extends PHPUnit_Framework_TestCase {
 			// Will not run until TD is transitioned.
 			$file = $$tmp->TDF;
 			$this->LogTC($tf,'TD file',$file);
-			$key = 'DstName';
-			$kD = 'Dest. Name';
-			$this->assertArrayHasKey($key, $$tmp->CPA,
-				"Unset CP Item $kD: Key: $key\n"
-			);
+			$this->CPAHas($$tmp,'DstName','Dest. Name');
 		}
 	}
 	public function testCPASetItemSrcDst() {
@@ -660,11 +643,7 @@ class langTest extends PHPUnit_Framework_TestCase {
 			// Will not run until TD is transitioned.
 			$file = $$tmp->TDF;
 			$this->LogTC($tf,'TD file',$file);
-			$key = 'SrcDst';
-			$kD = 'Src or Dest';
-			$this->assertArrayHasKey($key, $$tmp->CPA,
-				"Unset CP Item $kD: Key: $key\n"
-			);
+			$this->CPAHas($$tmp,'SrcDst','Src or Dest');
 		}
 	}
 
@@ -1035,6 +1014,12 @@ class langTest extends PHPUnit_Framework_TestCase {
 		if ($debug_mode > 0) {
 			print "\n$cf Testing $Item: $Value";
 		}
+	}
+
+	private function CPAHas ($UIL, $Key, $KeyDesc) {
+		$this->assertArrayHasKey($Key, $UIL->CPA,
+			"Unset CP Item $KeyDesc: Key: $Key\n"
+		);
 	}
 
 	// Add code to a function if needed.
