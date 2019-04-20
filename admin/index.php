@@ -27,7 +27,7 @@
   include_once("$BASE_path/base_stat_common.php");
 
   $et = new EventTiming($debug_time_mode);
-$UIL = new UILang($BASE_Language); // Create UI Language Abstraction Object.
+$UIL = new UILang($BASE_Language); // Create UI Language Object.
   $cs = new CriteriaState("admin/index.php");
   $cs->ReadState();
 

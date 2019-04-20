@@ -33,7 +33,10 @@ $UI_Title = 'Motore di Sicurezza e Analisi Basilare';
 // Authentication Data.
 $UI_ADUN = 'Login';
 $UI_ADPW = 'Password';
-// Common Phrases
+// Universal Actions.
+$UI_UA_Edit = 'Modifica';
+$UI_UA_Delete = 'Elimina';
+// Common Phrases.
 $UI_CP_SrcDesc = 'Sorgente';
 $UI_CP_SrcName = 'Nome Sorgente';
 $UI_CP_DstDesc = 'Destinazione';
@@ -41,8 +44,6 @@ $UI_CP_DstName = 'Nome Dest.';
 $UI_CP_SrcDst = 'Sorg. o Dest.';
 
 //common phrases
-DEFINE('_EDIT','Modifica');
-DEFINE('_DELETE','Elimina');
 DEFINE('_ID','ID');
 DEFINE('_NAME','Nome');
 DEFINE('_INTERFACE','Interfaccia');

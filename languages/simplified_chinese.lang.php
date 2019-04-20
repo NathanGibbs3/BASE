@@ -33,7 +33,10 @@ $UI_Title = '基本安全分析引擎';
 // Authentication Data.
 $UI_ADUN = '用户登录';
 $UI_ADPW = '密码';
-// Common Phrases
+// Universal Actions.
+$UI_UA_Edit = '编辑';
+$UI_UA_Delete = '删除';
+// Common Phrases.
 $UI_CP_SrcDesc = '来源';
 $UI_CP_SrcName = '来源名称';
 $UI_CP_DstDesc = '目的';
@@ -41,8 +44,6 @@ $UI_CP_DstName = '目的名称';
 $UI_CP_SrcDst = '来源或目的';
 
 //common phrases
-DEFINE('_EDIT','编辑');
-DEFINE('_DELETE','删除');
 DEFINE('_ID','ID');
 DEFINE('_NAME','名称');
 DEFINE('_INTERFACE','界面');

@@ -33,7 +33,10 @@ $UI_Title = 'Basic Analysis and Security Engine';
 // Authentication Data.
 $UI_ADUN = 'Oturum Aç';
 $UI_ADPW = 'Parola';
-// Common Phrases
+// Universal Actions.
+$UI_UA_Edit = 'Düzenle';
+$UI_UA_Delete = 'Sil';
+// Common Phrases.
 $UI_CP_SrcDesc = 'Kaynak';
 $UI_CP_SrcName = 'Kaynak Adý';
 $UI_CP_DstDesc = 'Varýþ';
@@ -41,8 +44,6 @@ $UI_CP_DstName = 'Varýþ Adý';
 $UI_CP_SrcDst = 'Kaynak veya Varýþ';
 
 //common phrases
-DEFINE('_EDIT','Düzenle');
-DEFINE('_DELETE','Sil');
 DEFINE('_ID','ID');
 DEFINE('_NAME','Ad');
 DEFINE('_INTERFACE','Arabirim');

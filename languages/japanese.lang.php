@@ -33,7 +33,10 @@ $UI_Title = 'Basic Analysis and Security Engine 日本';
 // Authentication Data.
 $UI_ADUN = 'ログイン';
 $UI_ADPW = 'パスワード';
-// Common Phrases
+// Universal Actions.
+$UI_UA_Edit = '編集';
+$UI_UA_Delete = '削除';
+// Common Phrases.
 $UI_CP_SrcDesc = '発信元';
 $UI_CP_SrcName = '発信元　名前';
 $UI_CP_DstDesc = '発信先';
@@ -41,8 +44,6 @@ $UI_CP_DstName = '送信先　名前';
 $UI_CP_SrcDst = '発信元 or 送信先';
 
 //common phrases
-DEFINE('_EDIT','編集');
-DEFINE('_DELETE','削除');
 DEFINE('_ID','ID');
 DEFINE('_NAME','名前');
 DEFINE('_INTERFACE','インターフェース');

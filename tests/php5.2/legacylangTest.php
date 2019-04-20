@@ -390,7 +390,6 @@ class legacylangTest extends PHPUnit_Framework_TestCase {
 		}
 	}
 	public function testCPASetItemInvalidThrowsError() {
-		GLOBAL $Use_Auth_System;
 		$lang = $this->langs;
 		$tf = __FUNCTION__;
 		$tmp = "UI$lang";
@@ -409,8 +408,7 @@ class legacylangTest extends PHPUnit_Framework_TestCase {
 			$this->markTestSkipped('Requires Phpunit 4+ to run.');
 		}elseif (version_compare($PHPUV, '5.0', '<')) { // PHPUnit 4x
 			$this->setExpectedException(
-				"PHPUnit_Framework_Error_Notice",
-				$EEM
+				"PHPUnit_Framework_Error_Notice", $EEM
 			);
 		}elseif (version_compare($PHPUV, '6.0', '<')) { // PHPUnit 5x
 			$this->expectException("PHPUnit_Framework_Error_Notice");
@@ -420,6 +418,36 @@ class legacylangTest extends PHPUnit_Framework_TestCase {
 			$this->expectExceptionMessage($EEM);
 		}
 		$$tmp->SetUICPItem($key,$kD);
+	}
+	public function testUAASetItemInvalidThrowsError() {
+		$lang = $this->langs;
+		$tf = __FUNCTION__;
+		$tmp = "UI$lang";
+		$this->LogTC($tf,'language',$lang);
+		$this->assertInstanceOf('UILang',$this->UIL = new UILang($lang),
+			"Class for $lang not created."
+		);
+		$$tmp = $this->UIL;
+		$file = $$tmp->TDF;
+		$this->LogTC($tf,'TD file',$file);
+		$key = 'INVALID';
+		$kD = 'Invalid Item';
+		$EEM = "Invalid UA Set Request for: $key.";
+		$PHPUV = $this->GetPHPUV();
+		if (version_compare($PHPUV, '4.0', '<')) {
+			$this->markTestSkipped('Requires Phpunit 4+ to run.');
+		}elseif (version_compare($PHPUV, '5.0', '<')) { // PHPUnit 4x
+			$this->setExpectedException(
+				"PHPUnit_Framework_Error_Notice", $EEM
+			);
+		}elseif (version_compare($PHPUV, '6.0', '<')) { // PHPUnit 5x
+			$this->expectException("PHPUnit_Framework_Error_Notice");
+			$this->expectExceptionMessage($EEM);
+		}else{ // PHPUnit 6+
+			$this->expectException("PHPUnit\Framework\Error\Notice");
+			$this->expectExceptionMessage($EEM);
+		}
+		$$tmp->SetUIUAItem($key,$kD);
 	}
 
 	public function testSetUILocale() {
@@ -677,6 +705,32 @@ class legacylangTest extends PHPUnit_Framework_TestCase {
 		$this->LogTC($tf,'TD file',$file);
 		$this->CPAHas($$tmp,'SrcDst','Src or Dest');
 	}
+	public function testUAASetItemEdit() {
+		$lang = $this->langs;
+		$tf = __FUNCTION__;
+		$tmp = "UI$lang";
+		$this->LogTC($tf,'language',$lang);
+		$this->assertInstanceOf('UILang',$this->UIL = new UILang($lang),
+			"Class for $lang not created."
+		);
+		$$tmp = $this->UIL;
+		$file = $$tmp->TDF;
+		$this->LogTC($tf,'TD file',$file);
+		$this->UAAHas($$tmp,'Edit','Edit');
+	}
+	public function testUAASetItemDelete() {
+		$lang = $this->langs;
+		$tf = __FUNCTION__;
+		$tmp = "UI$lang";
+		$this->LogTC($tf,'language',$lang);
+		$this->assertInstanceOf('UILang',$this->UIL = new UILang($lang),
+			"Class for $lang not created."
+		);
+		$$tmp = $this->UIL;
+		$file = $$tmp->TDF;
+		$this->LogTC($tf,'TD file',$file);
+		$this->UAAHas($$tmp,'Delete','Delete');
+	}
 
 
 	protected function tearDown() {
@@ -707,6 +761,12 @@ class legacylangTest extends PHPUnit_Framework_TestCase {
 	private function CPAHas ($UIL, $Key, $KeyDesc) {
 		$this->assertArrayHasKey($Key, $UIL->CPA,
 			"Unset CP Item $KeyDesc: Key: $Key\n"
+		);
+	}
+
+	private function UAAHas ($UIL, $Key, $KeyDesc) {
+		$this->assertArrayHasKey($Key, $UIL->UAA,
+			"Unset UA Item $KeyDesc: Key: $Key\n"
 		);
 	}
 

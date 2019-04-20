@@ -33,7 +33,15 @@
   include_once("$BASE_path/base_ag_common.php");
 
   ($debug_time_mode >= 1) ? $et = new EventTiming($debug_time_mode) : '';
-$UIL = new UILang($BASE_Language); // Create UI Language Abstraction Object.
+$UIL = new UILang($BASE_Language); // Create UI Language Object.
+$AcEdit = $UIL->UAA['Edit'];
+$AcDelete = $UIL->UAA['Delete'];
+// Html Templates
+$Umca = "base_ag_main.php?ag_action="; // Role Managemnt Common Action.
+$Fct = " Method='POST'>"; // Form tag end.
+$Hrst = "<a href='$Umca"; // Href tag start.
+$Trc = "\n".str_repeat("\t",5).'</tr><tr>'; // Table row continue.
+$Thc = "<td class='plfield'"; // Table header Class.
   $cs = new CriteriaState("base_ag_main.php");
   $cs->ReadState();
 
@@ -65,20 +73,18 @@ $UIL = new UILang($BASE_Language); // Create UI Language Abstraction Object.
     $qs->MoveView($submit);
     $ag_action = "view";
   }
-?>
+print "\n".str_repeat("\t",2)."<div style='margin:auto'>";
+print "\n".str_repeat("\t",3).$Hrst."list'>"._LISTALL.'</a> |';
+print "\n".str_repeat("\t",3).$Hrst."create'>"._CREATE.'</a> |';
+print "\n".str_repeat("\t",3).$Hrst."view'>"._VIEW.'</a> |';
+print "\n".str_repeat("\t",3).$Hrst."edit'>$AcEdit</a> |";
+print "\n".str_repeat("\t",3).$Hrst."delete'>$AcDelete</a> |";
+print "\n".str_repeat("\t",3).$Hrst."clear'>"._CLEAR.'</a>';
+print "\n".str_repeat("\t",2).'</div>';
+print "\n".str_repeat("\t",1).'<hr/>';
+print "\n".str_repeat("\t",1)."<form name='PacketForm' ";
+print "action='base_ag_main.php' $Fct";
 
-<div style='margin:auto'>
- <a href="base_ag_main.php?ag_action=list"><?php echo _LISTALL;?></a> | 
- <a href="base_ag_main.php?ag_action=create"><?php echo _CREATE;?></a> |
- <a href="base_ag_main.php?ag_action=view"><?php echo _VIEW;?></a> |
- <a href="base_ag_main.php?ag_action=edit"><?php echo _EDIT;?></a> |
- <a href="base_ag_main.php?ag_action=delete"><?php echo _DELETE;?></a> |
- <a href="base_ag_main.php?ag_action=clear"><?php echo _CLEAR;?></a>
-</div>
-<hr />
-
-<form name="PacketForm" action="base_ag_main.php" method="post">
-<?php
 if ($debug_mode == 1) {
 echo "
   <table border='1'>
@@ -234,11 +240,11 @@ if ($ag_action == "list") {
                       <a href="base_ag_main.php?ag_action=view&amp;ag_id='.htmlspecialchars($myrow[0]).'&amp;submit=x">'.htmlspecialchars($myrow[0]).'</a></td>
                       <td class="plfield">'.htmlspecialchars($myrow[1]).'</TD>
                       <td class="plfield">'.$num_alerts.'</TD>
-                      <td class="plfield">'.htmlspecialchars($myrow[2]).'</TD>
-                      <td class="plfield"> 
-                        <a href="base_ag_main.php?ag_action=edit&amp;ag_id='.urlencode($myrow[0]).'&amp;submit=x">'._EDIT.'</a> |
-                        <a href="base_ag_main.php?ag_action=delete&amp;ag_id='.urlencode($myrow[0]).'&amp;submit=x">'._DELETE.'</a> |
-                        <a href="base_ag_main.php?ag_action=clear&amp;ag_id='.urlencode($myrow[0]).'&amp;submit=x">'._CLEAR.'</a>
+                      <td class="plfield">'.htmlspecialchars($myrow[2]).'</TD>';
+			print "\n".str_repeat("\t",3)."$Thc>";
+			print "\n".str_repeat("\t",4).$Hrst."edit&amp;ag_id=".urlencode($myrow[0])."&amp;submit=x'>$AcEdit</a> |";
+			print "\n".str_repeat("\t",4).$Hrst."delete&amp;ag_id=".urlencode($myrow[0])."&amp;submit=x'>$AcDelete</a> |";
+echo'                 <a href="base_ag_main.php?ag_action=clear&amp;ag_id='.urlencode($myrow[0]).'&amp;submit=x">'._CLEAR.'</a>
                       </td>
                   </tr>';
         }
@@ -362,6 +368,5 @@ if ($debug_time_mode > 0) {
     $et->Mark("Get Query Elements");
     $et->PrintTiming();
 }
-
-echo "</body>\r\n</html>";
+PageEnd();
 ?>

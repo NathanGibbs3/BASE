@@ -38,7 +38,10 @@ $UI_Title = 'Basic Analysis and Security Engine';
 // Authentication Data.
 $UI_ADUN = 'Login';
 $UI_ADPW = 'Salasana';
-// Common Phrases
+// Universal Actions.
+$UI_UA_Edit = 'Muokkaa';
+$UI_UA_Delete = 'Poista';
+// Common Phrases.
 $UI_CP_SrcDesc = 'Lähde';
 $UI_CP_SrcName = 'Lähteen nimi';
 $UI_CP_DstDesc = 'Kohde';
@@ -46,9 +49,7 @@ $UI_CP_DstName = 'Kohteen Nimi';
 $UI_CP_SrcDst = 'Lähteen nimi';
 
 //common phrases
-DEFINE('_EDIT','Muokkaa');
-DEFINE('_DELETE','Poista');
-DEFINE('_ID','ID');//#
+DEFINE('_ID','ID');
 DEFINE('_NAME','Nimi');
 DEFINE('_INTERFACE','Käyttöliittymä');
 DEFINE('_FILTER','Suodatin');

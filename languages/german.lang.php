@@ -34,7 +34,10 @@ $UI_Title = 'Basic Analysis and Security Engine';
 // Authentication Data.
 $UI_ADUN = 'Login';
 $UI_ADPW = 'Passwort';
-// Common Phrases
+// Universal Actions.
+$UI_UA_Edit = 'Bearbeiten';
+$UI_UA_Delete = 'Entfernen';
+// Common Phrases.
 $UI_CP_SrcDesc = 'Quellen';
 $UI_CP_SrcName = 'Quellname';
 $UI_CP_DstDesc = 'Ziele';
@@ -42,8 +45,6 @@ $UI_CP_DstName = 'Zielname';
 $UI_CP_SrcDst = 'Quelle oder Ziel';
 
 //common phrases
-DEFINE('_EDIT','Bearbeiten');
-DEFINE('_DELETE','Entfernen');
 DEFINE('_ID','ID');
 DEFINE('_NAME','Name');
 DEFINE('_INTERFACE','Schnittstelle');

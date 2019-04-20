@@ -33,7 +33,10 @@ $UI_Title = '安全基本分析引擎';
 // Authentication Data.
 $UI_ADUN = '使用者登入';
 $UI_ADPW = '密碼';
-// Common Phrases
+// Universal Actions.
+$UI_UA_Edit = '編輯';
+$UI_UA_Delete = '刪除';
+// Common Phrases.
 $UI_CP_SrcDesc = '來源';
 $UI_CP_SrcName = '來源名稱';
 $UI_CP_DstDesc = '目地';
@@ -41,8 +44,6 @@ $UI_CP_DstName = '目地名稱';
 $UI_CP_SrcDst = '來源或目地';
 
 //common phrases
-DEFINE('_EDIT','編輯');
-DEFINE('_DELETE','刪除');
 DEFINE('_ID','識別碼');
 DEFINE('_NAME','名稱');
 DEFINE('_INTERFACE','介面');

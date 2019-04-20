@@ -32,7 +32,10 @@ $UI_Title = 'Basic Analysis and Security Engine';
 // Authentication Data.
 $UI_ADUN = 'Brukernavn';
 $UI_ADPW = 'Passord';
-// Common Phrases
+// Universal Actions.
+$UI_UA_Edit = 'Endre';
+$UI_UA_Delete = 'Slett';
+// Common Phrases.
 $UI_CP_SrcDesc = 'Kilde';
 $UI_CP_SrcName = 'Kildenavn';
 $UI_CP_DstDesc = 'Destinasjon';
@@ -40,8 +43,6 @@ $UI_CP_DstName = 'Dest. navn';
 $UI_CP_SrcDst = 'Kilde eller Dest.';
 
 //common phrases
-DEFINE('_EDIT','Endre');
-DEFINE('_DELETE','Slett');
 DEFINE('_ID','ID');
 DEFINE('_NAME','Navn');
 DEFINE('_INTERFACE','Grensesnitt');

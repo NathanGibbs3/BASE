@@ -26,6 +26,7 @@ class UILang{
 	var $Title;
 	var $ADA;
 	var $CPA;
+	var $UAA;
 
 	function __construct($UILang) { // PHP 5+ constructor Shim.
 		// Class/Method agnostic shim code.
@@ -99,6 +100,16 @@ class UILang{
 			}
 		}else{
 			$this->ADA = NULL;
+		}
+		if ( isset($UI_UA_Edit) ) {
+			$this->SetUIUAItem('Edit',$UI_UA_Edit);
+		}else{
+			$this->SetUIUAItem('Edit',NULL);
+		}
+		if ( isset($UI_UA_Delete) ) {
+			$this->SetUIUAItem('Delete',$UI_UA_Delete);
+		}else{
+			$this->SetUIUAItem('Delete',NULL);
 		}
 		if ( isset($UI_CP_SrcDesc) ) {
 			$this->SetUICPItem('SrcDesc',$UI_CP_SrcDesc);
@@ -228,6 +239,30 @@ class UILang{
 		}else{
 			// Will need to add this message to the TD.
 			trigger_error("Invalid CP Set Request for: $Item.\n");
+		}
+	}
+	// Sets Universal Action Item from translation data.
+	function SetUIUAItem($Item,$Value) {
+		$Items = array ( 'Edit', 'Delete' );
+		if (in_array($Item, $Items)) {
+			if ( isset($Value) ) { // Var Based
+				$this->UAA[$Item] = $Value;
+			}else{ // Const based
+				switch ($Item) {
+					case 'Edit';
+						$this->UAA[$Item] = _EDIT;
+						break;
+					case 'Delete';
+						$this->UAA[$Item] = _DELETE;
+						break;
+					default;
+						// Will need to add this message to the TD.
+						trigger_error("Invalid UA Set Request for: $Item.\n");
+				}
+			}
+		}else{
+			// Will need to add this message to the TD.
+			trigger_error("Invalid UA Set Request for: $Item.\n");
 		}
 	}
 }

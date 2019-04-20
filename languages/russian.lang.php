@@ -35,7 +35,10 @@ $UI_Title = 'Базовый движок анализа и безопасности';
 // Authentication Data.
 $UI_ADUN = 'Логин';
 $UI_ADPW = 'Пароль';
-// Common Phrases
+// Universal Actions.
+$UI_UA_Edit = 'Редактировать';
+$UI_UA_Delete = 'Удалить';
+// Common Phrases.
 $UI_CP_SrcDesc = 'Источник';
 $UI_CP_SrcName = 'Имя источника';
 $UI_CP_DstDesc = 'Назначение';
@@ -43,8 +46,6 @@ $UI_CP_DstName = 'Имя назначения';
 $UI_CP_SrcDst = 'Источник или назначение';
 
 // основные фразы
-DEFINE('_EDIT','Редактировать');
-DEFINE('_DELETE','Удалить');
 DEFINE('_ID','ID');
 DEFINE('_NAME','Имя');
 DEFINE('_INTERFACE','Интерфейс');
