@@ -50,9 +50,9 @@ $UI_CP_SrcName = 'Nome da Origem';
 $UI_CP_DstDesc = 'Destino';
 $UI_CP_DstName = 'Nome do Destino';
 $UI_CP_SrcDst = 'Origem ou Destino';
+$UI_CP_Id = 'ID';
 
 //common phrases
-DEFINE('_ID','ID');
 DEFINE('_NAME','Nome');
 DEFINE('_INTERFACE','Interface');
 DEFINE('_FILTER','Filtro');

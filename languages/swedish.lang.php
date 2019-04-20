@@ -42,9 +42,9 @@ $UI_CP_SrcName = 'Käll namn';
 $UI_CP_DstDesc = 'Destination';
 $UI_CP_DstName = 'Dest. Namn';
 $UI_CP_SrcDst = 'Src or Dest';
+$UI_CP_Id = 'ID';
 
 //common phrases
-DEFINE('_ID','ID');
 DEFINE('_NAME','Namn');
 DEFINE('_INTERFACE','Gränssnitt');
 DEFINE('_FILTER','Filter');

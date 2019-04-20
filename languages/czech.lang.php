@@ -43,9 +43,9 @@ $UI_CP_SrcName = 'Jméno zdoje';
 $UI_CP_DstDesc = 'Cíl';
 $UI_CP_DstName = 'Jméno cíle';
 $UI_CP_SrcDst = 'Zdroj n. cíl';
+$UI_CP_Id = 'ID';
 
 //common phrases
-DEFINE('_ID','ID');
 DEFINE('_NAME','Jméno');
 DEFINE('_INTERFACE','Rozhraní');
 DEFINE('_FILTER','Filtr');

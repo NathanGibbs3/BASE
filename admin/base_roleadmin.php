@@ -36,8 +36,6 @@ if ($Use_Auth_System == 1) {
 		$cs = new CriteriaState("admin/base_roleadmin.php");
 		$cs->ReadState();
 		$page_title = _ROLEADMIN;
-		$AcEdit = $UIL->UAA['Edit'];
-		$AcDelete = $UIL->UAA['Delete'];
 		// Html Templates
 		$Umca = "base_roleadmin.php?action="; // Role Managemnt Common Action.
 		$Fst = "<form action='$Umca"; // Form tag start.
@@ -134,6 +132,9 @@ if ($Use_Auth_System == 1) {
 				base_header("Location: $Umca"."list");
 				break;
 			case "list"; // Generate HTML Role Table.
+				$AcEdit = $UIL->UAA['Edit'];
+				$AcDelete = $UIL->UAA['Delete'];
+				$ridesc = $UIL->CPA['Id'];
 				$roles = $role->returnRoles();
 				$thc = "<td class='plfieldhdr'";
 				$thcw5 = "$thc width='5%'>";
@@ -151,7 +152,7 @@ if ($Use_Auth_System == 1) {
 				$tmpHTML .= "\n".str_repeat("\t",3).'<tr>';
 				$tmpHTML .= "\n".str_repeat("\t",4)."$thcw5$AcEdit</td>";
 				$tmpHTML .= "\n".str_repeat("\t",4)."$thcw5$AcDelete</td>";
-				$tmpHTML .= "\n".str_repeat("\t",4)."$thcw5"._ID.'</td>';
+				$tmpHTML .= "\n".str_repeat("\t",4)."$thcw5$ridesc</td>";
 				$tmpHTML .= "\n".str_repeat("\t",4)."$thc>"._NAME.'</td>';
 				$tmpHTML .= "\n".str_repeat("\t",4)."$thc>"._DESC.'</td>';
 				$tmpHTML .= "\n".str_repeat("\t",3).'</tr>';

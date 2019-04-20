@@ -42,9 +42,9 @@ $UI_CP_SrcName = 'Kaynak Adý';
 $UI_CP_DstDesc = 'Varýþ';
 $UI_CP_DstName = 'Varýþ Adý';
 $UI_CP_SrcDst = 'Kaynak veya Varýþ';
+$UI_CP_Id = 'ID';
 
 //common phrases
-DEFINE('_ID','ID');
 DEFINE('_NAME','Ad');
 DEFINE('_INTERFACE','Arabirim');
 DEFINE('_FILTER','Süzgeç');

@@ -44,9 +44,9 @@ $UI_CP_SrcName = 'Имя источника';
 $UI_CP_DstDesc = 'Назначение';
 $UI_CP_DstName = 'Имя назначения';
 $UI_CP_SrcDst = 'Источник или назначение';
+$UI_CP_Id = 'ID';
 
 // основные фразы
-DEFINE('_ID','ID');
 DEFINE('_NAME','Имя');
 DEFINE('_INTERFACE','Интерфейс');
 DEFINE('_FILTER','Фильтр');

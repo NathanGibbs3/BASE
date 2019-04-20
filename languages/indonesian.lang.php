@@ -42,9 +42,9 @@ $UI_CP_SrcName = 'Nama Sumber';
 $UI_CP_DstDesc = 'Sasaran';
 $UI_CP_DstName = 'Nama Sasaran';
 $UI_CP_SrcDst = 'Sumber atau Sasaran';
+$UI_CP_Id = 'ID';
 
 //common phrases
-DEFINE('_ID','ID');
 DEFINE('_NAME','Nama');
 DEFINE('_INTERFACE','Interface');
 DEFINE('_FILTER','Filter');

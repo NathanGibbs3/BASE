@@ -47,9 +47,9 @@ $UI_CP_SrcName = 'Lähteen nimi';
 $UI_CP_DstDesc = 'Kohde';
 $UI_CP_DstName = 'Kohteen Nimi';
 $UI_CP_SrcDst = 'Lähteen nimi';
+$UI_CP_Id = 'ID';
 
 //common phrases
-DEFINE('_ID','ID');
 DEFINE('_NAME','Nimi');
 DEFINE('_INTERFACE','Käyttöliittymä');
 DEFINE('_FILTER','Suodatin');

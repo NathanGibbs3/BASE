@@ -41,10 +41,6 @@ if ( preg_match("/(create|add)/", $Action) || $Use_Auth_System == 1 ){
 		base_header("Location: ". $BASE_urlpath . "/base_main.php");
 	}else{
 		$page_title = _USERADMIN;
-		$LoginDesc = $UIL->ADA['DescUN'];
-		$PWDesc = $UIL->ADA['DescPW'];
-		$AcEdit = $UIL->UAA['Edit'];
-		$AcDelete = $UIL->UAA['Delete'];
 		// Html Templates
 		$Umca = "base_useradmin.php?action="; // User Managemnt Common Action.
 		$Fst = "<form action='$Umca"; // Form tag start.
@@ -56,12 +52,16 @@ if ( preg_match("/(create|add)/", $Action) || $Use_Auth_System == 1 ){
 			$userid = filterSql($_GET['userid']);
 		}
 		if ( preg_match("/(create|list|(edit|update)user)/", $Action) ){
+			if ( preg_match("/(create|edituser)/", $Action) ){
+				$LoginDesc = $UIL->ADA['DescUN'];
+			}
 			$user = new BaseUser();
 		}else{ // 2 vars for this?! No idea why. Will keep for now. -- Nathan
 			$BUser = new BaseUser();
 		}
 		switch ($Action) {
 			case "create"; // Display the new user form.
+				$PWDesc = $UIL->ADA['DescPW'];
 				$defaultrole = 10;
 				$tdc = "<td width='25%' align='right'>";
 				$tdal = "<td align='left'>";
@@ -103,13 +103,12 @@ if ( preg_match("/(create|add)/", $Action) || $Use_Auth_System == 1 ){
 				$pagebody = $added;
 				break;
 			case "edituser"; // Edit user account form.
-				// This function accepts an array in the following format
-				// $userinfo[0] = $uid
-				// $userinfo[1] = $usn
-				// $userinfo[2] = $rid
-				// $userinfo[3] = $ufn
-				// $userinfo[4] = $userenabled
-
+				// Function returns an array in the folowing format.
+				// $userinfo[0] = $uid // id
+				// $userinfo[1] = $usn // Name
+				// $userinfo[2] = $rid // Role id
+				// $userinfo[3] = $ufn // Full Name
+				// $userinfo[4] = $uso // Operative
 				$userinfo = $user->returnEditUser($userid);
 				// Anti XSS Output Data
 				$uid = htmlspecialchars($userinfo[0]);
@@ -138,18 +137,17 @@ if ( preg_match("/(create|add)/", $Action) || $Use_Auth_System == 1 ){
 				// Potential XSS Vector.
 				// See https://github.com/NathanGibbs3/BASE/issues/13
 				$form .= $tdal.$user->returnRoleNamesDropDown($rid).'</td></tr>';
-      $form = $form . "<tr><td colspan='2' align='center'><input type='submit' name='submit' value='"._UPDATEUSER."'></td>";
+				$form .= "<tr><td colspan='2' align='center'><input type='submit' name='submit' value='"._UPDATEUSER."'></td>";
 				$form .= "\n".str_repeat("\t",5).'</tr>';
 				$form .= "\n".str_repeat("\t",4).'</table>';
 				$form .= "\n".str_repeat("\t",3).'</form>';
 				$pagebody = $form;
 				break;
 			case "updateuser"; // Updates user account from above form....
-				// This function accepts an array in the following format
+				// Setup array in this format for the updateUser function
 				// $userarray[0] = $userid
 				// $userarray[1] = $fullname
 				// $userarray[2] = $roleid
-
 				$userarray = array(filterSql($_POST['usr_id']), filterSql($_POST['fullname']), filterSql($_POST['roleID']),);
 				$user->updateUser($userarray);
 				base_header("Location: $Umca"."list");
@@ -167,6 +165,9 @@ if ( preg_match("/(create|add)/", $Action) || $Use_Auth_System == 1 ){
 				base_header("Location: $Umca"."list");
 				break;
 			case "list"; // Generate HTML User Table.
+				$AcEdit = $UIL->UAA['Edit'];
+				$AcDelete = $UIL->UAA['Delete'];
+				$uidesc = $UIL->CPA['Id'];
 				$users = $user->returnUsers();
 				$thc = "<td class='plfieldhdr'";
 				$thcw5 = "$thc width='5%'>";
@@ -181,7 +182,7 @@ if ( preg_match("/(create|add)/", $Action) || $Use_Auth_System == 1 ){
 				$tmpHTML .= "\n".str_repeat("\t",3).'<tr>';
 				$tmpHTML .= "\n".str_repeat("\t",4)."$thcw5$AcEdit</td>";
 				$tmpHTML .= "\n".str_repeat("\t",4)."$thcw5$AcDelete</td>";
-				$tmpHTML .= "\n".str_repeat("\t",4)."$thcw5"._ID.'</td>';
+				$tmpHTML .= "\n".str_repeat("\t",4)."$thcw5$uidesc</td>";
 				$tmpHTML .= "\n".str_repeat("\t",4)."$thc>"._LOGIN.'</td>';
 				$tmpHTML .= "\n".str_repeat("\t",4)."$thc>"._ROLEID.'</td>';
 				$tmpHTML .= "\n".str_repeat("\t",4)."$thc>"._NAME.'</td>';

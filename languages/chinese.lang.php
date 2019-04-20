@@ -42,9 +42,9 @@ $UI_CP_SrcName = '來源名稱';
 $UI_CP_DstDesc = '目地';
 $UI_CP_DstName = '目地名稱';
 $UI_CP_SrcDst = '來源或目地';
+$UI_CP_Id = '識別碼';
 
 //common phrases
-DEFINE('_ID','識別碼');
 DEFINE('_NAME','名稱');
 DEFINE('_INTERFACE','介面');
 DEFINE('_FILTER','過濾器');

@@ -36,12 +36,14 @@
 $UIL = new UILang($BASE_Language); // Create UI Language Object.
 $AcEdit = $UIL->UAA['Edit'];
 $AcDelete = $UIL->UAA['Delete'];
+$AgiDesc = $UIL->CPA['Id'];
 // Html Templates
 $Umca = "base_ag_main.php?ag_action="; // Role Managemnt Common Action.
 $Fct = " Method='POST'>"; // Form tag end.
 $Hrst = "<a href='$Umca"; // Href tag start.
 $Trc = "\n".str_repeat("\t",5).'</tr><tr>'; // Table row continue.
-$Thc = "<td class='plfield'"; // Table header Class.
+$Thc = "<td class='plfieldhdr'>"; // Table header Class.
+$Tdc = "<td class='plfield'>"; // Table data Class.
   $cs = new CriteriaState("base_ag_main.php");
   $cs->ReadState();
 
@@ -219,9 +221,9 @@ if ($ag_action == "list") {
     } else {
         echo '
              <table border="1" style="border-spacing:0;padding:0" width="100%">
-             <tr>
-               <td class="plfieldhdr">'._ID.'</td>
-               <td class="plfieldhdr">'._NAME.'</td>
+             <tr>';
+			print "\n".str_repeat("\t",4)."$Thc$AgiDesc</td>";
+echo'               <td class="plfieldhdr">'._NAME.'</td>
                <td class="plfieldhdr">'._NUMALERTS.'</td>
                <td class="plfieldhdr">'._DESC.'</td>
                <td class="plfieldhdr">'._ACTIONS.'</td>
@@ -241,7 +243,7 @@ if ($ag_action == "list") {
                       <td class="plfield">'.htmlspecialchars($myrow[1]).'</TD>
                       <td class="plfield">'.$num_alerts.'</TD>
                       <td class="plfield">'.htmlspecialchars($myrow[2]).'</TD>';
-			print "\n".str_repeat("\t",3)."$Thc>";
+			print "\n".str_repeat("\t",3).$Tdc;
 			print "\n".str_repeat("\t",4).$Hrst."edit&amp;ag_id=".urlencode($myrow[0])."&amp;submit=x'>$AcEdit</a> |";
 			print "\n".str_repeat("\t",4).$Hrst."delete&amp;ag_id=".urlencode($myrow[0])."&amp;submit=x'>$AcDelete</a> |";
 echo'                 <a href="base_ag_main.php?ag_action=clear&amp;ag_id='.urlencode($myrow[0]).'&amp;submit=x">'._CLEAR.'</a>

@@ -43,9 +43,9 @@ $UI_CP_SrcName = 'Quellname';
 $UI_CP_DstDesc = 'Ziele';
 $UI_CP_DstName = 'Zielname';
 $UI_CP_SrcDst = 'Quelle oder Ziel';
+$UI_CP_Id = 'ID';
 
 //common phrases
-DEFINE('_ID','ID');
 DEFINE('_NAME','Name');
 DEFINE('_INTERFACE','Schnittstelle');
 DEFINE('_FILTER','Filter');

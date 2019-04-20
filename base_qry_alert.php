@@ -174,6 +174,10 @@ function PrintPacketLookupBrowseButtons($seq, $save_sql, $db, &$previous_button,
 $UIL = new UILang($BASE_Language); // Create UI Language Object.
 $SrcName = $UIL->CPA['SrcName'];
 $DstName = $UIL->CPA['DstName'];
+$IDesc = $UIL->CPA['Id'];
+// Html Templates.
+$Thc = "<td class='plfieldhdr'>"; // Table header Class.
+$Tdc = "<td class='plfield'>"; // Table data Class.
 // This call can include "#xx-(xx-xx)" values and "submit" values.
 $submit = ImportHTTPVar("submit", VAR_DIGIT | VAR_PUNC | VAR_LETTER, array(_SELECTED, _ALLONSCREEN, _ENTIREQUERY));
 
@@ -307,9 +311,10 @@ $submit = ImportHTTPVar("submit", VAR_DIGIT | VAR_PUNC | VAR_LETTER, array(_SELE
        <TABLE BORDER=1 width="90%">
           <TR><TD CLASS="metatitle" WIDTH=50 ALIGN=CENTER ROWSPAN=4>Meta
               <TD>
-                  <TABLE BORDER=1 CELLPADDING=4>
-                    <TR><TD CLASS="plfieldhdr" >'._ID.' #</TD>
-                        <TD CLASS="plfieldhdr">'._CHRTTIME.'</TD>
+                  <TABLE BORDER=1 CELLPADDING=4>';
+print "\n".str_repeat("\t",3).'<tr>';
+print "\n".str_repeat("\t",4)."$Thc$IDesc #</td>";
+echo'                        <TD CLASS="plfieldhdr">'._CHRTTIME.'</TD>
                         <TD CLASS="plfieldhdr">'._QATRIGGERSIG.'</TD></TR>
                     <TR><TD CLASS="plfield">'.($sid." - ".$cid).'</TD>
                         <TD CLASS="plfield">'.htmlspecialchars($myrow2[1]).'</TD>
@@ -361,7 +366,7 @@ $submit = ImportHTTPVar("submit", VAR_DIGIT | VAR_PUNC | VAR_LETTER, array(_SELE
   }
 
   $result4->baseFreeRows();
-
+// Alert Group Information
   $sql4 = "SELECT acid_ag_alert.ag_id, ag_name, ag_desc ".
           "FROM acid_ag_alert LEFT JOIN acid_ag ON acid_ag_alert.ag_id = acid_ag.ag_id ".
           "WHERE ag_sid='".$sid."' AND ag_cid='".$cid."'";
@@ -372,14 +377,13 @@ $submit = ImportHTTPVar("submit", VAR_DIGIT | VAR_PUNC | VAR_LETTER, array(_SELE
            <TD>
              <TABLE BORDER=1 CELLPADDING=4>
                <TR><TD CLASS="metatitle" ALIGN=CENTER ROWSPAN='.($num+1).'>'._ALERTGROUP.'</TD>';
-  
-  if ( $num > 0 )
-     echo '        <TD class="plfieldhdr">'._ID.'</TD>
-                   <TD class="plfieldhdr">'._NAME.'</TD>
-                   <TD class="plfieldhdr">'._DESC.'</TD></TR>';  
-  else
+if ( $num > 0 ){
+	print "\n".str_repeat("\t",3)."$Thc$IDesc</td>";
+     echo '        <TD class="plfieldhdr">'._NAME.'</TD>
+                   <TD class="plfieldhdr">'._DESC.'</TD></TR>';
+}else{
      echo '        <TD>&nbsp;&nbsp;<I>'._NONE.'</I>&nbsp;</TD></TR>';
-
+}
   for ($i = 0; $i < $num; $i++)
   {
      $myrow4 = $result4->baseFetchRow();
@@ -421,9 +425,9 @@ $submit = ImportHTTPVar("submit", VAR_DIGIT | VAR_PUNC | VAR_LETTER, array(_SELE
                         <TD class="plfieldhdr">Ver</TD>
                         <TD class="plfieldhdr">Hdr Len</TD>
                         <TD class="plfieldhdr">TOS</TD>
-                        <TD class="plfieldhdr">'._LENGTH.'</TD>
-                        <TD class="plfieldhdr">'._ID.'</TD>
-                        <TD class="plfieldhdr">fragment</TD>
+                        <TD class="plfieldhdr">'._LENGTH.'</TD>';
+print "\n".str_repeat("\t",4)."$Thc$IDesc</td>";
+echo '                  <TD class="plfieldhdr">fragment</TD>
                         <TD class="plfieldhdr">offset</TD>
                         <TD class="plfieldhdr">TTL</TD>
                         <TD class="plfieldhdr">chksum</TD></TR>';
@@ -839,10 +843,7 @@ echo'                  <TD class="plfield">'.
 
      $result2->baseFreeRows();
   }
-
-  /* ICMP */
-  if ( $layer4_proto == "1" )
-  {
+  if ( $layer4_proto == "1" ) { // ICMP
      $sql2 = "SELECT icmp_type, icmp_code, icmp_csum, icmp_id, icmp_seq FROM icmphdr ".
              "WHERE sid='".$sid."' AND cid='".$cid."'";
      $result2 = $db->baseExecute($sql2);
@@ -863,8 +864,8 @@ echo'                  <TD class="plfield">'.
 		 echo '                <TD class="plfieldhdr">gateway address</TD>';
      echo '                <TD class="plfieldhdr">gateway hostname</TD>';
 		} else {
-     echo '                <TD class="plfieldhdr">'._ID.'</TD>
-                           <TD class="plfieldhdr">seq #</TD>';
+			print "\n".str_repeat("\t",3)."$Thc$IDesc</td>";
+     echo '                <TD class="plfieldhdr">seq #</TD>';
 		}
 
 		 echo '            </TR>';
@@ -1062,20 +1063,16 @@ echo'                  <TD class="plfield">'.
      else
         echo '<BR> &nbsp <I>'._NONE.' </I><BR>';
   }
-
   echo '</TABLE></BLOCKQUOTE><P>';
-
   echo "<CENTER>$previous &nbsp&nbsp&nbsp $next</CENTER>";
 
   $qs->PrintAlertActionButtons();
   $qs->SaveState();
   ExportHTTPVar("caller", $caller);
 
-  echo "\n</FORM>\n";
-  
-  PrintBASESubFooter();
-
-  $et->Mark("Get Query Elements");
-  $et->PrintTiming();
+print "\n".str_repeat("\t",3)."</form>";
+PrintBASESubFooter();
+$et->Mark("Get Query Elements");
+$et->PrintTiming();
 PageEnd();
 ?>

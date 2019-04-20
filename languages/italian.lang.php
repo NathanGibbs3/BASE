@@ -42,9 +42,9 @@ $UI_CP_SrcName = 'Nome Sorgente';
 $UI_CP_DstDesc = 'Destinazione';
 $UI_CP_DstName = 'Nome Dest.';
 $UI_CP_SrcDst = 'Sorg. o Dest.';
+$UI_CP_Id = 'ID';
 
 //common phrases
-DEFINE('_ID','ID');
 DEFINE('_NAME','Nome');
 DEFINE('_INTERFACE','Interfaccia');
 DEFINE('_FILTER','Filtro');

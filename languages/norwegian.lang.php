@@ -41,9 +41,9 @@ $UI_CP_SrcName = 'Kildenavn';
 $UI_CP_DstDesc = 'Destinasjon';
 $UI_CP_DstName = 'Dest. navn';
 $UI_CP_SrcDst = 'Kilde eller Dest.';
+$UI_CP_Id = 'ID';
 
 //common phrases
-DEFINE('_ID','ID');
 DEFINE('_NAME','Navn');
 DEFINE('_INTERFACE','Grensesnitt');
 DEFINE('_FILTER','Filter');
