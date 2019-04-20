@@ -195,11 +195,14 @@ class UILang{
 						case 'DescPW';
 							$this->ADA[$Item] = _FRMPWD;
 							break;
+						// @codeCoverageIgnoreStart
+						// Should never execute.
 						default;
 							// Will need to add this message to the TD.
 							trigger_error(
 								"Invalid AD Set Request for: $Item.\n"
 							);
+						// @codeCoverageIgnoreEnd
 					}
 				}
 			}else{
@@ -231,9 +234,12 @@ class UILang{
 					case 'SrcDst';
 						$this->CPA[$Item] = _SORD;
 						break;
+					// @codeCoverageIgnoreStart
+					// Should never execute.
 					default;
 						// Will need to add this message to the TD.
 						trigger_error("Invalid CP Set Request for: $Item.\n");
+					// @codeCoverageIgnoreEnd
 				}
 			}
 		}else{
@@ -255,9 +261,12 @@ class UILang{
 					case 'Delete';
 						$this->UAA[$Item] = _DELETE;
 						break;
+					// @codeCoverageIgnoreStart
+					// Should never execute.
 					default;
 						// Will need to add this message to the TD.
 						trigger_error("Invalid UA Set Request for: $Item.\n");
+					// @codeCoverageIgnoreEnd
 				}
 			}
 		}else{
