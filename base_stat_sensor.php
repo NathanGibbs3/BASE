@@ -33,7 +33,8 @@
   include_once ("$BASE_path/base_ag_common.php");
 
   $et = new EventTiming($debug_time_mode);
-$UIL = new UILang($BASE_Language); // Create UI Language Abstraction Object.
+$UIL = new UILang($BASE_Language); // Create UI Language Object.
+$SnName = $UIL->CPA['Name'];
   $cs = new CriteriaState("base_stat_sensor.php");
   $cs->ReadState();
 
@@ -108,11 +109,10 @@ $UIL = new UILang($BASE_Language); // Create UI Language Abstraction Object.
                          " ORDER BY acid_event.sid ASC",
                 "sid_d", " ",
                          " ORDER BY acid_event.sid DESC");  
-  $qro->AddTitle(_NAME, 
-                "sname_a", " ",
-                         " ORDER BY sensor.name ASC",
-                "sname_d", " ",
-                         " ORDER BY sensor.name DESC");
+$qro->AddTitle( $SnName,
+	"sname_a", " ", " ORDER BY sensor.name ASC",
+	"sname_d", " ", " ORDER BY sensor.name DESC"
+);
   $qro->AddTitle(_SIPLTOTALEVENTS, 
                 "occur_a", " ",
                          " ",

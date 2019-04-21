@@ -42,13 +42,12 @@ $UI_CP_DstDesc = 'Destinasjon';
 $UI_CP_DstName = 'Dest. navn';
 $UI_CP_SrcDst = 'Kilde eller Dest.';
 $UI_CP_Id = 'ID';
+$UI_CP_Name = 'Navn';
 
 //common phrases
-DEFINE('_NAME','Navn');
 DEFINE('_INTERFACE','Grensesnitt');
 DEFINE('_FILTER','Filter');
 DEFINE('_DESC','Beskrivelse');
-DEFINE('_LOGIN','Brukernavn');
 DEFINE('_ROLEID','Rolle ID');
 DEFINE('_ENABLED','Aktivert');
 DEFINE('_SUCCESS','Vellykket');

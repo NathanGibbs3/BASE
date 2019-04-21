@@ -51,13 +51,12 @@ $UI_CP_DstDesc = 'Destino';
 $UI_CP_DstName = 'Nome do Destino';
 $UI_CP_SrcDst = 'Origem ou Destino';
 $UI_CP_Id = 'ID';
+$UI_CP_Name = 'Nome';
 
 //common phrases
-DEFINE('_NAME','Nome');
 DEFINE('_INTERFACE','Interface');
 DEFINE('_FILTER','Filtro');
 DEFINE('_DESC','Descrição');
-DEFINE('_LOGIN','Nome');
 DEFINE('_ROLEID','ID do perfil');
 DEFINE('_ENABLED','Habilitado');
 DEFINE('_SUCCESS','Com Sucesso');

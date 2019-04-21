@@ -175,6 +175,7 @@ $UIL = new UILang($BASE_Language); // Create UI Language Object.
 $SrcName = $UIL->CPA['SrcName'];
 $DstName = $UIL->CPA['DstName'];
 $IDesc = $UIL->CPA['Id'];
+$CPName = $UIL->CPA['Name'];
 // Html Templates.
 $Thc = "<td class='plfieldhdr'>"; // Table header Class.
 $Tdc = "<td class='plfield'>"; // Table data Class.
@@ -345,9 +346,9 @@ echo'                        <TD CLASS="plfieldhdr">'._CHRTTIME.'</TD>
      echo '  <TR>
               <TD>
                 <TABLE BORDER=1 CELLPADDING=4>
-                  <TR><TD CLASS="iptitle" ALIGN=CENTER ROWSPAN=2>FQDN</TD>
-                       <TD class="plfieldhdr">'._SENSOR.' '._NAME.'</TD>
-                  </TR>
+                  <TR><TD CLASS="iptitle" ALIGN=CENTER ROWSPAN=2>FQDN</TD>';
+print "\n".str_repeat("\t",4).$Thc._SENSOR.' '.$CPName.'</td>';
+echo '                  </TR>
                   <TR><TD class="plfield">';
      # Is this a dotted IPv4 address?
      $pattern = '/(\d{1,3}\.){3}\d{1,3}/';
@@ -372,18 +373,18 @@ echo'                        <TD CLASS="plfieldhdr">'._CHRTTIME.'</TD>
           "WHERE ag_sid='".$sid."' AND ag_cid='".$cid."'";
   $result4 = $db->baseExecute($sql4);
   $num = $result4->baseRecordCount();
-
   echo ' <TR>
            <TD>
              <TABLE BORDER=1 CELLPADDING=4>
                <TR><TD CLASS="metatitle" ALIGN=CENTER ROWSPAN='.($num+1).'>'._ALERTGROUP.'</TD>';
 if ( $num > 0 ){
-	print "\n".str_repeat("\t",3)."$Thc$IDesc</td>";
-     echo '        <TD class="plfieldhdr">'._NAME.'</TD>
-                   <TD class="plfieldhdr">'._DESC.'</TD></TR>';
+	print "\n".str_repeat("\t",4)."$Thc$IDesc</td>";
+	print "\n".str_repeat("\t",4)."%Thc$CPName</td>";
+     echo '        <TD class="plfieldhdr">'._DESC.'</TD>';
 }else{
-     echo '        <TD>&nbsp;&nbsp;<I>'._NONE.'</I>&nbsp;</TD></TR>';
+     echo '        <TD>&nbsp;&nbsp;<I>'._NONE.'</I>&nbsp;</TD>';
 }
+print "\n".str_repeat("\t",3).'</tr>';
   for ($i = 0; $i < $num; $i++)
   {
      $myrow4 = $result4->baseFetchRow();

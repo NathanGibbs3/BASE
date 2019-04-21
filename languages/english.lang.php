@@ -42,13 +42,12 @@ $UI_CP_DstDesc = 'Destination';
 $UI_CP_DstName = 'Dest. Name';
 $UI_CP_SrcDst = 'Src or Dest';
 $UI_CP_Id = 'ID';
+$UI_CP_Name = 'Name';
 
 //common phrases
-DEFINE('_NAME','Name');
 DEFINE('_INTERFACE','Interface');
 DEFINE('_FILTER','Filter');
 DEFINE('_DESC','Description');
-DEFINE('_LOGIN','Login');
 DEFINE('_ROLEID','Role ID');
 DEFINE('_ENABLED','Enabled');
 DEFINE('_SUCCESS','Successful');

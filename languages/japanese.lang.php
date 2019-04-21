@@ -43,13 +43,12 @@ $UI_CP_DstDesc = '発信先';
 $UI_CP_DstName = '送信先　名前';
 $UI_CP_SrcDst = '発信元 or 送信先';
 $UI_CP_Id = 'ID';
+$UI_CP_Name = '名前';
 
 //common phrases
-DEFINE('_NAME','名前');
 DEFINE('_INTERFACE','インターフェース');
 DEFINE('_FILTER','フィルター');
 DEFINE('_DESC','詳細');
-DEFINE('_LOGIN','ログイン');
 DEFINE('_ROLEID','Role ID');
 DEFINE('_ENABLED','有効');
 DEFINE('_SUCCESS','成功');

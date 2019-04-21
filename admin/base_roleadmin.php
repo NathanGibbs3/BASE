@@ -135,6 +135,7 @@ if ($Use_Auth_System == 1) {
 				$AcEdit = $UIL->UAA['Edit'];
 				$AcDelete = $UIL->UAA['Delete'];
 				$ridesc = $UIL->CPA['Id'];
+				$rname = $UIL->CPA['Name'];
 				$roles = $role->returnRoles();
 				$thc = "<td class='plfieldhdr'";
 				$thcw5 = "$thc width='5%'>";
@@ -153,7 +154,7 @@ if ($Use_Auth_System == 1) {
 				$tmpHTML .= "\n".str_repeat("\t",4)."$thcw5$AcEdit</td>";
 				$tmpHTML .= "\n".str_repeat("\t",4)."$thcw5$AcDelete</td>";
 				$tmpHTML .= "\n".str_repeat("\t",4)."$thcw5$ridesc</td>";
-				$tmpHTML .= "\n".str_repeat("\t",4)."$thc>"._NAME.'</td>';
+				$tmpHTML .= "\n".str_repeat("\t",4)."$thc>$rname</td>";
 				$tmpHTML .= "\n".str_repeat("\t",4)."$thc>"._DESC.'</td>';
 				$tmpHTML .= "\n".str_repeat("\t",3).'</tr>';
 				foreach ($roles as $row) { // Iterate roles & build table.

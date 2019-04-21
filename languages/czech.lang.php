@@ -44,13 +44,12 @@ $UI_CP_DstDesc = 'Cíl';
 $UI_CP_DstName = 'Jméno cíle';
 $UI_CP_SrcDst = 'Zdroj n. cíl';
 $UI_CP_Id = 'ID';
+$UI_CP_Name = 'Jméno';
 
 //common phrases
-DEFINE('_NAME','Jméno');
 DEFINE('_INTERFACE','Rozhraní');
 DEFINE('_FILTER','Filtr');
 DEFINE('_DESC','Popis');
-DEFINE('_LOGIN','Login');
 DEFINE('_ROLEID','ID role');
 DEFINE('_ENABLED','Enabled');
 DEFINE('_SUCCESS','Successful');

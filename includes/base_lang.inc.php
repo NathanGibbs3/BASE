@@ -141,6 +141,11 @@ class UILang{
 		}else{
 			$this->SetUICPItem('Id',NULL);
 		}
+		if ( isset($UI_CP_Name) ) {
+			$this->SetUICPItem('Name',$UI_CP_Name);
+		}else{
+			$this->SetUICPItem('Name',NULL);
+		}
 	}
 	// Sets locale from translation data or defaults to system locale.
 	function SetUILocale() {
@@ -219,7 +224,7 @@ class UILang{
 	// Sets Common Phrase Item from translation data.
 	function SetUICPItem($Item,$Value) {
 		$Items = array (
-			'SrcDesc', 'SrcName', 'DstDesc', 'DstName', 'SrcDst', 'Id'
+			'SrcDesc', 'SrcName', 'DstDesc', 'DstName', 'SrcDst', 'Id', 'Name'
 		);
 		if (in_array($Item, $Items)) {
 			if ( isset($Value) ) { // Var Based
@@ -243,6 +248,9 @@ class UILang{
 						break;
 					case 'Id';
 						$this->CPA[$Item] = _ID;
+						break;
+					case 'Name';
+						$this->CPA[$Item] = _NAME;
 						break;
 					// @codeCoverageIgnoreStart
 					// Should never execute.

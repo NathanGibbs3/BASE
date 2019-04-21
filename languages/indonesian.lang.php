@@ -43,13 +43,12 @@ $UI_CP_DstDesc = 'Sasaran';
 $UI_CP_DstName = 'Nama Sasaran';
 $UI_CP_SrcDst = 'Sumber atau Sasaran';
 $UI_CP_Id = 'ID';
+$UI_CP_Name = 'Nama';
 
 //common phrases
-DEFINE('_NAME','Nama');
 DEFINE('_INTERFACE','Interface');
 DEFINE('_FILTER','Filter');
 DEFINE('_DESC','Deskripsi');
-DEFINE('_LOGIN','Login');
 DEFINE('_ROLEID','ID jenis pengguna');
 DEFINE('_ENABLED','Aktif');
 DEFINE('_SUCCESS','Berhasil');

@@ -43,13 +43,12 @@ $UI_CP_DstDesc = '目地';
 $UI_CP_DstName = '目地名稱';
 $UI_CP_SrcDst = '來源或目地';
 $UI_CP_Id = '識別碼';
+$UI_CP_Name = '名稱';
 
 //common phrases
-DEFINE('_NAME','名稱');
 DEFINE('_INTERFACE','介面');
 DEFINE('_FILTER','過濾器');
 DEFINE('_DESC','說明');
-DEFINE('_LOGIN','登入');
 DEFINE('_ROLEID','角色 ID');
 DEFINE('_ENABLED','啟用');
 DEFINE('_SUCCESS','已成功 ');

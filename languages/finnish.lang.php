@@ -48,13 +48,12 @@ $UI_CP_DstDesc = 'Kohde';
 $UI_CP_DstName = 'Kohteen Nimi';
 $UI_CP_SrcDst = 'Lähteen nimi';
 $UI_CP_Id = 'ID';
+$UI_CP_Name = 'Nimi';
 
 //common phrases
-DEFINE('_NAME','Nimi');
 DEFINE('_INTERFACE','Käyttöliittymä');
 DEFINE('_FILTER','Suodatin');
 DEFINE('_DESC','Kuvaus');
-DEFINE('_LOGIN','Login');//#
 DEFINE('_ROLEID','Role ID');//#
 DEFINE('_ENABLED','Toiminnassa');
 DEFINE('_SUCCESS','Onnistunut');

@@ -43,18 +43,16 @@ $UI_CP_DstDesc = 'Destination';
 $UI_CP_DstName = 'Nom de la Destination';
 $UI_CP_SrcDst = 'Src ou Dest';
 $UI_CP_Id = 'ID';
+$UI_CP_Name = 'Nom';
+
 
 //common phrases
-DEFINE('_NAME','Nom');
-// Name
 DEFINE('_INTERFACE','Interface');
 // Interface
 DEFINE('_FILTER','Filtre');
 // Filter
 DEFINE('_DESC','Description');
 // Description
-DEFINE('_LOGIN','Identifiant');
-// Login
 DEFINE('_ROLEID','Identifiant de Rôle');
 // Role ID
 DEFINE('_ENABLED','Activé');

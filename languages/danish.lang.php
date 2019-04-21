@@ -43,13 +43,12 @@ $UI_CP_DstDesc = 'Destination';
 $UI_CP_DstName = 'Dest. Navn';
 $UI_CP_SrcDst = 'Kilde eller Dest.';
 $UI_CP_Id = 'ID';
+$UI_CP_Name = 'Navn';
 
 //common phrases
-DEFINE('_NAME','Navn');
 DEFINE('_INTERFACE','Brugerflade');
 DEFINE('_FILTER','Filter');
 DEFINE('_DESC','Beskrivelse');
-DEFINE('_LOGIN','Login');
 DEFINE('_ROLEID','Rolle ID');
 DEFINE('_ENABLED','Enabled');
 DEFINE('_SUCCESS','Successful');

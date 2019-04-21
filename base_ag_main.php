@@ -37,6 +37,7 @@ $UIL = new UILang($BASE_Language); // Create UI Language Object.
 $AcEdit = $UIL->UAA['Edit'];
 $AcDelete = $UIL->UAA['Delete'];
 $AgiDesc = $UIL->CPA['Id'];
+$AgnDesc = $UIL->CPA['Name'];
 // Html Templates
 $Umca = "base_ag_main.php?ag_action="; // Role Managemnt Common Action.
 $Fct = " Method='POST'>"; // Form tag end.
@@ -83,8 +84,8 @@ print "\n".str_repeat("\t",3).$Hrst."edit'>$AcEdit</a> |";
 print "\n".str_repeat("\t",3).$Hrst."delete'>$AcDelete</a> |";
 print "\n".str_repeat("\t",3).$Hrst."clear'>"._CLEAR.'</a>';
 print "\n".str_repeat("\t",2).'</div>';
-print "\n".str_repeat("\t",1).'<hr/>';
-print "\n".str_repeat("\t",1)."<form name='PacketForm' ";
+print "\n".str_repeat("\t",2).'<hr/>';
+print "\n".str_repeat("\t",2)."<form name='PacketForm' ";
 print "action='base_ag_main.php' $Fct";
 
 if ($debug_mode == 1) {
@@ -223,8 +224,8 @@ if ($ag_action == "list") {
              <table border="1" style="border-spacing:0;padding:0" width="100%">
              <tr>';
 			print "\n".str_repeat("\t",4)."$Thc$AgiDesc</td>";
-echo'               <td class="plfieldhdr">'._NAME.'</td>
-               <td class="plfieldhdr">'._NUMALERTS.'</td>
+			print "\n".str_repeat("\t",4)."$Thc$AgnDesc</td>";
+echo'               <td class="plfieldhdr">'._NUMALERTS.'</td>
                <td class="plfieldhdr">'._DESC.'</td>
                <td class="plfieldhdr">'._ACTIONS.'</td>
              </tr>';
@@ -243,25 +244,25 @@ echo'               <td class="plfieldhdr">'._NAME.'</td>
                       <td class="plfield">'.htmlspecialchars($myrow[1]).'</TD>
                       <td class="plfield">'.$num_alerts.'</TD>
                       <td class="plfield">'.htmlspecialchars($myrow[2]).'</TD>';
-			print "\n".str_repeat("\t",3).$Tdc;
-			print "\n".str_repeat("\t",4).$Hrst."edit&amp;ag_id=".urlencode($myrow[0])."&amp;submit=x'>$AcEdit</a> |";
-			print "\n".str_repeat("\t",4).$Hrst."delete&amp;ag_id=".urlencode($myrow[0])."&amp;submit=x'>$AcDelete</a> |";
+			print "\n".str_repeat("\t",5).$Tdc;
+			print "\n".str_repeat("\t",6).$Hrst."edit&amp;ag_id=".urlencode($myrow[0])."&amp;submit=x'>$AcEdit</a> |";
+			print "\n".str_repeat("\t",6).$Hrst."delete&amp;ag_id=".urlencode($myrow[0])."&amp;submit=x'>$AcDelete</a> |";
 echo'                 <a href="base_ag_main.php?ag_action=clear&amp;ag_id='.urlencode($myrow[0]).'&amp;submit=x">'._CLEAR.'</a>
                       </td>
                   </tr>';
         }
-        
         echo '</table>';
         $result->baseFreeRows();
-    }
+	}
 }
 
 if ($ag_action != "list") {
-    echo '<table width="100%" border="2" class="query">
-          <tr>
-           <td width="10%"><strong>ID #</strong></td>
-           <td>';
-
+	print "\n".str_repeat("\t",3).'<table width="100%" border="2" class="query">';
+	print "\n".str_repeat("\t",4).'<tr>';
+	print "\n".str_repeat("\t",5).'<td width="10%">';
+	print "\n".str_repeat("\t",6)."<strong>$AgiDesc #</strong>";
+	print "\n".str_repeat("\t",5).'</td>';
+	print "\n".str_repeat("\t",5).'<td>';
     if ($ag_action == "create" && $submit == "") {
         echo '&nbsp;<em> '._NOTASSIGN.' </em>&nbsp';
     } else if ($submit == "") {
@@ -270,12 +271,12 @@ if ($ag_action != "list") {
         echo '<input type="hidden" name="ag_id" value="'.htmlspecialchars($ag_id).'">';
         echo $ag_id;
     }
-
-    echo ' </td>
-         <tr>
-           <td valign="top"><strong>'._NAME.'</strong></td>
-           <td>';
-
+	print "\n".str_repeat("\t",5).'</td>';
+	print "\n".str_repeat("\t",4).'<tr>';
+	print "\n".str_repeat("\t",5)."<td valign='top'>";
+	print "\n".str_repeat("\t",6)."<strong>$AgnDesc</strong>";
+	print "\n".str_repeat("\t",5).'</td>';
+	print "\n".str_repeat("\t",5).'<td>';
     if ($ag_action == "create" && $submit == "") {
         echo '<input type="text" name="ag_name" size="40" value="'.htmlspecialchars($ag_name).'">';
     } else if ($submit == "") {
@@ -348,27 +349,25 @@ if ($ag_action != "list") {
     
 echo '<input type="hidden" name="ag_action" value="'.htmlspecialchars($ag_action).'">';
 if ( $ag_action == "view" && $submit != "" ) {
-    /* Calculate the Number of Alerts */
-    $cnt_sql = "SELECT count(ag_sid) FROM acid_ag_alert WHERE ag_id='".$ag_id."'";
-    $save_sql = "SELECT acid_event.sid, acid_event.cid, signature, timestamp, ".
+	/* Calculate the Number of Alerts */
+	$cnt_sql = "SELECT count(ag_sid) FROM acid_ag_alert WHERE ag_id='".$ag_id."'";
+	$save_sql = "SELECT acid_event.sid, acid_event.cid, signature, timestamp, ".
          "ip_src, ip_dst, ip_proto ".
          "FROM acid_event ".
          "LEFT JOIN acid_ag_alert ON acid_event.sid=ag_sid AND acid_event.cid=ag_cid ".
          "WHERE acid_event.cid > '0' AND ag_id = '".$ag_id."'";
-    $printing_ag = true;
-    $ag = $ag_id;
-    include("$BASE_path/base_qry_sqlcalls.php");
+	$printing_ag = true;
+	$ag = $ag_id;
+	include("$BASE_path/base_qry_sqlcalls.php");
 }
-
 $qs->SaveState();
- 
-/* Export action_arg = current AG ID, so that Actions work */
-ExportHTTPVar($ag_id, "action_arg");
-echo "\n</form>\n";
+// Export $ag_id to action_arg, so that Actions work.
+ExportHTTPVar($ag_id, "action_arg"); 
+print "\n".str_repeat("\t",3).'</form>';
 PrintBASESubFooter();
 if ($debug_time_mode > 0) {
-    $et->Mark("Get Query Elements");
-    $et->PrintTiming();
+	$et->Mark("Get Query Elements");
+	$et->PrintTiming();
 }
 PageEnd();
 ?>

@@ -45,13 +45,12 @@ $UI_CP_DstDesc = 'Назначение';
 $UI_CP_DstName = 'Имя назначения';
 $UI_CP_SrcDst = 'Источник или назначение';
 $UI_CP_Id = 'ID';
+$UI_CP_Name = 'Имя';
 
 // основные фразы
-DEFINE('_NAME','Имя');
 DEFINE('_INTERFACE','Интерфейс');
 DEFINE('_FILTER','Фильтр');
 DEFINE('_DESC','Описание');
-DEFINE('_LOGIN','Логин');
 DEFINE('_ROLEID','ID роли');
 DEFINE('_ENABLED','Включено');
 DEFINE('_SUCCESS','Успешно');

@@ -52,7 +52,7 @@ if ( preg_match("/(create|add)/", $Action) || $Use_Auth_System == 1 ){
 			$userid = filterSql($_GET['userid']);
 		}
 		if ( preg_match("/(create|list|(edit|update)user)/", $Action) ){
-			if ( preg_match("/(create|edituser)/", $Action) ){
+			if ( preg_match("/(create|list|edituser)/", $Action) ){
 				$LoginDesc = $UIL->ADA['DescUN'];
 			}
 			$user = new BaseUser();
@@ -168,6 +168,7 @@ if ( preg_match("/(create|add)/", $Action) || $Use_Auth_System == 1 ){
 				$AcEdit = $UIL->UAA['Edit'];
 				$AcDelete = $UIL->UAA['Delete'];
 				$uidesc = $UIL->CPA['Id'];
+				$ufndesc = $UIL->CPA['Name'];
 				$users = $user->returnUsers();
 				$thc = "<td class='plfieldhdr'";
 				$thcw5 = "$thc width='5%'>";
@@ -183,9 +184,9 @@ if ( preg_match("/(create|add)/", $Action) || $Use_Auth_System == 1 ){
 				$tmpHTML .= "\n".str_repeat("\t",4)."$thcw5$AcEdit</td>";
 				$tmpHTML .= "\n".str_repeat("\t",4)."$thcw5$AcDelete</td>";
 				$tmpHTML .= "\n".str_repeat("\t",4)."$thcw5$uidesc</td>";
-				$tmpHTML .= "\n".str_repeat("\t",4)."$thc>"._LOGIN.'</td>';
+				$tmpHTML .= "\n".str_repeat("\t",4)."$thc>$LoginDesc</td>";
 				$tmpHTML .= "\n".str_repeat("\t",4)."$thc>"._ROLEID.'</td>';
-				$tmpHTML .= "\n".str_repeat("\t",4)."$thc>"._NAME.'</td>';
+				$tmpHTML .= "\n".str_repeat("\t",4)."$thc>$ufndesc</td>";
 				$tmpHTML .= "\n".str_repeat("\t",4)."$thc>"._ENABLED.'</td>';
 				$tmpHTML .= "\n".str_repeat("\t",3).'</tr>';
 				if ($users <> "") { // Verify we have a user in the db --Kevin;

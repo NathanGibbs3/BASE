@@ -44,13 +44,12 @@ $UI_CP_DstDesc = 'Ziele';
 $UI_CP_DstName = 'Zielname';
 $UI_CP_SrcDst = 'Quelle oder Ziel';
 $UI_CP_Id = 'ID';
+$UI_CP_Name = 'Name';
 
 //common phrases
-DEFINE('_NAME','Name');
 DEFINE('_INTERFACE','Schnittstelle');
 DEFINE('_FILTER','Filter');
 DEFINE('_DESC','Beschreibung');
-DEFINE('_LOGIN','Login');
 DEFINE('_ROLEID','Benutzertyp ID');
 DEFINE('_ENABLED','Aktiv');
 DEFINE('_SUCCESS','Erfolgreich');

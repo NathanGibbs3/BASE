@@ -43,13 +43,12 @@ $UI_CP_DstDesc = 'Varýþ';
 $UI_CP_DstName = 'Varýþ Adý';
 $UI_CP_SrcDst = 'Kaynak veya Varýþ';
 $UI_CP_Id = 'ID';
+$UI_CP_Name = 'Ad';
 
 //common phrases
-DEFINE('_NAME','Ad');
 DEFINE('_INTERFACE','Arabirim');
 DEFINE('_FILTER','Süzgeç');
 DEFINE('_DESC','Betimleme');
-DEFINE('_LOGIN','Oturum Aç');
 DEFINE('_ROLEID','Rol ID');
 DEFINE('_ENABLED','Seçilir Kýlýnmýþ');
 DEFINE('_SUCCESS','Baþarýlý');
