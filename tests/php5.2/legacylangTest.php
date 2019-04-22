@@ -731,6 +731,19 @@ class legacylangTest extends PHPUnit_Framework_TestCase {
 		$this->LogTC($tf,'TD file',$file);
 		$this->CPAHas($$tmp,'Name','Name');
 	}
+	public function testCPASetItemInt() {
+		$lang = $this->langs;
+		$tf = __FUNCTION__;
+		$tmp = "UI$lang";
+		$this->LogTC($tf,'language',$lang);
+		$this->assertInstanceOf('UILang',$this->UIL = new UILang($lang),
+			"Class for $lang not created."
+		);
+		$$tmp = $this->UIL;
+		$file = $$tmp->TDF;
+		$this->LogTC($tf,'TD file',$file);
+		$this->CPAHas($$tmp,'Int','Interface');
+	}
 	// Test Universal Action Items.
 	public function testUAASetItemEdit() {
 		$lang = $this->langs;

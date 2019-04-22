@@ -87,7 +87,6 @@ class UILang{
 		}
 		// Will not execute if Auth Sys is disabled.
 		if ($Use_Auth_System == 1) {
-			$this->ADA = array();
 			if ( isset($UI_ADUN) ) {
 				$this->SetUIADItem('DescUN',$UI_ADUN);
 			}else{
@@ -146,6 +145,19 @@ class UILang{
 		}else{
 			$this->SetUICPItem('Name',NULL);
 		}
+		if ( isset($UI_CP_Int) ) {
+			$this->SetUICPItem('Int',$UI_CP_Int);
+		}else{
+			$this->SetUICPItem('Int',NULL);
+		}
+		// Anti XSS the Translation Data.
+		$this->Locale = XSSPrintSafe($this->Locale);
+		$this->Timefmt = XSSPrintSafe($this->Timefmt);
+		$this->Charset = XSSPrintSafe($this->Charset);
+		$this->Title = XSSPrintSafe($this->Title);
+		$this->ADA = XSSPrintSafe($this->ADA);
+		$this->CPA = XSSPrintSafe($this->CPA);
+		$this->UAA = XSSPrintSafe($this->UAA);
 	}
 	// Sets locale from translation data or defaults to system locale.
 	function SetUILocale() {
@@ -153,7 +165,13 @@ class UILang{
 			array_push( $this->Locale, "");
 			$Ret = setlocale (LC_TIME, $this->Locale);
 		}else{ // Const based
-			$Ret = setlocale (LC_TIME, _LOCALESTR1, _LOCALESTR2, _LOCALESTR3, "");
+			$Ret = setlocale (
+				LC_TIME,
+				htmlspecialchars(_LOCALESTR1),
+				htmlspecialchars(_LOCALESTR2),
+				htmlspecialchars(_LOCALESTR3),
+				""
+			);
 		}
 		if ($Ret != FALSE) {
 			$this->Locale = setlocale(LC_TIME, "0");
@@ -166,25 +184,25 @@ class UILang{
 		return $Ret;
 	}
 	// Sets Time format from translation data.
-	function SetUITimeFmt($UI_Timefmt) {
-		if ( isset($UI_Timefmt) ) { // Var Based
-			$this->Timefmt = $UI_Timefmt;
+	function SetUITimeFmt($Value) {
+		if ( isset($Value) ) { // Var Based
+			$this->Timefmt = $Value;
 		}else{ // Const based
 			$this->Timefmt = _STRFTIMEFORMAT;
 		}
 	}
 	// Sets HTML Content-Type charset from translation data.
-	function SetUICharset($UI_Charset) {
-		if ( isset($UI_Charset) ) { // Var Based
-			$this->Charset = $UI_Charset;
+	function SetUICharset($Value) {
+		if ( isset($Value) ) { // Var Based
+			$this->Charset = $Value;
 		}else{ // Const based
 			$this->Charset = _CHARSET;
 		}
 	}
 	// Sets HTML Common Page Title from translation data.
-	function SetUITitle($UI_Title) {
-		if ( isset($UI_Title) ) { // Var Based
-			$this->Title = $UI_Title;
+	function SetUITitle($Value) {
+		if ( isset($Value) ) { // Var Based
+			$this->Title = $Value;
 		}else{ // Const based
 			$this->Title = _TITLE;
 		}
@@ -224,7 +242,8 @@ class UILang{
 	// Sets Common Phrase Item from translation data.
 	function SetUICPItem($Item,$Value) {
 		$Items = array (
-			'SrcDesc', 'SrcName', 'DstDesc', 'DstName', 'SrcDst', 'Id', 'Name'
+			'SrcDesc', 'SrcName', 'DstDesc', 'DstName', 'SrcDst', 'Id', 'Name',
+			'Int'
 		);
 		if (in_array($Item, $Items)) {
 			if ( isset($Value) ) { // Var Based
@@ -251,6 +270,9 @@ class UILang{
 						break;
 					case 'Name';
 						$this->CPA[$Item] = _NAME;
+						break;
+					case 'Int';
+						$this->CPA[$Item] = _INTERFACE;
 						break;
 					// @codeCoverageIgnoreStart
 					// Should never execute.

@@ -336,29 +336,23 @@ function filterSql ($item, $force_alert_db=0)
    return $item;
 
 }
-
-/* ***********************************************************************
- * Function: XSSPrintSafe()
- *
- * @doc Converts unsafe html special characters to printing safe
- *      equivalents so we can safetly print them.
- *
- ************************************************************************/
-function XSSPrintSafe($item)
-{
-
-   /* Determine whether a variable is set */        
-   if (!isset($item))
-      return $item;
-
-   /* Recursively convert array elements -- nikns */
-   if (is_array($item)) {
-      for ($i = 0; $i < count($item); $i++)
-          $item[$i] = XSSPrintSafe($item[$i]);
-      return $item;
-   }
-
-   return htmlspecialchars($item);
+// Function: XSSPrintSafe()
+// @doc Converts unsafe html special characters to print safe
+//      equivalents as an Anti XSS defense.
+function XSSPrintSafe($item){
+	if ( !isset($item) ){ // Unset Value.
+		return $item;
+	}else{
+		if ( is_array($item) ){ // Array.
+			// Recursively convert array elements.
+			// Works with both Keyed & NonKeyed arrays.
+			foreach ($item as $key => $value) {
+				$item[$key] = XSSPrintSafe($value);
+			}
+			return $item;
+		}else{ // Single Value.
+			return htmlspecialchars($item);
+		}
+	}
 }
-
 ?>

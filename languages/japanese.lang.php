@@ -44,9 +44,9 @@ $UI_CP_DstName = '送信先　名前';
 $UI_CP_SrcDst = '発信元 or 送信先';
 $UI_CP_Id = 'ID';
 $UI_CP_Name = '名前';
+$UI_CP_Int = 'インターフェース';
 
 //common phrases
-DEFINE('_INTERFACE','インターフェース');
 DEFINE('_FILTER','フィルター');
 DEFINE('_DESC','詳細');
 DEFINE('_ROLEID','Role ID');

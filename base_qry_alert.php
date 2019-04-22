@@ -176,6 +176,7 @@ $SrcName = $UIL->CPA['SrcName'];
 $DstName = $UIL->CPA['DstName'];
 $IDesc = $UIL->CPA['Id'];
 $CPName = $UIL->CPA['Name'];
+$CPInt = $UIL->CPA['Int'];
 // Html Templates.
 $Thc = "<td class='plfieldhdr'>"; // Table header Class.
 $Tdc = "<td class='plfield'>"; // Table data Class.
@@ -328,9 +329,9 @@ echo'                        <TD CLASS="plfieldhdr">'._CHRTTIME.'</TD>
              <TD>
                 <TABLE BORDER=1 CELLPADDING=4>
                   <TR><TD CLASS="metatitle" ALIGN=CENTER ROWSPAN=2>'._SENSOR.'</TD>
-                       <TD class="plfieldhdr">',_SENSOR.' '._ADDRESS,'</TD>
-                       <TD class="plfieldhdr">'._INTERFACE.'</TD>
-                       <TD class="plfieldhdr">'._FILTER.'</TD>
+                       <TD class="plfieldhdr">',_SENSOR.' '._ADDRESS,'</TD>';
+print "\n".str_repeat("\t",4)."$Thc$CPInt</td>";
+echo'                       <TD class="plfieldhdr">'._FILTER.'</TD>
                   </TR>
                   <TR><TD class="plfield">'.htmlspecialchars($myrow4[0]).'</TD>
                       <TD class="plfield">'.

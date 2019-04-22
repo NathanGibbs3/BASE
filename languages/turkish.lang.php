@@ -44,9 +44,9 @@ $UI_CP_DstName = 'Varýþ Adý';
 $UI_CP_SrcDst = 'Kaynak veya Varýþ';
 $UI_CP_Id = 'ID';
 $UI_CP_Name = 'Ad';
+$UI_CP_Int = 'Arabirim';
 
 //common phrases
-DEFINE('_INTERFACE','Arabirim');
 DEFINE('_FILTER','Süzgeç');
 DEFINE('_DESC','Betimleme');
 DEFINE('_ROLEID','Rol ID');

@@ -52,9 +52,9 @@ $UI_CP_DstName = 'Nome do Destino';
 $UI_CP_SrcDst = 'Origem ou Destino';
 $UI_CP_Id = 'ID';
 $UI_CP_Name = 'Nome';
+$UI_CP_Int = 'Interface';
 
 //common phrases
-DEFINE('_INTERFACE','Interface');
 DEFINE('_FILTER','Filtro');
 DEFINE('_DESC','Descrição');
 DEFINE('_ROLEID','ID do perfil');

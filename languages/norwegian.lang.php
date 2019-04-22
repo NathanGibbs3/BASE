@@ -43,9 +43,9 @@ $UI_CP_DstName = 'Dest. navn';
 $UI_CP_SrcDst = 'Kilde eller Dest.';
 $UI_CP_Id = 'ID';
 $UI_CP_Name = 'Navn';
+$UI_CP_Int = 'Grensesnitt';
 
 //common phrases
-DEFINE('_INTERFACE','Grensesnitt');
 DEFINE('_FILTER','Filter');
 DEFINE('_DESC','Beskrivelse');
 DEFINE('_ROLEID','Rolle ID');

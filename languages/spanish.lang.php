@@ -44,9 +44,9 @@ $UI_CP_DstName = 'Nombre del dest.';
 $UI_CP_SrcDst = 'Origen o Dest';
 $UI_CP_Id = 'ID';
 $UI_CP_Name = 'Nombre';
+$UI_CP_Int = 'Interfaz';
 
 //common phrases
-DEFINE('_INTERFACE','Interfaz');
 DEFINE('_FILTER','Filtro');
 DEFINE('_DESC','Descripci&oacute;n');
 DEFINE('_ROLEID','ID del papel');

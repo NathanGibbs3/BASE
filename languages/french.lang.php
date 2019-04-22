@@ -44,11 +44,9 @@ $UI_CP_DstName = 'Nom de la Destination';
 $UI_CP_SrcDst = 'Src ou Dest';
 $UI_CP_Id = 'ID';
 $UI_CP_Name = 'Nom';
-
+$UI_CP_Int = 'Interface';
 
 //common phrases
-DEFINE('_INTERFACE','Interface');
-// Interface
 DEFINE('_FILTER','Filtre');
 // Filter
 DEFINE('_DESC','Description');

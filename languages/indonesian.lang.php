@@ -44,9 +44,9 @@ $UI_CP_DstName = 'Nama Sasaran';
 $UI_CP_SrcDst = 'Sumber atau Sasaran';
 $UI_CP_Id = 'ID';
 $UI_CP_Name = 'Nama';
+$UI_CP_Int = 'Interface';
 
 //common phrases
-DEFINE('_INTERFACE','Interface');
 DEFINE('_FILTER','Filter');
 DEFINE('_DESC','Deskripsi');
 DEFINE('_ROLEID','ID jenis pengguna');

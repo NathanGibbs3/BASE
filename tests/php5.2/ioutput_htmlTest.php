@@ -1,5 +1,6 @@
 <?php
 
+// Test fucntions in /includes/base_output_html.inc.php
 /**
  * A necessary evil for anything touching UILang during TD Transition.
  * @runTestsInSeparateProcesses
