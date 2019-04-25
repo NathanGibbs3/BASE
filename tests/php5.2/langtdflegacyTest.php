@@ -1,7 +1,6 @@
 <?php
-use PHPUnit\Framework\TestCase;
 
-// These tests should init the UILang class with a legacy
+// Test the UILang class functons with legacy format
 // TD (Translation Data) file.
 
 // The legacy TD format is constant based, not variable based.
@@ -15,35 +14,45 @@ use PHPUnit\Framework\TestCase;
 // unmodified legecy TD file.
 
 // Test Phase 1
-// Will test for specific defines in a legacy format /languages/*.lang.php
-// Verifying that all the data for a complete translation is present.
+// Tests for specific defines in a legacy format file.
+// Verifies that all data for a complete translation is present.
 // Does not verify the accuracy of the translation. :-)
 
 // Test Phase 2
-// Iterate through the tests in langTest on a single instance of UILang.
+// Tests UILang Data Structures.
+// Verifies that all data for a complete translation is present.
+// Does not verify the accuracy of the translation. :-)
 
 /**
  * @preserveGlobalState disabled
  * @runTestsInSeparateProcesses
  */
-class legacylangTest extends TestCase {
+class legacylangTest extends PHPUnit_Framework_TestCase {
 	// Pre Test Setup.
 	var $files;
 	var $langs;
 	var $UIL;
-	protected function setUp(): void {
+	protected function setUp() {
 		GLOBAL $BASE_path, $BASE_installID, $debug_mode;
+		$tf = __FUNCTION__;
 		$ll = 'legacy-english';
 		$this->langs = $ll;
 		$lf = "$ll.lang.php";
 		$this->files = $lf;
 		$file = "$BASE_path/languages/$lf";
 		if ($debug_mode > 1) {
-			print "\nTesting  file: $file";
+			self::LogTC($tf,'language',$lang);
+			self::LogTC($tf,'TD file',$file);
 		}
-		$tmp = "UI$ll";
 		copy ("$BASE_path/tests/$lf","$BASE_path/languages/$lf");
 	}
+	protected function tearDown() {
+		// Make sure we remove this file from lanuages.
+		GLOBAL $BASE_path;
+		$lf = $this->files;
+		unlink ("$BASE_path/languages/$lf");
+	}
+
 	// Tests go here.
 	// Tests Phase 1.
 	public function testLocale() { // Test Locale info.
@@ -353,104 +362,6 @@ class legacylangTest extends TestCase {
 	}
 
 	// Tests Phase 2.
-	public function testADASetItemInvalidThrowsError() {
-		GLOBAL $Use_Auth_System;
-		$lang = $this->langs;
-		$tf = __FUNCTION__;
-		$tmp = "UI$lang";
-		$this->LogTC($tf,'language',$lang);
-		$this->assertInstanceOf('UILang',$this->UIL = new UILang($lang),
-			"Class for $lang not created."
-		);
-		$$tmp = $this->UIL;
-		$file = $$tmp->TDF;
-		$this->LogTC($tf,'TD file',$file);
-		if ($Use_Auth_System == 1) {
-			$key = 'INVALID';
-			$kD = 'Invalid Item';
-			$EEM = "Invalid AD Set Request for: $key.";
-			$PHPUV = $this->GetPHPUV();
-			if (version_compare($PHPUV, '4.0', '<')) {
-				$this->markTestSkipped('Requires Phpunit 4+ to run.');
-			}elseif (version_compare($PHPUV, '5.0', '<')) { // PHPUnit 4x
-				$this->setExpectedException(
-					"PHPUnit_Framework_Error_Notice", $EEM
-				);
-			}elseif (version_compare($PHPUV, '6.0', '<')) { // PHPUnit 5x
-				$this->expectException("PHPUnit_Framework_Error_Notice");
-				$this->expectExceptionMessage($EEM);
-			}else{ // PHPUnit 6+
-				$this->expectException("PHPUnit\Framework\Error\Notice");
-				$this->expectExceptionMessage($EEM);
-			}
-			$$tmp->SetUIADItem($key,$kD);
-		}else{
-			$this->markTestSkipped(
-				'Test requires Enabled Auth System to run.'
-			);
-		}
-	}
-	public function testCPASetItemInvalidThrowsError() {
-		$lang = $this->langs;
-		$tf = __FUNCTION__;
-		$tmp = "UI$lang";
-		$this->LogTC($tf,'language',$lang);
-		$this->assertInstanceOf('UILang',$this->UIL = new UILang($lang),
-			"Class for $lang not created."
-		);
-		$$tmp = $this->UIL;
-		$file = $$tmp->TDF;
-		$this->LogTC($tf,'TD file',$file);
-		$key = 'INVALID';
-		$kD = 'Invalid Item';
-		$EEM = "Invalid CP Set Request for: $key.";
-		$PHPUV = $this->GetPHPUV();
-		if (version_compare($PHPUV, '4.0', '<')) {
-			$this->markTestSkipped('Requires Phpunit 4+ to run.');
-		}elseif (version_compare($PHPUV, '5.0', '<')) { // PHPUnit 4x
-			$this->setExpectedException(
-				"PHPUnit_Framework_Error_Notice", $EEM
-			);
-		}elseif (version_compare($PHPUV, '6.0', '<')) { // PHPUnit 5x
-			$this->expectException("PHPUnit_Framework_Error_Notice");
-			$this->expectExceptionMessage($EEM);
-		}else{ // PHPUnit 6+
-			$this->expectException("PHPUnit\Framework\Error\Notice");
-			$this->expectExceptionMessage($EEM);
-		}
-		$$tmp->SetUICPItem($key,$kD);
-	}
-	public function testUAASetItemInvalidThrowsError() {
-		$lang = $this->langs;
-		$tf = __FUNCTION__;
-		$tmp = "UI$lang";
-		$this->LogTC($tf,'language',$lang);
-		$this->assertInstanceOf('UILang',$this->UIL = new UILang($lang),
-			"Class for $lang not created."
-		);
-		$$tmp = $this->UIL;
-		$file = $$tmp->TDF;
-		$this->LogTC($tf,'TD file',$file);
-		$key = 'INVALID';
-		$kD = 'Invalid Item';
-		$EEM = "Invalid UA Set Request for: $key.";
-		$PHPUV = $this->GetPHPUV();
-		if (version_compare($PHPUV, '4.0', '<')) {
-			$this->markTestSkipped('Requires Phpunit 4+ to run.');
-		}elseif (version_compare($PHPUV, '5.0', '<')) { // PHPUnit 4x
-			$this->setExpectedException(
-				"PHPUnit_Framework_Error_Notice", $EEM
-			);
-		}elseif (version_compare($PHPUV, '6.0', '<')) { // PHPUnit 5x
-			$this->expectException("PHPUnit_Framework_Error_Notice");
-			$this->expectExceptionMessage($EEM);
-		}else{ // PHPUnit 6+
-			$this->expectException("PHPUnit\Framework\Error\Notice");
-			$this->expectExceptionMessage($EEM);
-		}
-		$$tmp->SetUIUAItem($key,$kD);
-	}
-
 	public function testSetUILocale() {
 		$lang = $this->langs;
 		$tf = __FUNCTION__;
@@ -530,53 +441,7 @@ class legacylangTest extends TestCase {
 			"HTML Title not set in $file"
 		);
 	}
-	public function testAsDisabledADADefaultstoNULL() {
-		GLOBAL $Use_Auth_System;
-		$Use_Auth_System = 0;
-		$lang = $this->langs;
-		$tf = __FUNCTION__;
-		$tmp = "UI$lang";
-		$this->LogTC($tf,'language',$lang);
-		$this->assertInstanceOf('UILang',$this->UIL = new UILang($lang),
-			"Class for $lang not created."
-		);
-		$$tmp = $this->UIL;
-		$file = $$tmp->TDF;
-		$this->LogTC($tf,'TD file',$file);
-		if ($Use_Auth_System == 0) {
-			$this->assertNull($$tmp->ADA,
-				"Auth System Disabled.\n"
-				."Auth Data Structure did not default to NULL."
-			);
-		}else{
-			$this->markTestSkipped(
-				'Test requires Disabled Auth System to run.'
-			);
-		}
-	}
-	public function testAsEnabledADADefaultstoArray() {
-		GLOBAL $Use_Auth_System;
-		$lang = $this->langs;
-		$tf = __FUNCTION__;
-		$tmp = "UI$lang";
-		$this->LogTC($tf,'language',$lang);
-		$this->assertInstanceOf('UILang',$this->UIL = new UILang($lang),
-			"Class for $lang not created."
-		);
-		$$tmp = $this->UIL;
-		$file = $$tmp->TDF;
-		$this->LogTC($tf,'TD file',$file);
-		if ($Use_Auth_System == 1) {
-			$this->assertTrue(is_array($$tmp->ADA),
-				"Auth System Enabled.\n"
-				."Auth Data Structure did not default to Array."
-			);
-		}else{
-			$this->markTestSkipped(
-				'Test requires Enabled Auth System to run.'
-			);
-		}
-	}
+	// Authentication Data SubStructure.
 	public function testADASetItemLoginDesc() {
 		GLOBAL $Use_Auth_System;
 		$lang = $this->langs;
@@ -625,22 +490,7 @@ class legacylangTest extends TestCase {
 			);
 		}
 	}
-	public function testCPADefaultstoArray() {
-		GLOBAL $Use_Auth_System;
-		$lang = $this->langs;
-		$tf = __FUNCTION__;
-		$tmp = "UI$lang";
-		$this->LogTC($tf,'language',$lang);
-		$this->assertInstanceOf('UILang',$this->UIL = new UILang($lang),
-			"Class for $lang not created."
-		);
-		$$tmp = $this->UIL;
-		$file = $$tmp->TDF;
-		$this->LogTC($tf,'TD file',$file);
-		$this->assertTrue(is_array($$tmp->CPA),
-			"Common Phrase Structure did not default to Array."
-		);
-	}
+	// Test Commonm Phrase Items.
 	public function testCPASetItemSrcDesc() {
 		$lang = $this->langs;
 		$tf = __FUNCTION__;
@@ -773,14 +623,7 @@ class legacylangTest extends TestCase {
 		$this->UAAHas($$tmp,'Delete','Delete');
 	}
 
-
-	protected function tearDown(): void {
-		// Make sure we remove this file from lanuages.
-		GLOBAL $BASE_path;
-		$lf = $this->files;
-		unlink ("$BASE_path/languages/$lf");
-	}
-
+	// Test Support Functions.
 	private function GetPHPUV () { // Get PHPUnit Version
 		if ( method_exists('PHPUnit_Runner_Version','id')) {
 			$Ret = PHPUnit_Runner_Version::id();
@@ -791,20 +634,17 @@ class legacylangTest extends TestCase {
 		}
 		return $Ret;
 	}
-
-	private function LogTC ($cf,$Item,$Value) { // Output to Test Console
+	private static function LogTC ($cf,$Item,$Value) { // Output to Test Console
 		GLOBAL $debug_mode;
 		if ($debug_mode > 0) {
 			print "\n$cf Testing $Item: $Value";
 		}
 	}
-
 	private function CPAHas ($UIL, $Key, $KeyDesc) {
 		$this->assertArrayHasKey($Key, $UIL->CPA,
 			"Unset CP Item $KeyDesc: Key: $Key\n"
 		);
 	}
-
 	private function UAAHas ($UIL, $Key, $KeyDesc) {
 		$this->assertArrayHasKey($Key, $UIL->UAA,
 			"Unset UA Item $KeyDesc: Key: $Key\n"
@@ -815,6 +655,4 @@ class legacylangTest extends TestCase {
 	// Stop here and mark test incomplete.
 	//$this->markTestIncomplete('Incomplete Test.');
 }
-
-
 ?>

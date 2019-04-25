@@ -49,12 +49,12 @@ class UILang{
 		GLOBAL $BASE_path, $BASE_installID, $Use_Auth_System;
 		$TDF = "$BASE_path/languages/$UILang.lang.php";
 		if (!file_exists($TDF)) {
-//			trigger_error(
-				// Will need to add this message to the TD.
-//				"No TD found for Language: $UILang. Default to english"
-//			);
-			// Default to english if language is not supported.
-			$TDF = "$BASE_path/languages/english.lang.php";
+			// Default to english as TD file for requested lang not found.
+			trigger_error(
+				"No TD found for Language: $UILang. Default to english.\n"
+			);
+			$UILang = 'english';
+			$TDF = "$BASE_path/languages/$UILang.lang.php";
 		}
 		// Include Translation Data
 		include_once($TDF);
@@ -70,86 +70,125 @@ class UILang{
 		}else{
 			$this->Locale = NULL;
 		}
-		if ( isset($UI_Timefmt) ) {
+		if ( isset($UI_Timefmt) ) { // Var New TDF
 			$this->SetUITimefmt($UI_Timefmt);
+		}elseif (defined('_STRFTIMEFORMAT')) { // Const Legacy TDF
+			$this->SetUITimefmt(_STRFTIMEFORMAT);
 		}else{
-			$this->SetUITimefmt(NULL);
+			$this->SetUITimefmt();
 		}
-		if ( isset($UI_Charset) ) {
+		if ( isset($UI_Charset) ) { // Var New TDF
 			$this->SetUICharset($UI_Charset);
+		}elseif (defined('_CHARSET')) { // Const Legacy TDF
+			$this->SetUICharset(_CHARSET);
 		}else{
-			$this->SetUICharset(NULL);
+			$this->SetUICharset();
 		}
-		if ( isset($UI_Title) ) {
+		if ( isset($UI_Title) ) { // Var New TDF
 			$this->SetUITitle($UI_Title);
+		}elseif (defined('_TITLE')) { // Const Legacy TDF
+			$this->SetUITitle(_TITLE);
 		}else{
-			$this->SetUITitle(NULL);
+			$this->SetUITitle();
 		}
 		// Will not execute if Auth Sys is disabled.
 		if ($Use_Auth_System == 1) {
-			if ( isset($UI_ADUN) ) {
+			if ( isset($UI_ADUN) ) { // Var New TDF
 				$this->SetUIADItem('DescUN',$UI_ADUN);
+			}elseif (defined('_FRMLOGIN')) { // Const Legacy TDF
+				$this->SetUIADItem('DescUN',_FRMLOGIN);
 			}else{
-				$this->SetUIADItem('DescUN',NULL);
+				$this->SetUIADItem('DescUN');
 			}
-			if ( isset($UI_ADPW) ) {
+			if ( isset($UI_ADPW) ) { // Var New TDF
 				$this->SetUIADItem('DescPW',$UI_ADPW);
+			}elseif (defined('_FRMPWD')) { // Const Legacy TDF
+				$this->SetUIADItem('DescPW',_FRMPWD);
 			}else{
-				$this->SetUIADItem('DescPW',NULL);
+				$this->SetUIADItem('DescPW');
 			}
 		}else{
 			$this->ADA = NULL;
 		}
-		if ( isset($UI_UA_Edit) ) {
+		if ( isset($UI_UA_Edit) ) { // Var New TDF
 			$this->SetUIUAItem('Edit',$UI_UA_Edit);
+		}elseif (defined('_EDIT')) { // Const Legacy TDF
+			$this->SetUIUAItem('Edit',_EDIT);
 		}else{
-			$this->SetUIUAItem('Edit',NULL);
+			$this->SetUIUAItem('Edit');
 		}
-		if ( isset($UI_UA_Delete) ) {
+		if ( isset($UI_UA_Delete) ) { // Var New TDF
 			$this->SetUIUAItem('Delete',$UI_UA_Delete);
+		}elseif (defined('_DELETE')) { // Const Legacy TDF
+			$this->SetUIUAItem('Delete',_DELETE);
 		}else{
-			$this->SetUIUAItem('Delete',NULL);
+			$this->SetUIUAItem('Delete');
 		}
-		if ( isset($UI_CP_SrcDesc) ) {
+		if ( isset($UI_CP_SrcDesc) ) { // Var New TDF
 			$this->SetUICPItem('SrcDesc',$UI_CP_SrcDesc);
+		}elseif (defined('_SOURCE')) { // Const Legacy TDF
+			$this->SetUICPItem('SrcDesc',_SOURCE);
 		}else{
-			$this->SetUICPItem('SrcDesc',NULL);
+			$this->SetUICPItem('SrcDesc');
 		}
-		if ( isset($UI_CP_SrcName) ) {
+		if ( isset($UI_CP_SrcName) ) { // Var New TDF
 			$this->SetUICPItem('SrcName',$UI_CP_SrcName);
+		}elseif (defined('_SOURCENAME')) { // Const Legacy TDF
+			$this->SetUICPItem('SrcName',_SOURCENAME);
 		}else{
-			$this->SetUICPItem('SrcName',NULL);
+			$this->SetUICPItem('SrcName');
 		}
-		if ( isset($UI_CP_DstDesc) ) {
+		if ( isset($UI_CP_DstDesc) ) { // Var New TDF
 			$this->SetUICPItem('DstDesc',$UI_CP_DstDesc);
+		}elseif (defined('_DEST')) { // Const Legacy TDF
+			$this->SetUICPItem('DstDesc',_DEST);
 		}else{
-			$this->SetUICPItem('DstDesc',NULL);
+			$this->SetUICPItem('DstDesc');
 		}
-		if ( isset($UI_CP_DstName) ) {
+		if ( isset($UI_CP_DstName) ) { // Var New TDF
 			$this->SetUICPItem('DstName',$UI_CP_DstName);
+		}elseif (defined('_DESTNAME')) { // Const Legacy TDF
+			$this->SetUICPItem('DstName',_DESTNAME);
 		}else{
-			$this->SetUICPItem('DstName',NULL);
+			$this->SetUICPItem('DstName');
 		}
-		if ( isset($UI_CP_SrcDst) ) {
+		if ( isset($UI_CP_SrcDst) ) { // Var New TDF
 			$this->SetUICPItem('SrcDst',$UI_CP_SrcDst);
+		}elseif (defined('_SORD')) { // Const Legacy TDF
+			$this->SetUICPItem('SrcDst',_SORD);
 		}else{
-			$this->SetUICPItem('SrcDst',NULL);
+			$this->SetUICPItem('SrcDst');
 		}
-		if ( isset($UI_CP_Id) ) {
+		if ( isset($UI_CP_Id) ) { // Var New TDF
 			$this->SetUICPItem('Id',$UI_CP_Id);
+		}elseif (defined('_ID')) { // Const Legacy TDF
+			$this->SetUICPItem('Id',_ID);
 		}else{
-			$this->SetUICPItem('Id',NULL);
+			$this->SetUICPItem('Id');
 		}
-		if ( isset($UI_CP_Name) ) {
+		if ( isset($UI_CP_Name) ) { // Var New TDF
 			$this->SetUICPItem('Name',$UI_CP_Name);
+		}elseif (defined('_NAME')) { // Const Legacy TDF
+			$this->SetUICPItem('Name',_NAME);
 		}else{
-			$this->SetUICPItem('Name',NULL);
+			$this->SetUICPItem('Name');
 		}
-		if ( isset($UI_CP_Int) ) {
+		if ( isset($UI_CP_Int) ) { // Var New TDF
 			$this->SetUICPItem('Int',$UI_CP_Int);
+		}elseif (defined('_INTERFACE')) { // Const Legacy TDF
+			$this->SetUICPItem('Int',_INTERFACE);
 		}else{
-			$this->SetUICPItem('Int',NULL);
+			$this->SetUICPItem('Int');
 		}
+		// Check for unset/NULL TD, replace with default placeholder text.
+		$this->Timefmt = $this->BlankProps('Timefmt',$this->Timefmt);
+		$this->Charset = $this->BlankProps('Charset',$this->Charset);
+		$this->Title = $this->BlankProps('Title',$this->Title);
+		if ($Use_Auth_System == 1) {
+			$this->ADA = $this->BlankProps('ADA',$this->ADA);
+		}
+		$this->CPA = $this->BlankProps('CPA',$this->CPA);
+		$this->UAA = $this->BlankProps('UAA',$this->UAA);
 		// Anti XSS the Translation Data.
 		$this->Locale = XSSPrintSafe($this->Locale);
 		$this->Timefmt = XSSPrintSafe($this->Timefmt);
@@ -158,6 +197,24 @@ class UILang{
 		$this->ADA = XSSPrintSafe($this->ADA);
 		$this->CPA = XSSPrintSafe($this->CPA);
 		$this->UAA = XSSPrintSafe($this->UAA);
+	}
+	// Notify about & Init unset/NULL TD Items.
+	// Set Items will pass through unchanged.
+	function BlankProps($Property, $Item) {
+		if ( !isset($Item) ){ // Is Unset/NULL.
+			$Value = "Missing TD Item: $Property.\n";
+			trigger_error($Value); // Notify.
+			return $Value;
+		}else{
+			if ( is_array($Item) ){ // Is Array.
+				foreach ($Item as $key => $value) {
+					$Item[$key] = $this->BlankProps($Property."[$key]", $value);
+				}
+				return $Item;
+			}else{ // Is Variable.
+				return $Item;
+			}
+		}
 	}
 	// Sets locale from translation data or defaults to system locale.
 	function SetUILocale() {
@@ -184,55 +241,24 @@ class UILang{
 		return $Ret;
 	}
 	// Sets Time format from translation data.
-	function SetUITimeFmt($Value) {
-		if ( isset($Value) ) { // Var Based
-			$this->Timefmt = $Value;
-		}else{ // Const based
-			$this->Timefmt = _STRFTIMEFORMAT;
-		}
+	function SetUITimeFmt($Value = NULL) {
+		$this->Timefmt = $Value;
 	}
 	// Sets HTML Content-Type charset from translation data.
-	function SetUICharset($Value) {
-		if ( isset($Value) ) { // Var Based
-			$this->Charset = $Value;
-		}else{ // Const based
-			$this->Charset = _CHARSET;
-		}
+	function SetUICharset($Value = NULL) {
+		$this->Charset = $Value;
 	}
 	// Sets HTML Common Page Title from translation data.
-	function SetUITitle($Value) {
-		if ( isset($Value) ) { // Var Based
-			$this->Title = $Value;
-		}else{ // Const based
-			$this->Title = _TITLE;
-		}
+	function SetUITitle($Value = NULL) {
+		$this->Title = $Value;
 	}
 	// Sets Authentication Data Item from translation data.
-	function SetUIADItem($Item,$Value) {
+	function SetUIADItem($Item,$Value = NULL) {
 		GLOBAL $Use_Auth_System;
 		if ($Use_Auth_System == 1) { // Run only if Auth Sys is enabled.
 			$Items = array ( 'DescUN', 'DescPW' );
 			if (in_array($Item, $Items)) {
-				if ( isset($Value) ) { // Var Based
-					$this->ADA[$Item] = $Value;
-				}else{ // Const based
-					switch ($Item) {
-						case 'DescUN';
-							$this->ADA[$Item] = _FRMLOGIN;
-							break;
-						case 'DescPW';
-							$this->ADA[$Item] = _FRMPWD;
-							break;
-						// @codeCoverageIgnoreStart
-						// Should never execute.
-						default;
-							// Will need to add this message to the TD.
-							trigger_error(
-								"Invalid AD Set Request for: $Item.\n"
-							);
-						// @codeCoverageIgnoreEnd
-					}
-				}
+				$this->ADA[$Item] = $Value;
 			}else{
 				// Will need to add this message to the TD.
 				trigger_error("Invalid AD Set Request for: $Item.\n");
@@ -240,75 +266,23 @@ class UILang{
 		}
 	}
 	// Sets Common Phrase Item from translation data.
-	function SetUICPItem($Item,$Value) {
+	function SetUICPItem($Item,$Value = NULL) {
 		$Items = array (
 			'SrcDesc', 'SrcName', 'DstDesc', 'DstName', 'SrcDst', 'Id', 'Name',
 			'Int'
 		);
 		if (in_array($Item, $Items)) {
-			if ( isset($Value) ) { // Var Based
-				$this->CPA[$Item] = $Value;
-			}else{ // Const based
-				switch ($Item) {
-					case 'SrcDesc';
-						$this->CPA[$Item] = _SOURCE;
-						break;
-					case 'SrcName';
-						$this->CPA[$Item] = _SOURCENAME;
-						break;
-					case 'DstDesc';
-						$this->CPA[$Item] = _DEST;
-						break;
-					case 'DstName';
-						$this->CPA[$Item] = _DESTNAME;
-						break;
-					case 'SrcDst';
-						$this->CPA[$Item] = _SORD;
-						break;
-					case 'Id';
-						$this->CPA[$Item] = _ID;
-						break;
-					case 'Name';
-						$this->CPA[$Item] = _NAME;
-						break;
-					case 'Int';
-						$this->CPA[$Item] = _INTERFACE;
-						break;
-					// @codeCoverageIgnoreStart
-					// Should never execute.
-					default;
-						// Will need to add this message to the TD.
-						trigger_error("Invalid CP Set Request for: $Item.\n");
-					// @codeCoverageIgnoreEnd
-				}
-			}
+			$this->CPA[$Item] = $Value;
 		}else{
 			// Will need to add this message to the TD.
 			trigger_error("Invalid CP Set Request for: $Item.\n");
 		}
 	}
 	// Sets Universal Action Item from translation data.
-	function SetUIUAItem($Item,$Value) {
+	function SetUIUAItem($Item,$Value = NULL) {
 		$Items = array ( 'Edit', 'Delete' );
 		if (in_array($Item, $Items)) {
-			if ( isset($Value) ) { // Var Based
-				$this->UAA[$Item] = $Value;
-			}else{ // Const based
-				switch ($Item) {
-					case 'Edit';
-						$this->UAA[$Item] = _EDIT;
-						break;
-					case 'Delete';
-						$this->UAA[$Item] = _DELETE;
-						break;
-					// @codeCoverageIgnoreStart
-					// Should never execute.
-					default;
-						// Will need to add this message to the TD.
-						trigger_error("Invalid UA Set Request for: $Item.\n");
-					// @codeCoverageIgnoreEnd
-				}
-			}
+			$this->UAA[$Item] = $Value;
 		}else{
 			// Will need to add this message to the TD.
 			trigger_error("Invalid UA Set Request for: $Item.\n");

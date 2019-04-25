@@ -31,10 +31,38 @@ class state_commonTest extends PHPUnit_Framework_TestCase {
 			'XSSPrintSafe Unexpected Return Value.'
 		);
 	}
+	public function testXSSPrintSafeNoTransformNonKeyedArray() {
+		$Value = array (1,2,3,4);
+		$this->assertEquals(
+			array(1,2,3,4),
+			XSSPrintSafe($Value),
+			'XSSPrintSafe Unexpected Return Value.'
+		);
+	}
 	public function testXSSPrintSafeTransformNonKeyedArray() {
 		$Value = array ('&"<>',1,2,3,4);
 		$this->assertEquals(
 			array('&amp;&quot;&lt;&gt;',1,2,3,4),
+			XSSPrintSafe($Value),
+			'XSSPrintSafe Unexpected Return Value.'
+		);
+	}
+	public function testXSSPrintSafeNoTransformKeyedArray() {
+		$Value = array (
+			'key1' => 0,
+			'key2' => 1,
+			'key3' => 2,
+			'key4' => 3,
+			'key5' => 4
+		);
+		$this->assertEquals(
+			array(
+				'key1' => '0',
+				'key2' => '1',
+				'key3' => '2',
+				'key4' => '3',
+				'key5' => '4'
+			),
 			XSSPrintSafe($Value),
 			'XSSPrintSafe Unexpected Return Value.'
 		);
