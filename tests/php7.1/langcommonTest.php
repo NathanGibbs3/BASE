@@ -19,7 +19,7 @@ class commonlangTest extends TestCase {
 
 	// We are using a single TD file.
 	// Share class instance as common test fixture.
-	public static function setUpBeforeClass() {
+	public static function setUpBeforeClass(): void {
 		GLOBAL $BASE_path, $debug_mode;
 		$tf = __FUNCTION__;
 		$ll = 'english';
@@ -36,7 +36,7 @@ class commonlangTest extends TestCase {
 			"Class for $ll not created."
 		);
 	}
-	public static function tearDownAfterClass(){
+	public static function tearDownAfterClass(): void {
 		self::$UIL = null;
 		self::$langs = null;
 		self::$files = null;

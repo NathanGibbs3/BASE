@@ -53,7 +53,9 @@ class commonlangSPTest extends PHPUnit_Framework_TestCase {
 		if (version_compare($PHPUV, '4.0', '<')) {
 			$this->markTestSkipped('Requires Phpunit 4+ to run.');
 		}elseif (version_compare($PHPUV, '5.0', '<')) { // PHPUnit 4x
-			$this->setExpectedException("PHPUnit_Framework_Notice", $EEM);
+			$this->setExpectedException(
+				"PHPUnit_Framework_Error_Notice", $EEM
+			);
 		}elseif (version_compare($PHPUV, '6.0', '<')) { // PHPUnit 5x
 			$this->expectException("PHPUnit_Framework_Error_Notice");
 			$this->expectExceptionMessage($EEM);

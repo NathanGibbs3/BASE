@@ -16,7 +16,6 @@ class nulllangTest extends PHPUnit_Framework_TestCase {
 	protected static $langs;
 	protected static $UIL;
 	protected static $EEM;
-	protected static $TItem;
 
 	// We are using a single TD file.
 	// Share class instance as common test fixture.
@@ -46,7 +45,6 @@ class nulllangTest extends PHPUnit_Framework_TestCase {
 		self::$langs = null;
 		self::$files = null;
 		self::$EEM = null;
-		self::$TItem = null;
 	}
 
 	// Tests go here.
@@ -86,9 +84,6 @@ class nulllangTest extends PHPUnit_Framework_TestCase {
 		$tf = __FUNCTION__;
 		$tmp = "UI$lang";
 		$this->LogTC($tf,'language',$lang);
-//		$this->assertInstanceOf('UILang',$this->UIL = new UILang($lang),
-//			"Class for $lang not created."
-//		);
 		$$tmp = self::$UIL;
 		$file = $$tmp->TDF;
 		$this->LogTC($tf,'TD file',$file);
@@ -109,9 +104,6 @@ class nulllangTest extends PHPUnit_Framework_TestCase {
 		$tf = __FUNCTION__;
 		$tmp = "UI$lang";
 		$this->LogTC($tf,'language',$lang);
-//		$this->assertInstanceOf('UILang',$this->UIL = new UILang($lang),
-//			"Class for $lang not created."
-//		);
 		$$tmp = self::$UIL;
 		$file = $$tmp->TDF;
 		$this->LogTC($tf,'TD file',$file);
@@ -132,9 +124,6 @@ class nulllangTest extends PHPUnit_Framework_TestCase {
 		$tf = __FUNCTION__;
 		$tmp = "UI$lang";
 		$this->LogTC($tf,'language',$lang);
-//		$this->assertInstanceOf('UILang',$this->UIL = new UILang($lang),
-//			"Class for $lang not created."
-//		);
 		$$tmp = self::$UIL;
 		$file = $$tmp->TDF;
 		$this->LogTC($tf,'TD file',$file);
@@ -157,9 +146,6 @@ class nulllangTest extends PHPUnit_Framework_TestCase {
 		$tf = __FUNCTION__;
 		$tmp = "UI$lang";
 		$this->LogTC($tf,'language',$lang);
-//		$this->assertInstanceOf('UILang',$this->UIL = new UILang($lang),
-//			"Class for $lang not created."
-//		);
 		$$tmp = self::$UIL;
 		$file = $$tmp->TDF;
 		$this->LogTC($tf,'TD file',$file);
@@ -167,13 +153,14 @@ class nulllangTest extends PHPUnit_Framework_TestCase {
 			$key = 'DescUN';
 			$KA = 'ADA';
 			$TItem = $KA."[$key]";
+			$Value = $$tmp->$KA[$key];
 			$EEM = self::$EEM."$TItem.\n";
 			$this->assertArrayHasKey($key, $$tmp->$KA,
 				"Unset: $TItem ."
 			);
 			$this->assertEquals(
 				$EEM,
-				$$tmp->$KA[$key],
+				$Value,
 				"Uninitialized: $TItem ."
 			);
 		}else{
@@ -188,9 +175,6 @@ class nulllangTest extends PHPUnit_Framework_TestCase {
 		$tf = __FUNCTION__;
 		$tmp = "UI$lang";
 		$this->LogTC($tf,'language',$lang);
-//		$this->assertInstanceOf('UILang',$this->UIL = new UILang($lang),
-//			"Class for $lang not created."
-//		);
 		$$tmp = self::$UIL;
 		$file = $$tmp->TDF;
 		$this->LogTC($tf,'TD file',$file);
@@ -198,13 +182,14 @@ class nulllangTest extends PHPUnit_Framework_TestCase {
 			$key = 'DescPW';
 			$KA = 'ADA';
 			$TItem = $KA."[$key]";
+			$Value = $$tmp->$KA[$key];
 			$EEM = self::$EEM."$TItem.\n";
 			$this->assertArrayHasKey($key, $$tmp->$KA,
 				"Unset: $TItem ."
 			);
 			$this->assertEquals(
 				$EEM,
-				$$tmp->$KA[$key],
+				$Value,
 				"Uninitialized: $TItem ."
 			);
 		}else{
@@ -219,20 +204,18 @@ class nulllangTest extends PHPUnit_Framework_TestCase {
 		$tf = __FUNCTION__;
 		$tmp = "UI$lang";
 		$this->LogTC($tf,'language',$lang);
-//		$this->assertInstanceOf('UILang',$this->UIL = new UILang($lang),
-//			"Class for $lang not created."
-//		);
 		$$tmp = self::$UIL;
 		$file = $$tmp->TDF;
 		$key = 'SrcDesc';
 		$KA = 'CPA';
 		$TItem = $KA."[$key]";
+		$Value = $$tmp->$KA[$key];
 		$EEM = self::$EEM."$TItem.\n";
 		$this->LogTC($tf,'TD file',$file);
 		$this->CPAHas($$tmp, $key, $TItem);
 		$this->assertEquals(
 			$EEM,
-			$$tmp->$KA[$key],
+			$Value,
 			"Uninitialized: $TItem ."
 		);
 	}
@@ -241,20 +224,18 @@ class nulllangTest extends PHPUnit_Framework_TestCase {
 		$tf = __FUNCTION__;
 		$tmp = "UI$lang";
 		$this->LogTC($tf,'language',$lang);
-//		$this->assertInstanceOf('UILang',$this->UIL = new UILang($lang),
-//			"Class for $lang not created."
-//		);
 		$$tmp = self::$UIL;
 		$file = $$tmp->TDF;
 		$key = 'SrcName';
 		$KA = 'CPA';
 		$TItem = $KA."[$key]";
+		$Value = $$tmp->$KA[$key];
 		$EEM = self::$EEM."$TItem.\n";
 		$this->LogTC($tf,'TD file',$file);
 		$this->CPAHas($$tmp, $key, $TItem);
 		$this->assertEquals(
 			$EEM,
-			$$tmp->$KA[$key],
+			$Value,
 			"Uninitialized: $TItem ."
 		);
 	}
@@ -263,20 +244,18 @@ class nulllangTest extends PHPUnit_Framework_TestCase {
 		$tf = __FUNCTION__;
 		$tmp = "UI$lang";
 		$this->LogTC($tf,'language',$lang);
-//		$this->assertInstanceOf('UILang',$this->UIL = new UILang($lang),
-//			"Class for $lang not created."
-//		);
 		$$tmp = self::$UIL;
 		$file = $$tmp->TDF;
 		$key = 'DstDesc';
 		$KA = 'CPA';
 		$TItem = $KA."[$key]";
+		$Value = $$tmp->$KA[$key];
 		$EEM = self::$EEM."$TItem.\n";
 		$this->LogTC($tf,'TD file',$file);
 		$this->CPAHas($$tmp, $key, $TItem);
 		$this->assertEquals(
 			$EEM,
-			$$tmp->$KA[$key],
+			$Value,
 			"Uninitialized: $TItem ."
 		);
 	}
@@ -285,20 +264,18 @@ class nulllangTest extends PHPUnit_Framework_TestCase {
 		$tf = __FUNCTION__;
 		$tmp = "UI$lang";
 		$this->LogTC($tf,'language',$lang);
-//		$this->assertInstanceOf('UILang',$this->UIL = new UILang($lang),
-//			"Class for $lang not created."
-//		);
 		$$tmp = self::$UIL;
 		$file = $$tmp->TDF;
 		$key = 'DstName';
 		$KA = 'CPA';
 		$TItem = $KA."[$key]";
+		$Value = $$tmp->$KA[$key];
 		$EEM = self::$EEM."$TItem.\n";
 		$this->LogTC($tf,'TD file',$file);
 		$this->CPAHas($$tmp, $key, $TItem);
 		$this->assertEquals(
 			$EEM,
-			$$tmp->$KA[$key],
+			$Value,
 			"Uninitialized: $TItem ."
 		);
 	}
@@ -307,20 +284,18 @@ class nulllangTest extends PHPUnit_Framework_TestCase {
 		$tf = __FUNCTION__;
 		$tmp = "UI$lang";
 		$this->LogTC($tf,'language',$lang);
-//		$this->assertInstanceOf('UILang',$this->UIL = new UILang($lang),
-//			"Class for $lang not created."
-//		);
 		$$tmp = self::$UIL;
 		$file = $$tmp->TDF;
 		$key = 'SrcDst';
 		$KA = 'CPA';
 		$TItem = $KA."[$key]";
+		$Value = $$tmp->$KA[$key];
 		$EEM = self::$EEM."$TItem.\n";
 		$this->LogTC($tf,'TD file',$file);
 		$this->CPAHas($$tmp, $key, $TItem);
 		$this->assertEquals(
 			$EEM,
-			$$tmp->$KA[$key],
+			$Value,
 			"Uninitialized: $TItem ."
 		);
 	}
@@ -329,20 +304,18 @@ class nulllangTest extends PHPUnit_Framework_TestCase {
 		$tf = __FUNCTION__;
 		$tmp = "UI$lang";
 		$this->LogTC($tf,'language',$lang);
-//		$this->assertInstanceOf('UILang',$this->UIL = new UILang($lang),
-//			"Class for $lang not created."
-//		);
 		$$tmp = self::$UIL;
 		$file = $$tmp->TDF;
 		$key = 'Id';
 		$KA = 'CPA';
 		$TItem = $KA."[$key]";
+		$Value = $$tmp->$KA[$key];
 		$EEM = self::$EEM."$TItem.\n";
 		$this->LogTC($tf,'TD file',$file);
 		$this->CPAHas($$tmp, $key, $TItem);
 		$this->assertEquals(
 			$EEM,
-			$$tmp->$KA[$key],
+			$Value,
 			"Uninitialized: $TItem ."
 		);
 	}
@@ -351,20 +324,18 @@ class nulllangTest extends PHPUnit_Framework_TestCase {
 		$tf = __FUNCTION__;
 		$tmp = "UI$lang";
 		$this->LogTC($tf,'language',$lang);
-//		$this->assertInstanceOf('UILang',$this->UIL = new UILang($lang),
-//			"Class for $lang not created."
-//		);
 		$$tmp = self::$UIL;
 		$file = $$tmp->TDF;
 		$key = 'Name';
 		$KA = 'CPA';
 		$TItem = $KA."[$key]";
+		$Value = $$tmp->$KA[$key];
 		$EEM = self::$EEM."$TItem.\n";
 		$this->LogTC($tf,'TD file',$file);
 		$this->CPAHas($$tmp, $key, $TItem);
 		$this->assertEquals(
 			$EEM,
-			$$tmp->$KA[$key],
+			$Value,
 			"Uninitialized: $TItem ."
 		);
 	}
@@ -373,20 +344,18 @@ class nulllangTest extends PHPUnit_Framework_TestCase {
 		$tf = __FUNCTION__;
 		$tmp = "UI$lang";
 		$this->LogTC($tf,'language',$lang);
-//		$this->assertInstanceOf('UILang',$this->UIL = new UILang($lang),
-//			"Class for $lang not created."
-//		);
 		$$tmp = self::$UIL;
 		$file = $$tmp->TDF;
 		$key = 'Int';
 		$KA = 'CPA';
 		$TItem = $KA."[$key]";
+		$Value = $$tmp->$KA[$key];
 		$EEM = self::$EEM."$TItem.\n";
 		$this->LogTC($tf,'TD file',$file);
 		$this->CPAHas($$tmp, $key, $TItem);
 		$this->assertEquals(
 			$EEM,
-			$$tmp->$KA[$key],
+			$Value,
 			"Uninitialized: $TItem ."
 		);
 	}
@@ -396,20 +365,18 @@ class nulllangTest extends PHPUnit_Framework_TestCase {
 		$tf = __FUNCTION__;
 		$tmp = "UI$lang";
 		$this->LogTC($tf,'language',$lang);
-//		$this->assertInstanceOf('UILang',$this->UIL = new UILang($lang),
-//			"Class for $lang not created."
-//		);
 		$$tmp = self::$UIL;
 		$file = $$tmp->TDF;
 		$key = 'Edit';
 		$KA = 'UAA';
 		$TItem = $KA."[$key]";
+		$Value = $$tmp->$KA[$key];
 		$EEM = self::$EEM."$TItem.\n";
 		$this->LogTC($tf,'TD file',$file);
 		$this->UAAHas($$tmp, $key, $TItem);
 		$this->assertEquals(
 			$EEM,
-			$$tmp->$KA[$key],
+			$Value,
 			"Uninitialized: $TItem ."
 		);
 	}
@@ -418,20 +385,18 @@ class nulllangTest extends PHPUnit_Framework_TestCase {
 		$tf = __FUNCTION__;
 		$tmp = "UI$lang";
 		$this->LogTC($tf,'language',$lang);
-//		$this->assertInstanceOf('UILang',$this->UIL = new UILang($lang),
-//			"Class for $lang not created."
-//		);
 		$$tmp = self::$UIL;
 		$file = $$tmp->TDF;
 		$key = 'Delete';
 		$KA = 'UAA';
 		$TItem = $KA."[$key]";
+		$Value = $$tmp->$KA[$key];
 		$EEM = self::$EEM."$TItem.\n";
 		$this->LogTC($tf,'TD file',$file);
 		$this->UAAHas($$tmp, $key, $TItem);
 		$this->assertEquals(
 			$EEM,
-			$$tmp->$KA[$key],
+			$Value,
 			"Uninitialized: $TItem ."
 		);
 	}
