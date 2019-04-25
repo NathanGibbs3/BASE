@@ -153,8 +153,9 @@ class nulllangTest extends TestCase {
 		if ($Use_Auth_System == 1) {
 			$key = 'DescUN';
 			$KA = 'ADA';
+			$$KA = $$tmp->{$KA}; // Copy Array to Local Scope.
 			$TItem = $KA."[$key]";
-			$Value = $$tmp->$KA[$key];
+			$Value = $$KA[$key];
 			$EEM = self::$EEM."$TItem.\n";
 			$this->assertArrayHasKey($key, $$tmp->$KA,
 				"Unset: $TItem ."
@@ -182,8 +183,9 @@ class nulllangTest extends TestCase {
 		if ($Use_Auth_System == 1) {
 			$key = 'DescPW';
 			$KA = 'ADA';
+			$$KA = $$tmp->{$KA}; // Copy Array to Local Scope.
 			$TItem = $KA."[$key]";
-			$Value = $$tmp->$KA[$key];
+			$Value = $$KA[$key];
 			$EEM = self::$EEM."$TItem.\n";
 			$this->assertArrayHasKey($key, $$tmp->$KA,
 				"Unset: $TItem ."
@@ -209,8 +211,9 @@ class nulllangTest extends TestCase {
 		$file = $$tmp->TDF;
 		$key = 'SrcDesc';
 		$KA = 'CPA';
+		$$KA = $$tmp->{$KA}; // Copy Array to Local Scope.
 		$TItem = $KA."[$key]";
-		$Value = $$tmp->$KA[$key];
+		$Value = $$KA[$key];
 		$EEM = self::$EEM."$TItem.\n";
 		$this->LogTC($tf,'TD file',$file);
 		$this->CPAHas($$tmp, $key, $TItem);
@@ -229,8 +232,9 @@ class nulllangTest extends TestCase {
 		$file = $$tmp->TDF;
 		$key = 'SrcName';
 		$KA = 'CPA';
+		$$KA = $$tmp->{$KA}; // Copy Array to Local Scope.
 		$TItem = $KA."[$key]";
-		$Value = $$tmp->$KA[$key];
+		$Value = $$KA[$key];
 		$EEM = self::$EEM."$TItem.\n";
 		$this->LogTC($tf,'TD file',$file);
 		$this->CPAHas($$tmp, $key, $TItem);
@@ -249,8 +253,9 @@ class nulllangTest extends TestCase {
 		$file = $$tmp->TDF;
 		$key = 'DstDesc';
 		$KA = 'CPA';
+		$$KA = $$tmp->{$KA}; // Copy Array to Local Scope.
 		$TItem = $KA."[$key]";
-		$Value = $$tmp->$KA[$key];
+		$Value = $$KA[$key];
 		$EEM = self::$EEM."$TItem.\n";
 		$this->LogTC($tf,'TD file',$file);
 		$this->CPAHas($$tmp, $key, $TItem);
@@ -269,8 +274,9 @@ class nulllangTest extends TestCase {
 		$file = $$tmp->TDF;
 		$key = 'DstName';
 		$KA = 'CPA';
+		$$KA = $$tmp->{$KA}; // Copy Array to Local Scope.
 		$TItem = $KA."[$key]";
-		$Value = $$tmp->$KA[$key];
+		$Value = $$KA[$key];
 		$EEM = self::$EEM."$TItem.\n";
 		$this->LogTC($tf,'TD file',$file);
 		$this->CPAHas($$tmp, $key, $TItem);
@@ -289,8 +295,9 @@ class nulllangTest extends TestCase {
 		$file = $$tmp->TDF;
 		$key = 'SrcDst';
 		$KA = 'CPA';
+		$$KA = $$tmp->{$KA}; // Copy Array to Local Scope.
 		$TItem = $KA."[$key]";
-		$Value = $$tmp->$KA[$key];
+		$Value = $$KA[$key];
 		$EEM = self::$EEM."$TItem.\n";
 		$this->LogTC($tf,'TD file',$file);
 		$this->CPAHas($$tmp, $key, $TItem);
@@ -309,8 +316,9 @@ class nulllangTest extends TestCase {
 		$file = $$tmp->TDF;
 		$key = 'Id';
 		$KA = 'CPA';
+		$$KA = $$tmp->{$KA}; // Copy Array to Local Scope.
 		$TItem = $KA."[$key]";
-		$Value = $$tmp->$KA[$key];
+		$Value = $$KA[$key];
 		$EEM = self::$EEM."$TItem.\n";
 		$this->LogTC($tf,'TD file',$file);
 		$this->CPAHas($$tmp, $key, $TItem);
@@ -329,8 +337,9 @@ class nulllangTest extends TestCase {
 		$file = $$tmp->TDF;
 		$key = 'Name';
 		$KA = 'CPA';
+		$$KA = $$tmp->{$KA}; // Copy Array to Local Scope.
 		$TItem = $KA."[$key]";
-		$Value = $$tmp->$KA[$key];
+		$Value = $$KA[$key];
 		$EEM = self::$EEM."$TItem.\n";
 		$this->LogTC($tf,'TD file',$file);
 		$this->CPAHas($$tmp, $key, $TItem);
@@ -349,8 +358,9 @@ class nulllangTest extends TestCase {
 		$file = $$tmp->TDF;
 		$key = 'Int';
 		$KA = 'CPA';
+		$$KA = $$tmp->{$KA}; // Copy Array to Local Scope.
 		$TItem = $KA."[$key]";
-		$Value = $$tmp->$KA[$key];
+		$Value = $$KA[$key];
 		$EEM = self::$EEM."$TItem.\n";
 		$this->LogTC($tf,'TD file',$file);
 		$this->CPAHas($$tmp, $key, $TItem);
@@ -370,8 +380,9 @@ class nulllangTest extends TestCase {
 		$file = $$tmp->TDF;
 		$key = 'Edit';
 		$KA = 'UAA';
+		$$KA = $$tmp->{$KA}; // Copy Array to Local Scope.
 		$TItem = $KA."[$key]";
-		$Value = $$tmp->$KA[$key];
+		$Value = $$KA[$key];
 		$EEM = self::$EEM."$TItem.\n";
 		$this->LogTC($tf,'TD file',$file);
 		$this->UAAHas($$tmp, $key, $TItem);
@@ -390,8 +401,9 @@ class nulllangTest extends TestCase {
 		$file = $$tmp->TDF;
 		$key = 'Delete';
 		$KA = 'UAA';
+		$$KA = $$tmp->{$KA}; // Copy Array to Local Scope.
 		$TItem = $KA."[$key]";
-		$Value = $$tmp->$KA[$key];
+		$Value = $$KA[$key];
 		$EEM = self::$EEM."$TItem.\n";
 		$this->LogTC($tf,'TD file',$file);
 		$this->UAAHas($$tmp, $key, $TItem);
