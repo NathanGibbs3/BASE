@@ -374,24 +374,15 @@ class legacylangTest extends TestCase {
 		$$tmp = $this->UIL;
 		$file = $$tmp->TDF;
 		LogTC($tf,'TD file',$file);
-		// Test Locale
-		if (is_array($$tmp->Locale) ) {
-			$this->markTestSkipped("New format TDF: $file.");
-		}else{
-			$this->assertNull(
-				$$tmp->Locale, 'Legacy Locale did not init to NULL'
+		$this->assertTrue( is_array($$tmp->Locale), "Invalid TDF: $file." );
+		if ( !$$tmp->SetUILocale() ){
+			$this->markTestSkipped(
+				'Locale not implemented or locale(s) do not exist.'
 			);
-			if ( !$$tmp->SetUILocale() ){
-				$this->markTestSkipped(
-					'Locale not implemented or locale(s) do not exist.'
-				);
-			}else{
-				$this->assertNotNull($$tmp->Locale, 'Locale Not Set');
-				$this->assertFalse(
-					is_array($$tmp->Locale),
-					'Locale not Set'
-				);
-			}
+		}else{
+			$EEM = 'Locale Not Set.';
+			$this->assertNotNull( $$tmp->Locale, $EEM );
+			$this->assertFalse( is_array($$tmp->Locale), $EEM );
 		}
 	}
 	public function testSetUITimefmt() {

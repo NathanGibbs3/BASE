@@ -36,7 +36,7 @@ class commonlangSPTest extends TestCase {
 	}
 
 	// Tests go here.
-	public function testTDFNotExistClassDefaultsToEnglish() {
+	public function testTDFNotExistLangDefaultsToEnglish() {
 		$lang = 'invalid';
 		$tmp = "UI$lang";
 		// The test conditions will throw errors on class creaton.
@@ -51,7 +51,7 @@ class commonlangSPTest extends TestCase {
 			'Class did not deafult Lang to english.'
 		);
 	}
-	public function testTDFNotExistClassThrowsError() {
+	public function testTDFNotExistThrowsError() {
 		$lang = 'invalid';
 		$tmp = "UI$lang";
 		$EEM = "No TD found for Language: invalid. Default to english.\n";
@@ -73,33 +73,31 @@ class commonlangSPTest extends TestCase {
 			"Class for $lang not created."
 		);
 	}
-
-	public function testSetUILocaleInvalidTDFDefaultsToNULL() {
+	public function testTDFInvalidSetUILocaleDefaultsToInvalid() {
 		GLOBAL $BASE_path;
 		$lang = 'broken';
-		$lf = "$lang.lang.php";
-		$tmp = "UI$lang";
 		$tf = __FUNCTION__;
+		$tmp = "UI$lang";
 		LogTC($tf,'language',$lang);
+		$lf = "$lang.lang.php";
 		copy ("$BASE_path/tests/$lf","$BASE_path/languages/$lf");
 		$this->assertInstanceOf('UILang',$this->UIL = new UILang($lang),
 			"Class for $lang not created."
 		);
 		unlink ("$BASE_path/languages/$lf");
 		$$tmp = $this->UIL;
-		// Will not run until TD is transitioned.
 		$file = $$tmp->TDF;
-		LogTC($tf,'Invalid TD file',$file);
-		// Test Locale
+		LogTC($tf,'Invalid TDF:',$file);
 		if (is_array($$tmp->Locale) ) {
 			$this->markTestSkipped("Valid TDF: $file.");
 		}else{
-			$this->assertNull(
-				$$tmp->Locale, 'Class did not deafult Locale to NULL.'
+			$this->assertNotNull($$tmp->Locale, 'Locale Not Set');
+			$this->assertEquals(
+				'Invalid', $$tmp->Locale,
+				'Class did not deafult Locale to Invalid.'
 			);
 		}
 	}
-
 	// Authentication Data SubStructure.
 	public function testAsDisabledADADefaultstoNULL() {
 		GLOBAL $BASE_path, $Use_Auth_System;

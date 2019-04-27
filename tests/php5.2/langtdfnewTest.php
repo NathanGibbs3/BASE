@@ -116,25 +116,15 @@ class langTest extends PHPUnit_Framework_TestCase {
 			// Will not run until TD is transitioned.
 			$file = $$tmp->TDF;
 			LogTC($tf,'TD file',$file);
-			// Test Locale
-			if (is_null($$tmp->Locale) ) {
-				$this->markTestSkipped("Legacy format TDF: $file.");
-			}else{
-				$this->assertTrue(
-					is_array($$tmp->Locale),
-					"Locales not defined in $file."
+			$this->assertTrue(is_array($$tmp->Locale), "Invalid TDF: $file.");
+			if ( !$$tmp->SetUILocale() ){
+				$this->markTestSkipped(
+					'Locale not implemented or locale(s) do not exist.'
 				);
-				if ( !$$tmp->SetUILocale() ){
-					$this->markTestSkipped(
-						'Locale not implemented or locale(s) do not exist.'
-					);
-				}else{
-					$this->assertNotNull($$tmp->Locale, 'Locale Not Set');
-					$this->assertFalse(
-						is_array($$tmp->Locale),
-						'Locale not Set'
-					);
-				}
+			}else{
+				$EEM = 'Locale Not Set.';
+				$this->assertNotNull( $$tmp->Locale, $EEM );
+				$this->assertFalse( is_array($$tmp->Locale), $EEM );
 			}
 		}
 	}

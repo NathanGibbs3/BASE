@@ -48,37 +48,32 @@ class nulllangTest extends PHPUnit_Framework_TestCase {
 	}
 
 	// Tests go here.
-//	public function testSetUILocale() {
-//		$lang = self::$langs;
-//		$tf = __FUNCTION__;
-//		$tmp = "UI$lang";
-//		LogTC($tf,'language',$lang);
-//		$this->assertInstanceOf('UILang',$this->UIL = new UILang($lang),
-//			"Class for $lang not created."
-//		);
-//		$$tmp = self::$UIL;
-//		$file = $$tmp->TDF;
-//		LogTC($tf,'TD file',$file);
-//		// Test Locale
-//		if (is_array($$tmp->Locale) ) {
-//			$this->markTestSkipped("New format TDF: $file.");
-//		}else{
-//			$this->assertNull(
-//				$$tmp->Locale, 'Legacy Locale did not init to NULL'
-//			);
-//			if ( !$$tmp->SetUILocale() ){
-//				$this->markTestSkipped(
-//					'Locale not implemented or locale(s) do not exist.'
-//				);
-//			}else{
-//				$this->assertNotNull($$tmp->Locale, 'Locale Not Set');
-//				$this->assertFalse(
-//					is_array($$tmp->Locale),
-//					'Locale not Set'
-//				);
-//			}
-//		}
-//	}
+	public function testSetUILocale() {
+		$lang = self::$langs;
+		$tf = __FUNCTION__;
+		$tmp = "UI$lang";
+		LogTC($tf,'language',$lang);
+		$$tmp = self::$UIL;
+		$file = $$tmp->TDF;
+		LogTC($tf,'TD file',$file);
+		// Test Locale
+		if (is_array($$tmp->Locale) ) {
+			$this->markTestSkipped("Valid TDF: $file.");
+		}else{
+			$this->assertNull(
+				$$tmp->Locale, 'Locale did not default to NULL'
+			);
+			if ( !$$tmp->SetUILocale() ){
+				$this->markTestSkipped(
+					'Locale not implemented or locale(s) do not exist.'
+				);
+			}else{
+				$EEM = 'Locale Not Set.';
+				$this->assertNotNull( $$tmp->Locale, $EEM );
+				$this->assertFalse( is_array($$tmp->Locale), $EEM );
+			}
+		}
+	}
 	public function testSetUITimefmt() {
 		$lang = self::$langs;
 		$tf = __FUNCTION__;

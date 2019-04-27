@@ -61,12 +61,18 @@ class UILang{
 		$this->Lang = $UILang;
 		$this->TDF = $TDF;
 		// Store Locales
-		if ( isset($UI_Locales) ) {
+		if ( isset($UI_Locales) ) { // Var New TDF
 			if ( is_array($UI_Locales) ) {
 				$this->Locale = $UI_Locales;
 			}else{ // Invalid format of Locale in TDF.
-				$this->Locale = NULL;
+				$this->Locale = 'Invalid';
 			}
+		}elseif (
+			defined('_LOCALESTR1')
+			&& defined('_LOCALESTR2')
+			&& defined('_LOCALESTR3')
+		) { // Const Legacy TDF
+			$this->Locale = array ( _LOCALESTR1, _LOCALESTR2, _LOCALESTR3 );
 		}else{
 			$this->Locale = NULL;
 		}
@@ -218,18 +224,13 @@ class UILang{
 	}
 	// Sets locale from translation data or defaults to system locale.
 	function SetUILocale() {
-		if ( is_array($this->Locale) ) { // Var Based
-			array_push( $this->Locale, "");
-			$Ret = setlocale (LC_TIME, $this->Locale);
-		}else{ // Const based
-			$Ret = setlocale (
-				LC_TIME,
-				htmlspecialchars(_LOCALESTR1),
-				htmlspecialchars(_LOCALESTR2),
-				htmlspecialchars(_LOCALESTR3),
-				""
-			);
+		if ( is_array($this->Locale) ) {
+			$tmp = $this->Locale;
+		}else{
+			$tmp = array();
 		}
+		array_push( $tmp, "");
+		$Ret = setlocale (LC_TIME, $tmp);
 		if ($Ret != FALSE) {
 			$this->Locale = setlocale(LC_TIME, "0");
 		}else{
