@@ -39,7 +39,7 @@ class commonlangSPTest extends TestCase {
 	public function testTDFNotExistLangDefaultsToEnglish() {
 		$lang = 'invalid';
 		$tmp = "UI$lang";
-		// The test conditions will throw errors on class creaton.
+		// Test conditions will throw error.
 		// Use error suppression @ symbol.
 		$this->assertInstanceOf('UILang',$this->UIL = @new UILang($lang),
 			"Class for $lang not created."

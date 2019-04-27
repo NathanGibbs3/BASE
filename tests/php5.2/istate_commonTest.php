@@ -1,7 +1,9 @@
 <?php
 
 // Test fucntions in /includes/base_state_common.inc.php
-
+/**
+  * @covers ::XSSPrintSafe
+  */
 class state_commonTest extends PHPUnit_Framework_TestCase {
 	// Tests go here.
 	public function testXSSPrintSafeNullReturnsNull() {

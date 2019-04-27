@@ -25,9 +25,12 @@ use PHPUnit\Framework\TestCase;
 // Does not verify the accuracy of the translation. :-)
 
 /**
- * @preserveGlobalState disabled
- * @runTestsInSeparateProcesses
- */
+  * @preserveGlobalState disabled
+  * A necessary evil for anything touching UILang during TD Transition.
+  * @runTestsInSeparateProcesses
+  * Apparently @covers annotations are ignored whe the above necessary evil is
+  * in effect.  Will Add @covers annotations once we get rid of necessary evil.
+  */
 class legacylangTest extends TestCase {
 	// Pre Test Setup.
 	var $files;
@@ -363,6 +366,10 @@ class legacylangTest extends TestCase {
 	}
 
 	// Tests Phase 2.
+	/**
+	  * @covers UILang::SetUICPItem
+	  * This test will fail once we remove the process isolation evil above.
+	  */
 	public function testSetUILocale() {
 		$lang = $this->langs;
 		$tf = __FUNCTION__;

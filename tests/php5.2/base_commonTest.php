@@ -1,5 +1,9 @@
 <?php
 
+// Test fucntions in /base_common.php
+/**
+  * @covers ::GetVendor
+  */
 class base_commonTest extends PHPUnit_Framework_TestCase {
 	// Tests go here.
 	public function testGetVendorReturnsUnknown() {

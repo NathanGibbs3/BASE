@@ -2,7 +2,9 @@
 use PHPUnit\Framework\TestCase;
 
 // Test fucntions in /includes/base_state_common.inc.php
-
+/**
+  * @covers ::XSSPrintSafe
+  */
 class state_commonTest extends TestCase {
 	// Tests go here.
 	public function testXSSPrintSafeNullReturnsNull() {

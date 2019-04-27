@@ -18,6 +18,21 @@ use PHPUnit\Framework\TestCase;
 // Verifies that all data for a complete translation is present.
 // Does not verify the accuracy of the translation. :-)
 
+// UILang:
+//	PHP 5+ constructor Shim.
+//	PHP 4x constructor.
+//	Methods called by constructor.
+/**
+  * @uses UILang::BlankProps
+  * @uses UILang::SetUIADItem
+  * @uses UILang::SetUICPItem
+  * @uses UILang::SetUICharset
+  * @uses UILang::SetUITimeFmt
+  * @uses UILang::SetUITitle
+  * @uses UILang::SetUIUAItem
+  * @uses UILang::UILang
+  * @uses UILang::__construct
+  */
 class langTest extends TestCase {
 	// Pre Test Setup.
 	var $files;
@@ -95,6 +110,10 @@ class langTest extends TestCase {
 			);
 		}
 	}
+
+	/**
+	  * @covers UILang::SetUILocale
+	  */
 	public function testSetUILocale() {
 		$langs = $this->langs;
 		$tf = __FUNCTION__;

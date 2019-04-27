@@ -2,9 +2,11 @@
 
 // Test fucntions in /includes/base_output_html.inc.php
 /**
- * A necessary evil for anything touching UILang during TD Transition.
- * @runTestsInSeparateProcesses
- */
+  * A necessary evil for anything touching UILang during TD Transition.
+  * @runTestsInSeparateProcesses
+  * Apparently @covers annotations are ignored whe the above necessary evil is
+  * in effect.  Will Add @covers annotations once we get rid of necessary evil.
+  */
 class output_htmlTest extends PHPUnit_Framework_TestCase {
 	// Tests go here.
 	public function testPageStartDefaults() {
@@ -113,5 +115,4 @@ class output_htmlTest extends PHPUnit_Framework_TestCase {
 	// Stop here and mark test incomplete.
 	//$this->markTestIncomplete('Incomplete Test.');
 }
-
 ?>

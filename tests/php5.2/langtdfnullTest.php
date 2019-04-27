@@ -32,7 +32,7 @@ class nulllangTest extends PHPUnit_Framework_TestCase {
 			LogTC($tf,'TD file',$file);
 		}
 		copy ("$BASE_path/tests/$lf","$BASE_path/languages/$lf");
-		// The test conditions will throw errors on class creaton.
+		// Test conditions will throw error.
 		// Use error suppression @ symbol.
 		self::assertInstanceOf('UILang',self::$UIL = @new UILang($ll),
 			"Class for $ll not created."
@@ -48,6 +48,9 @@ class nulllangTest extends PHPUnit_Framework_TestCase {
 	}
 
 	// Tests go here.
+	/**
+	  * @covers UILang::SetUILocale
+	  */
 	public function testSetUILocale() {
 		$lang = self::$langs;
 		$tf = __FUNCTION__;

@@ -10,6 +10,9 @@
 //  Throws appropriate errors.
 //  Inits into sensible state.
 
+/**
+  * @covers UILang::BlankProps
+  */
 class commonlangTest extends PHPUnit_Framework_TestCase {
 	// Pre Test Setup.
 	protected static $files;
@@ -35,7 +38,7 @@ class commonlangTest extends PHPUnit_Framework_TestCase {
 			"Class for $ll not created."
 		);
 	}
-	public static function tearDownAfterClass(){
+	public static function tearDownAfterClass() {
 		self::$UIL = null;
 		self::$langs = null;
 		self::$files = null;
@@ -57,35 +60,7 @@ class commonlangTest extends PHPUnit_Framework_TestCase {
 			'BlankProps Unexpected Return Value.'
 		);
 	}
-	public function testBlankPropsValueNULL() {
-		$lang = self::$langs;
-		$tf = __FUNCTION__;
-		$tmp = "UI$lang";
-		LogTC($tf,'language',$lang);
-		$$tmp = self::$UIL;
-		$file = $$tmp->TDF;
-		LogTC($tf,'TD file',$file);
-		$EEM = "Missing TD Item: NULL.\n";
-		$PHPUV = GetPHPUV();
-		if (version_compare($PHPUV, '4.0', '<')) {
-			$this->markTestSkipped('Requires Phpunit 4+ to run.');
-		}elseif (version_compare($PHPUV, '5.0', '<')) { // PHPUnit 4x
-			$this->setExpectedException(
-				"PHPUnit_Framework_Error_Notice", $EEM
-			);
-		}elseif (version_compare($PHPUV, '6.0', '<')) { // PHPUnit 5x
-			$this->expectException("PHPUnit_Framework_Error_Notice");
-			$this->expectExceptionMessage($EEM);
-		}else{ // PHPUnit 6+
-			$this->expectException("PHPUnit\Framework\Error\Notice");
-			$this->expectExceptionMessage($EEM);
-		}
-		$this->assertEquals(
-			$EEM,
-			$$tmp->BlankProps('NULL',NULL),
-			'BlankProps Unexpected Return Value.'
-		);
-	}
+
 	public function testBlankPropsNonKeyedArray() {
 		$lang = self::$langs;
 		$tf = __FUNCTION__;
@@ -128,7 +103,7 @@ class commonlangTest extends PHPUnit_Framework_TestCase {
 			'BlankProps Unexpected Return Value.'
 		);
 	}
-	public function testBlankPropsNonKeyedArrayNULL() {
+	public function testBlankPropsValueNULLThrowsError() {
 		$lang = self::$langs;
 		$tf = __FUNCTION__;
 		$tmp = "UI$lang";
@@ -136,8 +111,7 @@ class commonlangTest extends PHPUnit_Framework_TestCase {
 		$$tmp = self::$UIL;
 		$file = $$tmp->TDF;
 		LogTC($tf,'TD file',$file);
-		$Value = array (1,2,3,NULL);
-		$EEM = "Missing TD Item: Value[3].\n";
+		$EEM = "Missing TD Item: NULL.\n";
 		$PHPUV = GetPHPUV();
 		if (version_compare($PHPUV, '4.0', '<')) {
 			$this->markTestSkipped('Requires Phpunit 4+ to run.');
@@ -152,9 +126,40 @@ class commonlangTest extends PHPUnit_Framework_TestCase {
 			$this->expectException("PHPUnit\Framework\Error\Notice");
 			$this->expectExceptionMessage($EEM);
 		}
+		$$tmp->BlankProps('NULL',NULL);
+	}
+	public function testBlankPropsValueNULL() {
+		$lang = self::$langs;
+		$tf = __FUNCTION__;
+		$tmp = "UI$lang";
+		LogTC($tf,'language',$lang);
+		$$tmp = self::$UIL;
+		$file = $$tmp->TDF;
+		LogTC($tf,'TD file',$file);
+		$EEM = "Missing TD Item: NULL.\n";
+		// Test conditions will throw error.
+		// Use error suppression @ symbol.
+		$this->assertEquals(
+			$EEM,
+			@$$tmp->BlankProps('NULL',NULL),
+			'BlankProps Unexpected Return Value.'
+		);
+	}
+	public function testBlankPropsNonKeyedArrayNULL() {
+		$lang = self::$langs;
+		$tf = __FUNCTION__;
+		$tmp = "UI$lang";
+		LogTC($tf,'language',$lang);
+		$$tmp = self::$UIL;
+		$file = $$tmp->TDF;
+		LogTC($tf,'TD file',$file);
+		$Value = array (1,2,3,NULL);
+		$EEM = "Missing TD Item: Value[3].\n";
+		// Test conditions will throw error.
+		// Use error suppression @ symbol.
 		$this->assertEquals(
 			array(1,2,3,$EEM),
-			$$tmp->BlankProps('Value',$Value),
+			@$$tmp->BlankProps('Value',$Value),
 			'BlankProps Unexpected Return Value.'
 		);
 	}
@@ -174,20 +179,8 @@ class commonlangTest extends PHPUnit_Framework_TestCase {
 			'key5' => 4
 		);
 		$EEM = "Missing TD Item: Value[key1].\n";
-		$PHPUV = GetPHPUV();
-		if (version_compare($PHPUV, '4.0', '<')) {
-			$this->markTestSkipped('Requires Phpunit 4+ to run.');
-		}elseif (version_compare($PHPUV, '5.0', '<')) { // PHPUnit 4x
-			$this->setExpectedException(
-				"PHPUnit_Framework_Error_Notice", $EEM
-			);
-		}elseif (version_compare($PHPUV, '6.0', '<')) { // PHPUnit 5x
-			$this->expectException("PHPUnit_Framework_Error_Notice");
-			$this->expectExceptionMessage($EEM);
-		}else{ // PHPUnit 6+
-			$this->expectException("PHPUnit\Framework\Error\Notice");
-			$this->expectExceptionMessage($EEM);
-		}
+		// Test conditions will throw error.
+		// Use error suppression @ symbol.
 		$this->assertEquals(
 			array (
 				'key1' => $EEM,
@@ -196,11 +189,14 @@ class commonlangTest extends PHPUnit_Framework_TestCase {
 				'key4' => 3,
 				'key5' => 4
 			),
-			$$tmp->BlankProps('Value', $Value),
+			@$$tmp->BlankProps('Value', $Value),
 			'BlankProps Unexpected Return Value.'
 		);
 	}
 
+	/**
+	  * @covers UILang::SetUIADItem
+	  */
 	public function testADASetItemInvalidThrowsError() {
 		GLOBAL $Use_Auth_System;
 		$lang = self::$langs;
@@ -235,6 +231,9 @@ class commonlangTest extends PHPUnit_Framework_TestCase {
 			);
 		}
 	}
+	/**
+	  * @covers UILang::SetUICPItem
+	  */
 	public function testCPASetItemInvalidThrowsError() {
 		$lang = self::$langs;
 		$tf = __FUNCTION__;
@@ -262,6 +261,9 @@ class commonlangTest extends PHPUnit_Framework_TestCase {
 		}
 		$$tmp->SetUICPItem($key,$kD);
 	}
+	/**
+	  * @covers UILang::SetUIUAItem
+	  */
 	public function testUAASetItemInvalidThrowsError() {
 		$lang = self::$langs;
 		$tf = __FUNCTION__;
@@ -342,4 +344,3 @@ class commonlangTest extends PHPUnit_Framework_TestCase {
 	//$this->markTestIncomplete('Incomplete Test.');
 }
 ?>
-
