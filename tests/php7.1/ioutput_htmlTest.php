@@ -5,8 +5,9 @@ use PHPUnit\Framework\TestCase;
 /**
   * A necessary evil for anything touching UILang during TD Transition.
   * @runTestsInSeparateProcesses
-  * Apparently @covers annotations are ignored whe the above necessary evil is
-  * in effect.  Will Add @covers annotations once we get rid of necessary evil.
+  * Apparently the covers annotations are ignored whe the above necessary
+  * evil is in effect. Will Add covers annotations once we get rid of
+  * necessary evil.
   */
 class output_htmlTest extends TestCase {
 	// Tests go here.
