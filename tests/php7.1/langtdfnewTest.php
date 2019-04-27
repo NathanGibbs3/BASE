@@ -49,11 +49,11 @@ class langTest extends TestCase {
 			$ll = installedlangs();
 			// Verify Lang List
 			$this->assertNotNull($ll, 'No Langs installed.');
-			$EEM = 'Lnag List not array.';
+			$EEM = 'Lang List not array.';
 			if (version_compare($this->PHPUV, '7.5', '<')) {
 				$this->assertTrue(is_array($ll), $EEM);
 			}else{
-				$this->assertIsArray($this->files, $EEM);
+				$this->assertIsArray($ll, $EEM);
 			}
 			$this->assertNotEmpty($ll, 'Lang List Empty.');
 			$this->langs = $ll;
@@ -77,9 +77,9 @@ class langTest extends TestCase {
 			// Verify TD File List
 			$EEM = 'TD File List not array.';
 			if (version_compare($this->PHPUV, '7.5', '<')) {
-				$this->assertTrue(is_array($ll), $EEM);
+				$this->assertTrue(is_array($lf), $EEM);
 			}else{
-				$this->assertIsArray($this->files, $EEM);
+				$this->assertIsArray($lf, $EEM);
 			}
 			$this->assertNotEmpty($lf, 'TD File List Empty.');
 			// TD File List OK. :-)
