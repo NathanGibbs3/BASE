@@ -27,8 +27,8 @@ class commonlangTest extends PHPUnit_Framework_TestCase {
 		self::$files = $lf;
 		$file = "$BASE_path/languages/$lf";
 		if ($debug_mode > 1) {
-			self::LogTC($tf,'language',$lang);
-			self::LogTC($tf,'TD file',$file);
+			LogTC($tf,'language',$lang);
+			LogTC($tf,'TD file',$file);
 		}
 		$tmp = "UI$ll";
 		self::assertInstanceOf('UILang',self::$UIL = new UILang($ll),
@@ -46,10 +46,10 @@ class commonlangTest extends PHPUnit_Framework_TestCase {
 		$lang = self::$langs;
 		$tf = __FUNCTION__;
 		$tmp = "UI$lang";
-		$this->LogTC($tf,'language',$lang);
+		LogTC($tf,'language',$lang);
 		$$tmp = self::$UIL;
 		$file = $$tmp->TDF;
-		$this->LogTC($tf,'TD file',$file);
+		LogTC($tf,'TD file',$file);
 		$Value = 'Value';
 		$this->assertEquals(
 			'Value',
@@ -61,12 +61,12 @@ class commonlangTest extends PHPUnit_Framework_TestCase {
 		$lang = self::$langs;
 		$tf = __FUNCTION__;
 		$tmp = "UI$lang";
-		$this->LogTC($tf,'language',$lang);
+		LogTC($tf,'language',$lang);
 		$$tmp = self::$UIL;
 		$file = $$tmp->TDF;
-		$this->LogTC($tf,'TD file',$file);
+		LogTC($tf,'TD file',$file);
 		$EEM = "Missing TD Item: NULL.\n";
-		$PHPUV = $this->GetPHPUV();
+		$PHPUV = GetPHPUV();
 		if (version_compare($PHPUV, '4.0', '<')) {
 			$this->markTestSkipped('Requires Phpunit 4+ to run.');
 		}elseif (version_compare($PHPUV, '5.0', '<')) { // PHPUnit 4x
@@ -90,10 +90,10 @@ class commonlangTest extends PHPUnit_Framework_TestCase {
 		$lang = self::$langs;
 		$tf = __FUNCTION__;
 		$tmp = "UI$lang";
-		$this->LogTC($tf,'language',$lang);
+		LogTC($tf,'language',$lang);
 		$$tmp = self::$UIL;
 		$file = $$tmp->TDF;
-		$this->LogTC($tf,'TD file',$file);
+		LogTC($tf,'TD file',$file);
 		$Value = array (1,2,3,4);
 		$this->assertEquals(
 			array (1,2,3,4),
@@ -105,10 +105,10 @@ class commonlangTest extends PHPUnit_Framework_TestCase {
 		$lang = self::$langs;
 		$tf = __FUNCTION__;
 		$tmp = "UI$lang";
-		$this->LogTC($tf,'language',$lang);
+		LogTC($tf,'language',$lang);
 		$$tmp = self::$UIL;
 		$file = $$tmp->TDF;
-		$this->LogTC($tf,'TD file',$file);
+		LogTC($tf,'TD file',$file);
 		$Value = array (
 			'key1' => 0,
 			'key2' => 1,
@@ -132,13 +132,13 @@ class commonlangTest extends PHPUnit_Framework_TestCase {
 		$lang = self::$langs;
 		$tf = __FUNCTION__;
 		$tmp = "UI$lang";
-		$this->LogTC($tf,'language',$lang);
+		LogTC($tf,'language',$lang);
 		$$tmp = self::$UIL;
 		$file = $$tmp->TDF;
-		$this->LogTC($tf,'TD file',$file);
+		LogTC($tf,'TD file',$file);
 		$Value = array (1,2,3,NULL);
 		$EEM = "Missing TD Item: Value[3].\n";
-		$PHPUV = $this->GetPHPUV();
+		$PHPUV = GetPHPUV();
 		if (version_compare($PHPUV, '4.0', '<')) {
 			$this->markTestSkipped('Requires Phpunit 4+ to run.');
 		}elseif (version_compare($PHPUV, '5.0', '<')) { // PHPUnit 4x
@@ -162,10 +162,10 @@ class commonlangTest extends PHPUnit_Framework_TestCase {
 		$lang = self::$langs;
 		$tf = __FUNCTION__;
 		$tmp = "UI$lang";
-		$this->LogTC($tf,'language',$lang);
+		LogTC($tf,'language',$lang);
 		$$tmp = self::$UIL;
 		$file = $$tmp->TDF;
-		$this->LogTC($tf,'TD file',$file);
+		LogTC($tf,'TD file',$file);
 		$Value = array (
 			'key1' => NULL,
 			'key2' => 1,
@@ -174,7 +174,7 @@ class commonlangTest extends PHPUnit_Framework_TestCase {
 			'key5' => 4
 		);
 		$EEM = "Missing TD Item: Value[key1].\n";
-		$PHPUV = $this->GetPHPUV();
+		$PHPUV = GetPHPUV();
 		if (version_compare($PHPUV, '4.0', '<')) {
 			$this->markTestSkipped('Requires Phpunit 4+ to run.');
 		}elseif (version_compare($PHPUV, '5.0', '<')) { // PHPUnit 4x
@@ -206,15 +206,15 @@ class commonlangTest extends PHPUnit_Framework_TestCase {
 		$lang = self::$langs;
 		$tf = __FUNCTION__;
 		$tmp = "UI$lang";
-		$this->LogTC($tf,'language',$lang);
+		LogTC($tf,'language',$lang);
 		$$tmp = self::$UIL;
 		$file = $$tmp->TDF;
-		$this->LogTC($tf,'TD file',$file);
+		LogTC($tf,'TD file',$file);
 		if ($Use_Auth_System == 1) {
 			$key = 'INVALID';
 			$kD = 'Invalid Item';
 			$EEM = "Invalid AD Set Request for: $key.";
-			$PHPUV = $this->GetPHPUV();
+			$PHPUV = GetPHPUV();
 			if (version_compare($PHPUV, '4.0', '<')) {
 				$this->markTestSkipped('Requires Phpunit 4+ to run.');
 			}elseif (version_compare($PHPUV, '5.0', '<')) { // PHPUnit 4x
@@ -239,14 +239,14 @@ class commonlangTest extends PHPUnit_Framework_TestCase {
 		$lang = self::$langs;
 		$tf = __FUNCTION__;
 		$tmp = "UI$lang";
-		$this->LogTC($tf,'language',$lang);
+		LogTC($tf,'language',$lang);
 		$$tmp = self::$UIL;
 		$file = $$tmp->TDF;
-		$this->LogTC($tf,'TD file',$file);
+		LogTC($tf,'TD file',$file);
 		$key = 'INVALID';
 		$kD = 'Invalid Item';
 		$EEM = "Invalid CP Set Request for: $key.";
-		$PHPUV = $this->GetPHPUV();
+		$PHPUV = GetPHPUV();
 		if (version_compare($PHPUV, '4.0', '<')) {
 			$this->markTestSkipped('Requires Phpunit 4+ to run.');
 		}elseif (version_compare($PHPUV, '5.0', '<')) { // PHPUnit 4x
@@ -266,14 +266,14 @@ class commonlangTest extends PHPUnit_Framework_TestCase {
 		$lang = self::$langs;
 		$tf = __FUNCTION__;
 		$tmp = "UI$lang";
-		$this->LogTC($tf,'language',$lang);
+		LogTC($tf,'language',$lang);
 		$$tmp = self::$UIL;
 		$file = $$tmp->TDF;
-		$this->LogTC($tf,'TD file',$file);
+		LogTC($tf,'TD file',$file);
 		$key = 'INVALID';
 		$kD = 'Invalid Item';
 		$EEM = "Invalid UA Set Request for: $key.";
-		$PHPUV = $this->GetPHPUV();
+		$PHPUV = GetPHPUV();
 		if (version_compare($PHPUV, '4.0', '<')) {
 			$this->markTestSkipped('Requires Phpunit 4+ to run.');
 		}elseif (version_compare($PHPUV, '5.0', '<')) { // PHPUnit 4x
@@ -295,10 +295,10 @@ class commonlangTest extends PHPUnit_Framework_TestCase {
 		$lang = self::$langs;
 		$tf = __FUNCTION__;
 		$tmp = "UI$lang";
-		$this->LogTC($tf,'language',$lang);
+		LogTC($tf,'language',$lang);
 		$$tmp = self::$UIL;
 		$file = $$tmp->TDF;
-		$this->LogTC($tf,'TD file',$file);
+		LogTC($tf,'TD file',$file);
 		if ($Use_Auth_System == 1) {
 			$this->assertTrue(is_array($$tmp->ADA),
 				"Auth System Enabled.\n"
@@ -315,10 +315,10 @@ class commonlangTest extends PHPUnit_Framework_TestCase {
 		$lang = self::$langs;
 		$tf = __FUNCTION__;
 		$tmp = "UI$lang";
-		$this->LogTC($tf,'language',$lang);
+		LogTC($tf,'language',$lang);
 		$$tmp = self::$UIL;
 		$file = $$tmp->TDF;
-		$this->LogTC($tf,'TD file',$file);
+		LogTC($tf,'TD file',$file);
 		$this->assertTrue(is_array($$tmp->CPA),
 			"Common Phrase Structure did not default to Array."
 		);
@@ -328,31 +328,13 @@ class commonlangTest extends PHPUnit_Framework_TestCase {
 		$lang = self::$langs;
 		$tf = __FUNCTION__;
 		$tmp = "UI$lang";
-		$this->LogTC($tf,'language',$lang);
+		LogTC($tf,'language',$lang);
 		$$tmp = self::$UIL;
 		$file = $$tmp->TDF;
-		$this->LogTC($tf,'TD file',$file);
+		LogTC($tf,'TD file',$file);
 		$this->assertTrue(is_array($$tmp->UAA),
 			"Universal Action Structure did not default to Array."
 		);
-	}
-
-	// Test Support Functions.
-	private function GetPHPUV () { // Get PHPUnit Version
-		if ( method_exists('PHPUnit_Runner_Version','id')) {
-			$Ret = PHPUnit_Runner_Version::id();
-		}elseif (method_exists('PHPUnit\Runner\Version','id')) {
-			$Ret = PHPUnit\Runner\Version::id();
-		}else{
-			$Ret = 0.0;
-		}
-		return $Ret;
-	}
-	private static function LogTC ($cf,$Item,$Value) { // Output to Test Console
-		GLOBAL $debug_mode;
-		if ($debug_mode > 0) {
-			print "\n$cf Testing $Item: $Value";
-		}
 	}
 
 	// Add code to a function if needed.

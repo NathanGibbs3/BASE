@@ -56,7 +56,7 @@ class UILang{
 			$UILang = 'english';
 			$TDF = "$BASE_path/languages/$UILang.lang.php";
 		}
-		// Include Translation Data
+		// Include Translation Data.
 		include_once($TDF);
 		$this->Lang = $UILang;
 		$this->TDF = $TDF;

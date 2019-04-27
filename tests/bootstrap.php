@@ -18,6 +18,8 @@ $debug_mode = 0;
 print "   Testing with: (BASE) $BASE_installID $BASE_VERSION\n";
 print "Testing code in: $BASE_path\n";
 
+include ("$BASE_path/tests/phpcommon/tsf.php"); // Test Support Functions.
+// BASE Runtime
 # include("$BASE_path/includes/base_constants.inc.php");
 include("$BASE_path/includes/base_include.inc.php");
 include_once("$BASE_path/base_db_common.php");

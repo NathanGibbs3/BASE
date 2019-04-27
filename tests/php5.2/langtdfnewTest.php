@@ -26,41 +26,48 @@ class langTest extends PHPUnit_Framework_TestCase {
 
 	protected function setUp() {
 		GLOBAL $BASE_path, $debug_mode;
-		$ll = installedlangs();
-		// Verify Lang List
-		$this->assertNotNull($ll, 'No Langs installed.');
-		// $this->assertIsArray($this->files, 'Test Set Invalid Type.');
-		// Equivalent of above for Older PHPUnit's :-)
-		$this->assertTrue(is_array($ll), 'Lnag List not array.');
-		$this->assertNotEmpty($ll, 'Lang List Empty.');
-		$this->langs = $ll;
-		// Lang List OK. Build TD File List. :-)
-		if ($debug_mode > 1) {
-			print "\nWill test the following files:";
-		}
-		foreach($ll as $match){
-			$match .= '.lang.php';
-			if ($debug_mode > 1) {
-				print "\n$match";
-			}
-			// Test for standardized TD file names here.
-//			$this->assertEquals(
-//				REGEX,
-//				$match,
-//				"\nNon Standard TD file name: $match"
-//			);
-			$lf[]=$match;
-		}
-		// Verify TD File List
-		// $this->assertIsArray($this->files, 'Test Set Invalid Type.');
-		// Equivalent of above for Older PHPUnit's :-)
-		$this->assertTrue(is_array($lf), 'TD File List not array.');
-		$this->assertNotEmpty($lf, 'TD File List Empty.');
-		// TD File List OK. :-)
-		$this->files = $lf;
-		$this->PHPUV = $this->GetPHPUV();
+		$this->PHPUV = GetPHPUV();
 		if ( $this->PHPUV == 0.0 ) {
 			$this->markTestIncomplete('Unable to get PHPUnit Version');
+		}else{
+			$ll = installedlangs();
+			// Verify Lang List
+			$this->assertNotNull($ll, 'No Langs installed.');
+			$EEM = 'Lnag List not array.';
+			if (version_compare($this->PHPUV, '7.5', '<')) {
+				$this->assertTrue(is_array($ll), $EEM);
+			}else{
+				$this->assertIsArray($this->files, $EEM);
+			}
+			$this->assertNotEmpty($ll, 'Lang List Empty.');
+			$this->langs = $ll;
+			// Lang List OK. Build TD File List. :-)
+			if ($debug_mode > 1) {
+				print "\nWill test the following files:";
+			}
+			foreach($ll as $match){
+				$match .= '.lang.php';
+				if ($debug_mode > 1) {
+					print "\n$match";
+				}
+				// Test for standardized TD file names here.
+//				$this->assertEquals(
+//					REGEX,
+//					$match,
+//					"\nNon Standard TD file name: $match"
+//				);
+				$lf[]=$match;
+			}
+			// Verify TD File List
+			$EEM = 'TD File List not array.';
+			if (version_compare($this->PHPUV, '7.5', '<')) {
+				$this->assertTrue(is_array($ll), $EEM);
+			}else{
+				$this->assertIsArray($this->files, $EEM);
+			}
+			$this->assertNotEmpty($lf, 'TD File List Empty.');
+			// TD File List OK. :-)
+			$this->files = $lf;
 		}
 	}
 
@@ -70,7 +77,7 @@ class langTest extends PHPUnit_Framework_TestCase {
 		$tf = __FUNCTION__;
 		foreach($langs as $lang){
 			$tmp = "UI$lang";
-			$this->LogTC($tf,"Create UILang Class","$tmp for $lang");
+			LogTC($tf,"Create UILang Class","$tmp for $lang");
 			// Expect errors as we Transition Translation Data
 			$PHPUV = $this->PHPUV;
 			if (version_compare($PHPUV, '4.0', '<')) {
@@ -83,7 +90,7 @@ class langTest extends PHPUnit_Framework_TestCase {
 				$this->expectException("PHPUnit\Framework\Error\Error");
 			}
 			$this->assertInstanceOf(
-				'UILang', new UILang($lang), "Class for $lang not created."
+				'UILang', $this->UIL[$tmp] = new UILang($lang), "Class for $lang not created."
 			);
 		}
 	}
@@ -92,7 +99,7 @@ class langTest extends PHPUnit_Framework_TestCase {
 		$tf = __FUNCTION__;
 		foreach($langs as $lang){
 			$tmp = "UI$lang";
-			$this->LogTC($tf,'language',$lang);
+			LogTC($tf,'language',$lang);
 			// Expect errors as we Transition Translation Data
 			$PHPUV = $this->PHPUV;
 			if (version_compare($PHPUV, '4.0', '<')) {
@@ -105,9 +112,10 @@ class langTest extends PHPUnit_Framework_TestCase {
 				$this->expectException("PHPUnit\Framework\Error\Error");
 			}
 			$$tmp = new UILang($lang);
+			// $$tmp = $this->UIL[$tmp];
 			// Will not run until TD is transitioned.
 			$file = $$tmp->TDF;
-			$this->LogTC($tf,'TD file',$file);
+			LogTC($tf,'TD file',$file);
 			// Test Locale
 			if (is_null($$tmp->Locale) ) {
 				$this->markTestSkipped("Legacy format TDF: $file.");
@@ -135,7 +143,7 @@ class langTest extends PHPUnit_Framework_TestCase {
 		$tf = __FUNCTION__;
 		foreach($langs as $lang){
 			$tmp = "UI$lang";
-			$this->LogTC($tf,'language',$lang);
+			LogTC($tf,'language',$lang);
 			// Expect errors as we Transition Translation Data
 			$PHPUV = $this->PHPUV;
 			if (version_compare($PHPUV, '4.0', '<')) {
@@ -148,9 +156,10 @@ class langTest extends PHPUnit_Framework_TestCase {
 				$this->expectException("PHPUnit\Framework\Error\Error");
 			}
 			$$tmp = new UILang($lang);
+			// $$tmp = $this->UIL[$tmp];
 			// Will not run until TD is transitioned.
 			$file = $$tmp->TDF;
-			$this->LogTC($tf,'TD file',$file);
+			LogTC($tf,'TD file',$file);
 			$this->assertTrue(
 				isset($$tmp->Timefmt),
 				"Time Format not set in $file"
@@ -162,7 +171,7 @@ class langTest extends PHPUnit_Framework_TestCase {
 		$tf = __FUNCTION__;
 		foreach($langs as $lang){
 			$tmp = "UI$lang";
-			$this->LogTC($tf,'language',$lang);
+			LogTC($tf,'language',$lang);
 			// Expect errors as we Transition Translation Data
 			$PHPUV = $this->PHPUV;
 			if (version_compare($PHPUV, '4.0', '<')) {
@@ -175,9 +184,10 @@ class langTest extends PHPUnit_Framework_TestCase {
 				$this->expectException("PHPUnit\Framework\Error\Error");
 			}
 			$$tmp = new UILang($lang);
+			// $$tmp = $this->UIL[$tmp];
 			// Will not run until TD is transitioned.
 			$file = $$tmp->TDF;
-			$this->LogTC($tf,'TD file',$file);
+			LogTC($tf,'TD file',$file);
 			$this->assertTrue(
 				isset($$tmp->Charset),
 				"HTML Charset not set in $file"
@@ -189,7 +199,7 @@ class langTest extends PHPUnit_Framework_TestCase {
 		$tf = __FUNCTION__;
 		foreach($langs as $lang){
 			$tmp = "UI$lang";
-			$this->LogTC($tf,'language',$lang);
+			LogTC($tf,'language',$lang);
 			// Expect errors as we Transition Translation Data
 			$PHPUV = $this->PHPUV;
 			if (version_compare($PHPUV, '4.0', '<')) {
@@ -202,9 +212,10 @@ class langTest extends PHPUnit_Framework_TestCase {
 				$this->expectException("PHPUnit\Framework\Error\Error");
 			}
 			$$tmp = new UILang($lang);
+			// $$tmp = $this->UIL[$tmp];
 			// Will not run until TD is transitioned.
 			$file = $$tmp->TDF;
-			$this->LogTC($tf,'TD file',$file);
+			LogTC($tf,'TD file',$file);
 			$this->assertTrue(
 				isset($$tmp->Title),
 				"HTML Title not set in $file"
@@ -218,7 +229,7 @@ class langTest extends PHPUnit_Framework_TestCase {
 		$tf = __FUNCTION__;
 		foreach($langs as $lang){
 			$tmp = "UI$lang";
-			$this->LogTC($tf,'language',$lang);
+			LogTC($tf,'language',$lang);
 			// Expect errors as we Transition Translation Data
 			$PHPUV = $this->PHPUV;
 			if (version_compare($PHPUV, '4.0', '<')) {
@@ -231,9 +242,10 @@ class langTest extends PHPUnit_Framework_TestCase {
 				$this->expectException("PHPUnit\Framework\Error\Error");
 			}
 			$$tmp = new UILang($lang);
+			// $$tmp = $this->UIL[$tmp];
 			// Will not run until TD is transitioned.
 			$file = $$tmp->TDF;
-			$this->LogTC($tf,'TD file',$file);
+			LogTC($tf,'TD file',$file);
 			if ($Use_Auth_System == 1) {
 				$key = 'DescUN';
 				$kD = 'Login Desc';
@@ -253,7 +265,7 @@ class langTest extends PHPUnit_Framework_TestCase {
 		$tf = __FUNCTION__;
 		foreach($langs as $lang){
 			$tmp = "UI$lang";
-			$this->LogTC($tf,'language',$lang);
+			LogTC($tf,'language',$lang);
 			// Expect errors as we Transition Translation Data
 			$PHPUV = $this->PHPUV;
 			if (version_compare($PHPUV, '4.0', '<')) {
@@ -266,9 +278,10 @@ class langTest extends PHPUnit_Framework_TestCase {
 				$this->expectException("PHPUnit\Framework\Error\Error");
 			}
 			$$tmp = new UILang($lang);
+			// $$tmp = $this->UIL[$tmp];
 			// Will not run until TD is transitioned.
 			$file = $$tmp->TDF;
-			$this->LogTC($tf,'TD file',$file);
+			LogTC($tf,'TD file',$file);
 			if ($Use_Auth_System == 1) {
 				$key = 'DescPW';
 				$kD = 'Password Desc';
@@ -288,7 +301,7 @@ class langTest extends PHPUnit_Framework_TestCase {
 		$tf = __FUNCTION__;
 		foreach($langs as $lang){
 			$tmp = "UI$lang";
-			$this->LogTC($tf,'language',$lang);
+			LogTC($tf,'language',$lang);
 			// Expect errors as we Transition Translation Data
 			$PHPUV = $this->PHPUV;
 			if (version_compare($PHPUV, '4.0', '<')) {
@@ -301,9 +314,10 @@ class langTest extends PHPUnit_Framework_TestCase {
 				$this->expectException("PHPUnit\Framework\Error\Error");
 			}
 			$$tmp = new UILang($lang);
+			// $$tmp = $this->UIL[$tmp];
 			// Will not run until TD is transitioned.
 			$file = $$tmp->TDF;
-			$this->LogTC($tf,'TD file',$file);
+			LogTC($tf,'TD file',$file);
 			$this->CPAHas($$tmp,'SrcDesc','Source');
 		}
 	}
@@ -312,7 +326,7 @@ class langTest extends PHPUnit_Framework_TestCase {
 		$tf = __FUNCTION__;
 		foreach($langs as $lang){
 			$tmp = "UI$lang";
-			$this->LogTC($tf,'language',$lang);
+			LogTC($tf,'language',$lang);
 			// Expect errors as we Transition Translation Data
 			$PHPUV = $this->PHPUV;
 			if (version_compare($PHPUV, '4.0', '<')) {
@@ -325,9 +339,10 @@ class langTest extends PHPUnit_Framework_TestCase {
 				$this->expectException("PHPUnit\Framework\Error\Error");
 			}
 			$$tmp = new UILang($lang);
+			// $$tmp = $this->UIL[$tmp];
 			// Will not run until TD is transitioned.
 			$file = $$tmp->TDF;
-			$this->LogTC($tf,'TD file',$file);
+			LogTC($tf,'TD file',$file);
 			$this->CPAHas($$tmp,'SrcName','Source Name');
 		}
 	}
@@ -336,7 +351,7 @@ class langTest extends PHPUnit_Framework_TestCase {
 		$tf = __FUNCTION__;
 		foreach($langs as $lang){
 			$tmp = "UI$lang";
-			$this->LogTC($tf,'language',$lang);
+			LogTC($tf,'language',$lang);
 			// Expect errors as we Transition Translation Data
 			$PHPUV = $this->PHPUV;
 			if (version_compare($PHPUV, '4.0', '<')) {
@@ -349,9 +364,10 @@ class langTest extends PHPUnit_Framework_TestCase {
 				$this->expectException("PHPUnit\Framework\Error\Error");
 			}
 			$$tmp = new UILang($lang);
+			// $$tmp = $this->UIL[$tmp];
 			// Will not run until TD is transitioned.
 			$file = $$tmp->TDF;
-			$this->LogTC($tf,'TD file',$file);
+			LogTC($tf,'TD file',$file);
 			$this->CPAHas($$tmp,'DstDesc','Destination');
 		}
 	}
@@ -360,7 +376,7 @@ class langTest extends PHPUnit_Framework_TestCase {
 		$tf = __FUNCTION__;
 		foreach($langs as $lang){
 			$tmp = "UI$lang";
-			$this->LogTC($tf,'language',$lang);
+			LogTC($tf,'language',$lang);
 			// Expect errors as we Transition Translation Data
 			$PHPUV = $this->PHPUV;
 			if (version_compare($PHPUV, '4.0', '<')) {
@@ -373,9 +389,10 @@ class langTest extends PHPUnit_Framework_TestCase {
 				$this->expectException("PHPUnit\Framework\Error\Error");
 			}
 			$$tmp = new UILang($lang);
+			// $$tmp = $this->UIL[$tmp];
 			// Will not run until TD is transitioned.
 			$file = $$tmp->TDF;
-			$this->LogTC($tf,'TD file',$file);
+			LogTC($tf,'TD file',$file);
 			$this->CPAHas($$tmp,'DstName','Dest. Name');
 		}
 	}
@@ -384,7 +401,7 @@ class langTest extends PHPUnit_Framework_TestCase {
 		$tf = __FUNCTION__;
 		foreach($langs as $lang){
 			$tmp = "UI$lang";
-			$this->LogTC($tf,'language',$lang);
+			LogTC($tf,'language',$lang);
 			// Expect errors as we Transition Translation Data
 			$PHPUV = $this->PHPUV;
 			if (version_compare($PHPUV, '4.0', '<')) {
@@ -397,9 +414,10 @@ class langTest extends PHPUnit_Framework_TestCase {
 				$this->expectException("PHPUnit\Framework\Error\Error");
 			}
 			$$tmp = new UILang($lang);
+			// $$tmp = $this->UIL[$tmp];
 			// Will not run until TD is transitioned.
 			$file = $$tmp->TDF;
-			$this->LogTC($tf,'TD file',$file);
+			LogTC($tf,'TD file',$file);
 			$this->CPAHas($$tmp,'SrcDst','Src or Dest');
 		}
 	}
@@ -408,7 +426,7 @@ class langTest extends PHPUnit_Framework_TestCase {
 		$tf = __FUNCTION__;
 		foreach($langs as $lang){
 			$tmp = "UI$lang";
-			$this->LogTC($tf,'language',$lang);
+			LogTC($tf,'language',$lang);
 			// Expect errors as we Transition Translation Data
 			$PHPUV = $this->PHPUV;
 			if (version_compare($PHPUV, '4.0', '<')) {
@@ -421,9 +439,10 @@ class langTest extends PHPUnit_Framework_TestCase {
 				$this->expectException("PHPUnit\Framework\Error\Error");
 			}
 			$$tmp = new UILang($lang);
+			// $$tmp = $this->UIL[$tmp];
 			// Will not run until TD is transitioned.
 			$file = $$tmp->TDF;
-			$this->LogTC($tf,'TD file',$file);
+			LogTC($tf,'TD file',$file);
 			$this->CPAHas($$tmp,'Id','ID');
 		}
 	}
@@ -432,7 +451,7 @@ class langTest extends PHPUnit_Framework_TestCase {
 		$tf = __FUNCTION__;
 		foreach($langs as $lang){
 			$tmp = "UI$lang";
-			$this->LogTC($tf,'language',$lang);
+			LogTC($tf,'language',$lang);
 			// Expect errors as we Transition Translation Data
 			$PHPUV = $this->PHPUV;
 			if (version_compare($PHPUV, '4.0', '<')) {
@@ -445,9 +464,10 @@ class langTest extends PHPUnit_Framework_TestCase {
 				$this->expectException("PHPUnit\Framework\Error\Error");
 			}
 			$$tmp = new UILang($lang);
+			// $$tmp = $this->UIL[$tmp];
 			// Will not run until TD is transitioned.
 			$file = $$tmp->TDF;
-			$this->LogTC($tf,'TD file',$file);
+			LogTC($tf,'TD file',$file);
 			$this->CPAHas($$tmp,'Name','Name');
 		}
 	}
@@ -456,7 +476,7 @@ class langTest extends PHPUnit_Framework_TestCase {
 		$tf = __FUNCTION__;
 		foreach($langs as $lang){
 			$tmp = "UI$lang";
-			$this->LogTC($tf,'language',$lang);
+			LogTC($tf,'language',$lang);
 			// Expect errors as we Transition Translation Data
 			$PHPUV = $this->PHPUV;
 			if (version_compare($PHPUV, '4.0', '<')) {
@@ -469,9 +489,10 @@ class langTest extends PHPUnit_Framework_TestCase {
 				$this->expectException("PHPUnit\Framework\Error\Error");
 			}
 			$$tmp = new UILang($lang);
+			// $$tmp = $this->UIL[$tmp];
 			// Will not run until TD is transitioned.
 			$file = $$tmp->TDF;
-			$this->LogTC($tf,'TD file',$file);
+			LogTC($tf,'TD file',$file);
 			$this->CPAHas($$tmp,'Int','Interface');
 		}
 	}
@@ -481,7 +502,7 @@ class langTest extends PHPUnit_Framework_TestCase {
 		$tf = __FUNCTION__;
 		foreach($langs as $lang){
 			$tmp = "UI$lang";
-			$this->LogTC($tf,'language',$lang);
+			LogTC($tf,'language',$lang);
 			// Expect errors as we Transition Translation Data
 			$PHPUV = $this->PHPUV;
 			if (version_compare($PHPUV, '4.0', '<')) {
@@ -494,9 +515,10 @@ class langTest extends PHPUnit_Framework_TestCase {
 				$this->expectException("PHPUnit\Framework\Error\Error");
 			}
 			$$tmp = new UILang($lang);
+			// $$tmp = $this->UIL[$tmp];
 			// Will not run until TD is transitioned.
 			$file = $$tmp->TDF;
-			$this->LogTC($tf,'TD file',$file);
+			LogTC($tf,'TD file',$file);
 			$this->UAAHas($$tmp,'Edit','Edit');
 		}
 	}
@@ -505,7 +527,7 @@ class langTest extends PHPUnit_Framework_TestCase {
 		$tf = __FUNCTION__;
 		foreach($langs as $lang){
 			$tmp = "UI$lang";
-			$this->LogTC($tf,'language',$lang);
+			LogTC($tf,'language',$lang);
 			// Expect errors as we Transition Translation Data
 			$PHPUV = $this->PHPUV;
 			if (version_compare($PHPUV, '4.0', '<')) {
@@ -518,9 +540,10 @@ class langTest extends PHPUnit_Framework_TestCase {
 				$this->expectException("PHPUnit\Framework\Error\Error");
 			}
 			$$tmp = new UILang($lang);
+			// $$tmp = $this->UIL[$tmp];
 			// Will not run until TD is transitioned.
 			$file = $$tmp->TDF;
-			$this->LogTC($tf,'TD file',$file);
+			LogTC($tf,'TD file',$file);
 			$this->UAAHas($$tmp,'Delete','Delete');
 		}
 	}
@@ -853,22 +876,6 @@ class langTest extends PHPUnit_Framework_TestCase {
 	}
 
 	// Test Support Functions.
-	private function GetPHPUV () { // Get PHPUnit Version
-		if ( method_exists('PHPUnit_Runner_Version','id')) {
-			$Ret = PHPUnit_Runner_Version::id();
-		}elseif (method_exists('PHPUnit\Runner\Version','id')) {
-			$Ret = PHPUnit\Runner\Version::id();
-		}else{
-			$Ret = 0.0;
-		}
-		return $Ret;
-	}
-	private static function LogTC ($cf,$Item,$Value) { // Output to Test Console
-		GLOBAL $debug_mode;
-		if ($debug_mode > 0) {
-			print "\n$cf Testing $Item: $Value";
-		}
-	}
 	private function CPAHas ($UIL, $Key, $KeyDesc) {
 		$this->assertArrayHasKey($Key, $UIL->CPA,
 			"Unset CP Item $KeyDesc: Key: $Key\n"

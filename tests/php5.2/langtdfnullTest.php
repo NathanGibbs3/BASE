@@ -28,8 +28,8 @@ class nulllangTest extends PHPUnit_Framework_TestCase {
 		self::$files = $lf;
 		$file = "$BASE_path/languages/$lf";
 		if ($debug_mode > 1) {
-			self::LogTC($tf,'language',$lang);
-			self::LogTC($tf,'TD file',$file);
+			LogTC($tf,'language',$lang);
+			LogTC($tf,'TD file',$file);
 		}
 		copy ("$BASE_path/tests/$lf","$BASE_path/languages/$lf");
 		// The test conditions will throw errors on class creaton.
@@ -52,13 +52,13 @@ class nulllangTest extends PHPUnit_Framework_TestCase {
 //		$lang = self::$langs;
 //		$tf = __FUNCTION__;
 //		$tmp = "UI$lang";
-//		$this->LogTC($tf,'language',$lang);
+//		LogTC($tf,'language',$lang);
 //		$this->assertInstanceOf('UILang',$this->UIL = new UILang($lang),
 //			"Class for $lang not created."
 //		);
 //		$$tmp = self::$UIL;
 //		$file = $$tmp->TDF;
-//		$this->LogTC($tf,'TD file',$file);
+//		LogTC($tf,'TD file',$file);
 //		// Test Locale
 //		if (is_array($$tmp->Locale) ) {
 //			$this->markTestSkipped("New format TDF: $file.");
@@ -83,10 +83,10 @@ class nulllangTest extends PHPUnit_Framework_TestCase {
 		$lang = self::$langs;
 		$tf = __FUNCTION__;
 		$tmp = "UI$lang";
-		$this->LogTC($tf,'language',$lang);
+		LogTC($tf,'language',$lang);
 		$$tmp = self::$UIL;
 		$file = $$tmp->TDF;
-		$this->LogTC($tf,'TD file',$file);
+		LogTC($tf,'TD file',$file);
 		$TItem = 'Timefmt';
 		$EEM = self::$EEM."$TItem.\n";
 		$this->assertTrue(
@@ -103,10 +103,10 @@ class nulllangTest extends PHPUnit_Framework_TestCase {
 		$lang = self::$langs;
 		$tf = __FUNCTION__;
 		$tmp = "UI$lang";
-		$this->LogTC($tf,'language',$lang);
+		LogTC($tf,'language',$lang);
 		$$tmp = self::$UIL;
 		$file = $$tmp->TDF;
-		$this->LogTC($tf,'TD file',$file);
+		LogTC($tf,'TD file',$file);
 		$TItem = 'Charset';
 		$EEM = self::$EEM."$TItem.\n";
 		$this->assertTrue(
@@ -123,10 +123,10 @@ class nulllangTest extends PHPUnit_Framework_TestCase {
 		$lang = self::$langs;
 		$tf = __FUNCTION__;
 		$tmp = "UI$lang";
-		$this->LogTC($tf,'language',$lang);
+		LogTC($tf,'language',$lang);
 		$$tmp = self::$UIL;
 		$file = $$tmp->TDF;
-		$this->LogTC($tf,'TD file',$file);
+		LogTC($tf,'TD file',$file);
 		$TItem = 'Title';
 		$EEM = self::$EEM."$TItem.\n";
 		$this->assertTrue(
@@ -145,10 +145,10 @@ class nulllangTest extends PHPUnit_Framework_TestCase {
 		$lang = self::$langs;
 		$tf = __FUNCTION__;
 		$tmp = "UI$lang";
-		$this->LogTC($tf,'language',$lang);
+		LogTC($tf,'language',$lang);
 		$$tmp = self::$UIL;
 		$file = $$tmp->TDF;
-		$this->LogTC($tf,'TD file',$file);
+		LogTC($tf,'TD file',$file);
 		if ($Use_Auth_System == 1) {
 			$key = 'DescUN';
 			$KA = 'ADA';
@@ -173,10 +173,10 @@ class nulllangTest extends PHPUnit_Framework_TestCase {
 		$lang = self::$langs;
 		$tf = __FUNCTION__;
 		$tmp = "UI$lang";
-		$this->LogTC($tf,'language',$lang);
+		LogTC($tf,'language',$lang);
 		$$tmp = self::$UIL;
 		$file = $$tmp->TDF;
-		$this->LogTC($tf,'TD file',$file);
+		LogTC($tf,'TD file',$file);
 		if ($Use_Auth_System == 1) {
 			$key = 'DescPW';
 			$KA = 'ADA';
@@ -201,14 +201,14 @@ class nulllangTest extends PHPUnit_Framework_TestCase {
 		$lang = self::$langs;
 		$tf = __FUNCTION__;
 		$tmp = "UI$lang";
-		$this->LogTC($tf,'language',$lang);
+		LogTC($tf,'language',$lang);
 		$$tmp = self::$UIL;
 		$file = $$tmp->TDF;
 		$key = 'SrcDesc';
 		$KA = 'CPA';
 		$TItem = $KA."[$key]";
 		$EEM = self::$EEM."$TItem.\n";
-		$this->LogTC($tf,'TD file',$file);
+		LogTC($tf,'TD file',$file);
 		$this->CPAHas($$tmp, $key, $TItem);
 		$this->assertEquals(
 			$EEM,
@@ -220,14 +220,14 @@ class nulllangTest extends PHPUnit_Framework_TestCase {
 		$lang = self::$langs;
 		$tf = __FUNCTION__;
 		$tmp = "UI$lang";
-		$this->LogTC($tf,'language',$lang);
+		LogTC($tf,'language',$lang);
 		$$tmp = self::$UIL;
 		$file = $$tmp->TDF;
 		$key = 'SrcName';
 		$KA = 'CPA';
 		$TItem = $KA."[$key]";
 		$EEM = self::$EEM."$TItem.\n";
-		$this->LogTC($tf,'TD file',$file);
+		LogTC($tf,'TD file',$file);
 		$this->CPAHas($$tmp, $key, $TItem);
 		$this->assertEquals(
 			$EEM,
@@ -239,14 +239,14 @@ class nulllangTest extends PHPUnit_Framework_TestCase {
 		$lang = self::$langs;
 		$tf = __FUNCTION__;
 		$tmp = "UI$lang";
-		$this->LogTC($tf,'language',$lang);
+		LogTC($tf,'language',$lang);
 		$$tmp = self::$UIL;
 		$file = $$tmp->TDF;
 		$key = 'DstDesc';
 		$KA = 'CPA';
 		$TItem = $KA."[$key]";
 		$EEM = self::$EEM."$TItem.\n";
-		$this->LogTC($tf,'TD file',$file);
+		LogTC($tf,'TD file',$file);
 		$this->CPAHas($$tmp, $key, $TItem);
 		$this->assertEquals(
 			$EEM,
@@ -258,14 +258,14 @@ class nulllangTest extends PHPUnit_Framework_TestCase {
 		$lang = self::$langs;
 		$tf = __FUNCTION__;
 		$tmp = "UI$lang";
-		$this->LogTC($tf,'language',$lang);
+		LogTC($tf,'language',$lang);
 		$$tmp = self::$UIL;
 		$file = $$tmp->TDF;
 		$key = 'DstName';
 		$KA = 'CPA';
 		$TItem = $KA."[$key]";
 		$EEM = self::$EEM."$TItem.\n";
-		$this->LogTC($tf,'TD file',$file);
+		LogTC($tf,'TD file',$file);
 		$this->CPAHas($$tmp, $key, $TItem);
 		$this->assertEquals(
 			$EEM,
@@ -277,14 +277,14 @@ class nulllangTest extends PHPUnit_Framework_TestCase {
 		$lang = self::$langs;
 		$tf = __FUNCTION__;
 		$tmp = "UI$lang";
-		$this->LogTC($tf,'language',$lang);
+		LogTC($tf,'language',$lang);
 		$$tmp = self::$UIL;
 		$file = $$tmp->TDF;
 		$key = 'SrcDst';
 		$KA = 'CPA';
 		$TItem = $KA."[$key]";
 		$EEM = self::$EEM."$TItem.\n";
-		$this->LogTC($tf,'TD file',$file);
+		LogTC($tf,'TD file',$file);
 		$this->CPAHas($$tmp, $key, $TItem);
 		$this->assertEquals(
 			$EEM,
@@ -296,14 +296,14 @@ class nulllangTest extends PHPUnit_Framework_TestCase {
 		$lang = self::$langs;
 		$tf = __FUNCTION__;
 		$tmp = "UI$lang";
-		$this->LogTC($tf,'language',$lang);
+		LogTC($tf,'language',$lang);
 		$$tmp = self::$UIL;
 		$file = $$tmp->TDF;
 		$key = 'Id';
 		$KA = 'CPA';
 		$TItem = $KA."[$key]";
 		$EEM = self::$EEM."$TItem.\n";
-		$this->LogTC($tf,'TD file',$file);
+		LogTC($tf,'TD file',$file);
 		$this->CPAHas($$tmp, $key, $TItem);
 		$this->assertEquals(
 			$EEM,
@@ -315,14 +315,14 @@ class nulllangTest extends PHPUnit_Framework_TestCase {
 		$lang = self::$langs;
 		$tf = __FUNCTION__;
 		$tmp = "UI$lang";
-		$this->LogTC($tf,'language',$lang);
+		LogTC($tf,'language',$lang);
 		$$tmp = self::$UIL;
 		$file = $$tmp->TDF;
 		$key = 'Name';
 		$KA = 'CPA';
 		$TItem = $KA."[$key]";
 		$EEM = self::$EEM."$TItem.\n";
-		$this->LogTC($tf,'TD file',$file);
+		LogTC($tf,'TD file',$file);
 		$this->CPAHas($$tmp, $key, $TItem);
 		$this->assertEquals(
 			$EEM,
@@ -334,14 +334,14 @@ class nulllangTest extends PHPUnit_Framework_TestCase {
 		$lang = self::$langs;
 		$tf = __FUNCTION__;
 		$tmp = "UI$lang";
-		$this->LogTC($tf,'language',$lang);
+		LogTC($tf,'language',$lang);
 		$$tmp = self::$UIL;
 		$file = $$tmp->TDF;
 		$key = 'Int';
 		$KA = 'CPA';
 		$TItem = $KA."[$key]";
 		$EEM = self::$EEM."$TItem.\n";
-		$this->LogTC($tf,'TD file',$file);
+		LogTC($tf,'TD file',$file);
 		$this->CPAHas($$tmp, $key, $TItem);
 		$this->assertEquals(
 			$EEM,
@@ -354,14 +354,14 @@ class nulllangTest extends PHPUnit_Framework_TestCase {
 		$lang = self::$langs;
 		$tf = __FUNCTION__;
 		$tmp = "UI$lang";
-		$this->LogTC($tf,'language',$lang);
+		LogTC($tf,'language',$lang);
 		$$tmp = self::$UIL;
 		$file = $$tmp->TDF;
 		$key = 'Edit';
 		$KA = 'UAA';
 		$TItem = $KA."[$key]";
 		$EEM = self::$EEM."$TItem.\n";
-		$this->LogTC($tf,'TD file',$file);
+		LogTC($tf,'TD file',$file);
 		$this->UAAHas($$tmp, $key, $TItem);
 		$this->assertEquals(
 			$EEM,
@@ -373,14 +373,14 @@ class nulllangTest extends PHPUnit_Framework_TestCase {
 		$lang = self::$langs;
 		$tf = __FUNCTION__;
 		$tmp = "UI$lang";
-		$this->LogTC($tf,'language',$lang);
+		LogTC($tf,'language',$lang);
 		$$tmp = self::$UIL;
 		$file = $$tmp->TDF;
 		$key = 'Delete';
 		$KA = 'UAA';
 		$TItem = $KA."[$key]";
 		$EEM = self::$EEM."$TItem.\n";
-		$this->LogTC($tf,'TD file',$file);
+		LogTC($tf,'TD file',$file);
 		$this->UAAHas($$tmp, $key, $TItem);
 		$this->assertEquals(
 			$EEM,
@@ -389,24 +389,7 @@ class nulllangTest extends PHPUnit_Framework_TestCase {
 		);
 	}
 
-
 	// Test Support Functions.
-	private function GetPHPUV () { // Get PHPUnit Version
-		if ( method_exists('PHPUnit_Runner_Version','id')) {
-			$Ret = PHPUnit_Runner_Version::id();
-		}elseif (method_exists('PHPUnit\Runner\Version','id')) {
-			$Ret = PHPUnit\Runner\Version::id();
-		}else{
-			$Ret = 0.0;
-		}
-		return $Ret;
-	}
-	private static function LogTC ($cf,$Item,$Value) { // Output to Test Console
-		GLOBAL $debug_mode;
-		if ($debug_mode > 0) {
-			print "\n$cf Testing $Item: $Value";
-		}
-	}
 	private function CPAHas ($UIL, $Key, $KeyDesc) {
 		$this->assertArrayHasKey($Key, $UIL->CPA,
 			"Unset CP Item $KeyDesc: Key: $Key\n"
