@@ -368,8 +368,7 @@ class legacylangTest extends TestCase {
 
 	// Tests Phase 2.
 	/**
-	  * @covers UILang::SetUICPItem
-	  * This test will fail once we remove the process isolation evil above.
+	  * @covers UILang::SetUILocale
 	  */
 	public function testSetUILocale() {
 		$lang = $this->langs;
