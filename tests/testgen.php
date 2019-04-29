@@ -8,7 +8,7 @@
 //	Fixture defines Typehinted/Non-Typehinted.
 // This process would be less error prone if automated.
 
-$Mts = 'php'; // Master Test Set.
+$Mts = 'php5.3'; // Master Test Set.
 $debug_mode = 0;
 
 $Mts = "tests/$Mts";
@@ -16,10 +16,10 @@ $tfl = testfiles($Mts); // Master Test List.
 $tsl = testsuites(); // Test sets to generate.
 
 if ($tfl == NULL) {
-	print 'No Test Files. Exiting.';
+	print "No Test Files. Exiting.\n";
 	exit;
 }elseif ($tsl == NULL) {
-	print 'No Test Suites. Exiting.';
+	print "No Test Suites. Exiting.\n";
 	exit;
 }else{
 	print "Master Test Set: $Mts\n";
@@ -38,6 +38,7 @@ if ($tfl == NULL) {
 				$tfwflag = 1;
 			}elseif(preg_match("/tests\/php7.1/", $gts)) {
 				print "Yes Typehint: Yes";
+				$tfwflag = 1;
 			}else{
 				print "Yes Typehint: No";
 			}
@@ -64,6 +65,27 @@ if ($tfl == NULL) {
 							);
 						}
 					}elseif(preg_match("/tests\/php7.1/", $gts)) {
+						// Add Type Hinting.
+						$line = preg_replace(
+							"/setUp\(\)/",
+							"setUp(): void",
+							$line
+						);
+						$line = preg_replace(
+							"/tearDown\(\)/",
+							"tearDown(): void",
+							$line
+						);
+						$line = preg_replace(
+							"/setUpBeforeClass\(\)/",
+							"setUpBeforeClass(): void",
+							$line
+						);
+						$line = preg_replace(
+							"/tearDownAfterClass\(\)/",
+							"tearDownAfterClass(): void",
+							$line
+						);
 					}
 					if ($skip == 0) {
 						array_push($ntfc,$line);
