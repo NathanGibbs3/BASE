@@ -22,17 +22,17 @@ if ($tfl == NULL) {
 	print 'No Test Suites. Exiting.';
 	exit;
 }else{
-	print "Master Test Set: $Mts";
+	print "Master Test Set: $Mts\n";
 	$Mtc = preg_replace("/\//","\/",$Mts); // Escape Pathsep.
 	foreach($tsl as $gts){ // Process Test Sets.
 		if (preg_match("/^".$Mtc."$/", $gts) ) {
 			// Drop Master Test Set.
-			print "\nDropping Master Test Set: $gts\n";
+			print "Dropping Master Test Set: $gts\n";
 		}else{
 			$tfwflag = 0;
 			$dts = preg_replace( "/tests\//", "", $gts);
-			print "\n Build Test Set: $dts";
-			print "\n\tOpts: (Namespace: ";
+			print " Build Test Set: $dts\n";
+			print "\tOpts: (Namespace: ";
 			if(preg_match("/tests\/php5.2/", $gts)) {
 				print "No Typehint: No";
 				$tfwflag = 1;
@@ -41,28 +41,32 @@ if ($tfl == NULL) {
 			}else{
 				print "Yes Typehint: No";
 			}
-			print ')';
+			print ")\n";
 			foreach($tfl as $gtf){ // Process Test files.
 				$tfc = file("$Mts/$gtf");
 				$dtf = preg_replace( "/\.php/", "", $gtf);
 				$gtfn = "$gts/$gtf";
-				print "\n\tTest: $dtf";
+				print "\tTest: $dtf\n";
 				$ntfc = array();
 				foreach ($tfc as $i => $line) { // Process Test File.
+					$skip = 0;
 					if(preg_match("/tests\/php5.2/", $gts)) {
-						if(!preg_match( // Drop use line.
+						if(preg_match( // Drop use line.
 							"/^use PHPUnit\\\Framework\\\TestCase;$/",
 							$line
 						)) {
+							$skip = 1;
+						}else{
 							$line = preg_replace( // Non-Namespace Test Class.
 								"/extends TestCase/",
 								"extends PHPUnit_Framework_TestCase",
 								$line
 							);
-							array_push($ntfc,$line);
 						}
 					}elseif(preg_match("/tests\/php7.1/", $gts)) {
-					}else{
+					}
+					if ($skip == 0) {
+						array_push($ntfc,$line);
 					}
 				}
 				if ( $tfwflag == 1 ) {

@@ -108,8 +108,6 @@ script:
   - ./tests/setupdb.sh
   - ./tests/utf-8lint.sh
   - ./tests/phpunit.sh
-  # Generate PHP Unit Tests.
-  - php -f ./tests/testgen.php
   - php -f index.php
 
 after_success:

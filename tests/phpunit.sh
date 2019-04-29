@@ -6,6 +6,9 @@ else
 	echo "Not Running on Travis-CI."
 fi
 
+# Generate PHPUnit Tests
+php -f ./tests/testgen.php
+
 pu=phpunit
 echo -n "PHPUnit "
 if [ "$TRAVIS" != "true" ]; then
