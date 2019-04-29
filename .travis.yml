@@ -23,12 +23,12 @@ services:
 # Default matrix overlay.
 matrix:
   include:
-    - php: 5.2
-      dist: precise
-      env: DB=mysql
-    - php: 5.2
-      dist: precise
-      env: DB=postgres
+#    - php: 5.2
+#      dist: precise
+#      env: DB=mysql
+#    - php: 5.2
+#      dist: precise
+#      env: DB=postgres
     - php: 5.3
       dist: precise
       env: DB=mysql
@@ -71,12 +71,12 @@ matrix:
     - php: 7.3
       if: branch != php5only
       env: DB=postgres
-    - php: nightly
-      if: branch != php5only
-      env: DB=mysql
-    - php: nightly
-      if: branch != php5only
-      env: DB=postgres
+#    - php: nightly
+#      if: branch != php5only
+#      env: DB=mysql
+#    - php: nightly
+#      if: branch != php5only
+#      env: DB=postgres
 
 cache:
   directories:
@@ -103,13 +103,13 @@ install:
   - sh -c "if [ '$Composer' != '0' ]; then ./tests/composer.sh; fi"
 
 before_script:
-  # Generate PHP Unit Tests.
-  - php -f tests/testgen.php
 
 script:
   - ./tests/setupdb.sh
   - ./tests/utf-8lint.sh
   - ./tests/phpunit.sh
+  # Generate PHP Unit Tests.
+  - php -f ./tests/testgen.php
   - php -f index.php
 
 after_success:
