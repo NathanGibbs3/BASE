@@ -24,32 +24,36 @@
 defined( '_BASE_INC' ) or die( 'Accessing this file directly is not allowed.' );
 
 class baseCon {
-  
-  var $DB;
-  var $DB_type;
-  var $DB_name;
-  var $DB_host;
-  var $DB_port;
-  var $DB_username;
-  var $lastSQL;
-  var $version;
-  var $sql_trace;
+	var $DB;
+	var $DB_type;
+	var $DB_name;
+	var $DB_host;
+	var $DB_port;
+	var $DB_username;
+	var $lastSQL;
+	var $version;
+	var $sql_trace;
 	var $DB_class;
 
-  function baseCon($type) 
-  {
-     $this->DB_type = $type;
-	/* Are we a Mysql type? Note it in Object structure. */
-	if (
-		$type == "mysql" || $type == "mysqlt" || $type == "maxsql"
-		|| $type == "mysqli"
-	) {
-		$this->DB_class = 1;
-	}else{
-		$this->DB_class = 0;
+	function __construct($type) { // PHP 5+ constructor Shim.
+		// Class/Method agnostic shim code.
+		$SCname = get_class();
+		if ( method_exists($this, $SCname) ) {
+			$SCargs = func_get_args();
+			call_user_func_array(array($this, $SCname), $SCargs);
+		}else{
+			trigger_error("Class: $SCname No Legacy Constructor.\n");
+		}
 	}
-  }
-
+	function baseCon($type) { // PHP 4x constructor.
+		$this->DB_type = $type;
+		// Are we a Mysql type? Note it in Class structure.
+		if ( $type == "mysql" || $type == "mysqlt" || $type == "maxsql" ) {
+			$this->DB_class = 1;
+		}else{
+			$this->DB_class = 0;
+		}
+	}
   function baseDBConnect($method, $database, $host, $port, $username, $password, $force = 0)
   {
     GLOBAL $archive_dbname, $archive_host, $archive_port, $archive_user, $archive_password, $debug_mode;
@@ -479,26 +483,30 @@ class baseCon {
 }
 
 class baseRS {
-
-  var $row;
-  var $DB_type;
+	var $row;
+	var $DB_type;
 	var $DB_class;
 
-  function baseRS($id, $type) 
-  {
-     $this->row = $id;
-     $this->DB_type = $type;
-	/* Are we a Mysql type? Note it in Object structure. */
-	if (
-		$type == "mysql" || $type == "mysqlt" || $type == "maxsql"
-		|| $type == "mysqli"
-	) {
-		$this->DB_class = 1;
-	}else{
-		$this->DB_class = 0;
+	function __construct($id, $type) { // PHP 5+ constructor Shim.
+		// Class/Method agnostic shim code.
+		$SCname = get_class();
+		if ( method_exists($this, $SCname) ) {
+			$SCargs = func_get_args();
+			call_user_func_array(array($this, $SCname), $SCargs);
+		}else{
+			trigger_error("Class: $SCname No Legacy Constructor.\n");
+		}
 	}
-  }
-
+	function baseRS($id, $type) {
+		$this->row = $id;
+		$this->DB_type = $type;
+		// Are we a Mysql type? Note it in Class structure.
+		if ( $type == "mysql" || $type == "mysqlt" || $type == "maxsql" ) {
+			$this->DB_class = 1;
+		}else{
+			$this->DB_class = 0;
+		}
+	}
   function baseFetchRow()
   {
     GLOBAL $debug_mode;
@@ -682,18 +690,17 @@ function NewBASEDBConnection($path, $type)
       VerifyDBAbstractionLib($path."\\adodb.inc.php");
       include($path."\\adodb.inc.php");
    }
-
-	/* Under PHP 7+, use mysqli ADODB driver & gracefully deprecate the mysql
-	& mysqlt drivers. */
-	if ( $type == "mysql" || $type == "mysqlt" ) {
+	/* On PHP 7+, use mysqli ADODB driver & gracefully deprecate the mysql,
+	mysqlt & maxsql drivers. */
+	$tmptype = $type;
+	if ( $type == "mysql" || $type == "mysqlt" || $type == "maxsql" ) {
 		$version = explode( ".", phpversion() );
 		if ( $version[0] >= 7 ) {
-			$type = "mysqli";
+			$tmptype = "mysqli";
 		}
 	}
-   ADOLoadCode($type);
-
-   return new baseCon($type);
+	ADOLoadCode($tmptype);
+	return new baseCon($type);
 }
 
 function MssqlKludgeValue($text)

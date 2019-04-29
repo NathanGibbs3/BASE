@@ -22,31 +22,40 @@
  **/
 defined( '_BASE_INC' ) or die( 'Accessing this file directly is not allowed.' );
 
-class BaseCriteria
-{
-   var $criteria;
-   var $export_name;
-   var $db;
-   var $cs;
-	/* Placeholders to support function overrides */
+class BaseCriteria {
+	var $criteria;
+	var $export_name;
+	var $db;
+	var $cs;
+	// Placeholders to support function overrides.
 	var $value;
 	var $value1;
 	var $value2;
 	var $value3;
 
-   function BaseCriteria(&$db, &$cs, $name)
-   { 
-     $this->db =& $db;
-     $this->cs =& $cs;
-     $this->export_name = $name;
-     $this->criteria = NULL;
-		/* NULL Placeholders */
+	function __construct(&$db, &$cs, $name) { // PHP 5+ constructor Shim.
+		// Class/Method agnostic shim code.
+		$SCname = get_class();
+		if ( method_exists($this, $SCname) ) {
+			$SCargs = func_get_args();
+			// Custom non agnostic shim line for pass by refs.
+			$SCargs = array(&$db, &$cs, $name);
+			call_user_func_array(array($this, $SCname), $SCargs);
+		}else{
+			trigger_error("Class: $SCname No Legacy Constructor.\n");
+		}
+	}
+	function BaseCriteria(&$db, &$cs, $name) { // PHP 4x constructor.
+		$this->db =& $db;
+		$this->cs =& $cs;
+		$this->export_name = $name;
+		$this->criteria = NULL;
+		// NULL Placeholders.
 		$this->value = NULL;
 		$this->value1 = NULL;
 		$this->value2 = NULL;
 		$this->value3 = NULL;
-   }
-
+	}
    function Init()
    { 
    }
@@ -138,24 +147,37 @@ class SingleElementCriteria extends BaseCriteria
    }
 };
 
-class MultipleElementCriteria extends BaseCriteria
-{
-   var $element_cnt;
-   var $criteria_cnt;
-   var $valid_field_list = Array();
+class MultipleElementCriteria extends BaseCriteria {
+	var $element_cnt;
+	var $criteria_cnt;
+	var $valid_field_list = Array();
 
-   function MultipleElementCriteria(&$db, &$cs, $export_name, $element_cnt, $field_list = Array() )
-   {
-	$tdb =& $db;
-	$cs =& $cs;
-
-      $this->BaseCriteria($tdb, $cs, $export_name);
-
-      $this->element_cnt = $element_cnt;
-      $this->criteria_cnt = 0;
-      $this->valid_field_list = $field_list;
-   }
-
+	function __construct(
+		&$db, &$cs, $export_name, $element_cnt, $field_list = Array()
+	) { // PHP 5+ constructor Shim.
+		// Class/Method agnostic shim code.
+		$SCname = get_class();
+		if ( method_exists($this, $SCname) ) {
+			$SCargs = func_get_args();
+			// Custom non agnostic shim lines for pass by refs.
+			$SCargs = array(
+				&$db, &$cs, $export_name, $element_cnt, $field_list = Array()
+			);
+			call_user_func_array(array($this, $SCname), $SCargs);
+		}else{
+			trigger_error("Class: $SCname No Legacy Constructor.\n");
+		}
+	}
+	function MultipleElementCriteria(
+		&$db, &$cs, $export_name, $element_cnt, $field_list = Array()
+	) { // PHP 4x constructor.
+		$tdb =& $db;
+		$cs =& $cs;
+		$this->BaseCriteria($tdb, $cs, $export_name);
+		$this->element_cnt = $element_cnt;
+		$this->criteria_cnt = 0;
+		$this->valid_field_list = $field_list;
+	}
    function Init()
    {
       InitArray($this->criteria, $GLOBALS['MAX_ROWS'], $this->element_cnt, "");
@@ -283,19 +305,32 @@ class MultipleElementCriteria extends BaseCriteria
    }
 };
 
-class ProtocolFieldCriteria extends MultipleElementCriteria
-{
-	function ProtocolFieldCriteria(&$db, &$cs, $export_name, $element_cnt, $field_list = Array() )
-	{
+class ProtocolFieldCriteria extends MultipleElementCriteria {
+	function __construct(
+		&$db, &$cs, $export_name, $element_cnt, $field_list = Array()
+	) { // PHP 5+ constructor Shim.
+		// Class/Method agnostic shim code.
+		$SCname = get_class();
+		if ( method_exists($this, $SCname) ) {
+			$SCargs = func_get_args();
+			// Custom non agnostic shim lines for pass by refs.
+			$SCargs = array(
+				&$db, &$cs, $export_name, $element_cnt, $field_list = Array()
+			);
+			call_user_func_array(array($this, $SCname), $SCargs);
+		}else{
+			trigger_error("Class: $SCname No Legacy Constructor.\n");
+		}
+	}
+	function ProtocolFieldCriteria(
+		&$db, &$cs, $export_name, $element_cnt, $field_list = Array()
+	) { // PHP 4x constructor.
 		$tdb =& $db;
 		$cs =& $cs;
-
-		$this->MultipleElementCriteria($tdb, $cs, $export_name, $element_cnt, $field_list);
-
+		$this->MultipleElementCriteria(
+			$tdb, $cs, $export_name, $element_cnt, $field_list
+		);
 	}
-
-
-
    function SanitizeElement($i)
    { 
       // Make a copy of the element array
@@ -328,32 +363,33 @@ class ProtocolFieldCriteria extends MultipleElementCriteria
    }
 }
 
+class SignatureCriteria extends SingleElementCriteria {
+// $sig[4]: stores signature
+//   - [0] : exactly, roughly
+//   - [1] : signature
+//   - [2] : =, !=
+//   - [3] : signature from signature list
+	var $sig_type;
+	var $criteria = array(0 => '', 1 => '');
 
-
-
-class SignatureCriteria extends SingleElementCriteria
-{
-/*
- * $sig[4]: stores signature
- *   - [0] : exactly, roughly
- *   - [1] : signature
- *   - [2] : =, !=
- *   - [3] : signature from signature list
- */
-
-   var $sig_type;
-   var $criteria = array(0 => '', 1 => '');
-
-   function SignatureCriteria(&$db, &$cs, $export_name)
-   {
-	$tdb =& $db;
-	$cs =& $cs;
-
-      $this->BaseCriteria($tdb, $cs, $export_name);
-
-      $this->sig_type = "";
-   }
-
+	function __construct(&$db, &$cs, $export_name) { // PHP 5+ constructor Shim.
+		// Class/Method agnostic shim code.
+		$SCname = get_class();
+		if ( method_exists($this, $SCname) ) {
+			$SCargs = func_get_args();
+			// Custom non agnostic shim line for pass by refs.
+			$SCargs = array(&$db, &$cs, $export_name);
+			call_user_func_array(array($this, $SCname), $SCargs);
+		}else{
+			trigger_error("Class: $SCname No Legacy Constructor.\n");
+		}
+	}
+	function SignatureCriteria(&$db, &$cs, $export_name) { // PHP 4x constructor.
+		$tdb =& $db;
+		$cs =& $cs;
+		$this->BaseCriteria($tdb, $cs, $export_name);
+		$this->sig_type = "";
+	}
    function Init()
    {      
       InitArray($this->criteria, 4, 0, "");
@@ -881,30 +917,44 @@ class TimeCriteria extends MultipleElementCriteria
 	}
 };  /* TimeCriteria */
 
-class IPAddressCriteria extends MultipleElementCriteria 
-{
-/*
- * $ip_addr[MAX][10]: stores an ip address parameters/operators row
- *  - [][0] : (                          [][5] : octet3 of address
- *  - [][1] : source, dest               [][6] : octet4 of address
- *  - [][2] : =, !=                      [][7] : network mask
- *  - [][3] : octet1 of address          [][8] : (, )
- *  - [][4] : octet2 of address          [][9] : AND, OR
- *
- * $ip_addr_cnt: number of rows in the $ip_addr[][] structure
- */
+class IPAddressCriteria extends MultipleElementCriteria {
+// * $ip_addr[MAX][10]: stores an ip address parameters/operators row
+//  - [][0] : (                          [][5] : octet3 of address
+//  - [][1] : source, dest               [][6] : octet4 of address
+//  - [][2] : =, !=                      [][7] : network mask
+//  - [][3] : octet1 of address          [][8] : (, )
+//  - [][4] : octet2 of address          [][9] : AND, OR
+//
+// $ip_addr_cnt: number of rows in the $ip_addr[][] structure
 
-   function IPAddressCriteria(&$db, &$cs, $export_name, $element_cnt)
-   {
-	$tdb =& $db;
-	$cs =& $cs;
-
-      parent::MultipleElementCriteria($tdb, $cs, $export_name, $element_cnt,
-                                      array ("ip_src" => _SOURCE,
-                                             "ip_dst" => _DEST,
-                                             "ip_both" => _SORD));
-   }
-
+	function __construct(
+		&$db, &$cs, $export_name, $element_cnt
+	) { // PHP 5+ constructor Shim.
+		// Class/Method agnostic shim code.
+		$SCname = get_class();
+		if ( method_exists($this, $SCname) ) {
+			$SCargs = func_get_args();
+			// Custom non agnostic shim line for pass by refs.
+			$SCargs = array(&$db, &$cs, $export_name, $element_cnt);
+			call_user_func_array(array($this, $SCname), $SCargs);
+		}else{
+			trigger_error("Class: $SCname No Legacy Constructor.\n");
+		}
+	}
+	function IPAddressCriteria(
+		&$db, &$cs, $export_name, $element_cnt
+	) { // PHP 4x constructor.
+		$tdb =& $db;
+		$cs =& $cs;
+		parent::MultipleElementCriteria(
+			$tdb, $cs, $export_name, $element_cnt,
+			array (
+				"ip_src" => _SOURCE,
+				"ip_dst" => _DEST,
+				"ip_both" => _SORD
+			)
+		);
+	}
    function Import()
    {
       parent::Import();      
@@ -1051,30 +1101,45 @@ class IPAddressCriteria extends MultipleElementCriteria
 	}
 };  /* IPAddressCriteria */
 
-class IPFieldCriteria extends ProtocolFieldCriteria
-{
-/*
- * $ip_field[MAX][6]: stores all other ip fields parameters/operators row
- *  - [][0] : (                            [][3] : field value
- *  - [][1] : TOS, TTL, ID, offset, length [][4] : (, )
- *  - [][2] : =, !=, <, <=, >, >=          [][5] : AND, OR
- *
- * $ip_field_cnt: number of rows in the $ip_field[][] structure
- */ 
+class IPFieldCriteria extends ProtocolFieldCriteria {
+// $ip_field[MAX][6]: stores all other ip fields parameters/operators row
+//  - [][0] : (                            [][3] : field value
+//  - [][1] : TOS, TTL, ID, offset, length [][4] : (, )
+//  - [][2] : =, !=, <, <=, >, >=          [][5] : AND, OR
+//
+// $ip_field_cnt: number of rows in the $ip_field[][] structure
 
-   function IPFieldCriteria(&$db, &$cs, $export_name, $element_cnt)
-   {
-	$tdb =& $db;
-	$cs =& $cs;
-
-      parent::ProtocolFieldCriteria($tdb, $cs, $export_name, $element_cnt,
-                                    array("ip_tos"  => "TOS",
-                                          "ip_ttl"  => "TTL",
-                                          "ip_id"   => "ID",
-                                          "ip_off"  => "offset",
-                                          "ip_csum" => "chksum",
-                                          "ip_len"  => "length"));
-   }
+	function __construct(
+		&$db, &$cs, $export_name, $element_cnt
+	) { // PHP 5+ constructor Shim.
+		// Class/Method agnostic shim code.
+		$SCname = get_class();
+		if ( method_exists($this, $SCname) ) {
+			$SCargs = func_get_args();
+			// Custom non agnostic shim line for pass by refs.
+			$SCargs = array(&$db, &$cs, $export_name, $element_cnt);
+			call_user_func_array(array($this, $SCname), $SCargs);
+		}else{
+			trigger_error("Class: $SCname No Legacy Constructor.\n");
+		}
+	}
+	function IPFieldCriteria(
+		&$db, &$cs, $export_name, $element_cnt
+	) { // PHP 4x constructor.
+		$tdb =& $db;
+		$cs =& $cs;
+		parent::ProtocolFieldCriteria(
+			$tdb, $cs, $export_name, $element_cnt,
+			array(
+				"ip_tos"  => "TOS",
+				"ip_ttl"  => "TTL",
+				"ip_id"   => "ID",
+				"ip_off"  => "offset",
+				"ip_csum" => "chksum",
+				"ip_len"  => "length"
+			)
+		);
+	}
 	function PrintForm($value1, $value2, $value3) {
 		parent::PrintForm($this->valid_field_list, _DISPFIELD, _ADDIPFIELD);
 	}
@@ -1089,26 +1154,41 @@ class IPFieldCriteria extends ProtocolFieldCriteria
 	}
 };
 
-class TCPPortCriteria extends ProtocolFieldCriteria
-{
-/*
- * $tcp_port[MAX][6]: stores all port parameters/operators row
- *  - [][0] : (                            [][3] : port value
- *  - [][1] : Source Port, Dest Port       [][4] : (, )
- *  - [][2] : =, !=, <, <=, >, >=          [][5] : AND, OR
- *
- * $tcp_port_cnt: number of rows in the $tcp_port[][] structure
- */ 
+class TCPPortCriteria extends ProtocolFieldCriteria {
+// $tcp_port[MAX][6]: stores all port parameters/operators row
+//  - [][0] : (                            [][3] : port value
+//  - [][1] : Source Port, Dest Port       [][4] : (, )
+//  - [][2] : =, !=, <, <=, >, >=          [][5] : AND, OR
+//
+// $tcp_port_cnt: number of rows in the $tcp_port[][] structure
 
-   function TCPPortCriteria(&$db, &$cs, $export_name, $element_cnt)
-   {
-	$tdb =& $db;
-	$cs =& $cs;
-
-      parent::ProtocolFieldCriteria($tdb, $cs, $export_name, $element_cnt,
-                                    array ("layer4_sport" => _SOURCEPORT,
-                                           "layer4_dport" => _DESTPORT));
-   }
+	function __construct(
+		&$db, &$cs, $export_name, $element_cnt
+	) { // PHP 5+ constructor Shim.
+		// Class/Method agnostic shim code.
+		$SCname = get_class();
+		if ( method_exists($this, $SCname) ) {
+			$SCargs = func_get_args();
+			// Custom non agnostic shim line for pass by refs.
+			$SCargs = array(&$db, &$cs, $export_name, $element_cnt);
+			call_user_func_array(array($this, $SCname), $SCargs);
+		}else{
+			trigger_error("Class: $SCname No Legacy Constructor.\n");
+		}
+	}
+	function TCPPortCriteria(
+		&$db, &$cs, $export_name, $element_cnt
+	) { // PHP 4x constructor.
+		$tdb =& $db;
+		$cs =& $cs;
+		parent::ProtocolFieldCriteria(
+			$tdb, $cs, $export_name, $element_cnt,
+			array (
+				"layer4_sport" => _SOURCEPORT,
+				"layer4_dport" => _DESTPORT
+			)
+		);
+	}
 	function PrintForm($value1, $value2, $value3) {
 		parent::PrintForm($this->valid_field_list, _DISPPORT, _ADDTCPPORT);
 	}
@@ -1122,33 +1202,48 @@ class TCPPortCriteria extends ProtocolFieldCriteria
 	}
 };  /* TCPPortCriteria */
 
-class TCPFieldCriteria extends ProtocolFieldCriteria
-{
-/*
- * TCP Variables
- * =============
- * $tcp_field[MAX][6]: stores all other tcp fields parameters/operators row
- *  - [][0] : (                            [][3] : field value
- *  - [][1] : windows, URP                 [][4] : (, )
- *  - [][2] : =, !=, <, <=, >, >=          [][5] : AND, OR
- *
- * $tcp_field_cnt: number of rows in the $tcp_field[][] structure
- */
+class TCPFieldCriteria extends ProtocolFieldCriteria {
+// TCP Variables
+// =============
+// $tcp_field[MAX][6]: stores all other tcp fields parameters/operators row
+//  - [][0] : (                            [][3] : field value
+//  - [][1] : windows, URP                 [][4] : (, )
+//  - [][2] : =, !=, <, <=, >, >=          [][5] : AND, OR
+//
+// $tcp_field_cnt: number of rows in the $tcp_field[][] structure
 
-   function TCPFieldCriteria(&$db, &$cs, $export_name, $element_cnt)
-   {
-	$tdb =& $db;
-	$cs =& $cs;
-
-      parent::ProtocolFieldCriteria($tdb, $cs, $export_name, $element_cnt,
-                                    array ("tcp_win" => "window",  
-                                           "tcp_urp" => "urp",
-                                           "tcp_seq" => "seq #",
-                                           "tcp_ack" => "ack",
-                                           "tcp_off" => "offset",
-                                           "tcp_res" => "res",
-                                           "tcp_csum" => "chksum"));
-   }
+	function __construct(
+		&$db, &$cs, $export_name, $element_cnt
+	) { // PHP 5+ constructor Shim.
+		// Class/Method agnostic shim code.
+		$SCname = get_class();
+		if ( method_exists($this, $SCname) ) {
+			$SCargs = func_get_args();
+			// Custom non agnostic shim line for pass by refs.
+			$SCargs = array(&$db, &$cs, $export_name, $element_cnt);
+			call_user_func_array(array($this, $SCname), $SCargs);
+		}else{
+			trigger_error("Class: $SCname No Legacy Constructor.\n");
+		}
+	}
+	function TCPFieldCriteria(
+		&$db, &$cs, $export_name, $element_cnt
+	) { // PHP 4x constructor.
+		$tdb =& $db;
+		$cs =& $cs;
+		parent::ProtocolFieldCriteria(
+			$tdb, $cs, $export_name, $element_cnt,
+			array (
+				"tcp_win" => "window",
+				"tcp_urp" => "urp",
+				"tcp_seq" => "seq #",
+				"tcp_ack" => "ack",
+				"tcp_off" => "offset",
+				"tcp_res" => "res",
+				"tcp_csum" => "chksum"
+			)
+		);
+	}
 	function PrintForm($value1, $value2, $value3) {
 		parent::PrintForm($this->valid_field_list, _DISPFIELD, _ADDTCPFIELD);
 	}
@@ -1242,26 +1337,41 @@ class TCPFlagsCriteria extends SingleElementCriteria
    }
 };  /* TCPFlagCriteria */
 
-class UDPPortCriteria extends ProtocolFieldCriteria
-{
-/*
- * $udp_port[MAX][6]: stores all port parameters/operators row
- *  - [][0] : (                            [][3] : port value
- *  - [][1] : Source Port, Dest Port       [][4] : (, )
- *  - [][2] : =, !=, <, <=, >, >=          [][5] : AND, OR
- *
- * $udp_port_cnt: number of rows in the $udp_port[][] structure
- */
+class UDPPortCriteria extends ProtocolFieldCriteria {
+// $udp_port[MAX][6]: stores all port parameters/operators row
+//  - [][0] : (                            [][3] : port value
+//  - [][1] : Source Port, Dest Port       [][4] : (, )
+//  - [][2] : =, !=, <, <=, >, >=          [][5] : AND, OR
+//
+// $udp_port_cnt: number of rows in the $udp_port[][] structure
 
-   function UDPPortCriteria(&$db, &$cs, $export_name, $element_cnt)
-   {
-	$tdb =& $db;
-	$cs =& $cs;
-
-      parent::ProtocolFieldCriteria($tdb, $cs, $export_name, $element_cnt,
-                                    array ("layer4_sport" => _SOURCEPORT,
-                                           "layer4_dport" => _DESTPORT));
-   }
+	function __construct(
+		&$db, &$cs, $export_name, $element_cnt
+	) { // PHP 5+ constructor Shim.
+		// Class/Method agnostic shim code.
+		$SCname = get_class();
+		if ( method_exists($this, $SCname) ) {
+			$SCargs = func_get_args();
+			// Custom non agnostic shim line for pass by refs.
+			$SCargs = array(&$db, &$cs, $export_name, $element_cnt);
+			call_user_func_array(array($this, $SCname), $SCargs);
+		}else{
+			trigger_error("Class: $SCname No Legacy Constructor.\n");
+		}
+	}
+	function UDPPortCriteria(
+		&$db, &$cs, $export_name, $element_cnt
+	) { // PHP 4x constructor.
+		$tdb =& $db;
+		$cs =& $cs;
+		parent::ProtocolFieldCriteria(
+			$tdb, $cs, $export_name, $element_cnt,
+			array (
+				"layer4_sport" => _SOURCEPORT,
+				"layer4_dport" => _DESTPORT
+			)
+		);
+	}
 	function PrintForm($value1, $value2, $value3) {
 		parent::PrintForm($this->valid_field_list, _DISPPORT, _ADDUDPPORT);
 	}
@@ -1275,26 +1385,41 @@ class UDPPortCriteria extends ProtocolFieldCriteria
 	}
 };  /* UDPPortCriteria */
 
-class UDPFieldCriteria extends ProtocolFieldCriteria
-{
-/*
- * $udp_field[MAX][6]: stores all other udp fields parameters/operators row
- *  - [][0] : (                            [][3] : field value
- *  - [][1] : length                       [][4] : (, )
- *  - [][2] : =, !=, <, <=, >, >=          [][5] : AND, OR
- *
- * $udp_field_cnt: number of rows in the $udp_field[][] structure
- */
+class UDPFieldCriteria extends ProtocolFieldCriteria {
+// $udp_field[MAX][6]: stores all other udp fields parameters/operators row
+//  - [][0] : (                            [][3] : field value
+//  - [][1] : length                       [][4] : (, )
+//  - [][2] : =, !=, <, <=, >, >=          [][5] : AND, OR
+//
+// $udp_field_cnt: number of rows in the $udp_field[][] structure
 
-   function UDPFieldCriteria(&$db, &$cs, $export_name, $element_cnt)
-   {
-	$tdb =& $db;
-	$cs =& $cs;
-
-      parent::ProtocolFieldCriteria($tdb, $cs, $export_name, $element_cnt, 
-                                    array ("udp_len" => "length",
-                                           "udp_csum" => "chksum"));
-   }
+	function __construct(
+		&$db, &$cs, $export_name, $element_cnt
+	) { // PHP 5+ constructor Shim.
+		// Class/Method agnostic shim code.
+		$SCname = get_class();
+		if ( method_exists($this, $SCname) ) {
+			$SCargs = func_get_args();
+			// Custom non agnostic shim line for pass by refs.
+			$SCargs = array(&$db, &$cs, $export_name, $element_cnt);
+			call_user_func_array(array($this, $SCname), $SCargs);
+		}else{
+			trigger_error("Class: $SCname No Legacy Constructor.\n");
+		}
+	}
+	function UDPFieldCriteria(
+		&$db, &$cs, $export_name, $element_cnt
+	) { // PHP 4x constructor.
+		$tdb =& $db;
+		$cs =& $cs;
+		parent::ProtocolFieldCriteria(
+			$tdb, $cs, $export_name, $element_cnt,
+			array (
+				"udp_len" => "length",
+				"udp_csum" => "chksum"
+			)
+		);
+	}
 	function PrintForm($value1, $value2, $value3) {
 		parent::PrintForm($this->valid_field_list, _DISPFIELD, _ADDUDPFIELD);
 	}
@@ -1307,29 +1432,44 @@ class UDPFieldCriteria extends ProtocolFieldCriteria
 	}
 };  /* UDPFieldCriteria */
 
-class ICMPFieldCriteria extends ProtocolFieldCriteria
-{
-/*
- * $icmp_field[MAX][6]: stores all other icmp fields parameters/operators row
- *  - [][0] : (                            [][3] : field value
- *  - [][1] : code, length                 [][4] : (, )
- *  - [][2] : =, !=, <, <=, >, >=          [][5] : AND, OR
- *
- * $icmp_field_cnt: number of rows in the $icmp_field[][] structure
- */ 
+class ICMPFieldCriteria extends ProtocolFieldCriteria {
+// $icmp_field[MAX][6]: stores all other icmp fields parameters/operators row
+//  - [][0] : (                            [][3] : field value
+//  - [][1] : code, length                 [][4] : (, )
+//  - [][2] : =, !=, <, <=, >, >=          [][5] : AND, OR
+//
+// $icmp_field_cnt: number of rows in the $icmp_field[][] structure
 
-   function ICMPFieldCriteria(&$db, &$cs, $export_name, $element_cnt)
-   {
-	$tdb =& $db;
-	$cs =& $cs;
-
-      parent::ProtocolFieldCriteria($tdb, $cs, $export_name, $element_cnt, 
-                                    array ("icmp_type" => "type",
-                                           "icmp_code" => "code",
-                                           "icmp_id"   => "id",
-                                           "icmp_seq"  => "seq #",
-                                           "icmp_csum" => "chksum"));
-   }
+	function __construct(
+		&$db, &$cs, $export_name, $element_cnt
+	) { // PHP 5+ constructor Shim.
+		// Class/Method agnostic shim code.
+		$SCname = get_class();
+		if ( method_exists($this, $SCname) ) {
+			$SCargs = func_get_args();
+			// Custom non agnostic shim line for pass by refs.
+			$SCargs = array(&$db, &$cs, $export_name, $element_cnt);
+			call_user_func_array(array($this, $SCname), $SCargs);
+		}else{
+			trigger_error("Class: $SCname No Legacy Constructor.\n");
+		}
+	}
+	function ICMPFieldCriteria(
+		&$db, &$cs, $export_name, $element_cnt
+	) { // PHP 4x constructor.
+		$tdb =& $db;
+		$cs =& $cs;
+		parent::ProtocolFieldCriteria(
+			$tdb, $cs, $export_name, $element_cnt,
+			array (
+				"icmp_type" => "type",
+				"icmp_code" => "code",
+				"icmp_id"   => "id",
+				"icmp_seq"  => "seq #",
+				"icmp_csum" => "chksum"
+			)
+		);
+	}
 	function PrintForm($value1, $value2, $value3) {
 		parent::PrintForm($this->valid_field_list, _DISPFIELD, _ADDICMPFIELD);
 	}
@@ -1393,34 +1533,47 @@ class Layer4Criteria extends SingleElementCriteria
 	}
 };  /* Layer4Criteria */
 
-class DataCriteria extends MultipleElementCriteria 
-{
-/*
- * $data_encode[2]: how the payload should be interpreted and converted
- *  - [0] : encoding type (hex, ascii)
- *  - [1] : conversion type (hex, ascii) 
- *
- * $data[MAX][5]: stores all the payload related parameters/operators row
- *  - [][0] : (                            [][3] : (, )
- *  - [][1] : =, !=                        [][4] : AND, OR
- *  - [][2] : field value
- *
- * $data_cnt: number of rows in the $data[][] structure
- */
+class DataCriteria extends MultipleElementCriteria {
+// $data_encode[2]: how the payload should be interpreted and converted
+//  - [0] : encoding type (hex, ascii)
+//  - [1] : conversion type (hex, ascii) 
+//
+// $data[MAX][5]: stores all the payload related parameters/operators row
+//  - [][0] : (                            [][3] : (, )
+//  - [][1] : =, !=                        [][4] : AND, OR
+//  - [][2] : field value
+//
+// $data_cnt: number of rows in the $data[][] structure
+	var $data_encode;
 
-   var $data_encode;
-
-   function DataCriteria(&$db, &$cs, $export_name, $element_cnt)
-   {
-	$tdb =& $db;
-	$cs =& $cs;
-
-      parent::MultipleElementCriteria($tdb, $cs, $export_name, $element_cnt,
-                                      array ("LIKE" => _HAS,
-                                             "NOT LIKE" => _HASNOT ));
-      $this->data_encode = array();
-   }
-
+	function __construct(
+		&$db, &$cs, $export_name, $element_cnt
+	) { // PHP 5+ constructor Shim.
+		// Class/Method agnostic shim code.
+		$SCname = get_class();
+		if ( method_exists($this, $SCname) ) {
+			$SCargs = func_get_args();
+			// Custom non agnostic shim line for pass by refs.
+			$SCargs = array(&$db, &$cs, $export_name, $element_cnt);
+			call_user_func_array(array($this, $SCname), $SCargs);
+		}else{
+			trigger_error("Class: $SCname No Legacy Constructor.\n");
+		}
+	}
+	function DataCriteria(
+		&$db, &$cs, $export_name, $element_cnt
+	) { // PHP 4x constructor.
+		$tdb =& $db;
+		$cs =& $cs;
+		parent::MultipleElementCriteria(
+			$tdb, $cs, $export_name, $element_cnt,
+			array (
+				"LIKE" => _HAS,
+				"NOT LIKE" => _HASNOT
+			)
+		);
+		$this->data_encode = array();
+	}
    function Init()
    {
       parent::Init();

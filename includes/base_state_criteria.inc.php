@@ -26,54 +26,51 @@ defined( '_BASE_INC' ) or die( 'Accessing this file directly is not allowed.' );
 include_once("$BASE_path/includes/base_state_common.inc.php");
 include_once("$BASE_path/includes/base_state_citems.inc.php");
 
-class CriteriaState
-{
-  var $clear_criteria_name;
-  var $clear_criteria_element;
-  var $clear_url;
-  var $clear_url_params;
+class CriteriaState {
+	var $clear_criteria_name;
+	var $clear_criteria_element;
+	var $clear_url;
+	var $clear_url_params;
+	var $criteria;
 
-  var $criteria;
-
-  function CriteriaState($url, $params = "")
-  {
-     $this->clear_url = $url;
-     $this->clear_url_params = $params;
-
-     /* XXX-SEC */
-     GLOBAL $db, $debug_mode;
-
-     $tdb =& $db;
-     $obj =& $this;
-     $this->criteria['sig'] = new SignatureCriteria($tdb, $obj, "sig");
-     $this->criteria['sig_class'] = new SignatureClassificationCriteria($tdb, $obj, "sig_class");
-     $this->criteria['sig_priority'] = new SignaturePriorityCriteria($tdb, $obj, "sig_priority");
-     $this->criteria['ag'] = new AlertGroupCriteria($tdb, $obj, "ag");
-     $this->criteria['sensor'] = new SensorCriteria($tdb, $obj, "sensor");
-     $this->criteria['time'] = new TimeCriteria($tdb, $obj, "time", TIME_CFCNT);
-     $this->criteria['ip_addr'] = new IPAddressCriteria($tdb, $obj, "ip_addr", IPADDR_CFCNT);
-     $this->criteria['layer4'] = new Layer4Criteria($tdb, $obj, "layer4");
-     $this->criteria['ip_field'] = new IPFieldCriteria($tdb, $obj, "ip_field", PROTO_CFCNT);
-     $this->criteria['tcp_port'] = new TCPPortCriteria($tdb, $obj, "tcp_port", PROTO_CFCNT);
-     $this->criteria['tcp_flags'] = new TCPFlagsCriteria($tdb, $obj, "tcp_flags");
-     $this->criteria['tcp_field'] = new TCPFieldCriteria($tdb, $obj, "tcp_field", PROTO_CFCNT);
-     $this->criteria['udp_port'] = new UDPPortCriteria($tdb, $obj, "udp_port", PROTO_CFCNT);
-     $this->criteria['udp_field'] = new UDPFieldCriteria($tdb, $obj, "udp_field", PROTO_CFCNT);
-     $this->criteria['icmp_field'] = new ICMPFieldCriteria($tdb, $obj, "icmp_field", PROTO_CFCNT);
-     $this->criteria['rawip_field'] = new TCPFieldCriteria($tdb, $obj, "rawip_field", PROTO_CFCNT);
-     $this->criteria['data'] = new DataCriteria($tdb, $obj, "data", PAYLOAD_CFCNT);
-
-     /* 
-      * For new criteria, add a call to the appropriate constructor here, and implement
-      * the appropriate class in base_state_citems.inc.php
-      */
-
-
-  }
-
-
-
-
+	function __construct($url, $params = "") { // PHP 5+ constructor Shim.
+		// Class/Method agnostic shim code.
+		$SCname = get_class();
+		if ( method_exists($this, $SCname) ) {
+			$SCargs = func_get_args();
+			call_user_func_array(array($this, $SCname), $SCargs);
+		}else{
+			trigger_error("Class: $SCname No Legacy Constructor.\n");
+		}
+	}
+	function CriteriaState($url, $params = "") { // PHP 4x constructor.
+		$this->clear_url = $url;
+		$this->clear_url_params = $params;
+		/* XXX-SEC */
+		GLOBAL $db, $debug_mode;
+		$tdb =& $db;
+		$obj =& $this;
+		// Criteria Creation
+		$this->criteria['sig'] = new SignatureCriteria($tdb, $obj, "sig");
+		$this->criteria['sig_class'] = new SignatureClassificationCriteria($tdb, $obj, "sig_class");
+		$this->criteria['sig_priority'] = new SignaturePriorityCriteria($tdb, $obj, "sig_priority");
+		$this->criteria['ag'] = new AlertGroupCriteria($tdb, $obj, "ag");
+		$this->criteria['sensor'] = new SensorCriteria($tdb, $obj, "sensor");
+		$this->criteria['time'] = new TimeCriteria($tdb, $obj, "time", TIME_CFCNT);
+		$this->criteria['ip_addr'] = new IPAddressCriteria($tdb, $obj, "ip_addr", IPADDR_CFCNT);
+		$this->criteria['layer4'] = new Layer4Criteria($tdb, $obj, "layer4");
+		$this->criteria['ip_field'] = new IPFieldCriteria($tdb, $obj, "ip_field", PROTO_CFCNT);
+		$this->criteria['tcp_port'] = new TCPPortCriteria($tdb, $obj, "tcp_port", PROTO_CFCNT);
+		$this->criteria['tcp_flags'] = new TCPFlagsCriteria($tdb, $obj, "tcp_flags");
+		$this->criteria['tcp_field'] = new TCPFieldCriteria($tdb, $obj, "tcp_field", PROTO_CFCNT);
+		$this->criteria['udp_port'] = new UDPPortCriteria($tdb, $obj, "udp_port", PROTO_CFCNT);
+		$this->criteria['udp_field'] = new UDPFieldCriteria($tdb, $obj, "udp_field", PROTO_CFCNT);
+		$this->criteria['icmp_field'] = new ICMPFieldCriteria($tdb, $obj, "icmp_field", PROTO_CFCNT);
+		$this->criteria['rawip_field'] = new TCPFieldCriteria($tdb, $obj, "rawip_field", PROTO_CFCNT);
+		$this->criteria['data'] = new DataCriteria($tdb, $obj, "data", PAYLOAD_CFCNT);
+		// For new criteria, add a call to the appropriate constructor here,
+		// and implement the appropriate class in base_state_citems.inc.php
+	}
   function InitState()
   {
      RegisterGlobalState();
