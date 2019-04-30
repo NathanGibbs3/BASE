@@ -14,6 +14,7 @@ $debug_mode = 0;
 $Mts = "tests/$Mts";
 $tfl = testfiles($Mts); // Master Test List.
 $tsl = testsuites(); // Test sets to generate.
+$PHPV = GetPHPV(); // PHP Version.
 
 if ($tfl == NULL) {
 	print "No Test Files. Exiting.\n";
@@ -27,7 +28,7 @@ if ($tfl == NULL) {
 	foreach($tsl as $gts){ // Process Test Sets.
 		if (preg_match("/^".$Mtc."$/", $gts) ) {
 			// Drop Master Test Set.
-			print "Dropping Master Test Set: $gts\n";
+			print "Skip Master Test Set: $gts\n";
 		}else{
 			$tfwflag = 0;
 			$dts = preg_replace( "/tests\//", "", $gts);
@@ -49,47 +50,10 @@ if ($tfl == NULL) {
 				$gtfn = "$gts/$gtf";
 				print "\tTest: $dtf\n";
 				$ntfc = array();
-				foreach ($tfc as $i => $line) { // Process Test File.
-					$skip = 0;
-					if(preg_match("/tests\/php5.2/", $gts)) {
-						if(preg_match( // Drop use line.
-							"/^use PHPUnit\\\Framework\\\TestCase;$/",
-							$line
-						)) {
-							$skip = 1;
-						}else{
-							$line = preg_replace( // Non-Namespace Test Class.
-								"/extends TestCase/",
-								"extends PHPUnit_Framework_TestCase",
-								$line
-							);
-						}
-					}elseif(preg_match("/tests\/php7.1/", $gts)) {
-						// Add Type Hinting.
-						$line = preg_replace(
-							"/setUp\(\)/",
-							"setUp(): void",
-							$line
-						);
-						$line = preg_replace(
-							"/tearDown\(\)/",
-							"tearDown(): void",
-							$line
-						);
-						$line = preg_replace(
-							"/setUpBeforeClass\(\)/",
-							"setUpBeforeClass(): void",
-							$line
-						);
-						$line = preg_replace(
-							"/tearDownAfterClass\(\)/",
-							"tearDownAfterClass(): void",
-							$line
-						);
-					}
-					if ($skip == 0) {
-						array_push($ntfc,$line);
-					}
+				if(preg_match("/tests\/php5.2/", $gts)) {
+					$ntfc = TtNs('Del',$tfc);
+				}elseif(preg_match("/tests\/php7.1/", $gts)) {
+					$ntfc = TtTh('Add',$tfc);
 				}
 				if ( $tfwflag == 1 ) {
 					$tmp = implode('', $ntfc);
@@ -105,11 +69,82 @@ if ($tfl == NULL) {
 				}else{
 					print_r($tfc);
 					print_r($ntfc);
-					print "Would write test file: $gtfn";
+					print "Would write test file: $gtfn\n";
 				}
 			}
 		}
 	}
+}
+
+// Test Transform Functions
+function TtNs ($Action, $lines){ // NameSpace Transforms.
+	$tmp = array();
+	$Tc = 'TestCase';
+	$Tcl = "PHPUnit_Framework_$Tc";
+	$UL = 'use '.str_replace( '_', "\\", $Tcl ).';';
+	$ULR = str_replace( "\\", "\\\\", $UL );
+	$pfx = 'extends ';
+	if ($Action == 'Add') {
+		$Spt = "/$pfx$Tcl/";
+		$Rpt = "$pfx$Tc";
+	}elseif ($Action == 'Del') {
+		$Spt = "/$pfx$Tc/";
+		$Rpt = "$pfx$Tcl";
+	}else{
+		return -1;
+	}
+	$lin = preg_replace($Spt,$Rpt,$lines);
+	foreach ($lin as $i => $line) { // Process Array
+		if( $Action == 'Del' &&
+			preg_match( "/^".$ULR."$/", $line )
+		) { // Drop use line.
+			continue;
+		}elseif ( $Action == 'Add' &&
+			preg_match( "/^<\?php/", $line )
+		) { // Add use line.
+			array_push($tmp,$line);
+			$line = $UL;
+		}
+		array_push($tmp,$line);
+	}
+	return $tmp;
+}
+
+function TtTh ($Action, $lines){ // TypeHint Transforms.
+	$tmp = array();
+	$Spt = array();
+	$Rpt = array();
+	$Cs = 'Class';
+	$vs = ': void';
+	$Tc = '()';
+	$RTc = str_replace( '()', '\(\)',$Tc);
+	if ($Action == 'Add') {
+		$Tc .= $vs;
+	}elseif ($Action == 'Del') {
+		$RTc .= $vs;
+	}else{
+		return -1;
+	}
+	$Cc = "$Cs$Tc";
+	$RCc = "$Cs$RTc";
+	$Spa = array( 'setUp', 'tearDown' );
+	foreach ($Spa as $i => $Item) {
+		if ($Item == 'setUp'){
+			array_push($Spt,"/$Item$RTc/");
+			array_push($Rpt,$Item.$Tc);
+			array_push($Spt,"/$Item"."Before$RCc/");
+			array_push($Rpt,$Item."Before$Cc");
+		}elseif ($Item == 'tearDown'){
+			array_push($Spt,"/$Item$RTc/");
+			array_push($Rpt,$Item.$Tc);
+			array_push($Spt,"/$Item"."After$RCc/");
+			array_push($Rpt,$Item."After$Cc");
+		}else{
+			return -2;
+		}
+	}
+	$tmp = preg_replace($Spt,$Rpt,$lines);
+	return $tmp;
 }
 
 function testfiles($path) { // Returns array of testfiles
@@ -162,5 +197,34 @@ function testsuites() { // Returns array of testsuites.
 		}
 	}
 	return $ll;
+}
+
+// Test Support Functions.
+function GetPHPV () { // Get PHP Version
+	$current_php_version = phpversion();
+	$version = explode(".", $current_php_version);
+	// Account for x.x.xXX subversions possibly having text like 4.0.4pl1
+	if ( is_numeric(substr($version[2], 1, 1)) ) {
+		$version[2] = substr($version[2], 0, 2);
+	}else{
+		$version[2] = substr($version[2], 0, 1);
+	}
+	return "$version[0].$version[1].$version[2]";
+}
+function GetPHPUV () { // Get PHPUnit Version
+	if ( method_exists('PHPUnit_Runner_Version','id')) {
+		$Ret = PHPUnit_Runner_Version::id();
+	}elseif (method_exists('PHPUnit\Runner\Version','id')) {
+		$Ret = PHPUnit\Runner\Version::id();
+	}else{
+		$Ret = 0.0;
+	}
+	return $Ret;
+}
+function LogTC ($cf,$Item,$Value) { // Output to Test Console
+	GLOBAL $debug_mode;
+	if ($debug_mode > 0) {
+		print "\n$cf Testing $Item: $Value";
+	}
 }
 ?>
