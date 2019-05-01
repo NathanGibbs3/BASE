@@ -6,9 +6,6 @@ else
 	echo "Not Running on Travis-CI."
 fi
 
-# Generate PHPUnit Tests
-php -f ./tests/testgen.php
-
 pu=phpunit
 echo -n "PHPUnit "
 if [ "$TRAVIS" != "true" ]; then
@@ -28,13 +25,17 @@ echo "System PHPUnit Version: $puv"
 if [ "$TRAVIS" != "true" ]; then
 	echo "              Location: `which $pu`"
 fi
-if [ "$pvM" == "4" ] && [ "$pvm" == "8" ] && [ "$pvr" \< "28" ]; then
-	echo "Using Composer PHPUnit."
-	px="vendor/bin/$pu"
-else
-	echo "Using System PHPUnit."
+#if [ "$pvM" == "4" ] && [ "$pvm" == "8" ] && [ "$pvr" \< "28" ]; then
+#	echo "Using Composer PHPUnit."
+#	px="vendor/bin/$pu"
+#else
+#	echo "Using System PHPUnit."
 	px=$pu
-fi
-$px --version
+#fi
+//$px --version
+
+# Generate PHPUnit Tests
+php -f ./tests/phptestgen.php ./tests/php5.3 $puv
+
 echo "Running PHPUnit: $px"
 $px -c $pu.xml.dist

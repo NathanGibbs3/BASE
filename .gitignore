@@ -3,3 +3,5 @@
 # Local Composer noise
 /composer.phar
 /vendor
+# Local PHPUnit Test Generation noise
+/tests/PhpUnit
