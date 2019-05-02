@@ -126,8 +126,15 @@ else
 	fi
 fi
 
-if [ "$1" == "" ] && [ "$td" != "tests" ]; then
-	echo "Current directory: `pwd`"
-	echo "Creating Build Log Directory: `pwd`/build/logs"
-	mkdir -p build/logs
+if [ "$1" == "" ]; then
+	if [ "$td" != "tests" ]; then
+		echo "Current directory: `pwd`"
+		echo "Creating Build Log Directory: `pwd`/build/logs"
+		mkdir -p build/logs
+	fi
+	pear -V
+	# Run pear channel update under PHP 5.2x
+	if ( [ "$pvM" == "5" ] && [ "$pvm" \< "3" ] ); then
+		pear channel-update pear.php.net
+	fi
 fi

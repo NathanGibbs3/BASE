@@ -32,7 +32,7 @@ fi
 #	echo "Using System PHPUnit."
 	px=$pu
 #fi
-//$px --version
+$px --version
 
 # Generate PHPUnit Tests
 php -f ./tests/phptestgen.php ./tests/php5.3 $puv
