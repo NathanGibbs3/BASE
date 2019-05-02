@@ -133,11 +133,4 @@ if [ "$1" == "" ]; then
 		mkdir -p build/logs
 	fi
 	pear -V
-	# Run pear channel update under PHP 5.2x
-	if ( [ "$pvM" == "5" ] && [ "$pvm" \< "3" ] ); then
-		# Try to shake more info out of PHP 5.2x on travis
-		php -i|grep "ssl"
-		ls ${HOME}/.phpenv/versions/$(phpenv version-name)/lib/php/extensions
-		pear channel-update pear.php.net
-	fi
 fi
