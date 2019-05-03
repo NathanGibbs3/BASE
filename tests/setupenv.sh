@@ -1,15 +1,14 @@
 #! /bin/bash
 
-td=`pwd|sed -e "s/^.*\///"`
-
+echo -n "Travis-CI Environment: "
 if [ "$TRAVIS" == "true" ] && [ "$CI" == "true" ] && [ "$HAS_JOSH_K_SEAL_OF_APPROVAL" == "true" ]; then
-	echo "Running on Travis-CI."
-	export COVERALLS_PARALLEL=true
+	echo "Yes"
 else
-	echo "Not Running on Travis-CI."
+	echo "No"
 fi
 
 if  [ "$1" == "" ]; then
+	td=`pwd|sed -e "s/^.*\///"`
 	pv=phpver.php
 	if [ "$td" == "tests" ]; then
 		pv="./$pv"
@@ -30,6 +29,7 @@ if  [ "$1" == "" ]; then
 			bail=1
 		fi
 	else
+		export COVERALLS_PARALLEL=true
 		puv=`php $pv`
 		bail=0
 	fi
