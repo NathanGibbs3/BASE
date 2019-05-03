@@ -23,12 +23,17 @@ echo "System PHPUnit Version: $puv"
 if [ "$TRAVIS" != "true" ]; then
 	echo "              Location: `which $pu`"
 fi
-if [ 1 == 0 ]; then # Use Composer installed or System version?
-   pi=Composer
-   px="vendor/bin/$pu"
+# Use Composer installed or System version?
+if [ "$pvM" == "4" ] && [ "$pvm" == "8" ] && [ "$pvr" \< "19" ]; then
+	# Apparantly PHPUnits below 4.8.19 fail with a
+	# PHP Fatal error: Class 'Text_Template' not found
+	# when using expectOutputString in test code.
+	# This may be a Debian/Ubuntu specific Issue.
+	pi=Composer
+	px="vendor/bin/$pu"
 else
-   pi=System
-   px=$pu
+	pi=System
+	px=$pu
 fi
 # Now what PHPUnit Version are we using?
 puv=`$px --version|sed -e "s/^PHPUnit\s//" -e "s/\sby.*$//"`
