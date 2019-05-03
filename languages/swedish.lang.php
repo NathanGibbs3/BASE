@@ -45,9 +45,9 @@ $UI_CP_SrcDst = 'Src or Dest';
 $UI_CP_Id = 'ID';
 $UI_CP_Name = 'Namn';
 $UI_CP_Int = 'Gränssnitt';
+$UI_CP_Filter = 'Filter';
 
 //common phrases
-DEFINE('_FILTER','Filter');
 DEFINE('_DESC','Beskrivning');
 DEFINE('_ROLEID','Roll ID');
 DEFINE('_ENABLED','Möjliggjord');

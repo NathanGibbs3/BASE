@@ -45,9 +45,9 @@ $UI_CP_SrcDst = '来源或目的';
 $UI_CP_Id = 'ID';
 $UI_CP_Name = '名称';
 $UI_CP_Int = '界面';
+$UI_CP_Filter = '过滤器';
 
 //common phrases
-DEFINE('_FILTER','过滤器');
 DEFINE('_DESC','描述');
 DEFINE('_ROLEID','角色 ID');
 DEFINE('_ENABLED','启用');

@@ -186,6 +186,13 @@ class UILang{
 		}else{
 			$this->SetUICPItem('Int');
 		}
+		if ( isset($UI_CP_Filter) ) { // Var New TDF
+			$this->SetUICPItem('Filter',$UI_CP_Filter);
+		}elseif (defined('_FILTER')) { // Const Legacy TDF
+			$this->SetUICPItem('Filter',_FILTER);
+		}else{
+			$this->SetUICPItem('Filter');
+		}
 		// Check for unset/NULL TD, replace with default placeholder text.
 		$this->Timefmt = $this->BlankProps('Timefmt',$this->Timefmt);
 		$this->Charset = $this->BlankProps('Charset',$this->Charset);
@@ -270,7 +277,7 @@ class UILang{
 	function SetUICPItem($Item,$Value = NULL) {
 		$Items = array (
 			'SrcDesc', 'SrcName', 'DstDesc', 'DstName', 'SrcDst', 'Id', 'Name',
-			'Int'
+			'Int', 'Filter'
 		);
 		if (in_array($Item, $Items)) {
 			$this->CPA[$Item] = $Value;

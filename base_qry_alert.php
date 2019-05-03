@@ -177,9 +177,11 @@ $DstName = $UIL->CPA['DstName'];
 $IDesc = $UIL->CPA['Id'];
 $CPName = $UIL->CPA['Name'];
 $CPInt = $UIL->CPA['Int'];
+$CPFilt = $UIL->CPA['Filter'];
 // Html Templates.
 $Thc = "<td class='plfieldhdr'>"; // Table header Class.
 $Tdc = "<td class='plfield'>"; // Table data Class.
+$Trc = "\n".str_repeat("\t",5).'</tr><tr>'; // Table row continue.
 // This call can include "#xx-(xx-xx)" values and "submit" values.
 $submit = ImportHTTPVar("submit", VAR_DIGIT | VAR_PUNC | VAR_LETTER, array(_SELECTED, _ALLONSCREEN, _ENTIREQUERY));
 
@@ -331,9 +333,9 @@ echo'                        <TD CLASS="plfieldhdr">'._CHRTTIME.'</TD>
                   <TR><TD CLASS="metatitle" ALIGN=CENTER ROWSPAN=2>'._SENSOR.'</TD>
                        <TD class="plfieldhdr">',_SENSOR.' '._ADDRESS,'</TD>';
 print "\n".str_repeat("\t",4)."$Thc$CPInt</td>";
-echo'                       <TD class="plfieldhdr">'._FILTER.'</TD>
-                  </TR>
-                  <TR><TD class="plfield">'.htmlspecialchars($myrow4[0]).'</TD>
+print "\n".str_repeat("\t",4)."$Thc$CPFilt</td>";
+print "\n".str_repeat("\t",3).'</tr><tr>';
+echo'             <TD class="plfield">'.htmlspecialchars($myrow4[0]).'</TD>
                       <TD class="plfield">'.
 		      ( ($myrow4[1] == "") ? "&nbsp;<I>"._NONE."</I>&nbsp;" : $myrow4[1] ).'</TD>
                       <TD class="plfield">'.

@@ -594,6 +594,19 @@ class legacylangTest extends TestCase {
 		LogTC($tf,'TD file',$file);
 		$this->CPAHas($$tmp,'Int','Interface');
 	}
+	public function testCPASetItemFilter() {
+		$lang = $this->langs;
+		$tf = __FUNCTION__;
+		$tmp = "UI$lang";
+		LogTC($tf,'language',$lang);
+		$this->assertInstanceOf('UILang',$this->UIL = new UILang($lang),
+			"Class for $lang not created."
+		);
+		$$tmp = $this->UIL;
+		$file = $$tmp->TDF;
+		LogTC($tf,'TD file',$file);
+		$this->CPAHas($$tmp,'Filter','Filter');
+	}
 	// Test Universal Action Items.
 	public function testUAASetItemEdit() {
 		$lang = $this->langs;

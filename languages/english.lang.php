@@ -44,9 +44,9 @@ $UI_CP_SrcDst = 'Src or Dest';
 $UI_CP_Id = 'ID';
 $UI_CP_Name = 'Name';
 $UI_CP_Int = 'Interface';
+$UI_CP_Filter = 'Filter';
 
 //common phrases
-DEFINE('_FILTER','Filter');
 DEFINE('_DESC','Description');
 DEFINE('_ROLEID','Role ID');
 DEFINE('_ENABLED','Enabled');

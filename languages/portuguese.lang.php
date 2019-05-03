@@ -51,9 +51,9 @@ $UI_CP_SrcDst = 'Origem ou Destino';
 $UI_CP_Id = 'ID';
 $UI_CP_Name = 'Nome';
 $UI_CP_Int = 'Interface';
+$UI_CP_Filter = 'Filtro';
 
 //common phrases
-DEFINE('_FILTER','Filtro');
 DEFINE('_DESC','Descrição');
 DEFINE('_ROLEID','Role ID');
 DEFINE('_ENABLED','Habilitado');

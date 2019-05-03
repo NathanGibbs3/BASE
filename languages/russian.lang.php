@@ -47,9 +47,9 @@ $UI_CP_SrcDst = 'Источник или назначение';
 $UI_CP_Id = 'ID';
 $UI_CP_Name = 'Имя';
 $UI_CP_Int = 'Интерфейс';
+$UI_CP_Filter = 'Фильтр';
 
 // основные фразы
-DEFINE('_FILTER','Фильтр');
 DEFINE('_DESC','Описание');
 DEFINE('_ROLEID','ID роли');
 DEFINE('_ENABLED','Включено');

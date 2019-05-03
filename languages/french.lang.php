@@ -45,10 +45,9 @@ $UI_CP_SrcDst = 'Src ou Dest';
 $UI_CP_Id = 'ID';
 $UI_CP_Name = 'Nom';
 $UI_CP_Int = 'Interface';
+$UI_CP_Filter = 'Filtre';
 
 //common phrases
-DEFINE('_FILTER','Filtre');
-// Filter
 DEFINE('_DESC','Description');
 // Description
 DEFINE('_ROLEID','Identifiant de Rôle');

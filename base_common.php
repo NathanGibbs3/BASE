@@ -395,9 +395,9 @@ function ICMPType2str($icmp_type)
   {
       case 0:                             /* ICMP_ECHOREPLY */
           return "Echo Reply";
-      case 3:	// ICMP Dest Unreach
+		case 3:	// ICMP Dest Unreach
           return "Destination Unreachable";
-      case 4:	// ICMP Source Quench
+		case 4:	// ICMP Source Quench
           return "Source Quench";
       case 5:                             /* ICMP_REDIRECT */
           return "Redirect";
@@ -504,7 +504,7 @@ function ICMPCode2str($icmp_type, $icmp_code)
             return "Network Unreach TOS";
         case 12:                                   /* ICMP_HOST_UNR_TOS */
             return "Host Unreach TOS";
-        case 13:                                   /* ICMP_PKT_FILTERED */
+			case 13:	// ICMP PacKet Filtered
             return "Packet Filtered";
         case 14:                                   /* ICMP_PREC_VIOLATION */
             return "Precedence violation";

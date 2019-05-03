@@ -50,9 +50,9 @@ $UI_CP_SrcDst = 'Lähteen nimi';
 $UI_CP_Id = 'ID';
 $UI_CP_Name = 'Nimi';
 $UI_CP_Int = 'Käyttöliittymä';
+$UI_CP_Filter = 'Suodatin';
 
 //common phrases
-DEFINE('_FILTER','Suodatin');
 DEFINE('_DESC','Kuvaus');
 DEFINE('_ROLEID','Role ID');//#
 DEFINE('_ENABLED','Toiminnassa');

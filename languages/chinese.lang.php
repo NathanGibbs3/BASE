@@ -45,9 +45,9 @@ $UI_CP_SrcDst = '來源或目地';
 $UI_CP_Id = '識別碼';
 $UI_CP_Name = '名稱';
 $UI_CP_Int = '介面';
+$UI_CP_Filter = '過濾器';
 
 //common phrases
-DEFINE('_FILTER','過濾器');
 DEFINE('_DESC','說明');
 DEFINE('_ROLEID','角色 ID');
 DEFINE('_ENABLED','啟用');

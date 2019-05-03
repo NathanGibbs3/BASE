@@ -46,9 +46,9 @@ $UI_CP_SrcDst = 'Zdroj n. cíl';
 $UI_CP_Id = 'ID';
 $UI_CP_Name = 'Jméno';
 $UI_CP_Int = 'Rozhraní';
+$UI_CP_Filter = 'Filtr';
 
 //common phrases
-DEFINE('_FILTER','Filtr');
 DEFINE('_DESC','Popis');
 DEFINE('_ROLEID','ID role');
 DEFINE('_ENABLED','Enabled');
