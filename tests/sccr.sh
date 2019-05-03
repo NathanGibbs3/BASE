@@ -3,8 +3,9 @@
 CCR='Code Coverage Report'
 CT1="ubmitting $CCR"
 
+echo -n "Travis-CI Environment: "
 if [ "$TRAVIS" == "true" ] && [ "$CI" == "true" ] && [ "$HAS_JOSH_K_SEAL_OF_APPROVAL" == "true" ]; then
-	echo "Running on Travis-CI."
+	echo "Yes"
 	if [ -f ./build/logs/clover.xml ]; then
 		echo "S$CT1 to Codecov.io"
 		bash <(curl -s https://codecov.io/bash)
@@ -29,6 +30,6 @@ if [ "$TRAVIS" == "true" ] && [ "$CI" == "true" ] && [ "$HAS_JOSH_K_SEAL_OF_APPR
 		echo "Not S$CT1."
 	fi
 else
-	echo "Not Running on Travis-CI."
+	echo "No"
 	echo "Not S$CT1."
 fi
