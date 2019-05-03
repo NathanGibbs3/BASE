@@ -37,7 +37,7 @@ puv=`$px --version|sed -e "s/^PHPUnit\s//" -e "s/\sby.*$//"`
 $px --version
 
 # Generate PHPUnit Tests
-php -f ./tests/cptgenerate $puv
+./tests/cptgenerate $puv
 
 echo "Running PHPUnit: $px"
 $px -c $pu.xml.dist
