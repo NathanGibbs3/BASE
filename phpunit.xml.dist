@@ -36,14 +36,8 @@
 		</whitelist>
 	</filter>
 	<testsuites>
-		<testsuite name="BASE test suite PHP 5.2x">
-			<directory phpVersion="5.3.0" phpVersionOperator="&lt;">./tests/php5.2</directory>
-		</testsuite>
-		<testsuite name="BASE test suite PHP 5.3+">
-			<directory phpVersion="7.2.0" phpVersionOperator="&lt;">./tests/php5.3</directory>
-		</testsuite>
-		<testsuite name="BASE test suite PHP 7.2+">
-			<directory phpVersion="7.2.0">./tests/php7.1</directory>
+		<testsuite name="BASE test suite">
+			<directory>./tests/PhpUnit/</directory>
 		</testsuite>
 	</testsuites>
 	<php>

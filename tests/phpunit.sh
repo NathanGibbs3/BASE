@@ -25,13 +25,19 @@ echo "System PHPUnit Version: $puv"
 if [ "$TRAVIS" != "true" ]; then
 	echo "              Location: `which $pu`"
 fi
-if [ "$pvM" == "4" ] && [ "$pvm" == "8" ] && [ "$pvr" \< "28" ]; then
-	echo "Using Composer PHPUnit."
-	px="vendor/bin/$pu"
+if [ 1 == 0 ]; then # When we may need to run the composer version.
+   pi=Composer
+   px="vendor/bin/$pu"
 else
-	echo "Using System PHPUnit."
-	px=$pu
+   pi=System
+   px=$pu
 fi
+echo "Using PHPUnit ($pi).";
+puv=`$px --version|sed -e "s/^PHPUnit\s//" -e "s/\sby.*$//"`
 $px --version
+
+# Generate PHPUnit Tests
+./tests/cptgenerate $puv
+
 echo "Running PHPUnit: $px"
 $px -c $pu.xml.dist

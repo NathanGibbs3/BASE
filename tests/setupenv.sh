@@ -62,9 +62,9 @@ if [ "$pvM" \< "5" ] || ( [ "$pvM" == "5" ] && [ "$pvm" \< "3" ]); then
 		# Fix XDebug on travis-ci PHP 5.2x.
 		# Solution: Load Custom xdebug.ini from repo
 		echo "Enabling PHP XDebug."
-		cp ./tests/5.2-xdebug.ini ${HOME}/.phpenv/versions/$(phpenv version-name)/etc/conf.d/xdebug.ini
+		cp ./tests/phpcommon/5.2-xdebug.ini ${HOME}/.phpenv/versions/$(phpenv version-name)/etc/conf.d/xdebug.ini
 		echo "Enabling PHP 5.2x Code Coverage fix."
-		cp ./tests/5.2-base_conf.php ./base_conf.php
+		cp ./tests/phpcommon/5.2-base_conf.php ./base_conf.php
 	fi
 else
 	echo "enabled."
@@ -126,8 +126,11 @@ else
 	fi
 fi
 
-if [ "$1" == "" ] && [ "$td" != "tests" ]; then
-	echo "Current directory: `pwd`"
-	echo "Creating Build Log Directory: `pwd`/build/logs"
-	mkdir -p build/logs
+if [ "$1" == "" ]; then
+	if [ "$td" != "tests" ]; then
+		echo "Current directory: `pwd`"
+		echo "Creating Build Log Directory: `pwd`/build/logs"
+		mkdir -p build/logs
+	fi
+	pear -V
 fi
