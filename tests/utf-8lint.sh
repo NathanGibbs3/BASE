@@ -19,7 +19,7 @@ if [[ $LANG =~ UTF-8$ ]]; then
 		fi
 	elif [ "$1" == "-h" ]; then
 		echo "Find t$CT1"
-		echo "Usage: $0 [-g -h]"
+		echo "Usage: $0 [-h -n -s -t]"
 		echo "    -s Save file list."
 		echo "    -n Check for new files."
 		echo "    -t Test Run."

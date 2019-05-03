@@ -1,18 +1,16 @@
 #! /bin/bash
 
+echo -n "Travis-CI Environment: "
 if [ "$TRAVIS" == "true" ] && [ "$CI" == "true" ] && [ "$HAS_JOSH_K_SEAL_OF_APPROVAL" == "true" ]; then
-	echo "Running on Travis-CI."
+	echo "Yes"
 else
-	echo "Not Running on Travis-CI."
+	echo "No"
 fi
 
 pu=phpunit
-echo -n "PHPUnit "
 if [ "$TRAVIS" != "true" ]; then
-	if which $pu > /dev/null; then # PHPUnit present
-		echo "installed."
-	else
-		echo "not installed."
+	if ! which $pu > /dev/null; then # No System PHPUnit
+		echo "PHPUnit not installed."
 		echo "Exiting."
 		exit
 	fi
@@ -25,13 +23,15 @@ echo "System PHPUnit Version: $puv"
 if [ "$TRAVIS" != "true" ]; then
 	echo "              Location: `which $pu`"
 fi
-if [ "$pvM" == "4" ] && [ "$pvm" == "8" ] && [ "$pvr" \< "28" ]; then
-	echo "Using Composer PHPUnit."
-	px="vendor/bin/$pu"
+if [ 1 == 0 ]; then # Use Composer installed or System version?
+   pi=Composer
+   px="vendor/bin/$pu"
 else
-	echo "Using System PHPUnit."
-	px=$pu
+   pi=System
+   px=$pu
 fi
-$px --version
-echo "Running PHPUnit: $px"
+# Now what PHPUnit Version are we using?
+puv=`$px --version|sed -e "s/^PHPUnit\s//" -e "s/\sby.*$//"`
+echo "Will test with $pi PHPUnit Version: $puv.";
+./tests/cptgenerate $puv # Generate PHPUnit Tests
 $px -c $pu.xml.dist

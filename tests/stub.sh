@@ -1,7 +1,8 @@
 #! /bin/bash
 
+echo -n "Travis-CI Environment: "
 if [ "$TRAVIS" == "true" ] && [ "$CI" == "true" ] && [ "$HAS_JOSH_K_SEAL_OF_APPROVAL" == "true" ]; then
-	echo "Running on Travis-CI."
+	echo "Yes"
 else
-	echo "Not Running on Travis-CI."
+	echo "No"
 fi
