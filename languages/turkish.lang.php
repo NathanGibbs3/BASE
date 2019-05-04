@@ -46,9 +46,9 @@ $UI_CP_Id = 'ID';
 $UI_CP_Name = 'Ad';
 $UI_CP_Int = 'Arabirim';
 $UI_CP_Filter = 'Süzgeç';
+$UI_CP_Desc = 'Betimleme';
 
 //common phrases
-DEFINE('_DESC','Betimleme');
 DEFINE('_ROLEID','Rol ID');
 DEFINE('_ENABLED','Seçilir Kýlýnmýþ');
 DEFINE('_SUCCESS','Baþarýlý');
@@ -214,7 +214,6 @@ DEFINE('_ROLEADDED','Rol Baþarýlý Biçimde Eklendi');
 DEFINE('_ROLEADMIN','BASE Rol Yönetimi');
 DEFINE('_FRMROLEID','Rol ID:');
 DEFINE('_FRMROLENAME','Rol Adý:');
-DEFINE('_FRMROLEDESC','Betimleme:');
 DEFINE('_UPDATEROLE','Rolü Güncelle');
 
 //base_useradmin.php

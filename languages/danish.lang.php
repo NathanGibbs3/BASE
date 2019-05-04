@@ -46,9 +46,9 @@ $UI_CP_Id = 'ID';
 $UI_CP_Name = 'Navn';
 $UI_CP_Int = 'Brugerflade';
 $UI_CP_Filter = 'Filter';
+$UI_CP_Desc = 'Beskrivelse';
 
 //common phrases
-DEFINE('_DESC','Beskrivelse');
 DEFINE('_ROLEID','Rolle ID');
 DEFINE('_ENABLED','Enabled');
 DEFINE('_SUCCESS','Successful');
@@ -215,7 +215,6 @@ DEFINE('_ROLEADDED','Rolle Lagt Til Vellykket');
 DEFINE('_ROLEADMIN','BASE Rolle Administration');
 DEFINE('_FRMROLEID','Rolle ID:');
 DEFINE('_FRMROLENAME','Rolle Navn:');
-DEFINE('_FRMROLEDESC','Beskrivelse:');
 DEFINE('_UPDATEROLE','Update Role'); //NEW
 
 //base_useradmin.php

@@ -51,9 +51,9 @@ $UI_CP_Id = 'ID';
 $UI_CP_Name = 'Nimi';
 $UI_CP_Int = 'Käyttöliittymä';
 $UI_CP_Filter = 'Suodatin';
+$UI_CP_Desc = 'Kuvaus';
 
 //common phrases
-DEFINE('_DESC','Kuvaus');
 DEFINE('_ROLEID','Role ID');//#
 DEFINE('_ENABLED','Toiminnassa');
 DEFINE('_SUCCESS','Onnistunut');
@@ -219,7 +219,6 @@ DEFINE('_ROLEADDED','Role lisätty');//#
 DEFINE('_ROLEADMIN','BASE Role Administration');//#
 DEFINE('_FRMROLEID','Role ID:');//#
 DEFINE('_FRMROLENAME','Role Nimi:');//#
-DEFINE('_FRMROLEDESC','Kuvaus:');
 DEFINE('_UPDATEROLE','Update Role'); //NEW
 
 //base_useradmin.php

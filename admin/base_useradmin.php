@@ -217,7 +217,7 @@ if ( preg_match("/(create|add)/", $Action) || $Use_Auth_System == 1 ){
 						$tmpHTML .= "\n".str_repeat("\t",4).$tduma."edit$uuid'>";
 						$tmpHTML .= $imgc."button_edit.png' alt='button_$AcEdit'/>";
 						$tmpHTML .= "\n".str_repeat("\t",4).'</a></td>';
-						$tmpHTML .= "\n".str_repeat("\t",4).$tduma."<delete$uuid'>";
+						$tmpHTML .= "\n".str_repeat("\t",4).$tduma."delete$uuid'>";
 						$tmpHTML .= $imgc."button_delete.png' alt='button_$AcDelete'/>";
 						$tmpHTML .= "\n".str_repeat("\t",4).'</a></td>';
 						$tmpHTML .= "\n".str_repeat("\t",4)."$tdac$uid</td>";

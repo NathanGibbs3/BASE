@@ -46,9 +46,9 @@ $UI_CP_Id = 'ID';
 $UI_CP_Name = '名称';
 $UI_CP_Int = '界面';
 $UI_CP_Filter = '过滤器';
+$UI_CP_Desc = '说明';
 
 //common phrases
-DEFINE('_DESC','描述');
 DEFINE('_ROLEID','角色 ID');
 DEFINE('_ENABLED','启用');
 DEFINE('_SUCCESS','已成功');
@@ -219,8 +219,6 @@ DEFINE('_UPDATEROLE','Update Role'); //NEW
 DEFINE('_ROLEADMIN','BASE 角色管理');
 DEFINE('_FRMROLEID','角色 ID:');
 DEFINE('_FRMROLENAME','角色名称:');
-DEFINE('_FRMROLEDESC','说明:');
-
 //base_useradmin.php
 DEFINE('_SUBMITQUERY','Submit Query'); //NEW
 DEFINE('_UPDATEUSER','Update User'); //NEW

@@ -40,70 +40,56 @@
   # set cookie for packet display
   if (isset($_GET['asciiclean'])) {
       1 == $_GET['asciiclean'] ? setcookie('asciiclean', 'clean') : setcookie('asciiclean', 'normal');   
-  }  
+  }
 
-	$sf_portscan_flag = 0;
+$sf_portscan_flag = 0;
 
-
-
-
-function PrintCleanURL()
-{
+function PrintCleanURL() {
   // This function creates the url to display the cleaned up payload -- Kevin
   $query = CleanVariable($_SERVER["QUERY_STRING"], VAR_PERIOD | VAR_DIGIT | VAR_PUNC | VAR_LETTER);
   $sort_order=ImportHTTPVar("sort_order", VAR_LETTER | VAR_USCORE);
 
   if ( (isset($_GET['asciiclean']) && $_GET['asciiclean'] == 1) || ( isset($_COOKIE['asciiclean']) && ($_COOKIE['asciiclean'] == "clean") && (!isset($_GET['asciiclean'])) ) )
   {
-    //create link to non-cleaned payload display
+		//create link to non-cleaned payload display
 		$url = '<center><a href="base_qry_alert.php?' . $query;
     $url.= '&amp;sort_order='.urlencode($sort_order).'&amp;asciiclean=0">'._QANORMALD.'</a></center>';
-    return $url;
-  }
-  else
-  {
-    //create link to cleaned payload display
+		return $url;
+	}else{
+		//create link to cleaned payload display
 		$url = '<center><a href="base_qry_alert.php?' . $query;
     $url.= '&amp;sort_order='.urlencode($sort_order).'&amp;asciiclean=1">'._QAPLAIND.'</a></center>';
-    return $url;
-  }
-  
+		return $url;
+	}
 }
 
-function PrintBinDownload($db, $cid, $sid){
-// Offering a URL to a download possibility:
-    	$query = CleanVariable($_SERVER["QUERY_STRING"], VAR_PERIOD | VAR_DIGIT | VAR_PUNC | VAR_LETTER);
+function PrintBinDownload($db, $cid, $sid) {
+	// Offering a URL to a download possibility:
+	$query = CleanVariable($_SERVER["QUERY_STRING"], VAR_PERIOD | VAR_DIGIT | VAR_PUNC | VAR_LETTER);
 	if ( isset($_GET['asciiclean']) && ($_GET['asciiclean'] == 1) || ( (isset($_COOKIE['asciiclean']) && $_COOKIE['asciiclean'] == "clean") && (!isset($_GET['asciiclean'])) ) ){
 		$url = '<center><a href="base_payload.php?' . $query;
 		$url.= '&amp;download=1&amp;cid='.urlencode($cid).'&amp;sid='.urlencode($sid).'&amp;asciiclean=1">Download of Payload</a></center>';
-	} else {
+	}else{
 		$url = '<center><a href="base_payload.php?' . $query;
 		$url.= '&amp;download=1&amp;cid='.urlencode($cid).'&amp;sid='.urlencode($sid).'&amp;asciiclean=0">Download of Payload</a></center>';
 	}
 	return $url;
 }
 
-function PrintPcapDownload($db, $cid, $sid)
-{
-	if (!isset($db))
-	{
+function PrintPcapDownload($db, $cid, $sid) {
+	if (!isset($db)) {
 		error_log("ERROR: \$db is NOT set.");
 		ErrorMessage(__FILE__ . ":" . __LINE__ . ": db is NOT set. Ignoring.");
     $debug_str = "<BR><PRE>\n\n" . debug_print_backtrace() . "\n\n</PRE><BR>\n";
-    ErrorMessage($debug_str);
+		ErrorMessage($debug_str);
 	}
-
-
-	if (!isset($db->DB))
-	{
+	if (!isset($db->DB)) {
 		error_log("ERROR: \$db->DB is NOT set.");
 		ErrorMessage(__FILE__ . ":" . __LINE__ . ": db->DB is NOT set. Ignoring.");
     $debug_str = "<BR><PRE>\n\n" . debug_print_backtrace() . "\n\n</PRE><BR>\n";
-    ErrorMessage($debug_str);
+		ErrorMessage($debug_str);
 	}
-
-	if (!is_array($db->DB->MetaColumnNames('data')))
-	{
+	if (!is_array($db->DB->MetaColumnNames('data'))) {
 		error_log("ERROR: \$db->DB->MetaColumnNames('data') is NOT an array.");
 		ErrorMessage(__FILE__ . ":" . __LINE__ . ": db->DB->MetaColumnNames('data') is NOT an array. Ignoring.");
 		print "<BR><PRE>\n\n";
@@ -112,20 +98,17 @@ function PrintPcapDownload($db, $cid, $sid)
 		var_dump($db->DB->MetaColumnNames('data'));
 		print "</PRE><BR>\n\n" ;
 	}
-
-
-   if ( !in_array("pcap_header", $db->DB->MetaColumnNames('data')) ||
+	if ( !in_array("pcap_header", $db->DB->MetaColumnNames('data')) ||
         !in_array("data_header", $db->DB->MetaColumnNames('data'))) {
-      $type = 3;
-   } else {
-      $type = 2;
-   }
-
-   $query = CleanVariable($_SERVER["QUERY_STRING"], VAR_PERIOD | VAR_DIGIT | VAR_PUNC | VAR_LETTER);
+		$type = 3;
+	}else{
+		$type = 2;
+	}
+	$query = CleanVariable($_SERVER["QUERY_STRING"], VAR_PERIOD | VAR_DIGIT | VAR_PUNC | VAR_LETTER);
 	if ( (isset($_GET['asciiclean']) && $_GET['asciiclean'] == 1) || ( isset($_COOKIE['asciiclean']) && ($_COOKIE["asciiclean"] == "clean") && (!isset($_GET['asciiclean'])) ) ){
 		$url = '<center><a href="base_payload.php?' . $query;
 		$url.= '&amp;download='.urlencode($type).'&amp;cid='.urlencode($cid).'&amp;sid='.urlencode($sid).'&amp;asciiclean=1">Download in pcap format</a></center>';
-	} else {
+	}else{
 		$url = '<center><a href="base_payload.php?' . $query;
 		$url.= '&amp;download='.urlencode($type).'&amp;cid='.urlencode($cid).'&amp;sid='.urlencode($sid).'&amp;asciiclean=0">Download in pcap format</a></center>';
 	}
@@ -136,7 +119,6 @@ function PrintPacketLookupBrowseButtons($seq, $save_sql, $db, &$previous_button,
 {
   $sf_portscan_flag = 0;
 
-
   echo "\n\n<!-- Single Alert Browsing Buttons -->\n";
 
   $result2 = $db->baseExecute($save_sql);
@@ -145,8 +127,7 @@ function PrintPacketLookupBrowseButtons($seq, $save_sql, $db, &$previous_button,
      $previous_button = '[ '._FIRST.' ]'."\n";
 
   $i = 0;
-  while ($i <= $seq+1 )
-  {
+	while ($i <= $seq+1 ) {
      $myrow2 = $result2->baseFetchRow();
 
      if ( $myrow2 == "" )
@@ -158,18 +139,15 @@ function PrintPacketLookupBrowseButtons($seq, $save_sql, $db, &$previous_button,
      else if ( $i == $seq+1 ) {
         $next_button = '<INPUT TYPE="submit" NAME="submit" VALUE="&gt;&gt; '._NEXT.' #';
         $next_button.= ($seq+1).'-('.$myrow2[0].'-'.$myrow2[1].')">'."\n";
-     }
-     $i++;
-  }
-
-  $result2->baseFreeRows();
+		}
+		$i++;
+	}
+	$result2->baseFreeRows();
 }
 
-  /* 
-   *  Need to import $submit and set the $QUERY_STRING early to support
-   *  the back button.  Otherwise, the value of $submit will not be passed
-   *  to the history.
-   */
+	// Need to import $submit and set the $QUERY_STRING early to support the
+	// back button. Otherwise, the value of $submit will not be passed to the
+	//history.
 
 $UIL = new UILang($BASE_Language); // Create UI Language Object.
 $SrcName = $UIL->CPA['SrcName'];
@@ -178,6 +156,7 @@ $IDesc = $UIL->CPA['Id'];
 $CPName = $UIL->CPA['Name'];
 $CPInt = $UIL->CPA['Int'];
 $CPFilt = $UIL->CPA['Filter'];
+$CPDesc = $UIL->CPA['Desc'];
 // Html Templates.
 $Thc = "<td class='plfieldhdr'>"; // Table header Class.
 $Tdc = "<td class='plfield'>"; // Table data Class.
@@ -382,16 +361,14 @@ echo '                  </TR>
                <TR><TD CLASS="metatitle" ALIGN=CENTER ROWSPAN='.($num+1).'>'._ALERTGROUP.'</TD>';
 if ( $num > 0 ){
 	print "\n".str_repeat("\t",4)."$Thc$IDesc</td>";
-	print "\n".str_repeat("\t",4)."%Thc$CPName</td>";
-     echo '        <TD class="plfieldhdr">'._DESC.'</TD>';
+	print "\n".str_repeat("\t",4)."$Thc$CPName</td>";
+	print "\n".str_repeat("\t",4)."$Thc$CPDesc</td>";
 }else{
-     echo '        <TD>&nbsp;&nbsp;<I>'._NONE.'</I>&nbsp;</TD>';
+	print "\n".str_repeat("\t",4).'<td><I>'._NONE.'</I></td>';
 }
 print "\n".str_repeat("\t",3).'</tr>';
-  for ($i = 0; $i < $num; $i++)
-  {
-     $myrow4 = $result4->baseFetchRow();
-
+for ($i = 0; $i < $num; $i++) {
+	$myrow4 = $result4->baseFetchRow();
      echo '    <TR><TD class="plfield">'.htmlspecialchars($myrow4[0]).'</TD>
                    <TD class="plfield">'.htmlspecialchars($myrow4[1]).'</TD>
                    <TD class="plfield">'.htmlspecialchars($myrow4[2]).'</TD>

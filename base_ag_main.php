@@ -38,11 +38,12 @@ $AcEdit = $UIL->UAA['Edit'];
 $AcDelete = $UIL->UAA['Delete'];
 $AgiDesc = $UIL->CPA['Id'];
 $AgnDesc = $UIL->CPA['Name'];
+$AgdDesc = $UIL->CPA['Desc'];
 // Html Templates
 $Umca = "base_ag_main.php?ag_action="; // Role Managemnt Common Action.
 $Fct = " Method='POST'>"; // Form tag end.
 $Hrst = "<a href='$Umca"; // Href tag start.
-$Trc = "\n".str_repeat("\t",5).'</tr><tr>'; // Table row continue.
+$Trc = "\n".str_repeat("\t",4).'</tr><tr>'; // Table row continue.
 $Thc = "<td class='plfieldhdr'>"; // Table header Class.
 $Tdc = "<td class='plfield'>"; // Table data Class.
   $cs = new CriteriaState("base_ag_main.php");
@@ -221,38 +222,36 @@ if ($ag_action == "list") {
         echo "<div style='margin:auto'><strong>"._NOALERTGOUPS."</strong></div>";
     } else {
         echo '
-             <table border="1" style="border-spacing:0;padding:0" width="100%">
-             <tr>';
-			print "\n".str_repeat("\t",4)."$Thc$AgiDesc</td>";
-			print "\n".str_repeat("\t",4)."$Thc$AgnDesc</td>";
-echo'               <td class="plfieldhdr">'._NUMALERTS.'</td>
-               <td class="plfieldhdr">'._DESC.'</td>
-               <td class="plfieldhdr">'._ACTIONS.'</td>
-             </tr>';
-        for ($i = 0; $i < $num; $i++) {
-            $myrow = $result->baseFetchRow();
-
-            /* count the number of alerts in the AG */
+             <table border="1" style="border-spacing:0;padding:0" width="100%">';
+		print "\n".str_repeat("\t",4).'<tr>';
+		print "\n".str_repeat("\t",5)."$Thc$AgiDesc</td>";
+		print "\n".str_repeat("\t",5)."$Thc$AgnDesc</td>";
+		print "\n".str_repeat("\t",5).$Thc._NUMALERTS.'</td>';
+		print "\n".str_repeat("\t",5)."$Thc$AgdDesc</td>";
+		print "\n".str_repeat("\t",5).$Thc._ACTIONS.'</td>';
+		for ($i = 0; $i < $num; $i++) {
+			$myrow = $result->baseFetchRow();
+			// count the number of alerts in the AG.
             $result2 = $db->baseExecute("SELECT count(ag_cid) FROM acid_ag_alert WHERE ag_id='".$myrow[0]."'");
             $myrow2 = $result2->baseFetchRow();
             $num_alerts = $myrow2[0];
             $result2->baseFreeRows();
 
-            echo '<tr>
-                    <td class="plfield">
+			print $Trc;
+            echo '  <td class="plfield">
                       <a href="base_ag_main.php?ag_action=view&amp;ag_id='.htmlspecialchars($myrow[0]).'&amp;submit=x">'.htmlspecialchars($myrow[0]).'</a></td>
                       <td class="plfield">'.htmlspecialchars($myrow[1]).'</TD>
                       <td class="plfield">'.$num_alerts.'</TD>
                       <td class="plfield">'.htmlspecialchars($myrow[2]).'</TD>';
-			print "\n".str_repeat("\t",5).$Tdc;
-			print "\n".str_repeat("\t",6).$Hrst."edit&amp;ag_id=".urlencode($myrow[0])."&amp;submit=x'>$AcEdit</a> |";
-			print "\n".str_repeat("\t",6).$Hrst."delete&amp;ag_id=".urlencode($myrow[0])."&amp;submit=x'>$AcDelete</a> |";
+			print "\n".str_repeat("\t",6).$Tdc;
+			print "\n".str_repeat("\t",7).$Hrst."edit&amp;ag_id=".urlencode($myrow[0])."&amp;submit=x'>$AcEdit</a> |";
+			print "\n".str_repeat("\t",7).$Hrst."delete&amp;ag_id=".urlencode($myrow[0])."&amp;submit=x'>$AcDelete</a> |";
 echo'                 <a href="base_ag_main.php?ag_action=clear&amp;ag_id='.urlencode($myrow[0]).'&amp;submit=x">'._CLEAR.'</a>
-                      </td>
-                  </tr>';
-        }
-        echo '</table>';
-        $result->baseFreeRows();
+                      </td>';
+		}
+		print "\n".str_repeat("\t",4).'</tr>';
+		print "\n".str_repeat("\t",3).'</table>';
+		$result->baseFreeRows();
 	}
 }
 
@@ -272,7 +271,7 @@ if ($ag_action != "list") {
         echo $ag_id;
     }
 	print "\n".str_repeat("\t",5).'</td>';
-	print "\n".str_repeat("\t",4).'<tr>';
+	print $Trc;
 	print "\n".str_repeat("\t",5)."<td valign='top'>";
 	print "\n".str_repeat("\t",6)."<strong>$AgnDesc</strong>";
 	print "\n".str_repeat("\t",5).'</td>';
@@ -297,31 +296,39 @@ if ($ag_action != "list") {
         echo '<input type="text" name="ag_name" size="40" value="'.htmlspecialchars($ag_name).'">';
     } else if ( ($ag_action == "view" || $ag_action == "delete" || $ag_action = "clear") && $submit != "" ) {
         echo htmlspecialchars($ag_name);
-    }
-
-    echo ' </td>';
-     
-    if ( ($ag_action == "create" && $submit == "") || (($ag_action == "view" || $ag_action == "edit" || $ag_action == "delete" || $ag_action == "clear") && $submit != "" )) {
-        echo '
-        <tr>
-         <td valign="top"><strong>'._DESC.'</strong></td>
-         <td>';
-
-        if ( $ag_action == "create" && $submit == "" ) {
-            echo '<textarea name="ag_desc" cols="70" rows=4>'.htmlspecialchars($ag_desc).'</textarea>';
-        } else if ( $ag_action == "edit" && $submit != "" ) {
-            echo '<textarea name="ag_desc" cols="70" rows=4>'.htmlspecialchars($ag_desc).'</textarea>';
-        } else if ( ($ag_action == "view" || $ag_action == "delete" ||$ag_action == "clear") && $submit != "" ) {
-            echo(htmlspecialchars($ag_desc));
-        }
-
-        echo '
-             </td>
-           </tr>';
-    }
-
-    echo '</table>';
-    /* Print the Appropriate button */
+	}
+	print "\n".str_repeat("\t",5).'</td>';
+	if ( ($ag_action == "create" && $submit == "")
+		|| ((
+				$ag_action == "view" || $ag_action == "edit"
+				|| $ag_action == "delete" || $ag_action == "clear"
+			) && $submit != "" )
+	) {
+		print $Trc;
+		print "\n".str_repeat("\t",5)."<td valign='top'>";
+		print "\n".str_repeat("\t",6)."<strong>$AgdDesc</strong>";
+		print "\n".str_repeat("\t",5).'</td>';
+		print "\n".str_repeat("\t",5).'<td>';
+		$agdPS = XSSPrintSafe($ag_desc); // Anti XSS this for display.
+		$ACEta = "\n".str_repeat("\t",6); // Action (Create || Edit) TextArea.
+		$ACEta .= "<textarea name='ag_desc' cols='70' rows='4'>";
+		$ACEta .= "$agdPS</textarea>";
+		if ( $submit == "" ){
+			if ( $ag_action == "create" ){
+				print $ACEta;
+			}
+		}else{ // $submit has a value.
+			if ( $ag_action == "edit" ){
+				print $ACEta;
+			}else{
+				print "\n".str_repeat("\t",6).$agdPS;
+			}
+		}
+		print "\n".str_repeat("\t",5).'</td>';
+		print "\n".str_repeat("\t",4).'</tr>';
+	}
+	print "\n".str_repeat("\t",3).'</table>';
+	// Print the Appropriate button.
     if ( $submit == "" || $ag_action == "edit" || $ag_action == "delete" || $ag_action == "clear" ) {
         echo '<div style="margin:auto">';
         if ($ag_action == "create" ) {
@@ -341,10 +348,9 @@ if ($ag_action != "list") {
         } else if ($ag_action == "clear" && $submit != "") {
             $button_text = _CONFIRMCLEAR; $ag_action = "clear_confirm";
         }
-    
         echo '<input type="submit" name="submit" value="'.$button_text.'">';
         echo '</div>';
-    }
+	}
 } // if ($ag_action != "list")
     
 echo '<input type="hidden" name="ag_action" value="'.htmlspecialchars($ag_action).'">';

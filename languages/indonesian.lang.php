@@ -46,9 +46,9 @@ $UI_CP_Id = 'ID';
 $UI_CP_Name = 'Nama';
 $UI_CP_Int = 'Interface';
 $UI_CP_Filter = 'Filter';
+$UI_CP_Desc = 'Deskripsi';
 
 //common phrases
-DEFINE('_DESC','Deskripsi');
 DEFINE('_ROLEID','ID jenis pengguna');
 DEFINE('_ENABLED','Aktif');
 DEFINE('_SUCCESS','Berhasil');
@@ -214,7 +214,6 @@ DEFINE('_ROLEADDED','Sukses menambah jenis');
 DEFINE('_ROLEADMIN','Administrasi jenis BASE');
 DEFINE('_FRMROLEID','Jenis ID pengguna:');
 DEFINE('_FRMROLENAME','Nama jenis pengguna:');
-DEFINE('_FRMROLEDESC','Deskripsi:');
 DEFINE('_UPDATEROLE','Update Role'); //NEW
 
 //base_useradmin.php

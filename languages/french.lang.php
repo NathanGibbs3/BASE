@@ -46,10 +46,9 @@ $UI_CP_Id = 'ID';
 $UI_CP_Name = 'Nom';
 $UI_CP_Int = 'Interface';
 $UI_CP_Filter = 'Filtre';
+$UI_CP_Desc = 'Description';
 
 //common phrases
-DEFINE('_DESC','Description');
-// Description
 DEFINE('_ROLEID','Identifiant de Rôle');
 // Role ID
 DEFINE('_ENABLED','Activé');
@@ -240,8 +239,6 @@ DEFINE('_FRMROLEID','Identifiant du Rôle:');
 // Role ID:
 DEFINE('_FRMROLENAME','Nom du Rôle');
 // Role Name:
-DEFINE('_FRMROLEDESC','Description: ');
-// Description:
 
 //base_useradmin.php
 DEFINE('_USERADMIN','Administration des Utilisateurs BASE');

@@ -48,9 +48,9 @@ $UI_CP_Id = 'ID';
 $UI_CP_Name = 'Имя';
 $UI_CP_Int = 'Интерфейс';
 $UI_CP_Filter = 'Фильтр';
+$UI_CP_Desc = 'Описание';
 
 // основные фразы
-DEFINE('_DESC','Описание');
 DEFINE('_ROLEID','ID роли');
 DEFINE('_ENABLED','Включено');
 DEFINE('_SUCCESS','Успешно');
@@ -216,7 +216,6 @@ DEFINE('_ROLEADDED','Роль успешно добавлена');
 DEFINE('_ROLEADMIN','Администрирование ролей BASE');
 DEFINE('_FRMROLEID','ID роли:');
 DEFINE('_FRMROLENAME','Имя роли:');
-DEFINE('_FRMROLEDESC','Описание:');
 DEFINE('_UPDATEROLE','Update Role'); //NEW
 
 //base_useradmin.php

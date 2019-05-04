@@ -46,9 +46,9 @@ $UI_CP_Id = 'ID';
 $UI_CP_Name = 'Namn';
 $UI_CP_Int = 'Gränssnitt';
 $UI_CP_Filter = 'Filter';
+$UI_CP_Desc = 'Beskrivning';
 
 //common phrases
-DEFINE('_DESC','Beskrivning');
 DEFINE('_ROLEID','Roll ID');
 DEFINE('_ENABLED','Möjliggjord');
 DEFINE('_SUCCESS','Utfört');
@@ -215,7 +215,6 @@ DEFINE('_ROLEADDED','Rollen har lagts till');
 DEFINE('_ROLEADMIN','BASE Roll Administration');
 DEFINE('_FRMROLEID','Roll ID:');
 DEFINE('_FRMROLENAME','Roll Namn:');
-DEFINE('_FRMROLEDESC','Beskrivning:');
 DEFINE('_UPDATEROLE','Uppdatera Roll'); //NEW
 
 //base_useradmin.php

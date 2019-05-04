@@ -54,9 +54,9 @@ $UI_CP_Id = 'ID';
 $UI_CP_Name = 'Nome';
 $UI_CP_Int = 'Interface';
 $UI_CP_Filter = 'Filtro';
+$UI_CP_Desc = 'Descrição';
 
 //common phrases
-DEFINE('_DESC','Descrição');
 DEFINE('_ROLEID','ID do perfil');
 DEFINE('_ENABLED','Habilitado');
 DEFINE('_SUCCESS','Com Sucesso');
@@ -222,7 +222,6 @@ DEFINE('_ROLEADDED','Perfil adicionada com sucesso');
 DEFINE('_ROLEADMIN','Administração de Perfis do BASE');
 DEFINE('_FRMROLEID','ID do Perfil:');
 DEFINE('_FRMROLENAME','Nome do Perfil:');
-DEFINE('_FRMROLEDESC','Descrição:');
 DEFINE('_UPDATEROLE','Actualizar Perfil');
 
 //base_useradmin.php

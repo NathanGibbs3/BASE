@@ -47,9 +47,9 @@ $UI_CP_Id = 'ID';
 $UI_CP_Name = 'Jméno';
 $UI_CP_Int = 'Rozhraní';
 $UI_CP_Filter = 'Filtr';
+$UI_CP_Desc = 'Popis';
 
 //common phrases
-DEFINE('_DESC','Popis');
 DEFINE('_ROLEID','ID role');
 DEFINE('_ENABLED','Enabled');
 DEFINE('_SUCCESS','Successful');
@@ -215,7 +215,6 @@ DEFINE('_ROLEADDED','Role pøidána úspì¹nì');
 DEFINE('_ROLEADMIN','Správa rolí BASE');
 DEFINE('_FRMROLEID','ID role:');
 DEFINE('_FRMROLENAME','Jméno role:');
-DEFINE('_FRMROLEDESC','Popis:');
 DEFINE('_UPDATEROLE','Update Role'); //NEW
 
 //base_useradmin.php

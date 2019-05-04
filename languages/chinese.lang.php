@@ -46,9 +46,9 @@ $UI_CP_Id = '識別碼';
 $UI_CP_Name = '名稱';
 $UI_CP_Int = '介面';
 $UI_CP_Filter = '過濾器';
+$UI_CP_Desc = '說明';
 
 //common phrases
-DEFINE('_DESC','說明');
 DEFINE('_ROLEID','角色 ID');
 DEFINE('_ENABLED','啟用');
 DEFINE('_SUCCESS','已成功 ');
@@ -214,7 +214,6 @@ DEFINE('_ROLEADDED','角色新增成功 ');
 DEFINE('_ROLEADMIN','基本角色管理');
 DEFINE('_FRMROLEID','角色識別碼:');
 DEFINE('_FRMROLENAME','角色名稱:');
-DEFINE('_FRMROLEDESC','說明:');
 DEFINE('_UPDATEROLE',' 更新角色'); //NEW
 
 //base_useradmin.php

@@ -46,9 +46,9 @@ $UI_CP_Id = 'ID';
 $UI_CP_Name = 'Nombre';
 $UI_CP_Int = 'Interfaz';
 $UI_CP_Filter = 'Filtro';
+$UI_CP_Desc = 'Descripci&oacute;n';
 
 //common phrases
-DEFINE('_DESC','Descripci&oacute;n');
 DEFINE('_ROLEID','ID del papel');
 DEFINE('_ENABLED','Activado');
 DEFINE('_SUCCESS','Exitoso');
@@ -215,7 +215,6 @@ DEFINE('_ROLEADDED','Papel a&ntilde;adido con exito');
 DEFINE('_ROLEADMIN','BASE Manejo de Papeles');
 DEFINE('_FRMROLEID','ID de Papel:');
 DEFINE('_FRMROLENAME','Nombre de Papel:');
-DEFINE('_FRMROLEDESC','Descripci&oacute;n:');
 DEFINE('_UPDATEROLE','Update Role'); //NEW
 //base_useradmin.php
 

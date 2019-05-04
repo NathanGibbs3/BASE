@@ -46,9 +46,9 @@ $UI_CP_Id = 'ID';
 $UI_CP_Name = '名前';
 $UI_CP_Int = 'インターフェース';
 $UI_CP_Filter = 'フィルター';
+$UI_CP_Desc = '詳細';
 
 //common phrases
-DEFINE('_DESC','詳細');
 DEFINE('_ROLEID','Role ID');
 DEFINE('_ENABLED','有効');
 DEFINE('_SUCCESS','成功');
@@ -214,7 +214,6 @@ DEFINE('_ROLEADDED','Role は正常に追加されました。');
 DEFINE('_ROLEADMIN','BASE Role管理');
 DEFINE('_FRMROLEID','Role ID:');
 DEFINE('_FRMROLENAME','Role名:');
-DEFINE('_FRMROLEDESC','詳細:');
 DEFINE('_UPDATEROLE','Update Role'); //NEW
 
 //base_useradmin.php

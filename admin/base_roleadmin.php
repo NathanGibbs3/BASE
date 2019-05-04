@@ -43,11 +43,15 @@ if ($Use_Auth_System == 1) {
 		$Hrst = "<a href='$Umca"; // Href tag start.
 		$Trc = "\n".str_repeat("\t",5).'</tr><tr>'; // Table row continue.
 		// I would like to clean this up later into a display class or set of functions -- Kevin
-		if ( preg_match("/(add|(delete|edit)role)/", $Action) ){
+		if ( preg_match("/(delete|edit)role/", $Action) ){
 			$roleid = filterSql($_GET['roleid']);
+		}
+		if ( preg_match("/add/", $Action) ){
+			$roleid = filterSql($_POST['roleid']);
 		}
 		if ( preg_match("/(create|list|(edit|update)role)/", $Action) ){
 			$role = new BaseRole();
+			$hrdesc = $UIL->CPA['Desc']; // Description Header Item.
 		}else{ // 2 vars for this?! No idea why. Will keep for now. -- Nathan
 			$BRole = new BaseRole();
 		}
@@ -69,7 +73,7 @@ if ($Use_Auth_System == 1) {
 				$form .= "\n".str_repeat("\t",7)."<input type='text' ";
 				$form .= "name='rolename'/>";
 				$form .= "\n".str_repeat("\t",6).'</td>'.$Trc;
-				$form .= "\n".str_repeat("\t",6).$tdc._FRMROLEDESC.'</td>';
+				$form .= "\n".str_repeat("\t",6)."$tdc$hrdesc:</td>";
 				$form .= "\n".str_repeat("\t",6).$tdal;
 				$form .= "\n".str_repeat("\t",7)."<input type='text' ";
 				$form .= "name='desc'/>";
@@ -112,7 +116,7 @@ if ($Use_Auth_System == 1) {
 				$form .= "\n".str_repeat("\t",6).$tdal;
 				$form .= "\n".str_repeat("\t",7)."<input type='text' ";
 				$form .= "name='role_name' value='$ron'></td>$Trc";
-				$form .= "\n".str_repeat("\t",6).$tdc._FRMROLEDESC.'</td>';
+				$form .= "\n".str_repeat("\t",6)."$tdc$hrdesc:</td>";
 				$form .= "\n".str_repeat("\t",6).$tdal;
 				$form .= "\n".str_repeat("\t",7)."<input type='text' ";
 				$form .= "name='desc' value='$rod'></td>$Trc";
@@ -155,7 +159,7 @@ if ($Use_Auth_System == 1) {
 				$tmpHTML .= "\n".str_repeat("\t",4)."$thcw5$AcDelete</td>";
 				$tmpHTML .= "\n".str_repeat("\t",4)."$thcw5$ridesc</td>";
 				$tmpHTML .= "\n".str_repeat("\t",4)."$thc>$rname</td>";
-				$tmpHTML .= "\n".str_repeat("\t",4)."$thc>"._DESC.'</td>';
+				$tmpHTML .= "\n".str_repeat("\t",4)."$thc>$hrdesc</td>";
 				$tmpHTML .= "\n".str_repeat("\t",3).'</tr>';
 				foreach ($roles as $row) { // Iterate roles & build table.
 					$tmpRow = explode("|", $row);

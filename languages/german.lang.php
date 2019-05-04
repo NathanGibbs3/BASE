@@ -47,9 +47,9 @@ $UI_CP_Id = 'ID';
 $UI_CP_Name = 'Name';
 $UI_CP_Int = 'Schnittstelle';
 $UI_CP_Filter = 'Filter';
+$UI_CP_Desc = 'Beschreibung';
 
 //common phrases
-DEFINE('_DESC','Beschreibung');
 DEFINE('_ROLEID','Benutzertyp ID');
 DEFINE('_ENABLED','Aktiv');
 DEFINE('_SUCCESS','Erfolgreich');
@@ -215,7 +215,6 @@ DEFINE('_ROLEADDED','Benutzertyp erfolgreich hinzugef&uuml;gt');
 DEFINE('_ROLEADMIN','BASE Benutzertyp Verwaltung');
 DEFINE('_FRMROLEID','Benutzertyp ID:');
 DEFINE('_FRMROLENAME','Benutzertyp Name:');
-DEFINE('_FRMROLEDESC','Beschreibung:');
 DEFINE('_UPDATEROLE','Update Role'); //NEW
 
 //base_useradmin.php
