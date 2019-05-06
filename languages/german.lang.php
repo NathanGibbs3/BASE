@@ -31,9 +31,6 @@ $UI_Timefmt = '%a %B %d, %Y %H:%M:%S';
 // UI Init.
 $UI_Charset = 'iso-8859-1';
 $UI_Title = 'Basic Analysis and Security Engine';
-// Authentication Data.
-$UI_ADUN = 'Login';
-$UI_ADPW = 'Passwort';
 // Universal Actions.
 $UI_UA_Edit = 'Bearbeiten';
 $UI_UA_Delete = 'Entfernen';
@@ -48,9 +45,12 @@ $UI_CP_Name = 'Name';
 $UI_CP_Int = 'Schnittstelle';
 $UI_CP_Filter = 'Filter';
 $UI_CP_Desc = 'Beschreibung';
+// Authentication Data.
+$UI_AD_UND = 'Login';
+$UI_AD_PWD = 'Passwort';
+$UI_AD_RID = "Benutzertyp $UI_CP_Id";
 
 //common phrases
-DEFINE('_ROLEID','Benutzertyp ID');
 DEFINE('_ENABLED','Aktiv');
 DEFINE('_SUCCESS','Erfolgreich');
 DEFINE('_SENSOR','Sensor');
@@ -208,12 +208,11 @@ DEFINE('_OLDPWD','Es wurde ein altes Passwort angegeben, das nicht zu unseren Da
 DEFINE('_PWDCANT','Es ist nicht m&ouml;glich Ihr Passwort zu &auml;ndern: ');
 DEFINE('_PWDDONE','Ihr Passwort wurde ge&auml;ndert!');
 DEFINE('_ROLEEXIST','Benutzertyp existiert bereits');
-DEFINE('_ROLEIDEXIST','Benutzertyp ID existiert bereits');
+DEFINE('_ROLEIDEXIST',"$UI_AD_RID existiert bereits");
 DEFINE('_ROLEADDED','Benutzertyp erfolgreich hinzugef&uuml;gt');
 
 //base_roleadmin.php
 DEFINE('_ROLEADMIN','BASE Benutzertyp Verwaltung');
-DEFINE('_FRMROLEID','Benutzertyp ID:');
 DEFINE('_FRMROLENAME','Benutzertyp Name:');
 DEFINE('_UPDATEROLE','Update Role'); //NEW
 

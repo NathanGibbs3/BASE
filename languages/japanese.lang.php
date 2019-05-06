@@ -30,9 +30,6 @@ $UI_Timefmt = '%a %B %d, %Y %H:%M:%S';
 // UI Init.
 $UI_Charset = 'UTF-8';
 $UI_Title = 'Basic Analysis and Security Engine 日本';
-// Authentication Data.
-$UI_ADUN = 'ログイン';
-$UI_ADPW = 'パスワード';
 // Universal Actions.
 $UI_UA_Edit = '編集';
 $UI_UA_Delete = '削除';
@@ -47,9 +44,12 @@ $UI_CP_Name = '名前';
 $UI_CP_Int = 'インターフェース';
 $UI_CP_Filter = 'フィルター';
 $UI_CP_Desc = '詳細';
+// Authentication Data.
+$UI_AD_UND = 'ログイン';
+$UI_AD_PWD = 'パスワード';
+$UI_AD_RID = "Role $UI_CP_Id";
 
 //common phrases
-DEFINE('_ROLEID','Role ID');
 DEFINE('_ENABLED','有効');
 DEFINE('_SUCCESS','成功');
 DEFINE('_SENSOR','センサー');
@@ -207,12 +207,11 @@ DEFINE('_OLDPWD','古いパスワードが間違っています。');
 DEFINE('_PWDCANT','パスワードの変更が出来ませんでした。: ');
 DEFINE('_PWDDONE','パスワードは正常に変更されました。');
 DEFINE('_ROLEEXIST','Role はすでに存在します。');
-DEFINE('_ROLEIDEXIST','Role ID がすでに存在します。');
+DEFINE('_ROLEIDEXIST',"$UI_AD_RID がすでに存在します。");
 DEFINE('_ROLEADDED','Role は正常に追加されました。');
 
 //base_roleadmin.php
 DEFINE('_ROLEADMIN','BASE Role管理');
-DEFINE('_FRMROLEID','Role ID:');
 DEFINE('_FRMROLENAME','Role名:');
 DEFINE('_UPDATEROLE','Update Role'); //NEW
 

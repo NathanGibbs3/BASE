@@ -52,6 +52,9 @@ if ($Use_Auth_System == 1) {
 		if ( preg_match("/(create|list|(edit|update)role)/", $Action) ){
 			$role = new BaseRole();
 			$hrdesc = $UIL->CPA['Desc']; // Description Header Item.
+			if ( preg_match("/(create|editrole)/", $Action) ){
+				$RIDesc = $UIL->ADA['DescRI'];
+			}
 		}else{ // 2 vars for this?! No idea why. Will keep for now. -- Nathan
 			$BRole = new BaseRole();
 		}
@@ -63,21 +66,21 @@ if ($Use_Auth_System == 1) {
 				$form .= "\n".str_repeat("\t",4).'<table border=1 ';
 				$form .= "class='query'>";
 				$form .= "\n".str_repeat("\t",5).'<tr>';
-				$form .= "\n".str_repeat("\t",6).$tdc._FRMROLEID.'</td>';
+				$form .= "\n".str_repeat("\t",6)."$tdc$RIDesc:</td>";
 				$form .= "\n".str_repeat("\t",6).$tdal;
 				$form .= "\n".str_repeat("\t",7)."<input type='text' ";
 				$form .= "name='roleid'/>";
-				$form .= "\n".str_repeat("\t",6).'</td>'.$Trc;
+				$form .= "\n".str_repeat("\t",6)."</td>$Trc";
 				$form .= "\n".str_repeat("\t",6).$tdc._FRMROLENAME.'</td>';
 				$form .= "\n".str_repeat("\t",6).$tdal;
 				$form .= "\n".str_repeat("\t",7)."<input type='text' ";
 				$form .= "name='rolename'/>";
-				$form .= "\n".str_repeat("\t",6).'</td>'.$Trc;
+				$form .= "\n".str_repeat("\t",6)."</td>$Trc";
 				$form .= "\n".str_repeat("\t",6)."$tdc$hrdesc:</td>";
 				$form .= "\n".str_repeat("\t",6).$tdal;
 				$form .= "\n".str_repeat("\t",7)."<input type='text' ";
 				$form .= "name='desc'/>";
-				$form .= "\n".str_repeat("\t",6).'</td>'.$Trc;
+				$form .= "\n".str_repeat("\t",6)."</td>$Trc";
 				$form .= "<td colspan='2' align='center'><input type='submit' name='submit' value='"._SUBMITQUERY."'/></td>";
 				$form .= "\n".str_repeat("\t",5).'</tr>';
 				$form .= "\n".str_repeat("\t",4).'</table>';
@@ -110,16 +113,18 @@ if ($Use_Auth_System == 1) {
 				$form .= "\n".str_repeat("\t",4).'<table border=1 ';
 				$form .= "class='query'>";
 				$form .= "\n".str_repeat("\t",5).'<tr>';
-				$form .= "\n".str_repeat("\t",6).$tdc._FRMROLEID.'</td>';
+				$form .= "\n".str_repeat("\t",6)."$tdc$RIDesc:</td>";
 				$form .= "\n".str_repeat("\t",6)."$tdal$rid</td>$Trc";
 				$form .= "\n".str_repeat("\t",6).$tdc._FRMROLENAME.'</td>';
 				$form .= "\n".str_repeat("\t",6).$tdal;
 				$form .= "\n".str_repeat("\t",7)."<input type='text' ";
-				$form .= "name='role_name' value='$ron'></td>$Trc";
+				$form .= "name='role_name' value='$ron' />";
+				$form .= "\n".str_repeat("\t",6)."</td>$Trc";
 				$form .= "\n".str_repeat("\t",6)."$tdc$hrdesc:</td>";
 				$form .= "\n".str_repeat("\t",6).$tdal;
 				$form .= "\n".str_repeat("\t",7)."<input type='text' ";
-				$form .= "name='desc' value='$rod'></td>$Trc";
+				$form .= "name='desc' value='$rod' />";
+				$form .= "\n".str_repeat("\t",6)."</td>$Trc";
 				$form .= "<td colspan='2' align='center'><input type='submit' name='submit' value='"._UPDATEROLE."'/></td>";
 				$form .= "\n".str_repeat("\t",5).'</tr>';
 				$form .= "\n".str_repeat("\t",4).'</table>';
@@ -151,8 +156,8 @@ if ($Use_Auth_System == 1) {
 				// See https://github.com/NathanGibbs3/BASE/issues/19
 				$tmpHTML = "<TABLE CELLSPACING=0 CELLPADDING=2 BORDER=0 WIDTH='100%' BGCOLOR='#000000'><TR><TD>";
 				// Roles Table Display
-				$tmpHTML .= "\n".str_repeat("\t",2).'<table cellspacing=0 ';
-				$tmpHTML .= "cellpadding=0 border=0 width='100%' ";
+				$tmpHTML .= "\n".str_repeat("\t",2)."<table cellspacing='0' ";
+				$tmpHTML .= "cellpadding='0' border='0' width='100%' ";
 				$tmpHTML .= "bgcolor='#FFFFFF'>";
 				$tmpHTML .= "\n".str_repeat("\t",3).'<tr>';
 				$tmpHTML .= "\n".str_repeat("\t",4)."$thcw5$AcEdit</td>";

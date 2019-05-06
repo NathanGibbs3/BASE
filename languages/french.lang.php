@@ -30,9 +30,6 @@ $UI_Timefmt = '%a %B %d, %Y %H:%M:%S';
 // UI Init.
 $UI_Charset = 'iso-8859-1';
 $UI_Title = 'Basic Analysis and Security Engine';
-// Authentication Data.
-$UI_ADUN = 'Identifiant';
-$UI_ADPW = 'Mot de passe';
 // Universal Actions.
 $UI_UA_Edit = 'Modifier';
 $UI_UA_Delete = 'Supprimer';
@@ -47,10 +44,12 @@ $UI_CP_Name = 'Nom';
 $UI_CP_Int = 'Interface';
 $UI_CP_Filter = 'Filtre';
 $UI_CP_Desc = 'Description';
+// Authentication Data.
+$UI_AD_UND = 'Identifiant';
+$UI_AD_PWD = 'Mot de passe';
+$UI_AD_RID = "$UI_CP_Id de Rôle";
 
 //common phrases
-DEFINE('_ROLEID','Identifiant de Rôle');
-// Role ID
 DEFINE('_ENABLED','Activé');
 // Enabled
 DEFINE('_SUCCESS','Succès -');
@@ -227,7 +226,7 @@ DEFINE('_PWDDONE','Votre mot de passe a été modifié');
 // Your password has been changed!
 DEFINE('_ROLEEXIST','Ce Rôle existe déjà');
 // Role Already Exists
-DEFINE('_ROLEIDEXIST','Cet Identifiant de Rôle existe déjà');
+DEFINE('_ROLEIDEXIST',"$UI_AD_RID existe déjà");
 // Role ID Already Exists
 DEFINE('_ROLEADDED','Ajout de Rôle réussi');
 // Role Added Successfully
@@ -235,8 +234,6 @@ DEFINE('_ROLEADDED','Ajout de Rôle réussi');
 //base_roleadmin.php
 DEFINE('_ROLEADMIN','Administration des Rôles BASE ');
 // BASE Role Administration
-DEFINE('_FRMROLEID','Identifiant du Rôle:');
-// Role ID:
 DEFINE('_FRMROLENAME','Nom du Rôle');
 // Role Name:
 

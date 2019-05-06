@@ -32,9 +32,6 @@ $UI_Timefmt = '%a %B %d, %Y %H:%M:%S';
 // UI Init.
 $UI_Charset = 'windows-1251';
 $UI_Title = 'Базовый движок анализа и безопасности';
-// Authentication Data.
-$UI_ADUN = 'Логин';
-$UI_ADPW = 'Пароль';
 // Universal Actions.
 $UI_UA_Edit = 'Редактировать';
 $UI_UA_Delete = 'Удалить';
@@ -49,9 +46,12 @@ $UI_CP_Name = 'Имя';
 $UI_CP_Int = 'Интерфейс';
 $UI_CP_Filter = 'Фильтр';
 $UI_CP_Desc = 'Описание';
+// Authentication Data.
+$UI_AD_UND = 'Логин';
+$UI_AD_PWD = 'Пароль';
+$UI_AD_RID = "$UI_CP_Id роли";
 
 // основные фразы
-DEFINE('_ROLEID','ID роли');
 DEFINE('_ENABLED','Включено');
 DEFINE('_SUCCESS','Успешно');
 DEFINE('_SENSOR','Сенсор');
@@ -209,12 +209,11 @@ DEFINE('_OLDPWD','Старый введенный пароль не соответствует нашим записям!');
 DEFINE('_PWDCANT','Невозможно поменять Ваш пароль: ');
 DEFINE('_PWDDONE','Ваш пароль изменен!');
 DEFINE('_ROLEEXIST','Роль уже существует');
-DEFINE('_ROLEIDEXIST','ID роли уже существует');
+DEFINE('_ROLEIDEXIST',"$UI_AD_RID уже существует");
 DEFINE('_ROLEADDED','Роль успешно добавлена');
 
 //base_roleadmin.php
 DEFINE('_ROLEADMIN','Администрирование ролей BASE');
-DEFINE('_FRMROLEID','ID роли:');
 DEFINE('_FRMROLENAME','Имя роли:');
 DEFINE('_UPDATEROLE','Update Role'); //NEW
 

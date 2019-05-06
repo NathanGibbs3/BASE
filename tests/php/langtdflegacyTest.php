@@ -489,6 +489,30 @@ class legacylangTest extends TestCase {
 			);
 		}
 	}
+	public function testADASetItemRIDesc() {
+		GLOBAL $Use_Auth_System;
+		$lang = $this->langs;
+		$tf = __FUNCTION__;
+		$tmp = "UI$lang";
+		LogTC($tf,'language',$lang);
+		$this->assertInstanceOf('UILang',$this->UIL = new UILang($lang),
+			"Class for $lang not created."
+		);
+		$$tmp = $this->UIL;
+		$file = $$tmp->TDF;
+		LogTC($tf,'TD file',$file);
+		if ($Use_Auth_System == 1) {
+			$key = 'DescRI';
+			$kD = 'Role ID Desc';
+			$this->assertArrayHasKey($key, $$tmp->ADA,
+				"Unset Auth DS Item $kD: Key: $key\n"
+			);
+		}else{
+			$this->markTestSkipped(
+				'Test requires Enabled Auth System to run.'
+			);
+		}
+	}
 	// Test Commonm Phrase Items.
 	public function testCPASetItemSrcDesc() {
 		$lang = $this->langs;

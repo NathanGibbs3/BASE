@@ -30,9 +30,6 @@ $UI_Timefmt = '%a %B %d, %Y %H:%M:%S';
 // UI Init.
 $UI_Charset = 'utf-8';
 $UI_Title = '基本安全分析引擎';
-// Authentication Data.
-$UI_ADUN = '用户登录';
-$UI_ADPW = '密码';
 // Universal Actions.
 $UI_UA_Edit = '编辑';
 $UI_UA_Delete = '删除';
@@ -47,9 +44,12 @@ $UI_CP_Name = '名称';
 $UI_CP_Int = '界面';
 $UI_CP_Filter = '过滤器';
 $UI_CP_Desc = '说明';
+// Authentication Data.
+$UI_AD_UND = '用户登录';
+$UI_AD_PWD = '密码';
+$UI_AD_RID = "角色 $UI_CP_Id";
 
 //common phrases
-DEFINE('_ROLEID','角色 ID');
 DEFINE('_ENABLED','启用');
 DEFINE('_SUCCESS','已成功');
 DEFINE('_SENSOR','探测器');
@@ -211,13 +211,12 @@ DEFINE('_OLDPWD','输入的旧密码与记录不符!');
 DEFINE('_PWDCANT','无法修改您的密码: ');
 DEFINE('_PWDDONE','您的密码已经被修改!');
 DEFINE('_ROLEEXIST','角色已经存在');
-DEFINE('_ROLEIDEXIST','角色 ID 已经存在');
+DEFINE('_ROLEIDEXIST',"$UI_AD_RID 已经存在");
 DEFINE('_ROLEADDED','角色添加成功');
 
 //base_roleadmin.php
 DEFINE('_UPDATEROLE','Update Role'); //NEW
 DEFINE('_ROLEADMIN','BASE 角色管理');
-DEFINE('_FRMROLEID','角色 ID:');
 DEFINE('_FRMROLENAME','角色名称:');
 //base_useradmin.php
 DEFINE('_SUBMITQUERY','Submit Query'); //NEW

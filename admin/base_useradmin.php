@@ -165,6 +165,7 @@ if ( preg_match("/(create|add)/", $Action) || $Use_Auth_System == 1 ){
 				base_header("Location: $Umca"."list");
 				break;
 			case "list"; // Generate HTML User Table.
+				$ridesc = $UIL->ADA['DescRI'];
 				$AcEdit = $UIL->UAA['Edit'];
 				$AcDelete = $UIL->UAA['Delete'];
 				$uidesc = $UIL->CPA['Id'];
@@ -185,7 +186,7 @@ if ( preg_match("/(create|add)/", $Action) || $Use_Auth_System == 1 ){
 				$tmpHTML .= "\n".str_repeat("\t",4)."$thcw5$AcDelete</td>";
 				$tmpHTML .= "\n".str_repeat("\t",4)."$thcw5$uidesc</td>";
 				$tmpHTML .= "\n".str_repeat("\t",4)."$thc>$LoginDesc</td>";
-				$tmpHTML .= "\n".str_repeat("\t",4)."$thc>"._ROLEID.'</td>';
+				$tmpHTML .= "\n".str_repeat("\t",4)."$thc>$ridesc</td>";
 				$tmpHTML .= "\n".str_repeat("\t",4)."$thc>$ufndesc</td>";
 				$tmpHTML .= "\n".str_repeat("\t",4)."$thc>"._ENABLED.'</td>';
 				$tmpHTML .= "\n".str_repeat("\t",3).'</tr>';

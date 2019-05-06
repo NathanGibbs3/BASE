@@ -30,9 +30,6 @@ $UI_Timefmt = '%a %B %d, %Y %H:%M:%S';
 // UI Init.
 $UI_Charset = 'iso-8859-1';
 $UI_Title = 'Basic Analysis and Security Engine';
-// Authentication Data.
-$UI_ADUN = 'Usuario';
-$UI_ADPW = 'Clave';
 // Universal Actions.
 $UI_UA_Edit = 'Editar';
 $UI_UA_Delete = 'Borrar';
@@ -47,9 +44,12 @@ $UI_CP_Name = 'Nombre';
 $UI_CP_Int = 'Interfaz';
 $UI_CP_Filter = 'Filtro';
 $UI_CP_Desc = 'Descripci&oacute;n';
+// Authentication Data.
+$UI_AD_UND = 'Usuario';
+$UI_AD_PWD = 'Clave';
+$UI_AD_RID = "$UI_CP_Id de rol";
 
 //common phrases
-DEFINE('_ROLEID','ID del papel');
 DEFINE('_ENABLED','Activado');
 DEFINE('_SUCCESS','Exitoso');
 DEFINE('_SENSOR','Sensor');
@@ -208,12 +208,11 @@ DEFINE('_OLDPWD','Clave antigua no es correcta!');
 DEFINE('_PWDCANT','No se pudo cambiar su clave: ');
 DEFINE('_PWDDONE','Su clave ha sido cambiaa!');
 DEFINE('_ROLEEXIST','Ya existe ese papel');
-DEFINE('_ROLEIDEXIST','Ya existe ese ID de papel');
+DEFINE('_ROLEIDEXIST',"$UI_AD_RID ya existe");
 DEFINE('_ROLEADDED','Papel a&ntilde;adido con exito');
 
 //base_roleadmin.php
 DEFINE('_ROLEADMIN','BASE Manejo de Papeles');
-DEFINE('_FRMROLEID','ID de Papel:');
 DEFINE('_FRMROLENAME','Nombre de Papel:');
 DEFINE('_UPDATEROLE','Update Role'); //NEW
 //base_useradmin.php

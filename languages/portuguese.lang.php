@@ -36,9 +36,6 @@ $UI_Timefmt = '%a %d de %b de %Y %H:%M:%S';
 // UI Init.
 $UI_Charset = 'UTF-8';
 $UI_Title = 'Basic Analysis and Security Engine';
-// Authentication Data.
-$UI_ADUN = 'Nome';
-$UI_ADPW = 'Senha';
 // Universal Actions.
 $UI_UA_Edit = 'Editar';
 $UI_UA_Delete = 'Delete';
@@ -53,9 +50,12 @@ $UI_CP_Name = 'Nome';
 $UI_CP_Int = 'Interface';
 $UI_CP_Filter = 'Filtro';
 $UI_CP_Desc = 'Descrição';
+// Authentication Data.
+$UI_AD_UND = 'Nome';
+$UI_AD_PWD = 'Senha';
+$UI_AD_RID = "$UI_CP_Id da Regra";
 
 //common phrases
-DEFINE('_ROLEID','Role ID');
 DEFINE('_ENABLED','Habilitado');
 DEFINE('_SUCCESS','Com Sucesso');
 DEFINE('_SENSOR','Sensor');
@@ -213,12 +213,11 @@ DEFINE('_OLDPWD','Senha antiga incorreta!');
 DEFINE('_PWDCANT','Não foi possível trocar sua senha: ');
 DEFINE('_PWDDONE','Sua senha foi mudada!');
 DEFINE('_ROLEEXIST','Regra já existe');
-DEFINE('_ROLEIDEXIST','ID de regra já existe');
+DEFINE('_ROLEIDEXIST',"$UI_AD_RID já existe");
 DEFINE('_ROLEADDED','Regra adicionada com sucesso');
 
 //base_roleadmin.php
 DEFINE('_ROLEADMIN','Administração de Regras do BASE');
-DEFINE('_FRMROLEID','ID da Regra:');
 DEFINE('_FRMROLENAME','Nome da Regra:');
 DEFINE('_UPDATEROLE','Actualizar Perfil');
 

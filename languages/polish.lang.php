@@ -31,9 +31,6 @@ $UI_Timefmt = '%a %B %d, %Y %H:%M:%S';
 // UI Init.
 $UI_Charset = 'iso-8859-2';
 $UI_Title = 'Basic Analysis and Security Engine';
-// Authentication Data.
-$UI_ADUN = 'Login';
-$UI_ADPW = 'Haslo';
 // Universal Actions.
 $UI_UA_Edit = 'Edycja';
 $UI_UA_Delete = 'Kasuj';
@@ -48,9 +45,12 @@ $UI_CP_Name = 'Nazwa';
 $UI_CP_Int = 'Interfejs';
 $UI_CP_Filter = 'Filtr';
 $UI_CP_Desc = 'Opis';
+// Authentication Data.
+$UI_AD_UND = 'Login';
+$UI_AD_PWD = 'Haslo';
+$UI_AD_RID = "$UI_CP_Id Roli";
 
 //common phrases
-DEFINE('_ROLEID','ID Roli');
 DEFINE('_ENABLED','Wlaczony');
 DEFINE('_SUCCESS','Pomyslny');
 DEFINE('_SENSOR','Sensor');
@@ -208,12 +208,11 @@ DEFINE('_OLDPWD','Wpisane stare haslo nie zgadza sie z zapisanym!');
 DEFINE('_PWDCANT','Nie mozna zmienic hasla: ');
 DEFINE('_PWDDONE','Twoje haslo zostalo zmienione!');
 DEFINE('_ROLEEXIST','Role juz istnieje');
-DEFINE('_ROLEIDEXIST','ID Roli juz istnieje');
+DEFINE('_ROLEIDEXIST',"$UI_AD_RID juz istnieje");
 DEFINE('_ROLEADDED','Pomyslnie dodano Role');
 
 //base_roleadmin.php
 DEFINE('_ROLEADMIN','Administracja Rolami');
-DEFINE('_FRMROLEID','ID Roli:');
 DEFINE('_FRMROLENAME','Nazwa Roli:');
 DEFINE('_UPDATEROLE','Update Role'); //NEW
 

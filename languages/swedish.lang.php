@@ -30,9 +30,6 @@ $UI_Timefmt = '%a %B %d, %Y %H:%M:%S';
 // UI Init.
 $UI_Charset = 'iso-8859-1';
 $UI_Title = 'Basic Analysis and Security Engine';
-// Authentication Data.
-$UI_ADUN = 'Logga in';
-$UI_ADPW = 'Lösenord';
 // Universal Actions.
 $UI_UA_Edit = 'Edit';
 $UI_UA_Delete = 'Radera';
@@ -47,9 +44,12 @@ $UI_CP_Name = 'Namn';
 $UI_CP_Int = 'Gränssnitt';
 $UI_CP_Filter = 'Filter';
 $UI_CP_Desc = 'Beskrivning';
+// Authentication Data.
+$UI_AD_UND = 'Logga in';
+$UI_AD_PWD = 'Lösenord';
+$UI_AD_RID = "Roll $UI_CP_Id";
 
 //common phrases
-DEFINE('_ROLEID','Roll ID');
 DEFINE('_ENABLED','Möjliggjord');
 DEFINE('_SUCCESS','Utfört');
 DEFINE('_SENSOR','Sensor');
@@ -208,12 +208,11 @@ DEFINE('_OLDPWD','Det gamla lösenordet matcha inte våra uppgifter!');
 DEFINE('_PWDCANT','Det gick inte ändra ditt lösenord: ');
 DEFINE('_PWDDONE','Ditt lösenord har ändrats');
 DEFINE('_ROLEEXIST','Rollen existerar redan!');
-DEFINE('_ROLEIDEXIST','Roll ID finns redan!');
+DEFINE('_ROLEIDEXIST',"$UI_AD_RID finns redan!");
 DEFINE('_ROLEADDED','Rollen har lagts till');
 
 //base_roleadmin.php
 DEFINE('_ROLEADMIN','BASE Roll Administration');
-DEFINE('_FRMROLEID','Roll ID:');
 DEFINE('_FRMROLENAME','Roll Namn:');
 DEFINE('_UPDATEROLE','Uppdatera Roll'); //NEW
 

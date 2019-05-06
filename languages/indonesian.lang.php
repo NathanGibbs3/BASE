@@ -30,9 +30,6 @@ $UI_Timefmt = '%a %B %d, %Y %H:%M:%S';
 // UI Init.
 $UI_Charset = 'UTF-8';
 $UI_Title = 'Basic Analysis and Security Engine';
-// Authentication Data.
-$UI_ADUN = 'Login';
-$UI_ADPW = 'Kata Sandi';
 // Universal Actions.
 $UI_UA_Edit = 'Edit';
 $UI_UA_Delete = 'Hapus';
@@ -47,9 +44,12 @@ $UI_CP_Name = 'Nama';
 $UI_CP_Int = 'Interface';
 $UI_CP_Filter = 'Filter';
 $UI_CP_Desc = 'Deskripsi';
+// Authentication Data.
+$UI_AD_UND = 'Login';
+$UI_AD_PWD = 'Kata Sandi';
+$UI_AD_RID = "$UI_CP_Id Peran";
 
 //common phrases
-DEFINE('_ROLEID','ID jenis pengguna');
 DEFINE('_ENABLED','Aktif');
 DEFINE('_SUCCESS','Berhasil');
 DEFINE('_SENSOR','Sensor');
@@ -207,12 +207,11 @@ DEFINE('_OLDPWD','Sebuah kata sandi lama digunakan yang tidak cocok dengan catat
 DEFINE('_PWDCANT','Gagal merubah kata sandi Anda: ');
 DEFINE('_PWDDONE','Kata sandi Anda telah diubah!');
 DEFINE('_ROLEEXIST','Jenis ini sudah ada');
-DEFINE('_ROLEIDEXIST','Jenis pengguna ini sudah ada');
+DEFINE('_ROLEIDEXIST',"$UI_AD_RID sudah ada");
 DEFINE('_ROLEADDED','Sukses menambah jenis');
 
 //base_roleadmin.php
 DEFINE('_ROLEADMIN','Administrasi jenis BASE');
-DEFINE('_FRMROLEID','Jenis ID pengguna:');
 DEFINE('_FRMROLENAME','Nama jenis pengguna:');
 DEFINE('_UPDATEROLE','Update Role'); //NEW
 

@@ -30,9 +30,6 @@ $UI_Timefmt = '%a %B %d, %Y %H:%M:%S';
 // UI Init.
 $UI_Charset = 'iso-8859-9';
 $UI_Title = 'Basic Analysis and Security Engine';
-// Authentication Data.
-$UI_ADUN = 'Oturum Aç';
-$UI_ADPW = 'Parola';
 // Universal Actions.
 $UI_UA_Edit = 'Düzenle';
 $UI_UA_Delete = 'Sil';
@@ -47,9 +44,12 @@ $UI_CP_Name = 'Ad';
 $UI_CP_Int = 'Arabirim';
 $UI_CP_Filter = 'Süzgeç';
 $UI_CP_Desc = 'Betimleme';
+// Authentication Data.
+$UI_AD_UND = 'Oturum Aç';
+$UI_AD_PWD = 'Parola';
+$UI_AD_RID = "Rol $UI_CP_Id";
 
 //common phrases
-DEFINE('_ROLEID','Rol ID');
 DEFINE('_ENABLED','Seçilir Kýlýnmýþ');
 DEFINE('_SUCCESS','Baþarýlý');
 DEFINE('_SENSOR','Algýlayýcý');
@@ -207,12 +207,11 @@ DEFINE('_OLDPWD','Girilen Eski parola kayýtlarýmýzla eþleþmiyor!');
 DEFINE('_PWDCANT','Parolanýzý deðiþtirmek olanaksýz: ');
 DEFINE('_PWDDONE','Parolanýz deðiþtirildi!');
 DEFINE('_ROLEEXIST','Rol Zaten Var');
-DEFINE('_ROLEIDEXIST','Rol ID Zaten Var');
+DEFINE('_ROLEIDEXIST',"$UI_AD_RID Zaten Var");
 DEFINE('_ROLEADDED','Rol Baþarýlý Biçimde Eklendi');
 
 //base_roleadmin.php
 DEFINE('_ROLEADMIN','BASE Rol Yönetimi');
-DEFINE('_FRMROLEID','Rol ID:');
 DEFINE('_FRMROLENAME','Rol Adý:');
 DEFINE('_UPDATEROLE','Rolü Güncelle');
 

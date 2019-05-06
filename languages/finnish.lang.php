@@ -35,9 +35,6 @@ $UI_Timefmt = '%a %B %d, %Y %H:%M:%S';
 // UI Init.
 $UI_Charset = 'iso-8859-1';
 $UI_Title = 'Basic Analysis and Security Engine';
-// Authentication Data.
-$UI_ADUN = 'Login';
-$UI_ADPW = 'Salasana';
 // Universal Actions.
 $UI_UA_Edit = 'Muokkaa';
 $UI_UA_Delete = 'Poista';
@@ -52,9 +49,12 @@ $UI_CP_Name = 'Nimi';
 $UI_CP_Int = 'Käyttöliittymä';
 $UI_CP_Filter = 'Suodatin';
 $UI_CP_Desc = 'Kuvaus';
+// Authentication Data.
+$UI_AD_UND = 'Login';
+$UI_AD_PWD = 'Salasana';
+$UI_AD_RID = "Role $UI_CP_Id";
 
 //common phrases
-DEFINE('_ROLEID','Role ID');//#
 DEFINE('_ENABLED','Toiminnassa');
 DEFINE('_SUCCESS','Onnistunut');
 DEFINE('_SENSOR','Sensori');//#
@@ -212,12 +212,11 @@ DEFINE('_OLDPWD','Annettua vanhaa salasanaa ei tunnisteta!');
 DEFINE('_PWDCANT','Salasanasi vaihtaminen ei onnistu: ');
 DEFINE('_PWDDONE','Salasanasi on vaihdettu!');
 DEFINE('_ROLEEXIST','Role On Jo Olemassa');//#
-DEFINE('_ROLEIDEXIST','Role ID On Jo Olemassa');//#
+DEFINE('_ROLEIDEXIST',"$UI_AD_RID On Jo Olemassa");
 DEFINE('_ROLEADDED','Role lisätty');//#
 
 //base_roleadmin.php
 DEFINE('_ROLEADMIN','BASE Role Administration');//#
-DEFINE('_FRMROLEID','Role ID:');//#
 DEFINE('_FRMROLENAME','Role Nimi:');//#
 DEFINE('_UPDATEROLE','Update Role'); //NEW
 

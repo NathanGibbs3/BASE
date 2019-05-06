@@ -97,25 +97,7 @@ class UILang{
 		}else{
 			$this->SetUITitle();
 		}
-		// Will not execute if Auth Sys is disabled.
-		if ($Use_Auth_System == 1) {
-			if ( isset($UI_ADUN) ) { // Var New TDF
-				$this->SetUIADItem('DescUN',$UI_ADUN);
-			}elseif (defined('_FRMLOGIN')) { // Const Legacy TDF
-				$this->SetUIADItem('DescUN',_FRMLOGIN);
-			}else{
-				$this->SetUIADItem('DescUN');
-			}
-			if ( isset($UI_ADPW) ) { // Var New TDF
-				$this->SetUIADItem('DescPW',$UI_ADPW);
-			}elseif (defined('_FRMPWD')) { // Const Legacy TDF
-				$this->SetUIADItem('DescPW',_FRMPWD);
-			}else{
-				$this->SetUIADItem('DescPW');
-			}
-		}else{
-			$this->ADA = NULL;
-		}
+		// Init Universal Actions
 		if ( isset($UI_UA_Edit) ) { // Var New TDF
 			$this->SetUIUAItem('Edit',$UI_UA_Edit);
 		}elseif (defined('_EDIT')) { // Const Legacy TDF
@@ -130,6 +112,7 @@ class UILang{
 		}else{
 			$this->SetUIUAItem('Delete');
 		}
+		// Init Common Phrases
 		if ( isset($UI_CP_SrcDesc) ) { // Var New TDF
 			$this->SetUICPItem('SrcDesc',$UI_CP_SrcDesc);
 		}elseif (defined('_SOURCE')) { // Const Legacy TDF
@@ -199,6 +182,32 @@ class UILang{
 			$this->SetUICPItem('Desc',_DESC);
 		}else{
 			$this->SetUICPItem('Desc');
+		}
+		// Init Authentication Data if Auth Sys is enabled.
+		if ($Use_Auth_System == 1) {
+			if ( isset($UI_AD_UND) ) { // Var New TDF
+				$this->SetUIADItem('DescUN',$UI_AD_UND);
+			}elseif (defined('_FRMLOGIN')) { // Const Legacy TDF
+				$this->SetUIADItem('DescUN',_FRMLOGIN);
+			}else{
+				$this->SetUIADItem('DescUN');
+			}
+			if ( isset($UI_AD_PWD) ) { // Var New TDF
+				$this->SetUIADItem('DescPW',$UI_AD_PWD);
+			}elseif (defined('_FRMPWD')) { // Const Legacy TDF
+				$this->SetUIADItem('DescPW',_FRMPWD);
+			}else{
+				$this->SetUIADItem('DescPW');
+			}
+			if ( isset($UI_AD_RID) ) { // Var New TDF
+				$this->SetUIADItem('DescRI',$UI_AD_RID);
+			}elseif (defined('_FRMPWD')) { // Const Legacy TDF
+				$this->SetUIADItem('DescRI',_ROLEID);
+			}else{
+				$this->SetUIADItem('DescRI');
+			}
+		}else{
+			$this->ADA = NULL;
 		}
 		// Check for unset/NULL TD, replace with default placeholder text.
 		$this->Timefmt = $this->BlankProps('Timefmt',$this->Timefmt);
@@ -271,7 +280,7 @@ class UILang{
 	function SetUIADItem($Item,$Value = NULL) {
 		GLOBAL $Use_Auth_System;
 		if ($Use_Auth_System == 1) { // Run only if Auth Sys is enabled.
-			$Items = array ( 'DescUN', 'DescPW' );
+			$Items = array ( 'DescUN', 'DescPW', 'DescRI' );
 			if (in_array($Item, $Items)) {
 				$this->ADA[$Item] = $Value;
 			}else{

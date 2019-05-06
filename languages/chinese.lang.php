@@ -30,9 +30,6 @@ $UI_Timefmt = '%a %B %d, %Y %H:%M:%S';
 // UI Init.
 $UI_Charset = 'UTF-8';
 $UI_Title = '安全基本分析引擎';
-// Authentication Data.
-$UI_ADUN = '使用者登入';
-$UI_ADPW = '密碼';
 // Universal Actions.
 $UI_UA_Edit = '編輯';
 $UI_UA_Delete = '刪除';
@@ -47,9 +44,12 @@ $UI_CP_Name = '名稱';
 $UI_CP_Int = '介面';
 $UI_CP_Filter = '過濾器';
 $UI_CP_Desc = '說明';
+// Authentication Data.
+$UI_AD_UND = '使用者登入';
+$UI_AD_PWD = '密碼';
+$UI_AD_RID = "角色$UI_CP_Id";
 
 //common phrases
-DEFINE('_ROLEID','角色 ID');
 DEFINE('_ENABLED','啟用');
 DEFINE('_SUCCESS','已成功 ');
 DEFINE('_SENSOR','偵測器');
@@ -207,12 +207,11 @@ DEFINE('_OLDPWD','輸入的舊密碼與記錄不相符!');
 DEFINE('_PWDCANT','無法變更您的密碼: ');
 DEFINE('_PWDDONE','您的密碼已經變更!');
 DEFINE('_ROLEEXIST','角色已經存在');
-DEFINE('_ROLEIDEXIST','角色識別碼已經存在');
+DEFINE('_ROLEIDEXIST',$UI_AD_RID."已經存在");
 DEFINE('_ROLEADDED','角色新增成功 ');
 
 //base_roleadmin.php
 DEFINE('_ROLEADMIN','基本角色管理');
-DEFINE('_FRMROLEID','角色識別碼:');
 DEFINE('_FRMROLENAME','角色名稱:');
 DEFINE('_UPDATEROLE',' 更新角色'); //NEW
 

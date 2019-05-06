@@ -31,9 +31,6 @@ $UI_Timefmt = '%a %B %d, %Y %H:%M:%S';
 // UI Init.
 $UI_Charset = 'iso-8859-2';
 $UI_Title = 'Basic Analysis and Security Engine';
-// Authentication Data.
-$UI_ADUN = 'Login';
-$UI_ADPW = 'Heslo';
 // Universal Actions.
 $UI_UA_Edit = 'Upravit';
 $UI_UA_Delete = 'Smazat';
@@ -48,9 +45,12 @@ $UI_CP_Name = 'Jméno';
 $UI_CP_Int = 'Rozhraní';
 $UI_CP_Filter = 'Filtr';
 $UI_CP_Desc = 'Popis';
+// Authentication Data.
+$UI_AD_UND = 'Login';
+$UI_AD_PWD = 'Heslo';
+$UI_AD_RID = "$UI_CP_Id role";
 
 //common phrases
-DEFINE('_ROLEID','ID role');
 DEFINE('_ENABLED','Enabled');
 DEFINE('_SUCCESS','Successful');
 DEFINE('_SENSOR','Senzor');
@@ -208,12 +208,11 @@ DEFINE('_OLDPWD','Aktuální heslo není správné!');
 DEFINE('_PWDCANT','Nelze zmìnit heslo: ');
 DEFINE('_PWDDONE','Heslo bylo zmìnìno.');
 DEFINE('_ROLEEXIST','Role existuje');
-DEFINE('_ROLEIDEXIST','ID role existuje');
+DEFINE('_ROLEIDEXIST',"$UI_AD_RID existuje");
 DEFINE('_ROLEADDED','Role pøidána úspì¹nì');
 
 //base_roleadmin.php
 DEFINE('_ROLEADMIN','Správa rolí BASE');
-DEFINE('_FRMROLEID','ID role:');
 DEFINE('_FRMROLENAME','Jméno role:');
 DEFINE('_UPDATEROLE','Update Role'); //NEW
 
