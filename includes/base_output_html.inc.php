@@ -34,29 +34,39 @@ function PageStart ($refresh = 0, $page_title = '') {
 		}
 	}
 	print '<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">';
-	print "\n".'<!-- '. $title . ' -->';
-	print "\n".'<html>';
-	print "\n".str_repeat ( "\t",1 ).'<head>';
-	print "\n".str_repeat ( "\t",2 ).$MHE.'Content-Type" content="text/html; charset='. $Charset .'">';
+	NLIO('<!-- '. $title . ' -->');
+	NLIO('<html>');
+	NLIO('<head>', 1);
+	NLIO($MHE.'Content-Type" content="text/html; charset='. $Charset .'">', 2);
 	if ( $html_no_cache == 1 ) {
-		print "\n".str_repeat ( "\t",2 ).$MHE.'pragma" content="no-cache">';
+		NLIO($MHE.'pragma" content="no-cache">', 2);
 	}
 	if ( $refresh == 1 ) {
-		print "\n".str_repeat ( "\t",2 );
 		if ( $refresh_stat_page ) {
-			echo $MHE.'refresh" content="'.$stat_page_refresh_time.'; URL='.
-			htmlspecialchars(CleanVariable($_SERVER["REQUEST_URI"], VAR_FSLASH | VAR_PERIOD | VAR_DIGIT | VAR_PUNC | VAR_LETTER), ENT_QUOTES).'">';
+			NLIO($MHE.'refresh" content="'.$stat_page_refresh_time.'; URL='.
+			htmlspecialchars(CleanVariable($_SERVER["REQUEST_URI"], VAR_FSLASH | VAR_PERIOD | VAR_DIGIT | VAR_PUNC | VAR_LETTER), ENT_QUOTES).'">', 2);
 		}
 	}
-	print "\n".str_repeat ( "\t",2 ).'<title>'.$title.'</title>';
-	print "\n".str_repeat ( "\t",2 ).'<link rel="stylesheet" type="text/css" HREF="'. $BASE_urlpath .'/styles/'. $base_style .'">';
-	print "\n".str_repeat ( "\t",1 ).'</head>';
-	print "\n".str_repeat ( "\t",1 ).'<body>';
+	NLIO("<title>$title</title>",2);
+	NLIO('<link rel="stylesheet" type="text/css" HREF="'. $BASE_urlpath .'/styles/'. $base_style .'">', 2);
+	NLIO('</head>', 1);
+	NLIO('<body>', 1);
 }
 
 function PageEnd () {
-	print "\n".str_repeat ( "\t",1 ).'</body>';
-	print "\n".'</html>';
+	NLIO('</body>',1);
+	NLIO('</html>');
+}
+
+function NLI ($Item = '', $Count = 0) {
+	if ( !is_int($Count) ) {
+		$Count = 0;
+	}
+	return "\n".str_repeat ("\t", $Count).$Item;
+}
+
+function NLIO ($Item = '', $Count = 0) {
+	print NLI ($Item, $Count);
 }
 
 function PrintBASESubHeader($page_title, $page_name, $back_link, $refresh = 0, $page = "") {

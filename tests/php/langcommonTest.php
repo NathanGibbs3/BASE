@@ -35,7 +35,9 @@ class commonlangTest extends TestCase {
 			LogTC($tf,'TD file',$file);
 		}
 		$tmp = "UI$ll";
-		self::assertInstanceOf('UILang',self::$UIL = new UILang($ll),
+		// Will throw error during TD transition.
+		// Use error suppression @ symbol.
+		self::assertInstanceOf('UILang',self::$UIL = @new UILang($ll),
 			"Class for $ll not created."
 		);
 	}

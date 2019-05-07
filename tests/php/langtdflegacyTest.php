@@ -26,7 +26,7 @@ use PHPUnit\Framework\TestCase;
 
 /**
   * @preserveGlobalState disabled
-  * A necessary evil for anything touching UILang during TD Transition.
+  * A necessary evil for tests touching UILang during TD Transition.
   * @runTestsInSeparateProcesses
   * Apparently the covers annotations are ignored whe the above necessary
   * evil is in effect. Will Add covers annotations once we get rid of
@@ -37,6 +37,7 @@ class legacylangTest extends TestCase {
 	var $files;
 	var $langs;
 	var $UIL;
+
 	protected function setUp() {
 		GLOBAL $BASE_path, $BASE_installID, $debug_mode;
 		$tf = __FUNCTION__;
@@ -50,21 +51,15 @@ class legacylangTest extends TestCase {
 			LogTC($tf,'TD file',$file);
 		}
 		copy ("$BASE_path/tests/$lf","$BASE_path/languages/$lf");
-	}
-	protected function tearDown() {
-		// Make sure we remove this file from lanuages.
-		GLOBAL $BASE_path;
-		$lf = $this->files;
+		$this->assertInstanceOf('UILang',$this->UIL = new UILang($ll),
+			"Class for $ll not created."
+		);
 		unlink ("$BASE_path/languages/$lf");
 	}
 
 	// Tests go here.
 	// Tests Phase 1.
 	public function testLocale() { // Test Locale info.
-		$ll = $this->langs;
-		$this->assertInstanceOf('UILang',$this->UIL = new UILang($ll),
-			"Class for $ll not created."
-		);
 		// DEFINE('_LOCALESTR1', 'eng_ENG.ISO8859-1');
 		// DEFINE('_LOCALESTR2', 'eng_ENG.utf-8');
 		// DEFINE('_LOCALESTR3', 'english');
@@ -75,10 +70,6 @@ class legacylangTest extends TestCase {
 		$this->assertTrue(defined('_STRFTIMEFORMAT'),'Locale Time Format not defined');
 	}
 	public function testCommonPhrases() { // Test common phrases.
-		$ll = $this->langs;
-		$this->assertInstanceOf('UILang',$this->UIL = new UILang($ll),
-			"Class for $ll not created."
-		);
 		// DEFINE('_CHARSET','iso-8859-1');
 		// DEFINE('_TITLE','Basic Analysis and Security Engine (BASE) '.$BASE_installID);
 		// DEFINE('_FRMLOGIN','Login:');
@@ -290,10 +281,6 @@ class legacylangTest extends TestCase {
 		$this->assertTrue(defined('_PREVIOUS'),'Previous not defined');
 	}
 	public function testMenuItems() { // Test Menu items
-		$ll = $this->langs;
-		$this->assertInstanceOf('UILang',$this->UIL = new UILang($ll),
-			"Class for $ll not created."
-		);
 		// DEFINE('_HOME','Home');
 		// DEFINE('_SEARCH','Search');
 		// DEFINE('_AGMAINT','Alert Group Maintenance');
@@ -348,10 +335,6 @@ class legacylangTest extends TestCase {
 		$this->assertTrue(defined('_DISPLAYU'),'Display user not defined');
 	}
 	public function testOneLiners() { // TD File sections with one line data.
-		$ll = $this->langs;
-		$this->assertInstanceOf('UILang',$this->UIL = new UILang($ll),
-			"Class for $ll not created."
-		);
 		//base_footer.php
 			// DEFINE('_FOOTER',' (by <A class="largemenuitem" href="mailto:base@secureideas.net">Kevin Johnson</A> and the <A class="largemenuitem" href="http://sourceforge.net/project/memberlist.php?group_id=103348">BASE Project Team</A><BR>Built on ACID by Roman Danyliw )');
 			$this->assertTrue(defined('_FOOTER'),'Footer Text not defined.');
@@ -360,10 +343,6 @@ class legacylangTest extends TestCase {
 			$this->assertTrue(defined('_LOGINERROR'),'Login Error Text not defined.');
 	}
 	public function testTDforfilebase_main_php() { // Test base_main.php
-		$ll = $this->langs;
-		$this->assertInstanceOf('UILang',$this->UIL = new UILang($ll),
-			"Class for $ll not created."
-		);
 	}
 
 	// Tests Phase 2.
@@ -375,9 +354,6 @@ class legacylangTest extends TestCase {
 		$tf = __FUNCTION__;
 		$tmp = "UI$lang";
 		LogTC($tf,'language',$lang);
-		$this->assertInstanceOf('UILang',$this->UIL = new UILang($lang),
-			"Class for $lang not created."
-		);
 		$$tmp = $this->UIL;
 		$file = $$tmp->TDF;
 		LogTC($tf,'TD file',$file);
@@ -397,9 +373,6 @@ class legacylangTest extends TestCase {
 		$tf = __FUNCTION__;
 		$tmp = "UI$lang";
 		LogTC($tf,'language',$lang);
-		$this->assertInstanceOf('UILang',$this->UIL = new UILang($lang),
-			"Class for $lang not created."
-		);
 		$$tmp = $this->UIL;
 		$file = $$tmp->TDF;
 		LogTC($tf,'TD file',$file);
@@ -413,9 +386,6 @@ class legacylangTest extends TestCase {
 		$tf = __FUNCTION__;
 		$tmp = "UI$lang";
 		LogTC($tf,'language',$lang);
-		$this->assertInstanceOf('UILang',$this->UIL = new UILang($lang),
-			"Class for $lang not created."
-		);
 		$$tmp = $this->UIL;
 		$file = $$tmp->TDF;
 		LogTC($tf,'TD file',$file);
@@ -429,9 +399,6 @@ class legacylangTest extends TestCase {
 		$tf = __FUNCTION__;
 		$tmp = "UI$lang";
 		LogTC($tf,'language',$lang);
-		$this->assertInstanceOf('UILang',$this->UIL = new UILang($lang),
-			"Class for $lang not created."
-		);
 		$$tmp = $this->UIL;
 		$file = $$tmp->TDF;
 		LogTC($tf,'TD file',$file);
@@ -447,9 +414,6 @@ class legacylangTest extends TestCase {
 		$tf = __FUNCTION__;
 		$tmp = "UI$lang";
 		LogTC($tf,'language',$lang);
-		$this->assertInstanceOf('UILang',$this->UIL = new UILang($lang),
-			"Class for $lang not created."
-		);
 		$$tmp = $this->UIL;
 		$file = $$tmp->TDF;
 		LogTC($tf,'TD file',$file);
@@ -471,9 +435,6 @@ class legacylangTest extends TestCase {
 		$tf = __FUNCTION__;
 		$tmp = "UI$lang";
 		LogTC($tf,'language',$lang);
-		$this->assertInstanceOf('UILang',$this->UIL = new UILang($lang),
-			"Class for $lang not created."
-		);
 		$$tmp = $this->UIL;
 		$file = $$tmp->TDF;
 		LogTC($tf,'TD file',$file);
@@ -495,9 +456,6 @@ class legacylangTest extends TestCase {
 		$tf = __FUNCTION__;
 		$tmp = "UI$lang";
 		LogTC($tf,'language',$lang);
-		$this->assertInstanceOf('UILang',$this->UIL = new UILang($lang),
-			"Class for $lang not created."
-		);
 		$$tmp = $this->UIL;
 		$file = $$tmp->TDF;
 		LogTC($tf,'TD file',$file);
@@ -519,9 +477,6 @@ class legacylangTest extends TestCase {
 		$tf = __FUNCTION__;
 		$tmp = "UI$lang";
 		LogTC($tf,'language',$lang);
-		$this->assertInstanceOf('UILang',$this->UIL = new UILang($lang),
-			"Class for $lang not created."
-		);
 		$$tmp = $this->UIL;
 		$file = $$tmp->TDF;
 		LogTC($tf,'TD file',$file);
@@ -532,9 +487,6 @@ class legacylangTest extends TestCase {
 		$tf = __FUNCTION__;
 		$tmp = "UI$lang";
 		LogTC($tf,'language',$lang);
-		$this->assertInstanceOf('UILang',$this->UIL = new UILang($lang),
-			"Class for $lang not created."
-		);
 		$$tmp = $this->UIL;
 		$file = $$tmp->TDF;
 		LogTC($tf,'TD file',$file);
@@ -545,9 +497,6 @@ class legacylangTest extends TestCase {
 		$tf = __FUNCTION__;
 		$tmp = "UI$lang";
 		LogTC($tf,'language',$lang);
-		$this->assertInstanceOf('UILang',$this->UIL = new UILang($lang),
-			"Class for $lang not created."
-		);
 		$$tmp = $this->UIL;
 		$file = $$tmp->TDF;
 		LogTC($tf,'TD file',$file);
@@ -558,9 +507,6 @@ class legacylangTest extends TestCase {
 		$tf = __FUNCTION__;
 		$tmp = "UI$lang";
 		LogTC($tf,'language',$lang);
-		$this->assertInstanceOf('UILang',$this->UIL = new UILang($lang),
-			"Class for $lang not created."
-		);
 		$$tmp = $this->UIL;
 		$file = $$tmp->TDF;
 		LogTC($tf,'TD file',$file);
@@ -571,9 +517,6 @@ class legacylangTest extends TestCase {
 		$tf = __FUNCTION__;
 		$tmp = "UI$lang";
 		LogTC($tf,'language',$lang);
-		$this->assertInstanceOf('UILang',$this->UIL = new UILang($lang),
-			"Class for $lang not created."
-		);
 		$$tmp = $this->UIL;
 		$file = $$tmp->TDF;
 		LogTC($tf,'TD file',$file);
@@ -584,9 +527,6 @@ class legacylangTest extends TestCase {
 		$tf = __FUNCTION__;
 		$tmp = "UI$lang";
 		LogTC($tf,'language',$lang);
-		$this->assertInstanceOf('UILang',$this->UIL = new UILang($lang),
-			"Class for $lang not created."
-		);
 		$$tmp = $this->UIL;
 		$file = $$tmp->TDF;
 		LogTC($tf,'TD file',$file);
@@ -597,9 +537,6 @@ class legacylangTest extends TestCase {
 		$tf = __FUNCTION__;
 		$tmp = "UI$lang";
 		LogTC($tf,'language',$lang);
-		$this->assertInstanceOf('UILang',$this->UIL = new UILang($lang),
-			"Class for $lang not created."
-		);
 		$$tmp = $this->UIL;
 		$file = $$tmp->TDF;
 		LogTC($tf,'TD file',$file);
@@ -610,9 +547,6 @@ class legacylangTest extends TestCase {
 		$tf = __FUNCTION__;
 		$tmp = "UI$lang";
 		LogTC($tf,'language',$lang);
-		$this->assertInstanceOf('UILang',$this->UIL = new UILang($lang),
-			"Class for $lang not created."
-		);
 		$$tmp = $this->UIL;
 		$file = $$tmp->TDF;
 		LogTC($tf,'TD file',$file);
@@ -623,9 +557,6 @@ class legacylangTest extends TestCase {
 		$tf = __FUNCTION__;
 		$tmp = "UI$lang";
 		LogTC($tf,'language',$lang);
-		$this->assertInstanceOf('UILang',$this->UIL = new UILang($lang),
-			"Class for $lang not created."
-		);
 		$$tmp = $this->UIL;
 		$file = $$tmp->TDF;
 		LogTC($tf,'TD file',$file);
@@ -636,9 +567,6 @@ class legacylangTest extends TestCase {
 		$tf = __FUNCTION__;
 		$tmp = "UI$lang";
 		LogTC($tf,'language',$lang);
-		$this->assertInstanceOf('UILang',$this->UIL = new UILang($lang),
-			"Class for $lang not created."
-		);
 		$$tmp = $this->UIL;
 		$file = $$tmp->TDF;
 		LogTC($tf,'TD file',$file);
@@ -650,9 +578,6 @@ class legacylangTest extends TestCase {
 		$tf = __FUNCTION__;
 		$tmp = "UI$lang";
 		LogTC($tf,'language',$lang);
-		$this->assertInstanceOf('UILang',$this->UIL = new UILang($lang),
-			"Class for $lang not created."
-		);
 		$$tmp = $this->UIL;
 		$file = $$tmp->TDF;
 		LogTC($tf,'TD file',$file);
@@ -663,9 +588,6 @@ class legacylangTest extends TestCase {
 		$tf = __FUNCTION__;
 		$tmp = "UI$lang";
 		LogTC($tf,'language',$lang);
-		$this->assertInstanceOf('UILang',$this->UIL = new UILang($lang),
-			"Class for $lang not created."
-		);
 		$$tmp = $this->UIL;
 		$file = $$tmp->TDF;
 		LogTC($tf,'TD file',$file);

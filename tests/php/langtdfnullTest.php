@@ -33,7 +33,7 @@ class nulllangTest extends TestCase {
 			LogTC($tf,'TD file',$file);
 		}
 		copy ("$BASE_path/tests/$lf","$BASE_path/languages/$lf");
-		// Test conditions will throw error.
+		// Will throw error during TD transition.
 		// Use error suppression @ symbol.
 		self::assertInstanceOf('UILang',self::$UIL = @new UILang($ll),
 			"Class for $ll not created."
