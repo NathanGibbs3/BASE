@@ -48,9 +48,9 @@ $UI_CP_Desc = 'Beskrivning';
 $UI_AD_UND = 'Logga in';
 $UI_AD_PWD = 'Lösenord';
 $UI_AD_RID = "Roll $UI_CP_Id";
+$UI_AD_ASD = 'Möjliggjord';
 
 //common phrases
-DEFINE('_ENABLED','Möjliggjord');
 DEFINE('_SUCCESS','Utfört');
 DEFINE('_SENSOR','Sensor');
 DEFINE('_SENSORS','Sensors'); //NEW

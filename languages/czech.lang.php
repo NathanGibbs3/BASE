@@ -49,9 +49,9 @@ $UI_CP_Desc = 'Popis';
 $UI_AD_UND = 'Login';
 $UI_AD_PWD = 'Heslo';
 $UI_AD_RID = "$UI_CP_Id role";
+$UI_AD_ASD = 'Enabled';
 
 //common phrases
-DEFINE('_ENABLED','Enabled');
 DEFINE('_SUCCESS','Successful');
 DEFINE('_SENSOR','Senzor');
 DEFINE('_SENSORS','Sensors'); //NEW

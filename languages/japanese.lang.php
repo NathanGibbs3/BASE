@@ -48,9 +48,9 @@ $UI_CP_Desc = '詳細';
 $UI_AD_UND = 'ログイン';
 $UI_AD_PWD = 'パスワード';
 $UI_AD_RID = "Role $UI_CP_Id";
+$UI_AD_ASD = '有効';
 
 //common phrases
-DEFINE('_ENABLED','有効');
 DEFINE('_SUCCESS','成功');
 DEFINE('_SENSOR','センサー');
 DEFINE('_SENSORS','Sensors'); //NEW

@@ -471,6 +471,27 @@ class legacylangTest extends TestCase {
 			);
 		}
 	}
+	public function testADASetItemAsDesc() {
+		GLOBAL $Use_Auth_System;
+		$lang = $this->langs;
+		$tf = __FUNCTION__;
+		$tmp = "UI$lang";
+		LogTC($tf,'language',$lang);
+		$$tmp = $this->UIL;
+		$file = $$tmp->TDF;
+		LogTC($tf,'TD file',$file);
+		if ($Use_Auth_System == 1) {
+			$key = 'DescAS';
+			$kD = 'Account Status Desc';
+			$this->assertArrayHasKey($key, $$tmp->ADA,
+				"Unset Auth DS Item $kD: Key: $key\n"
+			);
+		}else{
+			$this->markTestSkipped(
+				'Test requires Enabled Auth System to run.'
+			);
+		}
+	}
 	// Test Commonm Phrase Items.
 	public function testCPASetItemSrcDesc() {
 		$lang = $this->langs;

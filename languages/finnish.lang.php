@@ -53,9 +53,9 @@ $UI_CP_Desc = 'Kuvaus';
 $UI_AD_UND = 'Login';
 $UI_AD_PWD = 'Salasana';
 $UI_AD_RID = "Role $UI_CP_Id";
+$UI_AD_ASD = 'Toiminnassa';
 
 //common phrases
-DEFINE('_ENABLED','Toiminnassa');
 DEFINE('_SUCCESS','Onnistunut');
 DEFINE('_SENSOR','Sensori');//#
 DEFINE('_SENSORS','Sensors'); //NEW

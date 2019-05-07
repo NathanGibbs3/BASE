@@ -49,9 +49,9 @@ $UI_CP_Desc = 'Opis';
 $UI_AD_UND = 'Login';
 $UI_AD_PWD = 'Haslo';
 $UI_AD_RID = "$UI_CP_Id Roli";
+$UI_AD_ASD = 'Wlaczony';
 
 //common phrases
-DEFINE('_ENABLED','Wlaczony');
 DEFINE('_SUCCESS','Pomyslny');
 DEFINE('_SENSOR','Sensor');
 DEFINE('_SENSORS','Sensory'); //NEW

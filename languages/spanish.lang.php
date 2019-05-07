@@ -48,9 +48,9 @@ $UI_CP_Desc = 'Descripci&oacute;n';
 $UI_AD_UND = 'Usuario';
 $UI_AD_PWD = 'Clave';
 $UI_AD_RID = "$UI_CP_Id de rol";
+$UI_AD_ASD = 'Activado';
 
 //common phrases
-DEFINE('_ENABLED','Activado');
 DEFINE('_SUCCESS','Exitoso');
 DEFINE('_SENSOR','Sensor');
 DEFINE('_SIGNATURE','Firma');

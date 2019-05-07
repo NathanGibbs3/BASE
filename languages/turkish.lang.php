@@ -48,9 +48,9 @@ $UI_CP_Desc = 'Betimleme';
 $UI_AD_UND = 'Oturum Aç';
 $UI_AD_PWD = 'Parola';
 $UI_AD_RID = "Rol $UI_CP_Id";
+$UI_AD_ASD = 'Seçilir Kýlýnmýþ';
 
 //common phrases
-DEFINE('_ENABLED','Seçilir Kýlýnmýþ');
 DEFINE('_SUCCESS','Baþarýlý');
 DEFINE('_SENSOR','Algýlayýcý');
 DEFINE('_SENSORS','Algýlayýcýlar');

@@ -48,9 +48,9 @@ $UI_CP_Desc = '說明';
 $UI_AD_UND = '使用者登入';
 $UI_AD_PWD = '密碼';
 $UI_AD_RID = "角色$UI_CP_Id";
+$UI_AD_ASD = '啟用';
 
 //common phrases
-DEFINE('_ENABLED','啟用');
 DEFINE('_SUCCESS','已成功 ');
 DEFINE('_SENSOR','偵測器');
 DEFINE('_SENSORS','偵測器s'); //NEW

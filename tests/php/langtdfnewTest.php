@@ -341,6 +341,42 @@ class langTest extends TestCase {
 			}
 		}
 	}
+	public function testADASetItemASDesc() {
+		GLOBAL $Use_Auth_System;
+		$langs = $this->langs;
+		$tf = __FUNCTION__;
+		foreach($langs as $lang){
+			$tmp = "UI$lang";
+			LogTC($tf,'language',$lang);
+			// Expect errors as we Transition Translation Data
+			$PHPUV = $this->PHPUV;
+			if (version_compare($PHPUV, '4.0', '<')) {
+				$this->markTestSkipped('Requires Phpunit 4+ to run.');
+			}elseif (version_compare($PHPUV, '5.0', '<')) { // PHPUnit 4x
+				$this->setExpectedException("PHPUnit_Framework_Error");
+			}elseif (version_compare($PHPUV, '6.0', '<')) { // PHPUnit 5x
+				$this->expectException("PHPUnit_Framework_Error");
+			}else{ // PHPUnit 6+
+				$this->expectException("PHPUnit\Framework\Error\Error");
+			}
+			$$tmp = new UILang($lang);
+			// $$tmp = $this->UIL[$tmp];
+			// Will not run until TD is transitioned.
+			$file = $$tmp->TDF;
+			LogTC($tf,'TD file',$file);
+			if ($Use_Auth_System == 1) {
+				$key = 'DescAS';
+				$kD = 'Account Status Desc';
+				$this->assertArrayHasKey($key, $$tmp->ADA,
+					"Unset Auth DS Item $kD: Key: $key\n"
+				);
+			}else{
+				$this->markTestSkipped(
+					'Test requires Enabled Auth System to run.'
+				);
+			}
+		}
+	}
 	// Test Commonm Phrase Items.
 	public function testCPASetItemSrcDesc() {
 		$langs = $this->langs;
@@ -665,7 +701,6 @@ class langTest extends TestCase {
 			}
 			include_once("$BASE_path/languages/$file");
 			// Test common phrases
-			// DEFINE('_ENABLED','Enabled');
 			// DEFINE('_SUCCESS','Successful');
 			// DEFINE('_SENSOR','Sensor');
 			// DEFINE('_SENSORS','Sensors');
@@ -752,7 +787,6 @@ class langTest extends TestCase {
 			// DEFINE('_TYPE','type');
 			// DEFINE('_NEXT','Next');
 			// DEFINE('_PREVIOUS','Previous');
-			$this->assertTrue(defined('_ENABLED'),'Enabled not defined');
 			$this->assertTrue(defined('_SUCCESS'),'Successful not defined');
 			$this->assertTrue(defined('_SENSOR'),'Sensor not defined');
 			$this->assertTrue(defined('_SENSORS'),'Sensors not defined');

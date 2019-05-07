@@ -223,6 +223,34 @@ class nulllangTest extends TestCase {
 			);
 		}
 	}
+	public function testADASetItemASDesc() {
+		GLOBAL $Use_Auth_System;
+		$lang = self::$langs;
+		$tf = __FUNCTION__;
+		$tmp = "UI$lang";
+		LogTC($tf,'language',$lang);
+		$$tmp = self::$UIL;
+		$file = $$tmp->TDF;
+		LogTC($tf,'TD file',$file);
+		if ($Use_Auth_System == 1) {
+			$key = 'DescAS';
+			$KA = 'ADA';
+			$TItem = $KA."[$key]";
+			$EEM = self::$EEM."$TItem.\n";
+			$this->assertArrayHasKey($key, $$tmp->$KA,
+				"Unset: $TItem ."
+			);
+			$this->assertEquals(
+				$EEM,
+				$$tmp->{$KA}[$key],
+				"Uninitialized: $TItem ."
+			);
+		}else{
+			$this->markTestSkipped(
+				'Test requires Enabled Auth System to run.'
+			);
+		}
+	}
 	// Test Commonm Phrase Items.
 	public function testCPASetItemSrcDesc() {
 		$lang = self::$langs;

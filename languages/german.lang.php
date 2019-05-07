@@ -49,9 +49,9 @@ $UI_CP_Desc = 'Beschreibung';
 $UI_AD_UND = 'Login';
 $UI_AD_PWD = 'Passwort';
 $UI_AD_RID = "Benutzertyp $UI_CP_Id";
+$UI_AD_ASD = 'Aktiv';
 
 //common phrases
-DEFINE('_ENABLED','Aktiv');
 DEFINE('_SUCCESS','Erfolgreich');
 DEFINE('_SENSOR','Sensor');
 DEFINE('_SENSORS','Sensors'); //NEW

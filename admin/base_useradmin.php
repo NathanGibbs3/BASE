@@ -46,7 +46,7 @@ if ( preg_match("/(create|add)/", $Action) || $Use_Auth_System == 1 ){
 		$Fst = "<form action='$Umca"; // Form tag start.
 		$Fct = " Method='POST'>"; // Form tag end.
 		$Hrst = "<a href='$Umca"; // Href tag start.
-		$Trc = "\n".str_repeat("\t",5).'</tr><tr>'; // Table row continue.
+		$Trc = NLI('</tr><tr>',5); // Table row continue.
 		// I would like to clean this up later into a display class or set of functions -- Kevin
 		if ( preg_match("/((delet|(dis|en)abl)e|edit)user/", $Action) ){
 			$userid = filterSql($_GET['userid']);
@@ -65,33 +65,29 @@ if ( preg_match("/(create|add)/", $Action) || $Use_Auth_System == 1 ){
 				$defaultrole = 10;
 				$tdc = "<td width='25%' align='right'>";
 				$tdal = "<td align='left'>";
-				$form = "\n".str_repeat("\t",3).$Fst."add'".$Fct;
-				$form .= "\n".str_repeat("\t",4).'<table border=1 ';
-				$form .= "class='query'>";
-				$form .= "\n".str_repeat("\t",5).'<tr>';
-				$form .= "\n".str_repeat("\t",6)."$tdc$LoginDesc:</td>";
-				$form .= "\n".str_repeat("\t",6).$tdal;
-				$form .= "\n".str_repeat("\t",7)."<input type='text' ";
-				$form .= "name='user'/>";
-				$form .= "\n".str_repeat("\t",6).'</td>'.$Trc;
-				$form .= "\n".str_repeat("\t",6).$tdc._FRMFULLNAME.'</td>';
-				$form .= "\n".str_repeat("\t",6).$tdal;
-				$form .= "\n".str_repeat("\t",7)."<input type='text' ";
-				$form .= "name='fullname'/>";
-				$form .= "\n".str_repeat("\t",6).'</td>'.$Trc;
-				$form .= "\n".str_repeat("\t",6)."$tdc$PWDesc:</td>";
-				$form .= "\n".str_repeat("\t",6).$tdal;
-				$form .= "\n".str_repeat("\t",7)."<input type='password' ";
-				$form .= "name='password'/>";
-				$form .= "\n".str_repeat("\t",6).'</td>'.$Trc;
-				$form .= "\n".str_repeat("\t",6).$tdc._FRMROLE.'</td>';
+				$form = NLI($Fst."add'".$Fct,3);
+				$form .= NLI("<table border='1' class='query'>",4);
+				$form .= NLI('<tr>',5);
+				$form .= NLI("$tdc$LoginDesc:</td>",6);
+				$form .= NLI($tdal,6);
+				$form .= NLI("<input type='text' name='user'/>",7);
+				$form .= NLI('</td>'.$Trc,6);
+				$form .= NLI($tdc._FRMFULLNAME.'</td>',6);
+				$form .= NLI($tdal,6);
+				$form .= NLI("<input type='text' name='fullname'/>",7);
+				$form .= NLI('</td>'.$Trc,6);
+				$form .= NLI("$tdc$PWDesc:</td>",6);
+				$form .= NLI($tdal,6);
+				$form .= NLI("<input type='password' name='password'/>",7);
+				$form .= NLI('</td>'.$Trc,6);
+				$form .= NLI($tdc._FRMROLE.'</td>',6);
 				// Potential XSS Vector.
 				// See https://github.com/NathanGibbs3/BASE/issues/13
 				$form .= $tdal.$user->returnRoleNamesDropDown($defaultrole).'</td>'.$Trc;
 				$form .= "<td colspan='2' align='center'><input type='submit' name='submit' value='"._SUBMITQUERY."'/></td>";
-				$form .= "\n".str_repeat("\t",5).'</tr>';
-				$form .= "\n".str_repeat("\t",4).'</table>';
-				$form .= "\n".str_repeat("\t",3).'</form>';
+				$form .= NLI('</tr>',5);
+				$form .= NLI('</table>',4);
+				$form .= NLI('</form>',3);
 				$pagebody = $form;
 				break;
 			case "add"; // Actually add user to DB.
@@ -118,29 +114,28 @@ if ( preg_match("/(create|add)/", $Action) || $Use_Auth_System == 1 ){
 
 				$tdc = "<td width='25%' align='right'>";
 				$tdal = "<td align='left'>";
-				$form = "\n".str_repeat("\t",3).$Fst."updateuser'".$Fct;
-				$form .= "\n".str_repeat("\t",4)."<input type='hidden' ";
-				$form .= "name='usr_id' value='$uid'/>";
-				$form .= "\n".str_repeat("\t",4).'<table border=1 ';
-				$form .= "class='query'>";
-				$form .= "\n".str_repeat("\t",5).'<tr>';
-				$form .= "\n".str_repeat("\t",6).$tdc._FRMUID.'</td>';
-				$form .= "\n".str_repeat("\t",6)."$tdal$uid</td>$Trc";
-				$form .= "\n".str_repeat("\t",6)."$tdc$LoginDesc:</td>";
-				$form .= "\n".str_repeat("\t",6)."$tdal$usn</td>$Trc";
-				$form .= "\n".str_repeat("\t",6).$tdc._FRMFULLNAME.'</td>';
-				$form .= "\n".str_repeat("\t",6).$tdal;
-				$form .= "\n".str_repeat("\t",7)."<input type='text' ";
-				$form .= "name='fullname' value='$ufn'/>";
-				$form .= "\n".str_repeat("\t",6).'</td>'.$Trc;
-				$form .= "\n".str_repeat("\t",6).$tdc._FRMROLE.'</td>';
+				$form = NLI($Fst."updateuser'".$Fct,3);
+				$form .= NLI("<input type='hidden' name='usr_id' ",4);
+				$form .= "value='$uid'/>";
+				$form .= NLI("<table border='1' class='query'>",4);
+				$form .= NLI('<tr>',5);
+				$form .= NLI($tdc._FRMUID.'</td>',6);
+				$form .= NLI("$tdal$uid</td>$Trc",6);
+				$form .= NLI("$tdc$LoginDesc:</td>",6);
+				$form .= NLI("$tdal$usn</td>$Trc",6);
+				$form .= NLI($tdc._FRMFULLNAME.'</td>',6);
+				$form .= NLI($tdal,6);
+				$form .= NLI("<input type='text' name='fullname' ",7);
+				$form .= "value='$ufn'/>";
+				$form .= NLI('</td>'.$Trc,6);
+				$form .= NLI($tdc._FRMROLE.'</td>',6);
 				// Potential XSS Vector.
 				// See https://github.com/NathanGibbs3/BASE/issues/13
 				$form .= $tdal.$user->returnRoleNamesDropDown($rid).'</td></tr>';
 				$form .= "<tr><td colspan='2' align='center'><input type='submit' name='submit' value='"._UPDATEUSER."'></td>";
-				$form .= "\n".str_repeat("\t",5).'</tr>';
-				$form .= "\n".str_repeat("\t",4).'</table>';
-				$form .= "\n".str_repeat("\t",3).'</form>';
+				$form .= NLI('</tr>',5);
+				$form .= NLI('</table>',4);
+				$form .= NLI('</form>',3);
 				$pagebody = $form;
 				break;
 			case "updateuser"; // Updates user account from above form....
@@ -166,6 +161,7 @@ if ( preg_match("/(create|add)/", $Action) || $Use_Auth_System == 1 ){
 				break;
 			case "list"; // Generate HTML User Table.
 				$ridesc = $UIL->ADA['DescRI'];
+				$asdesc = $UIL->ADA['DescAS'];
 				$AcEdit = $UIL->UAA['Edit'];
 				$AcDelete = $UIL->UAA['Delete'];
 				$uidesc = $UIL->CPA['Id'];
@@ -178,66 +174,65 @@ if ( preg_match("/(create|add)/", $Action) || $Use_Auth_System == 1 ){
 				// See https://github.com/NathanGibbs3/BASE/issues/19
 				$tmpHTML = "<TABLE CELLSPACING=0 CELLPADDING=2 BORDER=0 WIDTH='100%' BGCOLOR='#000000'><TR><TD>";
 				// Users Table Display
-				$tmpHTML .= "\n".str_repeat("\t",2).'<table cellspacing=0 ';
-				$tmpHTML .= "cellpadding=0 border=0 width='100%' ";
-				$tmpHTML .= "bgcolor='#FFFFFF'>";
-				$tmpHTML .= "\n".str_repeat("\t",3).'<tr>';
-				$tmpHTML .= "\n".str_repeat("\t",4)."$thcw5$AcEdit</td>";
-				$tmpHTML .= "\n".str_repeat("\t",4)."$thcw5$AcDelete</td>";
-				$tmpHTML .= "\n".str_repeat("\t",4)."$thcw5$uidesc</td>";
-				$tmpHTML .= "\n".str_repeat("\t",4)."$thc>$LoginDesc</td>";
-				$tmpHTML .= "\n".str_repeat("\t",4)."$thc>$ridesc</td>";
-				$tmpHTML .= "\n".str_repeat("\t",4)."$thc>$ufndesc</td>";
-				$tmpHTML .= "\n".str_repeat("\t",4)."$thc>"._ENABLED.'</td>';
-				$tmpHTML .= "\n".str_repeat("\t",3).'</tr>';
+				$tmpHTML .= NLI("<table cellspacing='0' cellpadding='0' ",2);
+				$tmpHTML .= "border='0' width='100%' bgcolor='#FFFFFF'>";
+				$tmpHTML .= NLI('<tr>',3);
+				$tmpHTML .= NLI("$thcw5$AcEdit</td>",4);
+				$tmpHTML .= NLI("$thcw5$AcDelete</td>",4);
+				$tmpHTML .= NLI("$thcw5$uidesc</td>",4);
+				$tmpHTML .= NLI("$thc>$LoginDesc</td>",4);
+				$tmpHTML .= NLI("$thc>$ridesc</td>",4);
+				$tmpHTML .= NLI("$thc>$ufndesc</td>",4);
+				$tmpHTML .= NLI("$thc>$asdesc</td>",4);
+				$tmpHTML .= NLI('</tr>',3);
 				if ($users <> "") { // Verify we have a user in the db --Kevin;
-					$imgc = "\n".str_repeat("\t",5);
+					$imgc = NLI('',6);
 					$imgc .= "<img border='0' src='".$BASE_urlpath ."/images/";
-					$tduma = $tdac.$Hrst;
+					$tduma = $tdac.NLI($Hrst,5);
 					foreach ($users as $row) { // Iterate users & build table.
 						$tmpRow = explode("|", $row);
 						// Setup User ID URL param.
 						$uuid = "user&amp;userid=".urlencode($tmpRow[0]);
 						// Set up enable/disable action URL
 						if ($tmpRow[4] == 1) {
-							$enabled = $Hrst."disable$uuid'>";
+							$enabled = $tduma."disable$uuid'>";
 							$enabled .= $imgc."greencheck.png' alt='button_greencheck";
 						}else{
-							$enabled = $Hrst."enable$uuid'>";
+							$enabled = $tduma."enable$uuid'>";
 							$enabled .= $imgc."button_exclamation.png' alt='button_exclamation";
 						}
 						$enabled .= "'/>";
-						$enabled .= "\n".str_repeat("\t",4).'</a>';
+						$enabled .= NLI('</a>',5).NLI('</td>',4);
 						// Anti XSS Output Data
 						$uid = htmlspecialchars($tmpRow[0]);
 						$usn = htmlspecialchars($tmpRow[1]);
 						$rolename = htmlspecialchars($user->roleName($tmpRow[2]));
 						$ufn = htmlspecialchars($tmpRow[3]);
 
-						$tmpHTML .= "\n".str_repeat("\t",3).'<tr>';
-						$tmpHTML .= "\n".str_repeat("\t",4).$tduma."edit$uuid'>";
+						$tmpHTML .= NLI('<tr>',3);
+						$tmpHTML .= NLI($tduma."edit$uuid'>",4);
 						$tmpHTML .= $imgc."button_edit.png' alt='button_$AcEdit'/>";
-						$tmpHTML .= "\n".str_repeat("\t",4).'</a></td>';
-						$tmpHTML .= "\n".str_repeat("\t",4).$tduma."delete$uuid'>";
+						$tmpHTML .= NLI('</a>',5).NLI('</td>',4);
+						$tmpHTML .= NLI($tduma."delete$uuid'>",4);
 						$tmpHTML .= $imgc."button_delete.png' alt='button_$AcDelete'/>";
-						$tmpHTML .= "\n".str_repeat("\t",4).'</a></td>';
-						$tmpHTML .= "\n".str_repeat("\t",4)."$tdac$uid</td>";
-						$tmpHTML .= "\n".str_repeat("\t",4).$tdac;
+						$tmpHTML .= NLI('</a>',5).NLI('</td>',4);
+						$tmpHTML .= NLI("$tdac$uid</td>",4);
+						$tmpHTML .= NLI($tdac,4);
 						if ($tmpRow[2] == 1) { // Display Admin Users in red.
 							$tmpHTML .= "<font color='#ff0000'><b>$usn</b></font></td>";
 						}else{
 							$tmpHTML .= "$usn</td>";
 						}
-						$tmpHTML .= "\n".str_repeat("\t",4)."$tdac$rolename</td>";
-						$tmpHTML .= "\n".str_repeat("\t",4)."$tdac$ufn</td>";
-						$tmpHTML .= "\n".str_repeat("\t",4)."$tdac$enabled</td>";
-						$tmpHTML .= "\n".str_repeat("\t",3).'</tr>';
+						$tmpHTML .= NLI("$tdac$rolename</td>",4);
+						$tmpHTML .= NLI("$tdac$ufn</td>",4);
+						$tmpHTML .= NLI($enabled,4);
+						$tmpHTML .= NLI('</tr>',3);
 					}
 				}
-				$tmpHTML .= "\n".str_repeat("\t",2).'</table>';
+				$tmpHTML .= NLI('</table>',2);
 				// Closure for styleing hack.
 				// See https://github.com/NathanGibbs3/BASE/issues/19
-				$tmpHTML .= "\n".str_repeat("\t",1)."</td></tr></table>";
+				$tmpHTML .= NLI("</td></tr></table>",1);
 				$pagebody = $tmpHTML;
 				break;
 		}

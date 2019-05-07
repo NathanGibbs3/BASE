@@ -206,6 +206,13 @@ class UILang{
 			}else{
 				$this->SetUIADItem('DescRI');
 			}
+			if ( isset($UI_AD_ASD) ) { // Var New TDF
+				$this->SetUIADItem('DescAS',$UI_AD_ASD);
+			}elseif (defined('_ENABLED')) { // Const Legacy TDF
+				$this->SetUIADItem('DescAS',_ENABLED);
+			}else{
+				$this->SetUIADItem('DescAS');
+			}
 		}else{
 			$this->ADA = NULL;
 		}
@@ -280,7 +287,7 @@ class UILang{
 	function SetUIADItem($Item,$Value = NULL) {
 		GLOBAL $Use_Auth_System;
 		if ($Use_Auth_System == 1) { // Run only if Auth Sys is enabled.
-			$Items = array ( 'DescUN', 'DescPW', 'DescRI' );
+			$Items = array ( 'DescUN', 'DescPW', 'DescRI', 'DescAS' );
 			if (in_array($Item, $Items)) {
 				$this->ADA[$Item] = $Value;
 			}else{
