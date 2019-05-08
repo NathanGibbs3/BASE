@@ -44,6 +44,7 @@ $UI_CP_Name = '名稱';
 $UI_CP_Int = '介面';
 $UI_CP_Filter = '過濾器';
 $UI_CP_Desc = '說明';
+$UI_CP_SucDesc = '已成功 ';
 // Authentication Data.
 $UI_AD_UND = '使用者登入';
 $UI_AD_PWD = '密碼';
@@ -51,7 +52,6 @@ $UI_AD_RID = "角色$UI_CP_Id";
 $UI_AD_ASD = '啟用';
 
 //common phrases
-DEFINE('_SUCCESS','已成功 ');
 DEFINE('_SENSOR','偵測器');
 DEFINE('_SENSORS','偵測器s'); //NEW
 DEFINE('_SIGNATURE','特徵');

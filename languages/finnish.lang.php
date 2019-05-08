@@ -49,6 +49,7 @@ $UI_CP_Name = 'Nimi';
 $UI_CP_Int = 'Käyttöliittymä';
 $UI_CP_Filter = 'Suodatin';
 $UI_CP_Desc = 'Kuvaus';
+$UI_CP_SucDesc = 'Onnistunut';
 // Authentication Data.
 $UI_AD_UND = 'Login';
 $UI_AD_PWD = 'Salasana';
@@ -56,7 +57,6 @@ $UI_AD_RID = "Role $UI_CP_Id";
 $UI_AD_ASD = 'Toiminnassa';
 
 //common phrases
-DEFINE('_SUCCESS','Onnistunut');
 DEFINE('_SENSOR','Sensori');//#
 DEFINE('_SENSORS','Sensors'); //NEW
 DEFINE('_SIGNATURE','Signature');//#

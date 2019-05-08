@@ -276,19 +276,19 @@ function GetActionDesc($action_name)
   return $action_desc[$action_name];
 }
 
-function ProcessSelectedAlerts($action, &$action_op, $action_arg, $action_param,
-                               $context,
-                               $action_lst,
-                               &$num_alert,
-                               $action_sql,
-                               $db, $limit_start=-1, $limit_offset=-1 )
-{
-
-  GLOBAL $debug_mode;
-  $action_cnt = 0;
-  $dup_cnt = 0;
-
-  $action_desc = "";
+function ProcessSelectedAlerts (
+	$action, &$action_op, $action_arg, $action_param, $context, $action_lst,
+	&$num_alert, $action_sql, $db, $limit_start=-1, $limit_offset=-1
+) {
+	GLOBAL $UIL, $debug_mode;
+	$action_cnt = 0;
+	$dup_cnt = 0;
+	$action_desc = "";
+	$Success = $UIL->CPA['SucDesc'];
+	$ctx_nia = array(
+		PAGE_STAT_ALERTS, PAGE_STAT_SENSOR, PAGE_STAT_CLASS, PAGE_STAT_IPLINK,
+		PAGE_STAT_UADDR, PAGE_STAT_PORTS
+	); // Context Not Individual Alerts
 
   if ( $action == "ag_by_id" )          $action_desc = _ADDAGID;
   else if ($action == "ag_by_name")     $action_desc = _ADDAGNAME;
@@ -453,25 +453,19 @@ function ProcessSelectedAlerts($action, &$action_op, $action_arg, $action_param,
             }
             $sql = "SELECT acid_event.sid, acid_event.cid FROM acid_event WHERE ". $tmp;
             $sql2 = "SELECT count(acid_event.sid) FROM acid_event WHERE ". $tmp; 
-         }
-         /* if acting on alerts by signature or sensor, count the 
-          * the number of alerts 
-          */
-         if ( ($context == PAGE_STAT_ALERTS) || ($context == PAGE_STAT_SENSOR)
-            || ($context == PAGE_STAT_CLASS) || ($context == PAGE_STAT_IPLINK)
-            || ($context == PAGE_STAT_UADDR) || ($context == PAGE_STAT_PORTS) )
-         {
-            $result2 = $db->baseExecute($sql2);
-            $myrow2 = $result2->baseFetchRow();
-            $blob_alert_cnt = $myrow2[0];
-            $result2->baseFreeRows();
-         }
-
-         if ( $debug_mode > 0 )
+		}
+		if ( in_array($context, $ctx_nia) ){
+			// Count alerts, as we are acting on alerts by signature or sensor.
+			$result2 = $db->baseExecute($sql2);
+			$myrow2 = $result2->baseFetchRow();
+			$blob_alert_cnt = $myrow2[0];
+			$result2->baseFreeRows();
+		}
+		if ( $debug_mode > 0 ){
             echo "$j = [using SQL $num_alert for blob ".
                        ( isset($action_lst[$j]) ? $action_lst[$j] : "")."]: $sql<BR>";
-
-         /* Execute the SQL to get the alert listing */
+		}
+		// Execute the SQL to get the alert listing.
          if ( $limit_start == -1 )
             $result = $db->baseExecute($sql, -1, -1, false);
          else
@@ -488,83 +482,69 @@ function ProcessSelectedAlerts($action, &$action_op, $action_arg, $action_param,
      /* Limit the number of alerts acted on if in "top x alerts" */
      if ( $limit_start != -1 )    $blob_alert_cnt = $limit_offset;
 
-     /* Loop through the specific alerts in a particular blob */
-     for ( $i = 0; $i < $blob_alert_cnt; $i++ )
-     {
-        /* Verify that have a selected alert */
-        if ( isset($action_lst[$i]) || $using_blobs )
-        {
-           /* If acting on a blob */
-           if ( $using_blobs )
-           { 
-              $myrow = $result->baseFetchRow();
-              $sid = $myrow[0];
-              $cid = $myrow[1];  
-           }
-           else 
-              GetQueryResultID($action_lst[$i], $seq, $sid, $cid);
-
-           if ( $sid != "" )
-           {
-              if ( $debug_mode > 0 ) echo $sid.' - '.$cid.'<BR>';
-
-              /* **** SOME ACTION on (sid, cid) ********** */
-              $function_op = "Action_".$action."_op";
-		$action_ctx =& $action_ctx;
-              $tmp = $function_op($sid, $cid, $db, $action_arg, $action_ctx);
-
-              if ( $tmp == 0 )
-              /* xxx jl: then there was an error.  And this does not necessarily
-                 refer to a duplicate */
-              {
-                ++$dup_cnt; 
-              }
-              else if ( $tmp == 1 )
-              {
-                ++$action_cnt; 
-              }
-           } 
-        }
-     }
-
-     /* If acting on a blob, free the result set used to get alert list */
-     if ( $using_blobs )
-        $result->baseFreeRows();
-  }
-  /* **** SOME POST-ACTION ******* */
-  $function_post = "Action_".$action."_post";
-  if ($action == "del_alert")
-  	$function_post($action_arg, $action_ctx, $db, $num_alert, $action_cnt, $context);
-  else
-  	$function_post($action_arg, $action_ctx, $db, $num_alert, $action_cnt);
-
-  if ( $dup_cnt > 0 )
-     ErrorMessage(_IGNORED .$dup_cnt._DUPALERTS);
-
-  if ( $action_cnt > 0 )
-  {
-    /* 
-     *  Print different message if alert action units (e.g. sensor
-     *  or signature) are not individual alerts
-     */ 
-    if ( ($context == PAGE_STAT_ALERTS) || ($context == PAGE_STAT_SENSOR)
-       || ($context == PAGE_STAT_CLASS) || ($context == PAGE_STAT_IPLINK)
-       || ($context == PAGE_STAT_UADDR) || ($context == PAGE_STAT_PORTS) )
-        ErrorMessage(_SUCCESS ." $action_desc - "._ON." $action_cnt "._ALERTSPARA." ("._IN." $num_alert_blobs blobs)");
-     else
-        ErrorMessage(_SUCCESS ." $action_desc - ".$action_cnt._ALERTSPARA);
-  }
-  else if ( $action_cnt == 0 )
-     ErrorMessage(_NOALERTSSELECT." $action_desc "._NOTSUCCESSFUL); 
-
-  if ( $debug_mode > 0 )
-  {
+		for ( $i = 0; $i < $blob_alert_cnt; $i++ ){
+			// Loop through the specific alerts in a particular blob.
+			if ( isset($action_lst[$i]) || $using_blobs ){
+				// We have a selected alert.
+				if ( $using_blobs ){ // Acting on a blob
+					$myrow = $result->baseFetchRow();
+					$sid = $myrow[0];
+					$cid = $myrow[1];
+				}else{
+					GetQueryResultID($action_lst[$i], $seq, $sid, $cid);
+				}
+				if ( $sid != "" ){
+					if ( $debug_mode > 0 ){
+						echo $sid.' - '.$cid.'<BR>';
+					}
+					// SOME ACTION on (sid, cid).
+					$function_op = "Action_".$action."_op";
+					$action_ctx =& $action_ctx;
+					$tmp = $function_op($sid, $cid, $db, $action_arg, $action_ctx);
+					if ( $tmp == 0 ){
+						// xxx jl: then there was an error.
+						// This does not necessarily refer to a duplicate.
+						++$dup_cnt;
+					}elseif ( $tmp == 1 ){
+						++$action_cnt;
+					}
+				}
+			}
+		}
+		if ( $using_blobs ){
+			// Acting on blob, free result set used to get alert list.
+			$result->baseFreeRows();
+		}
+	}
+	// SOME POST-ACTION
+	$function_post = "Action_".$action."_post";
+	if ($action == "del_alert"){
+		$function_post($action_arg, $action_ctx, $db, $num_alert, $action_cnt, $context);
+	}else{
+		$function_post($action_arg, $action_ctx, $db, $num_alert, $action_cnt);
+	}
+	if ( $dup_cnt > 0 ){
+		ErrorMessage(_IGNORED .$dup_cnt._DUPALERTS);
+	}
+	if ( $action_cnt > 0 ){
+		$prefix = $Success ." $action_desc - ";
+		if ( in_array($context, $ctx_nia) ){
+			// Print different message if alert action units
+			// (e.g. sensor or signature) are not individual alerts.
+			ErrorMessage($prefix ._ON." $action_cnt "._ALERTSPARA." ("._IN." $num_alert_blobs blobs)");
+		}else{
+			ErrorMessage($prefix . $action_cnt._ALERTSPARA);
+		}
+	}elseif ( $action_cnt == 0 ){
+		ErrorMessage(_NOALERTSSELECT." $action_desc "._NOTSUCCESSFUL);
+	}
+	if ( $debug_mode > 0 ){
      echo "-------------------------------------<BR>
           action_cnt = $action_cnt<BR>
           dup_cnt = $dup_cnt<BR>
           num_alert = $num_alert<BR> 
           ==== $action_desc Alerts END ========<BR>";
-  }
+	}
 }
 
 /* 

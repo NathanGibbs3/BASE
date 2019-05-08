@@ -45,6 +45,7 @@ $UI_CP_Name = 'Jméno';
 $UI_CP_Int = 'Rozhraní';
 $UI_CP_Filter = 'Filtr';
 $UI_CP_Desc = 'Popis';
+$UI_CP_SucDesc = 'Successful';
 // Authentication Data.
 $UI_AD_UND = 'Login';
 $UI_AD_PWD = 'Heslo';
@@ -52,7 +53,6 @@ $UI_AD_RID = "$UI_CP_Id role";
 $UI_AD_ASD = 'Enabled';
 
 //common phrases
-DEFINE('_SUCCESS','Successful');
 DEFINE('_SENSOR','Senzor');
 DEFINE('_SENSORS','Sensors'); //NEW
 DEFINE('_SIGNATURE','Podpis');

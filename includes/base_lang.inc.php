@@ -183,6 +183,13 @@ class UILang{
 		}else{
 			$this->SetUICPItem('Desc');
 		}
+		if ( isset($UI_CP_SucDesc) ) { // Var New TDF
+			$this->SetUICPItem('SucDesc',$UI_CP_SucDesc);
+		}elseif (defined('_SUCCESS')) { // Const Legacy TDF
+			$this->SetUICPItem('SucDesc',_SUCCESS);
+		}else{
+			$this->SetUICPItem('SucDesc');
+		}
 		// Init Authentication Data if Auth Sys is enabled.
 		if ($Use_Auth_System == 1) {
 			if ( isset($UI_AD_UND) ) { // Var New TDF
@@ -300,7 +307,7 @@ class UILang{
 	function SetUICPItem($Item,$Value = NULL) {
 		$Items = array (
 			'SrcDesc', 'SrcName', 'DstDesc', 'DstName', 'SrcDst', 'Id', 'Name',
-			'Int', 'Filter', 'Desc'
+			'Int', 'Filter', 'Desc', 'SucDesc'
 		);
 		if (in_array($Item, $Items)) {
 			$this->CPA[$Item] = $Value;

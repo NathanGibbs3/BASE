@@ -44,6 +44,7 @@ $UI_CP_Name = 'Nom';
 $UI_CP_Int = 'Interface';
 $UI_CP_Filter = 'Filtre';
 $UI_CP_Desc = 'Description';
+$UI_CP_SucDesc = 'Succès -';
 // Authentication Data.
 $UI_AD_UND = 'Identifiant';
 $UI_AD_PWD = 'Mot de passe';
@@ -51,8 +52,6 @@ $UI_AD_RID = "$UI_CP_Id de Rôle";
 $UI_AD_ASD = 'Activé';
 
 //common phrases
-DEFINE('_SUCCESS','Succès -');
-// Successful
 DEFINE('_SENSOR','Sonde');
 // Sensor
 DEFINE('_SIGNATURE','Signature');

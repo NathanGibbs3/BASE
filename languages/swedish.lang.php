@@ -44,6 +44,7 @@ $UI_CP_Name = 'Namn';
 $UI_CP_Int = 'Gränssnitt';
 $UI_CP_Filter = 'Filter';
 $UI_CP_Desc = 'Beskrivning';
+$UI_CP_SucDesc = 'Utfört';
 // Authentication Data.
 $UI_AD_UND = 'Logga in';
 $UI_AD_PWD = 'Lösenord';
@@ -51,7 +52,6 @@ $UI_AD_RID = "Roll $UI_CP_Id";
 $UI_AD_ASD = 'Möjliggjord';
 
 //common phrases
-DEFINE('_SUCCESS','Utfört');
 DEFINE('_SENSOR','Sensor');
 DEFINE('_SENSORS','Sensors'); //NEW
 DEFINE('_SIGNATURE','Signatur');

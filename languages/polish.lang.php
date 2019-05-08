@@ -45,6 +45,7 @@ $UI_CP_Name = 'Nazwa';
 $UI_CP_Int = 'Interfejs';
 $UI_CP_Filter = 'Filtr';
 $UI_CP_Desc = 'Opis';
+$UI_CP_SucDesc = 'Pomyslny';
 // Authentication Data.
 $UI_AD_UND = 'Login';
 $UI_AD_PWD = 'Haslo';
@@ -52,7 +53,6 @@ $UI_AD_RID = "$UI_CP_Id Roli";
 $UI_AD_ASD = 'Wlaczony';
 
 //common phrases
-DEFINE('_SUCCESS','Pomyslny');
 DEFINE('_SENSOR','Sensor');
 DEFINE('_SENSORS','Sensory'); //NEW
 DEFINE('_SIGNATURE','Sygnatura');

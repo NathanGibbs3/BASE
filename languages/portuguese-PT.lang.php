@@ -52,6 +52,7 @@ $UI_CP_Name = 'Nome';
 $UI_CP_Int = 'Interface';
 $UI_CP_Filter = 'Filtro';
 $UI_CP_Desc = 'Descrição';
+$UI_CP_SucDesc = 'Com Sucesso';
 // Authentication Data.
 $UI_AD_UND = 'Nome';
 $UI_AD_PWD = 'Senha';
@@ -59,7 +60,6 @@ $UI_AD_RID = "$UI_CP_Id do perfil";
 $UI_AD_ASD = 'Habilitado';
 
 //common phrases
-DEFINE('_SUCCESS','Com Sucesso');
 DEFINE('_SENSOR','Sensor');
 DEFINE('_SENSORS','Sensores');
 DEFINE('_SIGNATURE','Assinatura');

@@ -44,6 +44,7 @@ $UI_CP_Name = '名称';
 $UI_CP_Int = '界面';
 $UI_CP_Filter = '过滤器';
 $UI_CP_Desc = '说明';
+$UI_CP_SucDesc = '已成功';
 // Authentication Data.
 $UI_AD_UND = '用户登录';
 $UI_AD_PWD = '密码';
@@ -51,7 +52,6 @@ $UI_AD_RID = "角色 $UI_CP_Id";
 $UI_AD_ASD = '启用';
 
 //common phrases
-DEFINE('_SUCCESS','已成功');
 DEFINE('_SENSOR','探测器');
 DEFINE('_SENSORS','Sensors'); //NEW
 DEFINE('_SIGNATURE','特征');
