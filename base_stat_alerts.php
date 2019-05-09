@@ -31,7 +31,8 @@
   include_once ("$BASE_path/base_stat_common.php");
 
   ($debug_time_mode >= 1) ? $et = new EventTiming($debug_time_mode) : '';
-$UIL = new UILang($BASE_Language); // Create UI Language Abstraction Object.
+$UIL = new UILang($BASE_Language); // Create UI Language Object.
+$CPSensor = $UIL->CPA['Sensor'];
   $cs = new CriteriaState("base_stat_alerts.php");
   $submit = ImportHTTPVar("submit", VAR_ALPHA | VAR_SPACE, array(_SELECTED, _ALLONSCREEN, _ENTIREQUERY));
 
@@ -144,7 +145,7 @@ $UIL = new UILang($BASE_Language); // Create UI Language Abstraction Object.
                            " ORDER BY sig_cnt ASC",
                 "occur_d", " ",
                            " ORDER BY sig_cnt DESC");
-  $qro->AddTitle(_SENSOR."&nbsp;#");
+$qro->AddTitle("$CPSensor&nbsp;#");
   $qro->AddTitle(_NBSOURCEADDR, 
                 "saddr_a", ", count(DISTINCT ip_src) AS saddr_cnt ",
                            " ORDER BY saddr_cnt ASC",
@@ -339,13 +340,10 @@ $UIL = new UILang($BASE_Language); // Create UI Language Abstraction Object.
   $qs->PrintAlertActionButtons();
   $qs->SaveState();
   echo "\n</FORM>\n";
-  
-  PrintBASESubFooter();
-
-  if ($debug_time_mode >= 1) {
+PrintBASESubFooter();
+if ($debug_time_mode >= 1) {
 	$et->Mark("Get Query Elements");
 	$et->PrintTiming();
-  }
-
-  echo "</body>\r\n</html>";
+}
+PageEnd();
 ?>

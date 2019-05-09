@@ -47,6 +47,7 @@ $UI_CP_Int = 'Интерфейс';
 $UI_CP_Filter = 'Фильтр';
 $UI_CP_Desc = 'Описание';
 $UI_CP_SucDesc = 'Успешно';
+$UI_CP_Sensor = 'Сенсор';
 // Authentication Data.
 $UI_AD_UND = 'Логин';
 $UI_AD_PWD = 'Пароль';
@@ -54,8 +55,6 @@ $UI_AD_RID = "$UI_CP_Id роли";
 $UI_AD_ASD = 'Включено';
 
 // основные фразы
-DEFINE('_SENSOR','Сенсор');
-DEFINE('_SENSORS','Sensors'); //NEW
 DEFINE('_SIGNATURE','Сигнатура');
 DEFINE('_TIMESTAMP','Время');
 DEFINE('_NBSOURCEADDR','Адрес&nbsp;источника');

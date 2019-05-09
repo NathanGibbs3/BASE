@@ -45,6 +45,7 @@ $UI_CP_Int = 'Interface';
 $UI_CP_Filter = 'Filtre';
 $UI_CP_Desc = 'Description';
 $UI_CP_SucDesc = 'Succès -';
+$UI_CP_Sensor = 'Sonde';
 // Authentication Data.
 $UI_AD_UND = 'Identifiant';
 $UI_AD_PWD = 'Mot de passe';
@@ -52,8 +53,6 @@ $UI_AD_RID = "$UI_CP_Id de Rôle";
 $UI_AD_ASD = 'Activé';
 
 //common phrases
-DEFINE('_SENSOR','Sonde');
-// Sensor
 DEFINE('_SIGNATURE','Signature');
 // Signature
 DEFINE('_TIMESTAMP','Horodatage');
@@ -976,7 +975,6 @@ DEFINE('_BASEUSERNEWPWDAGAIN','Confirmer le mot de passe :');
 // New Password Again:
 
 //New stuff:
-DEFINE('_SENSORS','Sensors'); //NEW
 DEFINE('_FIRST','First'); //NEW
 DEFINE('_TOTAL','Total'); //NEW
 DEFINE('_AND','AND'); //NEW

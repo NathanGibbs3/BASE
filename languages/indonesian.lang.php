@@ -45,6 +45,7 @@ $UI_CP_Int = 'Interface';
 $UI_CP_Filter = 'Filter';
 $UI_CP_Desc = 'Deskripsi';
 $UI_CP_SucDesc = 'Berhasil';
+$UI_CP_Sensor = 'Sensor';
 // Authentication Data.
 $UI_AD_UND = 'Login';
 $UI_AD_PWD = 'Kata Sandi';
@@ -52,8 +53,6 @@ $UI_AD_RID = "$UI_CP_Id Peran";
 $UI_AD_ASD = 'Aktif';
 
 //common phrases
-DEFINE('_SENSOR','Sensor');
-DEFINE('_SENSORS','Sensors'); //NEW
 DEFINE('_SIGNATURE','Nama Alarem');
 DEFINE('_TIMESTAMP','Waktu');
 DEFINE('_NBSOURCEADDR','Alamat Sumber');

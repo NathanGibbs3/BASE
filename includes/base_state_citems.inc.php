@@ -784,14 +784,15 @@ class SensorCriteria extends SingleElementCriteria
      /* convert this criteria to SQL */
    }
 	function Description($value) {
-     $tmp = "";
-
+		GLOBAL $UIL;
+		$CPSensor = $UIL->CPA['Sensor'];
+		$tmp = "";
      if ( $this->criteria != " " && $this->criteria != "" )
-        $tmp = $tmp._SENSOR.' = ['.htmlentities($this->criteria).'] '.
+        $tmp .= "$CPSensor = [".htmlentities($this->criteria).'] '.
                GetSensorName($this->criteria, $this->db).
                $this->cs->GetClearCriteriaString($this->export_name).'<BR>';
 
-      return $tmp;
+		return $tmp;
 	}
 };  /* SensorCriteria */
 

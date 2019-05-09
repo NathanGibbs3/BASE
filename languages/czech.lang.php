@@ -46,6 +46,7 @@ $UI_CP_Int = 'Rozhraní';
 $UI_CP_Filter = 'Filtr';
 $UI_CP_Desc = 'Popis';
 $UI_CP_SucDesc = 'Successful';
+$UI_CP_Sensor = 'Senzor';
 // Authentication Data.
 $UI_AD_UND = 'Login';
 $UI_AD_PWD = 'Heslo';
@@ -53,8 +54,6 @@ $UI_AD_RID = "$UI_CP_Id role";
 $UI_AD_ASD = 'Enabled';
 
 //common phrases
-DEFINE('_SENSOR','Senzor');
-DEFINE('_SENSORS','Sensors'); //NEW
 DEFINE('_SIGNATURE','Podpis');
 DEFINE('_TIMESTAMP','Èasová znaèka');
 DEFINE('_NBSOURCEADDR','Zdrojová&nbsp;adresa');

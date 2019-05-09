@@ -44,6 +44,7 @@ $UI_CP_Int = 'Interface';
 $UI_CP_Filter = 'Filter';
 $UI_CP_Desc = 'Description';
 $UI_CP_SucDesc = 'Successful';
+$UI_CP_Sensor = 'Sensor';
 // Authentication Data.
 $UI_AD_UND = 'Login';
 $UI_AD_PWD = 'Password';
@@ -51,8 +52,6 @@ $UI_AD_RID = "Role $UI_CP_Id";
 $UI_AD_ASD = 'Enabled';
 
 //common phrases
-DEFINE('_SENSOR','Sensor');
-DEFINE('_SENSORS','Sensors');
 DEFINE('_SIGNATURE','Signature');
 DEFINE('_TIMESTAMP','Timestamp');
 DEFINE('_NBSOURCEADDR','Source&nbsp;Address');

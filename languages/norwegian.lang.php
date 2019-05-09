@@ -44,6 +44,7 @@ $UI_CP_Int = 'Grensesnitt';
 $UI_CP_Filter = 'Filter';
 $UI_CP_Desc = 'Beskrivelse';
 $UI_CP_SucDesc = 'Vellykket';
+$UI_CP_Sensor = 'Sensor';
 // Authentication Data.
 $UI_AD_UND = 'Brukernavn';
 $UI_AD_PWD = 'Passord';
@@ -51,8 +52,6 @@ $UI_AD_RID = "Rolle $UI_CP_Id";
 $UI_AD_ASD = 'Aktivert';
 
 //common phrases
-DEFINE('_SENSOR','Sensor');
-DEFINE('_SENSORS','Sensors'); //NEW
 DEFINE('_SIGNATURE','Signatur');
 DEFINE('_TIMESTAMP','Tidsmerke');
 DEFINE('_NBSOURCEADDR','Kilde&nbsp;Adresse');

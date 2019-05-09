@@ -199,14 +199,10 @@ function CacheAlert($sid, $cid, $db)
      return 1;
 }
 
-function CacheSensor($sid, $cid, $db)
-/*
-  Caches all alerts for sensor $sid newer than the event $cid
- */
-{
-  GLOBAL $debug_mode;
-
-
+function CacheSensor($sid, $cid, $db) {
+	// Caches all alerts for sensor $sid newer than the event $cid.
+	GLOBAL $UIL, $debug_mode;
+	$CPSensor = $UIL->CPA['Sensor'];
   $schema_specific = array(2);
 
   $schema_specific[0] = "";
@@ -232,13 +228,13 @@ function CacheSensor($sid, $cid, $db)
   $update_sql = array(4);
 
   /* Preprocessor events only */
-  # The original "(sig_name LIKE '(spp_%')" is too limited. Cf.
-  # /usr/local/src/snort-2.8.3.1_unpatched/etc/gen-msg.map
-  # /usr/local/src/snort-2.8.3.1_unpatched/src/generators.h
-  # Currently I have included all the names that I have found in 
-  # these files.
-  # Note: Do always add '%' in LIKE-statements. Otherwise the entries
-  #       won't match.
+  // The original "(sig_name LIKE '(spp_%')" is too limited. Cf.
+  // /usr/local/src/snort-2.8.3.1_unpatched/etc/gen-msg.map
+  // /usr/local/src/snort-2.8.3.1_unpatched/src/generators.h
+  // Currently I have included all the names that I have found in 
+  // these files.
+  // Note: Do always add '%' in LIKE-statements. Otherwise the entries
+  //       won't match.
   if ( $db->baseGetDBversion() >= 100 ) {
     $schema_specific[3] = " ( " . 
                           "(sig_name LIKE '(spp_%') OR " . 
@@ -480,15 +476,13 @@ function CacheSensor($sid, $cid, $db)
       $mystr = '<BR>' . __FILE__ . ':' . __LINE__ . ": <BR>\n$update_sql[$i] <BR><BR>\n\n";
       echo $mystr;
     }
-
-
-    $db->baseExecute($update_sql[$i]); 
-
-    if ( $db->baseErrorMessage() != "" )
-       ErrorMessage(_ERRCACHEERROR." ["._SENSOR." #$sid]["._EVENTTYPE." $i]".
-                      " "._ERRCACHEUPDATE);
-
-  }
+		$db->baseExecute($update_sql[$i]);
+		if ( $db->baseErrorMessage() != "" ){
+			ErrorMessage(
+				_ERRCACHEERROR." [$CPSensor #$sid]["._EVENTTYPE." $i]".
+				" "._ERRCACHEUPDATE);
+		}
+	}
 }
 
 

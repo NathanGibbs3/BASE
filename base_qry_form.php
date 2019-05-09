@@ -42,19 +42,18 @@ if ( $submit == _ADDICMPFIELD && $cs->criteria['icmp_field']->GetFormItemCnt() <
 if ( $submit == _ADDPAYLOAD && $cs->criteria['data']->GetFormItemCnt() < $MAX_ROWS)
    $cs->criteria['data']->AddFormItem($submit, $cs->criteria['layer4']->Get());
 
-echo '
-
-<!-- ************ Meta Criteria ******************** -->
-<TABLE WIDTH="100%" BORDER=0>
-  <TR>
-      <TD WIDTH="40%" CLASS="metatitle"><B>'._QCMETACRIT.'</B></TD>
-      <TD></TD></TR>
-</TABLE>
-
-<TABLE WIDTH="100%" border=2 class="query">
-  <TR>
-      <TD COLSPAN=2>
-           <B>'._SENSOR.': </B>';
+$CPSensor = $UIL->CPA['Sensor'];
+NLIO('<!-- ************ Meta Criteria ******************** -->');
+NLIO("<table width='100%' border='0'>");
+NLIO('<tr>',1);
+NLIO("<td width='40%' class='metatitle'><b>"._QCMETACRIT.'</b></td>',2);
+NLIO('<td></td>',2);
+NLIO('</tr>',1);
+NLIO('</table>');
+NLIO("<table width='100%' border='2' class='query'>");
+NLIO('<tr>',1);
+NLIO("<td colspan='2'>",2);
+NLIO("<b>$CPSensor: </b>",3);
 $cs->criteria['sensor']->PrintForm('','','');
      echo '<B>'._ALERTGROUP.': </B>';
 $cs->criteria['ag']->PrintForm('','','');

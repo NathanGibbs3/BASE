@@ -45,6 +45,7 @@ $UI_CP_Int = 'インターフェース';
 $UI_CP_Filter = 'フィルター';
 $UI_CP_Desc = '詳細';
 $UI_CP_SucDesc = '成功';
+$UI_CP_Sensor = 'センサー';
 // Authentication Data.
 $UI_AD_UND = 'ログイン';
 $UI_AD_PWD = 'パスワード';
@@ -52,8 +53,6 @@ $UI_AD_RID = "Role $UI_CP_Id";
 $UI_AD_ASD = '有効';
 
 //common phrases
-DEFINE('_SENSOR','センサー');
-DEFINE('_SENSORS','Sensors'); //NEW
 DEFINE('_SIGNATURE','シグネチャ');
 DEFINE('_TIMESTAMP','タイムスタンプ');
 DEFINE('_NBSOURCEADDR','発信元&nbsp;アドレス');

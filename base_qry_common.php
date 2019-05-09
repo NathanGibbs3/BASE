@@ -20,15 +20,14 @@
 defined( '_BASE_INC' ) or die( 'Accessing this file directly is not allowed.' );
 include_once("$BASE_path/includes/base_signature.inc.php");
 
-function PrintCriteriaState()
-{
-   GLOBAL $layer4, $new, $submit, $sort_order, $num_result_rows,
-          $current_view, $caller, $action, $action_arg, $sort_order;
+function PrintCriteriaState() {
+	GLOBAL $layer4, $new, $submit, $sort_order, $num_result_rows,
+	$current_view, $caller, $action, $action_arg, $sort_order, $UIL;
 
-   if ( $GLOBALS['debug_mode'] >= 2 )
-   {
-      echo "<PRE>";
-      echo "<B>"._SENSOR.":</B> ".$_SESSION['sensor']."<BR>\n".
+	if ( $GLOBALS['debug_mode'] >= 2 ){
+		$CPSensor = $UIL->CPA['Sensor'];
+		NLIO("<PRE>");
+		echo "<B>$CPSensor:</B> ".$_SESSION['sensor']."<BR>\n".
            "<B>AG:</B> ".$_SESSION['ag']."<BR>\n".
            "<B>"._QCSIG."</B>\n";
       print_r($_SESSION['sig']);
@@ -477,34 +476,40 @@ function PrintCriteria($caller) {
   }
 
 	// Payload
-	$save_criteria .= "\n".str_repeat ( "\t",9 ).'<tr>'.
-	"\n".str_repeat ( "\t",10 ).'<td class="payloadtitle">'._QCPAYCRIT.'</td>'.
-	"\n".str_repeat ( "\t",10 ).'<td>';
+	$save_criteria .= NLI('<tr>',9).
+	NLI('<td class="payloadtitle">'._QCPAYCRIT.'</td>',10).
+	NLI('<td>',10);
 	if ( !$cs->criteria['data']->isEmpty() ) {
 		$save_criteria .= $cs->criteria['data']->Description('');
 	}else{
 		$save_criteria .= '<i> &nbsp;&nbsp; '._ANY.' </i>';
 	}
 	$save_criteria .= '&nbsp;&nbsp;</td>'.
-	"\n".str_repeat ( "\t",9 ).'</tr>'.
-	"\n".str_repeat ( "\t",8 ).'</table>';
+	NLI('</tr>',9).
+	NLI('</table>',8);
 	// Search criteria Display
 	$UIL->SetUILocale();
 	// Table summary needs to be translated.
 	$save_criteria =
 		'&nbsp;<b>'._QUERIED.'</b> : '.strftime($UIL->Timefmt).
-		"\n".str_repeat ( "\t",4 ).
-		'<table border=0 cellspacing=0 callpadding=2 bgcolor="#000000"'.
+		// Styling hack produces table with black border.
+		// See https://github.com/NathanGibbs3/BASE/issues/19
+		NLI('<table border=0 cellspacing=0 callpadding=2 bgcolor="#000000"',4).
 		' summary="Search Criteria">'.
-		"\n".str_repeat ( "\t",5 ).'<tr><td>'.
-		"\n".str_repeat ( "\t",6 ).
-		'<table border=0 cellspacing=0 cellpadding=1 bgcolor="#DDDDDD">'.
-		"\n".str_repeat ( "\t",7 ).'<tr><td>'.
-		"\n".str_repeat ( "\t",8 ).$save_criteria.
-		"\n".str_repeat ( "\t",7 ).'</td></tr>'.
-		"\n".str_repeat ( "\t",6 ).'</table>'.
-		"\n".str_repeat ( "\t",5 ).'</td></tr>'.
-		"\n".str_repeat ( "\t",4 ).'</table>';
+		NLI('<tr><td>',5).
+		// Styling hack again, with gray border.
+		// See https://github.com/NathanGibbs3/BASE/issues/25
+		NLI('<table border=0 cellspacing=0 cellpadding=1 bgcolor="#DDDDDD">',6).
+		NLI('<tr><td>',7).
+		NLI($save_criteria,8).
+		// Closure for styleing hack again.
+		// See https://github.com/NathanGibbs3/BASE/issues/25
+		NLI('</td></tr>',7).
+		NLI('</table>',6).
+		// Closure for styleing hack.
+		// See https://github.com/NathanGibbs3/BASE/issues/19
+		NLI('</td></tr>',5).
+		NLI('</table>',4);
 	echo $save_criteria;
 }
 

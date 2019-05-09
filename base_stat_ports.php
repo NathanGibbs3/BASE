@@ -46,7 +46,8 @@
   $db = NewBASEDBConnection($DBlib_path, $DBtype);
   $db->baseDBConnect($db_connect_method,
                      $alert_dbname, $alert_host, $alert_port, $alert_user, $alert_password);
-$UIL = new UILang($BASE_Language); // Create UI Language Abstraction Object.
+$UIL = new UILang($BASE_Language); // Create UI Language Object.
+$CPSensor = $UIL->CPA['Sensor'];
   $cs = new CriteriaState("base_stat_ports.php");
   $cs->ReadState();
 
@@ -191,9 +192,10 @@ $UIL = new UILang($BASE_Language); // Create UI Language Abstraction Object.
   $qro->AddTitle(_PORT, 
                 "port_a", " ", " ORDER BY $port_type_sql ASC",
                 "port_d", " ", " ORDER BY $port_type_sql DESC");
-  $qro->AddTitle(_SENSOR, 
-                "sensor_a", " ", " ORDER BY num_sensors ASC",
-                "sensor_d", " ", " ORDER BY num_sensors DESC");
+$qro->AddTitle("$CPSensor&nbsp;#",
+	"sensor_a", " ", " ORDER BY num_sensors ASC",
+	"sensor_d", " ", " ORDER BY num_sensors DESC"
+);
   $qro->AddTitle(_OCCURRENCES, 
                 "occur_a", " ", " ORDER BY num_events ASC",
                 "occur_d", " ", " ORDER BY num_events DESC");
@@ -346,10 +348,8 @@ $UIL = new UILang($BASE_Language); // Create UI Language Abstraction Object.
 	ExportHTTPVar("sort_order", $sort_order);	
 
   echo "\n</FORM>\n";
-  
-  PrintBASESubFooter();
-
-  $et->Mark("Get Query Elements");
-  $et->PrintTiming();
-  echo "</body>\r\n</html>";
+PrintBASESubFooter();
+$et->Mark("Get Query Elements");
+$et->PrintTiming();
+PageEnd();
 ?>

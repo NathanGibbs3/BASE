@@ -31,7 +31,8 @@
   include_once ("$BASE_path/base_stat_common.php");
 
   $et = new EventTiming($debug_time_mode);
-$UIL = new UILang($BASE_Language); // Create UI Language Abstraction Object.
+$UIL = new UILang($BASE_Language); // Create UI Language Object.
+$CPSensor = $UIL->CPA['Sensor'];
   $cs = new CriteriaState("base_stat_class.php");
   $cs->ReadState();
 
@@ -133,11 +134,10 @@ $UIL = new UILang($BASE_Language); // Create UI Language Abstraction Object.
                            " ORDER BY num_events ASC",
                 "occur_d", " ",
                            " ORDER BY num_events DESC");
-  $qro->AddTitle(_SENSOR."&nbsp;#",
-                 "sensor_a", " ",
-                             " ORDER BY num_sensors ASC",
-                 "sensor_d", " ",
-                             " ORDER BY num_sensors DESC");
+$qro->AddTitle("$CPSensor&nbsp;#",
+	"sensor_a", " ", " ORDER BY num_sensors ASC",
+	"sensor_d", " ", " ORDER BY num_sensors DESC"
+);
   $qro->AddTitle(_SIGNATURE,
                  "sig_a", " ",
                           " ORDER BY num_sig ASC",
@@ -252,10 +252,8 @@ $UIL = new UILang($BASE_Language); // Create UI Language Abstraction Object.
   $qs->SaveState();
 	ExportHTTPVar("sort_order", $sort_order);
   echo "\n</FORM>\n";
-  
-  PrintBASESubFooter();
-
-  $et->Mark("Get Query Elements");
-  $et->PrintTiming();
-  echo "</body>\r\n</html>";
+PrintBASESubFooter();
+$et->Mark("Get Query Elements");
+$et->PrintTiming();
+PageEnd();
 ?>

@@ -34,7 +34,8 @@
 
   $et = new EventTiming($debug_time_mode);
 $UIL = new UILang($BASE_Language); // Create UI Language Object.
-$SnName = $UIL->CPA['Name'];
+$CPName = $UIL->CPA['Name'];
+$CPSensor = $UIL->CPA['Sensor'];
   $cs = new CriteriaState("base_stat_sensor.php");
   $cs->ReadState();
 
@@ -104,12 +105,11 @@ $SnName = $UIL->CPA['Name'];
   $qro = new QueryResultsOutput("base_stat_sensor.php?x=x");
 
   $qro->AddTitle(" ");
-  $qro->AddTitle(_SENSOR, 
-                "sid_a", " ",
-                         " ORDER BY acid_event.sid ASC",
-                "sid_d", " ",
-                         " ORDER BY acid_event.sid DESC");  
-$qro->AddTitle( $SnName,
+$qro->AddTitle("$CPSensor&nbsp;#",
+	"sid_a", " ", " ORDER BY acid_event.sid ASC",
+	"sid_d", " ", " ORDER BY acid_event.sid DESC"
+);
+$qro->AddTitle( $CPName,
 	"sname_a", " ", " ORDER BY sensor.name ASC",
 	"sname_d", " ", " ORDER BY sensor.name DESC"
 );
@@ -204,10 +204,8 @@ $qro->AddTitle( $SnName,
   $qs->SaveState();
 	ExportHTTPVar("sort_order", $sort_order);
   echo "\n</FORM>\n";
-  
-  PrintBASESubFooter();
-
-  $et->Mark("Get Query Elements");
-  $et->PrintTiming();
-  echo "</body>\r\n</html>";
+PrintBASESubFooter();
+$et->Mark("Get Query Elements");
+$et->PrintTiming();
+PageEnd();
 ?>

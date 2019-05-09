@@ -29,8 +29,6 @@
   include_once ("$BASE_path/base_common.php");
   include_once ("$BASE_path/base_graph_common.php");
 
-
-
   function check_worldmap()
   {
     GLOBAL $debug_mode;
@@ -99,7 +97,6 @@
 
     return 1;
   }
-
 
 
   ($debug_time_mode >= 1) ? $et = new EventTiming($debug_time_mode) : '';
@@ -334,16 +331,14 @@ $UIL = new UILang($BASE_Language); // Create UI Language Abstraction Object.
             $data_pnt_cnt = GetClassificationDataSet($xdata, $chart_type, $data_source, $min_size, $criteria);
             break;
          }
-     case CHARTTYPE_SENSOR:  // Sensor vs. Num Alerts 
-         {
-            $chart_title = _CHRTSENSORNUMBER;
-            $xaxis_label = _SENSOR;
-            $yaxis_label = _CHRTALERTOCCUR;
-
-            $data_pnt_cnt = GetSensorDataSet($xdata, $chart_type, $data_source, $min_size, $criteria);
-            break;
-         }
-
+		case CHARTTYPE_SENSOR:  // Sensor vs. Num Alerts
+			$chart_title = _CHRTSENSORNUMBER;
+			$xaxis_label = $UIL->CPA['Sensor'];
+			$yaxis_label = _CHRTALERTOCCUR;
+			$data_pnt_cnt = GetSensorDataSet(
+				$xdata, $chart_type, $data_source, $min_size, $criteria
+			);
+			break;
      case CHARTTYPE_SRC_COUNTRY: // Src Countries vs. Num Alerts
      case CHARTTYPE_SRC_COUNTRY_ON_MAP: // dto., but on worldmap
        {

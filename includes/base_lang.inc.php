@@ -190,6 +190,13 @@ class UILang{
 		}else{
 			$this->SetUICPItem('SucDesc');
 		}
+		if ( isset($UI_CP_Sensor) ) { // Var New TDF
+			$this->SetUICPItem('Sensor',$UI_CP_Sensor);
+		}elseif (defined('_SUCCESS')) { // Const Legacy TDF
+			$this->SetUICPItem('Sensor',_SENSOR);
+		}else{
+			$this->SetUICPItem('Sensor');
+		}
 		// Init Authentication Data if Auth Sys is enabled.
 		if ($Use_Auth_System == 1) {
 			if ( isset($UI_AD_UND) ) { // Var New TDF
@@ -307,7 +314,7 @@ class UILang{
 	function SetUICPItem($Item,$Value = NULL) {
 		$Items = array (
 			'SrcDesc', 'SrcName', 'DstDesc', 'DstName', 'SrcDst', 'Id', 'Name',
-			'Int', 'Filter', 'Desc', 'SucDesc'
+			'Int', 'Filter', 'Desc', 'SucDesc', 'Sensor'
 		);
 		if (in_array($Item, $Items)) {
 			$this->CPA[$Item] = $Value;

@@ -45,6 +45,7 @@ $UI_CP_Int = 'Arabirim';
 $UI_CP_Filter = 'Süzgeç';
 $UI_CP_Desc = 'Betimleme';
 $UI_CP_SucDesc = 'Baþarýlý';
+$UI_CP_Sensor = 'Algýlayýcý';
 // Authentication Data.
 $UI_AD_UND = 'Oturum Aç';
 $UI_AD_PWD = 'Parola';
@@ -52,8 +53,6 @@ $UI_AD_RID = "Rol $UI_CP_Id";
 $UI_AD_ASD = 'Seçilir Kýlýnmýþ';
 
 //common phrases
-DEFINE('_SENSOR','Algýlayýcý');
-DEFINE('_SENSORS','Algýlayýcýlar');
 DEFINE('_SIGNATURE','Ýmza');
 DEFINE('_TIMESTAMP','Zaman Damgasý');
 DEFINE('_NBSOURCEADDR','Kaynak Adresi');

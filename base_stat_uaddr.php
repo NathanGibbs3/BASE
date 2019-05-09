@@ -38,6 +38,7 @@
  include_once("$BASE_path/base_qry_common.php");
 
 $UIL = new UILang($BASE_Language); // Create UI Language Object.
+$CPSensor = $UIL->CPA['Sensor'];
 
  $addr_type = ImportHTTPVar("addr_type", VAR_DIGIT);
  $submit = ImportHTTPVar("submit", VAR_ALPHA | VAR_SPACE, array(_SELECTED, _ALLONSCREEN, _ENTIREQUERY));
@@ -148,10 +149,10 @@ if ( $debug_mode > 0 )
                 "addr_d", " ",
                          " ORDER BY $addr_type_name DESC");
 
-  if ( $resolve_IP == 1 )
-    $qro->AddTitle("FQDN"); 
-
-  $qro->AddTitle(_SENSOR."&nbsp;#");
+if ( $resolve_IP == 1 ){
+	$qro->AddTitle("FQDN");
+}
+$qro->AddTitle("$CPSensor&nbsp;#");
   $qro->AddTitle(_TOTAL."&nbsp;#", 
                 "occur_a", " ",
                            " ORDER BY num_events ASC",
@@ -297,9 +298,8 @@ if ( $debug_mode > 0 )
 	ExportHTTPVar("sort_order", $sort_order);
 
   echo "\n</FORM>\n";
-  $et->Mark("Get Query Elements");
-  $et->PrintTiming();
-  
-  PrintBASESubFooter();
-  echo "</body>\r\n</html>";
+$et->Mark("Get Query Elements");
+$et->PrintTiming();
+PrintBASESubFooter();
+PageEnd();
 ?>

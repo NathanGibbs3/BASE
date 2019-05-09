@@ -157,10 +157,11 @@ $CPName = $UIL->CPA['Name'];
 $CPInt = $UIL->CPA['Int'];
 $CPFilt = $UIL->CPA['Filter'];
 $CPDesc = $UIL->CPA['Desc'];
+$CPSensor = $UIL->CPA['Sensor'];
 // Html Templates.
 $Thc = "<td class='plfieldhdr'>"; // Table header Class.
 $Tdc = "<td class='plfield'>"; // Table data Class.
-$Trc = "\n".str_repeat("\t",5).'</tr><tr>'; // Table row continue.
+$Trc = NLI('</tr><tr>',5); // Table row continue.
 // This call can include "#xx-(xx-xx)" values and "submit" values.
 $submit = ImportHTTPVar("submit", VAR_DIGIT | VAR_PUNC | VAR_LETTER, array(_SELECTED, _ALLONSCREEN, _ENTIREQUERY));
 
@@ -295,8 +296,8 @@ $submit = ImportHTTPVar("submit", VAR_DIGIT | VAR_PUNC | VAR_LETTER, array(_SELE
           <TR><TD CLASS="metatitle" WIDTH=50 ALIGN=CENTER ROWSPAN=4>Meta
               <TD>
                   <TABLE BORDER=1 CELLPADDING=4>';
-print "\n".str_repeat("\t",3).'<tr>';
-print "\n".str_repeat("\t",4)."$Thc$IDesc #</td>";
+NLIO('<tr>',3);
+NLIO("$Thc$IDesc #</td>",4);
 echo'                        <TD CLASS="plfieldhdr">'._CHRTTIME.'</TD>
                         <TD CLASS="plfieldhdr">'._QATRIGGERSIG.'</TD></TR>
                     <TR><TD CLASS="plfield">'.($sid." - ".$cid).'</TD>
@@ -308,12 +309,13 @@ echo'                        <TD CLASS="plfieldhdr">'._CHRTTIME.'</TD>
 
   echo '  <TR>
              <TD>
-                <TABLE BORDER=1 CELLPADDING=4>
-                  <TR><TD CLASS="metatitle" ALIGN=CENTER ROWSPAN=2>'._SENSOR.'</TD>
-                       <TD class="plfieldhdr">',_SENSOR.' '._ADDRESS,'</TD>';
-print "\n".str_repeat("\t",4)."$Thc$CPInt</td>";
-print "\n".str_repeat("\t",4)."$Thc$CPFilt</td>";
-print "\n".str_repeat("\t",3).'</tr><tr>';
+                <TABLE BORDER=1 CELLPADDING=4>';
+NLIO('<tr>',3);
+NLIO("<td class='metatitle' align='center' rowspan='2'>$CPSensor</td>",4);
+NLIO("$Thc$CPSensor "._ADDRESS."</td>",4);
+NLIO("$Thc$CPInt</td>",4);
+NLIO("$Thc$CPFilt</td>",4);
+NLIO('</tr><tr>',3);
 echo'             <TD class="plfield">'.htmlspecialchars($myrow4[0]).'</TD>
                       <TD class="plfield">'.
 		      ( ($myrow4[1] == "") ? "&nbsp;<I>"._NONE."</I>&nbsp;" : $myrow4[1] ).'</TD>
@@ -329,7 +331,7 @@ echo'             <TD class="plfield">'.htmlspecialchars($myrow4[0]).'</TD>
               <TD>
                 <TABLE BORDER=1 CELLPADDING=4>
                   <TR><TD CLASS="iptitle" ALIGN=CENTER ROWSPAN=2>FQDN</TD>';
-print "\n".str_repeat("\t",4).$Thc._SENSOR.' '.$CPName.'</td>';
+NLIO("$Thc$CPSensor $CPName</td>",4);
 echo '                  </TR>
                   <TR><TD class="plfield">';
      # Is this a dotted IPv4 address?
@@ -360,13 +362,13 @@ echo '                  </TR>
              <TABLE BORDER=1 CELLPADDING=4>
                <TR><TD CLASS="metatitle" ALIGN=CENTER ROWSPAN='.($num+1).'>'._ALERTGROUP.'</TD>';
 if ( $num > 0 ){
-	print "\n".str_repeat("\t",4)."$Thc$IDesc</td>";
-	print "\n".str_repeat("\t",4)."$Thc$CPName</td>";
-	print "\n".str_repeat("\t",4)."$Thc$CPDesc</td>";
+	NLIO("$Thc$IDesc</td>",4);
+	NLIO("$Thc$CPName</td>",4);
+	NLIO("$Thc$CPDesc</td>",4);
 }else{
-	print "\n".str_repeat("\t",4).'<td><I>'._NONE.'</I></td>';
+	NLIO('<td><I>'._NONE.'</I></td>',4);
 }
-print "\n".str_repeat("\t",3).'</tr>';
+NLIO('</tr>',3);
 for ($i = 0; $i < $num; $i++) {
 	$myrow4 = $result4->baseFetchRow();
      echo '    <TR><TD class="plfield">'.htmlspecialchars($myrow4[0]).'</TD>
@@ -407,7 +409,7 @@ for ($i = 0; $i < $num; $i++) {
                         <TD class="plfieldhdr">Hdr Len</TD>
                         <TD class="plfieldhdr">TOS</TD>
                         <TD class="plfieldhdr">'._LENGTH.'</TD>';
-print "\n".str_repeat("\t",4)."$Thc$IDesc</td>";
+NLIO("$Thc$IDesc</td>",4);
 echo '                  <TD class="plfieldhdr">fragment</TD>
                         <TD class="plfieldhdr">offset</TD>
                         <TD class="plfieldhdr">TTL</TD>
@@ -436,15 +438,13 @@ echo '                  <TD class="plfieldhdr">fragment</TD>
   echo '         </TABLE>';
 
 if ( $resolve_IP == 1 ) {
-	print "\n".str_repeat("\t",3).'<tr><td>';
-	print "\n".str_repeat("\t",4).'<table border=1 cellpadding=4>';
-	print "\n".str_repeat("\t",5).'<tr>';
-	print "\n".str_repeat("\t",6).'<td class="iptitle" align=center rowspan=2>';
-	print "\n".str_repeat("\t",7).'FQDN';
-	print "\n".str_repeat("\t",6).'</td>';
-	print "\n".str_repeat("\t",6).'<td class="plfieldhdr">'.$SrcName.'</td>';
-	print "\n".str_repeat("\t",6).'<td class="plfieldhdr">'.$DstName.'</td>';
-	print "\n".str_repeat("\t",5).'</tr><tr>';
+	NLIO('<tr><td>',3);
+	NLIO("<table border='1' cellpadding='4'>",4);
+	NLIO('<tr>',5);
+	NLIO("<td class='iptitle' align='center' rowspan='2'>FQDN</td>",6);
+	NLIO("$Thc$SrcName</td>",6);
+	NLIO("$Thc$DstName</td>",6);
+	NLIO('</tr><tr>',5);
 echo'                  <TD class="plfield">'.
                       (baseGetHostByAddr(baseLong2IP($myrow2[0]),
                                         $db, $dns_cache_lifetime)).'</TD>
@@ -845,7 +845,7 @@ echo'                  <TD class="plfield">'.
 		 echo '                <TD class="plfieldhdr">gateway address</TD>';
      echo '                <TD class="plfieldhdr">gateway hostname</TD>';
 		} else {
-			print "\n".str_repeat("\t",3)."$Thc$IDesc</td>";
+			NLIO("$Thc$IDesc</td>",3);
      echo '                <TD class="plfieldhdr">seq #</TD>';
 		}
 
@@ -1051,7 +1051,7 @@ echo'                  <TD class="plfield">'.
   $qs->SaveState();
   ExportHTTPVar("caller", $caller);
 
-print "\n".str_repeat("\t",3)."</form>";
+NLIO('</form>',3);
 PrintBASESubFooter();
 $et->Mark("Get Query Elements");
 $et->PrintTiming();
