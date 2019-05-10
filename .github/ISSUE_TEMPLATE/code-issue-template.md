@@ -9,9 +9,11 @@ assignees: ''
 
 Item | Description
 -----|-------------
-**File:** |
+**File:** | 
 **Class:** | 
-**Function:** |
+**Function:** | 
+**Similar Issues:** | 
+**Misc. Info.:** | 
 ---
 **Expected Behavior:** 
 **Current Behavior:**
