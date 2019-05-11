@@ -50,7 +50,7 @@ class state_citemsSPTest extends TestCase {
 		}else{
 			$Composer = getenv('Composer');
 			$PHPV = GetPHPV();
-			if(version_compare($PHPV, '7.0', '>='){
+			if(version_compare($PHPV, '7.0', '>=')){
 				// System Versions of ADODB on travis have Issue #7
 				// https://github.com/NathanGibbs3/BASE/issues/7
 				// Their problem, not ours, so we will try to use the
