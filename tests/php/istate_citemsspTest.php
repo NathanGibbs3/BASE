@@ -47,8 +47,16 @@ class state_citemsSPTest extends TestCase {
 			$DBlib_path = '/usr/share/php/adodb'; // System specific.
 			require('../database.php');
 		}else{
+			$Composer = getenv('Composer');
+			if ($Composer > 0) {
+				$DBlib_path = 'vendor/adodb';
+			}else{
+				self::markTestIncomplete('Unable to set ADODB.');
+				// Maybe we could download & install it.
+				// We should do that outside of the test.
+			}
 			if (!$DB){
-				slef::markTestIncomplete('Unable to get DB Engine.');
+				self::markTestIncomplete('Unable to get DB Engine.');
 			}elseif ($DB = 'mysql' ){
 				require('./tests/phpcommon/DB.mysql.php');
 			}elseif ($DB = 'postgres' ){
