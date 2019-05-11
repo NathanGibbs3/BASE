@@ -1,5 +1,5 @@
 <?php
-$alert_user='';
+$alert_user='postgres';
 $alert_password='';
 $alert_dbname='snort';
 $alert_host='localhost';

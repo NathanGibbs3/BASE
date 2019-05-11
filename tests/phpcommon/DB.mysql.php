@@ -1,5 +1,5 @@
 <?php
-$alert_user='';
+$alert_user='travis';
 $alert_password='';
 $basepath='';
 $alert_dbname='snort';
