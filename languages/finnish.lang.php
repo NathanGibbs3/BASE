@@ -51,6 +51,7 @@ $UI_CP_Filter = 'Suodatin';
 $UI_CP_Desc = 'Kuvaus';
 $UI_CP_SucDesc = 'Onnistunut';
 $UI_CP_Sensor = 'Sensori';
+$UI_CP_Sig = 'Signature';
 // Authentication Data.
 $UI_AD_UND = 'Login';
 $UI_AD_PWD = 'Salasana';
@@ -58,7 +59,6 @@ $UI_AD_RID = "Role $UI_CP_Id";
 $UI_AD_ASD = 'Toiminnassa';
 
 //common phrases
-DEFINE('_SIGNATURE','Signature');//#
 DEFINE('_TIMESTAMP','Aikaleima');
 DEFINE('_NBSOURCEADDR','L‰hde&nbsp;Osoite');
 DEFINE('_NBDESTADDR','Kohde&nbsp;Osoite');
@@ -348,8 +348,8 @@ DEFINE('_DISPPAYLOAD','{ payload }'); //NEW
 DEFINE('_DISPFLAGS','{ flags }'); //NEW
 DEFINE('_SIGEXACTLY','exactly'); //NEW
 DEFINE('_SIGROUGHLY','roughly'); //NEW
-DEFINE('_SIGCLASS','Signature Classification'); //NEW
-DEFINE('_SIGPRIO','Signature Priority'); //NEW
+DEFINE('_SIGCLASS',"$UI_CP_Sig Classification"); //NEW
+DEFINE('_SIGPRIO',"$UI_CP_Sig Priority"); //NEW
 DEFINE('_SHORTSOURCE','Source'); //NEW
 DEFINE('_SHORTDEST','Dest'); //NEW
 DEFINE('_SHORTSOURCEORDEST','Src or Dest'); //NEW
@@ -492,7 +492,7 @@ DEFINE('_CHRTPORTDESTNUMBER','TCP Portti (Kohde) vs. H‰lytysten M‰‰r‰');
 DEFINE('_CHRTPORTDEST','Kohde TCP Portti');
 DEFINE('_CHRTPORTSRCNUMBER','TCP Portti (L‰hde) vs. H‰lytysten M‰‰r‰');
 DEFINE('_CHRTPORTSRC','L‰hde TCP Portti');
-DEFINE('_CHRTSIGNUMBER','Signature Classification vs. H‰lytysten M‰‰r‰');//#
+DEFINE('_CHRTSIGNUMBER',"$UI_CP_Sig Classification vs. H‰lytysten M‰‰r‰");//#
 DEFINE('_CHRTCLASS','Classification');//#
 DEFINE('_CHRTSENSORNUMBER','Sensori vs. H‰lytysten M‰‰r‰');
 DEFINE('_CHRTHANDLEPERIOD','K‰sittelyaika jos tarpeellista ');
@@ -527,7 +527,7 @@ DEFINE('_MNTIPACUDIP','Uniikki Kohde IP:');
 //base_qry_alert.php
 DEFINE('_QAINVPAIR','Invalid (sid,cid) pair');//#
 DEFINE('_QAALERTDELET','H‰lytys POISTETTU');
-DEFINE('_QATRIGGERSIG','Triggered Signature');//#
+DEFINE('_QATRIGGERSIG',"Triggered $UI_CP_Sig");//#
 DEFINE('_QANORMALD','Normal Display'); //NEW
 DEFINE('_QAPLAIND','Plain Display'); //NEW
 DEFINE('_QANOPAYLOAD','Fast logging used so payload was discarded'); //NEW

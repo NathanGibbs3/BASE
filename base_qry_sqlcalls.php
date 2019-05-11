@@ -39,6 +39,9 @@ global $colored_alerts, $debug_mode;
      $tmp_page_get = "";
   }
 
+// UI Language Vars
+$CPSig = $UIL->CPA['Sig'];
+
   /* Run the query to determine the number of rows (No LIMIT)*/
   $qs->GetNumResultRows($cnt_sql, $db);
   $et->Mark("Counting Result size");
@@ -48,9 +51,10 @@ global $colored_alerts, $debug_mode;
   $qro->AddTitle(qroReturnSelectALLCheck());  
   $qro->AddTitle("ID");
 
-  $qro->AddTitle(_SIGNATURE, 
-                "sig_a", " ", " ORDER BY sig_name ASC",
-                "sig_d", " ", " ORDER BY sig_name DESC");
+$qro->AddTitle($CPSig,
+	"sig_a", " ", " ORDER BY sig_name ASC",
+	"sig_d", " ", " ORDER BY sig_name DESC"
+);
   $qro->AddTitle(_TIMESTAMP,
                  "time_a", " ", " ORDER BY timestamp ASC ",
                  "time_d", " ", " ORDER BY timestamp DESC "); 

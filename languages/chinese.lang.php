@@ -46,6 +46,7 @@ $UI_CP_Filter = '過濾器';
 $UI_CP_Desc = '說明';
 $UI_CP_SucDesc = '已成功 ';
 $UI_CP_Sensor = '偵測器';
+$UI_CP_Sig = '特徵';
 // Authentication Data.
 $UI_AD_UND = '使用者登入';
 $UI_AD_PWD = '密碼';
@@ -53,7 +54,6 @@ $UI_AD_RID = "角色$UI_CP_Id";
 $UI_AD_ASD = '啟用';
 
 //common phrases
-DEFINE('_SIGNATURE','特徵');
 DEFINE('_TIMESTAMP','時間戳記');
 DEFINE('_NBSOURCEADDR','來源&nbsp;位址');
 DEFINE('_NBDESTADDR','目地&nbsp;位址');
@@ -329,7 +329,7 @@ DEFINE('_SHORTSEP','九月'); //NEW
 DEFINE('_SHORTOCT','十月'); //NEW
 DEFINE('_SHORTNOV','十一月'); //NEW
 DEFINE('_SHORTDEC','十二月'); //NEW
-DEFINE('_DISPSIG','{ 特徵 }'); //NEW
+DEFINE('_DISPSIG',"{ $UI_CP_Sig }"); //NEW
 DEFINE('_DISPANYCLASS','{ 任何分類 }'); //NEW
 DEFINE('_DISPANYPRIO','{ 任何優先等級 }'); //NEW
 DEFINE('_DISPANYSENSOR','{ 任何偵測器 }'); //NEW
@@ -343,8 +343,8 @@ DEFINE('_DISPPAYLOAD','{ 封包內容 }'); //NEW
 DEFINE('_DISPFLAGS','{ 旗標 }'); //NEW
 DEFINE('_SIGEXACTLY','精確的'); //NEW
 DEFINE('_SIGROUGHLY','模糊的'); //NEW
-DEFINE('_SIGCLASS','特徵分類'); //NEW
-DEFINE('_SIGPRIO','特徵優先等級'); //NEW
+DEFINE('_SIGCLASS',$UI_CP_Sig.'分類'); //NEW
+DEFINE('_SIGPRIO',$UI_CP_Sig.'優先等級'); //NEW
 DEFINE('_SHORTSOURCE','來源'); //NEW
 DEFINE('_SHORTDEST','目的'); //NEW
 DEFINE('_SHORTSOURCEORDEST','來源或目的'); //NEW
@@ -455,7 +455,7 @@ DEFINE('_CHRTTYPEDSTUDP','目地. UDP 通訊埠 vs. 警告數');
 DEFINE('_CHRTTYPESRCUDP','來源. UDP 通訊埠 vs. 警告數');
 DEFINE('_CHRTTYPEDSTPORT','目地. TCP 通訊埠 vs. 警告數');
 DEFINE('_CHRTTYPESRCPORT','來源. TCP 通訊埠 vs. 警告數');
-DEFINE('_CHRTTYPESIG','特徵. 分類 vs. 警告數');
+DEFINE('_CHRTTYPESIG',$UI_CP_Sig.'. 分類 vs. 警告數');
 DEFINE('_CHRTTYPESENSOR','偵測器 vs. 警告數');
 DEFINE('_CHRTBEGIN','圖形開始:');
 DEFINE('_CHRTEND','圖形結束:');
@@ -490,7 +490,7 @@ DEFINE('_CHRTPORTDESTNUMBER','TCP 通訊埠 (目地) vs. 警告數');
 DEFINE('_CHRTPORTDEST','Dst. TCP 通訊埠');
 DEFINE('_CHRTPORTSRCNUMBER','TCP 通訊埠 (來源) vs. 警告數');
 DEFINE('_CHRTPORTSRC','Src. TCP 通訊埠');
-DEFINE('_CHRTSIGNUMBER','特徵分類 vs. 警告數');
+DEFINE('_CHRTSIGNUMBER',$UI_CP_Sig.'分類 vs. 警告數');
 DEFINE('_CHRTCLASS','分類');
 DEFINE('_CHRTSENSORNUMBER','偵測器 vs. 警告數');
 DEFINE('_CHRTHANDLEPERIOD','維持週期 如果需要');
@@ -525,13 +525,13 @@ DEFINE('_MNTIPACUDIP','單一目地 IP:');
 //base_qry_alert.php
 DEFINE('_QAINVPAIR','不合法 (sid,cid) 配對');
 DEFINE('_QAALERTDELET','警告已刪除');
-DEFINE('_QATRIGGERSIG','觸發事件特徵');
+DEFINE('_QATRIGGERSIG',"觸發事件$UI_CP_Sig");
 DEFINE('_QANORMALD','正常顯示'); //NEW
 DEFINE('_QAPLAIND','簡易顯示'); //NEW
 DEFINE('_QANOPAYLOAD','已使用快速記錄因此封包內容被丟棄'); //NEW
 
 //base_qry_common.php
-DEFINE('_QCSIG','特徵');
+DEFINE('_QCSIG',$UI_CP_Sig);
 DEFINE('_QCIPADDR','IP 位址');
 DEFINE('_QCIPFIELDS','IP 欄位');
 DEFINE('_QCTCPPORTS','TCP 通訊埠');
@@ -578,7 +578,7 @@ DEFINE('_QFRMSORTORDER','排序規則');
 DEFINE('_QFRMSORTNONE','無'); //NEW
 DEFINE('_QFRMTIMEA','時間戳記 (ascend)');
 DEFINE('_QFRMTIMED','時間戳記 (descend)');
-DEFINE('_QFRMSIG','特徵');
+DEFINE('_QFRMSIG',$UI_CP_Sig);
 DEFINE('_QFRMSIP','來源 IP');
 DEFINE('_QFRMDIP','目地 IP');
 

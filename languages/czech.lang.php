@@ -47,6 +47,7 @@ $UI_CP_Filter = 'Filtr';
 $UI_CP_Desc = 'Popis';
 $UI_CP_SucDesc = 'Successful';
 $UI_CP_Sensor = 'Senzor';
+$UI_CP_Sig = 'Podpis';
 // Authentication Data.
 $UI_AD_UND = 'Login';
 $UI_AD_PWD = 'Heslo';
@@ -54,7 +55,6 @@ $UI_AD_RID = "$UI_CP_Id role";
 $UI_AD_ASD = 'Enabled';
 
 //common phrases
-DEFINE('_SIGNATURE','Podpis');
 DEFINE('_TIMESTAMP','Èasová znaèka');
 DEFINE('_NBSOURCEADDR','Zdrojová&nbsp;adresa');
 DEFINE('_NBDESTADDR','Cílová&nbsp;adresa');
@@ -344,8 +344,8 @@ DEFINE('_DISPPAYLOAD','{ payload }'); //NEW
 DEFINE('_DISPFLAGS','{ flags }'); //NEW
 DEFINE('_SIGEXACTLY','exactly'); //NEW
 DEFINE('_SIGROUGHLY','roughly'); //NEW
-DEFINE('_SIGCLASS','Signature Classification'); //NEW
-DEFINE('_SIGPRIO','Signature Priority'); //NEW
+DEFINE('_SIGCLASS',"$UI_CP_Sig Classification"); //NEW
+DEFINE('_SIGPRIO',"$UI_CP_Sig Priority"); //NEW
 DEFINE('_SHORTSOURCE','Source'); //NEW
 DEFINE('_SHORTDEST','Dest'); //NEW
 DEFINE('_SHORTSOURCEORDEST','Src or Dest'); //NEW

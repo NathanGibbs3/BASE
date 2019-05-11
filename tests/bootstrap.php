@@ -8,11 +8,13 @@ $Use_Auth_System = 1;
 $BASE_urlpath = '';
 $BASE_installID = 'Test Runner';
 $base_style = 'base_style.css';
-$debug_time_mode = 1;
+$db_connect_method = 1;
 $html_no_cache = 0;
+$maintain_history = 0;
 $refresh_stat_page = 1;
 $refresh_all_pages = 0;
 $stat_page_refresh_time = 180;
+$debug_time_mode = 1;
 $debug_mode = 0;
 
 print "   Testing with: (BASE) $BASE_installID $BASE_VERSION\n";
@@ -20,7 +22,7 @@ print "Testing code in: $BASE_path\n";
 
 include ("$BASE_path/tests/phpcommon/tsf.php"); // Test Support Functions.
 // BASE Runtime
-# include("$BASE_path/includes/base_constants.inc.php");
+// include("$BASE_path/includes/base_constants.inc.php");
 include("$BASE_path/includes/base_include.inc.php");
 include_once("$BASE_path/base_db_common.php");
 include_once("$BASE_path/base_common.php");

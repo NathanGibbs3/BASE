@@ -46,6 +46,7 @@ $UI_CP_Filter = 'Filter';
 $UI_CP_Desc = 'Deskripsi';
 $UI_CP_SucDesc = 'Berhasil';
 $UI_CP_Sensor = 'Sensor';
+$UI_CP_Sig = 'Nama Alarem');
 // Authentication Data.
 $UI_AD_UND = 'Login';
 $UI_AD_PWD = 'Kata Sandi';
@@ -53,7 +54,6 @@ $UI_AD_RID = "$UI_CP_Id Peran";
 $UI_AD_ASD = 'Aktif';
 
 //common phrases
-DEFINE('_SIGNATURE','Nama Alarem');
 DEFINE('_TIMESTAMP','Waktu');
 DEFINE('_NBSOURCEADDR','Alamat Sumber');
 DEFINE('_NBDESTADDR','Alamat Sasaran');
@@ -343,8 +343,8 @@ DEFINE('_DISPPAYLOAD','{ payload }'); //NEW
 DEFINE('_DISPFLAGS','{ flags }'); //NEW
 DEFINE('_SIGEXACTLY','exactly'); //NEW
 DEFINE('_SIGROUGHLY','roughly'); //NEW
-DEFINE('_SIGCLASS','Signature Classification'); //NEW
-DEFINE('_SIGPRIO','Signature Priority'); //NEW
+DEFINE('_SIGCLASS',"$UI_CP_Sig Classification"); //NEW
+DEFINE('_SIGPRIO',"$UI_CP_Sig Priority"); //NEW
 DEFINE('_SHORTSOURCE','Source'); //NEW
 DEFINE('_SHORTDEST','Dest'); //NEW
 DEFINE('_SHORTSOURCEORDEST','Src or Dest'); //NEW
@@ -490,7 +490,7 @@ DEFINE('_CHRTPORTDESTNUMBER','Port TCP (Sasaran) vs. Jumlah Alarem');
 DEFINE('_CHRTPORTDEST','Port TCP sasaran');
 DEFINE('_CHRTPORTSRCNUMBER','Port TCP (Sumber) vs. Jumlah Alarem');
 DEFINE('_CHRTPORTSRC','Port TCP sumber');
-DEFINE('_CHRTSIGNUMBER','Klasifikasi Signature vs. Jumlah Alarem');
+DEFINE('_CHRTSIGNUMBER',"Klasifikasi $UI_CP_Sig vs. Jumlah Alarem");
 DEFINE('_CHRTCLASS','Klasifikasi');
 DEFINE('_CHRTSENSORNUMBER','Sensor vs. Jumlah Alarem');
 DEFINE('_CHRTHANDLEPERIOD','Jangka waktu penanangan bila perlu');

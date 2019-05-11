@@ -46,6 +46,7 @@ $UI_CP_Filter = 'Filter';
 $UI_CP_Desc = 'Beskrivning';
 $UI_CP_SucDesc = 'Utfört';
 $UI_CP_Sensor = 'Sensor';
+$UI_CP_Sig = 'Signatur';
 // Authentication Data.
 $UI_AD_UND = 'Logga in';
 $UI_AD_PWD = 'Lösenord';
@@ -53,7 +54,6 @@ $UI_AD_RID = "Roll $UI_CP_Id";
 $UI_AD_ASD = 'Möjliggjord';
 
 //common phrases
-DEFINE('_SIGNATURE','Signatur');
 DEFINE('_TIMESTAMP','Tid stämpel');
 DEFINE('_NBSOURCEADDR','Källa&nbsp;Adress');
 DEFINE('_NBDESTADDR','Dest.&nbsp;Adress');
@@ -344,8 +344,8 @@ DEFINE('_DISPPAYLOAD','{ payload }'); //NEW
 DEFINE('_DISPFLAGS','{ flaggor }'); //NEW
 DEFINE('_SIGEXACTLY','exakt'); //NEW
 DEFINE('_SIGROUGHLY','ungefär'); //NEW
-DEFINE('_SIGCLASS','Signatur Klassifikation'); //NEW
-DEFINE('_SIGPRIO','Signature Prioritet'); //NEW
+DEFINE('_SIGCLASS',"$UI_CP_Sig Klassifikation"); //NEW
+DEFINE('_SIGPRIO',"$UI_CP_Sig Prioritet"); //NEW
 DEFINE('_SHORTSOURCE','Källa'); //NEW
 DEFINE('_SHORTDEST','Mål'); //NEW
 DEFINE('_SHORTSOURCEORDEST','Källa eller Dest.'); //NEW
@@ -492,7 +492,7 @@ DEFINE('_CHRTPORTDESTNUMBER','TCP Port (Destination) vs. Number of Alerts');
 DEFINE('_CHRTPORTDEST','Dst. TCP Port');
 DEFINE('_CHRTPORTSRCNUMBER','TCP Port (Source) vs. Number of Alerts');
 DEFINE('_CHRTPORTSRC','Src. TCP Port');
-DEFINE('_CHRTSIGNUMBER','Signature Classification vs. Number of Alerts');
+DEFINE('_CHRTSIGNUMBER',"$UI_CP_Sig Classification vs. Number of Alerts");
 DEFINE('_CHRTCLASS','Classification');
 DEFINE('_CHRTSENSORNUMBER','Sensor vs. Number of Alerts');
 DEFINE('_CHRTHANDLEPERIOD','Handling Period if necessary');
@@ -527,7 +527,7 @@ DEFINE('_MNTIPACUDIP','Unik Dst IP:');
 //base_qry_alert.php
 DEFINE('_QAINVPAIR','Felaktig (sid,cid) par');
 DEFINE('_QAALERTDELET','Varning raderad');
-DEFINE('_QATRIGGERSIG','Avfyrade Signature');
+DEFINE('_QATRIGGERSIG',"Avfyrade $UI_CP_Sig");
 DEFINE('_QANORMALD','Normal Display'); //NEW
 DEFINE('_QAPLAIND','Plain Display'); //NEW
 DEFINE('_QANOPAYLOAD','Snabb logning vald så paylod kommer inte visas'); //NEW

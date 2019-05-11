@@ -480,6 +480,25 @@ class nulllangTest extends TestCase {
 			"Uninitialized: $TItem ."
 		);
 	}
+	public function testCPASetItemSig() {
+		$lang = self::$langs;
+		$tf = __FUNCTION__;
+		$tmp = "UI$lang";
+		LogTC($tf,'language',$lang);
+		$$tmp = self::$UIL;
+		$file = $$tmp->TDF;
+		$key = 'Sig';
+		$KA = 'CPA';
+		$TItem = $KA."[$key]";
+		$EEM = self::$EEM."$TItem.\n";
+		LogTC($tf,'TD file',$file);
+		$this->CPAHas($$tmp, $key, $TItem);
+		$this->assertEquals(
+			$EEM,
+			$$tmp->{$KA}[$key],
+			"Uninitialized: $TItem ."
+		);
+	}
 	// Test Universal Action Items.
 	public function testUAASetItemEdit() {
 		$lang = self::$langs;

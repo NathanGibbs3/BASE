@@ -46,6 +46,7 @@ $UI_CP_Filter = '过滤器';
 $UI_CP_Desc = '说明';
 $UI_CP_SucDesc = '已成功';
 $UI_CP_Sensor = '探测器';
+$UI_CP_Sig = '特征';
 // Authentication Data.
 $UI_AD_UND = '用户登录';
 $UI_AD_PWD = '密码';
@@ -53,7 +54,6 @@ $UI_AD_RID = "角色 $UI_CP_Id";
 $UI_AD_ASD = '启用';
 
 //common phrases
-DEFINE('_SIGNATURE','特征');
 DEFINE('_TIMESTAMP','时间戳');
 DEFINE('_NBSOURCEADDR','来源&nbsp;地址');
 DEFINE('_NBDESTADDR','目标&nbsp;地址');
@@ -342,8 +342,8 @@ DEFINE('_DISPPAYLOAD','{ payload }'); //NEW
 DEFINE('_DISPFLAGS','{ flags }'); //NEW
 DEFINE('_SIGEXACTLY','exactly'); //NEW
 DEFINE('_SIGROUGHLY','roughly'); //NEW
-DEFINE('_SIGCLASS','Signature Classification'); //NEW
-DEFINE('_SIGPRIO','Signature Priority'); //NEW
+DEFINE('_SIGCLASS',"$UI_CP_Sig Classification"); //NEW
+DEFINE('_SIGPRIO',"$UI_CP_Sig Priority"); //NEW
 DEFINE('_SHORTSOURCE','Source'); //NEW
 DEFINE('_SHORTDEST','Dest'); //NEW
 DEFINE('_SHORTSOURCEORDEST','Src or Dest'); //NEW
@@ -518,7 +518,7 @@ DEFINE('_CHRTPORTDESTNUMBER','TCP 端口 (目的) vs. 警告的数量');
 DEFINE('_CHRTPORTDEST','目的 TCP 端口');
 DEFINE('_CHRTPORTSRCNUMBER','TCP 端口 (源) vs. 警告的数量');
 DEFINE('_CHRTPORTSRC','源 TCP 端口');
-DEFINE('_CHRTSIGNUMBER','特征分类 vs. 警告的数量');
+DEFINE('_CHRTSIGNUMBER',$UI_CP_Sig.'分类 vs. 警告的数量');
 DEFINE('_CHRTCLASS','分类');
 DEFINE('_CHRTSENSORNUMBER','监测器 vs. 警告的数量');
 DEFINE('_CHRTHANDLEPERIOD','处理时间 如果需要');
@@ -552,13 +552,13 @@ DEFINE('_MNTIPACUDIP','单项目的 IP:');
 //base_qry_alert.php
 DEFINE('_QAINVPAIR','不可用 (sid,cid) 对');
 DEFINE('_QAALERTDELET','警告已删除');
-DEFINE('_QATRIGGERSIG','触发特征');
+DEFINE('_QATRIGGERSIG',"触发$UI_CP_Sig");
 DEFINE('_QANORMALD','Normal Display'); //NEW
 DEFINE('_QAPLAIND','Plain Display'); //NEW
 DEFINE('_QANOPAYLOAD','Fast logging used so payload was discarded'); //NEW
 
 //base_qry_common.php
-DEFINE('_QCSIG','特征');
+DEFINE('_QCSIG',$UI_CP_Sig);
 DEFINE('_QCIPADDR','IP 地址');
 DEFINE('_QCIPFIELDS','IP 字段');
 DEFINE('_QCTCPPORTS','TCP 端口');
@@ -618,7 +618,7 @@ DEFINE('_QCERRCRITIPIPBOOL','输入的多 IP 地址准则在IP
 DEFINE('_QFRMSORTORDER','排列顺序');
 DEFINE('_QFRMTIMEA','时间戳 (递增)');
 DEFINE('_QFRMTIMED','时间戳 (递减)');
-DEFINE('_QFRMSIG','特征');
+DEFINE('_QFRMSIG',$UI_CP_Sig);
 DEFINE('_QFRMSIP','源 IP');
 DEFINE('_QFRMDIP','目标 IP');
 

@@ -47,6 +47,7 @@ $UI_CP_Filter = 'Filter';
 $UI_CP_Desc = 'Beschreibung';
 $UI_CP_SucDesc = 'Erfolgreich';
 $UI_CP_Sensor = 'Sensor';
+$UI_CP_Sig = 'Signatur';
 // Authentication Data.
 $UI_AD_UND = 'Login';
 $UI_AD_PWD = 'Passwort';
@@ -54,7 +55,6 @@ $UI_AD_RID = "Benutzertyp $UI_CP_Id";
 $UI_AD_ASD = 'Aktiv';
 
 //common phrases
-DEFINE('_SIGNATURE','Signatur');
 DEFINE('_TIMESTAMP','Zeitstempel');
 DEFINE('_NBSOURCEADDR','Quelladresse');
 DEFINE('_NBDESTADDR','Zieladresse');
@@ -344,8 +344,8 @@ DEFINE('_DISPPAYLOAD','{ payload }'); //NEW
 DEFINE('_DISPFLAGS','{ flags }'); //NEW
 DEFINE('_SIGEXACTLY','exactly'); //NEW
 DEFINE('_SIGROUGHLY','roughly'); //NEW
-DEFINE('_SIGCLASS','Signature Classification'); //NEW
-DEFINE('_SIGPRIO','Signature Priority'); //NEW
+DEFINE('_SIGCLASS',"$UI_CP_Sig Classification"); //NEW
+DEFINE('_SIGPRIO',"$UI_CP_Sig Priority"); //NEW
 DEFINE('_SHORTSOURCE','Source'); //NEW
 DEFINE('_SHORTDEST','Dest'); //NEW
 DEFINE('_SHORTSOURCEORDEST','Src or Dest'); //NEW
@@ -491,7 +491,7 @@ DEFINE('_CHRTPORTDESTNUMBER','TCP Port (Ziel) und Anzahl der Alarme');
 DEFINE('_CHRTPORTDEST','Ziel TCP Port');
 DEFINE('_CHRTPORTSRCNUMBER','TCP Port (Quelle) und Anzahl der Alarme');
 DEFINE('_CHRTPORTSRC','Quell TCP Port');
-DEFINE('_CHRTSIGNUMBER','Signatur und Anzahl der Alarme');
+DEFINE('_CHRTSIGNUMBER',"$UI_CP_Sig und Anzahl der Alarme");
 DEFINE('_CHRTCLASS','Klassifizierung');
 DEFINE('_CHRTSENSORNUMBER','Sensor und Anzahl der Alarme');
 DEFINE('_CHRTHANDLEPERIOD','Behandlungszeitraum, wenn n&ouml;tig');
@@ -526,13 +526,13 @@ DEFINE('_MNTIPACUDIP','Unterschiedliche Ziel IPs:');
 //base_qry_alert.php
 DEFINE('_QAINVPAIR','Ung&uuml;ltiges (sid,cid) Paar');
 DEFINE('_QAALERTDELET','Alarm gel&ouml;scht');
-DEFINE('_QATRIGGERSIG','Ausl&ouml;sende Signatur');
+DEFINE('_QATRIGGERSIG',"Ausl&ouml;sende $UI_CP_Sig");
 DEFINE('_QANORMALD','Normal Display'); //NEW
 DEFINE('_QAPLAIND','Plain Display'); //NEW
 DEFINE('_QANOPAYLOAD','Fast logging used so payload was discarded'); //NEW
 
 //base_qry_common.php
-DEFINE('_QCSIG','Signatur');
+DEFINE('_QCSIG',$UI_CP_Sig);
 DEFINE('_QCIPADDR','IP Adresse');
 DEFINE('_QCIPFIELDS','IP Felder');
 DEFINE('_QCTCPPORTS','TCP Ports');
@@ -579,7 +579,7 @@ DEFINE('_QFRMSORTORDER','Sortierfolge');
 DEFINE('_QFRMSORTNONE','none'); //NEW
 DEFINE('_QFRMTIMEA','Zeitstempel (aufsteigend)');
 DEFINE('_QFRMTIMED','Zeitstempel (absteigend)');
-DEFINE('_QFRMSIG','Signatur');
+DEFINE('_QFRMSIG',$UI_CP_Sig);
 DEFINE('_QFRMSIP','Quell IP');
 DEFINE('_QFRMDIP','Ziel IP');
 

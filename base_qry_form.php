@@ -43,6 +43,7 @@ if ( $submit == _ADDPAYLOAD && $cs->criteria['data']->GetFormItemCnt() < $MAX_RO
    $cs->criteria['data']->AddFormItem($submit, $cs->criteria['layer4']->Get());
 
 $CPSensor = $UIL->CPA['Sensor'];
+$CPSig = $UIL->CPA['Sig'];
 NLIO('<!-- ************ Meta Criteria ******************** -->');
 NLIO("<table width='100%' border='0'>");
 NLIO('<tr>',1);
@@ -57,11 +58,10 @@ NLIO("<b>$CPSensor: </b>",3);
 $cs->criteria['sensor']->PrintForm('','','');
      echo '<B>'._ALERTGROUP.': </B>';
 $cs->criteria['ag']->PrintForm('','','');
-     echo '</TD>';
-
-     echo '<TR>
-            <TD><B>'._SIGNATURE.': </B></TD>
-           <TD>';  
+NLIO('</td>',2);
+NLIO('</tr><tr>',1);
+NLIO("<td><b>$CPSig: </b></td>",2);
+NLIO('<td>',2);
 $cs->criteria['sig']->PrintForm('','','');
 if ( $db->baseGetDBversion() >= 103 ) {
 	echo '<B>'._CHRTCLASS.': </B>';

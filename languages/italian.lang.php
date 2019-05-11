@@ -46,6 +46,7 @@ $UI_CP_Filter = 'Filtro';
 $UI_CP_Desc = 'Descrizione';
 $UI_CP_SucDesc = 'Completo';
 $UI_CP_Sensor = 'Sensore';
+$UI_CP_Sig = 'Firma';
 // Authentication Data.
 $UI_AD_UND = 'Login';
 $UI_AD_PWD = 'Password';
@@ -53,7 +54,6 @@ $UI_AD_RID = "$UI_CP_Id Ruolo";
 $UI_AD_ASD = 'Abilitato';
 
 //common phrases
-DEFINE('_SIGNATURE','Firma');
 DEFINE('_TIMESTAMP','Orario');
 DEFINE('_NBSOURCEADDR','Indirizzo Sorgente');
 DEFINE('_NBDESTADDR','Indirizzo Destinatario');
@@ -344,8 +344,8 @@ DEFINE('_DISPPAYLOAD','{ payload }'); //NEW
 DEFINE('_DISPFLAGS','{ flags }'); //NEW
 DEFINE('_SIGEXACTLY','exactly'); //NEW
 DEFINE('_SIGROUGHLY','roughly'); //NEW
-DEFINE('_SIGCLASS','Signature Classification'); //NEW
-DEFINE('_SIGPRIO','Signature Priority'); //NEW
+DEFINE('_SIGCLASS',"$UI_CP_Sig Classification"); //NEW
+DEFINE('_SIGPRIO',"$UI_CP_Sig Priority"); //NEW
 DEFINE('_SHORTSOURCE','Source'); //NEW
 DEFINE('_SHORTDEST','Dest'); //NEW
 DEFINE('_SHORTSOURCEORDEST','Src or Dest'); //NEW
@@ -456,7 +456,7 @@ DEFINE('_CHRTTYPEDSTUDP','Dest. UDP vs. Numero Avvertimenti');
 DEFINE('_CHRTTYPESRCUDP','Sorg. UDP vs. Numero Avvertimenti');
 DEFINE('_CHRTTYPEDSTPORT','Dest. TCP vs. Numero Avvertimenti');
 DEFINE('_CHRTTYPESRCPORT','Sorg. TCP vs. Numero Avvertimenti');
-DEFINE('_CHRTTYPESIG','Classifica Signature vs. Numero Avvertimenti');
+DEFINE('_CHRTTYPESIG',"Classifica $UI_CP_Sig vs. Numero Avvertimenti");
 DEFINE('_CHRTTYPESENSOR','Sensore vs. Numero Avvertimenti');
 DEFINE('_CHRTBEGIN','Inizio Grafico:');
 DEFINE('_CHRTEND','Fine Grafico:');
@@ -491,7 +491,7 @@ DEFINE('_CHRTPORTDESTNUMBER','Porta TCP (Destinazione) vs. Numero Avvertimenti')
 DEFINE('_CHRTPORTDEST','Porta TCP Dest.');
 DEFINE('_CHRTPORTSRCNUMBER','Porta TCP (Sorgente) vs. Numero Avvertimenti');
 DEFINE('_CHRTPORTSRC','Src. TCP Port');
-DEFINE('_CHRTSIGNUMBER','Classificazione Signature vs. Numero Avvertimenti');
+DEFINE('_CHRTSIGNUMBER',"Classificazione $UI_CP_Sig vs. Numero Avvertimenti");
 DEFINE('_CHRTCLASS','Classificazione');
 DEFINE('_CHRTSENSORNUMBER','Sensore vs. Numero Avvertimenti');
 DEFINE('_CHRTHANDLEPERIOD','Periodo di riferimento, se necessario');
@@ -526,7 +526,7 @@ DEFINE('_MNTIPACUDIP','IP Destinazione unici:');
 //base_qry_alert.php
 DEFINE('_QAINVPAIR','Coppia (sid,cid) non valida');
 DEFINE('_QAALERTDELET','Avviso CANCELLATO');
-DEFINE('_QATRIGGERSIG','Signature Triggered');
+DEFINE('_QATRIGGERSIG',"$UI_CP_Sig Triggered");
 DEFINE('_QANORMALD','Normal Display'); //NEW
 DEFINE('_QAPLAIND','Plain Display'); //NEW
 DEFINE('_QANOPAYLOAD','Fast logging used so payload was discarded'); //NEW

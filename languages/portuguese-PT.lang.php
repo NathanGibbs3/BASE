@@ -54,6 +54,7 @@ $UI_CP_Filter = 'Filtro';
 $UI_CP_Desc = 'Descrição';
 $UI_CP_SucDesc = 'Com Sucesso';
 $UI_CP_Sensor = 'Sensor';
+$UI_CP_Sig = 'Assinatura';
 // Authentication Data.
 $UI_AD_UND = 'Nome';
 $UI_AD_PWD = 'Senha';
@@ -61,7 +62,6 @@ $UI_AD_RID = "$UI_CP_Id do perfil";
 $UI_AD_ASD = 'Habilitado';
 
 //common phrases
-DEFINE('_SIGNATURE','Assinatura');
 DEFINE('_TIMESTAMP','Data');
 DEFINE('_NBSOURCEADDR','End.&nbsp;de&nbsp;Origem');
 DEFINE('_NBDESTADDR','End.&nbsp;de&nbsp;Destino');
@@ -351,8 +351,8 @@ DEFINE('_DISPPAYLOAD','{ payload }');
 DEFINE('_DISPFLAGS','{ flags }');
 DEFINE('_SIGEXACTLY','exactamente');
 DEFINE('_SIGROUGHLY','parecido');
-DEFINE('_SIGCLASS','Classificação da Assinatura');
-DEFINE('_SIGPRIO','Prioridade da Assinatura');
+DEFINE('_SIGCLASS',"Classificação da $UI_CP_Sig");
+DEFINE('_SIGPRIO',"Prioridade da $UI_CP_Sig");
 DEFINE('_SHORTSOURCE','Orig');
 DEFINE('_SHORTDEST','Dest');
 DEFINE('_SHORTSOURCEORDEST','Orig ou Dest');
@@ -501,7 +501,7 @@ DEFINE('_CHRTPORTDESTNUMBER','Porta TCP (Destino) vs. Número de Alertas');
 DEFINE('_CHRTPORTDEST','Porta TCP Port');
 DEFINE('_CHRTPORTSRCNUMBER','Porta TCP (Origem) vs. Número de Alertas');
 DEFINE('_CHRTPORTSRC','Porta TCP Orig.');
-DEFINE('_CHRTSIGNUMBER','Classificação da Assinatura vs. Número de Alertas');
+DEFINE('_CHRTSIGNUMBER',"Classificação da $UI_CP_Sig vs. Número de Alertas");
 DEFINE('_CHRTCLASS','Classificação');
 DEFINE('_CHRTSENSORNUMBER','Sensor vs. Número de Alertas');
 DEFINE('_CHRTHANDLEPERIOD','Manipulando Período se necessário');
@@ -536,7 +536,7 @@ DEFINE('_MNTIPACUDIP','IP de destino únicos:');
 //base_qry_alert.php
 DEFINE('_QAINVPAIR','Par (sid,cid) inválido');
 DEFINE('_QAALERTDELET','Alerta REMOVIDO');
-DEFINE('_QATRIGGERSIG','Assinatura que despoletou');
+DEFINE('_QATRIGGERSIG',"$UI_CP_Sig que despoletou");
 DEFINE('_QANORMALD','Vista normal');
 DEFINE('_QAPLAIND','Vista plana');
 DEFINE('_QANOPAYLOAD','Foi usado log rápido portanto o payload foi descartado');
@@ -589,7 +589,7 @@ DEFINE('_QFRMSORTORDER','Classificação');
 DEFINE('_QFRMSORTNONE','Nenhuma');
 DEFINE('_QFRMTIMEA','Data (ascendente)');
 DEFINE('_QFRMTIMED','Data (descendente)');
-DEFINE('_QFRMSIG','Assinatura');
+DEFINE('_QFRMSIG',$UI_CP_Sig);
 DEFINE('_QFRMSIP','IP de origem');
 DEFINE('_QFRMDIP','IP de destino');
 

@@ -46,6 +46,7 @@ $UI_CP_Filter = 'Süzgeç';
 $UI_CP_Desc = 'Betimleme';
 $UI_CP_SucDesc = 'Baþarýlý';
 $UI_CP_Sensor = 'Algýlayýcý';
+$UI_CP_Sig = 'Ýmza';
 // Authentication Data.
 $UI_AD_UND = 'Oturum Aç';
 $UI_AD_PWD = 'Parola';
@@ -53,7 +54,6 @@ $UI_AD_RID = "Rol $UI_CP_Id";
 $UI_AD_ASD = 'Seçilir Kýlýnmýþ';
 
 //common phrases
-DEFINE('_SIGNATURE','Ýmza');
 DEFINE('_TIMESTAMP','Zaman Damgasý');
 DEFINE('_NBSOURCEADDR','Kaynak Adresi');
 DEFINE('_NBDESTADDR','Varýþ Adresi');

@@ -46,6 +46,7 @@ $UI_CP_Filter = 'フィルター';
 $UI_CP_Desc = '詳細';
 $UI_CP_SucDesc = '成功';
 $UI_CP_Sensor = 'センサー';
+$UI_CP_Sig = 'シグネチャ';
 // Authentication Data.
 $UI_AD_UND = 'ログイン';
 $UI_AD_PWD = 'パスワード';
@@ -53,7 +54,6 @@ $UI_AD_RID = "Role $UI_CP_Id";
 $UI_AD_ASD = '有効';
 
 //common phrases
-DEFINE('_SIGNATURE','シグネチャ');
 DEFINE('_TIMESTAMP','タイムスタンプ');
 DEFINE('_NBSOURCEADDR','発信元&nbsp;アドレス');
 DEFINE('_NBDESTADDR','発信先&nbsp;アドレス');
@@ -310,7 +310,7 @@ DEFINE('_ERRRESOLVEADDRESS','名前解決できませんでした');
 DEFINE('_QUERYRESULTSHEADER','クエリ出力結果のヘッダ');
 
 //base_signature.inc.php
-DEFINE('_ERRSIGNAMEUNK','シグネチャ名が不明です');
+DEFINE('_ERRSIGNAMEUNK',$UI_CP_Sig.'名が不明です');
 DEFINE('_ERRSIGPROIRITYUNK','優先度が不明です');
 DEFINE('_UNCLASS','unclassified');
 
@@ -490,7 +490,7 @@ DEFINE('_CHRTPORTDESTNUMBER','TCP Port (送信先)　ｘ　アラート数');
 DEFINE('_CHRTPORTDEST','Dst. TCP Port');
 DEFINE('_CHRTPORTSRCNUMBER','TCP Port (発信元)　ｘ　アラート数');
 DEFINE('_CHRTPORTSRC','Src. TCP Port');
-DEFINE('_CHRTSIGNUMBER','シグネチャクラス　ｘ　アラート数');
+DEFINE('_CHRTSIGNUMBER',$UI_CP_Sig.'クラス　ｘ　アラート数');
 DEFINE('_CHRTCLASS','クラス');
 DEFINE('_CHRTSENSORNUMBER','センサー　ｘ　アラート数');
 DEFINE('_CHRTHANDLEPERIOD','Handling Period if necessary');
@@ -525,13 +525,13 @@ DEFINE('_MNTIPACUDIP','ユニーク送信先IP:');
 //base_qry_alert.php
 DEFINE('_QAINVPAIR','Invalid (sid,cid) pair');
 DEFINE('_QAALERTDELET','削除されたアラート');
-DEFINE('_QATRIGGERSIG','Triggeredシグネチャ');
+DEFINE('_QATRIGGERSIG',"Triggered$UI_CP_Sig");
 DEFINE('_QANORMALD','Normal Display'); //NEW
 DEFINE('_QAPLAIND','Plain Display'); //NEW
 DEFINE('_QANOPAYLOAD','Fast logging used so payload was discarded'); //NEW
 
 //base_qry_common.php
-DEFINE('_QCSIG','シグネチャ');
+DEFINE('_QCSIG',$UI_CP_Sig);
 DEFINE('_QCIPADDR','IPアドレス');
 DEFINE('_QCIPFIELDS','IPフィールド');
 DEFINE('_QCTCPPORTS','TCPポート');
@@ -578,7 +578,7 @@ DEFINE('_QFRMSORTORDER','ソートオーダー');
 DEFINE('_QFRMSORTNONE','none'); //NEW
 DEFINE('_QFRMTIMEA','タイムスタンプ(降順)');
 DEFINE('_QFRMTIMED','タイムスタンプ(昇順)');
-DEFINE('_QFRMSIG','シグネチャ');
+DEFINE('_QFRMSIG',$UI_CP_Sig);
 DEFINE('_QFRMSIP','発信元IP');
 DEFINE('_QFRMDIP','送信先IP');
 

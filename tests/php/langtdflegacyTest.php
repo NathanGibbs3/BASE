@@ -613,6 +613,16 @@ class legacylangTest extends TestCase {
 		LogTC($tf,'TD file',$file);
 		$this->CPAHas($$tmp,'Sensor','Sensor');
 	}
+	public function testCPASetItemSig() {
+		$lang = $this->langs;
+		$tf = __FUNCTION__;
+		$tmp = "UI$lang";
+		LogTC($tf,'language',$lang);
+		$$tmp = $this->UIL;
+		$file = $$tmp->TDF;
+		LogTC($tf,'TD file',$file);
+		$this->CPAHas($$tmp,'Sig','Signature');
+	}
 	// Test Universal Action Items.
 	public function testUAASetItemEdit() {
 		$lang = $this->langs;

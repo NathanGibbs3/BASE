@@ -1,0 +1,9 @@
+<?php
+$alert_user='';
+$alert_password='';
+$basepath='';
+$alert_dbname='snort';
+$alert_host='localhost';
+$alert_port='3306';
+$DBtype='mysql';
+?>

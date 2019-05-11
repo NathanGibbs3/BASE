@@ -197,6 +197,13 @@ class UILang{
 		}else{
 			$this->SetUICPItem('Sensor');
 		}
+		if ( isset($UI_CP_Sig) ) { // Var New TDF
+			$this->SetUICPItem('Sig',$UI_CP_Sig);
+		}elseif (defined('_SIGNATURE')) { // Const Legacy TDF
+			$this->SetUICPItem('Sig',_SIGNATURE);
+		}else{
+			$this->SetUICPItem('Sig');
+		}
 		// Init Authentication Data if Auth Sys is enabled.
 		if ($Use_Auth_System == 1) {
 			if ( isset($UI_AD_UND) ) { // Var New TDF
@@ -314,7 +321,7 @@ class UILang{
 	function SetUICPItem($Item,$Value = NULL) {
 		$Items = array (
 			'SrcDesc', 'SrcName', 'DstDesc', 'DstName', 'SrcDst', 'Id', 'Name',
-			'Int', 'Filter', 'Desc', 'SucDesc', 'Sensor'
+			'Int', 'Filter', 'Desc', 'SucDesc', 'Sensor', 'Sig'
 		);
 		if (in_array($Item, $Items)) {
 			$this->CPA[$Item] = $Value;

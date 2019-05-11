@@ -33,6 +33,7 @@
   $et = new EventTiming($debug_time_mode);
 $UIL = new UILang($BASE_Language); // Create UI Language Object.
 $CPSensor = $UIL->CPA['Sensor'];
+$CPSig = $UIL->CPA['Sig'];
   $cs = new CriteriaState("base_stat_class.php");
   $cs->ReadState();
 
@@ -138,11 +139,10 @@ $qro->AddTitle("$CPSensor&nbsp;#",
 	"sensor_a", " ", " ORDER BY num_sensors ASC",
 	"sensor_d", " ", " ORDER BY num_sensors DESC"
 );
-  $qro->AddTitle(_SIGNATURE,
-                 "sig_a", " ",
-                          " ORDER BY num_sig ASC",
-                 "sig_d", " ",
-                          " ORDER BY num_sig DESC");
+$qro->AddTitle($CPSig,
+	"sig_a", " ", " ORDER BY num_sig ASC",
+	"sig_d", " ", " ORDER BY num_sig DESC"
+);
   $qro->AddTitle(_NBSOURCEADDR, 
                 "saddr_a", ", count(ip_src) AS saddr_cnt ",
                            " ORDER BY saddr_cnt ASC",

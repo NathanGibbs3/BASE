@@ -454,66 +454,62 @@ class SignatureCriteria extends SingleElementCriteria {
             $tmp_result->baseFreeRows();
          }
          echo '</SELECT><BR>';
-      }
+		}
 	}
-   function ToSQL()
-   {
-   }
+	function ToSQL(){
+	}
 	function Description($value) {
-      $tmp = $tmp_human = "";
-
-
-      // First alternative: signature name is taken from the
-      // signature list.  The user has clicked at a drop down menu for this
-      if ( 
-           (isset($this->criteria[0])) && ($this->criteria[0] != " ") && 
-           (isset($this->criteria[3])) && ($this->criteria[3] != "" ) &&
-           ($this->criteria[3] != "null") && ($this->criteria[3] != "NULL") &&
-           ($this->criteria[3] != NULL)
-         )
-      {
-        if ( $this->criteria[0] == '=' && $this->criteria[2] == '!=' )
-           $tmp_human = '!=';
-        else if ( $this->criteria[0] == '=' && $this->criteria[2] == '=' )
-           $tmp_human = '=';
-        else if ( $this->criteria[0] == 'LIKE' && $this->criteria[2] == '!=' )
-           $tmp_human = ' '._DOESNTCONTAIN.' ';
-        else if ( $this->criteria[0] == 'LIKE' && $this->criteria[2] == '=' )
-           $tmp_human = ' '._CONTAINS.' ';
-
-        $tmp = $tmp._SIGNATURE.' '.$tmp_human.' "';
-        if ( ($this->db->baseGetDBversion() >= 100) && $this->sig_type == 1 )
-          $tmp = $tmp.BuildSigByID($this->criteria[3], $this->db).'" '.$this->cs->GetClearCriteriaString($this->export_name);
-        else
-          $tmp = $tmp.htmlentities($this->criteria[3]).'"'.$this->cs->GetClearCriteriaString($this->export_name);
-
-        $tmp = $tmp.'<BR>';
-      }
-      else
-      // Second alternative: Signature is taken from a string that
-      // has been typed in manually by the user:
-      if ( (isset($this->criteria[0])) && ($this->criteria[0] != " ") && 
-           (isset($this->criteria[1])) && ($this->criteria[1] != "") )
-      {
-        if ( $this->criteria[0] == '=' && $this->criteria[2] == '!=' )
-           $tmp_human = '!=';
-        else if ( $this->criteria[0] == '=' && $this->criteria[2] == '=' )
-           $tmp_human = '=';
-        else if ( $this->criteria[0] == 'LIKE' && $this->criteria[2] == '!=' )
-           $tmp_human = ' '._DOESNTCONTAIN.' ';
-        else if ( $this->criteria[0] == 'LIKE' && $this->criteria[2] == '=' )
-           $tmp_human = ' '._CONTAINS.' ';
-
-        $tmp = $tmp._SIGNATURE.' '.$tmp_human.' "';
-        if ( ($this->db->baseGetDBversion() >= 100) && $this->sig_type == 1 )
-          $tmp = $tmp.BuildSigByID($this->criteria[1], $this->db).'" '.$this->cs->GetClearCriteriaString($this->export_name);
-        else
-          $tmp = $tmp.htmlentities($this->criteria[1]).'"'.$this->cs->GetClearCriteriaString($this->export_name);
-
-        $tmp = $tmp.'<BR>';
-      }
-      
-      return $tmp;
+		GLOBAL $UIL;
+		$CPSig = $UIL->CPA['Sig'];
+		$tmp = $tmp_human = "";
+		if ( isset($this->criteria[0]) && $this->criteria[0] != " " ){
+			// Common code for both scenarios.
+			if ( $this->criteria[0] == '=' ){
+				if ( $this->criteria[2] == '!=' ){
+					$tmp_human = '!=';
+				}elseif ( $this->criteria[2] == '=' ){
+					$tmp_human = '=';
+				}
+			}elseif ( $this->criteria[0] == 'LIKE' ){
+				if ( $this->criteria[2] == '!=' ){
+					$tmp_human = ' '._DOESNTCONTAIN.' ';
+				}elseif ( $this->criteria[2] == '=' ){
+					$tmp_human = ' '._CONTAINS.' ';
+				}
+			}
+			$SIdx = 0;
+			if (
+				(isset($this->criteria[3]))
+				&& ($this->criteria[3] != "" )
+				&& ($this->criteria[3] != "null")
+				&& ($this->criteria[3] != "NULL")
+				&& ($this->criteria[3] != NULL)
+			){
+				// First scenario: Signature name is taken from the signature
+				// list. The user has clicked at a drop down menu for this.
+				$SIdx = 3;
+			}elseif (
+				(isset($this->criteria[1])) && ($this->criteria[1] != "")
+			){
+				// Second scenario: Signature name is taken from a string that
+				// has been typed in manually by the user.
+				$SIdx = 1;
+			}
+			if ( $SIdx != 0 ){
+				$tmp .= "$CPSig $tmp_human".' "';
+				if (
+					($this->db->baseGetDBversion() >= 100)
+					&& $this->sig_type == 1
+				){
+					$tmp .= BuildSigByID($this->criteria[$SIdx], $this->db).'" ';
+				}else{
+					$tmp .= htmlentities($this->criteria[$SIdx]).'"';
+				}
+				$tmp .= $this->cs->GetClearCriteriaString($this->export_name);
+				$tmp .= '<br>';
+			}
+		}
+		return $tmp;
 	}
 };  /* SignatureCriteria */
 

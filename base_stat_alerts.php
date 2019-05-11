@@ -33,6 +33,7 @@
   ($debug_time_mode >= 1) ? $et = new EventTiming($debug_time_mode) : '';
 $UIL = new UILang($BASE_Language); // Create UI Language Object.
 $CPSensor = $UIL->CPA['Sensor'];
+$CPSig = $UIL->CPA['Sig'];
   $cs = new CriteriaState("base_stat_alerts.php");
   $submit = ImportHTTPVar("submit", VAR_ALPHA | VAR_SPACE, array(_SELECTED, _ALLONSCREEN, _ENTIREQUERY));
 
@@ -129,10 +130,10 @@ $CPSensor = $UIL->CPA['Sensor'];
 
   $qro->AddTitle(" ");
 
-  $qro->AddTitle(_SIGNATURE, 
-                "sig_a", " ", " ORDER BY sig_name ASC",
-                "sig_d", " ", " ORDER BY sig_name DESC");
-
+$qro->AddTitle($CPSig,
+	"sig_a", " ", " ORDER BY sig_name ASC",
+	"sig_d", " ", " ORDER BY sig_name DESC"
+);
   if ( $db->baseGetDBversion() >= 103 )
     $qro->AddTitle(_CHRTCLASS,
                    "class_a", ", MIN(sig_class_id) ",

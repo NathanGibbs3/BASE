@@ -46,6 +46,7 @@ $UI_CP_Filter = 'Filtre';
 $UI_CP_Desc = 'Description';
 $UI_CP_SucDesc = 'Succès -';
 $UI_CP_Sensor = 'Sonde';
+$UI_CP_Sig = 'Signature';
 // Authentication Data.
 $UI_AD_UND = 'Identifiant';
 $UI_AD_PWD = 'Mot de passe';
@@ -53,8 +54,6 @@ $UI_AD_RID = "$UI_CP_Id de Rôle";
 $UI_AD_ASD = 'Activé';
 
 //common phrases
-DEFINE('_SIGNATURE','Signature');
-// Signature
 DEFINE('_TIMESTAMP','Horodatage');
 // Timestamp
 DEFINE('_NBSOURCEADDR','Adresse&nbsp;Source');
@@ -647,7 +646,7 @@ DEFINE('_CHRTPORTSRCNUMBER','Port TCP (Source) vs. Nombre d Alertes');
 // TCP Port (Source) vs. Number of Alerts
 DEFINE('_CHRTPORTSRC','Port TCP Src.');
 // Src. TCP Port
-DEFINE('_CHRTSIGNUMBER','Classification de Signature vs. Nombre d Alertes');
+DEFINE('_CHRTSIGNUMBER',"Classification de $UI_CP_Sig vs. Nombre d Alertes");
 // Signature Classification vs. Number of Alerts
 DEFINE('_CHRTCLASS','Classification');
 // Classification
@@ -711,7 +710,7 @@ DEFINE('_QAINVPAIR','Paire (sid,cid) non valide');
 // Invalid (sid,cid) pair
 DEFINE('_QAALERTDELET','Alerte SUPPRIMEE ');
 // Alert DELETED
-DEFINE('_QATRIGGERSIG','Signature Déclenchée');
+DEFINE('_QATRIGGERSIG',"$UI_CP_Sig Déclenchée");
 // Triggered Signature
 
 //base_qry_common.php
@@ -1059,8 +1058,8 @@ DEFINE('_DISPPAYLOAD','{ payload }'); //NEW
 DEFINE('_DISPFLAGS','{ flags }'); //NEW
 DEFINE('_SIGEXACTLY','exactly'); //NEW
 DEFINE('_SIGROUGHLY','roughly'); //NEW
-DEFINE('_SIGCLASS','Signature Classification'); //NEW
-DEFINE('_SIGPRIO','Signature Priority'); //NEW
+DEFINE('_SIGCLASS',"$UI_CP_Sig Classification"); //NEW
+DEFINE('_SIGPRIO',"$UI_CP_Sig Priority"); //NEW
 DEFINE('_SHORTSOURCE','Source'); //NEW
 DEFINE('_SHORTDEST','Dest'); //NEW
 DEFINE('_SHORTSOURCEORDEST','Src or Dest'); //NEW

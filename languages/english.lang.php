@@ -45,6 +45,7 @@ $UI_CP_Filter = 'Filter';
 $UI_CP_Desc = 'Description';
 $UI_CP_SucDesc = 'Successful';
 $UI_CP_Sensor = 'Sensor';
+$UI_CP_Sig = 'Signature';
 // Authentication Data.
 $UI_AD_UND = 'Login';
 $UI_AD_PWD = 'Password';
@@ -52,7 +53,6 @@ $UI_AD_RID = "Role $UI_CP_Id";
 $UI_AD_ASD = 'Enabled';
 
 //common phrases
-DEFINE('_SIGNATURE','Signature');
 DEFINE('_TIMESTAMP','Timestamp');
 DEFINE('_NBSOURCEADDR','Source&nbsp;Address');
 DEFINE('_NBDESTADDR','Dest.&nbsp;Address');
@@ -342,8 +342,8 @@ DEFINE('_DISPPAYLOAD','{ payload }');
 DEFINE('_DISPFLAGS','{ flags }');
 DEFINE('_SIGEXACTLY','exactly');
 DEFINE('_SIGROUGHLY','roughly');
-DEFINE('_SIGCLASS','Signature Classification');
-DEFINE('_SIGPRIO','Signature Priority');
+DEFINE('_SIGCLASS',"$UI_CP_Sig Classification");
+DEFINE('_SIGPRIO',"$UI_CP_Sig Priority");
 DEFINE('_SHORTSOURCE','Source');
 DEFINE('_SHORTDEST','Dest');
 DEFINE('_SHORTSOURCEORDEST','Src or Dest');
@@ -489,7 +489,7 @@ DEFINE('_CHRTPORTDESTNUMBER','TCP Port (Destination) vs. Number of Alerts');
 DEFINE('_CHRTPORTDEST','Dst. TCP Port');
 DEFINE('_CHRTPORTSRCNUMBER','TCP Port (Source) vs. Number of Alerts');
 DEFINE('_CHRTPORTSRC','Src. TCP Port');
-DEFINE('_CHRTSIGNUMBER','Signature Classification vs. Number of Alerts');
+DEFINE('_CHRTSIGNUMBER',"$UI_CP_Sig Classification vs. Number of Alerts");
 DEFINE('_CHRTCLASS','Classification');
 DEFINE('_CHRTSENSORNUMBER','Sensor vs. Number of Alerts');
 DEFINE('_CHRTHANDLEPERIOD','Handling Period if necessary');
@@ -524,7 +524,7 @@ DEFINE('_MNTIPACUDIP','Unique Dst IP:');
 //base_qry_alert.php
 DEFINE('_QAINVPAIR','Invalid (sid,cid) pair');
 DEFINE('_QAALERTDELET','Alert DELETED');
-DEFINE('_QATRIGGERSIG','Triggered Signature');
+DEFINE('_QATRIGGERSIG',"Triggered $UI_CP_Sig");
 DEFINE('_QANORMALD','Normal Display');
 DEFINE('_QAPLAIND','Plain Display');
 DEFINE('_QANOPAYLOAD','Fast logging used so payload was discarded');
