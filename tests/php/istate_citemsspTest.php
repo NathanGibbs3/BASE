@@ -41,20 +41,28 @@ class state_citemsSPTest extends TestCase {
 			"Class for $ll not created."
 		);
 		// Setup DB System.
+		// Default Debian/Ubuntu location.
+		$DBlib_path = '/usr/share/php/adodb';
 		$DB = getenv('DB');
 		$TRAVIS = getenv('TRAVIS');
-		$DBlib_path = '/usr/share/php/adodb';
 		if (!$TRAVIS){ // Running on Local Test System.
 			require('../database.php');
 		}else{
-//			$Composer = getenv('Composer');
-//			if ($Composer > 0) {
-//				$DBlib_path = 'vendor/adodb';
-//			}else{
-//				self::markTestIncomplete('Unable to set ADODB.');
-				// Maybe we could download & install it.
-				// We should do that outside of the test.
-//			}
+			$Composer = getenv('Composer');
+			$PHPV = GetPHPV();
+			if(version_compare($PHPV, '7.0', '>='){
+				// System Versions of ADODB on travis have Issue #7
+				// https://github.com/NathanGibbs3/BASE/issues/7
+				// Their problem, not ours, so we will try to use the
+				// Composer installed version.
+				if ($Composer > 0 ){
+					require_once 'vendor/autoload.php';
+				}else{
+					self::markTestIncomplete('Unable to Load ADODB.');
+				}
+			}else{
+				// Use System installed Version.
+			}
 			if (!$DB){
 				self::markTestIncomplete('Unable to get DB Engine.');
 			}elseif ($DB == 'mysql' ){
