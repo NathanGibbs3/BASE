@@ -43,18 +43,19 @@ class state_citemsSPTest extends TestCase {
 		// Setup DB System.
 		$DB = getenv('DB');
 		$TRAVIS = getenv('TRAVIS');
+		$DBlib_path = '/usr/share/php/adodb';
 		if (!$TRAVIS){ // Running on Local Test System.
-			$DBlib_path = '/usr/share/php/adodb'; // System specific.
+//			$DBlib_path = '/usr/share/php/adodb'; // System specific.
 			require('../database.php');
 		}else{
-			$Composer = getenv('Composer');
-			if ($Composer > 0) {
-				$DBlib_path = 'vendor/adodb';
-			}else{
-				self::markTestIncomplete('Unable to set ADODB.');
+//			$Composer = getenv('Composer');
+//			if ($Composer > 0) {
+//				$DBlib_path = 'vendor/adodb';
+//			}else{
+//				self::markTestIncomplete('Unable to set ADODB.');
 				// Maybe we could download & install it.
 				// We should do that outside of the test.
-			}
+//			}
 			if (!$DB){
 				self::markTestIncomplete('Unable to get DB Engine.');
 			}elseif ($DB = 'mysql' ){
