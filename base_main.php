@@ -44,7 +44,7 @@
   $start = time();
    require("base_conf.php");
    include_once("$BASE_path/includes/base_auth.inc.php");
-	include_once("$BASE_path/includes/base_lang.inc.php");
+include_once("$BASE_path/includes/base_lang.inc.php");
    include_once("$BASE_path/includes/base_db.inc.php");
    include_once("$BASE_path/includes/base_output_html.inc.php");
    include_once("$BASE_path/base_common.php");
@@ -54,46 +54,43 @@
    include_once("$BASE_path/includes/base_log_error.inc.php");
    include_once("$BASE_path/includes/base_log_timing.inc.php");
 
-  RegisterGlobalState();
-  
-  /* Initialize the history */
-  $_SESSION = NULL;
-  InitArray($_SESSION['back_list'], 1, 3, "");
-  $_SESSION['back_list_cnt'] = 0;
+RegisterGlobalState();
 
-  PushHistory();
-  
-  // Check role out and redirect if needed -- Kevin
-  $roleneeded = 10000;
-  $BUser = new BaseUser();
-	if ($Use_Auth_System == 1) {
-		if ($BUser->hasRole($roleneeded) == 0)
-			base_header("Location: $BASE_urlpath/index.php");
-	}
-  // Set cookie to use the correct db.
-  if (isset($_GET['archive']))
-  {
-      "no" == $_GET['archive'] ? $value = 0 : $value = 1;
-      setcookie('archive', $value);
-      base_header("Location: $BASE_urlpath/base_main.php");
-  }
-  
-  function DBLink()
-  {
-      // generate the link to select the other database....
-      GLOBAL $archive_exists;
-   
-      if ( (isset($_COOKIE['archive']) && $_COOKIE['archive'] == 1) || (isset($_GET['archive']) && $_GET['archive'] == 1)) {
-          echo '<a href="base_main.php?archive=no">' . _USEALERTDB . '</a>';
-      } elseif ($archive_exists != 0) {
-          echo ('<a href="base_main.php?archive=1">' . _USEARCHIDB . '</a>');
-      }
-  }
+// Initialize the history
+$_SESSION = NULL;
+InitArray($_SESSION['back_list'], 1, 3, "");
+$_SESSION['back_list_cnt'] = 0;
+PushHistory();
+
 $UIL = new UILang($BASE_Language); // Create UI Language Object.
+// Check role out and redirect if needed -- Kevin
+$roleneeded = 10000;
+$BUser = new BaseUser();
+if ($Use_Auth_System == 1) {
+	if ($BUser->hasRole($roleneeded) == 0){
+		base_header("Location: $BASE_urlpath/index.php");
+	}
+}
+
+if (isset($_GET['archive'])){ // Set cookie to use the correct db.
+	"no" == $_GET['archive'] ? $value = 0 : $value = 1;
+	setcookie('archive', $value);
+	base_header("Location: $BASE_urlpath/base_main.php");
+}
+
+function DBLink(){ // generate the link to select the other database....
+	GLOBAL $archive_exists;
+	if ( (isset($_COOKIE['archive']) && $_COOKIE['archive'] == 1) || (isset($_GET['archive']) && $_GET['archive'] == 1)) {
+		echo '<a href="base_main.php?archive=no">' . _USEALERTDB . '</a>';
+	}elseif ($archive_exists != 0) {
+		echo ('<a href="base_main.php?archive=1">' . _USEARCHIDB . '</a>');
+	}
+}
+
 PageStart(1);
 include("$BASE_path/base_hdr1.php");
 if ($debug_mode == 1) {
-    PrintPageHeader();
+	PrintPageHeader();
 }
 
 /* Check that PHP was built correctly */

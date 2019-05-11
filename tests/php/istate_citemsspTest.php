@@ -45,7 +45,6 @@ class state_citemsSPTest extends TestCase {
 		$TRAVIS = getenv('TRAVIS');
 		$DBlib_path = '/usr/share/php/adodb';
 		if (!$TRAVIS){ // Running on Local Test System.
-//			$DBlib_path = '/usr/share/php/adodb'; // System specific.
 			require('../database.php');
 		}else{
 //			$Composer = getenv('Composer');
@@ -58,10 +57,10 @@ class state_citemsSPTest extends TestCase {
 //			}
 			if (!$DB){
 				self::markTestIncomplete('Unable to get DB Engine.');
-			}elseif ($DB = 'mysql' ){
+			}elseif ($DB == 'mysql' ){
 				require('./tests/phpcommon/DB.mysql.php');
-			}elseif ($DB = 'postgres' ){
-				require('./tests/phpcommon/DB.pqsql.php');
+			}elseif ($DB == 'postgres' ){
+				require('./tests/phpcommon/DB.pgsql.php');
 			}else{
 				self::markTestSkipped("CI Support unavialable for DB: $DB.");
 			}
