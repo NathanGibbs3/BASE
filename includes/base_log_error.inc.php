@@ -23,23 +23,28 @@
  **/
 defined( '_BASE_INC' ) or die( 'Accessing this file directly is not allowed.' );
 
-function ErrorMessage ($message, $color = "#FF0000")
-{
-   echo '<FONT COLOR="'.$color.'">'.$message.'</FONT><br>';
-
+function ErrorMessage ($message, $color = "#ff0000", $br = 0 ){
+	print returnErrorMessage($message, $color, $br);
 }
 
-function returnErrorMessage ($message)
-{
-   $error = '<FONT COLOR="#FF0000">'.$message.'</FONT><br>';   
-   return $error;
+function returnErrorMessage ($message, $color = "#ff0000", $br = 0 ){
+	if ( !preg_match("/^#[0-9A-F]{6}$/i", $color) ){
+		// Default to Red if we are passed something odd.
+		$color = "#ff0000";
+	}
+	$error = '<font color="'.$color.'">'.$message.'</font>';
+	if ($br != 0){
+		$error .= '<br/>';
+	}
+	return $error;
 }
 
-function FatalError ($message)
-{
-   echo '<FONT COLOR="#FF0000"><B>'._ERRBASEFATAL.'</B> '.$message.'</FONT>';
-   die();  
+// @codeCoverageIgnoreStart
+function FatalError ($message){
+	ErrorMessage('<B>'._ERRBASEFATAL.'</B> '.$message);
+	die();
 }
+// @codeCoverageIgnoreEnd
 
 function PrintServerInformation()
 {

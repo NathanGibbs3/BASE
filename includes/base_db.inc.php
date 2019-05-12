@@ -690,12 +690,12 @@ function NewBASEDBConnection($path, $type)
       VerifyDBAbstractionLib($path."\\adodb.inc.php");
       include($path."\\adodb.inc.php");
    }
-	/* On PHP 7+, use mysqli ADODB driver & gracefully deprecate the mysql,
-	mysqlt & maxsql drivers. */
+	// On PHP 5.5+, use mysqli ADODB driver & gracefully deprecate the mysql,
+	// mysqlt & maxsql drivers.
 	$tmptype = $type;
-	if ( $type == "mysql" || $type == "mysqlt" || $type == "maxsql" ) {
+	if ( $type == "mysql" || $type == "mysqlt" || $type == "maxsql" ){
 		$version = explode( ".", phpversion() );
-		if ( $version[0] >= 7 ) {
+		if ( $version[0] > 5 || ( $version[0] == 5 && $version[1] > 4) ){
 			$tmptype = "mysqli";
 		}
 	}
