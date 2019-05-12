@@ -126,6 +126,26 @@ else
 	fi
 fi
 
+echo -n "PHP ADODB "
+if [ "$pvM" \> "5" ] || ( [ "$pvM" == "5" ] && [ "$pvm" \> "4" ]); then
+	echo "from:"
+	echo "https://github.com/ADOdb/ADOdb"
+	if [ "$1" == "" ] && [ "$TRAVIS" == "true" ]; then
+		mkdir -p build/adodb
+		wget https://github.com/ADOdb/ADOdb/archive/v5.16.tar.gz -O build/adodb.tgz
+		tar -C build/adodb -zxf build/adodb.tgz
+		# ADODB Version specific
+		export ADODBPATH='ADOdb-5.16/phplens/adodb'
+	fi
+else
+	if [ "$1" == "" ] && [ "$TRAVIS" == "true" ]; then
+		echo "installed"
+	else
+		echo "unknown"
+	fi
+fi
+
+
 if [ "$1" == "" ]; then
 	if [ "$td" != "tests" ]; then
 		echo "Current directory: `pwd`"

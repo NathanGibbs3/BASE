@@ -12,10 +12,10 @@ function GetPHPV () { // Get PHP Version
 	return "$version[0].$version[1].$version[2]";
 }
 function GetPHPUV () { // Get PHPUnit Version
-	if ( method_exists('PHPUnit_Runner_Version','id')) {
-		$Ret = PHPUnit_Runner_Version::id();
-	}elseif (method_exists('PHPUnit\Runner\Version','id')) {
+	if (method_exists('PHPUnit\Runner\Version','id')) {
 		$Ret = PHPUnit\Runner\Version::id();
+	}elseif ( method_exists('PHPUnit_Runner_Version','id')) {
+		$Ret = PHPUnit_Runner_Version::id();
 	}else{
 		$Ret = 0.0;
 	}
