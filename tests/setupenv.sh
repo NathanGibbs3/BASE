@@ -135,7 +135,7 @@ if [ "$pvM" \> "5" ] || ( [ "$pvM" == "5" ] && [ "$pvm" \> "4" ]); then
 		wget https://github.com/ADOdb/ADOdb/archive/v5.16.tar.gz -O build/adodb.tgz
 		tar -C build/adodb -zxf build/adodb.tgz
 		# ADODB Version specific
-		export ADODBPATH='ADOdb-5.16/phplens/adodb'
+		export ADODBPATH='ADOdb-5.16/phplens/adodb5'
 	fi
 else
 	if [ "$1" == "" ] && [ "$TRAVIS" == "true" ]; then
