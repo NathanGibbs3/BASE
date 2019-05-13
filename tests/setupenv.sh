@@ -9,7 +9,7 @@ fi
 
 if  [ "$1" == "" ]; then
 	td=`pwd|sed -e "s/^.*\///"`
-	pv=phpver.php
+	pv=phpver
 	if [ "$td" == "tests" ]; then
 		pv="./$pv"
 	else
@@ -18,7 +18,7 @@ if  [ "$1" == "" ]; then
 	if [ "$TRAVIS" != "true" ]; then
 		if which php > /dev/null; then
 			if [ -a $pv ]; then
-				puv=`php $pv`
+				puv=`$pv`
 				bail=0
 			else
 				echo "Not Running in Local test environment."
@@ -109,7 +109,7 @@ if [ "$Composer" \< "1" ]; then # Can we install it?
 fi
 
 echo -n "PHP Coveralls "
-if [ "$Composer" \< "1" ]; then
+if [ "$Composer" \< "1" ] || ( [ "$pvM" == "5" ] && [ "$pvm" \< "3" ] ); then
 	echo "not supported."
 	if [ "$1" == "" ] && [ "$TRAVIS" == "true" ]; then
 		export Coveralls=0
@@ -124,6 +124,56 @@ else
 	if [ "$1" == "" ] && [ "$TRAVIS" == "true" ]; then
 		export Coveralls=2
 	fi
+fi
+
+# Setup ADODB
+# GitHub Source Setup
+ADOSrc=github.com/ADOdb/ADOdb
+ADODl=archive
+ADOFilePfx=v
+ADOFileSfx=.tar.gz
+if [ "$pvM" \> "5" ]; then # PHP 7x
+	ADODBVer=5.20.0
+	if [ "$1" == "" ] && [ "$TRAVIS" == "true" ]; then
+		export ADODBPATH="ADOdb-$ADODBVer"
+	fi
+elif [ "$pvM" \> "4" ]; then # PHP 5x
+	if [ "$pvm" \> "3" ]; then # PHP 5.4+
+		ADODBVer=5.10
+		if [ "$1" == "" ] && [ "$TRAVIS" == "true" ]; then
+			export ADODBPATH="ADOdb-$ADODBVer/phplens/adodb5"
+		fi
+	else
+		ADODBVer=494
+		# Sourceforge Source Setup
+		ADOSrc=sourceforge.net/projects/adodb
+		ADODl=files/adodb-php-4-and-5
+		ADOFileSfx=.tgz
+		if [ "ADODBVer" == "494" ]; then
+			# V 494 weirdness :-)
+			ADOFilePfx="adodb-$ADODBVer-for-php4-and-5/adodb"
+		else
+			# Sourceforge standard
+			ADOFilePfx="adodb-$ADODBVer-for-php/adodb"
+		fi
+		if [ "$1" == "" ] && [ "$TRAVIS" == "true" ]; then
+			export ADODBPATH="adodb"
+		fi
+	fi
+else # PHP 4x
+	ADODBVer=5.01beta
+	if [ "$1" == "" ] && [ "$TRAVIS" == "true" ]; then
+			export ADODBPATH="ADOdb-$ADODBVer/phplens/adodb"
+	fi
+fi
+ADOFile=$ADOFilePfx$ADODBVer$ADOFileSfx
+echo "Setup PHP ADODB: $ADODBVer from: https://$ADOSrc"
+if [ "$1" == "" ] && [ "$TRAVIS" == "true" ]; then
+	mkdir -p build/adodb
+	wget https://$ADOSrc/$ADODl/$ADOFile -O build/adodb.tgz
+	tar -C build/adodb -zxf build/adodb.tgz
+else
+	echo "Would Download https://$ADOSrc/$ADODl/$ADOFile"
 fi
 
 if [ "$1" == "" ]; then

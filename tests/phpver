@@ -1,3 +1,4 @@
+#!/usr/bin/env php
 <?php
 	$current_php_version = phpversion();
 	$version = explode(".", $current_php_version);
