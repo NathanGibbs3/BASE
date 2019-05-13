@@ -52,7 +52,13 @@ class QueryState {
 			$SCargs = func_get_args();
 			call_user_func_array(array($this, $SCname), $SCargs);
 		}else{
-			trigger_error("Class: $SCname No Legacy Constructor.\n");
+			// @codeCoverageIgnoreStart
+			// Should never execute.
+			trigger_error( // Will need to add this message to the TD.
+				"Class: $SCname No Legacy Constructor.\n",
+				E_USER_ERROR
+			);
+			// @codeCoverageIgnoreEnd
 		}
 	}
 	function QueryState() { // PHP 4x constructor.
