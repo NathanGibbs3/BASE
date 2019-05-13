@@ -133,8 +133,8 @@ if [ "$1" == "" ] && [ "$TRAVIS" == "true" ]; then
 	else
 		ADODBVer=5.19
 	fi
-	echo -n "Setup PHP ADODB: $ADODBVer from: https://github.com/ADOdb/ADOdb"
-	wget https://github.com/ADOdb/ADOdb/archive/$ADODBVer.tar.gz -O build/adodb.tgz
+	echo "Setup PHP ADODB: $ADODBVer from: https://github.com/ADOdb/ADOdb"
+	wget https://github.com/ADOdb/ADOdb/archive/v$ADODBVer.tar.gz -O build/adodb.tgz
 	tar -C build/adodb -zxf build/adodb.tgz
 	# ADODB Version specific
 	export ADODBPATH="ADOdb-$ADODBVer"
