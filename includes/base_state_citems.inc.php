@@ -42,7 +42,13 @@ class BaseCriteria {
 			$SCargs = array(&$db, &$cs, $name);
 			call_user_func_array(array($this, $SCname), $SCargs);
 		}else{
-			trigger_error("Class: $SCname No Legacy Constructor.\n");
+			// @codeCoverageIgnoreStart
+			// Should never execute.
+			trigger_error( // Will need to add this message to the TD.
+				"Class: $SCname No Legacy Constructor.\n",
+				E_USER_ERROR
+			);
+			// @codeCoverageIgnoreEnd
 		}
 	}
 	function BaseCriteria(&$db, &$cs, $name) { // PHP 4x constructor.
@@ -165,7 +171,13 @@ class MultipleElementCriteria extends BaseCriteria {
 			);
 			call_user_func_array(array($this, $SCname), $SCargs);
 		}else{
-			trigger_error("Class: $SCname No Legacy Constructor.\n");
+			// @codeCoverageIgnoreStart
+			// Should never execute.
+			trigger_error( // Will need to add this message to the TD.
+				"Class: $SCname No Legacy Constructor.\n",
+				E_USER_ERROR
+			);
+			// @codeCoverageIgnoreEnd
 		}
 	}
 	function MultipleElementCriteria(
@@ -319,7 +331,13 @@ class ProtocolFieldCriteria extends MultipleElementCriteria {
 			);
 			call_user_func_array(array($this, $SCname), $SCargs);
 		}else{
-			trigger_error("Class: $SCname No Legacy Constructor.\n");
+			// @codeCoverageIgnoreStart
+			// Should never execute.
+			trigger_error( // Will need to add this message to the TD.
+				"Class: $SCname No Legacy Constructor.\n",
+				E_USER_ERROR
+			);
+			// @codeCoverageIgnoreEnd
 		}
 	}
 	function ProtocolFieldCriteria(
@@ -381,7 +399,13 @@ class SignatureCriteria extends SingleElementCriteria {
 			$SCargs = array(&$db, &$cs, $export_name);
 			call_user_func_array(array($this, $SCname), $SCargs);
 		}else{
-			trigger_error("Class: $SCname No Legacy Constructor.\n");
+			// @codeCoverageIgnoreStart
+			// Should never execute.
+			trigger_error( // Will need to add this message to the TD.
+				"Class: $SCname No Legacy Constructor.\n",
+				E_USER_ERROR
+			);
+			// @codeCoverageIgnoreEnd
 		}
 	}
 	function SignatureCriteria(&$db, &$cs, $export_name) { // PHP 4x constructor.
@@ -938,7 +962,13 @@ class IPAddressCriteria extends MultipleElementCriteria {
 			$SCargs = array(&$db, &$cs, $export_name, $element_cnt);
 			call_user_func_array(array($this, $SCname), $SCargs);
 		}else{
-			trigger_error("Class: $SCname No Legacy Constructor.\n");
+			// @codeCoverageIgnoreStart
+			// Should never execute.
+			trigger_error( // Will need to add this message to the TD.
+				"Class: $SCname No Legacy Constructor.\n",
+				E_USER_ERROR
+			);
+			// @codeCoverageIgnoreEnd
 		}
 	}
 	function IPAddressCriteria(
@@ -1120,7 +1150,13 @@ class IPFieldCriteria extends ProtocolFieldCriteria {
 			$SCargs = array(&$db, &$cs, $export_name, $element_cnt);
 			call_user_func_array(array($this, $SCname), $SCargs);
 		}else{
-			trigger_error("Class: $SCname No Legacy Constructor.\n");
+			// @codeCoverageIgnoreStart
+			// Should never execute.
+			trigger_error( // Will need to add this message to the TD.
+				"Class: $SCname No Legacy Constructor.\n",
+				E_USER_ERROR
+			);
+			// @codeCoverageIgnoreEnd
 		}
 	}
 	function IPFieldCriteria(
@@ -1173,7 +1209,13 @@ class TCPPortCriteria extends ProtocolFieldCriteria {
 			$SCargs = array(&$db, &$cs, $export_name, $element_cnt);
 			call_user_func_array(array($this, $SCname), $SCargs);
 		}else{
-			trigger_error("Class: $SCname No Legacy Constructor.\n");
+			// @codeCoverageIgnoreStart
+			// Should never execute.
+			trigger_error( // Will need to add this message to the TD.
+				"Class: $SCname No Legacy Constructor.\n",
+				E_USER_ERROR
+			);
+			// @codeCoverageIgnoreEnd
 		}
 	}
 	function TCPPortCriteria(
@@ -1223,7 +1265,13 @@ class TCPFieldCriteria extends ProtocolFieldCriteria {
 			$SCargs = array(&$db, &$cs, $export_name, $element_cnt);
 			call_user_func_array(array($this, $SCname), $SCargs);
 		}else{
-			trigger_error("Class: $SCname No Legacy Constructor.\n");
+			// @codeCoverageIgnoreStart
+			// Should never execute.
+			trigger_error( // Will need to add this message to the TD.
+				"Class: $SCname No Legacy Constructor.\n",
+				E_USER_ERROR
+			);
+			// @codeCoverageIgnoreEnd
 		}
 	}
 	function TCPFieldCriteria(
@@ -1356,7 +1404,13 @@ class UDPPortCriteria extends ProtocolFieldCriteria {
 			$SCargs = array(&$db, &$cs, $export_name, $element_cnt);
 			call_user_func_array(array($this, $SCname), $SCargs);
 		}else{
-			trigger_error("Class: $SCname No Legacy Constructor.\n");
+			// @codeCoverageIgnoreStart
+			// Should never execute.
+			trigger_error( // Will need to add this message to the TD.
+				"Class: $SCname No Legacy Constructor.\n",
+				E_USER_ERROR
+			);
+			// @codeCoverageIgnoreEnd
 		}
 	}
 	function UDPPortCriteria(
@@ -1404,7 +1458,13 @@ class UDPFieldCriteria extends ProtocolFieldCriteria {
 			$SCargs = array(&$db, &$cs, $export_name, $element_cnt);
 			call_user_func_array(array($this, $SCname), $SCargs);
 		}else{
-			trigger_error("Class: $SCname No Legacy Constructor.\n");
+			// @codeCoverageIgnoreStart
+			// Should never execute.
+			trigger_error( // Will need to add this message to the TD.
+				"Class: $SCname No Legacy Constructor.\n",
+				E_USER_ERROR
+			);
+			// @codeCoverageIgnoreEnd
 		}
 	}
 	function UDPFieldCriteria(
@@ -1451,7 +1511,13 @@ class ICMPFieldCriteria extends ProtocolFieldCriteria {
 			$SCargs = array(&$db, &$cs, $export_name, $element_cnt);
 			call_user_func_array(array($this, $SCname), $SCargs);
 		}else{
-			trigger_error("Class: $SCname No Legacy Constructor.\n");
+			// @codeCoverageIgnoreStart
+			// Should never execute.
+			trigger_error( // Will need to add this message to the TD.
+				"Class: $SCname No Legacy Constructor.\n",
+				E_USER_ERROR
+			);
+			// @codeCoverageIgnoreEnd
 		}
 	}
 	function ICMPFieldCriteria(
@@ -1557,7 +1623,13 @@ class DataCriteria extends MultipleElementCriteria {
 			$SCargs = array(&$db, &$cs, $export_name, $element_cnt);
 			call_user_func_array(array($this, $SCname), $SCargs);
 		}else{
-			trigger_error("Class: $SCname No Legacy Constructor.\n");
+			// @codeCoverageIgnoreStart
+			// Should never execute.
+			trigger_error( // Will need to add this message to the TD.
+				"Class: $SCname No Legacy Constructor.\n",
+				E_USER_ERROR
+			);
+			// @codeCoverageIgnoreEnd
 		}
 	}
 	function DataCriteria(
