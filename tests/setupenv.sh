@@ -128,7 +128,7 @@ fi
 
 if [ "$1" == "" ] && [ "$TRAVIS" == "true" ]; then
 	mkdir -p build/adodb
-	if [ "$pvM" \>= "7" ]; then
+	if [ "$pvM" \< "7" ]; then
 		ADODBVer=5.19
 	else
 		ADODBVer=5.19
