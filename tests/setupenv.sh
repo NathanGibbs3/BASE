@@ -147,7 +147,7 @@ elif [ "$pvM" \> "4" ]; then # PHP 5x
 		# Sourceforge Version
 		ADOSrc=sourceforge.net/projects/adodb
 #		ADODBVer=495 // Works
-		ADODBVer=493
+		ADODBVer=493a
 		ADODl=files/adodb-php-4-and-5
 		ADOFilePfx="adodb-$ADODBVer-for-php/adodb"
 		ADOFileSfx=.tgz
