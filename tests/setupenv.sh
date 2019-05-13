@@ -9,7 +9,7 @@ fi
 
 if  [ "$1" == "" ]; then
 	td=`pwd|sed -e "s/^.*\///"`
-	pv=phpver.php
+	pv=phpver
 	if [ "$td" == "tests" ]; then
 		pv="./$pv"
 	else
@@ -18,7 +18,7 @@ if  [ "$1" == "" ]; then
 	if [ "$TRAVIS" != "true" ]; then
 		if which php > /dev/null; then
 			if [ -a $pv ]; then
-				puv=`php $pv`
+				puv=`$pv`
 				bail=0
 			else
 				echo "Not Running in Local test environment."
@@ -109,7 +109,7 @@ if [ "$Composer" \< "1" ]; then # Can we install it?
 fi
 
 echo -n "PHP Coveralls "
-if [ "$Composer" \< "1" ]; then
+if [ "$Composer" \< "1" ] || ( [ "$pvM" == "5" ] && [ "$pvm" \< "3" ] ); then
 	echo "not supported."
 	if [ "$1" == "" ] && [ "$TRAVIS" == "true" ]; then
 		export Coveralls=0
@@ -149,7 +149,7 @@ elif [ "$pvM" \> "4" ]; then # PHP 5x
 		ADOSrc=sourceforge.net/projects/adodb
 		ADODl=files/adodb-php-4-and-5
 		ADOFileSfx=.tgz
-		if [ "ADODBVer" == "494" ]; then
+		if [ "$ADODBVer" == "494" ]; then
 			# V 494 weirdness :-)
 			ADOFilePfx="adodb-$ADODBVer-for-php4-and-5/adodb"
 		else
