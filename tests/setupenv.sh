@@ -137,7 +137,7 @@ if [ "$1" == "" ] && [ "$TRAVIS" == "true" ]; then
 			ADODBVer=5.09
 		else
 			ADODBVer=5.01beta
-		}
+		fi
 		export ADODBPATH="ADOdb-$ADODBVer/phplens/adodb5"
 	else # PHP 4x
 		ADODBVer=5.01beta
