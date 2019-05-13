@@ -126,26 +126,55 @@ else
 	fi
 fi
 
+# Setup ADODB
+# GitHub Source Setup
+ADOSrc=github.com/ADOdb/ADOdb
+ADODl=archive
+ADOFilePfx=v
+ADOFileSfx=.tar.gz
+if [ "$pvM" \> "5" ]; then # PHP 7x
+	ADODBVer=5.20.0
+	if [ "$1" == "" ] && [ "$TRAVIS" == "true" ]; then
+		export ADODBPATH="ADOdb-$ADODBVer"
+	fi
+elif [ "$pvM" \> "4" ]; then # PHP 5x
+	if [ "$pvm" \> "3" ]; then # PHP 5.4+
+		ADODBVer=5.10
+		if [ "$1" == "" ] && [ "$TRAVIS" == "true" ]; then
+			export ADODBPATH="ADOdb-$ADODBVer/phplens/adodb5"
+		fi
+	else
+		# Sourceforge Version
+		ADOSrc=sourceforge.net/projects/adodb
+		ADODBVer=480
+		ADODl=files/adodb-php-4-and-5
+		ADOFilePfx="adodb-4.80-for-php/adodb"
+		ADOFileSfx=.tgz
+		if [ "$1" == "" ] && [ "$TRAVIS" == "true" ]; then
+			export ADODBPATH="adodb"
+		fi
+		# GitHub Version
+		# ADOSrc=github.com/ADOdb/ADOdb
+		# ADODl=archive
+		# ADOFilePfx=v
+		# ADOFileSfx=.tar.gz
+		# ADODBVer=5.01beta
+		# export ADODBPATH="ADOdb-$ADODBVer/phplens/adodb5"
+	fi
+else # PHP 4x
+	ADODBVer=5.01beta
+	if [ "$1" == "" ] && [ "$TRAVIS" == "true" ]; then
+			export ADODBPATH="ADOdb-$ADODBVer/phplens/adodb"
+	fi
+fi
+ADOFile=$ADOFilePfx$ADODBVer$ADOFileSfx
+echo "Setup PHP ADODB: $ADODBVer from: https://$ADOSrc"
 if [ "$1" == "" ] && [ "$TRAVIS" == "true" ]; then
 	mkdir -p build/adodb
-	ADOSrc=github.com/ADOdb/ADOdb
-	if [ "$pvM" \> "5" ]; then # PHP 7x
-		ADODBVer=5.20.0
-		export ADODBPATH="ADOdb-$ADODBVer"
-	elif [ "$pvM" \> "4" ]; then # PHP 5x
-		if [ "$pvm" \> "3" ]; then # PHP 5.4+
-			ADODBVer=5.09
-		else
-			ADODBVer=5.01beta
-		fi
-		export ADODBPATH="ADOdb-$ADODBVer/phplens/adodb5"
-	else # PHP 4x
-		ADODBVer=5.01beta
-		export ADODBPATH="ADOdb-$ADODBVer/phplens/adodb"
-	fi
-	echo "Setup PHP ADODB: $ADODBVer from: https://$ADOSrc"
-	wget https://$ADOSrc/archive/v$ADODBVer.tar.gz -O build/adodb.tgz
+	wget https://$ADOSrc/$ADODl/$ADOFile -O build/adodb.tgz
 	tar -C build/adodb -zxf build/adodb.tgz
+else
+	echo "Would Download https://$ADOSrc/$ADODl/$ADOFile"
 fi
 
 if [ "$1" == "" ]; then
