@@ -41,15 +41,14 @@ class state_citemsSPTest extends TestCase {
 			"Class for $ll not created."
 		);
 		// Setup DB System.
-		// Default Debian/Ubuntu location.
-		$DBlib_path = '/usr/share/php/adodb';
-		$DB = getenv('DB');
 		$TRAVIS = getenv('TRAVIS');
 		if (!$TRAVIS){ // Running on Local Test System.
+			// Default Debian/Ubuntu location.
+			$DBlib_path = '/usr/share/php/adodb';
 			require('../database.php');
 		}else{
-			$PHPV = GetPHPV();
-			if(version_compare($PHPV, '5.5', '>=')){
+//			$PHPV = GetPHPV();
+//			if(version_compare($PHPV, '5.5', '>=')){
 				// System Versions of ADODB on travis:
 				// When using mysql & running on PHP 5.5+
 				// Throws the following error:
@@ -66,9 +65,10 @@ class state_citemsSPTest extends TestCase {
 				}else{
 					$DBlib_path = "build/adodb/$ADO";
 				}
-			}else{
-				// Use System installed Version.
-			}
+//			}else{
+//				// Use System installed Version.
+//			}
+			$DB = getenv('DB');
 			if (!$DB){
 				self::markTestIncomplete('Unable to get DB Engine.');
 			}elseif ($DB == 'mysql' ){

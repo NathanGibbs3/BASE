@@ -126,25 +126,19 @@ else
 	fi
 fi
 
-echo -n "PHP ADODB "
-if [ "$pvM" \> "5" ] || ( [ "$pvM" == "5" ] && [ "$pvm" \> "4" ]); then
-	echo "from:"
-	echo "https://github.com/ADOdb/ADOdb"
-	if [ "$1" == "" ] && [ "$TRAVIS" == "true" ]; then
-		mkdir -p build/adodb
-		wget https://github.com/ADOdb/ADOdb/archive/v5.17.tar.gz -O build/adodb.tgz
-		tar -C build/adodb -zxf build/adodb.tgz
-		# ADODB Version specific
-		export ADODBPATH='ADOdb-5.17/phplens/adodb5'
-	fi
-else
-	if [ "$1" == "" ] && [ "$TRAVIS" == "true" ]; then
-		echo "installed"
+if [ "$1" == "" ] && [ "$TRAVIS" == "true" ]; then
+	mkdir -p build/adodb
+	if [ "$pvM" \>= "7" ]; then
+		ADODBVer=5.19
 	else
-		echo "unknown"
+		ADODBVer=5.19
 	fi
+	echo -n "Setup PHP ADODB: $ADODBVer from: https://github.com/ADOdb/ADOdb"
+	wget https://github.com/ADOdb/ADOdb/archive/$ADODBVer.tar.gz -O build/adodb.tgz
+	tar -C build/adodb -zxf build/adodb.tgz
+	# ADODB Version specific
+	export ADODBPATH="ADOdb-$ADODBVer"
 fi
-
 
 if [ "$1" == "" ]; then
 	if [ "$td" != "tests" ]; then

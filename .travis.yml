@@ -88,7 +88,6 @@ notifications:
 
 before_install:
   - sudo apt-get update > /dev/null
-  - sudo apt-get install -y libphp-adodb
   # Where to look if installed modules in PHP don't work. :-)
   # Like xdebug on PHP 5.2
   - php --ini
