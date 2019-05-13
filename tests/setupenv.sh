@@ -144,26 +144,21 @@ elif [ "$pvM" \> "4" ]; then # PHP 5x
 			export ADODBPATH="ADOdb-$ADODBVer/phplens/adodb5"
 		fi
 	else
-		# Sourceforge Version
-		ADOSrc=sourceforge.net/projects/adodb
-#		ADODBVer=495 // Works
 		ADODBVer=494
+		# Sourceforge Source Setup
+		ADOSrc=sourceforge.net/projects/adodb
 		ADODl=files/adodb-php-4-and-5
-		# Sourceforge standard
-		# ADOFilePfx="adodb-$ADODBVer-for-php/adodb"
-		# V 494 weirdness
-		ADOFilePfx="adodb-$ADODBVer-for-php4-and-5/adodb"
 		ADOFileSfx=.tgz
+		if [ "ADODBVer" == "494" ]; then
+			# V 494 weirdness :-)
+			ADOFilePfx="adodb-$ADODBVer-for-php4-and-5/adodb"
+		else
+			# Sourceforge standard
+			ADOFilePfx="adodb-$ADODBVer-for-php/adodb"
+		fi
 		if [ "$1" == "" ] && [ "$TRAVIS" == "true" ]; then
 			export ADODBPATH="adodb"
 		fi
-		# GitHub Version
-		# ADOSrc=github.com/ADOdb/ADOdb
-		# ADODl=archive
-		# ADOFilePfx=v
-		# ADOFileSfx=.tar.gz
-		# ADODBVer=5.01beta
-		# export ADODBPATH="ADOdb-$ADODBVer/phplens/adodb5"
 	fi
 else # PHP 4x
 	ADODBVer=5.01beta
