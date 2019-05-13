@@ -47,27 +47,12 @@ class state_citemsSPTest extends TestCase {
 			$DBlib_path = '/usr/share/php/adodb';
 			require('../database.php');
 		}else{
-//			$PHPV = GetPHPV();
-//			if(version_compare($PHPV, '5.5', '>=')){
-				// System Versions of ADODB on travis:
-				// When using mysql & running on PHP 5.5+
-				// Throws the following error:
-				// mysql_pconnect(): The mysql extension is deprecated and
-				// will be removed in the future: use mysqli or PDO instead.
-				//
-				// When running on PHP 7+, has Issue #7
-				// https://github.com/NathanGibbs3/BASE/issues/7
-				// Their problem, not ours, so we will try to use an
-				// installed from source version instead.
-				$ADO = getenv('ADODBPATH');
-				if (!$ADO) {
-					self::markTestIncomplete('Unable to setup ADODB');
-				}else{
-					$DBlib_path = "build/adodb/$ADO";
-				}
-//			}else{
-//				// Use System installed Version.
-//			}
+			$ADO = getenv('ADODBPATH');
+			if (!$ADO) {
+				self::markTestIncomplete('Unable to setup ADODB');
+			}else{
+				$DBlib_path = "build/adodb/$ADO";
+			}
 			$DB = getenv('DB');
 			if (!$DB){
 				self::markTestIncomplete('Unable to get DB Engine.');

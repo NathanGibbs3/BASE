@@ -128,16 +128,19 @@ fi
 
 if [ "$1" == "" ] && [ "$TRAVIS" == "true" ]; then
 	mkdir -p build/adodb
-	if [ "$pvM" \< "7" ]; then
-		ADODBVer=5.19
-	else
-		ADODBVer=5.19
+	if [ "$pvM" \> "5" ]; then # PHP 7x
+		ADODBVer=5.20.0
+		export ADODBPATH="ADOdb-$ADODBVer"
+	elif [ "$pvM" \> "4" ]; then # PHP 5x
+		ADODBVer=5.01beta
+		export ADODBPATH="ADOdb-$ADODBVer/phplens/adodb5"
+	else # PHP 4x
+		ADODBVer=5.01beta
+		export ADODBPATH="ADOdb-$ADODBVer/phplens/adodb"
 	fi
 	echo "Setup PHP ADODB: $ADODBVer from: https://github.com/ADOdb/ADOdb"
 	wget https://github.com/ADOdb/ADOdb/archive/v$ADODBVer.tar.gz -O build/adodb.tgz
 	tar -C build/adodb -zxf build/adodb.tgz
-	# ADODB Version specific
-	export ADODBPATH="ADOdb-$ADODBVer"
 fi
 
 if [ "$1" == "" ]; then
