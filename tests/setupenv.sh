@@ -149,7 +149,7 @@ elif [ "$pvM" \> "4" ]; then # PHP 5x
 		ADOSrc=sourceforge.net/projects/adodb
 		ADODl=files/adodb-php-4-and-5
 		ADOFileSfx=.tgz
-		if [ "ADODBVer" == "494" ]; then
+		if [ "$ADODBVer" == "494" ]; then
 			# V 494 weirdness :-)
 			ADOFilePfx="adodb-$ADODBVer-for-php4-and-5/adodb"
 		else
