@@ -26,7 +26,9 @@ class UILang{
 	var $Title;
 	var $ADA;
 	var $CPA;
+	var $CWA;
 	var $UAA;
+	var $Spacing;
 
 	function __construct($UILang) { // PHP 5+ constructor Shim.
 		// Class/Method agnostic shim code.
@@ -55,6 +57,16 @@ class UILang{
 			);
 			$UILang = 'english';
 			$TDF = "$BASE_path/languages/$UILang.lang.php";
+		}
+		// Set Spacing
+		if (
+			$UILang == 'chinese'
+			|| $UILang == 'japanese'
+			|| $UILang == 'simplified_chinese'
+		){
+			$this->$Spacing = 0;
+		}else{
+			$this->$Spacing = 1;
 		}
 		// Include Translation Data.
 		include_once($TDF);
