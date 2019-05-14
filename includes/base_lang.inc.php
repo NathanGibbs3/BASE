@@ -64,9 +64,9 @@ class UILang{
 			|| $UILang == 'japanese'
 			|| $UILang == 'simplified_chinese'
 		){
-			$this->$Spacing = 0;
+			$this->Spacing = 0;
 		}else{
-			$this->$Spacing = 1;
+			$this->Spacing = 1;
 		}
 		// Include Translation Data.
 		include_once($TDF);
