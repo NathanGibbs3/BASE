@@ -1,0 +1,48 @@
+{
+	"name": "nathangibbs3/base",
+	"type": "project",
+	"description": "A web app to query and analyze alerts coming from a SNORT IDS system.",
+	"keywords": [
+		"infosec",
+		"php",
+		"php5",
+		"php7"
+	],
+	"homepage": "https://github.com/NathanGibbs3/BASE",
+	"support": {
+		"forum": "https://sourceforge.net/p/secureideas/discussion",
+		"issues": "https://github.com/NathanGibbs3/BASE/issues",
+		"wiki": "https://sourceforge.net/p/secureideas/wiki/Home",
+		"docs": "https://github.com/NathanGibbs3/BASE/tree/master/docs",
+		"source": "https://github.com/NathanGibbs3/BASE"
+	},
+	"license": "GPL-2.0-only",
+	"authors": [
+		{
+			"name": "Roman Danyliw",
+			"role": "ACID Developer"
+		},
+		{
+			"name": "Kevin Johnson",
+			"role": "Original BASE Developer"
+		},
+		{
+			"name": "BASE project team",
+			"role": "BASE Developers & Contributors, pre 2010"
+		},
+		{
+			"name": "Nathan Gibbs",
+			"role": "Base Developer"
+		}
+	],
+	"require": {
+		"php": ">=4.0.4",
+		"pear/mail_mime": ">=1.5.2",
+		"pear/mail": ">=1.4.1"
+	},
+	"require-dev": {
+		"phpunit/phpunit": ">=4.8.19",
+		"php-coveralls/php-coveralls": "^2.1 || ^1.1",
+		"phpunit/phpcov": "^2.0"
+	}
+}

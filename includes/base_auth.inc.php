@@ -29,22 +29,36 @@
  **/
 defined( '_BASE_INC' ) or die( 'Accessing this file directly is not allowed.' );
 
-class BaseUser
-{
-    var $db;
-    
-    function BaseUser()
-    {
-        // Constructor
-        GLOBAL $DBlib_path, $DBtype, $db_connect_method, $alert_dbname, $alert_host,
-                            $alert_port, $alert_user, $alert_password;
-        $db = NewBASEDBConnection($DBlib_path, $DBtype);
-        $db->baseDBConnect($db_connect_method, $alert_dbname, $alert_host,
-                            $alert_port, $alert_user, $alert_password, 1);
-        $db->DB->SetFetchMode(ADODB_FETCH_BOTH);
-        $this->db = $db;
-    }
-    
+class BaseUser {
+	var $db;
+
+	function __construct() { // PHP 5+ constructor Shim.
+		// Class/Method agnostic shim code.
+		$SCname = get_class();
+		if ( method_exists($this, $SCname) ) {
+			$SCargs = func_get_args();
+			call_user_func_array(array($this, $SCname), $SCargs);
+		}else{
+			// @codeCoverageIgnoreStart
+			// Should never execute.
+			trigger_error( // Will need to add this message to the TD.
+				"Class: $SCname No Legacy Constructor.\n",
+				E_USER_ERROR
+			);
+			// @codeCoverageIgnoreEnd
+		}
+	}
+	function BaseUser() { // PHP 4x constructor.
+		GLOBAL $DBlib_path, $DBtype, $db_connect_method, $alert_dbname,
+		$alert_host, $alert_port, $alert_user, $alert_password;
+		$db = NewBASEDBConnection($DBlib_path, $DBtype);
+		$db->baseDBConnect(
+			$db_connect_method, $alert_dbname, $alert_host, $alert_port,
+			$alert_user, $alert_password, 1
+		);
+		$db->DB->SetFetchMode(ADODB_FETCH_BOTH);
+		$this->db = $db;
+	}
     function Authenticate($user, $pwd)
     {
         /* Accepts a username and a password
@@ -354,20 +368,35 @@ class BaseUser
     }
 }
 
-class BaseRole
-{
-    var $db;
-    
-    function BaseRole()
-    {
-        // Constructor
-        GLOBAL $DBlib_path, $DBtype, $db_connect_method, $alert_dbname, $alert_host,
-                            $alert_port, $alert_user, $alert_password;
-        $db = NewBASEDBConnection($DBlib_path, $DBtype);
-        $db->baseDBConnect($db_connect_method, $alert_dbname, $alert_host,
-                            $alert_port, $alert_user, $alert_password, 1);
-        $this->db = $db;
-    }
+class BaseRole {
+	var $db;
+
+	function __construct() { // PHP 5+ constructor Shim.
+		// Class/Method agnostic shim code.
+		$SCname = get_class();
+		if ( method_exists($this, $SCname) ) {
+			$SCargs = func_get_args();
+			call_user_func_array(array($this, $SCname), $SCargs);
+		}else{
+			// @codeCoverageIgnoreStart
+			// Should never execute.
+			trigger_error( // Will need to add this message to the TD.
+				"Class: $SCname No Legacy Constructor.\n",
+				E_USER_ERROR
+			);
+			// @codeCoverageIgnoreEnd
+		}
+	}
+	function BaseRole() { // PHP 4x constructor.
+		GLOBAL $DBlib_path, $DBtype, $db_connect_method, $alert_dbname,
+		$alert_host, $alert_port, $alert_user, $alert_password;
+		$db = NewBASEDBConnection($DBlib_path, $DBtype);
+		$db->baseDBConnect(
+			$db_connect_method, $alert_dbname, $alert_host, $alert_port,
+			$alert_user, $alert_password, 1
+		);
+		$this->db = $db;
+	}
     function addRole($roleid, $rolename, $desc)
     {
         //adds role

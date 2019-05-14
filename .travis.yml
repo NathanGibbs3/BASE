@@ -1,33 +1,115 @@
 ---
 language: php
 
-# blocklist
+# branch blocklist
 branches:
   except:
     - documentation
     - gh-ops
 
+# setup services
+services:
+  - mysql
+  - postgresql
+
+# setup specific postgresql version
+# addons:
+#  postgresql: "8.0"
+#  apt:
+#    packages:
+#    - postgresql-8.0
+#    - postgresql-client-8.0
+
+# Default matrix overlay.
 matrix:
   include:
-    - php: 5.2
-      dist: precise
+#    - php: 5.2
+#      dist: precise
+#      env: DB=mysql
+#    - php: 5.2
+#      dist: precise
+#      env: DB=postgres
     - php: 5.3
       dist: precise
+      env: DB=mysql
+    - php: 5.3
+      dist: precise
+      env: DB=postgres
     - php: 5.4
+      env: DB=mysql
+    - php: 5.4
+      env: DB=postgres
+    - php: 5.5
+      env: DB=mysql
+    - php: 5.5
+      env: DB=postgres
     - php: 5.6
+      env: DB=mysql
+    - php: 5.6
+      env: DB=postgres
     - php: 7.0
       if: branch != php5only
+      env: DB=mysql
+    - php: 7.0
+      if: branch != php5only
+      env: DB=postgres
     - php: 7.1
       if: branch != php5only
+      env: DB=mysql
+    - php: 7.1
+      if: branch != php5only
+      env: DB=postgres
     - php: 7.2
       if: branch != php5only
+      env: DB=mysql
+    - php: 7.2
+      if: branch != php5only
+      env: DB=postgres
     - php: 7.3
       if: branch != php5only
-    - php: nightly
+      env: DB=mysql
+    - php: 7.3
       if: branch != php5only
+      env: DB=postgres
+#    - php: nightly
+#      if: branch != php5only
+#      env: DB=mysql
+#    - php: nightly
+#      if: branch != php5only
+#      env: DB=postgres
+
+cache:
+  directories:
+    - $HOME/.composer/cache
+    - /tmp/pear/cache
+
+notifications:
+  webhooks: https://coveralls.io/webhook
 
 before_install:
   - sudo apt-get update > /dev/null
+  # Where to look if installed modules in PHP don't work. :-)
+  # Like xdebug on PHP 5.2
+  - php --ini
+  # What modules are actually installed
+  - php -m
+  # Setup Environment
+  - source ./tests/setupenv.sh
+
+install:
+  - pear install mail Mail_Mime
+  # Composer Support PHP 5.3.2+
+  - sh -c "if [ '$Composer' != '0' ]; then ./tests/composer.sh; fi"
+
+before_script:
 
 script:
+  - ./tests/setupdb.sh
+  - ./tests/utf-8lint.sh
+  - ./tests/phpunit.sh
   - php -f index.php
+
+after_success:
+  # Submit Reports to Code Coverage services.
+  - ./tests/sccr.sh
+...

@@ -55,33 +55,27 @@ echo '
   <TR>
       <TD COLSPAN=2>
            <B>'._SENSOR.': </B>';
-     $cs->criteria['sensor']->PrintForm();
-
+$cs->criteria['sensor']->PrintForm('','','');
      echo '<B>'._ALERTGROUP.': </B>';
-     $cs->criteria['ag']->PrintForm();
+$cs->criteria['ag']->PrintForm('','','');
      echo '</TD>';
 
      echo '<TR>
             <TD><B>'._SIGNATURE.': </B></TD>
            <TD>';  
-
-     $cs->criteria['sig']->PrintForm();
-
-     if ( $db->baseGetDBversion() >= 103 )
-     {
-        echo '<B>'._CHRTCLASS.': </B>';
-        $cs->criteria['sig_class']->PrintForm();
-        echo '<B>'._PRIORITY.': </B>';
-        $cs->criteria['sig_priority']->PrintForm();
-     }     
-
+$cs->criteria['sig']->PrintForm('','','');
+if ( $db->baseGetDBversion() >= 103 ) {
+	echo '<B>'._CHRTCLASS.': </B>';
+	$cs->criteria['sig_class']->PrintForm('','','');
+	echo '<B>'._PRIORITY.': </B>';
+	$cs->criteria['sig_priority']->PrintForm('','','');
+}
      echo '</TD></TR>';    
 
 echo '<TR>
       <TD><B>'._ALERTTIME.':</B></TD>
       <TD>';
-      $cs->criteria['time']->PrintForm();    
-      
+$cs->criteria['time']->PrintForm('','','');
         echo '
 </TABLE>
 <ul id="zMenu">';
@@ -101,20 +95,14 @@ echo '<TR>
 <TABLE WIDTH="90%" BORDER=2 class="query">';
       echo '<TR><TD VALIGN=TOP><B>'._ADDRESS.':</B>';  
       echo '    <TD>';
-
-      $cs->criteria['ip_addr']->PrintForm();
-
+$cs->criteria['ip_addr']->PrintForm('','','');
       echo '<TR><TD><B>'._MISC.':</B>';
       echo '    <TD>';
-
-      $cs->criteria['ip_field']->PrintForm();
-
+$cs->criteria['ip_field']->PrintForm('','','');
    echo '
    <TR><TD><B>Layer-4:</B>
        <TD>';
-
-   $cs->criteria['layer4']->PrintForm();
-   
+$cs->criteria['layer4']->PrintForm('','','');
 echo '
    </TABLE>
       </ul>
@@ -139,17 +127,14 @@ if ( $cs->criteria['layer4']->Get() == "TCP" )
 
       echo '<TR><TD><B>'._PORT.':</B>';
       echo '    <TD>';
-      $cs->criteria['tcp_port']->PrintForm();
-
+	$cs->criteria['tcp_port']->PrintForm('','','');
   echo '
   <TR>
       <TD VALIGN=TOP><B>'._FLAGS.':</B>';
-      $cs->criteria['tcp_flags']->PrintForm();
-
+	$cs->criteria['tcp_flags']->PrintForm('','','');
       echo '<TR><TD><B>'._MISC.':</B>';
       echo '    <TD>';
-      $cs->criteria['tcp_field']->PrintForm();
-
+	$cs->criteria['tcp_field']->PrintForm('','','');
   echo'
 </TABLE>         
 </ul>
@@ -175,11 +160,10 @@ if ( $cs->criteria['layer4']->Get() == "UDP" )
 
       echo '<TR><TD><B>'._PORT.':</B>';
       echo '    <TD>';
-      $cs->criteria['udp_port']->PrintForm();
-
+	$cs->criteria['udp_port']->PrintForm('','','');
       echo '<TR><TD><B>'._MISC.':</B>';
       echo '    <TD>';
-      $cs->criteria['udp_field']->PrintForm();
+	$cs->criteria['udp_field']->PrintForm('','','');
   echo'
 </TABLE>
 </ul>
@@ -208,7 +192,7 @@ if ( $cs->criteria['layer4']->Get() == "ICMP" )
 
       echo '<TR><TD><B>'._MISC.':</B>';
       echo '    <TD>';
-      $cs->criteria['icmp_field']->PrintForm();
+	$cs->criteria['icmp_field']->PrintForm('','','');
    echo '
 </TABLE>
 </ul>
@@ -231,8 +215,7 @@ echo '
 <TABLE WIDTH="90%" BORDER=2 class="query">
   <TR>
       <TD>';
-      $cs->criteria['data']->PrintForm();
-
+	$cs->criteria['data']->PrintForm('','','');
         echo '
 </TABLE>
 </ul>

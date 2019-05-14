@@ -22,23 +22,46 @@
  **/
 defined( '_BASE_INC' ) or die( 'Accessing this file directly is not allowed.' );
 
-class BaseCriteria
-{
-   var $criteria;
-   var $export_name;
+class BaseCriteria {
+	var $criteria;
+	var $export_name;
+	var $db;
+	var $cs;
+	// Placeholders to support function overrides.
+	var $value;
+	var $value1;
+	var $value2;
+	var $value3;
 
-   var $db;
-   var $cs;
-
-   function BaseCriteria(&$db, &$cs, $name)
-   { 
-     $this->db =& $db;
-     $this->cs =& $cs;
-
-     $this->export_name = $name;
-     $this->criteria = NULL;
-   }
-
+	function __construct(&$db, &$cs, $name) { // PHP 5+ constructor Shim.
+		// Class/Method agnostic shim code.
+		$SCname = get_class();
+		if ( method_exists($this, $SCname) ) {
+			$SCargs = func_get_args();
+			// Custom non agnostic shim line for pass by refs.
+			$SCargs = array(&$db, &$cs, $name);
+			call_user_func_array(array($this, $SCname), $SCargs);
+		}else{
+			// @codeCoverageIgnoreStart
+			// Should never execute.
+			trigger_error( // Will need to add this message to the TD.
+				"Class: $SCname No Legacy Constructor.\n",
+				E_USER_ERROR
+			);
+			// @codeCoverageIgnoreEnd
+		}
+	}
+	function BaseCriteria(&$db, &$cs, $name) { // PHP 4x constructor.
+		$this->db =& $db;
+		$this->cs =& $cs;
+		$this->export_name = $name;
+		$this->criteria = NULL;
+		// NULL Placeholders.
+		$this->value = NULL;
+		$this->value1 = NULL;
+		$this->value2 = NULL;
+		$this->value3 = NULL;
+	}
    function Init()
    { 
    }
@@ -57,32 +80,22 @@ class BaseCriteria
    {
      /* clean/validate the criteria */
    }
-
-   function SanitizeElement()
-   {
-     /* clean/validate the criteria */
-   }
- 
-   function PrintForm()
-   {
-     /* prints the HTML form to input the criteria */
-   }
-
-   function AddFormItem()
-   {
-     /* adding another item to the HTML form  */
-   }
-
+	function SanitizeElement($value) {
+		/* clean/validate the criteria */
+	}
+	function PrintForm($value1, $value2, $value3) {
+		/* prints the HTML form to input the criteria */
+	}
+	function AddFormItem(&$value1, $value2) {
+		/* adding another item to the HTML form  */
+	}
    function GetFormItemCnt()
    {
      /* returns the number of items in this form element  */
-   }   
-
-   function SetFormItemCnt()
-   {
-     /* sets the number of items in this form element */
    }
- 
+	function SetFormItemCnt($value) {
+		/* sets the number of items in this form element */
+	}
    function Set($value)
    {
      /* set the value of this criteria */
@@ -97,12 +110,9 @@ class BaseCriteria
    {
      /* convert this criteria to SQL */
    }
- 
-   function Description()
-   {
-     /* generate human-readable description of this criteria */
-   }
-
+	function Description($value) {
+		/* generate human-readable description of this criteria */
+	}
    function isEmpty()
    {
      /* returns if the criteria is empty */
@@ -117,12 +127,9 @@ class SingleElementCriteria extends BaseCriteria
 
       $_SESSION[$this->export_name] = &$this->criteria;
    }
-
-   function Sanitize()
-   {
-      $this->SanitizeElement(); 
-   }
-
+	function Sanitize() {
+		$this->SanitizeElement('');
+	}
    function GetFormItemCnt()
    {
       return -1;
@@ -146,24 +153,43 @@ class SingleElementCriteria extends BaseCriteria
    }
 };
 
-class MultipleElementCriteria extends BaseCriteria
-{
-   var $element_cnt;
-   var $criteria_cnt;
-   var $valid_field_list = Array();
+class MultipleElementCriteria extends BaseCriteria {
+	var $element_cnt;
+	var $criteria_cnt;
+	var $valid_field_list = Array();
 
-   function MultipleElementCriteria(&$db, &$cs, $export_name, $element_cnt, $field_list = Array() )
-   {
-	$tdb =& $db;
-	$cs =& $cs;
-
-      $this->BaseCriteria($tdb, $cs, $export_name);
-
-      $this->element_cnt = $element_cnt;
-      $this->criteria_cnt = 0;
-      $this->valid_field_list = $field_list;
-   }
-
+	function __construct(
+		&$db, &$cs, $export_name, $element_cnt, $field_list = Array()
+	) { // PHP 5+ constructor Shim.
+		// Class/Method agnostic shim code.
+		$SCname = get_class();
+		if ( method_exists($this, $SCname) ) {
+			$SCargs = func_get_args();
+			// Custom non agnostic shim lines for pass by refs.
+			$SCargs = array(
+				&$db, &$cs, $export_name, $element_cnt, $field_list = Array()
+			);
+			call_user_func_array(array($this, $SCname), $SCargs);
+		}else{
+			// @codeCoverageIgnoreStart
+			// Should never execute.
+			trigger_error( // Will need to add this message to the TD.
+				"Class: $SCname No Legacy Constructor.\n",
+				E_USER_ERROR
+			);
+			// @codeCoverageIgnoreEnd
+		}
+	}
+	function MultipleElementCriteria(
+		&$db, &$cs, $export_name, $element_cnt, $field_list = Array()
+	) { // PHP 4x constructor.
+		$tdb =& $db;
+		$cs =& $cs;
+		$this->BaseCriteria($tdb, $cs, $export_name);
+		$this->element_cnt = $element_cnt;
+		$this->criteria_cnt = 0;
+		$this->valid_field_list = $field_list;
+	}
    function Init()
    {
       InitArray($this->criteria, $GLOBALS['MAX_ROWS'], $this->element_cnt, "");
@@ -291,19 +317,38 @@ class MultipleElementCriteria extends BaseCriteria
    }
 };
 
-class ProtocolFieldCriteria extends MultipleElementCriteria
-{
-	function ProtocolFieldCriteria(&$db, &$cs, $export_name, $element_cnt, $field_list = Array() )
-	{
+class ProtocolFieldCriteria extends MultipleElementCriteria {
+	function __construct(
+		&$db, &$cs, $export_name, $element_cnt, $field_list = Array()
+	) { // PHP 5+ constructor Shim.
+		// Class/Method agnostic shim code.
+		$SCname = get_class();
+		if ( method_exists($this, $SCname) ) {
+			$SCargs = func_get_args();
+			// Custom non agnostic shim lines for pass by refs.
+			$SCargs = array(
+				&$db, &$cs, $export_name, $element_cnt, $field_list = Array()
+			);
+			call_user_func_array(array($this, $SCname), $SCargs);
+		}else{
+			// @codeCoverageIgnoreStart
+			// Should never execute.
+			trigger_error( // Will need to add this message to the TD.
+				"Class: $SCname No Legacy Constructor.\n",
+				E_USER_ERROR
+			);
+			// @codeCoverageIgnoreEnd
+		}
+	}
+	function ProtocolFieldCriteria(
+		&$db, &$cs, $export_name, $element_cnt, $field_list = Array()
+	) { // PHP 4x constructor.
 		$tdb =& $db;
 		$cs =& $cs;
-
-		$this->MultipleElementCriteria($tdb, $cs, $export_name, $element_cnt, $field_list);
-
+		$this->MultipleElementCriteria(
+			$tdb, $cs, $export_name, $element_cnt, $field_list
+		);
 	}
-
-
-
    function SanitizeElement($i)
    { 
       // Make a copy of the element array
@@ -336,32 +381,39 @@ class ProtocolFieldCriteria extends MultipleElementCriteria
    }
 }
 
+class SignatureCriteria extends SingleElementCriteria {
+// $sig[4]: stores signature
+//   - [0] : exactly, roughly
+//   - [1] : signature
+//   - [2] : =, !=
+//   - [3] : signature from signature list
+	var $sig_type;
+	var $criteria = array(0 => '', 1 => '');
 
-
-
-class SignatureCriteria extends SingleElementCriteria
-{
-/*
- * $sig[4]: stores signature
- *   - [0] : exactly, roughly
- *   - [1] : signature
- *   - [2] : =, !=
- *   - [3] : signature from signature list
- */
-
-   var $sig_type;
-   var $criteria = array(0 => '', 1 => '');
-
-   function SignatureCriteria(&$db, &$cs, $export_name)
-   {
-	$tdb =& $db;
-	$cs =& $cs;
-
-      $this->BaseCriteria($tdb, $cs, $export_name);
-
-      $this->sig_type = "";
-   }
-
+	function __construct(&$db, &$cs, $export_name) { // PHP 5+ constructor Shim.
+		// Class/Method agnostic shim code.
+		$SCname = get_class();
+		if ( method_exists($this, $SCname) ) {
+			$SCargs = func_get_args();
+			// Custom non agnostic shim line for pass by refs.
+			$SCargs = array(&$db, &$cs, $export_name);
+			call_user_func_array(array($this, $SCname), $SCargs);
+		}else{
+			// @codeCoverageIgnoreStart
+			// Should never execute.
+			trigger_error( // Will need to add this message to the TD.
+				"Class: $SCname No Legacy Constructor.\n",
+				E_USER_ERROR
+			);
+			// @codeCoverageIgnoreEnd
+		}
+	}
+	function SignatureCriteria(&$db, &$cs, $export_name) { // PHP 4x constructor.
+		$tdb =& $db;
+		$cs =& $cs;
+		$this->BaseCriteria($tdb, $cs, $export_name);
+		$this->sig_type = "";
+	}
    function Init()
    {      
       InitArray($this->criteria, 4, 0, "");
@@ -380,9 +432,7 @@ class SignatureCriteria extends SingleElementCriteria
    function Clear()
    {
    }
-
-   function SanitizeElement()
-   {
+	function SanitizeElement($value) {
       if (!isset($this->criteria[0]) || !isset($this->criteria[1])) {
           $this->criteria = array(0 => '', 1 => '');
       }
@@ -391,10 +441,8 @@ class SignatureCriteria extends SingleElementCriteria
       $this->criteria[1] = filterSql(@$this->criteria[1]); /* signature name */
       $this->criteria[2] = CleanVariable(@$this->criteria[2], "", array("=", "!="));
       $this->criteria[3] = filterSql(@$this->criteria[3]); /* signature name from the signature list */
-   }
-
-   function PrintForm()
-   {
+	}
+	function PrintForm($value1, $value2, $value3) {
       if (!@is_array($this->criteria))
         $this->criteria = array();
 
@@ -431,15 +479,11 @@ class SignatureCriteria extends SingleElementCriteria
          }
          echo '</SELECT><BR>';
       }
-      
-   } 
-
+	}
    function ToSQL()
    {
    }
-
-   function Description()
-   {
+	function Description($value) {
       $tmp = $tmp_human = "";
 
 
@@ -494,7 +538,7 @@ class SignatureCriteria extends SingleElementCriteria
       }
       
       return $tmp;
-   }
+	}
 };  /* SignatureCriteria */
 
 
@@ -510,14 +554,10 @@ class SignatureClassificationCriteria extends SingleElementCriteria
    {
     /* clears the criteria */
    }
-
-   function SanitizeElement()
-   {
-      $this->criteria = CleanVariable($this->criteria, VAR_DIGIT);
-   }
-
-   function PrintForm()
-   {
+	function SanitizeElement($value) {
+		$this->criteria = CleanVariable($this->criteria, VAR_DIGIT);
+	}
+	function PrintForm($value1, $value2, $value3) {
      if ( $this->db->baseGetDBversion() >= 103 )
      {
 
@@ -536,16 +576,13 @@ class SignatureClassificationCriteria extends SingleElementCriteria
            $tmp_result->baseFreeRows();
         }
         echo '</SELECT>&nbsp;&nbsp';
-     }     
-   }
-
+     }
+	}
    function ToSQL()
    {
     /* convert this criteria to SQL */
    }
-
-   function Description()
-   {
+	function Description($value) {
       $tmp = "";
 
       if ( $this->db->baseGetDBversion() >= 103 )
@@ -563,7 +600,7 @@ class SignatureClassificationCriteria extends SingleElementCriteria
       }
 
       return $tmp;
-   }
+	}
 };  /* SignatureClassificationCriteria */
 
 class SignaturePriorityCriteria extends SingleElementCriteria
@@ -578,19 +615,15 @@ class SignaturePriorityCriteria extends SingleElementCriteria
    {
     /* clears the criteria */
    }
-
-   function SanitizeElement()
-   {
+	function SanitizeElement($value) {
      if (!isset($this->criteria[0]) || !isset($this->criteria[1])) {
          $this->criteria = array(0 => '', 1 => '');
      }
 
       $this->criteria[0] = CleanVariable(@$this->criteria[0], "", array("=", "!=", "<", "<=", ">", ">="));
       $this->criteria[1] = CleanVariable(@$this->criteria[1], VAR_DIGIT);
-   }
-
-   function PrintForm()
-   {
+	}
+	function PrintForm($value1, $value2, $value3) {
      if ( $this->db->baseGetDBversion() >= 103 )
      {
   		if (!@is_array($this->criteria))                 
@@ -619,16 +652,13 @@ class SignaturePriorityCriteria extends SingleElementCriteria
             $tmp_result->baseFreeRows();
         }
         echo '</SELECT>&nbsp;&nbsp';
-      }     
-    }
- 
+      }
+	}
     function ToSQL()
     {
     /* convert this criteria to SQL */
     }
- 
-    function Description()
-    {
+	function Description($value) {
        $tmp = "";
        if (!isset($this->criteria[1])) {
            $this->criteria = array(0 => '', 1 => '');
@@ -648,9 +678,9 @@ class SignaturePriorityCriteria extends SingleElementCriteria
        }
  
        return $tmp;
-    }
- };  /* SignaturePriorityCriteria */
- 
+	}
+};  /* SignaturePriorityCriteria */
+
 class AlertGroupCriteria extends SingleElementCriteria
 {
    function Init()
@@ -662,15 +692,10 @@ class AlertGroupCriteria extends SingleElementCriteria
    {
     /* clears the criteria */
    }
-
-   function SanitizeElement()
-   {
-      $this->criteria = CleanVariable($this->criteria, VAR_DIGIT);
-   }
-
-   function PrintForm()
-   {
-
+	function SanitizeElement($value) {
+		$this->criteria = CleanVariable($this->criteria, VAR_DIGIT);
+	}
+	function PrintForm($value1, $value2, $value3) {
       echo '<SELECT NAME="ag">
              <OPTION VALUE=" " '.chk_select($this->criteria, " ").'>'._DISPANYAG;
 
@@ -685,15 +710,12 @@ class AlertGroupCriteria extends SingleElementCriteria
          $tmp_result->baseFreeRows();
       }
       echo '</SELECT>&nbsp;&nbsp;';
-   }
-
+	}
    function ToSQL()
    {
     /* convert this criteria to SQL */
    }
-
-   function Description()
-   {
+	function Description($value) {
       $tmp = "";
 
       if ( $this->criteria != " " && $this->criteria != "" )
@@ -701,7 +723,7 @@ class AlertGroupCriteria extends SingleElementCriteria
                     $this->cs->GetClearCriteriaString($this->export_name).'<BR>';
 
       return $tmp;
-   }
+	}
 };  /* AlertGroupCriteria */
 
 class SensorCriteria extends SingleElementCriteria
@@ -715,15 +737,11 @@ class SensorCriteria extends SingleElementCriteria
    {
      /* clears the criteria */
    }
- 
-   function SanitizeElement()
-   {
-      $this->criteria = CleanVariable($this->criteria, VAR_DIGIT);
-   }
- 
-   function PrintForm()
-   {
-			GLOBAL $debug_mode;
+	function SanitizeElement($value) {
+		$this->criteria = CleanVariable($this->criteria, VAR_DIGIT);
+	}
+	function PrintForm($value1, $value2, $value3) {
+		GLOBAL $debug_mode;
 
 
       // How many sensors do we have?
@@ -784,15 +802,12 @@ class SensorCriteria extends SingleElementCriteria
       $tmp_result->baseFreeRows();
 
       echo '</SELECT>&nbsp;&nbsp';
-   }
- 
+	}
    function ToSQL()
    {
      /* convert this criteria to SQL */
    }
- 
-   function Description()
-   {
+	function Description($value) {
      $tmp = "";
 
      if ( $this->criteria != " " && $this->criteria != "" )
@@ -801,7 +816,7 @@ class SensorCriteria extends SingleElementCriteria
                $this->cs->GetClearCriteriaString($this->export_name).'<BR>';
 
       return $tmp;
-   }
+	}
 };  /* SensorCriteria */
 
 class TimeCriteria extends MultipleElementCriteria
@@ -840,9 +855,7 @@ class TimeCriteria extends MultipleElementCriteria
       // Destroy the old copy
       unset($curArr);
    }
- 
-   function PrintForm()
-   {
+	function PrintForm($value1, $value2, $value3) {
       for ( $i = 0; $i < $this->criteria_cnt; $i++ )
       {
 		if (!@is_array($this->criteria[$i]))
@@ -889,15 +902,12 @@ class TimeCriteria extends MultipleElementCriteria
             echo '    <INPUT TYPE="submit" NAME="submit" VALUE="'._ADDTIME.'">';
          echo '<BR>';
       }
-   }
-
+	}
    function ToSQL()
    {
      /* convert this criteria to SQL */
    }
- 
-   function Description()
-   {
+	function Description($value) {
      $tmp = "";
      for ($i = 0; $i < $this->criteria_cnt; $i++)
      {
@@ -928,33 +938,53 @@ class TimeCriteria extends MultipleElementCriteria
        $tmp = $tmp.$this->cs->GetClearCriteriaString($this->export_name);
 
      return $tmp;
-   }
+	}
 };  /* TimeCriteria */
 
-class IPAddressCriteria extends MultipleElementCriteria 
-{
-/*
- * $ip_addr[MAX][10]: stores an ip address parameters/operators row
- *  - [][0] : (                          [][5] : octet3 of address
- *  - [][1] : source, dest               [][6] : octet4 of address
- *  - [][2] : =, !=                      [][7] : network mask
- *  - [][3] : octet1 of address          [][8] : (, )
- *  - [][4] : octet2 of address          [][9] : AND, OR
- *
- * $ip_addr_cnt: number of rows in the $ip_addr[][] structure
- */
+class IPAddressCriteria extends MultipleElementCriteria {
+// * $ip_addr[MAX][10]: stores an ip address parameters/operators row
+//  - [][0] : (                          [][5] : octet3 of address
+//  - [][1] : source, dest               [][6] : octet4 of address
+//  - [][2] : =, !=                      [][7] : network mask
+//  - [][3] : octet1 of address          [][8] : (, )
+//  - [][4] : octet2 of address          [][9] : AND, OR
+//
+// $ip_addr_cnt: number of rows in the $ip_addr[][] structure
 
-   function IPAddressCriteria(&$db, &$cs, $export_name, $element_cnt)
-   {
-	$tdb =& $db;
-	$cs =& $cs;
-
-      parent::MultipleElementCriteria($tdb, $cs, $export_name, $element_cnt,
-                                      array ("ip_src" => _SOURCE,
-                                             "ip_dst" => _DEST,
-                                             "ip_both" => _SORD));
-   }
-
+	function __construct(
+		&$db, &$cs, $export_name, $element_cnt
+	) { // PHP 5+ constructor Shim.
+		// Class/Method agnostic shim code.
+		$SCname = get_class();
+		if ( method_exists($this, $SCname) ) {
+			$SCargs = func_get_args();
+			// Custom non agnostic shim line for pass by refs.
+			$SCargs = array(&$db, &$cs, $export_name, $element_cnt);
+			call_user_func_array(array($this, $SCname), $SCargs);
+		}else{
+			// @codeCoverageIgnoreStart
+			// Should never execute.
+			trigger_error( // Will need to add this message to the TD.
+				"Class: $SCname No Legacy Constructor.\n",
+				E_USER_ERROR
+			);
+			// @codeCoverageIgnoreEnd
+		}
+	}
+	function IPAddressCriteria(
+		&$db, &$cs, $export_name, $element_cnt
+	) { // PHP 4x constructor.
+		$tdb =& $db;
+		$cs =& $cs;
+		parent::MultipleElementCriteria(
+			$tdb, $cs, $export_name, $element_cnt,
+			array (
+				"ip_src" => _SOURCE,
+				"ip_dst" => _DEST,
+				"ip_both" => _SORD
+			)
+		);
+	}
    function Import()
    {
       parent::Import();      
@@ -982,10 +1012,8 @@ class IPAddressCriteria extends MultipleElementCriteria
    {
      /* clears the criteria */
    }
- 
-   function SanitizeElement()
-   { 
-	$i = 0;
+	function SanitizeElement($value) {
+		$i = 0;
       // Make copy of old element array
       $curArr = $this->criteria[$i];
       // Sanitize element
@@ -1001,10 +1029,8 @@ class IPAddressCriteria extends MultipleElementCriteria
       $this->criteria[$i][9] = @CleanVariable($curArr[9], "", array("AND", "OR"));
       // Destroy copy
       unset($curArr);
-   }
- 
-   function PrintForm()
-   {
+	}
+	function PrintForm($value1, $value2, $value3) {
       for ( $i = 0; $i < $this->criteria_cnt; $i++ )
       {
 		if (!is_array(@$this->criteria[$i]))
@@ -1043,15 +1069,12 @@ class IPAddressCriteria extends MultipleElementCriteria
           echo '    <INPUT TYPE="submit" NAME="submit" VALUE="'._ADDADDRESS.'">';
         echo '<BR>';
       }
-   }
- 
+	}
    function ToSQL()
    {
      /* convert this criteria to SQL */
    }
- 
-   function Description()
-   {
+	function Description($value) {
       $human_fields["ip_src"] = _SOURCE;
       $human_fields["ip_dst"] = _DEST;
       $human_fields["ip_both"] = _SORD;
@@ -1105,132 +1128,180 @@ class IPAddressCriteria extends MultipleElementCriteria
       }
 
       return $tmp2;
-   }
+	}
 };  /* IPAddressCriteria */
 
-class IPFieldCriteria extends ProtocolFieldCriteria
-{
-/*
- * $ip_field[MAX][6]: stores all other ip fields parameters/operators row
- *  - [][0] : (                            [][3] : field value
- *  - [][1] : TOS, TTL, ID, offset, length [][4] : (, )
- *  - [][2] : =, !=, <, <=, >, >=          [][5] : AND, OR
- *
- * $ip_field_cnt: number of rows in the $ip_field[][] structure
- */ 
+class IPFieldCriteria extends ProtocolFieldCriteria {
+// $ip_field[MAX][6]: stores all other ip fields parameters/operators row
+//  - [][0] : (                            [][3] : field value
+//  - [][1] : TOS, TTL, ID, offset, length [][4] : (, )
+//  - [][2] : =, !=, <, <=, >, >=          [][5] : AND, OR
+//
+// $ip_field_cnt: number of rows in the $ip_field[][] structure
 
-   function IPFieldCriteria(&$db, &$cs, $export_name, $element_cnt)
-   {
-	$tdb =& $db;
-	$cs =& $cs;
-
-      parent::ProtocolFieldCriteria($tdb, $cs, $export_name, $element_cnt,
-                                    array("ip_tos"  => "TOS",
-                                          "ip_ttl"  => "TTL",
-                                          "ip_id"   => "ID",
-                                          "ip_off"  => "offset",
-                                          "ip_csum" => "chksum",
-                                          "ip_len"  => "length"));
-   }
-
-   function PrintForm()
-   {
-      parent::PrintForm($this->valid_field_list, _DISPFIELD, _ADDIPFIELD);
-   }
-
+	function __construct(
+		&$db, &$cs, $export_name, $element_cnt
+	) { // PHP 5+ constructor Shim.
+		// Class/Method agnostic shim code.
+		$SCname = get_class();
+		if ( method_exists($this, $SCname) ) {
+			$SCargs = func_get_args();
+			// Custom non agnostic shim line for pass by refs.
+			$SCargs = array(&$db, &$cs, $export_name, $element_cnt);
+			call_user_func_array(array($this, $SCname), $SCargs);
+		}else{
+			// @codeCoverageIgnoreStart
+			// Should never execute.
+			trigger_error( // Will need to add this message to the TD.
+				"Class: $SCname No Legacy Constructor.\n",
+				E_USER_ERROR
+			);
+			// @codeCoverageIgnoreEnd
+		}
+	}
+	function IPFieldCriteria(
+		&$db, &$cs, $export_name, $element_cnt
+	) { // PHP 4x constructor.
+		$tdb =& $db;
+		$cs =& $cs;
+		parent::ProtocolFieldCriteria(
+			$tdb, $cs, $export_name, $element_cnt,
+			array(
+				"ip_tos"  => "TOS",
+				"ip_ttl"  => "TTL",
+				"ip_id"   => "ID",
+				"ip_off"  => "offset",
+				"ip_csum" => "chksum",
+				"ip_len"  => "length"
+			)
+		);
+	}
+	function PrintForm($value1, $value2, $value3) {
+		parent::PrintForm($this->valid_field_list, _DISPFIELD, _ADDIPFIELD);
+	}
    function ToSQL()
    {
      /* convert this criteria to SQL */
    }
- 
-   function Description()
-   {
+	function Description($value) {
       return parent::Description( array_merge( array ( "" => "", 
                                                        "LIKE" => _CONTAINS,
                                                        "=" => "="), $this->valid_field_list ) );  
-   }
+	}
 };
 
-class TCPPortCriteria extends ProtocolFieldCriteria
-{
-/*
- * $tcp_port[MAX][6]: stores all port parameters/operators row
- *  - [][0] : (                            [][3] : port value
- *  - [][1] : Source Port, Dest Port       [][4] : (, )
- *  - [][2] : =, !=, <, <=, >, >=          [][5] : AND, OR
- *
- * $tcp_port_cnt: number of rows in the $tcp_port[][] structure
- */ 
+class TCPPortCriteria extends ProtocolFieldCriteria {
+// $tcp_port[MAX][6]: stores all port parameters/operators row
+//  - [][0] : (                            [][3] : port value
+//  - [][1] : Source Port, Dest Port       [][4] : (, )
+//  - [][2] : =, !=, <, <=, >, >=          [][5] : AND, OR
+//
+// $tcp_port_cnt: number of rows in the $tcp_port[][] structure
 
-   function TCPPortCriteria(&$db, &$cs, $export_name, $element_cnt)
-   {
-	$tdb =& $db;
-	$cs =& $cs;
-
-      parent::ProtocolFieldCriteria($tdb, $cs, $export_name, $element_cnt,
-                                    array ("layer4_sport" => _SOURCEPORT,
-                                           "layer4_dport" => _DESTPORT));
-   }
-
-   function PrintForm()
-   {
-      parent::PrintForm($this->valid_field_list, _DISPPORT, _ADDTCPPORT);
-   }
-
+	function __construct(
+		&$db, &$cs, $export_name, $element_cnt
+	) { // PHP 5+ constructor Shim.
+		// Class/Method agnostic shim code.
+		$SCname = get_class();
+		if ( method_exists($this, $SCname) ) {
+			$SCargs = func_get_args();
+			// Custom non agnostic shim line for pass by refs.
+			$SCargs = array(&$db, &$cs, $export_name, $element_cnt);
+			call_user_func_array(array($this, $SCname), $SCargs);
+		}else{
+			// @codeCoverageIgnoreStart
+			// Should never execute.
+			trigger_error( // Will need to add this message to the TD.
+				"Class: $SCname No Legacy Constructor.\n",
+				E_USER_ERROR
+			);
+			// @codeCoverageIgnoreEnd
+		}
+	}
+	function TCPPortCriteria(
+		&$db, &$cs, $export_name, $element_cnt
+	) { // PHP 4x constructor.
+		$tdb =& $db;
+		$cs =& $cs;
+		parent::ProtocolFieldCriteria(
+			$tdb, $cs, $export_name, $element_cnt,
+			array (
+				"layer4_sport" => _SOURCEPORT,
+				"layer4_dport" => _DESTPORT
+			)
+		);
+	}
+	function PrintForm($value1, $value2, $value3) {
+		parent::PrintForm($this->valid_field_list, _DISPPORT, _ADDTCPPORT);
+	}
    function ToSQL()
    {
      /* convert this criteria to SQL */
    }
- 
-   function Description()
-   {
-      return parent::Description(array_merge( array("" => "",  
+	function Description($value) {
+		return parent::Description(array_merge( array("" => "",  
                                                     "=" => "="), $this->valid_field_list) );
-   }
+	}
 };  /* TCPPortCriteria */
 
-class TCPFieldCriteria extends ProtocolFieldCriteria
-{
-/*
- * TCP Variables
- * =============
- * $tcp_field[MAX][6]: stores all other tcp fields parameters/operators row
- *  - [][0] : (                            [][3] : field value
- *  - [][1] : windows, URP                 [][4] : (, )
- *  - [][2] : =, !=, <, <=, >, >=          [][5] : AND, OR
- *
- * $tcp_field_cnt: number of rows in the $tcp_field[][] structure
- */
+class TCPFieldCriteria extends ProtocolFieldCriteria {
+// TCP Variables
+// =============
+// $tcp_field[MAX][6]: stores all other tcp fields parameters/operators row
+//  - [][0] : (                            [][3] : field value
+//  - [][1] : windows, URP                 [][4] : (, )
+//  - [][2] : =, !=, <, <=, >, >=          [][5] : AND, OR
+//
+// $tcp_field_cnt: number of rows in the $tcp_field[][] structure
 
-   function TCPFieldCriteria(&$db, &$cs, $export_name, $element_cnt)
-   {
-	$tdb =& $db;
-	$cs =& $cs;
-
-      parent::ProtocolFieldCriteria($tdb, $cs, $export_name, $element_cnt,
-                                    array ("tcp_win" => "window",  
-                                           "tcp_urp" => "urp",
-                                           "tcp_seq" => "seq #",
-                                           "tcp_ack" => "ack",
-                                           "tcp_off" => "offset",
-                                           "tcp_res" => "res",
-                                           "tcp_csum" => "chksum"));
-   }
-
-   function PrintForm()
-   {
-      parent::PrintForm($this->valid_field_list, _DISPFIELD, _ADDTCPFIELD);
-   }
-
+	function __construct(
+		&$db, &$cs, $export_name, $element_cnt
+	) { // PHP 5+ constructor Shim.
+		// Class/Method agnostic shim code.
+		$SCname = get_class();
+		if ( method_exists($this, $SCname) ) {
+			$SCargs = func_get_args();
+			// Custom non agnostic shim line for pass by refs.
+			$SCargs = array(&$db, &$cs, $export_name, $element_cnt);
+			call_user_func_array(array($this, $SCname), $SCargs);
+		}else{
+			// @codeCoverageIgnoreStart
+			// Should never execute.
+			trigger_error( // Will need to add this message to the TD.
+				"Class: $SCname No Legacy Constructor.\n",
+				E_USER_ERROR
+			);
+			// @codeCoverageIgnoreEnd
+		}
+	}
+	function TCPFieldCriteria(
+		&$db, &$cs, $export_name, $element_cnt
+	) { // PHP 4x constructor.
+		$tdb =& $db;
+		$cs =& $cs;
+		parent::ProtocolFieldCriteria(
+			$tdb, $cs, $export_name, $element_cnt,
+			array (
+				"tcp_win" => "window",
+				"tcp_urp" => "urp",
+				"tcp_seq" => "seq #",
+				"tcp_ack" => "ack",
+				"tcp_off" => "offset",
+				"tcp_res" => "res",
+				"tcp_csum" => "chksum"
+			)
+		);
+	}
+	function PrintForm($value1, $value2, $value3) {
+		parent::PrintForm($this->valid_field_list, _DISPFIELD, _ADDTCPFIELD);
+	}
    function ToSQL()
    {
      /* convert this criteria to SQL */
    }
- 
-   function Description()
-   {
-      return parent::Description(array_merge ( array("" => ""), $this->valid_field_list) );
-   }
+	function Description($value) {
+		return parent::Description(array_merge ( array("" => ""), $this->valid_field_list) );
+	}
 };  /* TCPFieldCriteria */
 
 class TCPFlagsCriteria extends SingleElementCriteria
@@ -1252,15 +1323,11 @@ class TCPFlagsCriteria extends SingleElementCriteria
    {
      /* clears the criteria */
    }
- 
-   function SanitizeElement()
-   {
-      $this->criteria = CleanVariable($this->criteria, VAR_DIGIT);
-   }
- 
-   function PrintForm()
-   {
-       		if (!is_array($this->criteria[0]))
+	function SanitizeElement($value) {
+		$this->criteria = CleanVariable($this->criteria, VAR_DIGIT);
+	}
+	function PrintForm($value1, $value2, $value3) {
+		if (!is_array($this->criteria[0]))
 			$this->criteria = array();
 
       echo '<TD><SELECT NAME="tcp_flags[0]"><OPTION VALUE=" " '.chk_select($this->criteria[0]," ").'>'._DISPFLAGS;
@@ -1276,15 +1343,12 @@ class TCPFlagsCriteria extends SingleElementCriteria
       echo '    <INPUT TYPE="checkbox" NAME="tcp_flags[2]" VALUE="2"   '.chk_check($this->criteria[2],"2").'> [SYN] &nbsp';
       echo '    <INPUT TYPE="checkbox" NAME="tcp_flags[1]" VALUE="1"   '.chk_check($this->criteria[1],"1").'> [FIN] &nbsp';
       echo '  </FONT>';
-   }
-
+	}
    function ToSQL()
    {
      /* convert this criteria to SQL */
    }
- 
-   function Description()
-   {
+	function Description($value) {
       $human_fields["1"] = "F";
       $human_fields["2"] = "S";
       $human_fields["4"] = "R";
@@ -1311,8 +1375,7 @@ class TCPFlagsCriteria extends SingleElementCriteria
       }
 
       return $tmp;
-   }
-
+	}
    function isEmpty()
    {
      if ( strlen($this->criteria) != 0 && ($this->criteria[0] != "") && ($this->criteria[0] != " ") )
@@ -1322,119 +1385,167 @@ class TCPFlagsCriteria extends SingleElementCriteria
    }
 };  /* TCPFlagCriteria */
 
-class UDPPortCriteria extends ProtocolFieldCriteria
-{
-/*
- * $udp_port[MAX][6]: stores all port parameters/operators row
- *  - [][0] : (                            [][3] : port value
- *  - [][1] : Source Port, Dest Port       [][4] : (, )
- *  - [][2] : =, !=, <, <=, >, >=          [][5] : AND, OR
- *
- * $udp_port_cnt: number of rows in the $udp_port[][] structure
- */
+class UDPPortCriteria extends ProtocolFieldCriteria {
+// $udp_port[MAX][6]: stores all port parameters/operators row
+//  - [][0] : (                            [][3] : port value
+//  - [][1] : Source Port, Dest Port       [][4] : (, )
+//  - [][2] : =, !=, <, <=, >, >=          [][5] : AND, OR
+//
+// $udp_port_cnt: number of rows in the $udp_port[][] structure
 
-   function UDPPortCriteria(&$db, &$cs, $export_name, $element_cnt)
-   {
-	$tdb =& $db;
-	$cs =& $cs;
-
-      parent::ProtocolFieldCriteria($tdb, $cs, $export_name, $element_cnt,
-                                    array ("layer4_sport" => _SOURCEPORT,
-                                           "layer4_dport" => _DESTPORT));
-   }
-
-   function PrintForm()
-   {
-      parent::PrintForm($this->valid_field_list, _DISPPORT, _ADDUDPPORT);
-   }
-
+	function __construct(
+		&$db, &$cs, $export_name, $element_cnt
+	) { // PHP 5+ constructor Shim.
+		// Class/Method agnostic shim code.
+		$SCname = get_class();
+		if ( method_exists($this, $SCname) ) {
+			$SCargs = func_get_args();
+			// Custom non agnostic shim line for pass by refs.
+			$SCargs = array(&$db, &$cs, $export_name, $element_cnt);
+			call_user_func_array(array($this, $SCname), $SCargs);
+		}else{
+			// @codeCoverageIgnoreStart
+			// Should never execute.
+			trigger_error( // Will need to add this message to the TD.
+				"Class: $SCname No Legacy Constructor.\n",
+				E_USER_ERROR
+			);
+			// @codeCoverageIgnoreEnd
+		}
+	}
+	function UDPPortCriteria(
+		&$db, &$cs, $export_name, $element_cnt
+	) { // PHP 4x constructor.
+		$tdb =& $db;
+		$cs =& $cs;
+		parent::ProtocolFieldCriteria(
+			$tdb, $cs, $export_name, $element_cnt,
+			array (
+				"layer4_sport" => _SOURCEPORT,
+				"layer4_dport" => _DESTPORT
+			)
+		);
+	}
+	function PrintForm($value1, $value2, $value3) {
+		parent::PrintForm($this->valid_field_list, _DISPPORT, _ADDUDPPORT);
+	}
    function ToSQL()
    {
      /* convert this criteria to SQL */
    }
- 
-   function Description()
-   {
-      return parent::Description(array_merge( array("" => "",  
+	function Description($value) {
+		return parent::Description(array_merge( array("" => "",  
                                                     "=" => "="), $this->valid_field_list) );
-   }
+	}
 };  /* UDPPortCriteria */
 
-class UDPFieldCriteria extends ProtocolFieldCriteria
-{
-/*
- * $udp_field[MAX][6]: stores all other udp fields parameters/operators row
- *  - [][0] : (                            [][3] : field value
- *  - [][1] : length                       [][4] : (, )
- *  - [][2] : =, !=, <, <=, >, >=          [][5] : AND, OR
- *
- * $udp_field_cnt: number of rows in the $udp_field[][] structure
- */
+class UDPFieldCriteria extends ProtocolFieldCriteria {
+// $udp_field[MAX][6]: stores all other udp fields parameters/operators row
+//  - [][0] : (                            [][3] : field value
+//  - [][1] : length                       [][4] : (, )
+//  - [][2] : =, !=, <, <=, >, >=          [][5] : AND, OR
+//
+// $udp_field_cnt: number of rows in the $udp_field[][] structure
 
-   function UDPFieldCriteria(&$db, &$cs, $export_name, $element_cnt)
-   {
-	$tdb =& $db;
-	$cs =& $cs;
-
-      parent::ProtocolFieldCriteria($tdb, $cs, $export_name, $element_cnt, 
-                                    array ("udp_len" => "length",
-                                           "udp_csum" => "chksum"));
-   }
-
-   function PrintForm()
-   {
-      parent::PrintForm($this->valid_field_list, _DISPFIELD, _ADDUDPFIELD);
-   }
-
+	function __construct(
+		&$db, &$cs, $export_name, $element_cnt
+	) { // PHP 5+ constructor Shim.
+		// Class/Method agnostic shim code.
+		$SCname = get_class();
+		if ( method_exists($this, $SCname) ) {
+			$SCargs = func_get_args();
+			// Custom non agnostic shim line for pass by refs.
+			$SCargs = array(&$db, &$cs, $export_name, $element_cnt);
+			call_user_func_array(array($this, $SCname), $SCargs);
+		}else{
+			// @codeCoverageIgnoreStart
+			// Should never execute.
+			trigger_error( // Will need to add this message to the TD.
+				"Class: $SCname No Legacy Constructor.\n",
+				E_USER_ERROR
+			);
+			// @codeCoverageIgnoreEnd
+		}
+	}
+	function UDPFieldCriteria(
+		&$db, &$cs, $export_name, $element_cnt
+	) { // PHP 4x constructor.
+		$tdb =& $db;
+		$cs =& $cs;
+		parent::ProtocolFieldCriteria(
+			$tdb, $cs, $export_name, $element_cnt,
+			array (
+				"udp_len" => "length",
+				"udp_csum" => "chksum"
+			)
+		);
+	}
+	function PrintForm($value1, $value2, $value3) {
+		parent::PrintForm($this->valid_field_list, _DISPFIELD, _ADDUDPFIELD);
+	}
    function ToSQL()
    {
      /* convert this criteria to SQL */
    }
- 
-   function Description()
-   {
-      return parent::Description(array_merge ( array("" => ""), $this->valid_field_list) );
-   }
+	function Description($value) {
+		return parent::Description(array_merge ( array("" => ""), $this->valid_field_list) );
+	}
 };  /* UDPFieldCriteria */
 
-class ICMPFieldCriteria extends ProtocolFieldCriteria
-{
-/*
- * $icmp_field[MAX][6]: stores all other icmp fields parameters/operators row
- *  - [][0] : (                            [][3] : field value
- *  - [][1] : code, length                 [][4] : (, )
- *  - [][2] : =, !=, <, <=, >, >=          [][5] : AND, OR
- *
- * $icmp_field_cnt: number of rows in the $icmp_field[][] structure
- */ 
+class ICMPFieldCriteria extends ProtocolFieldCriteria {
+// $icmp_field[MAX][6]: stores all other icmp fields parameters/operators row
+//  - [][0] : (                            [][3] : field value
+//  - [][1] : code, length                 [][4] : (, )
+//  - [][2] : =, !=, <, <=, >, >=          [][5] : AND, OR
+//
+// $icmp_field_cnt: number of rows in the $icmp_field[][] structure
 
-   function ICMPFieldCriteria(&$db, &$cs, $export_name, $element_cnt)
-   {
-	$tdb =& $db;
-	$cs =& $cs;
-
-      parent::ProtocolFieldCriteria($tdb, $cs, $export_name, $element_cnt, 
-                                    array ("icmp_type" => "type",
-                                           "icmp_code" => "code",
-                                           "icmp_id"   => "id",
-                                           "icmp_seq"  => "seq #",
-                                           "icmp_csum" => "chksum"));
-   }
-
-   function PrintForm()
-   {
-      parent::PrintForm($this->valid_field_list, _DISPFIELD, _ADDICMPFIELD);
-   }
-
+	function __construct(
+		&$db, &$cs, $export_name, $element_cnt
+	) { // PHP 5+ constructor Shim.
+		// Class/Method agnostic shim code.
+		$SCname = get_class();
+		if ( method_exists($this, $SCname) ) {
+			$SCargs = func_get_args();
+			// Custom non agnostic shim line for pass by refs.
+			$SCargs = array(&$db, &$cs, $export_name, $element_cnt);
+			call_user_func_array(array($this, $SCname), $SCargs);
+		}else{
+			// @codeCoverageIgnoreStart
+			// Should never execute.
+			trigger_error( // Will need to add this message to the TD.
+				"Class: $SCname No Legacy Constructor.\n",
+				E_USER_ERROR
+			);
+			// @codeCoverageIgnoreEnd
+		}
+	}
+	function ICMPFieldCriteria(
+		&$db, &$cs, $export_name, $element_cnt
+	) { // PHP 4x constructor.
+		$tdb =& $db;
+		$cs =& $cs;
+		parent::ProtocolFieldCriteria(
+			$tdb, $cs, $export_name, $element_cnt,
+			array (
+				"icmp_type" => "type",
+				"icmp_code" => "code",
+				"icmp_id"   => "id",
+				"icmp_seq"  => "seq #",
+				"icmp_csum" => "chksum"
+			)
+		);
+	}
+	function PrintForm($value1, $value2, $value3) {
+		parent::PrintForm($this->valid_field_list, _DISPFIELD, _ADDICMPFIELD);
+	}
    function ToSQL()
    {
      /* convert this criteria to SQL */
    }
- 
-   function Description()
-   {
-      return parent::Description(array_merge ( array("" => ""), $this->valid_field_list) );
-   }
+	function Description($value) {
+		return parent::Description(array_merge ( array("" => ""), $this->valid_field_list) );
+	}
 };  /* ICMPFieldCriteria */
 
 class Layer4Criteria extends SingleElementCriteria
@@ -1448,14 +1559,10 @@ class Layer4Criteria extends SingleElementCriteria
    {
      /* clears the criteria */
    }
- 
-   function SanitizeElement()
-   {
-      $this->criteria = CleanVariable($this->criteria, "", array("UDP", "TCP", "ICMP", "RawIP"));
-   }
- 
-   function PrintForm()
-   {
+	function SanitizeElement($value) {
+		$this->criteria = CleanVariable($this->criteria, "", array("UDP", "TCP", "ICMP", "RawIP"));
+	}
+	function PrintForm($value1, $value2, $value3) {
       if ( $this->criteria != "" )
          echo '<INPUT TYPE="submit" NAME="submit" VALUE="'._NOLAYER4.'"> &nbsp';
       if ( $this->criteria == "TCP" )
@@ -1475,15 +1582,12 @@ class Layer4Criteria extends SingleElementCriteria
            <INPUT TYPE="submit" NAME="submit" VALUE="TCP"> &nbsp
            <INPUT TYPE="submit" NAME="submit" VALUE="UDP">
            <INPUT TYPE="submit" NAME="submit" VALUE="ICMP">';
-   }
-
+	}
    function ToSQL()
    {
      /* convert this criteria to SQL */
    }
- 
-   function Description()
-   {
+	function Description($value) {
       if ( $this->criteria == "TCP" )
          return _QCTCPCRIT;
       else if ( $this->criteria == "UDP" )
@@ -1492,37 +1596,56 @@ class Layer4Criteria extends SingleElementCriteria
          return _QCICMPCRIT ;
       else
          return _QCLAYER4CRIT;
-   }
+	}
 };  /* Layer4Criteria */
 
-class DataCriteria extends MultipleElementCriteria 
-{
-/*
- * $data_encode[2]: how the payload should be interpreted and converted
- *  - [0] : encoding type (hex, ascii)
- *  - [1] : conversion type (hex, ascii) 
- *
- * $data[MAX][5]: stores all the payload related parameters/operators row
- *  - [][0] : (                            [][3] : (, )
- *  - [][1] : =, !=                        [][4] : AND, OR
- *  - [][2] : field value
- *
- * $data_cnt: number of rows in the $data[][] structure
- */
+class DataCriteria extends MultipleElementCriteria {
+// $data_encode[2]: how the payload should be interpreted and converted
+//  - [0] : encoding type (hex, ascii)
+//  - [1] : conversion type (hex, ascii) 
+//
+// $data[MAX][5]: stores all the payload related parameters/operators row
+//  - [][0] : (                            [][3] : (, )
+//  - [][1] : =, !=                        [][4] : AND, OR
+//  - [][2] : field value
+//
+// $data_cnt: number of rows in the $data[][] structure
+	var $data_encode;
 
-   var $data_encode;
-
-   function DataCriteria(&$db, &$cs, $export_name, $element_cnt)
-   {
-	$tdb =& $db;
-	$cs =& $cs;
-
-      parent::MultipleElementCriteria($tdb, $cs, $export_name, $element_cnt,
-                                      array ("LIKE" => _HAS,
-                                             "NOT LIKE" => _HASNOT ));
-      $this->data_encode = array();
-   }
-
+	function __construct(
+		&$db, &$cs, $export_name, $element_cnt
+	) { // PHP 5+ constructor Shim.
+		// Class/Method agnostic shim code.
+		$SCname = get_class();
+		if ( method_exists($this, $SCname) ) {
+			$SCargs = func_get_args();
+			// Custom non agnostic shim line for pass by refs.
+			$SCargs = array(&$db, &$cs, $export_name, $element_cnt);
+			call_user_func_array(array($this, $SCname), $SCargs);
+		}else{
+			// @codeCoverageIgnoreStart
+			// Should never execute.
+			trigger_error( // Will need to add this message to the TD.
+				"Class: $SCname No Legacy Constructor.\n",
+				E_USER_ERROR
+			);
+			// @codeCoverageIgnoreEnd
+		}
+	}
+	function DataCriteria(
+		&$db, &$cs, $export_name, $element_cnt
+	) { // PHP 4x constructor.
+		$tdb =& $db;
+		$cs =& $cs;
+		parent::MultipleElementCriteria(
+			$tdb, $cs, $export_name, $element_cnt,
+			array (
+				"LIKE" => _HAS,
+				"NOT LIKE" => _HASNOT
+			)
+		);
+		$this->data_encode = array();
+	}
    function Init()
    {
       parent::Init();
@@ -1558,9 +1681,7 @@ class DataCriteria extends MultipleElementCriteria
       // Destroy the copy
       unset($curArr);
    }
- 
-   function PrintForm()
-   {
+	function PrintForm($value1, $value2, $value3) {
 	            if (!is_array(@$this->criteria[0]))  
 			$this->criteria = array();
 
@@ -1595,15 +1716,12 @@ class DataCriteria extends MultipleElementCriteria
             echo '    <INPUT TYPE="submit" NAME="submit" VALUE="'._ADDPAYLOAD.'">';
          echo '<BR>';
       }
-   }
-
+	}
    function ToSQL()
    {
      /* convert this criteria to SQL */
    }
- 
-   function Description()
-   {
+	function Description($value) {
       $human_fields["LIKE"] = _CONTAINS;
       $human_fields["NOT LIKE"] = _DOESNTCONTAIN;
       $human_fields[""] = ""; 
@@ -1630,7 +1748,7 @@ class DataCriteria extends MultipleElementCriteria
          $tmp = $tmp.$this->cs->GetClearCriteriaString($this->export_name);
 
       return $tmp;
-   }
+	}
 };
 
 ?>

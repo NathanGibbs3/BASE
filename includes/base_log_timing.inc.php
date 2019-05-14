@@ -23,22 +23,34 @@
  **/
 defined( '_BASE_INC' ) or die( 'Accessing this file directly is not allowed.' );
 
-class EventTiming
-{
-  var $start_time;
-  var $num_events;
-  var $event_log;
-  var $verbose;
+class EventTiming {
+	var $start_time;
+	var $num_events;
+	var $event_log;
+	var $verbose;
 
-  function EventTiming($verbose)
-  {
-    $this->num_events = 0;
-    $this->verbose = $verbose;
-    $this->start_time = time();
-    $this->Mark("Page Load");
-  }
-
-
+	function __construct($verbose) { // PHP 5+ constructor Shim.
+		// Class/Method agnostic shim code.
+		$SCname = get_class();
+		if ( method_exists($this, $SCname) ) {
+			$SCargs = func_get_args();
+			call_user_func_array(array($this, $SCname), $SCargs);
+		}else{
+			// @codeCoverageIgnoreStart
+			// Should never execute.
+			trigger_error( // Will need to add this message to the TD.
+				"Class: $SCname No Legacy Constructor.\n",
+				E_USER_ERROR
+			);
+			// @codeCoverageIgnoreEnd
+		}
+	}
+	function EventTiming($verbose) { // PHP 4x constructor.
+		$this->num_events = 0;
+		$this->verbose = $verbose;
+		$this->start_time = time();
+		$this->Mark("Page Load");
+	}
   function Mark($desc)
   {
     $this->event_log[$this->num_events++] = array ( time(), $desc );

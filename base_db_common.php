@@ -58,9 +58,10 @@ function verify_db($db, $alert_dbname, $alert_host)
   return "";
 }
 
-function verify_php_build($DBtype)
-/* Checks whether the necessary libraries is built into PHP */
-{
+function verify_php_build($DBtype){
+	// Checks that the necessary libraries are built into PHP.
+	$ErrPfx = returnErrorMessage(_ERRPHPERROR);
+
   /* Check PHP version >= 4.0.4 */
   $current_php_version = phpversion();
   $version = explode(".", $current_php_version);
@@ -80,15 +81,14 @@ function verify_php_build($DBtype)
             " "._ERRPHPERROR2."</FONT>";
   }
 
-  if ( ($DBtype == "mysql") || ($DBtype == "mysqlt") )
-  {
-	/* Under PHP 7.x, use mysqli ADODB driver & gracefully deprecate the mysql
-	& mysqlt drivers. */
-	if ( $version[0] == 7 ) {
-		if ( !(function_exists("mysqli_connect")) ) {
-			return "<FONT COLOR=\"#FF0000\">"._ERRPHPERROR."</FONT>: "._ERRPHPMYSQLISUP;
-		}
-	}else{
+	if ( $DBtype == "mysql" || $DBtype == "mysqlt" || $type == "maxsql" ){
+		// On PHP 5.5+, use mysqli ADODB driver & gracefully deprecate the
+		// mysql, mysqlt & maxsql drivers.
+		if ( $version[0] > 5 || ( $version[0] == 5 && $version[1] > 4) ){
+			if ( !(function_exists("mysqli_connect")) ){
+				return "$ErrPfx: "._ERRPHPMYSQLISUP;
+			}
+		}else{
      if ( !(function_exists("mysql_connect")) )
      {
         return "<FONT COLOR=\"#FF0000\">"._ERRPHPERROR."</FONT>: "._ERRPHPMYSQLSUP;

@@ -25,16 +25,29 @@ defined( '_BASE_INC' ) or die( 'Accessing this file directly is not allowed.' );
 
 include_once("$BASE_path/includes/base_constants.inc.php");
 
-class QueryResultsOutput
-{
-  var $qroHeader;
-  var $url;
+class QueryResultsOutput {
+	var $qroHeader;
+	var $url;
 
-  function QueryResultsOutput($uri)
-  {
-    $this->url = $uri;
-  }
-
+	function __construct($uri) { // PHP 5+ constructor Shim.
+		// Class/Method agnostic shim code.
+		$SCname = get_class();
+		if ( method_exists($this, $SCname) ) {
+			$SCargs = func_get_args();
+			call_user_func_array(array($this, $SCname), $SCargs);
+		}else{
+			// @codeCoverageIgnoreStart
+			// Should never execute.
+			trigger_error( // Will need to add this message to the TD.
+				"Class: $SCname No Legacy Constructor.\n",
+				E_USER_ERROR
+			);
+			// @codeCoverageIgnoreEnd
+		}
+	}
+	function QueryResultsOutput($uri) { // PHP 4x constructor.
+		$this->url = $uri;
+	}
   function AddTitle($title, $asc_sort = " ", $asc_sort_sql1 = "", $asc_sort_sql2 = "",
                             $desc_sort = " ", $desc_sort_sql1 = "", $desc_sort_sql2 = "")
   {
