@@ -63,7 +63,6 @@ class commonlangTest extends TestCase {
 			'BlankProps Unexpected Return Value.'
 		);
 	}
-
 	public function testBlankPropsNonKeyedArray() {
 		$lang = self::$langs;
 		$tf = __FUNCTION__;
@@ -196,7 +195,6 @@ class commonlangTest extends TestCase {
 			'BlankProps Unexpected Return Value.'
 		);
 	}
-
 	/**
 	  * @covers UILang::SetUIADItem
 	  */
@@ -233,6 +231,36 @@ class commonlangTest extends TestCase {
 				'Test requires Enabled Auth System to run.'
 			);
 		}
+	}
+	/**
+	  * @covers UILang::SetUICWItem
+	  */
+	public function testCWASetItemInvalidThrowsError() {
+		$lang = self::$langs;
+		$tf = __FUNCTION__;
+		$tmp = "UI$lang";
+		LogTC($tf,'language',$lang);
+		$$tmp = self::$UIL;
+		$file = $$tmp->TDF;
+		LogTC($tf,'TD file',$file);
+		$key = 'INVALID';
+		$kD = 'Invalid Item';
+		$EEM = "Invalid CW Set Request for: $key.";
+		$PHPUV = GetPHPUV();
+		if (version_compare($PHPUV, '4.0', '<')) {
+			$this->markTestSkipped('Requires Phpunit 4+ to run.');
+		}elseif (version_compare($PHPUV, '5.0', '<')) { // PHPUnit 4x
+			$this->setExpectedException(
+				"PHPUnit_Framework_Error_Notice", $EEM
+			);
+		}elseif (version_compare($PHPUV, '6.0', '<')) { // PHPUnit 5x
+			$this->expectException("PHPUnit_Framework_Error_Notice");
+			$this->expectExceptionMessage($EEM);
+		}else{ // PHPUnit 6+
+			$this->expectException("PHPUnit\Framework\Error\Notice");
+			$this->expectExceptionMessage($EEM);
+		}
+		$$tmp->SetUICWItem($key,$kD);
 	}
 	/**
 	  * @covers UILang::SetUICPItem
@@ -314,6 +342,19 @@ class commonlangTest extends TestCase {
 				'Test requires Enabled Auth System to run.'
 			);
 		}
+	}
+	public function testCWADefaultstoArray() {
+		GLOBAL $Use_Auth_System;
+		$lang = self::$langs;
+		$tf = __FUNCTION__;
+		$tmp = "UI$lang";
+		LogTC($tf,'language',$lang);
+		$$tmp = self::$UIL;
+		$file = $$tmp->TDF;
+		LogTC($tf,'TD file',$file);
+		$this->assertTrue(is_array($$tmp->CWA),
+			"Common Word Structure did not default to Array."
+		);
 	}
 	public function testCPADefaultstoArray() {
 		GLOBAL $Use_Auth_System;

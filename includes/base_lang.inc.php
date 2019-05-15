@@ -256,6 +256,7 @@ class UILang{
 		if ($Use_Auth_System == 1) {
 			$this->ADA = $this->BlankProps('ADA',$this->ADA);
 		}
+		$this->CWA = $this->BlankProps('CWA',$this->CWA);
 		$this->CPA = $this->BlankProps('CPA',$this->CPA);
 		$this->UAA = $this->BlankProps('UAA',$this->UAA);
 		// Anti XSS the Translation Data.
@@ -264,6 +265,7 @@ class UILang{
 		$this->Charset = XSSPrintSafe($this->Charset);
 		$this->Title = XSSPrintSafe($this->Title);
 		$this->ADA = XSSPrintSafe($this->ADA);
+		$this->CWA = XSSPrintSafe($this->CWA);
 		$this->CPA = XSSPrintSafe($this->CPA);
 		$this->UAA = XSSPrintSafe($this->UAA);
 	}
@@ -327,6 +329,17 @@ class UILang{
 				// Will need to add this message to the TD.
 				trigger_error("Invalid AD Set Request for: $Item.\n");
 			}
+		}
+	}
+	// Sets Common Word Item from translation data.
+	function SetUICWItem($Item,$Value = NULL) {
+		$Items = array (
+		);
+		if (in_array($Item, $Items)) {
+			$this->CWA[$Item] = $Value;
+		}else{
+			// Will need to add this message to the TD.
+			trigger_error("Invalid CW Set Request for: $Item.\n");
 		}
 	}
 	// Sets Common Phrase Item from translation data.
