@@ -256,7 +256,8 @@ class UILang{
 		if ($Use_Auth_System == 1) {
 			$this->ADA = $this->BlankProps('ADA',$this->ADA);
 		}
-		$this->CWA = $this->BlankProps('CWA',$this->CWA);
+		// This Line Commented out Until we migrate some TD.
+		// $this->CWA = $this->BlankProps('CWA',$this->CWA);
 		$this->CPA = $this->BlankProps('CPA',$this->CPA);
 		$this->UAA = $this->BlankProps('UAA',$this->UAA);
 		// Anti XSS the Translation Data.
