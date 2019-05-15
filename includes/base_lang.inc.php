@@ -249,6 +249,8 @@ class UILang{
 		}else{
 			$this->ADA = NULL;
 		}
+		// This Line is here until we migrate some TD into CWA.
+		$this->CWA = array();
 		// Check for unset/NULL TD, replace with default placeholder text.
 		$this->Timefmt = $this->BlankProps('Timefmt',$this->Timefmt);
 		$this->Charset = $this->BlankProps('Charset',$this->Charset);
@@ -256,8 +258,7 @@ class UILang{
 		if ($Use_Auth_System == 1) {
 			$this->ADA = $this->BlankProps('ADA',$this->ADA);
 		}
-		// This Line Commented out Until we migrate some TD.
-		// $this->CWA = $this->BlankProps('CWA',$this->CWA);
+		$this->CWA = $this->BlankProps('CWA',$this->CWA);
 		$this->CPA = $this->BlankProps('CPA',$this->CPA);
 		$this->UAA = $this->BlankProps('UAA',$this->UAA);
 		// Anti XSS the Translation Data.
