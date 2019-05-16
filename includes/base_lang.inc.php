@@ -50,15 +50,16 @@ class UILang{
 	function UILang($UILang) { // PHP 4x constructor.
 		GLOBAL $BASE_path, $BASE_installID, $Use_Auth_System;
 		$TDF = "$BASE_path/languages/$UILang.lang.php";
-		if (!file_exists($TDF)) {
-			// Default to english as TD file for requested lang not found.
+		if (!file_exists($TDF)) { // TD file for lang not found.
 			trigger_error(
 				"No TD found for Language: $UILang. Default to english.\n"
 			);
-			$UILang = 'english';
+			$UILang = 'english'; // Default to english TD file.
 			$TDF = "$BASE_path/languages/$UILang.lang.php";
 		}
-		// Set Spacing
+		include_once($TDF); // Include Translation Data.
+		$this->Lang = $UILang;
+		$this->TDF = $TDF;
 		if ( isset($UI_Spacing) ) { // New TDF
 			if ( !is_int($UI_Spacing) ) {
 				$UI_Spacing = 1; // Default to 1 on invalid data.
@@ -71,11 +72,6 @@ class UILang{
 				$this->Spacing = 1;
 			}
 		}
-		// Include Translation Data.
-		include_once($TDF);
-		$this->Lang = $UILang;
-		$this->TDF = $TDF;
-		// Store Locales
 		if ( isset($UI_Locales) ) { // Var New TDF
 			if ( is_array($UI_Locales) ) {
 				$this->Locale = $UI_Locales;
