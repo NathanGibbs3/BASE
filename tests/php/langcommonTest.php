@@ -32,7 +32,7 @@ class commonlangTest extends TestCase {
 		$file = "$BASE_path/languages/$lf";
 		if ($debug_mode > 1) {
 			LogTC($tf,'language',$lang);
-			LogTC($tf,'TD file',$file);
+			LogTC($tf,'TD file:',$file);
 		}
 		$tmp = "UI$ll";
 		// Will throw error during TD transition.
@@ -55,7 +55,7 @@ class commonlangTest extends TestCase {
 		LogTC($tf,'language',$lang);
 		$$tmp = self::$UIL;
 		$file = $$tmp->TDF;
-		LogTC($tf,'TD file',$file);
+		LogTC($tf,'TD file:',$file);
 		$Value = 'Value';
 		$this->assertEquals(
 			'Value',
@@ -70,7 +70,7 @@ class commonlangTest extends TestCase {
 		LogTC($tf,'language',$lang);
 		$$tmp = self::$UIL;
 		$file = $$tmp->TDF;
-		LogTC($tf,'TD file',$file);
+		LogTC($tf,'TD file:',$file);
 		$Value = array (1,2,3,4);
 		$this->assertEquals(
 			array (1,2,3,4),
@@ -85,7 +85,7 @@ class commonlangTest extends TestCase {
 		LogTC($tf,'language',$lang);
 		$$tmp = self::$UIL;
 		$file = $$tmp->TDF;
-		LogTC($tf,'TD file',$file);
+		LogTC($tf,'TD file:',$file);
 		$Value = array (
 			'key1' => 0,
 			'key2' => 1,
@@ -112,7 +112,7 @@ class commonlangTest extends TestCase {
 		LogTC($tf,'language',$lang);
 		$$tmp = self::$UIL;
 		$file = $$tmp->TDF;
-		LogTC($tf,'TD file',$file);
+		LogTC($tf,'TD file:',$file);
 		$EEM = "Missing TD Item: NULL.\n";
 		$PHPUV = GetPHPUV();
 		if (version_compare($PHPUV, '4.0', '<')) {
@@ -137,7 +137,7 @@ class commonlangTest extends TestCase {
 		LogTC($tf,'language',$lang);
 		$$tmp = self::$UIL;
 		$file = $$tmp->TDF;
-		LogTC($tf,'TD file',$file);
+		LogTC($tf,'TD file:',$file);
 		$EEM = "Missing TD Item: NULL.\n";
 		// Test conditions will throw error.
 		// Use error suppression @ symbol.
@@ -154,7 +154,7 @@ class commonlangTest extends TestCase {
 		LogTC($tf,'language',$lang);
 		$$tmp = self::$UIL;
 		$file = $$tmp->TDF;
-		LogTC($tf,'TD file',$file);
+		LogTC($tf,'TD file:',$file);
 		$Value = array (1,2,3,NULL);
 		$EEM = "Missing TD Item: Value[3].\n";
 		// Test conditions will throw error.
@@ -172,7 +172,7 @@ class commonlangTest extends TestCase {
 		LogTC($tf,'language',$lang);
 		$$tmp = self::$UIL;
 		$file = $$tmp->TDF;
-		LogTC($tf,'TD file',$file);
+		LogTC($tf,'TD file:',$file);
 		$Value = array (
 			'key1' => NULL,
 			'key2' => 1,
@@ -206,7 +206,7 @@ class commonlangTest extends TestCase {
 		LogTC($tf,'language',$lang);
 		$$tmp = self::$UIL;
 		$file = $$tmp->TDF;
-		LogTC($tf,'TD file',$file);
+		LogTC($tf,'TD file:',$file);
 		if ($Use_Auth_System == 1) {
 			$key = 'INVALID';
 			$kD = 'Invalid Item';
@@ -242,7 +242,7 @@ class commonlangTest extends TestCase {
 		LogTC($tf,'language',$lang);
 		$$tmp = self::$UIL;
 		$file = $$tmp->TDF;
-		LogTC($tf,'TD file',$file);
+		LogTC($tf,'TD file:',$file);
 		$key = 'INVALID';
 		$kD = 'Invalid Item';
 		$EEM = "Invalid CW Set Request for: $key.";
@@ -272,7 +272,7 @@ class commonlangTest extends TestCase {
 		LogTC($tf,'language',$lang);
 		$$tmp = self::$UIL;
 		$file = $$tmp->TDF;
-		LogTC($tf,'TD file',$file);
+		LogTC($tf,'TD file:',$file);
 		$key = 'INVALID';
 		$kD = 'Invalid Item';
 		$EEM = "Invalid CP Set Request for: $key.";
@@ -302,7 +302,7 @@ class commonlangTest extends TestCase {
 		LogTC($tf,'language',$lang);
 		$$tmp = self::$UIL;
 		$file = $$tmp->TDF;
-		LogTC($tf,'TD file',$file);
+		LogTC($tf,'TD file:',$file);
 		$key = 'INVALID';
 		$kD = 'Invalid Item';
 		$EEM = "Invalid UA Set Request for: $key.";
@@ -323,6 +323,8 @@ class commonlangTest extends TestCase {
 		$$tmp->SetUIUAItem($key,$kD);
 	}
 	// Authentication Data SubStructure.
+	// Move testAsDisabledADADefaultstoNULL()
+	// From sp tests to here once TD migration is done.
 	public function testAsEnabledADADefaultstoArray() {
 		GLOBAL $Use_Auth_System;
 		$lang = self::$langs;
@@ -331,7 +333,7 @@ class commonlangTest extends TestCase {
 		LogTC($tf,'language',$lang);
 		$$tmp = self::$UIL;
 		$file = $$tmp->TDF;
-		LogTC($tf,'TD file',$file);
+		LogTC($tf,'TD file:',$file);
 		if ($Use_Auth_System == 1) {
 			$this->assertTrue(is_array($$tmp->ADA),
 				"Auth System Enabled.\n"
@@ -343,6 +345,7 @@ class commonlangTest extends TestCase {
 			);
 		}
 	}
+	// Common Words SubStructure.
 	public function testCWADefaultstoArray() {
 		GLOBAL $Use_Auth_System;
 		$lang = self::$langs;
@@ -351,11 +354,12 @@ class commonlangTest extends TestCase {
 		LogTC($tf,'language',$lang);
 		$$tmp = self::$UIL;
 		$file = $$tmp->TDF;
-		LogTC($tf,'TD file',$file);
+		LogTC($tf,'TD file:',$file);
 		$this->assertTrue(is_array($$tmp->CWA),
-			"Common Word Structure did not default to Array."
+			'Common Word Structure did not default to Array.'
 		);
 	}
+	// Common Phrases SubStructure.
 	public function testCPADefaultstoArray() {
 		GLOBAL $Use_Auth_System;
 		$lang = self::$langs;
@@ -364,11 +368,12 @@ class commonlangTest extends TestCase {
 		LogTC($tf,'language',$lang);
 		$$tmp = self::$UIL;
 		$file = $$tmp->TDF;
-		LogTC($tf,'TD file',$file);
+		LogTC($tf,'TD file:',$file);
 		$this->assertTrue(is_array($$tmp->CPA),
-			"Common Phrase Structure did not default to Array."
+			'Common Phrase Structure did not default to Array.'
 		);
 	}
+	// Universal Actions Data SubStructure.
 	public function testUAADefaultstoArray() {
 		GLOBAL $Use_Auth_System;
 		$lang = self::$langs;
@@ -377,9 +382,25 @@ class commonlangTest extends TestCase {
 		LogTC($tf,'language',$lang);
 		$$tmp = self::$UIL;
 		$file = $$tmp->TDF;
-		LogTC($tf,'TD file',$file);
+		LogTC($tf,'TD file:',$file);
 		$this->assertTrue(is_array($$tmp->UAA),
-			"Universal Action Structure did not default to Array."
+			'Universal Action Structure did not default to Array.'
+		);
+	}
+	// Spacing
+	// Move testTDNewSpacingOff()
+	// From sp tests to here once TD migration is done.
+	public function testTDNewSpacingOn() {
+		$lang = self::$langs;
+		$tf = __FUNCTION__;
+		$tmp = "UI$lang";
+		LogTC($tf,'language',$lang);
+		$$tmp = self::$UIL;
+		$file = $$tmp->TDF;
+		LogTC($tf,'TD file:',$file);
+		$this->assertEquals(
+			1, $$tmp->Spacing,
+			'Class did not set Spacing to 1.'
 		);
 	}
 

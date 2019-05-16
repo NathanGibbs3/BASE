@@ -178,25 +178,6 @@ class commonlangSPTest extends TestCase {
 			'Class did not deafult spacing for $lang to 0.'
 		);
 	}
-	public function testTDNewSpacingOn() {
-		GLOBAL $BASE_path;
-		$lang = 'english';
-		$tf = __FUNCTION__;
-		$tmp = "UI$lang";
-		LogTC($tf,'language',$lang);
-		$lf = "$lang.lang.php";
-		$this->assertInstanceOf('UILang',$this->UIL = new UILang($lang),
-			"Class for $lang not created."
-		);
-		$$tmp = $this->UIL;
-		$file = $$tmp->TDF;
-		LogTC($tf,'Spacing Test TD file:',$file);
-		$this->assertEquals(
-			1, $$tmp->Spacing,
-			'Class did not deafult spacing for $lang to 1.'
-		);
-	}
-
 	// Authentication Data SubStructure.
 	public function testAsDisabledADADefaultstoNULL() {
 		GLOBAL $BASE_path, $Use_Auth_System;

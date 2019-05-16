@@ -65,11 +65,7 @@ class UILang{
 			}
 			$this->Spacing = $UI_Spacing;
 		}else{ // Legacy TDF. Spacing Information does not exist.
-			if (
-				$UILang == 'chinese'
-				|| $UILang == 'japanese'
-				|| $UILang == 'simplified_chinese'
-			){
+			if ( preg_match("/(chi|japa)nese/", $UILang) ){
 				$this->Spacing = 0;
 			}else{
 				$this->Spacing = 1;
