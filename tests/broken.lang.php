@@ -15,7 +15,9 @@
 //
 //          Author(s): Nathan Gibbs
 
-// Locales.  This is the broken line, it should be an array.
+// Inter Character Spacing. -- This is a broken line, it should be an int of 0 or 1.
+$UI_Spacing = 'invalid';
+// Locales. -- This is a broken line, it should be an array.
 $UI_Locales = 'eng_ENG.ISO8859-1';
 // Time Format - See strftime() syntax.
 $UI_Timefmt = '%a %B %d, %Y %H:%M:%S';

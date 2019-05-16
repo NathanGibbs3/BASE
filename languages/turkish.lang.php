@@ -23,6 +23,8 @@
 ********************************************************************************
 */
 
+// Inter Character Spacing
+$UI_Spacing = 1;
 // Locales.
 $UI_Locales = array( 'tur_TUR.ISO8859-9', 'tur_TUR.utf-8', 'turkish' );
 // Time Format - See strftime() syntax.

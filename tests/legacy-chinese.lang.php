@@ -23,39 +23,36 @@
 ********************************************************************************
 */
 
-// Inter Character Spacing
-$UI_Spacing = 0;
-// Locales.
-$UI_Locales = array( 'eng_ENG.ISO8859-1', 'eng_ENG.utf-8', '繁體中文' );
-// Time Format - See strftime() syntax.
-$UI_Timefmt = '%a %B %d, %Y %H:%M:%S';
-// UI Init.
-$UI_Charset = 'UTF-8';
-$UI_Title = '安全基本分析引擎';
-// Universal Actions.
-$UI_UA_Edit = '編輯';
-$UI_UA_Delete = '刪除';
-// Common Phrases.
-$UI_CP_SrcDesc = '來源';
-$UI_CP_SrcName = '來源名稱';
-$UI_CP_DstDesc = '目地';
-$UI_CP_DstName = '目地名稱';
-$UI_CP_SrcDst = '來源或目地';
-$UI_CP_Id = '識別碼';
-$UI_CP_Name = '名稱';
-$UI_CP_Int = '介面';
-$UI_CP_Filter = '過濾器';
-$UI_CP_Desc = '說明';
-$UI_CP_SucDesc = '已成功 ';
-$UI_CP_Sensor = '偵測器';
-$UI_CP_Sig = '特徵';
-// Authentication Data.
-$UI_AD_UND = '使用者登入';
-$UI_AD_PWD = '密碼';
-$UI_AD_RID = "角色$UI_CP_Id";
-$UI_AD_ASD = '啟用';
+//locale
+DEFINE('_LOCALESTR1', 'eng_ENG.ISO8859-1'); //NEW
+DEFINE('_LOCALESTR2', 'eng_ENG.utf-8'); //NEW
+DEFINE('_LOCALESTR3', '繁體中文'); //NEW
+DEFINE('_STRFTIMEFORMAT','%a %B %d, %Y %H:%M:%S'); //NEW - see strftime() sintax
 
 //common phrases
+DEFINE('_CHARSET','UTF-8');
+DEFINE('_TITLE','安全基本分析引擎(BASE) '.$BASE_installID);
+DEFINE('_FRMLOGIN','使用者登入:');
+DEFINE('_FRMPWD','密碼:');
+DEFINE('_SOURCE','來源');
+DEFINE('_SOURCENAME','來源名稱');
+DEFINE('_DEST','目地');
+DEFINE('_DESTNAME','目地名稱');
+DEFINE('_SORD','來源或目地');
+DEFINE('_EDIT','編輯');
+DEFINE('_DELETE','刪除');
+DEFINE('_ID','識別碼');
+DEFINE('_NAME','名稱');
+DEFINE('_INTERFACE','介面');
+DEFINE('_FILTER','過濾器');
+DEFINE('_DESC','說明');
+DEFINE('_LOGIN','登入');
+DEFINE('_ROLEID','角色 ID');
+DEFINE('_ENABLED','啟用');
+DEFINE('_SUCCESS','已成功 ');
+DEFINE('_SENSOR','偵測器');
+DEFINE('_SENSORS','偵測器s'); //NEW
+DEFINE('_SIGNATURE','特徵');
 DEFINE('_TIMESTAMP','時間戳記');
 DEFINE('_NBSOURCEADDR','來源&nbsp;位址');
 DEFINE('_NBDESTADDR','目地&nbsp;位址');
@@ -208,12 +205,14 @@ DEFINE('_OLDPWD','輸入的舊密碼與記錄不相符!');
 DEFINE('_PWDCANT','無法變更您的密碼: ');
 DEFINE('_PWDDONE','您的密碼已經變更!');
 DEFINE('_ROLEEXIST','角色已經存在');
-DEFINE('_ROLEIDEXIST',$UI_AD_RID."已經存在");
+DEFINE('_ROLEIDEXIST','角色識別碼已經存在');
 DEFINE('_ROLEADDED','角色新增成功 ');
 
 //base_roleadmin.php
 DEFINE('_ROLEADMIN','基本角色管理');
+DEFINE('_FRMROLEID','角色識別碼:');
 DEFINE('_FRMROLENAME','角色名稱:');
+DEFINE('_FRMROLEDESC','說明:');
 DEFINE('_UPDATEROLE',' 更新角色'); //NEW
 
 //base_useradmin.php
@@ -331,7 +330,7 @@ DEFINE('_SHORTSEP','九月'); //NEW
 DEFINE('_SHORTOCT','十月'); //NEW
 DEFINE('_SHORTNOV','十一月'); //NEW
 DEFINE('_SHORTDEC','十二月'); //NEW
-DEFINE('_DISPSIG',"{ $UI_CP_Sig }"); //NEW
+DEFINE('_DISPSIG','{ 特徵 }'); //NEW
 DEFINE('_DISPANYCLASS','{ 任何分類 }'); //NEW
 DEFINE('_DISPANYPRIO','{ 任何優先等級 }'); //NEW
 DEFINE('_DISPANYSENSOR','{ 任何偵測器 }'); //NEW
@@ -345,8 +344,8 @@ DEFINE('_DISPPAYLOAD','{ 封包內容 }'); //NEW
 DEFINE('_DISPFLAGS','{ 旗標 }'); //NEW
 DEFINE('_SIGEXACTLY','精確的'); //NEW
 DEFINE('_SIGROUGHLY','模糊的'); //NEW
-DEFINE('_SIGCLASS',$UI_CP_Sig.'分類'); //NEW
-DEFINE('_SIGPRIO',$UI_CP_Sig.'優先等級'); //NEW
+DEFINE('_SIGCLASS','特徵分類'); //NEW
+DEFINE('_SIGPRIO','特徵優先等級'); //NEW
 DEFINE('_SHORTSOURCE','來源'); //NEW
 DEFINE('_SHORTDEST','目的'); //NEW
 DEFINE('_SHORTSOURCEORDEST','來源或目的'); //NEW
@@ -457,7 +456,7 @@ DEFINE('_CHRTTYPEDSTUDP','目地. UDP 通訊埠 vs. 警告數');
 DEFINE('_CHRTTYPESRCUDP','來源. UDP 通訊埠 vs. 警告數');
 DEFINE('_CHRTTYPEDSTPORT','目地. TCP 通訊埠 vs. 警告數');
 DEFINE('_CHRTTYPESRCPORT','來源. TCP 通訊埠 vs. 警告數');
-DEFINE('_CHRTTYPESIG',$UI_CP_Sig.'. 分類 vs. 警告數');
+DEFINE('_CHRTTYPESIG','特徵. 分類 vs. 警告數');
 DEFINE('_CHRTTYPESENSOR','偵測器 vs. 警告數');
 DEFINE('_CHRTBEGIN','圖形開始:');
 DEFINE('_CHRTEND','圖形結束:');
@@ -492,7 +491,7 @@ DEFINE('_CHRTPORTDESTNUMBER','TCP 通訊埠 (目地) vs. 警告數');
 DEFINE('_CHRTPORTDEST','Dst. TCP 通訊埠');
 DEFINE('_CHRTPORTSRCNUMBER','TCP 通訊埠 (來源) vs. 警告數');
 DEFINE('_CHRTPORTSRC','Src. TCP 通訊埠');
-DEFINE('_CHRTSIGNUMBER',$UI_CP_Sig.'分類 vs. 警告數');
+DEFINE('_CHRTSIGNUMBER','特徵分類 vs. 警告數');
 DEFINE('_CHRTCLASS','分類');
 DEFINE('_CHRTSENSORNUMBER','偵測器 vs. 警告數');
 DEFINE('_CHRTHANDLEPERIOD','維持週期 如果需要');
@@ -527,13 +526,13 @@ DEFINE('_MNTIPACUDIP','單一目地 IP:');
 //base_qry_alert.php
 DEFINE('_QAINVPAIR','不合法 (sid,cid) 配對');
 DEFINE('_QAALERTDELET','警告已刪除');
-DEFINE('_QATRIGGERSIG',"觸發事件$UI_CP_Sig");
+DEFINE('_QATRIGGERSIG','觸發事件特徵');
 DEFINE('_QANORMALD','正常顯示'); //NEW
 DEFINE('_QAPLAIND','簡易顯示'); //NEW
 DEFINE('_QANOPAYLOAD','已使用快速記錄因此封包內容被丟棄'); //NEW
 
 //base_qry_common.php
-DEFINE('_QCSIG',$UI_CP_Sig);
+DEFINE('_QCSIG','特徵');
 DEFINE('_QCIPADDR','IP 位址');
 DEFINE('_QCIPFIELDS','IP 欄位');
 DEFINE('_QCTCPPORTS','TCP 通訊埠');
@@ -580,7 +579,7 @@ DEFINE('_QFRMSORTORDER','排序規則');
 DEFINE('_QFRMSORTNONE','無'); //NEW
 DEFINE('_QFRMTIMEA','時間戳記 (ascend)');
 DEFINE('_QFRMTIMED','時間戳記 (descend)');
-DEFINE('_QFRMSIG',$UI_CP_Sig);
+DEFINE('_QFRMSIG','特徵');
 DEFINE('_QFRMSIP','來源 IP');
 DEFINE('_QFRMDIP','目地 IP');
 

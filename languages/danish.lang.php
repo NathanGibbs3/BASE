@@ -23,6 +23,8 @@
 ********************************************************************************
 */
 
+// Inter Character Spacing
+$UI_Spacing = 1;
 // Locales.
 $UI_Locales = array( 'eng_ENG.ISO8859-1', 'eng_ENG.utf-8', 'english' );
 // Time Format - See strftime() syntax.

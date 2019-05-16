@@ -100,16 +100,74 @@ class commonlangSPTest extends TestCase {
 		}
 	}
 	// Spacing Tests
-	public function testTDSpacingChinese() {
+	public function testTDFInvalidSpacingDefaultsTo1() {
+		GLOBAL $BASE_path;
+		$lang = 'broken';
+		$tf = __FUNCTION__;
+		$tmp = "UI$lang";
+		LogTC($tf,'language',$lang);
+		$lf = "$lang.lang.php";
+		copy ("$BASE_path/tests/$lf","$BASE_path/languages/$lf");
+		$this->assertInstanceOf('UILang',$this->UIL = new UILang($lang),
+			"Class for $lang not created."
+		);
+		unlink ("$BASE_path/languages/$lf");
+		$$tmp = $this->UIL;
+		$file = $$tmp->TDF;
+		LogTC($tf,'Invalid TDF:',$file);
+		$this->assertEquals(
+			1, $$tmp->Spacing,
+			'Class did not deafult spacing for $lang to 1.'
+		);
+	}
+	public function testTDLegacySpacingOff() {
+		GLOBAL $BASE_path;
+		$lang = 'legacy-chinese';
+		$tf = __FUNCTION__;
+		$tmp = "UI$lang";
+		LogTC($tf,'language',$lang);
+		$lf = "$lang.lang.php";
+		copy ("$BASE_path/tests/$lf","$BASE_path/languages/$lf");
+		$this->assertInstanceOf('UILang',$this->UIL = new UILang($lang),
+			"Class for $lang not created."
+		);
+		unlink ("$BASE_path/languages/$lf");
+		$$tmp = $this->UIL;
+		$file = $$tmp->TDF;
+		LogTC($tf,'Spacing Test TD file:',$file);
+		$this->assertEquals(
+			0, $$tmp->Spacing,
+			'Class did not deafult spacing for $lang to 0.'
+		);
+	}
+	public function testTDLegacySpacingOn() {
+		GLOBAL $BASE_path;
+		$lang = 'legacy-english';
+		$tf = __FUNCTION__;
+		$tmp = "UI$lang";
+		LogTC($tf,'language',$lang);
+		$lf = "$lang.lang.php";
+		copy ("$BASE_path/tests/$lf","$BASE_path/languages/$lf");
+		$this->assertInstanceOf('UILang',$this->UIL = new UILang($lang),
+			"Class for $lang not created."
+		);
+		unlink ("$BASE_path/languages/$lf");
+		$$tmp = $this->UIL;
+		$file = $$tmp->TDF;
+		LogTC($tf,'Spacing Test TD file:',$file);
+		$this->assertEquals(
+			1, $$tmp->Spacing,
+			'Class did not deafult spacing for $lang to 1.'
+		);
+	}
+	public function testTDNewSpacingOff() {
 		GLOBAL $BASE_path;
 		$lang = 'chinese';
 		$tf = __FUNCTION__;
 		$tmp = "UI$lang";
 		LogTC($tf,'language',$lang);
 		$lf = "$lang.lang.php";
-		// Test conditions will throw error.
-		// Use error suppression @ symbol.
-		$this->assertInstanceOf('UILang',$this->UIL = @new UILang($lang),
+		$this->assertInstanceOf('UILang',$this->UIL = new UILang($lang),
 			"Class for $lang not created."
 		);
 		$$tmp = $this->UIL;
@@ -120,56 +178,14 @@ class commonlangSPTest extends TestCase {
 			'Class did not deafult spacing for $lang to 0.'
 		);
 	}
-	public function testTDSpacingJapanese() {
-		GLOBAL $BASE_path;
-		$lang = 'japanese';
-		$tf = __FUNCTION__;
-		$tmp = "UI$lang";
-		LogTC($tf,'language',$lang);
-		$lf = "$lang.lang.php";
-		// Test conditions will throw error.
-		// Use error suppression @ symbol.
-		$this->assertInstanceOf('UILang',$this->UIL = @new UILang($lang),
-			"Class for $lang not created."
-		);
-		$$tmp = $this->UIL;
-		$file = $$tmp->TDF;
-		LogTC($tf,'Spacing Test TD file:',$file);
-		$this->assertEquals(
-			0, $$tmp->Spacing,
-			'Class did not deafult spacing for $lang to 0.'
-		);
-	}
-	public function testTDSpacingSimplified_Chinese() {
-		GLOBAL $BASE_path;
-		$lang = 'simplified_chinese';
-		$tf = __FUNCTION__;
-		$tmp = "UI$lang";
-		LogTC($tf,'language',$lang);
-		$lf = "$lang.lang.php";
-		// Test conditions will throw error.
-		// Use error suppression @ symbol.
-		$this->assertInstanceOf('UILang',$this->UIL = @new UILang($lang),
-			"Class for $lang not created."
-		);
-		$$tmp = $this->UIL;
-		$file = $$tmp->TDF;
-		LogTC($tf,'Spacing Test TD file:',$file);
-		$this->assertEquals(
-			0, $$tmp->Spacing,
-			'Class did not deafult spacing for $lang to 0.'
-		);
-	}
-	public function testTDSpacingEnglish() {
+	public function testTDNewSpacingOn() {
 		GLOBAL $BASE_path;
 		$lang = 'english';
 		$tf = __FUNCTION__;
 		$tmp = "UI$lang";
 		LogTC($tf,'language',$lang);
 		$lf = "$lang.lang.php";
-		// Test conditions will throw error.
-		// Use error suppression @ symbol.
-		$this->assertInstanceOf('UILang',$this->UIL = @new UILang($lang),
+		$this->assertInstanceOf('UILang',$this->UIL = new UILang($lang),
 			"Class for $lang not created."
 		);
 		$$tmp = $this->UIL;
@@ -180,6 +196,7 @@ class commonlangSPTest extends TestCase {
 			'Class did not deafult spacing for $lang to 1.'
 		);
 	}
+
 	// Authentication Data SubStructure.
 	public function testAsDisabledADADefaultstoNULL() {
 		GLOBAL $BASE_path, $Use_Auth_System;

@@ -59,14 +59,21 @@ class UILang{
 			$TDF = "$BASE_path/languages/$UILang.lang.php";
 		}
 		// Set Spacing
-		if (
-			$UILang == 'chinese'
-			|| $UILang == 'japanese'
-			|| $UILang == 'simplified_chinese'
-		){
-			$this->Spacing = 0;
-		}else{
-			$this->Spacing = 1;
+		if ( isset($UI_Spacing) ) { // New TDF
+			if ( !is_int($UI_Spacing) ) {
+				$UI_Spacing = 1; // Default to 1 on invalid data.
+			}
+			$this->Spacing = $UI_Spacing;
+		}else{ // Legacy TDF. Spacing Information does not exist.
+			if (
+				$UILang == 'chinese'
+				|| $UILang == 'japanese'
+				|| $UILang == 'simplified_chinese'
+			){
+				$this->Spacing = 0;
+			}else{
+				$this->Spacing = 1;
+			}
 		}
 		// Include Translation Data.
 		include_once($TDF);
