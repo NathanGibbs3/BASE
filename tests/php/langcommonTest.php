@@ -390,7 +390,7 @@ class commonlangTest extends TestCase {
 	// Spacing
 	// Move testTDNewSpacingOff()
 	// From sp tests to here once TD migration is done.
-	public function testTDNewSpacingOn() {
+	public function testTDNewInitSpacingOn() {
 		$lang = self::$langs;
 		$tf = __FUNCTION__;
 		$tmp = "UI$lang";
@@ -401,6 +401,93 @@ class commonlangTest extends TestCase {
 		$this->assertEquals(
 			1, $$tmp->Spacing,
 			'Class did not set Spacing to 1.'
+		);
+	}
+	/**
+	 * @covers UILang::Phrase
+	 */
+	public function testPhraseInvalidInt() {
+		$lang = self::$langs;
+		$tf = __FUNCTION__;
+		$tmp = "UI$lang";
+		LogTC($tf,'language',$lang);
+		$$tmp = self::$UIL;
+		$file = $$tmp->TDF;
+		LogTC($tf,'TD file:',$file);
+		$this->assertEquals(
+			1,
+			$$tmp->Phrase(1),
+			'Phrase Unexpected Return Value.'
+		);
+	}
+	/**
+	 * @covers UILang::Phrase
+	 */
+	public function testPhraseInvalidfloat() {
+		$lang = self::$langs;
+		$tf = __FUNCTION__;
+		$tmp = "UI$lang";
+		LogTC($tf,'language',$lang);
+		$$tmp = self::$UIL;
+		$file = $$tmp->TDF;
+		LogTC($tf,'TD file:',$file);
+		$this->assertEquals(
+			1.5,
+			$$tmp->Phrase(1.5),
+			'Phrase Unexpected Return Value.'
+		);
+	}
+	/**
+	 * @covers UILang::Phrase
+	 */
+	public function testPhraseInvalidstring() {
+		$lang = self::$langs;
+		$tf = __FUNCTION__;
+		$tmp = "UI$lang";
+		LogTC($tf,'language',$lang);
+		$$tmp = self::$UIL;
+		$file = $$tmp->TDF;
+		LogTC($tf,'TD file:',$file);
+		$this->assertEquals(
+			'yes no',
+			$$tmp->Phrase('yes no'),
+			'Phrase Unexpected Return Value.'
+		);
+	}
+	/**
+	 * @covers UILang::Phrase
+	 */
+	public function testPhraseSpacingOff() {
+		$lang = self::$langs;
+		$tf = __FUNCTION__;
+		$tmp = "UI$lang";
+		LogTC($tf,'language',$lang);
+		$$tmp = self::$UIL;
+		$file = $$tmp->TDF;
+		LogTC($tf,'TD file:',$file);
+		$$tmp->Spacing = 0;
+		$this->assertEquals(
+			'10',
+			$$tmp->Phrase(array(1,0)),
+			'Phrase Unexpected Return Value.'
+		);
+	}
+	/**
+	 * @covers UILang::Phrase
+	 */
+	public function testPhraseSpacingOn() {
+		$lang = self::$langs;
+		$tf = __FUNCTION__;
+		$tmp = "UI$lang";
+		LogTC($tf,'language',$lang);
+		$$tmp = self::$UIL;
+		$file = $$tmp->TDF;
+		LogTC($tf,'TD file:',$file);
+		$$tmp->Spacing = 1;
+		$this->assertEquals(
+			'1 0',
+			$$tmp->Phrase(array(1,0)),
+			'Phrase Unexpected Return Value.'
 		);
 	}
 

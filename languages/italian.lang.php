@@ -23,7 +23,7 @@
 ********************************************************************************
 */
 
-// Inter Character Spacing
+// Inter Character Spacing.
 $UI_Spacing = 1;
 // Locales.
 $UI_Locales = array( 'eng_ENG.ISO8859-1', 'eng_ENG.utf-8', 'english' );
@@ -35,14 +35,15 @@ $UI_Title = 'Motore di Sicurezza e Analisi Basilare';
 // Universal Actions.
 $UI_UA_Edit = 'Modifica';
 $UI_UA_Delete = 'Elimina';
+// Common Words.
+$UI_CW_Src = 'Sorgente';
+$UI_CW_Dst = 'Destinazione';
+$UI_CW_Id = 'ID';
+$UI_CW_Name = 'Nome';
 // Common Phrases.
-$UI_CP_SrcDesc = 'Sorgente';
-$UI_CP_SrcName = 'Nome Sorgente';
-$UI_CP_DstDesc = 'Destinazione';
-$UI_CP_DstName = 'Nome Dest.';
-$UI_CP_SrcDst = 'Sorg. o Dest.';
-$UI_CP_Id = 'ID';
-$UI_CP_Name = 'Nome';
+$UI_CP_SrcName = array($UI_CW_Name,'Sorgente');
+$UI_CP_DstName = array($UI_CW_Name,'Dest.');
+$UI_CP_SrcDst = array('Sorg.','o','Dest.');
 $UI_CP_Int = 'Interfaccia';
 $UI_CP_Filter = 'Filtro';
 $UI_CP_Desc = 'Descrizione';
@@ -52,7 +53,7 @@ $UI_CP_Sig = 'Firma';
 // Authentication Data.
 $UI_AD_UND = 'Login';
 $UI_AD_PWD = 'Password';
-$UI_AD_RID = "$UI_CP_Id Ruolo";
+$UI_AD_RID = "$UI_CW_Id Ruolo";
 $UI_AD_ASD = 'Abilitato';
 
 //common phrases
@@ -209,7 +210,7 @@ DEFINE('_OLDPWD','La vecchia password inserita non è corretta!');
 DEFINE('_PWDCANT','Impossibile cambiare la password: ');
 DEFINE('_PWDDONE','Password cambiata!');
 DEFINE('_ROLEEXIST','Ruolo già esistente');
-DEFINE('_ROLEIDEXIST',"$UI_CP_Id già esistente");
+DEFINE('_ROLEIDEXIST',"$UI_CW_Id già esistente");
 DEFINE('_ROLEADDED','Ruolo aggiunto con successo');
 
 //base_roleadmin.php

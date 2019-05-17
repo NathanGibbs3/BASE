@@ -31,7 +31,7 @@
 ********************************************************************************
 */
 
-// Inter Character Spacing
+// Inter Character Spacing.
 $UI_Spacing = 1;
 // Locale.
 $UI_Locales = array( 'pt_PT.ISO8859-1', 'pt_PT.utf-8', 'portuguese' );
@@ -43,14 +43,15 @@ $UI_Title = 'Basic Analysis and Security Engine';
 // Universal Actions.
 $UI_UA_Edit = 'Editar';
 $UI_UA_Delete = 'Apagar';
+// Common Words.
+$UI_CW_Src = 'Origem';
+$UI_CW_Dst = 'Destino';
+$UI_CW_Id = 'ID';
+$UI_CW_Name = 'Nome';
 // Common Phrases.
-$UI_CP_SrcDesc = 'Origem';
-$UI_CP_SrcName = 'Nome da Origem';
-$UI_CP_DstDesc = 'Destino';
-$UI_CP_DstName = 'Nome do Destino';
-$UI_CP_SrcDst = 'Origem ou Destino';
-$UI_CP_Id = 'ID';
-$UI_CP_Name = 'Nome';
+$UI_CP_SrcName = array($UI_CW_Name,'da',$UI_CW_Src);
+$UI_CP_DstName = array($UI_CW_Name,'do',$UI_CW_Dst);
+$UI_CP_SrcDst = array($UI_CW_Src,'ou',$UI_CW_Dst);
 $UI_CP_Int = 'Interface';
 $UI_CP_Filter = 'Filtro';
 $UI_CP_Desc = 'Descrição';
@@ -60,7 +61,7 @@ $UI_CP_Sig = 'Assinatura';
 // Authentication Data.
 $UI_AD_UND = 'Nome';
 $UI_AD_PWD = 'Senha';
-$UI_AD_RID = "$UI_CP_Id do perfil";
+$UI_AD_RID = "$UI_CW_Id do perfil";
 $UI_AD_ASD = 'Habilitado';
 
 //common phrases

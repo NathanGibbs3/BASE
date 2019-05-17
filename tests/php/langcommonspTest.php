@@ -120,7 +120,7 @@ class commonlangSPTest extends TestCase {
 			'Class did not deafult spacing for $lang to 1.'
 		);
 	}
-	public function testTDLegacySpacingOff() {
+	public function testTDLegacyInitSpacingOff() {
 		GLOBAL $BASE_path;
 		$lang = 'legacy-chinese';
 		$tf = __FUNCTION__;
@@ -140,7 +140,7 @@ class commonlangSPTest extends TestCase {
 			'Class did not deafult spacing for $lang to 0.'
 		);
 	}
-	public function testTDLegacySpacingOn() {
+	public function testTDLegacyInitSpacingOn() {
 		GLOBAL $BASE_path;
 		$lang = 'legacy-english';
 		$tf = __FUNCTION__;
@@ -160,7 +160,7 @@ class commonlangSPTest extends TestCase {
 			'Class did not deafult spacing for $lang to 1.'
 		);
 	}
-	public function testTDNewSpacingOff() {
+	public function testTDNewInitSpacingOff() {
 		GLOBAL $BASE_path;
 		$lang = 'chinese';
 		$tf = __FUNCTION__;

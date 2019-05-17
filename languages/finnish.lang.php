@@ -28,7 +28,7 @@
 ********************************************************************************
 */
 
-// Inter Character Spacing
+// Inter Character Spacing.
 $UI_Spacing = 1;
 // Locales.
 $UI_Locales = array( 'eng_ENG.ISO8859-1', 'eng_ENG.utf-8', 'english' );
@@ -40,14 +40,15 @@ $UI_Title = 'Basic Analysis and Security Engine';
 // Universal Actions.
 $UI_UA_Edit = 'Muokkaa';
 $UI_UA_Delete = 'Poista';
+// Common Words.
+$UI_CW_Src = 'Lähde';
+$UI_CW_Dst = 'Kohde';
+$UI_CW_Id = 'ID';
+$UI_CW_Name = 'Nimi';
 // Common Phrases.
-$UI_CP_SrcDesc = 'Lähde';
-$UI_CP_SrcName = 'Lähteen nimi';
-$UI_CP_DstDesc = 'Kohde';
-$UI_CP_DstName = 'Kohteen Nimi';
-$UI_CP_SrcDst = 'Lähteen nimi';
-$UI_CP_Id = 'ID';
-$UI_CP_Name = 'Nimi';
+$UI_CP_SrcName = array('Lähteen',$UI_CW_Name);
+$UI_CP_DstName = array('Kohteen',$UI_CW_Name);
+$UI_CP_SrcDst = array('Lähteen','nimi');
 $UI_CP_Int = 'Käyttöliittymä';
 $UI_CP_Filter = 'Suodatin';
 $UI_CP_Desc = 'Kuvaus';
@@ -57,7 +58,7 @@ $UI_CP_Sig = 'Signature';
 // Authentication Data.
 $UI_AD_UND = 'Login';
 $UI_AD_PWD = 'Salasana';
-$UI_AD_RID = "Role $UI_CP_Id";
+$UI_AD_RID = "Role $UI_CW_Id";
 $UI_AD_ASD = 'Toiminnassa';
 
 //common phrases

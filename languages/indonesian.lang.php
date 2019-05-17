@@ -23,7 +23,7 @@
 ** Joel Esler <joelesler@users.sourceforge.net>
 *********************************************************************************/
 
-// Inter Character Spacing
+// Inter Character Spacing.
 $UI_Spacing = 1;
 // Locales.
 $UI_Locales = array( 'eng_ENG.ISO8859-1', 'eng_ENG.utf-8', 'english' );
@@ -35,14 +35,15 @@ $UI_Title = 'Basic Analysis and Security Engine';
 // Universal Actions.
 $UI_UA_Edit = 'Edit';
 $UI_UA_Delete = 'Hapus';
+// Common Words.
+$UI_CW_Src = 'Sumber';
+$UI_CW_Dst = 'Sasaran';
+$UI_CW_Id = 'ID';
+$UI_CW_Name = 'Nama';
 // Common Phrases.
-$UI_CP_SrcDesc = 'Sumber';
-$UI_CP_SrcName = 'Nama Sumber';
-$UI_CP_DstDesc = 'Sasaran';
-$UI_CP_DstName = 'Nama Sasaran';
-$UI_CP_SrcDst = 'Sumber atau Sasaran';
-$UI_CP_Id = 'ID';
-$UI_CP_Name = 'Nama';
+$UI_CP_SrcName = array($UI_CW_Name,$UI_CW_Src);
+$UI_CP_DstName = array($UI_CW_Name,$UI_CW_Dst);
+$UI_CP_SrcDst = array($UI_CW_Src,'atau',$UI_CW_Dst);
 $UI_CP_Int = 'Interface';
 $UI_CP_Filter = 'Filter';
 $UI_CP_Desc = 'Deskripsi';
@@ -52,7 +53,7 @@ $UI_CP_Sig = 'Nama Alarem');
 // Authentication Data.
 $UI_AD_UND = 'Login';
 $UI_AD_PWD = 'Kata Sandi';
-$UI_AD_RID = "$UI_CP_Id Peran";
+$UI_AD_RID = "$UI_CW_Id Peran";
 $UI_AD_ASD = 'Aktif';
 
 //common phrases

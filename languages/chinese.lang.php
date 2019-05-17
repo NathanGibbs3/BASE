@@ -23,7 +23,7 @@
 ********************************************************************************
 */
 
-// Inter Character Spacing
+// Inter Character Spacing.
 $UI_Spacing = 0;
 // Locales.
 $UI_Locales = array( 'eng_ENG.ISO8859-1', 'eng_ENG.utf-8', '繁體中文' );
@@ -35,14 +35,15 @@ $UI_Title = '安全基本分析引擎';
 // Universal Actions.
 $UI_UA_Edit = '編輯';
 $UI_UA_Delete = '刪除';
+// Common Words.
+$UI_CW_Src = '來源';
+$UI_CW_Dst = '目地';;
+$UI_CW_Id = '識別碼';
+$UI_CW_Name = '名稱';
 // Common Phrases.
-$UI_CP_SrcDesc = '來源';
-$UI_CP_SrcName = '來源名稱';
-$UI_CP_DstDesc = '目地';
-$UI_CP_DstName = '目地名稱';
-$UI_CP_SrcDst = '來源或目地';
-$UI_CP_Id = '識別碼';
-$UI_CP_Name = '名稱';
+$UI_CP_SrcName = array($UI_CW_Src,$UI_CW_Name);
+$UI_CP_DstName = array($UI_CW_Dst,$UI_CW_Name);
+$UI_CP_SrcDst = array($UI_CW_Src,'或',$UI_CW_Dst);
 $UI_CP_Int = '介面';
 $UI_CP_Filter = '過濾器';
 $UI_CP_Desc = '說明';
@@ -52,7 +53,7 @@ $UI_CP_Sig = '特徵';
 // Authentication Data.
 $UI_AD_UND = '使用者登入';
 $UI_AD_PWD = '密碼';
-$UI_AD_RID = "角色$UI_CP_Id";
+$UI_AD_RID = "角色$UI_CW_Id";
 $UI_AD_ASD = '啟用';
 
 //common phrases

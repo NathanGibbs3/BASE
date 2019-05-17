@@ -25,7 +25,7 @@
 ********************************************************************************
 */
 
-// Inter Character Spacing
+// Inter Character Spacing.
 $UI_Spacing = 1;
 // Locales.
 $UI_Locales = array( 'eng_ENG.ISO8859-1', 'eng_ENG.utf-8', 'english' );
@@ -37,14 +37,15 @@ $UI_Title = 'Базовый движок анализа и безопасности';
 // Universal Actions.
 $UI_UA_Edit = 'Редактировать';
 $UI_UA_Delete = 'Удалить';
+// Common Words.
+$UI_CW_Src = 'Источник';
+$UI_CW_Dst = 'Назначение';
+$UI_CW_Id = 'ID';
+$UI_CW_Name = 'Имя';
 // Common Phrases.
-$UI_CP_SrcDesc = 'Источник';
-$UI_CP_SrcName = 'Имя источника';
-$UI_CP_DstDesc = 'Назначение';
-$UI_CP_DstName = 'Имя назначения';
-$UI_CP_SrcDst = 'Источник или назначение';
-$UI_CP_Id = 'ID';
-$UI_CP_Name = 'Имя';
+$UI_CP_SrcName = array($UI_CW_Name,$UI_CW_Src);
+$UI_CP_DstName = array($UI_CW_Name,$UI_CW_Dst);
+$UI_CP_SrcDst = array($UI_CW_Src,'или',$UI_CW_Dst);
 $UI_CP_Int = 'Интерфейс';
 $UI_CP_Filter = 'Фильтр';
 $UI_CP_Desc = 'Описание';
@@ -54,7 +55,7 @@ $UI_CP_Sig = 'Сигнатура';
 // Authentication Data.
 $UI_AD_UND = 'Логин';
 $UI_AD_PWD = 'Пароль';
-$UI_AD_RID = "$UI_CP_Id роли";
+$UI_AD_RID = "$UI_CW_Id роли";
 $UI_AD_ASD = 'Включено';
 
 // основные фразы

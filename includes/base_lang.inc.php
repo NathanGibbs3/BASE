@@ -124,50 +124,50 @@ class UILang{
 			$this->SetUIUAItem('Delete');
 		}
 		// Init Common Phrases
-		if ( isset($UI_CP_SrcDesc) ) { // Var New TDF
-			$this->SetUICPItem('SrcDesc',$UI_CP_SrcDesc);
+		if ( isset($UI_CW_Src) ) { // Var New TDF
+			$this->SetUICPItem('SrcDesc',$UI_CW_Src);
 		}elseif (defined('_SOURCE')) { // Const Legacy TDF
 			$this->SetUICPItem('SrcDesc',_SOURCE);
 		}else{
 			$this->SetUICPItem('SrcDesc');
 		}
 		if ( isset($UI_CP_SrcName) ) { // Var New TDF
-			$this->SetUICPItem('SrcName',$UI_CP_SrcName);
+			$this->SetUICPItem('SrcName',$this->Phrase($UI_CP_SrcName));
 		}elseif (defined('_SOURCENAME')) { // Const Legacy TDF
 			$this->SetUICPItem('SrcName',_SOURCENAME);
 		}else{
 			$this->SetUICPItem('SrcName');
 		}
-		if ( isset($UI_CP_DstDesc) ) { // Var New TDF
-			$this->SetUICPItem('DstDesc',$UI_CP_DstDesc);
+		if ( isset($UI_CW_Dst) ) { // Var New TDF
+			$this->SetUICPItem('DstDesc',$UI_CW_Dst);
 		}elseif (defined('_DEST')) { // Const Legacy TDF
 			$this->SetUICPItem('DstDesc',_DEST);
 		}else{
 			$this->SetUICPItem('DstDesc');
 		}
 		if ( isset($UI_CP_DstName) ) { // Var New TDF
-			$this->SetUICPItem('DstName',$UI_CP_DstName);
+			$this->SetUICPItem('DstName',$this->Phrase($UI_CP_DstName));
 		}elseif (defined('_DESTNAME')) { // Const Legacy TDF
 			$this->SetUICPItem('DstName',_DESTNAME);
 		}else{
 			$this->SetUICPItem('DstName');
 		}
 		if ( isset($UI_CP_SrcDst) ) { // Var New TDF
-			$this->SetUICPItem('SrcDst',$UI_CP_SrcDst);
+			$this->SetUICPItem('SrcDst',$this->Phrase($UI_CP_SrcDst));
 		}elseif (defined('_SORD')) { // Const Legacy TDF
 			$this->SetUICPItem('SrcDst',_SORD);
 		}else{
 			$this->SetUICPItem('SrcDst');
 		}
-		if ( isset($UI_CP_Id) ) { // Var New TDF
-			$this->SetUICPItem('Id',$UI_CP_Id);
+		if ( isset($UI_CW_Id) ) { // Var New TDF
+			$this->SetUICPItem('Id',$UI_CW_Id);
 		}elseif (defined('_ID')) { // Const Legacy TDF
 			$this->SetUICPItem('Id',_ID);
 		}else{
 			$this->SetUICPItem('Id');
 		}
-		if ( isset($UI_CP_Name) ) { // Var New TDF
-			$this->SetUICPItem('Name',$UI_CP_Name);
+		if ( isset($UI_CW_Name) ) { // Var New TDF
+			$this->SetUICPItem('Name',$UI_CW_Name);
 		}elseif (defined('_NAME')) { // Const Legacy TDF
 			$this->SetUICPItem('Name',_NAME);
 		}else{
@@ -365,6 +365,17 @@ class UILang{
 			// Will need to add this message to the TD.
 			trigger_error("Invalid UA Set Request for: $Item.\n");
 		}
+	}
+	function Phrase($Words = array() ) {
+		if ( !is_array($Words) ) {
+			$Words = array($Words);
+		}
+		if ($this->Spacing == 1){
+			$glue = ' ';
+		}else{
+			$glue = '';
+		}
+		return implode($glue, $Words);
 	}
 }
 ?>

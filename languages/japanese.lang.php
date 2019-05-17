@@ -23,7 +23,7 @@
 ********************************************************************************
 */
 
-// Inter Character Spacing
+// Inter Character Spacing.
 $UI_Spacing = 0;
 // Locales.
 $UI_Locales = array( 'eng_ENG.ISO8859-1', 'eng_ENG.utf-8', 'english' );
@@ -35,14 +35,15 @@ $UI_Title = 'Basic Analysis and Security Engine 日本';
 // Universal Actions.
 $UI_UA_Edit = '編集';
 $UI_UA_Delete = '削除';
+// Common Words.
+$UI_CW_Src = '発信元';
+$UI_CW_Dst = '発信先';
+$UI_CW_Id = 'ID';
+$UI_CW_Name = '名前';
 // Common Phrases.
-$UI_CP_SrcDesc = '発信元';
-$UI_CP_SrcName = '発信元　名前';
-$UI_CP_DstDesc = '発信先';
-$UI_CP_DstName = '送信先　名前';
-$UI_CP_SrcDst = '発信元 or 送信先';
-$UI_CP_Id = 'ID';
-$UI_CP_Name = '名前';
+$UI_CP_SrcName = array($UI_CW_Src,$UI_CW_Name);
+$UI_CP_DstName = array($UI_CW_Dst,$UI_CW_Name);
+$UI_CP_SrcDst = array($UI_CW_Src,'or',$UI_CW_Dst);
 $UI_CP_Int = 'インターフェース';
 $UI_CP_Filter = 'フィルター';
 $UI_CP_Desc = '詳細';
@@ -52,7 +53,7 @@ $UI_CP_Sig = 'シグネチャ';
 // Authentication Data.
 $UI_AD_UND = 'ログイン';
 $UI_AD_PWD = 'パスワード';
-$UI_AD_RID = "Role $UI_CP_Id";
+$UI_AD_RID = "Role $UI_CW_Id";
 $UI_AD_ASD = '有効';
 
 //common phrases

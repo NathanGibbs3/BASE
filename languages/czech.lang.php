@@ -24,7 +24,7 @@
 ********************************************************************************
 */
 
-// Inter Character Spacing
+// Inter Character Spacing.
 $UI_Spacing = 1;
 // Locales.
 $UI_Locales = array( 'eng_ENG.ISO8859-1', 'eng_ENG.utf-8', 'english' );
@@ -36,14 +36,15 @@ $UI_Title = 'Basic Analysis and Security Engine';
 // Universal Actions.
 $UI_UA_Edit = 'Upravit';
 $UI_UA_Delete = 'Smazat';
+// Common Words.
+$UI_CW_Src = 'Zdroj';
+$UI_CW_Dst = 'Cíl';
+$UI_CW_Id = 'ID';
+$UI_CW_Name = 'Jméno';
 // Common Phrases.
-$UI_CP_SrcDesc = 'Zdroj';
-$UI_CP_SrcName = 'Jméno zdoje';
-$UI_CP_DstDesc = 'Cíl';
-$UI_CP_DstName = 'Jméno cíle';
-$UI_CP_SrcDst = 'Zdroj n. cíl';
-$UI_CP_Id = 'ID';
-$UI_CP_Name = 'Jméno';
+$UI_CP_SrcName = array($UI_CW_Name,$UI_CW_Src);
+$UI_CP_DstName = array($UI_CW_Name,$UI_CW_Dst);
+$UI_CP_SrcDst = array($UI_CW_Src,'n.',$UI_CW_Dst);
 $UI_CP_Int = 'Rozhraní';
 $UI_CP_Filter = 'Filtr';
 $UI_CP_Desc = 'Popis';
@@ -53,7 +54,7 @@ $UI_CP_Sig = 'Podpis';
 // Authentication Data.
 $UI_AD_UND = 'Login';
 $UI_AD_PWD = 'Heslo';
-$UI_AD_RID = "$UI_CP_Id role";
+$UI_AD_RID = "$UI_CW_Id role";
 $UI_AD_ASD = 'Enabled';
 
 //common phrases

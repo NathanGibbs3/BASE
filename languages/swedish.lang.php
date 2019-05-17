@@ -23,7 +23,7 @@
 ********************************************************************************
 */
 
-// Inter Character Spacing
+// Inter Character Spacing.
 $UI_Spacing = 1;
 // Locales.
 $UI_Locales = array( 'eng_ENG.ISO8859-1', 'eng_ENG.utf-8', 'english' );
@@ -35,14 +35,15 @@ $UI_Title = 'Basic Analysis and Security Engine';
 // Universal Actions.
 $UI_UA_Edit = 'Edit';
 $UI_UA_Delete = 'Radera';
+// Common Words.
+$UI_CW_Src = 'Källa';
+$UI_CW_Dst = 'Destination';
+$UI_CW_Id = 'ID';
+$UI_CW_Name = 'Namn';
 // Common Phrases.
-$UI_CP_SrcDesc = 'Källa';
-$UI_CP_SrcName = 'Käll namn';
-$UI_CP_DstDesc = 'Destination';
-$UI_CP_DstName = 'Dest. Namn';
-$UI_CP_SrcDst = 'Src or Dest';
-$UI_CP_Id = 'ID';
-$UI_CP_Name = 'Namn';
+$UI_CP_SrcName = array($UI_CW_Src,$UI_CW_Name);
+$UI_CP_DstName = array('Dest.',$UI_CW_Name);
+$UI_CP_SrcDst = array('Src','or','Dest');
 $UI_CP_Int = 'Gränssnitt';
 $UI_CP_Filter = 'Filter';
 $UI_CP_Desc = 'Beskrivning';
@@ -52,7 +53,7 @@ $UI_CP_Sig = 'Signatur';
 // Authentication Data.
 $UI_AD_UND = 'Logga in';
 $UI_AD_PWD = 'Lösenord';
-$UI_AD_RID = "Roll $UI_CP_Id";
+$UI_AD_RID = "Roll $UI_CW_Id";
 $UI_AD_ASD = 'Möjliggjord';
 
 //common phrases
