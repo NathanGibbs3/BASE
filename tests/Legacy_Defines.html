@@ -1,0 +1,635 @@
+<style>
+table, th, td {
+	border: 1px solid black;
+	border-collapse: collapse;
+}
+</style>
+<table width="100%">
+	<thead>
+		<tr>
+			<th>Purpose</th>
+			<th>Legacy TD Item</th>
+			<th colspan="2">New TD Item</th>
+			<th rowspan="2">UILang Property</th>
+			<th rowspan="2">English word or phrase trnaslated</th>
+		</tr><tr>
+			<th></th>
+			<th>CONST</th>
+			<th>Variable</th>
+			<th>Type</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td>Inter Character Spacing.</td>
+			<td>N/A</td>
+			<td>UI_Spacing</td>
+			<td>Boolean</td>
+			<td>Spacing</td>
+			<td rowspan="6">N/A</td>
+		</tr><tr>
+			<td rowspan="3">UI Locales.</td>
+			<td>_LOCALESTR1</td>
+			<td rowspan="3">$UI_Locales</td>
+			<td rowspan="3">Array</td>
+			<td rowspan="3">Locales</td>
+		</tr><tr>
+			<td>_LOCALESTR2</td>
+		</tr><tr>
+			<td>_LOCALESTR3</td>
+		</tr><tr>
+			<td>Time Format in strftime() syntax.</td>
+			<td>_STRFTIMEFORMAT</td>
+			<td>$UI_Timefmt</td>
+			<td rowspan="7">String</td>
+			<td>Timefmt</td>
+		</tr><tr>
+			<td>UI Charset passed to Http client.</td>
+			<td>_CHARSET</td>
+			<td>$UI_Charset</td>
+			<td>Charset</td>
+		</tr><tr>
+			<td>Page Title Foundation</td>
+			<td>_TITLE</td>
+			<td>$UI_Title</td>
+			<td>Title</td>
+			<td>Basic Analysis and Security Engine</td>
+		</tr><tr>
+			<td rowspan="2">User Name Dexcription</td>
+			<td>_FRMLOGIN</td>
+			<td rowspan="2">$UI_AD_UND</td>
+			<td rowspan="2">ADA[DescUN]</td>
+			<td rowspan="2">Login</td>
+		</tr><tr>
+			<td>_LOGIN</td>
+		</tr><tr>
+			<td >Password Dexcription</td>
+			<td>_FRMPWD</td>
+			<td>$UI_AD_PWD</td>
+			<td>ADA[DescPW]</td>
+			<td>Password</td>
+		</tr><tr>
+			<td>Word "Source"</td>
+			<td>_SOURCE</td>
+			<td>$UI_CW_Src</td>
+			<td>CPA[SrcDesc]</td>
+			<td>Source</td>
+		</tr><tr>
+			<td>Phrase "Source Name"
+			<td>_SOURCENAME</td>
+			<td>$UI_CP_SrcName</td>
+			<td>Array</td>
+			<td>CPA[SrcName]</td>
+			<td>Source Name</td>
+		</tr><tr>
+			<td>Word "Destination"</td>
+			<td>_DEST</td>
+			<td>$UI_CW_Dst</td>
+			<td>String</td>
+			<td>CPA[DstDesc]</td>
+			<td>Destination</td>
+		</tr><tr>
+			<td>_DESTNAME</td>
+		</tr><tr>
+<td>_SORD</td>
+<td>_EDIT</td>
+<td>_DELETE</td>
+<td>_ID</td>
+<td>_NAME</td>
+<td>_INTERFACE</td>
+<td>_FILTER</td>
+<td>_DESC</td>
+<td>_LOGIN</td>
+<td>_ROLEID</td>
+<td>_ENABLED</td>
+<td>_SUCCESS</td>
+<td>_SENSOR</td>
+<td>_SENSORS</td>
+<td>_SIGNATURE</td>
+<td>_TIMESTAMP</td>
+<td>_NBSOURCEADDR</td>
+<td>_NBDESTADDR</td>
+<td>_NBLAYER4</td>
+<td>_PRIORITY</td>
+<td>_EVENTTYPE</td>
+<td>_JANUARY</td>
+<td>_FEBRUARY</td>
+<td>_MARCH</td>
+<td>_APRIL</td>
+<td>_MAY</td>
+<td>_JUNE</td>
+<td>_JULY</td>
+<td>_AUGUST</td>
+<td>_SEPTEMBER</td>
+<td>_OCTOBER</td>
+<td>_NOVEMBER</td>
+<td>_DECEMBER</td>
+<td>_LAST</td>
+<td>_FIRST</td>
+<td>_TOTAL</td>
+<td>_ALERT</td>
+<td>_ADDRESS</td>
+<td>_UNKNOWN</td>
+<td>_AND</td>
+<td>_OR</td>
+<td>_IS</td>
+<td>_ON</td>
+<td>_IN</td>
+<td>_ANY</td>
+<td>_NONE</td>
+<td>_HOUR</td>
+<td>_DAY</td>
+<td>_MONTH</td>
+<td>_YEAR</td>
+<td>_ALERTGROUP</td>
+<td>_ALERTTIME</td>
+<td>_CONTAINS</td>
+<td>_DOESNTCONTAIN</td>
+<td>_SOURCEPORT</td>
+<td>_DESTPORT</td>
+<td>_HAS</td>
+<td>_HASNOT</td>
+<td>_PORT</td>
+<td>_FLAGS</td>
+<td>_MISC</td>
+<td>_BACK</td>
+<td>_DISPYEAR</td>
+<td>_DISPMONTH</td>
+<td>_DISPHOUR</td>
+<td>_DISPDAY</td>
+<td>_DISPTIME</td>
+<td>_ADDADDRESS</td>
+<td>_ADDIPFIELD</td>
+<td>_ADDTIME</td>
+<td>_ADDTCPPORT</td>
+<td>_ADDTCPFIELD</td>
+<td>_ADDUDPPORT</td>
+<td>_ADDUDPFIELD</td>
+<td>_ADDICMPFIELD</td>
+<td>_ADDPAYLOAD</td>
+<td>_MOSTFREQALERTS</td>
+<td>_MOSTFREQPORTS</td>
+<td>_MOSTFREQADDRS</td>
+<td>_LASTALERTS</td>
+<td>_LASTPORTS</td>
+<td>_LASTTCP</td>
+<td>_LASTUDP</td>
+<td>_LASTICMP</td>
+<td>_QUERYDB</td>
+<td>_QUERYDBP</td>
+<td>                                //Should be something like: _QUERYDBP</td>
+<td>_SELECTED</td>
+<td>_ALLONSCREEN</td>
+<td>_ENTIREQUERY</td>
+<td>_OPTIONS</td>
+<td>_LENGTH</td>
+<td>_CODE</td>
+<td>_DATA</td>
+<td>_TYPE</td>
+<td>_NEXT</td>
+<td>_PREVIOUS</td>
+<td>_HOME</td>
+<td>_SEARCH</td>
+<td>_AGMAINT</td>
+<td>_USERPREF</td>
+<td>_CACHE</td>
+<td>_ADMIN</td>
+<td>_GALERTD</td>
+<td>_GALERTDT</td>
+<td>_USERMAN</td>
+<td>_LISTU</td>
+<td>_CREATEU</td>
+<td>_ROLEMAN</td>
+<td>_LISTR</td>
+<td>_CREATER</td>
+<td>_LISTALL</td>
+<td>_CREATE</td>
+<td>_VIEW</td>
+<td>_CLEAR</td>
+<td>_LISTGROUPS</td>
+<td>_CREATEGROUPS</td>
+<td>_VIEWGROUPS</td>
+<td>_EDITGROUPS</td>
+<td>_DELETEGROUPS</td>
+<td>_CLEARGROUPS</td>
+<td>_CHNGPWD</td>
+<td>_DISPLAYU</td>
+<td>_FOOTER</td>
+<td>_LOGINERROR</td>
+<td>_MOSTRECENT</td>
+<td>_MOSTFREQUENT</td>
+<td>_ALERTS</td>
+<td>_ADDRESSES</td>
+<td>_ANYPROTO</td>
+<td>_UNI</td>
+<td>_LISTING</td>
+<td>_TALERTS</td>
+<td>_SOURCEIP</td>
+<td>_DESTIP</td>
+<td>_L24ALERTS</td>
+<td>_L72ALERTS</td>
+<td>_UNIALERTS</td>
+<td>_LSOURCEPORTS</td>
+<td>_LDESTPORTS</td>
+<td>_FREGSOURCEP</td>
+<td>_FREGDESTP</td>
+<td>_QUERIED</td>
+<td>_DATABASE</td>
+<td>_SCHEMAV</td>
+<td>_TIMEWIN</td>
+<td>_NOALERTSDETECT</td>
+<td>_USEALERTDB</td>
+<td>_USEARCHIDB</td>
+<td>_TRAFFICPROBPRO</td>
+<td>_ADDEDSF</td>
+<td>_NOPWDCHANGE</td>
+<td>_NOUSER</td>
+<td>_OLDPWD</td>
+<td>_PWDCANT</td>
+<td>_PWDDONE</td>
+<td>_ROLEEXIST</td>
+<td>_ROLEIDEXIST</td>
+<td>_ROLEADDED</td>
+<td>_ROLEADMIN</td>
+<td>_FRMROLEID</td>
+<td>_FRMROLENAME</td>
+<td>_FRMROLEDESC</td>
+<td>_UPDATEROLE</td>
+<td>_USERADMIN</td>
+<td>_FRMFULLNAME</td>
+<td>_FRMROLE</td>
+<td>_FRMUID</td>
+<td>_SUBMITQUERY</td>
+<td>_UPDATEUSER</td>
+<td>_BASEADMIN</td>
+<td>_BASEADMINTEXT</td>
+<td>_NOACTION</td>
+<td>_INVALIDACT</td>
+<td>_ERRNOAG</td>
+<td>_ERRNOEMAIL</td>
+<td>_ACTION</td>
+<td>_CONTEXT</td>
+<td>_ADDAGID</td>
+<td>_ADDAG</td>
+<td>_ADDAGNAME</td>
+<td>_CREATEAG</td>
+<td>_CLEARAG</td>
+<td>_DELETEALERT</td>
+<td>_EMAILALERTSFULL</td>
+<td>_EMAILALERTSSUMM</td>
+<td>_EMAILALERTSCSV</td>
+<td>_ARCHIVEALERTSCOPY</td>
+<td>_ARCHIVEALERTSMOVE</td>
+<td>_IGNORED</td>
+<td>_DUPALERTS</td>
+<td>_ALERTSPARA</td>
+<td>_NOALERTSSELECT</td>
+<td>_NOTSUCCESSFUL</td>
+<td>_ERRUNKAGID</td>
+<td>_ERRREMOVEFAIL</td>
+<td>_GENBASE</td>
+<td>_ERRNOEMAILEXP</td>
+<td>_ERRNOEMAILPHP</td>
+<td>_ERRDELALERT</td>
+<td>_ERRARCHIVE</td>
+<td>_ERRMAILNORECP</td>
+<td>_ADDED</td>
+<td>_HOSTNAMESDNS</td>
+<td>_HOSTNAMESWHOIS</td>
+<td>_ERRCACHENULL</td>
+<td>_ERRCACHEERROR</td>
+<td>_ERRCACHEUPDATE</td>
+<td>_ALERTSCACHE</td>
+<td>_ERRSQLTRACE</td>
+<td>_ERRSQLCONNECT</td>
+<td>_ERRSQLCONNECTINFO</td>
+<td>_ERRSQLPCONNECT</td>
+<td>_ERRSQLDB</td>
+<td>_DBALCHECK</td>
+<td>_ERRSQLDBALLOAD1</td>
+<td>_ERRSQLDBALLOAD2</td>
+<td>_ERRSQLDBTYPE</td>
+<td>_ERRSQLDBTYPEINFO1</td>
+<td>_ERRSQLDBTYPEINFO2</td>
+<td>_ERRBASEFATAL</td>
+<td>_LOADEDIN</td>
+<td>_SECONDS</td>
+<td>_ERRRESOLVEADDRESS</td>
+<td>_QUERYRESULTSHEADER</td>
+<td>_ERRSIGNAMEUNK</td>
+<td>_ERRSIGPROIRITYUNK</td>
+<td>_UNCLASS</td>
+<td>_DENCODED</td>
+<td>_NODENCODED</td>
+<td>_SHORTJAN</td>
+<td>_SHORTFEB</td>
+<td>_SHORTMAR</td>
+<td>_SHORTAPR</td>
+<td>_SHORTMAY</td>
+<td>_SHORTJUN</td>
+<td>_SHORTJLY</td>
+<td>_SHORTAUG</td>
+<td>_SHORTSEP</td>
+<td>_SHORTOCT</td>
+<td>_SHORTNOV</td>
+<td>_SHORTDEC</td>
+<td>_DISPSIG</td>
+<td>_DISPANYCLASS</td>
+<td>_DISPANYPRIO</td>
+<td>_DISPANYSENSOR</td>
+<td>_DISPADDRESS</td>
+<td>_DISPFIELD</td>
+<td>_DISPPORT</td>
+<td>_DISPENCODING</td>
+<td>_DISPCONVERT2</td>
+<td>_DISPANYAG</td>
+<td>_DISPPAYLOAD</td>
+<td>_DISPFLAGS</td>
+<td>_SIGEXACTLY</td>
+<td>_SIGROUGHLY</td>
+<td>_SIGCLASS</td>
+<td>_SIGPRIO</td>
+<td>_SHORTSOURCE</td>
+<td>_SHORTDEST</td>
+<td>_SHORTSOURCEORDEST</td>
+<td>_NOLAYER4</td>
+<td>_INPUTCRTENC</td>
+<td>_CONVERT2WS</td>
+<td>_PHPERRORCSESSION</td>
+<td>_PHPERRORCSESSIONCODE</td>
+<td>_PHPERRORCSESSIONVAR</td>
+<td>_PHPSESSREG</td>
+<td>_REMOVE</td>
+<td>_FROMCRIT</td>
+<td>_ERRCRITELEM</td>
+<td>_VALIDCANNED</td>
+<td>_DISPLAYING</td>
+<td>_DISPLAYINGTOTAL</td>
+<td>_NOALERTS</td>
+<td>_QUERYRESULTS</td>
+<td>_QUERYSTATE</td>
+<td>_DISPACTION</td>
+<td>_ERRAGNAMESEARCH</td>
+<td>_ERRAGNAMEEXIST</td>
+<td>_ERRAGIDSEARCH</td>
+<td>_ERRAGLOOKUP</td>
+<td>_ERRAGINSERT</td>
+<td>_AGMAINTTITLE</td>
+<td>_ERRAGUPDATE</td>
+<td>_ERRAGPACKETLIST</td>
+<td>_ERRAGDELETE</td>
+<td>_AGDELETE</td>
+<td>_AGDELETEINFO</td>
+<td>_ERRAGSEARCHINV</td>
+<td>_ERRAGSEARCHNOTFOUND</td>
+<td>_NOALERTGOUPS</td>
+<td>_NUMALERTS</td>
+<td>_ACTIONS</td>
+<td>_NOTASSIGN</td>
+<td>_SAVECHANGES</td>
+<td>_CONFIRMDELETE</td>
+<td>_CONFIRMCLEAR</td>
+<td>_PORTSCAN</td>
+<td>_ERRDBINDEXCREATE</td>
+<td>_DBINDEXCREATE</td>
+<td>_ERRSNORTVER</td>
+<td>_ERRSNORTVER1</td>
+<td>_ERRSNORTVER2</td>
+<td>_ERRDBSTRUCT1</td>
+<td>_ERRDBSTRUCT2</td>
+<td>_ERRPHPERROR</td>
+<td>_ERRPHPERROR1</td>
+<td>_ERRVERSION</td>
+<td>_ERRPHPERROR2</td>
+<td>_ERRPHPMYSQLSUP</td>
+<td>_ERRPHPPOSTGRESSUP</td>
+<td>_ERRPHPMSSQLSUP</td>
+<td>_ERRPHPORACLESUP</td>
+<td>_CHARTTITLE</td>
+<td>_CHARTTYPE</td>
+<td>_CHARTTYPES</td>
+<td>_CHARTPERIOD</td>
+<td>_PERIODNO</td>
+<td>_PERIODWEEK</td>
+<td>_PERIODDAY</td>
+<td>_PERIOD168</td>
+<td>_CHARTSIZE</td>
+<td>_PLOTMARGINS</td>
+<td>_PLOTTYPE</td>
+<td>_TYPEBAR</td>
+<td>_TYPELINE</td>
+<td>_TYPEPIE</td>
+<td>_CHARTHOUR</td>
+<td>_CHARTDAY</td>
+<td>_CHARTMONTH</td>
+<td>_GRAPHALERTS</td>
+<td>_AXISCONTROLS</td>
+<td>_CHRTTYPEHOUR</td>
+<td>_CHRTTYPEDAY</td>
+<td>_CHRTTYPEWEEK</td>
+<td>_CHRTTYPEMONTH</td>
+<td>_CHRTTYPEYEAR</td>
+<td>_CHRTTYPESRCIP</td>
+<td>_CHRTTYPEDSTIP</td>
+<td>_CHRTTYPEDSTUDP</td>
+<td>_CHRTTYPESRCUDP</td>
+<td>_CHRTTYPEDSTPORT</td>
+<td>_CHRTTYPESRCPORT</td>
+<td>_CHRTTYPESIG</td>
+<td>_CHRTTYPESENSOR</td>
+<td>_CHRTBEGIN</td>
+<td>_CHRTEND</td>
+<td>_CHRTDS</td>
+<td>_CHRTX</td>
+<td>_CHRTY</td>
+<td>_CHRTMINTRESH</td>
+<td>_CHRTROTAXISLABEL</td>
+<td>_CHRTSHOWX</td>
+<td>_CHRTDISPLABELX</td>
+<td>_CHRTDATAPOINTS</td>
+<td>_CHRTYLOG</td>
+<td>_CHRTYGRID</td>
+<td>_CHRTTITLE</td>
+<td>_ERRCHRTNOTYPE</td>
+<td>_ERRNOAGSPEC</td>
+<td>_CHRTDATAIMPORT</td>
+<td>_CHRTTIMEVNUMBER</td>
+<td>_CHRTTIME</td>
+<td>_CHRTALERTOCCUR</td>
+<td>_CHRTSIPNUMBER</td>
+<td>_CHRTSIP</td>
+<td>_CHRTDIPALERTS</td>
+<td>_CHRTDIP</td>
+<td>_CHRTUDPPORTNUMBER</td>
+<td>_CHRTDUDPPORT</td>
+<td>_CHRTSUDPPORTNUMBER</td>
+<td>_CHRTSUDPPORT</td>
+<td>_CHRTPORTDESTNUMBER</td>
+<td>_CHRTPORTDEST</td>
+<td>_CHRTPORTSRCNUMBER</td>
+<td>_CHRTPORTSRC</td>
+<td>_CHRTSIGNUMBER</td>
+<td>_CHRTCLASS</td>
+<td>_CHRTSENSORNUMBER</td>
+<td>_CHRTHANDLEPERIOD</td>
+<td>_CHRTDUMP</td>
+<td>_CHRTDRAW</td>
+<td>_ERRCHRTNODATAPOINTS</td>
+<td>_GRAPHALERTDATA</td>
+<td>_MAINTTITLE</td>
+<td>_MNTPHP</td>
+<td>_MNTCLIENT</td>
+<td>_MNTSERVER</td>
+<td>_MNTSERVERHW</td>
+<td>_MNTPHPVER</td>
+<td>_MNTPHPAPI</td>
+<td>_MNTPHPLOGLVL</td>
+<td>_MNTPHPMODS</td>
+<td>_MNTDBTYPE</td>
+<td>_MNTDBALV</td>
+<td>_MNTDBALERTNAME</td>
+<td>_MNTDBARCHNAME</td>
+<td>_MNTAIC</td>
+<td>_MNTAICTE</td>
+<td>_MNTAICCE</td>
+<td>_MNTIPAC</td>
+<td>_MNTIPACUSIP</td>
+<td>_MNTIPACDNSC</td>
+<td>_MNTIPACWC</td>
+<td>_MNTIPACUDIP</td>
+<td>_QAINVPAIR</td>
+<td>_QAALERTDELET</td>
+<td>_QATRIGGERSIG</td>
+<td>_QANORMALD</td>
+<td>_QAPLAIND</td>
+<td>_QANOPAYLOAD</td>
+<td>_QCSIG</td>
+<td>_QCIPADDR</td>
+<td>_QCIPFIELDS</td>
+<td>_QCTCPPORTS</td>
+<td>_QCTCPFLAGS</td>
+<td>_QCTCPFIELD</td>
+<td>_QCUDPPORTS</td>
+<td>_QCUDPFIELDS</td>
+<td>_QCICMPFIELDS</td>
+<td>_QCDATA</td>
+<td>_QCERRCRITWARN</td>
+<td>_QCERRVALUE</td>
+<td>_QCERRFIELD</td>
+<td>_QCERROPER</td>
+<td>_QCERRDATETIME</td>
+<td>_QCERRPAYLOAD</td>
+<td>_QCERRIP</td>
+<td>_QCERRIPTYPE</td>
+<td>_QCERRSPECFIELD</td>
+<td>_QCERRSPECVALUE</td>
+<td>_QCERRBOOLEAN</td>
+<td>_QCERRDATEVALUE</td>
+<td>_QCERRINVHOUR</td>
+<td>_QCERRDATECRIT</td>
+<td>_QCERROPERSELECT</td>
+<td>_QCERRDATEBOOL</td>
+<td>_QCERRPAYCRITOPER</td>
+<td>_QCERRPAYCRITVALUE</td>
+<td>_QCERRPAYBOOL</td>
+<td>_QCMETACRIT</td>
+<td>_QCIPCRIT</td>
+<td>_QCPAYCRIT</td>
+<td>_QCTCPCRIT</td>
+<td>_QCUDPCRIT</td>
+<td>_QCICMPCRIT</td>
+<td>_QCLAYER4CRIT</td>
+<td>_QCERRINVIPCRIT</td>
+<td>_QCERRCRITADDRESSTYPE</td>
+<td>_QCERRCRITIPADDRESSNONE</td>
+<td>_QCERRCRITIPADDRESSNONE1</td>
+<td>_QCERRCRITIPIPBOOL</td>
+<td>_QFRMSORTORDER</td>
+<td>_QFRMSORTNONE</td>
+<td>_QFRMTIMEA</td>
+<td>_QFRMTIMED</td>
+<td>_QFRMSIG</td>
+<td>_QFRMSIP</td>
+<td>_QFRMDIP</td>
+<td>_QSCSUMM</td>
+<td>_QSCTIMEPROF</td>
+<td>_QSCOFALERTS</td>
+<td>_ALERTTITLE</td>
+<td>_SCCATEGORIES</td>
+<td>_SCSENSORTOTAL</td>
+<td>_SCTOTALNUMALERTS</td>
+<td>_SCSRCIP</td>
+<td>_SCDSTIP</td>
+<td>_SCUNILINKS</td>
+<td>_SCSRCPORTS</td>
+<td>_SCDSTPORTS</td>
+<td>_SCSENSORS</td>
+<td>_SCCLASS</td>
+<td>_SCUNIADDRESS</td>
+<td>_SCSOURCE</td>
+<td>_SCDEST</td>
+<td>_SCPORT</td>
+<td>_PSEVENTERR</td>
+<td>_PSEVENTERRNOFILE</td>
+<td>_PSEVENTERROPENFILE</td>
+<td>_PSDATETIME</td>
+<td>_PSSRCIP</td>
+<td>_PSDSTIP</td>
+<td>_PSSRCPORT</td>
+<td>_PSDSTPORT</td>
+<td>_PSTCPFLAGS</td>
+<td>_PSTOTALOCC</td>
+<td>_PSNUMSENSORS</td>
+<td>_PSFIRSTOCC</td>
+<td>_PSLASTOCC</td>
+<td>_PSUNIALERTS</td>
+<td>_PSPORTSCANEVE</td>
+<td>_PSREGWHOIS</td>
+<td>_PSNODNS</td>
+<td>_PSNUMSENSORSBR</td>
+<td>_PSOCCASSRC</td>
+<td>_PSOCCASDST</td>
+<td>_PSWHOISINFO</td>
+<td>_PSTOTALHOSTS</td>
+<td>_PSDETECTAMONG</td>
+<td>_PSALLALERTSAS</td>
+<td>_PSSHOW</td>
+<td>_PSEXTERNAL</td>
+<td>_SIPLTITLE</td>
+<td>_SIPLSOURCEFGDN</td>
+<td>_SIPLDESTFGDN</td>
+<td>_SIPLDIRECTION</td>
+<td>_SIPLPROTO</td>
+<td>_SIPLUNIDSTPORTS</td>
+<td>_SIPLUNIEVENTS</td>
+<td>_SIPLTOTALEVENTS</td>
+<td>_UNIQ</td>
+<td>_DSTPS</td>
+<td>_SRCPS</td>
+<td>_OCCURRENCES</td>
+<td>SPSENSORLIST</td>
+<td>_BSTTITLE</td>
+<td>_BSTTIMECRIT</td>
+<td>_BSTERRPROFILECRIT</td>
+<td>_BSTERRTIMETYPE</td>
+<td>_BSTERRNOYEAR</td>
+<td>_BSTERRNOMONTH</td>
+<td>_BSTERRNODAY</td>
+<td>_BSTPROFILEBY</td>
+<td>_TIMEON</td>
+<td>_TIMEBETWEEN</td>
+<td>_PROFILEALERT</td>
+<td>_UNISADD</td>
+<td>_SUASRCIP</td>
+<td>_SUAERRCRITADDUNK</td>
+<td>_UNIDADD</td>
+<td>_SUADSTIP</td>
+<td>_SUAUNIALERTS</td>
+<td>_SUASRCADD</td>
+<td>_SUADSTADD</td>
+<td>_BASEUSERTITLE</td>
+<td>_BASEUSERERRPWD</td>
+<td>_BASEUSEROLDPWD</td>
+<td>_BASEUSERNEWPWD</td>
+<td>_BASEUSERNEWPWDAGAIN</td>
+<td>_LOGOUT</td>
