@@ -54,7 +54,7 @@ table, th, td {
 			<td>Title</td>
 			<td>Basic Analysis and Security Engine</td>
 		</tr><tr>
-			<td rowspan="2">User Name Description</td>
+			<td rowspan="3">Authentication Data Word</td>
 			<td>_FRMLOGIN</td>
 			<td rowspan="2">$UI_AD_UND</td>
 			<td rowspan="2">ADA[DescUN]</td>
@@ -62,26 +62,25 @@ table, th, td {
 		</tr><tr>
 			<td>_LOGIN</td>
 		</tr><tr>
-			<td >Password Description</td>
 			<td>_FRMPWD</td>
 			<td>$UI_AD_PWD</td>
 			<td>ADA[DescPW]</td>
 			<td>Password</td>
 		</tr><tr>
-			<td>Word</td>
+			<td>Common Word</td>
 			<td>_SOURCE</td>
 			<td>$UI_CW_Src</td>
 			<td>CPA[SrcDesc]</td>
 			<td>Source</td>
 		</tr><tr>
-			<td>Phrase</td>
+			<td>Common Phrase</td>
 			<td>_SOURCENAME</td>
 			<td>$UI_CP_SrcName</td>
 			<td>Array</td>
 			<td>CPA[SrcName]</td>
 			<td>Source Name</td>
 		</tr><tr>
-			<td>Word</td>
+			<td>Common Word</td>
 			<td>_DEST</td>
 			<td>$UI_CW_Dst</td>
 			<td>String</td>
@@ -100,7 +99,7 @@ table, th, td {
 			<td>CPA[SrcDst]</td>
 			<td>Src or Dest</td>
 		</tr><tr>
-			<td rowspan="2">Universal Action Item</td>
+			<td rowspan="2">Universal Action Common Word</td>
 			<td>_EDIT</td>
 			<td>$UI_UA_Edit</td>
 			<td rowspan="8">String</td>
@@ -112,7 +111,7 @@ table, th, td {
 			<td>UAA[Delete]</td>
 			<td>Delete</td>
 		</tr><tr>
-			<td rowspan="6">Word</td>
+			<td rowspan="6">Common Word</td>
 			<td>_ID</td>
 			<td>$UI_CW_Id</td>
 			<td>CPA[Id]</td>
@@ -134,23 +133,25 @@ table, th, td {
 			<td>Filter</td>
 		</tr><tr>
 			<td>_DESC</td>
-			<td>$UI_CW_Desc</td>
-			<td>CPA[Desc]</td>
-			<td>Description</td>
+			<td rowspan="2">$UI_CW_Desc</td>
+			<td rowspan="2">CPA[Desc]</td>
+			<td rowspan="2">Description</td>
 		</tr><tr>
 			<td>_FRMROLEDESC</td>
 		</tr><tr>
-			<td rowspan="2">Phrase</td>
+			<td rowspan="2">Authentication Data Phrase</td>
 			<td>_ROLEID</td>
-			<td>$UI_AD_RID</td>
-			<td>ADA[DescRI]</td>
+			<td rowspan="2">$UI_AD_RID</td>
+			<td rowspan="2"></td>
+			<td rowspan="2">ADA[DescRI]</td>
+			<td rowspan="2">Role ID</td>
 		</tr><tr>
 			<td>_FRMROLEID</td>
 		</tr><tr>
-			<td rowspan="5">Word</td>
+			<td rowspan="5">Common Word</td>
 			<td>_ENABLED</td>
 			<td>$UI_AD_ASD</td>
-			<td rowspan="5">String</td>
+			<td rowspan="3">String</td>
 			<td>ADA[DescAS]</td>
 			<td>Enabled</td>
 		</tr><tr>
@@ -170,6 +171,7 @@ table, th, td {
 		</tr><tr>
 			<td>_SIGNATURE</td>
 			<td>$UI_CW_Sig</td>
+			<td rowspan="1">String</td>
 			<td>CPA[Sig]</td>
 			<td>Signature</td>
 		</tr><tr>
