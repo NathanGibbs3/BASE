@@ -40,16 +40,16 @@ $UI_CW_Src = 'Origen';
 $UI_CW_Dst = 'Destino';
 $UI_CW_Id = 'ID';
 $UI_CW_Name = 'Nombre';
+$UI_CW_Int = 'Interfaz';
+$UI_CW_Filter = 'Filtro';
+$UI_CW_Desc = 'Descripci&oacute;n';
+$UI_CW_SucDesc = 'Exitoso';
+$UI_CW_Sensor = 'Sensor';
+$UI_CW_Sig = 'Firma';
 // Common Phrases.
 $UI_CP_SrcName = array($UI_CW_Name,'del','origen');
 $UI_CP_DstName = array($UI_CW_Name,'del','dest.');
 $UI_CP_SrcDst = array($UI_CW_Src,'o','Dest');
-$UI_CP_Int = 'Interfaz';
-$UI_CP_Filter = 'Filtro';
-$UI_CP_Desc = 'Descripci&oacute;n';
-$UI_CP_SucDesc = 'Exitoso';
-$UI_CP_Sensor = 'Sensor';
-$UI_CP_Sig = 'Firma';
 // Authentication Data.
 $UI_AD_UND = 'Usuario';
 $UI_AD_PWD = 'Clave';
@@ -346,8 +346,8 @@ DEFINE('_DISPPAYLOAD','{ payload }'); //NEW
 DEFINE('_DISPFLAGS','{ flags }'); //NEW
 DEFINE('_SIGEXACTLY','exactly'); //NEW
 DEFINE('_SIGROUGHLY','roughly'); //NEW
-DEFINE('_SIGCLASS',"$UI_CP_Sig Classification"); //NEW
-DEFINE('_SIGPRIO',"$UI_CP_Sig Priority"); //NEW
+DEFINE('_SIGCLASS',"$UI_CW_Sig Classification"); //NEW
+DEFINE('_SIGPRIO',"$UI_CW_Sig Priority"); //NEW
 DEFINE('_SHORTSOURCE','Source'); //NEW
 DEFINE('_SHORTDEST','Dest'); //NEW
 DEFINE('_SHORTSOURCEORDEST','Src or Dest'); //NEW
@@ -458,7 +458,7 @@ DEFINE('_CHRTTYPEDSTUDP','Dest. Puerto UDP vs. N&uacute;mero de Alertas');
 DEFINE('_CHRTTYPESRCUDP','Orig. Puerto UDP vs. N&uacute;mero de Alertas');
 DEFINE('_CHRTTYPEDSTPORT','Dest. Puerto TCP vs. N&uacute;mero de Alertas');
 DEFINE('_CHRTTYPESRCPORT','Orig. Puerto TCP vs. N&uacute;mero de Alertas');
-DEFINE('_CHRTTYPESIG',"Classificaci&oacute;n de $UI_CP_Sig vs. N&uacute;mero de Alertas");
+DEFINE('_CHRTTYPESIG',"Classificaci&oacute;n de $UI_CW_Sig vs. N&uacute;mero de Alertas");
 DEFINE('_CHRTTYPESENSOR','Sensor vs. N&uacute;mero de Alertas');
 DEFINE('_CHRTBEGIN','Origen de la gr&aacute;fica:');
 DEFINE('_CHRTEND','Final de la gr&aacutefica:');
@@ -493,7 +493,7 @@ DEFINE('_CHRTPORTDESTNUMBER','Puerto TCP (Destino) vs. N&uacute;mero de Alertas'
 DEFINE('_CHRTPORTDEST','Dest. Puerto TCP');
 DEFINE('_CHRTPORTSRCNUMBER','Puerto TCP (Origen) vs. N&uacute;mero de Alertas');
 DEFINE('_CHRTPORTSRC','Orig. Puerto TCP');
-DEFINE('_CHRTSIGNUMBER',"Clasificaci&oacute;n de $UI_CP_Sig vs. N&uacute;mero de Alertas");
+DEFINE('_CHRTSIGNUMBER',"Clasificaci&oacute;n de $UI_CW_Sig vs. N&uacute;mero de Alertas");
 DEFINE('_CHRTCLASS','Clasificaci&oacute;n');
 DEFINE('_CHRTSENSORNUMBER','Sensor vs. N&uacute;mero de Alertas');
 DEFINE('_CHRTHANDLEPERIOD','Encargando del punto si se necesita');
@@ -528,7 +528,7 @@ DEFINE('_MNTIPACUDIP','Dest.IP &Uacute;nicas:');
 //base_qry_alert.php
 DEFINE('_QAINVPAIR','Par (sid,cid) inv&aacute;lido');
 DEFINE('_QAALERTDELET','Alerta BORRADA');
-DEFINE('_QATRIGGERSIG',"$UI_CP_Sig Encontrada");
+DEFINE('_QATRIGGERSIG',"$UI_CW_Sig Encontrada");
 DEFINE('_QANORMALD','Normal Display'); //NEW
 DEFINE('_QAPLAIND','Plain Display'); //NEW
 DEFINE('_QANOPAYLOAD','Fast logging used so payload was discarded'); //NEW

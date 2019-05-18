@@ -40,16 +40,16 @@ $UI_CW_Src = 'Kaynak';
 $UI_CW_Dst = 'Varýþ';
 $UI_CW_Id = 'ID';
 $UI_CW_Name = 'Ad';
+$UI_CW_Int = 'Arabirim';
+$UI_CW_Filter = 'Süzgeç';
+$UI_CW_Desc = 'Betimleme';
+$UI_CW_SucDesc = 'Baþarýlý';
+$UI_CW_Sensor = 'Algýlayýcý';
+$UI_CW_Sig = 'Ýmza';
 // Common Phrases.
 $UI_CP_SrcName = array($UI_CW_Src,$UI_CW_Name);
 $UI_CP_DstName = array($UI_CW_Dst,$UI_CW_Name);
 $UI_CP_SrcDst = array($UI_CW_Src,'veya',$UI_CW_Dst);
-$UI_CP_Int = 'Arabirim';
-$UI_CP_Filter = 'Süzgeç';
-$UI_CP_Desc = 'Betimleme';
-$UI_CP_SucDesc = 'Baþarýlý';
-$UI_CP_Sensor = 'Algýlayýcý';
-$UI_CP_Sig = 'Ýmza';
 // Authentication Data.
 $UI_AD_UND = 'Oturum Aç';
 $UI_AD_PWD = 'Parola';

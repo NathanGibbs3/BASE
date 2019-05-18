@@ -40,16 +40,16 @@ $UI_CW_Src = 'Källa';
 $UI_CW_Dst = 'Destination';
 $UI_CW_Id = 'ID';
 $UI_CW_Name = 'Namn';
+$UI_CW_Int = 'Gränssnitt';
+$UI_CW_Filter = 'Filter';
+$UI_CW_Desc = 'Beskrivning';
+$UI_CW_SucDesc = 'Utfört';
+$UI_CW_Sensor = 'Sensor';
+$UI_CW_Sig = 'Signatur';
 // Common Phrases.
 $UI_CP_SrcName = array($UI_CW_Src,$UI_CW_Name);
 $UI_CP_DstName = array('Dest.',$UI_CW_Name);
 $UI_CP_SrcDst = array('Src','or','Dest');
-$UI_CP_Int = 'Gränssnitt';
-$UI_CP_Filter = 'Filter';
-$UI_CP_Desc = 'Beskrivning';
-$UI_CP_SucDesc = 'Utfört';
-$UI_CP_Sensor = 'Sensor';
-$UI_CP_Sig = 'Signatur';
 // Authentication Data.
 $UI_AD_UND = 'Logga in';
 $UI_AD_PWD = 'Lösenord';
@@ -347,8 +347,8 @@ DEFINE('_DISPPAYLOAD','{ payload }'); //NEW
 DEFINE('_DISPFLAGS','{ flaggor }'); //NEW
 DEFINE('_SIGEXACTLY','exakt'); //NEW
 DEFINE('_SIGROUGHLY','ungefär'); //NEW
-DEFINE('_SIGCLASS',"$UI_CP_Sig Klassifikation"); //NEW
-DEFINE('_SIGPRIO',"$UI_CP_Sig Prioritet"); //NEW
+DEFINE('_SIGCLASS',"$UI_CW_Sig Klassifikation"); //NEW
+DEFINE('_SIGPRIO',"$UI_CW_Sig Prioritet"); //NEW
 DEFINE('_SHORTSOURCE','Källa'); //NEW
 DEFINE('_SHORTDEST','Mål'); //NEW
 DEFINE('_SHORTSOURCEORDEST','Källa eller Dest.'); //NEW
@@ -495,7 +495,7 @@ DEFINE('_CHRTPORTDESTNUMBER','TCP Port (Destination) vs. Number of Alerts');
 DEFINE('_CHRTPORTDEST','Dst. TCP Port');
 DEFINE('_CHRTPORTSRCNUMBER','TCP Port (Source) vs. Number of Alerts');
 DEFINE('_CHRTPORTSRC','Src. TCP Port');
-DEFINE('_CHRTSIGNUMBER',"$UI_CP_Sig Classification vs. Number of Alerts");
+DEFINE('_CHRTSIGNUMBER',"$UI_CW_Sig Classification vs. Number of Alerts");
 DEFINE('_CHRTCLASS','Classification');
 DEFINE('_CHRTSENSORNUMBER','Sensor vs. Number of Alerts');
 DEFINE('_CHRTHANDLEPERIOD','Handling Period if necessary');
@@ -530,7 +530,7 @@ DEFINE('_MNTIPACUDIP','Unik Dst IP:');
 //base_qry_alert.php
 DEFINE('_QAINVPAIR','Felaktig (sid,cid) par');
 DEFINE('_QAALERTDELET','Varning raderad');
-DEFINE('_QATRIGGERSIG',"Avfyrade $UI_CP_Sig");
+DEFINE('_QATRIGGERSIG',"Avfyrade $UI_CW_Sig");
 DEFINE('_QANORMALD','Normal Display'); //NEW
 DEFINE('_QAPLAIND','Plain Display'); //NEW
 DEFINE('_QANOPAYLOAD','Snabb logning vald så paylod kommer inte visas'); //NEW

@@ -41,16 +41,16 @@ $UI_CW_Src = 'Zrodlowy';
 $UI_CW_Dst = 'Docelowy';
 $UI_CW_Id = 'ID';
 $UI_CW_Name = 'Nazwa';
+$UI_CW_Int = 'Interfejs';
+$UI_CW_Filter = 'Filtr';
+$UI_CW_Desc = 'Opis';
+$UI_CW_SucDesc = 'Pomyslny';
+$UI_CW_Sensor = 'Sensor';
+$UI_CW_Sig = 'Sygnatura';
 // Common Phrases.
 $UI_CP_SrcName = array($UI_CW_Name,'Zrodlowa');
 $UI_CP_DstName = array($UI_CW_Name,'Docelowa');
 $UI_CP_SrcDst = array($UI_CW_Src,'lub',$UI_CW_Dst);
-$UI_CP_Int = 'Interfejs';
-$UI_CP_Filter = 'Filtr';
-$UI_CP_Desc = 'Opis';
-$UI_CP_SucDesc = 'Pomyslny';
-$UI_CP_Sensor = 'Sensor';
-$UI_CP_Sig = 'Sygnatura';
 // Authentication Data.
 $UI_AD_UND = 'Login';
 $UI_AD_PWD = 'Haslo';
@@ -346,8 +346,8 @@ DEFINE('_DISPPAYLOAD','{ payload }'); //NEW
 DEFINE('_DISPFLAGS','{ flags }'); //NEW
 DEFINE('_SIGEXACTLY','exactly'); //NEW
 DEFINE('_SIGROUGHLY','roughly'); //NEW
-DEFINE('_SIGCLASS',"$UI_CP_Sig Classification"); //NEW
-DEFINE('_SIGPRIO',"$UI_CP_Sig Priority"); //NEW
+DEFINE('_SIGCLASS',"$UI_CW_Sig Classification"); //NEW
+DEFINE('_SIGPRIO',"$UI_CW_Sig Priority"); //NEW
 DEFINE('_SHORTSOURCE','Zrodlo'); //NEW
 DEFINE('_SHORTDEST','Docelowy'); //NEW
 DEFINE('_SHORTSOURCEORDEST','Zr lub Docel'); //NEW
@@ -494,7 +494,7 @@ DEFINE('_CHRTPORTDESTNUMBER','TCP Port (Destination) vs. Number of Alerts');
 DEFINE('_CHRTPORTDEST','Dst. TCP Port');
 DEFINE('_CHRTPORTSRCNUMBER','TCP Port (Source) vs. Number of Alerts');
 DEFINE('_CHRTPORTSRC','Src. TCP Port');
-DEFINE('_CHRTSIGNUMBER',"$UI_CP_Sig Classification vs. Number of Alerts");
+DEFINE('_CHRTSIGNUMBER',"$UI_CW_Sig Classification vs. Number of Alerts");
 DEFINE('_CHRTCLASS','Classification');
 DEFINE('_CHRTSENSORNUMBER','Sensor vs. Number of Alerts');
 DEFINE('_CHRTHANDLEPERIOD','Handling Period if necessary');
@@ -529,7 +529,7 @@ DEFINE('_MNTIPACUDIP','Unikalnych IP Docelowych:');
 //base_qry_alert.php
 DEFINE('_QAINVPAIR','Invalid (sid,cid) pair');
 DEFINE('_QAALERTDELET','Alert DELETED');
-DEFINE('_QATRIGGERSIG',"Triggered $UI_CP_Sig");
+DEFINE('_QATRIGGERSIG',"Triggered $UI_CW_Sig");
 DEFINE('_QANORMALD','Normal Display'); //NEW
 DEFINE('_QAPLAIND','Plain Display'); //NEW
 DEFINE('_QANOPAYLOAD','Fast logging used so payload was discarded'); //NEW

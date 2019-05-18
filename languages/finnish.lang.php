@@ -45,16 +45,16 @@ $UI_CW_Src = 'L‰hde';
 $UI_CW_Dst = 'Kohde';
 $UI_CW_Id = 'ID';
 $UI_CW_Name = 'Nimi';
+$UI_CW_Int = 'K‰yttˆliittym‰';
+$UI_CW_Filter = 'Suodatin';
+$UI_CW_Desc = 'Kuvaus';
+$UI_CW_SucDesc = 'Onnistunut';
+$UI_CW_Sensor = 'Sensori';
+$UI_CW_Sig = 'Signature';
 // Common Phrases.
 $UI_CP_SrcName = array('L‰hteen',$UI_CW_Name);
 $UI_CP_DstName = array('Kohteen',$UI_CW_Name);
 $UI_CP_SrcDst = array('L‰hteen','nimi');
-$UI_CP_Int = 'K‰yttˆliittym‰';
-$UI_CP_Filter = 'Suodatin';
-$UI_CP_Desc = 'Kuvaus';
-$UI_CP_SucDesc = 'Onnistunut';
-$UI_CP_Sensor = 'Sensori';
-$UI_CP_Sig = 'Signature';
 // Authentication Data.
 $UI_AD_UND = 'Login';
 $UI_AD_PWD = 'Salasana';
@@ -351,8 +351,8 @@ DEFINE('_DISPPAYLOAD','{ payload }'); //NEW
 DEFINE('_DISPFLAGS','{ flags }'); //NEW
 DEFINE('_SIGEXACTLY','exactly'); //NEW
 DEFINE('_SIGROUGHLY','roughly'); //NEW
-DEFINE('_SIGCLASS',"$UI_CP_Sig Classification"); //NEW
-DEFINE('_SIGPRIO',"$UI_CP_Sig Priority"); //NEW
+DEFINE('_SIGCLASS',"$UI_CW_Sig Classification"); //NEW
+DEFINE('_SIGPRIO',"$UI_CW_Sig Priority"); //NEW
 DEFINE('_SHORTSOURCE','Source'); //NEW
 DEFINE('_SHORTDEST','Dest'); //NEW
 DEFINE('_SHORTSOURCEORDEST','Src or Dest'); //NEW
@@ -495,7 +495,7 @@ DEFINE('_CHRTPORTDESTNUMBER','TCP Portti (Kohde) vs. H‰lytysten M‰‰r‰');
 DEFINE('_CHRTPORTDEST','Kohde TCP Portti');
 DEFINE('_CHRTPORTSRCNUMBER','TCP Portti (L‰hde) vs. H‰lytysten M‰‰r‰');
 DEFINE('_CHRTPORTSRC','L‰hde TCP Portti');
-DEFINE('_CHRTSIGNUMBER',"$UI_CP_Sig Classification vs. H‰lytysten M‰‰r‰");//#
+DEFINE('_CHRTSIGNUMBER',"$UI_CW_Sig Classification vs. H‰lytysten M‰‰r‰");//#
 DEFINE('_CHRTCLASS','Classification');//#
 DEFINE('_CHRTSENSORNUMBER','Sensori vs. H‰lytysten M‰‰r‰');
 DEFINE('_CHRTHANDLEPERIOD','K‰sittelyaika jos tarpeellista ');
@@ -530,7 +530,7 @@ DEFINE('_MNTIPACUDIP','Uniikki Kohde IP:');
 //base_qry_alert.php
 DEFINE('_QAINVPAIR','Invalid (sid,cid) pair');//#
 DEFINE('_QAALERTDELET','H‰lytys POISTETTU');
-DEFINE('_QATRIGGERSIG',"Triggered $UI_CP_Sig");//#
+DEFINE('_QATRIGGERSIG',"Triggered $UI_CW_Sig");//#
 DEFINE('_QANORMALD','Normal Display'); //NEW
 DEFINE('_QAPLAIND','Plain Display'); //NEW
 DEFINE('_QANOPAYLOAD','Fast logging used so payload was discarded'); //NEW

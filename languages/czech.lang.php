@@ -41,16 +41,16 @@ $UI_CW_Src = 'Zdroj';
 $UI_CW_Dst = 'Cíl';
 $UI_CW_Id = 'ID';
 $UI_CW_Name = 'Jméno';
+$UI_CW_Int = 'Rozhraní';
+$UI_CW_Filter = 'Filtr';
+$UI_CW_Desc = 'Popis';
+$UI_CW_SucDesc = 'Successful';
+$UI_CW_Sensor = 'Senzor';
+$UI_CW_Sig = 'Podpis';
 // Common Phrases.
 $UI_CP_SrcName = array($UI_CW_Name,$UI_CW_Src);
 $UI_CP_DstName = array($UI_CW_Name,$UI_CW_Dst);
 $UI_CP_SrcDst = array($UI_CW_Src,'n.',$UI_CW_Dst);
-$UI_CP_Int = 'Rozhraní';
-$UI_CP_Filter = 'Filtr';
-$UI_CP_Desc = 'Popis';
-$UI_CP_SucDesc = 'Successful';
-$UI_CP_Sensor = 'Senzor';
-$UI_CP_Sig = 'Podpis';
 // Authentication Data.
 $UI_AD_UND = 'Login';
 $UI_AD_PWD = 'Heslo';
@@ -347,8 +347,8 @@ DEFINE('_DISPPAYLOAD','{ payload }'); //NEW
 DEFINE('_DISPFLAGS','{ flags }'); //NEW
 DEFINE('_SIGEXACTLY','exactly'); //NEW
 DEFINE('_SIGROUGHLY','roughly'); //NEW
-DEFINE('_SIGCLASS',"$UI_CP_Sig Classification"); //NEW
-DEFINE('_SIGPRIO',"$UI_CP_Sig Priority"); //NEW
+DEFINE('_SIGCLASS',"$UI_CW_Sig Classification"); //NEW
+DEFINE('_SIGPRIO',"$UI_CW_Sig Priority"); //NEW
 DEFINE('_SHORTSOURCE','Source'); //NEW
 DEFINE('_SHORTDEST','Dest'); //NEW
 DEFINE('_SHORTSOURCEORDEST','Src or Dest'); //NEW

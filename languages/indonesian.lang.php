@@ -40,16 +40,16 @@ $UI_CW_Src = 'Sumber';
 $UI_CW_Dst = 'Sasaran';
 $UI_CW_Id = 'ID';
 $UI_CW_Name = 'Nama';
+$UI_CW_Int = 'Interface';
+$UI_Cw_Filter = 'Filter';
+$UI_CW_Desc = 'Deskripsi';
+$UI_CW_SucDesc = 'Berhasil';
+$UI_CW_Sensor = 'Sensor';
+$UI_CW_Sig = 'Nama Alarem');
 // Common Phrases.
 $UI_CP_SrcName = array($UI_CW_Name,$UI_CW_Src);
 $UI_CP_DstName = array($UI_CW_Name,$UI_CW_Dst);
 $UI_CP_SrcDst = array($UI_CW_Src,'atau',$UI_CW_Dst);
-$UI_CP_Int = 'Interface';
-$UI_CP_Filter = 'Filter';
-$UI_CP_Desc = 'Deskripsi';
-$UI_CP_SucDesc = 'Berhasil';
-$UI_CP_Sensor = 'Sensor';
-$UI_CP_Sig = 'Nama Alarem');
 // Authentication Data.
 $UI_AD_UND = 'Login';
 $UI_AD_PWD = 'Kata Sandi';
@@ -346,8 +346,8 @@ DEFINE('_DISPPAYLOAD','{ payload }'); //NEW
 DEFINE('_DISPFLAGS','{ flags }'); //NEW
 DEFINE('_SIGEXACTLY','exactly'); //NEW
 DEFINE('_SIGROUGHLY','roughly'); //NEW
-DEFINE('_SIGCLASS',"$UI_CP_Sig Classification"); //NEW
-DEFINE('_SIGPRIO',"$UI_CP_Sig Priority"); //NEW
+DEFINE('_SIGCLASS',"$UI_CW_Sig Classification"); //NEW
+DEFINE('_SIGPRIO',"$UI_CW_Sig Priority"); //NEW
 DEFINE('_SHORTSOURCE','Source'); //NEW
 DEFINE('_SHORTDEST','Dest'); //NEW
 DEFINE('_SHORTSOURCEORDEST','Src or Dest'); //NEW
@@ -493,7 +493,7 @@ DEFINE('_CHRTPORTDESTNUMBER','Port TCP (Sasaran) vs. Jumlah Alarem');
 DEFINE('_CHRTPORTDEST','Port TCP sasaran');
 DEFINE('_CHRTPORTSRCNUMBER','Port TCP (Sumber) vs. Jumlah Alarem');
 DEFINE('_CHRTPORTSRC','Port TCP sumber');
-DEFINE('_CHRTSIGNUMBER',"Klasifikasi $UI_CP_Sig vs. Jumlah Alarem");
+DEFINE('_CHRTSIGNUMBER',"Klasifikasi $UI_CW_Sig vs. Jumlah Alarem");
 DEFINE('_CHRTCLASS','Klasifikasi');
 DEFINE('_CHRTSENSORNUMBER','Sensor vs. Jumlah Alarem');
 DEFINE('_CHRTHANDLEPERIOD','Jangka waktu penanangan bila perlu');

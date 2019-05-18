@@ -41,16 +41,16 @@ $UI_CW_Src = 'Quellen';
 $UI_CW_Dst = 'Ziele';
 $UI_CW_Id = 'ID';
 $UI_CW_Name = 'Name';
+$UI_CW_Int = 'Schnittstelle';
+$UI_CW_Filter = 'Filter';
+$UI_CW_Desc = 'Beschreibung';
+$UI_CW_SucDesc = 'Erfolgreich';
+$UI_CW_Sensor = 'Sensor';
+$UI_CW_Sig = 'Signatur';
 // Common Phrases.
 $UI_CP_SrcName = 'Quellname';
 $UI_CP_DstName = 'Zielname';
 $UI_CP_SrcDst = array('Quelle','oder','Ziel');
-$UI_CP_Int = 'Schnittstelle';
-$UI_CP_Filter = 'Filter';
-$UI_CP_Desc = 'Beschreibung';
-$UI_CP_SucDesc = 'Erfolgreich';
-$UI_CP_Sensor = 'Sensor';
-$UI_CP_Sig = 'Signatur';
 // Authentication Data.
 $UI_AD_UND = 'Login';
 $UI_AD_PWD = 'Passwort';
@@ -347,8 +347,8 @@ DEFINE('_DISPPAYLOAD','{ payload }'); //NEW
 DEFINE('_DISPFLAGS','{ flags }'); //NEW
 DEFINE('_SIGEXACTLY','exactly'); //NEW
 DEFINE('_SIGROUGHLY','roughly'); //NEW
-DEFINE('_SIGCLASS',"$UI_CP_Sig Classification"); //NEW
-DEFINE('_SIGPRIO',"$UI_CP_Sig Priority"); //NEW
+DEFINE('_SIGCLASS',"$UI_CW_Sig Classification"); //NEW
+DEFINE('_SIGPRIO',"$UI_CW_Sig Priority"); //NEW
 DEFINE('_SHORTSOURCE','Source'); //NEW
 DEFINE('_SHORTDEST','Dest'); //NEW
 DEFINE('_SHORTSOURCEORDEST','Src or Dest'); //NEW
@@ -494,7 +494,7 @@ DEFINE('_CHRTPORTDESTNUMBER','TCP Port (Ziel) und Anzahl der Alarme');
 DEFINE('_CHRTPORTDEST','Ziel TCP Port');
 DEFINE('_CHRTPORTSRCNUMBER','TCP Port (Quelle) und Anzahl der Alarme');
 DEFINE('_CHRTPORTSRC','Quell TCP Port');
-DEFINE('_CHRTSIGNUMBER',"$UI_CP_Sig und Anzahl der Alarme");
+DEFINE('_CHRTSIGNUMBER',"$UI_CW_Sig und Anzahl der Alarme");
 DEFINE('_CHRTCLASS','Klassifizierung');
 DEFINE('_CHRTSENSORNUMBER','Sensor und Anzahl der Alarme');
 DEFINE('_CHRTHANDLEPERIOD','Behandlungszeitraum, wenn n&ouml;tig');
@@ -529,13 +529,13 @@ DEFINE('_MNTIPACUDIP','Unterschiedliche Ziel IPs:');
 //base_qry_alert.php
 DEFINE('_QAINVPAIR','Ung&uuml;ltiges (sid,cid) Paar');
 DEFINE('_QAALERTDELET','Alarm gel&ouml;scht');
-DEFINE('_QATRIGGERSIG',"Ausl&ouml;sende $UI_CP_Sig");
+DEFINE('_QATRIGGERSIG',"Ausl&ouml;sende $UI_CW_Sig");
 DEFINE('_QANORMALD','Normal Display'); //NEW
 DEFINE('_QAPLAIND','Plain Display'); //NEW
 DEFINE('_QANOPAYLOAD','Fast logging used so payload was discarded'); //NEW
 
 //base_qry_common.php
-DEFINE('_QCSIG',$UI_CP_Sig);
+DEFINE('_QCSIG',$UI_CW_Sig);
 DEFINE('_QCIPADDR','IP Adresse');
 DEFINE('_QCIPFIELDS','IP Felder');
 DEFINE('_QCTCPPORTS','TCP Ports');
@@ -582,7 +582,7 @@ DEFINE('_QFRMSORTORDER','Sortierfolge');
 DEFINE('_QFRMSORTNONE','none'); //NEW
 DEFINE('_QFRMTIMEA','Zeitstempel (aufsteigend)');
 DEFINE('_QFRMTIMED','Zeitstempel (absteigend)');
-DEFINE('_QFRMSIG',$UI_CP_Sig);
+DEFINE('_QFRMSIG',$UI_CW_Sig);
 DEFINE('_QFRMSIP','Quell IP');
 DEFINE('_QFRMDIP','Ziel IP');
 

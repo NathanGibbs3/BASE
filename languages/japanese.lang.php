@@ -40,16 +40,16 @@ $UI_CW_Src = '発信元';
 $UI_CW_Dst = '発信先';
 $UI_CW_Id = 'ID';
 $UI_CW_Name = '名前';
+$UI_CW_Int = 'インターフェース';
+$UI_CW_Filter = 'フィルター';
+$UI_CW_Desc = '詳細';
+$UI_CW_SucDesc = '成功';
+$UI_CW_Sensor = 'センサー';
+$UI_CW_Sig = 'シグネチャ';
 // Common Phrases.
 $UI_CP_SrcName = array($UI_CW_Src,$UI_CW_Name);
 $UI_CP_DstName = array($UI_CW_Dst,$UI_CW_Name);
 $UI_CP_SrcDst = array($UI_CW_Src,'or',$UI_CW_Dst);
-$UI_CP_Int = 'インターフェース';
-$UI_CP_Filter = 'フィルター';
-$UI_CP_Desc = '詳細';
-$UI_CP_SucDesc = '成功';
-$UI_CP_Sensor = 'センサー';
-$UI_CP_Sig = 'シグネチャ';
 // Authentication Data.
 $UI_AD_UND = 'ログイン';
 $UI_AD_PWD = 'パスワード';
@@ -313,7 +313,7 @@ DEFINE('_ERRRESOLVEADDRESS','名前解決できませんでした');
 DEFINE('_QUERYRESULTSHEADER','クエリ出力結果のヘッダ');
 
 //base_signature.inc.php
-DEFINE('_ERRSIGNAMEUNK',$UI_CP_Sig.'名が不明です');
+DEFINE('_ERRSIGNAMEUNK',$UI_CW_Sig.'名が不明です');
 DEFINE('_ERRSIGPROIRITYUNK','優先度が不明です');
 DEFINE('_UNCLASS','unclassified');
 
@@ -493,7 +493,7 @@ DEFINE('_CHRTPORTDESTNUMBER','TCP Port (送信先)　ｘ　アラート数');
 DEFINE('_CHRTPORTDEST','Dst. TCP Port');
 DEFINE('_CHRTPORTSRCNUMBER','TCP Port (発信元)　ｘ　アラート数');
 DEFINE('_CHRTPORTSRC','Src. TCP Port');
-DEFINE('_CHRTSIGNUMBER',$UI_CP_Sig.'クラス　ｘ　アラート数');
+DEFINE('_CHRTSIGNUMBER',$UI_CW_Sig.'クラス　ｘ　アラート数');
 DEFINE('_CHRTCLASS','クラス');
 DEFINE('_CHRTSENSORNUMBER','センサー　ｘ　アラート数');
 DEFINE('_CHRTHANDLEPERIOD','Handling Period if necessary');
@@ -528,13 +528,13 @@ DEFINE('_MNTIPACUDIP','ユニーク送信先IP:');
 //base_qry_alert.php
 DEFINE('_QAINVPAIR','Invalid (sid,cid) pair');
 DEFINE('_QAALERTDELET','削除されたアラート');
-DEFINE('_QATRIGGERSIG',"Triggered$UI_CP_Sig");
+DEFINE('_QATRIGGERSIG',"Triggered$UI_CW_Sig");
 DEFINE('_QANORMALD','Normal Display'); //NEW
 DEFINE('_QAPLAIND','Plain Display'); //NEW
 DEFINE('_QANOPAYLOAD','Fast logging used so payload was discarded'); //NEW
 
 //base_qry_common.php
-DEFINE('_QCSIG',$UI_CP_Sig);
+DEFINE('_QCSIG',$UI_CW_Sig);
 DEFINE('_QCIPADDR','IPアドレス');
 DEFINE('_QCIPFIELDS','IPフィールド');
 DEFINE('_QCTCPPORTS','TCPポート');
@@ -581,7 +581,7 @@ DEFINE('_QFRMSORTORDER','ソートオーダー');
 DEFINE('_QFRMSORTNONE','none'); //NEW
 DEFINE('_QFRMTIMEA','タイムスタンプ(降順)');
 DEFINE('_QFRMTIMED','タイムスタンプ(昇順)');
-DEFINE('_QFRMSIG',$UI_CP_Sig);
+DEFINE('_QFRMSIG',$UI_CW_Sig);
 DEFINE('_QFRMSIP','発信元IP');
 DEFINE('_QFRMDIP','送信先IP');
 

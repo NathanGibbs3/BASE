@@ -173,43 +173,43 @@ class UILang{
 		}else{
 			$this->SetUICPItem('Name');
 		}
-		if ( isset($UI_CP_Int) ) { // Var New TDF
-			$this->SetUICPItem('Int',$UI_CP_Int);
+		if ( isset($UI_CW_Int) ) { // Var New TDF
+			$this->SetUICPItem('Int',$UI_CW_Int);
 		}elseif (defined('_INTERFACE')) { // Const Legacy TDF
 			$this->SetUICPItem('Int',_INTERFACE);
 		}else{
 			$this->SetUICPItem('Int');
 		}
-		if ( isset($UI_CP_Filter) ) { // Var New TDF
-			$this->SetUICPItem('Filter',$UI_CP_Filter);
+		if ( isset($UI_CW_Filter) ) { // Var New TDF
+			$this->SetUICPItem('Filter',$UI_CW_Filter);
 		}elseif (defined('_FILTER')) { // Const Legacy TDF
 			$this->SetUICPItem('Filter',_FILTER);
 		}else{
 			$this->SetUICPItem('Filter');
 		}
-		if ( isset($UI_CP_Desc) ) { // Var New TDF
-			$this->SetUICPItem('Desc',$UI_CP_Desc);
+		if ( isset($UI_CW_Desc) ) { // Var New TDF
+			$this->SetUICPItem('Desc',$UI_CW_Desc);
 		}elseif (defined('_DESC')) { // Const Legacy TDF
 			$this->SetUICPItem('Desc',_DESC);
 		}else{
 			$this->SetUICPItem('Desc');
 		}
-		if ( isset($UI_CP_SucDesc) ) { // Var New TDF
-			$this->SetUICPItem('SucDesc',$UI_CP_SucDesc);
+		if ( isset($UI_CW_SucDesc) ) { // Var New TDF
+			$this->SetUICPItem('SucDesc',$UI_CW_SucDesc);
 		}elseif (defined('_SUCCESS')) { // Const Legacy TDF
 			$this->SetUICPItem('SucDesc',_SUCCESS);
 		}else{
 			$this->SetUICPItem('SucDesc');
 		}
-		if ( isset($UI_CP_Sensor) ) { // Var New TDF
-			$this->SetUICPItem('Sensor',$UI_CP_Sensor);
+		if ( isset($UI_CW_Sensor) ) { // Var New TDF
+			$this->SetUICPItem('Sensor',$UI_CW_Sensor);
 		}elseif (defined('_SUCCESS')) { // Const Legacy TDF
 			$this->SetUICPItem('Sensor',_SENSOR);
 		}else{
 			$this->SetUICPItem('Sensor');
 		}
-		if ( isset($UI_CP_Sig) ) { // Var New TDF
-			$this->SetUICPItem('Sig',$UI_CP_Sig);
+		if ( isset($UI_CW_Sig) ) { // Var New TDF
+			$this->SetUICPItem('Sig',$UI_CW_Sig);
 		}elseif (defined('_SIGNATURE')) { // Const Legacy TDF
 			$this->SetUICPItem('Sig',_SIGNATURE);
 		}else{

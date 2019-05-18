@@ -40,16 +40,16 @@ $UI_CW_Src = 'Source';
 $UI_CW_Dst = 'Destination';
 $UI_CW_Id = 'ID';
 $UI_CW_Name = 'Nom';
+$UI_CW_Int = 'Interface';
+$UI_CW_Filter = 'Filtre';
+$UI_CW_Desc = 'Description';
+$UI_CW_SucDesc = 'Succès -';
+$UI_CW_Sensor = 'Sonde';
+$UI_CW_Sig = 'Signature';
 // Common Phrases.
 $UI_CP_SrcName = array($UI_CW_Name,'de la',$UI_CW_Src);
 $UI_CP_DstName = array($UI_CW_Name,'de la',$UI_CW_Dst);
 $UI_CP_SrcDst = array('Src','ou','Dest');
-$UI_CP_Int = 'Interface';
-$UI_CP_Filter = 'Filtre';
-$UI_CP_Desc = 'Description';
-$UI_CP_SucDesc = 'Succès -';
-$UI_CP_Sensor = 'Sonde';
-$UI_CP_Sig = 'Signature';
 // Authentication Data.
 $UI_AD_UND = 'Identifiant';
 $UI_AD_PWD = 'Mot de passe';
@@ -649,7 +649,7 @@ DEFINE('_CHRTPORTSRCNUMBER','Port TCP (Source) vs. Nombre d Alertes');
 // TCP Port (Source) vs. Number of Alerts
 DEFINE('_CHRTPORTSRC','Port TCP Src.');
 // Src. TCP Port
-DEFINE('_CHRTSIGNUMBER',"Classification de $UI_CP_Sig vs. Nombre d Alertes");
+DEFINE('_CHRTSIGNUMBER',"Classification de $UI_CW_Sig vs. Nombre d Alertes");
 // Signature Classification vs. Number of Alerts
 DEFINE('_CHRTCLASS','Classification');
 // Classification
@@ -713,7 +713,7 @@ DEFINE('_QAINVPAIR','Paire (sid,cid) non valide');
 // Invalid (sid,cid) pair
 DEFINE('_QAALERTDELET','Alerte SUPPRIMEE ');
 // Alert DELETED
-DEFINE('_QATRIGGERSIG',"$UI_CP_Sig Déclenchée");
+DEFINE('_QATRIGGERSIG',"$UI_CW_Sig Déclenchée");
 // Triggered Signature
 
 //base_qry_common.php
@@ -1061,8 +1061,8 @@ DEFINE('_DISPPAYLOAD','{ payload }'); //NEW
 DEFINE('_DISPFLAGS','{ flags }'); //NEW
 DEFINE('_SIGEXACTLY','exactly'); //NEW
 DEFINE('_SIGROUGHLY','roughly'); //NEW
-DEFINE('_SIGCLASS',"$UI_CP_Sig Classification"); //NEW
-DEFINE('_SIGPRIO',"$UI_CP_Sig Priority"); //NEW
+DEFINE('_SIGCLASS',"$UI_CW_Sig Classification"); //NEW
+DEFINE('_SIGPRIO',"$UI_CW_Sig Priority"); //NEW
 DEFINE('_SHORTSOURCE','Source'); //NEW
 DEFINE('_SHORTDEST','Dest'); //NEW
 DEFINE('_SHORTSOURCEORDEST','Src or Dest'); //NEW
