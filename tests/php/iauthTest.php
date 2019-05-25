@@ -62,12 +62,9 @@ class authTest extends TestCase {
 		GLOBAL $DBlib_path, $DBtype, $alert_dbname, $alert_host,
 		$alert_user, $alert_password, $alert_port, $db_connect_method, $db;
 		$user = self::$user;
-		$msg = "<select name='roleID'><option value='1'>Admin</option>";
-		$msg .= "<option value='10'>user</option>";
-		$msg .= "<option value='10000'>anonymous</option>";
-		$msg .= "<option value='50'>ag_editor</option></select>";
-		$this->assertEquals(
-			$msg,
+		$msg = 'selected';
+		$this->assertNotRegExp(
+			'/'.$msg.'/',
 			$user->returnRoleNamesDropDown(0),
 			'Unexpected Return Value.'
 		);
@@ -76,14 +73,9 @@ class authTest extends TestCase {
 		GLOBAL $DBlib_path, $DBtype, $alert_dbname, $alert_host,
 		$alert_user, $alert_password, $alert_port, $db_connect_method, $db;
 		$user = self::$user;
-		$msg = "<select name='roleID'>";
-		$msg .= "<option value='1' selected>Admin</option>";
-		$msg .= "<option value='10'>user</option>";
-		$msg .= "<option value='10000'>anonymous</option>";
-		$msg .= "<option value='50'>ag_editor</option>";
-		$msg .= "</select>";
-		$this->assertEquals(
-			$msg,
+		$msg = '<option value=\'1\' selected>Admin<\/option>';
+		$this->assertRegExp(
+			'/'.$msg.'/',
 			$user->returnRoleNamesDropDown(1),
 			'Unexpected Return Value.'
 		);
@@ -92,14 +84,9 @@ class authTest extends TestCase {
 		GLOBAL $DBlib_path, $DBtype, $alert_dbname, $alert_host,
 		$alert_user, $alert_password, $alert_port, $db_connect_method, $db;
 		$user = self::$user;
-		$msg = "<select name='roleID'>";
-		$msg .= "<option value='1'>Admin</option>";
-		$msg .= "<option value='10' selected>user</option>";
-		$msg .= "<option value='10000'>anonymous</option>";
-		$msg .= "<option value='50'>ag_editor</option>";
-		$msg .= "</select>";
-		$this->assertEquals(
-			$msg,
+		$msg = '<option value=\'10\' selected>user<\/option>';
+		$this->assertRegExp(
+			'/'.$msg.'/',
 			$user->returnRoleNamesDropDown(10),
 			'Unexpected Return Value.'
 		);
@@ -108,14 +95,9 @@ class authTest extends TestCase {
 		GLOBAL $DBlib_path, $DBtype, $alert_dbname, $alert_host,
 		$alert_user, $alert_password, $alert_port, $db_connect_method, $db;
 		$user = self::$user;
-		$msg = "<select name='roleID'>";
-		$msg .= "<option value='1'>Admin</option>";
-		$msg .= "<option value='10'>user</option>";
-		$msg .= "<option value='10000' selected>anonymous</option>";
-		$msg .= "<option value='50'>ag_editor</option>";
-		$msg .= "</select>";
-		$this->assertEquals(
-			$msg,
+		$msg = '<option value=\'10000\' selected>anonymous<\/option>';
+		$this->assertRegExp(
+			'/'.$msg.'/',
 			$user->returnRoleNamesDropDown(10000),
 			'Unexpected Return Value.'
 		);
@@ -124,14 +106,9 @@ class authTest extends TestCase {
 		GLOBAL $DBlib_path, $DBtype, $alert_dbname, $alert_host,
 		$alert_user, $alert_password, $alert_port, $db_connect_method, $db;
 		$user = self::$user;
-		$msg = "<select name='roleID'>";
-		$msg .= "<option value='1'>Admin</option>";
-		$msg .= "<option value='10'>user</option>";
-		$msg .= "<option value='10000'>anonymous</option>";
-		$msg .= "<option value='50' selected>ag_editor</option>";
-		$msg .= "</select>";
-		$this->assertEquals(
-			$msg,
+		$msg = '<option value=\'50\' selected>ag_editor<\/option>';
+		$this->assertRegExp(
+			'/'.$msg.'/',
 			$user->returnRoleNamesDropDown(50),
 			'Unexpected Return Value.'
 		);
