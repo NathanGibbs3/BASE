@@ -124,8 +124,8 @@ create INDEX idx_acid_15 on base_users(usr_login);
 commit work; 
  
 INSERT INTO base_roles (role_id, role_name, role_desc) VALUES ( 1, 'Admin', 'Administrator' ); 
-INSERT INTO base_roles (role_id, role_name, role_desc) VALUES ( 10, 'User', 'Authenticated User' ); 
-INSERT INTO base_roles (role_id, role_name, role_desc) VALUES (10000, 'Anonymous', 'Anonymous User' ); 
+INSERT INTO base_roles (role_id, role_name, role_desc) VALUES ( 10, 'user', 'Authenticated User' ); 
+INSERT INTO base_roles (role_id, role_name, role_desc) VALUES (10000, 'anonymous', 'Anonymous User' ); 
 INSERT INTO base_roles (role_id, role_name, role_desc) VALUES ( 50, 'ag_editor', 'Alert Group Editor' ); 
  
 commit work;
