@@ -5,6 +5,9 @@ use PHPUnit\Framework\TestCase;
 
 /**
   * @covers BaseUser::returnRoleNamesDropDown
+  * @uses ::XSSPrintSafe
+  * @uses baseCon
+  * @uses baseRS
   */
 class authTest extends TestCase {
 	// Pre Test Setup.
