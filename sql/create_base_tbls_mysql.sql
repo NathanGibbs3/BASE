@@ -104,7 +104,6 @@ CREATE TABLE `base_users` ( `usr_id`            int(11)         NOT NULL,
                             INDEX               (`usr_login`));
 
 INSERT INTO `base_roles` (`role_id`, `role_name`, `role_desc`) VALUES (1, 'Admin', 'Administrator'),
-(10, 'User', 'Authenticated User'),
-(10000, 'Anonymous', 'Anonymous User'),
+(10, 'user', 'Authenticated User'),
+(10000, 'anonymous', 'Anonymous User'),
 (50, 'ag_editor', 'Alert Group Editor');
-
