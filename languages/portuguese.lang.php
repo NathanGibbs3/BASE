@@ -52,6 +52,7 @@ $UI_CW_Desc = 'Descrição';
 $UI_CW_SucDesc = 'Com Sucesso';
 $UI_CW_Sensor = 'Sensor';
 $UI_CW_Sig = 'Assinatura';
+$UI_CW_Role = 'Regra';
 // Common Phrases.
 $UI_CP_SrcName = array($UI_CW_Name,'da',$UI_CW_Src);
 $UI_CP_DstName = array($UI_CW_Name,'do',$UI_CW_Dst);
@@ -59,7 +60,7 @@ $UI_CP_SrcDst = array($UI_CW_Src,'ou',$UI_CW_Dst);
 // Authentication Data.
 $UI_AD_UND = $UI_CW_Name;
 $UI_AD_PWD = 'Senha';
-$UI_AD_RID = "$UI_CW_Id da Regra";
+$UI_AD_RID = array($UI_CW_Id,'da',$UI_CW_Role);
 $UI_AD_ASD = 'Habilitado';
 
 //common phrases
@@ -160,7 +161,7 @@ DEFINE('_LISTU','Lista de usuários');
 DEFINE('_CREATEU','Criar um usuário');
 DEFINE('_ROLEMAN','Gerenciamento de Regras');
 DEFINE('_LISTR','Lista de Regras');
-DEFINE('_CREATER','Criar uma Regra');
+DEFINE('_CREATER',"Criar uma $UI_CW_Role");
 DEFINE('_LISTALL','Listar Tudo');
 DEFINE('_CREATE','Criar');
 DEFINE('_VIEW','Ver');
@@ -214,19 +215,24 @@ DEFINE('_NOUSER','Usuário não existe!');
 DEFINE('_OLDPWD','Senha antiga incorreta!');
 DEFINE('_PWDCANT','Não foi possível trocar sua senha: ');
 DEFINE('_PWDDONE','Sua senha foi mudada!');
-DEFINE('_ROLEEXIST','Regra já existe');
-DEFINE('_ROLEIDEXIST',"$UI_AD_RID já existe");
-DEFINE('_ROLEADDED','Regra adicionada com sucesso');
+DEFINE('_ROLEEXIST',"$UI_CW_Role já existe");
+// TD Migration Hack
+if ($UI_Spacing == 1){
+	$glue = ' ';
+}else{
+	$glue = '';
+}
+DEFINE('_ROLEIDEXIST',implode($glue, $UI_AD_RID)." já existe");
+DEFINE('_ROLEADDED',"$UI_CW_Role adicionada com sucesso");
 
 //base_roleadmin.php
 DEFINE('_ROLEADMIN','Administração de Regras do BASE');
-DEFINE('_FRMROLENAME','Nome da Regra:');
+DEFINE('_FRMROLENAME',"Nome da $UI_CW_Role:");
 DEFINE('_UPDATEROLE','Actualizar Perfil');
 
 //base_useradmin.php
 DEFINE('_USERADMIN','BASE: Administração de Usuários');
 DEFINE('_FRMFULLNAME','Nome Completo:');
-DEFINE('_FRMROLE','Regra:');
 DEFINE('_FRMUID','ID do Usuário:');
 DEFINE('_SUBMITQUERY','Inserir');
 DEFINE('_UPDATEUSER','Actualizar Utilizador');

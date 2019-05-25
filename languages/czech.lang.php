@@ -47,6 +47,7 @@ $UI_CW_Desc = 'Popis';
 $UI_CW_SucDesc = 'Successful';
 $UI_CW_Sensor = 'Senzor';
 $UI_CW_Sig = 'Podpis';
+$UI_CW_Role = 'role';
 // Common Phrases.
 $UI_CP_SrcName = array($UI_CW_Name,$UI_CW_Src);
 $UI_CP_DstName = array($UI_CW_Name,$UI_CW_Dst);
@@ -54,7 +55,7 @@ $UI_CP_SrcDst = array($UI_CW_Src,'n.',$UI_CW_Dst);
 // Authentication Data.
 $UI_AD_UND = 'Login';
 $UI_AD_PWD = 'Heslo';
-$UI_AD_RID = "$UI_CW_Id role";
+$UI_AD_RID = array($UI_CW_Id,$UI_CW_Role);
 $UI_AD_ASD = 'Enabled';
 
 //common phrases
@@ -209,19 +210,24 @@ DEFINE('_NOUSER','U¾ivatel neexistuje!');
 DEFINE('_OLDPWD','Aktuální heslo není správné!');
 DEFINE('_PWDCANT','Nelze zmìnit heslo: ');
 DEFINE('_PWDDONE','Heslo bylo zmìnìno.');
-DEFINE('_ROLEEXIST','Role existuje');
-DEFINE('_ROLEIDEXIST',"$UI_AD_RID existuje");
-DEFINE('_ROLEADDED','Role pøidána úspì¹nì');
+DEFINE('_ROLEEXIST',"$UI_CW_Role existuje");
+// TD Migration Hack
+if ($UI_Spacing == 1){
+	$glue = ' ';
+}else{
+	$glue = '';
+}
+DEFINE('_ROLEIDEXIST',implode($glue, $UI_AD_RID)." existuje");
+DEFINE('_ROLEADDED',"$UI_CW_Role pøidána úspì¹nì");
 
 //base_roleadmin.php
 DEFINE('_ROLEADMIN','Správa rolí BASE');
-DEFINE('_FRMROLENAME','Jméno role:');
-DEFINE('_UPDATEROLE','Update Role'); //NEW
+DEFINE('_FRMROLENAME',"Jméno $UI_CW_Role:");
+DEFINE('_UPDATEROLE',"Update $UI_CW_Role"); //NEW
 
 //base_useradmin.php
 DEFINE('_USERADMIN','Správa u¾ivatelù BASE');
 DEFINE('_FRMFULLNAME','Celé jméno:');
-DEFINE('_FRMROLE','Role:');
 DEFINE('_FRMUID','ID u¾ivatele:');
 DEFINE('_SUBMITQUERY','Submit Query'); //NEW
 DEFINE('_UPDATEUSER','Update User'); //NEW

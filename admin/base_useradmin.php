@@ -54,6 +54,9 @@ if ( preg_match("/(create|add)/", $Action) || $Use_Auth_System == 1 ){
 		if ( preg_match("/(create|list|(edit|update)user)/", $Action) ){
 			if ( preg_match("/(create|list|edituser)/", $Action) ){
 				$LoginDesc = $UIL->ADA['DescUN'];
+				if ( preg_match("/(create|edituser)/", $Action) ){
+					$RoleDesc = $UIL->CWA['Role'];
+				}
 			}
 			$user = new BaseUser();
 		}else{ // 2 vars for this?! No idea why. Will keep for now. -- Nathan
@@ -80,7 +83,7 @@ if ( preg_match("/(create|add)/", $Action) || $Use_Auth_System == 1 ){
 				$form .= NLI($tdal,6);
 				$form .= NLI("<input type='password' name='password'/>",7);
 				$form .= NLI('</td>'.$Trc,6);
-				$form .= NLI($tdc._FRMROLE.'</td>',6);
+				$form .= NLI("$tdc$RoleDesc:</td>",6);
 				// Potential XSS Vector.
 				// See https://github.com/NathanGibbs3/BASE/issues/13
 				$form .= $tdal.$user->returnRoleNamesDropDown($defaultrole).'</td>'.$Trc;
@@ -128,7 +131,7 @@ if ( preg_match("/(create|add)/", $Action) || $Use_Auth_System == 1 ){
 				$form .= NLI("<input type='text' name='fullname' ",7);
 				$form .= "value='$ufn'/>";
 				$form .= NLI('</td>'.$Trc,6);
-				$form .= NLI($tdc._FRMROLE.'</td>',6);
+				$form .= NLI("$tdc$RoleDesc:</td>",6);
 				// Potential XSS Vector.
 				// See https://github.com/NathanGibbs3/BASE/issues/13
 				$form .= $tdal.$user->returnRoleNamesDropDown($rid).'</td></tr>';

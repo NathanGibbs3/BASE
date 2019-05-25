@@ -25,6 +25,7 @@ use PHPUnit\Framework\TestCase;
 /**
   * @uses UILang::BlankProps
   * @uses UILang::SetUIADItem
+  * @uses UILang::SetUICWItem
   * @uses UILang::SetUICPItem
   * @uses UILang::SetUICharset
   * @uses UILang::SetUITimeFmt
@@ -375,6 +376,32 @@ class langTest extends TestCase {
 					'Test requires Enabled Auth System to run.'
 				);
 			}
+		}
+	}
+	// Test Commonm Word Items.
+	public function testCWASetItemRole() {
+		$langs = $this->langs;
+		$tf = __FUNCTION__;
+		foreach($langs as $lang){
+			$tmp = "UI$lang";
+			LogTC($tf,'language',$lang);
+			// Expect errors as we Transition Translation Data
+			$PHPUV = $this->PHPUV;
+			if (version_compare($PHPUV, '4.0', '<')) {
+				$this->markTestSkipped('Requires Phpunit 4+ to run.');
+			}elseif (version_compare($PHPUV, '5.0', '<')) { // PHPUnit 4x
+				$this->setExpectedException("PHPUnit_Framework_Error");
+			}elseif (version_compare($PHPUV, '6.0', '<')) { // PHPUnit 5x
+				$this->expectException("PHPUnit_Framework_Error");
+			}else{ // PHPUnit 6+
+				$this->expectException("PHPUnit\Framework\Error\Error");
+			}
+			$$tmp = new UILang($lang);
+			// $$tmp = $this->UIL[$tmp];
+			// Will not run until TD is transitioned.
+			$file = $$tmp->TDF;
+			LogTC($tf,'TD file',$file);
+			$this->CWAHas($$tmp,'Role','Role');
 		}
 	}
 	// Test Commonm Phrase Items.
@@ -1067,6 +1094,11 @@ class langTest extends TestCase {
 	}
 
 	// Test Support Functions.
+	private function CWAHas ($UIL, $Key, $KeyDesc) {
+		$this->assertArrayHasKey($Key, $UIL->CWA,
+			"Unset CW Item $KeyDesc: Key: $Key\n"
+		);
+	}
 	private function CPAHas ($UIL, $Key, $KeyDesc) {
 		$this->assertArrayHasKey($Key, $UIL->CPA,
 			"Unset CP Item $KeyDesc: Key: $Key\n"

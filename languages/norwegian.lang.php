@@ -45,6 +45,7 @@ $UI_CW_Desc = 'Beskrivelse';
 $UI_CW_SucDesc = 'Vellykket';
 $UI_CW_Sensor = 'Sensor';
 $UI_CW_Sig = 'Signatur';
+$UI_CW_Role = 'Rolle';
 // Common Phrases.
 $UI_CP_SrcName = array($UI_CW_Src,$UI_CW_Name);
 $UI_CP_DstName = array('Dest.',$UI_CW_Name);
@@ -52,7 +53,7 @@ $UI_CP_SrcDst = array($UI_CW_Src,'eller','Dest.');
 // Authentication Data.
 $UI_AD_UND = 'Brukernavn';
 $UI_AD_PWD = 'Passord';
-$UI_AD_RID = "Rolle $UI_CW_Id";
+$UI_AD_RID = array($UI_CW_Role,$UI_CW_Id);
 $UI_AD_ASD = 'Aktivert';
 
 //common phrases
@@ -152,9 +153,9 @@ DEFINE('_GALERTDT','Plott hendelser etter deteksjonstid');
 DEFINE('_USERMAN','Brukerbehandling');
 DEFINE('_LISTU','Vis brukere');
 DEFINE('_CREATEU','Opprett en bruker');
-DEFINE('_ROLEMAN','Rollebehanding');
+DEFINE('_ROLEMAN',$UI_CW_Role.'behanding');
 DEFINE('_LISTR','Vis roller');
-DEFINE('_CREATER','Opprett en rolle');
+DEFINE('_CREATER',"Opprett en $UI_CW_Role");
 DEFINE('_LISTALL','Vis alle');
 DEFINE('_CREATE','Opprett');
 DEFINE('_VIEW','Vis');
@@ -210,8 +211,14 @@ DEFINE('_OLDPWD','Det gamle passordet er feil!');
 DEFINE('_PWDCANT','Greide ikke å bytte passord: ');
 DEFINE('_PWDDONE','Passordet er endret!');
 DEFINE('_ROLEEXIST','Rollen eksisterer allerede');
-DEFINE('_ROLEIDEXIST',"$UI_AD_RID eksisterer allerede");
-DEFINE('_ROLEADDED','Rolle lagt til');
+// TD Migration Hack
+if ($UI_Spacing == 1){
+	$glue = ' ';
+}else{
+	$glue = '';
+}
+DEFINE('_ROLEIDEXIST',implode($glue, $UI_AD_RID)." eksisterer allerede");
+DEFINE('_ROLEADDED',"$UI_CW_Role lagt til");
 
 //base_roleadmin.php
 DEFINE('_ROLEADMIN','BASE Rolleadministrasjon');
@@ -223,7 +230,6 @@ DEFINE('_USERADMIN','BASE Brukeradministrasjon');
 DEFINE('_FRMFULLNAME','Fullt navn:');
 DEFINE('_SUBMITQUERY','Submit Query'); //NEW
 DEFINE('_UPDATEUSER','Update User'); //NEW
-DEFINE('_FRMROLE','Rolle:');
 DEFINE('_FRMUID','Bruker ID:');
 
 //admin/index.php

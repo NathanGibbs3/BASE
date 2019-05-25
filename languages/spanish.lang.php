@@ -46,6 +46,7 @@ $UI_CW_Desc = 'Descripci&oacute;n';
 $UI_CW_SucDesc = 'Exitoso';
 $UI_CW_Sensor = 'Sensor';
 $UI_CW_Sig = 'Firma';
+$UI_CW_Role = 'de rol';
 // Common Phrases.
 $UI_CP_SrcName = array($UI_CW_Name,'del','origen');
 $UI_CP_DstName = array($UI_CW_Name,'del','dest.');
@@ -53,7 +54,7 @@ $UI_CP_SrcDst = array($UI_CW_Src,'o','Dest');
 // Authentication Data.
 $UI_AD_UND = 'Usuario';
 $UI_AD_PWD = 'Clave';
-$UI_AD_RID = "$UI_CW_Id de rol";
+$UI_AD_RID = array($UI_CW_Id,$UI_CW_Role);
 $UI_AD_ASD = 'Activado';
 
 //common phrases
@@ -152,10 +153,10 @@ DEFINE('_GALERTDT','Hacer gr&aacute;fica del tiempo de detectar alertas');
 DEFINE('_USERMAN','Manejar usuarios');
 DEFINE('_LISTU','Listar usuarios');
 DEFINE('_CREATEU','Crear usuario');
-DEFINE('_ROLEMAN','Manejar papeles');
-DEFINE('_LISTR','Listar papeles');
+DEFINE('_ROLEMAN',"Manejar $UI_CW_Role");
+DEFINE('_LISTR',"Listar $UI_CW_Role".'s');
 DEFINE('_LOGOUT','Logout');
-DEFINE('_CREATER','Crear papel');
+DEFINE('_CREATER',"Crear $UI_CW_Role");
 DEFINE('_LISTALL','Listar todo');
 DEFINE('_CREATE','Crear');
 DEFINE('_VIEW','Ver');
@@ -209,19 +210,24 @@ DEFINE('_NOUSER','No existe ese usuario!');
 DEFINE('_OLDPWD','Clave antigua no es correcta!');
 DEFINE('_PWDCANT','No se pudo cambiar su clave: ');
 DEFINE('_PWDDONE','Su clave ha sido cambiaa!');
-DEFINE('_ROLEEXIST','Ya existe ese papel');
-DEFINE('_ROLEIDEXIST',"$UI_AD_RID ya existe");
-DEFINE('_ROLEADDED','Papel a&ntilde;adido con exito');
+DEFINE('_ROLEEXIST',"$UI_CW_Role ya existe");
+// TD Migration Hack
+if ($UI_Spacing == 1){
+	$glue = ' ';
+}else{
+	$glue = '';
+}
+DEFINE('_ROLEIDEXIST',implode($glue, $UI_AD_RID)." ya existe");
+DEFINE('_ROLEADDED','Rol a&ntilde;adido con exito');
 
 //base_roleadmin.php
-DEFINE('_ROLEADMIN','BASE Manejo de Papeles');
-DEFINE('_FRMROLENAME','Nombre de Papel:');
-DEFINE('_UPDATEROLE','Update Role'); //NEW
+DEFINE('_ROLEADMIN',"BASE Manejo $UI_CW_Role");
+DEFINE('_FRMROLENAME',"Nombre $UI_CW_Role:");
+DEFINE('_UPDATEROLE',"Update $UI_CW_Role"); //NEW
 //base_useradmin.php
 
 DEFINE('_USERADMIN','BASE Manejo de Usuarios');
 DEFINE('_FRMFULLNAME','Nombre Completo:');
-DEFINE('_FRMROLE','Papel:');
 DEFINE('_FRMUID','ID de Usuario:');
 DEFINE('_SUBMITQUERY','Submit Query'); //NEW
 DEFINE('_UPDATEUSER','Update User'); //NEW

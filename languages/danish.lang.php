@@ -46,6 +46,7 @@ $UI_CW_Desc = 'Beskrivelse';
 $UI_CW_SucDesc = 'Successful';
 $UI_CW_Sensor = 'Sensor';
 $UI_CW_Sig = 'Signature';
+$UI_CW_Role = 'Rolle';
 // Common Phrases.
 $UI_CP_SrcName = array($UI_CW_Src,$UI_CW_Name);
 $UI_CP_DstName = array('Dest.',$UI_CW_Name);
@@ -53,7 +54,7 @@ $UI_CP_SrcDst = array($UI_CW_Src,'eller','Dest.');
 // Authentication Data.
 $UI_AD_UND = 'Login';
 $UI_AD_PWD = 'Password';
-$UI_AD_RID = "Rolle $UI_CW_Id";
+$UI_AD_RID = array($UI_CW_Role,$UI_CW_Id);
 $UI_AD_ASD = 'Enabled';
 
 //common phrases
@@ -152,10 +153,10 @@ DEFINE('_GALERTDT','Graf Alarm Opdagelses Tid');
 DEFINE('_USERMAN','Bruger Styring');
 DEFINE('_LISTU','Bruger Liste');
 DEFINE('_CREATEU','Lav en ny bruger');
-DEFINE('_ROLEMAN','Rolle Styring');
-DEFINE('_LISTR','Rolle Liste');
+DEFINE('_ROLEMAN',"$UI_CW_Role Styring");
+DEFINE('_LISTR',"$UI_CW_Role Liste");
 DEFINE('_LOGOUT','Logout');
-DEFINE('_CREATER','Lav en rolle');
+DEFINE('_CREATER',"Lav en $UI_CW_Role");
 DEFINE('_LISTALL','Vise alle');
 DEFINE('_CREATE','Lav');
 DEFINE('_VIEW','Vis');
@@ -209,19 +210,24 @@ DEFINE('_NOUSER','Bruger eksistere ikke!');
 DEFINE('_OLDPWD','Det gamle password tastet ind matcher ikke vores registreringer!');
 DEFINE('_PWDCANT','Kan ikke ændre dit password: ');
 DEFINE('_PWDDONE','Dit password er blevet ændret!');
-DEFINE('_ROLEEXIST','Rolle Eksistere Allerede');
-DEFINE('_ROLEIDEXIST',"$UI_AD_RID Eksistere Allerede");
-DEFINE('_ROLEADDED','Rolle Lagt Til Vellykket');
+DEFINE('_ROLEEXIST',"$UI_CW_Role Eksistere Allerede");
+// TD Migration Hack
+if ($UI_Spacing == 1){
+	$glue = ' ';
+}else{
+	$glue = '';
+}
+DEFINE('_ROLEIDEXIST',implode($glue, $UI_AD_RID)." Eksistere Allerede");
+DEFINE('_ROLEADDED',"$UI_CW_Role Lagt Til Vellykket");
 
 //base_roleadmin.php
-DEFINE('_ROLEADMIN','BASE Rolle Administration');
-DEFINE('_FRMROLENAME','Rolle Navn:');
-DEFINE('_UPDATEROLE','Update Role'); //NEW
+DEFINE('_ROLEADMIN',"BASE $UI_CW_Role Administration");
+DEFINE('_FRMROLENAME',"$UI_CW_Role Navn:");
+DEFINE('_UPDATEROLE',"Update $UI_CW_Role"); //NEW
 
 //base_useradmin.php
 DEFINE('_USERADMIN','BASE Bruger Administration');
 DEFINE('_FRMFULLNAME','Fuldt Navn:');
-DEFINE('_FRMROLE','Rolle:');
 DEFINE('_FRMUID','Bruger ID:');
 DEFINE('_SUBMITQUERY','Submit Query'); //NEW
 DEFINE('_UPDATEUSER','Update User'); //NEW

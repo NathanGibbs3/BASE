@@ -47,6 +47,7 @@ $UI_CW_Desc = 'Opis';
 $UI_CW_SucDesc = 'Pomyslny';
 $UI_CW_Sensor = 'Sensor';
 $UI_CW_Sig = 'Sygnatura';
+$UI_CW_Role = 'Rola';
 // Common Phrases.
 $UI_CP_SrcName = array($UI_CW_Name,'Zrodlowa');
 $UI_CP_DstName = array($UI_CW_Name,'Docelowa');
@@ -54,7 +55,7 @@ $UI_CP_SrcDst = array($UI_CW_Src,'lub',$UI_CW_Dst);
 // Authentication Data.
 $UI_AD_UND = 'Login';
 $UI_AD_PWD = 'Haslo';
-$UI_AD_RID = "$UI_CW_Id Roli";
+$UI_AD_RID = array($UI_CW_Id,'Roli');
 $UI_AD_ASD = 'Wlaczony';
 
 //common phrases
@@ -153,9 +154,9 @@ DEFINE('_GALERTDT','Wykres Czasu Wykrycia Alarmu');
 DEFINE('_USERMAN','Zarzadzanie Uzytkownikami');
 DEFINE('_LISTU','Lista uzytkownikow');
 DEFINE('_CREATEU','Utworz uzytkownika');
-DEFINE('_ROLEMAN','Zarzadzanie Rolami');
-DEFINE('_LISTR','Lista Rol');
-DEFINE('_CREATER','Utworz Role');
+DEFINE('_ROLEMAN',"Zarzadzanie $UI_CW_Role");
+DEFINE('_LISTR',"$UI_CW_Role Lista");
+DEFINE('_CREATER',"Utworz $UI_CW_Role");
 DEFINE('_LISTALL','Lista Wszystkich');
 DEFINE('_CREATE','Utworz');
 DEFINE('_VIEW','Wyswietl');
@@ -210,18 +211,23 @@ DEFINE('_OLDPWD','Wpisane stare haslo nie zgadza sie z zapisanym!');
 DEFINE('_PWDCANT','Nie mozna zmienic hasla: ');
 DEFINE('_PWDDONE','Twoje haslo zostalo zmienione!');
 DEFINE('_ROLEEXIST','Role juz istnieje');
-DEFINE('_ROLEIDEXIST',"$UI_AD_RID juz istnieje");
+// TD Migration Hack
+if ($UI_Spacing == 1){
+	$glue = ' ';
+}else{
+	$glue = '';
+}
+DEFINE('_ROLEIDEXIST',implode($glue, $UI_AD_RID)." juz istnieje");
 DEFINE('_ROLEADDED','Pomyslnie dodano Role');
 
 //base_roleadmin.php
-DEFINE('_ROLEADMIN','Administracja Rolami');
-DEFINE('_FRMROLENAME','Nazwa Roli:');
-DEFINE('_UPDATEROLE','Update Role'); //NEW
+DEFINE('_ROLEADMIN',"Administracja $UI_CW_Role");
+DEFINE('_FRMROLENAME',"$UI_CW_Role Nazwa:");
+DEFINE('_UPDATEROLE',"Update $UI_CW_Role"); //NEW
 
 //base_useradmin.php
 DEFINE('_USERADMIN','Administracja Uzytkownikami');
 DEFINE('_FRMFULLNAME','Pelna Nazwa:');
-DEFINE('_FRMROLE','Rola:');
 DEFINE('_SUBMITQUERY','Wyslij Zapytanie'); //NEW
 DEFINE('_UPDATEUSER','Update User'); //NEW
 DEFINE('_FRMUID','ID Uzytkownika:');

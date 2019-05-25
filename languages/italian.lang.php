@@ -46,6 +46,7 @@ $UI_CW_Desc = 'Descrizione';
 $UI_CW_SucDesc = 'Completo';
 $UI_CW_Sensor = 'Sensore';
 $UI_CW_Sig = 'Firma';
+$UI_CW_Role = 'Ruolo';
 // Common Phrases.
 $UI_CP_SrcName = array($UI_CW_Name,'Sorgente');
 $UI_CP_DstName = array($UI_CW_Name,'Dest.');
@@ -53,7 +54,7 @@ $UI_CP_SrcDst = array('Sorg.','o','Dest.');
 // Authentication Data.
 $UI_AD_UND = 'Login';
 $UI_AD_PWD = 'Password';
-$UI_AD_RID = "$UI_CW_Id Ruolo";
+$UI_AD_RID = array($UI_CW_Id,$UI_CW_Role);
 $UI_AD_ASD = 'Abilitato';
 
 //common phrases
@@ -155,7 +156,7 @@ DEFINE('_CREATEU','Crea utente');
 DEFINE('_ROLEMAN','Gestione Ruoli');
 DEFINE('_LISTR','Lista Ruoli');
 DEFINE('_LOGOUT','Logout');
-DEFINE('_CREATER','Crea Ruolo');
+DEFINE('_CREATER',"Crea $UI_CW_Role");
 DEFINE('_LISTALL','Lista Completa');
 DEFINE('_CREATE','Crea');
 DEFINE('_VIEW','Visualizza');
@@ -209,19 +210,24 @@ DEFINE('_NOUSER','L\'utente non esiste!');
 DEFINE('_OLDPWD','La vecchia password inserita non è corretta!');
 DEFINE('_PWDCANT','Impossibile cambiare la password: ');
 DEFINE('_PWDDONE','Password cambiata!');
-DEFINE('_ROLEEXIST','Ruolo già esistente');
-DEFINE('_ROLEIDEXIST',"$UI_CW_Id già esistente");
-DEFINE('_ROLEADDED','Ruolo aggiunto con successo');
+DEFINE('_ROLEEXIST',"$UI_CW_Role già esistente");
+// TD Migration Hack
+if ($UI_Spacing == 1){
+	$glue = ' ';
+}else{
+	$glue = '';
+}
+DEFINE('_ROLEIDEXIST',implode($glue, $UI_AD_RID)." già esistente");
+DEFINE('_ROLEADDED',"$UI_CW_Role aggiunto con successo");
 
 //base_roleadmin.php
 DEFINE('_ROLEADMIN','Amministrazione Ruoli BASE');
-DEFINE('_FRMROLENAME','Nome Ruolo:');
-DEFINE('_UPDATEROLE','Update Role'); //NEW
+DEFINE('_FRMROLENAME',"Nome $UI_CW_Role:");
+DEFINE('_UPDATEROLE',"Update $UI_CW_Role"); //NEW
 
 //base_useradmin.php
 DEFINE('_USERADMIN','Amministrazione utenti BASE');
 DEFINE('_FRMFULLNAME','Nome completo:');
-DEFINE('_FRMROLE','Ruolo:');
 DEFINE('_FRMUID','ID Utente:');
 DEFINE('_SUBMITQUERY','Submit Query'); //NEW
 DEFINE('_UPDATEUSER','Update User'); //NEW

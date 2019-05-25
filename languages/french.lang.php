@@ -46,6 +46,7 @@ $UI_CW_Desc = 'Description';
 $UI_CW_SucDesc = 'Succès -';
 $UI_CW_Sensor = 'Sonde';
 $UI_CW_Sig = 'Signature';
+$UI_CW_Role = 'RÃ´le';
 // Common Phrases.
 $UI_CP_SrcName = array($UI_CW_Name,'de la',$UI_CW_Src);
 $UI_CP_DstName = array($UI_CW_Name,'de la',$UI_CW_Dst);
@@ -53,7 +54,7 @@ $UI_CP_SrcDst = array('Src','ou','Dest');
 // Authentication Data.
 $UI_AD_UND = 'Identifiant';
 $UI_AD_PWD = 'Mot de passe';
-$UI_AD_RID = "$UI_CW_Id de Rôle";
+$UI_AD_RID = array($UI_CW_Id,'de',$UI_CW_Role);
 $UI_AD_ASD = 'Activé';
 
 //common phrases
@@ -125,13 +126,13 @@ DEFINE('_LISTU','Liste des utilisateurs');
 // List users
 DEFINE('_CREATEU','Créer un utilisateur');
 // Create a user
-DEFINE('_ROLEMAN','Gestion des Rôles');
+DEFINE('_ROLEMAN','Gestion des RÃ´les');
 // Role Management
-DEFINE('_LISTR','Liste des Rôles');
+DEFINE('_LISTR','Liste des RÃ´les');
 // List Roles
 DEFINE('_LOGOUT','Logout');
 // Logout
-DEFINE('_CREATER','Créer un Rôle');
+DEFINE('_CREATER',"Créer un $UI_CW_Role");
 // Create a Role
 DEFINE('_LISTALL','Tout Lister');
 // List All
@@ -223,17 +224,23 @@ DEFINE('_PWDCANT','Impossible de modifier votre mot de passe');
 // Unable to change your password: 
 DEFINE('_PWDDONE','Votre mot de passe a été modifié');
 // Your password has been changed!
-DEFINE('_ROLEEXIST','Ce Rôle existe déjà');
+DEFINE('_ROLEEXIST',"$UI_CW_Role existe déjà");
 // Role Already Exists
-DEFINE('_ROLEIDEXIST',"$UI_AD_RID existe déjà");
+// TD Migration Hack
+if ($UI_Spacing == 1){
+	$glue = ' ';
+}else{
+	$glue = '';
+}
+DEFINE('_ROLEIDEXIST',implode($glue, $UI_AD_RID)." existe déjà");
 // Role ID Already Exists
-DEFINE('_ROLEADDED','Ajout de Rôle réussi');
+DEFINE('_ROLEADDED',"Ajout de $UI_CW_Role réussi");
 // Role Added Successfully
 
 //base_roleadmin.php
-DEFINE('_ROLEADMIN','Administration des Rôles BASE ');
+DEFINE('_ROLEADMIN','Administration des RÃ´les BASE ');
 // BASE Role Administration
-DEFINE('_FRMROLENAME','Nom du Rôle');
+DEFINE('_FRMROLENAME',"Nom du $UI_CW_Role");
 // Role Name:
 
 //base_useradmin.php
@@ -241,8 +248,6 @@ DEFINE('_USERADMIN','Administration des Utilisateurs BASE');
 // BASE User Administration
 DEFINE('_FRMFULLNAME','Nom complét (Prénom Nom):');
 // Full Name:
-DEFINE('_FRMROLE','Rôle:');
-// Role:
 DEFINE('_FRMUID','Identifiant Utilisateur:');
 // User ID:
 
@@ -1032,7 +1037,7 @@ DEFINE('_DESTIP','Destination IP'); //NEW
 DEFINE('_USEALERTDB','Use Alert Database'); //NEW
 DEFINE('_USEARCHIDB','Use Archive Database'); //NEW
 DEFINE('_TRAFFICPROBPRO','Traffic Profile by Protocol'); //NEW
-DEFINE('_UPDATEROLE','Update Role'); //NEW
+DEFINE('_UPDATEROLE',"Update $UI_CW_Role"); //NEW
 DEFINE('_SUBMITQUERY','Submit Query'); //NEW
 DEFINE('_UPDATEUSER','Update User'); //NEW
 DEFINE('_SHORTJAN','Jan'); //NEW

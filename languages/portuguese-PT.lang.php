@@ -54,6 +54,7 @@ $UI_CW_Desc = 'Descrição';
 $UI_CW_SucDesc = 'Com Sucesso';
 $UI_CW_Sensor = 'Sensor';
 $UI_CW_Sig = 'Assinatura';
+$UI_CW_Role = 'perfil';
 // Common Phrases.
 $UI_CP_SrcName = array($UI_CW_Name,'da',$UI_CW_Src);
 $UI_CP_DstName = array($UI_CW_Name,'do',$UI_CW_Dst);
@@ -61,7 +62,7 @@ $UI_CP_SrcDst = array($UI_CW_Src,'ou',$UI_CW_Dst);
 // Authentication Data.
 $UI_AD_UND = 'Nome';
 $UI_AD_PWD = 'Senha';
-$UI_AD_RID = "$UI_CW_Id do perfil";
+$UI_AD_RID = array($UI_CW_Id,'do',$UI_CW_Role);
 $UI_AD_ASD = 'Habilitado';
 
 //common phrases
@@ -162,7 +163,7 @@ DEFINE('_LISTU','Lista de utilizadores');
 DEFINE('_CREATEU','Criar um utilizador');
 DEFINE('_ROLEMAN','Gestão de Perfis');
 DEFINE('_LISTR','Lista de Perfis');
-DEFINE('_CREATER','Criar um Perfil');
+DEFINE('_CREATER',"Criar um $UI_CW_Role");
 DEFINE('_LISTALL','Listar Tudo');
 DEFINE('_CREATE','Criar');
 DEFINE('_VIEW','Ver');
@@ -216,19 +217,24 @@ DEFINE('_NOUSER','Utilizador não existe!');
 DEFINE('_OLDPWD','Senha antiga incorrecta!');
 DEFINE('_PWDCANT','Não foi possível mudar a sua senha: ');
 DEFINE('_PWDDONE','A sua senha foi mudada!');
-DEFINE('_ROLEEXIST','Perfil já existe');
-DEFINE('_ROLEIDEXIST',"$UI_AD_RID já existe");
-DEFINE('_ROLEADDED','Perfil adicionada com sucesso');
+DEFINE('_ROLEEXIST',"$UI_CW_Role já existe");
+// TD Migration Hack
+if ($UI_Spacing == 1){
+	$glue = ' ';
+}else{
+	$glue = '';
+}
+DEFINE('_ROLEIDEXIST',implode($glue, $UI_AD_RID)." já existe");
+DEFINE('_ROLEADDED',"$UI_CW_Role adicionada com sucesso");
 
 //base_roleadmin.php
 DEFINE('_ROLEADMIN','Administração de Perfis do BASE');
-DEFINE('_FRMROLENAME','Nome do Perfil:');
-DEFINE('_UPDATEROLE','Actualizar Perfil');
+DEFINE('_FRMROLENAME',"Nome do $UI_CW_Role:");
+DEFINE('_UPDATEROLE',"Actualizar $UI_CW_Role");
 
 //base_useradmin.php
 DEFINE('_USERADMIN','BASE: Administração de Utilizadores');
 DEFINE('_FRMFULLNAME','Nome Completo:');
-DEFINE('_FRMROLE','Perfil:');
 DEFINE('_FRMUID','ID do Usuário:');
 DEFINE('_SUBMITQUERY','Inserir');
 DEFINE('_UPDATEUSER','Actualizar Utilizador');

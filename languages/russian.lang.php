@@ -48,6 +48,7 @@ $UI_CW_Desc = 'Описание';
 $UI_CW_SucDesc = 'Успешно';
 $UI_CW_Sensor = 'Сенсор';
 $UI_CW_Sig = 'Сигнатура';
+$UI_CW_Role = 'роли';
 // Common Phrases.
 $UI_CP_SrcName = array($UI_CW_Name,$UI_CW_Src);
 $UI_CP_DstName = array($UI_CW_Name,$UI_CW_Dst);
@@ -55,7 +56,7 @@ $UI_CP_SrcDst = array($UI_CW_Src,'или',$UI_CW_Dst);
 // Authentication Data.
 $UI_AD_UND = 'Логин';
 $UI_AD_PWD = 'Пароль';
-$UI_AD_RID = "$UI_CW_Id роли";
+$UI_AD_RID = array($UI_CW_Id,$UI_CW_Role);
 $UI_AD_ASD = 'Включено';
 
 // основные фразы
@@ -211,18 +212,23 @@ DEFINE('_OLDPWD','Старый введенный пароль не соответствует нашим записям!');
 DEFINE('_PWDCANT','Невозможно поменять Ваш пароль: ');
 DEFINE('_PWDDONE','Ваш пароль изменен!');
 DEFINE('_ROLEEXIST','Роль уже существует');
-DEFINE('_ROLEIDEXIST',"$UI_AD_RID уже существует");
+// TD Migration Hack
+if ($UI_Spacing == 1){
+	$glue = ' ';
+}else{
+	$glue = '';
+}
+DEFINE('_ROLEIDEXIST',implode($glue, $UI_AD_RID)." уже существует");
 DEFINE('_ROLEADDED','Роль успешно добавлена');
 
 //base_roleadmin.php
 DEFINE('_ROLEADMIN','Администрирование ролей BASE');
 DEFINE('_FRMROLENAME','Имя роли:');
-DEFINE('_UPDATEROLE','Update Role'); //NEW
+DEFINE('_UPDATEROLE',"Update $UI_CW_Role"); //NEW
 
 //base_useradmin.php
 DEFINE('_USERADMIN','Администрирование пользователей BASE');
 DEFINE('_FRMFULLNAME','Полное имя:');
-DEFINE('_FRMROLE','Роль:');
 DEFINE('_FRMUID','ID пользователя:');
 DEFINE('_SUBMITQUERY','Submit Query'); //NEW
 DEFINE('_UPDATEUSER','Update User'); //NEW

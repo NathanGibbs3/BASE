@@ -46,6 +46,7 @@ $UI_CW_Desc = '說明';
 $UI_CW_SucDesc = '已成功 ';
 $UI_CW_Sensor = '偵測器';
 $UI_CW_Sig = '特徵';
+$UI_CW_Role = '角色';
 // Common Phrases.
 $UI_CP_SrcName = array($UI_CW_Src,$UI_CW_Name);
 $UI_CP_DstName = array($UI_CW_Dst,$UI_CW_Name);
@@ -53,7 +54,7 @@ $UI_CP_SrcDst = array($UI_CW_Src,'或',$UI_CW_Dst);
 // Authentication Data.
 $UI_AD_UND = '使用者登入';
 $UI_AD_PWD = '密碼';
-$UI_AD_RID = "角色$UI_CW_Id";
+$UI_AD_RID = array($UI_CW_Role,$UI_CW_Id);
 $UI_AD_ASD = '啟用';
 
 //common phrases
@@ -152,9 +153,9 @@ DEFINE('_GALERTDT','繪出警告偵測時間');
 DEFINE('_USERMAN','使用者管理');
 DEFINE('_LISTU','列出使用者');
 DEFINE('_CREATEU','建立使用者');
-DEFINE('_ROLEMAN','角色管理');
-DEFINE('_LISTR','列出角色');
-DEFINE('_CREATER','建立角色');
+DEFINE('_ROLEMAN',$UI_CW_Role."管理");
+DEFINE('_LISTR','列出$UI_CW_Role');
+DEFINE('_CREATER',"建立$UI_CW_Role");
 DEFINE('_LISTALL','列出全部');
 DEFINE('_CREATE','建立');
 DEFINE('_VIEW','顯示');
@@ -208,19 +209,24 @@ DEFINE('_NOUSER','使用者不存在!');
 DEFINE('_OLDPWD','輸入的舊密碼與記錄不相符!');
 DEFINE('_PWDCANT','無法變更您的密碼: ');
 DEFINE('_PWDDONE','您的密碼已經變更!');
-DEFINE('_ROLEEXIST','角色已經存在');
-DEFINE('_ROLEIDEXIST',$UI_AD_RID."已經存在");
-DEFINE('_ROLEADDED','角色新增成功 ');
+DEFINE('_ROLEEXIST',$UI_CW_Role."已經存在");
+// TD Migration Hack
+if ($UI_Spacing == 1){
+	$glue = ' ';
+}else{
+	$glue = '';
+}
+DEFINE('_ROLEIDEXIST',implode($glue, $UI_AD_RID)."已經存在");
+DEFINE('_ROLEADDED',$UI_CW_Role."新增成功 ");
 
 //base_roleadmin.php
-DEFINE('_ROLEADMIN','基本角色管理');
-DEFINE('_FRMROLENAME','角色名稱:');
-DEFINE('_UPDATEROLE',' 更新角色'); //NEW
+DEFINE('_ROLEADMIN',"基本$UI_CW_Role"."管理");
+DEFINE('_FRMROLENAME',$UI_CW_Role."名稱:");
+DEFINE('_UPDATEROLE'," 更新$UI_CW_Role"); //NEW
 
 //base_useradmin.php
 DEFINE('_USERADMIN','基本使用者管理');
 DEFINE('_FRMFULLNAME','全名:');
-DEFINE('_FRMROLE','角色:');
 DEFINE('_FRMUID','使用者識別碼:');
 DEFINE('_SUBMITQUERY',' 確認送出查詢'); //NEW
 DEFINE('_UPDATEUSER',' 更新使用者'); //NEW

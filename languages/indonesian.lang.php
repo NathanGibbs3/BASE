@@ -46,6 +46,7 @@ $UI_CW_Desc = 'Deskripsi';
 $UI_CW_SucDesc = 'Berhasil';
 $UI_CW_Sensor = 'Sensor';
 $UI_CW_Sig = 'Nama Alarem');
+$UI_CW_Role = 'Peran';
 // Common Phrases.
 $UI_CP_SrcName = array($UI_CW_Name,$UI_CW_Src);
 $UI_CP_DstName = array($UI_CW_Name,$UI_CW_Dst);
@@ -53,7 +54,7 @@ $UI_CP_SrcDst = array($UI_CW_Src,'atau',$UI_CW_Dst);
 // Authentication Data.
 $UI_AD_UND = 'Login';
 $UI_AD_PWD = 'Kata Sandi';
-$UI_AD_RID = "$UI_CW_Id Peran";
+$UI_AD_RID = array($UI_CW_Id,$UI_CW_Role);
 $UI_AD_ASD = 'Aktif';
 
 //common phrases
@@ -152,9 +153,9 @@ DEFINE('_GALERTDT','Gambarkan Waktu Alarem');
 DEFINE('_USERMAN','Pengelolaan Pengguna');
 DEFINE('_LISTU','Tampilkan Pengguna');
 DEFINE('_CREATEU','Ciptakan Pengguna');
-DEFINE('_ROLEMAN','Pengelolaan Jenis Pengguna');
-DEFINE('_LISTR','Tampilkan Jenis Pengguna');
-DEFINE('_CREATER','Ciptakan Jenis Pengguna');
+DEFINE('_ROLEMAN',"Pengelolaan $UI_CW_Role");
+DEFINE('_LISTR',"Tampilkan $UI_CW_Role");
+DEFINE('_CREATER',"Ciptakan $UI_CW_Role");
 DEFINE('_LISTALL','Tampilkan Semua');
 DEFINE('_CREATE','Ciptakan');
 DEFINE('_VIEW','Tampilkan');
@@ -209,18 +210,23 @@ DEFINE('_OLDPWD','Sebuah kata sandi lama digunakan yang tidak cocok dengan catat
 DEFINE('_PWDCANT','Gagal merubah kata sandi Anda: ');
 DEFINE('_PWDDONE','Kata sandi Anda telah diubah!');
 DEFINE('_ROLEEXIST','Jenis ini sudah ada');
-DEFINE('_ROLEIDEXIST',"$UI_AD_RID sudah ada");
+// TD Migration Hack
+if ($UI_Spacing == 1){
+	$glue = ' ';
+}else{
+	$glue = '';
+}
+DEFINE('_ROLEIDEXIST',implode($glue, $UI_AD_RID)." sudah ada");
 DEFINE('_ROLEADDED','Sukses menambah jenis');
 
 //base_roleadmin.php
-DEFINE('_ROLEADMIN','Administrasi jenis BASE');
-DEFINE('_FRMROLENAME','Nama jenis pengguna:');
-DEFINE('_UPDATEROLE','Update Role'); //NEW
+DEFINE('_ROLEADMIN',"Administrasi $UI_CW_Role BASE");
+DEFINE('_FRMROLENAME',"Nama $UI_CW_Role:");
+DEFINE('_UPDATEROLE',"Update $UI_CW_Role"); //NEW
 
 //base_useradmin.php
 DEFINE('_USERADMIN','Administrasi pengguna BASE');
 DEFINE('_FRMFULLNAME','Nama Lengkap:');
-DEFINE('_FRMROLE','Jenis Pengguna:');
 DEFINE('_FRMUID','ID Pengguna:');
 DEFINE('_SUBMITQUERY','Submit Query'); //NEW
 DEFINE('_UPDATEUSER','Update User'); //NEW

@@ -47,6 +47,7 @@ $UI_CW_Desc = 'Beschreibung';
 $UI_CW_SucDesc = 'Erfolgreich';
 $UI_CW_Sensor = 'Sensor';
 $UI_CW_Sig = 'Signatur';
+$UI_CW_Role = 'Benutzertyp';
 // Common Phrases.
 $UI_CP_SrcName = 'Quellname';
 $UI_CP_DstName = 'Zielname';
@@ -54,7 +55,7 @@ $UI_CP_SrcDst = array('Quelle','oder','Ziel');
 // Authentication Data.
 $UI_AD_UND = 'Login';
 $UI_AD_PWD = 'Passwort';
-$UI_AD_RID = "Benutzertyp $UI_CW_Id";
+$UI_AD_RID = array($UI_CW_Role,$UI_CW_Id);
 $UI_AD_ASD = 'Aktiv';
 
 //common phrases
@@ -153,9 +154,9 @@ DEFINE('_GALERTDT','Zeitliche Alarmstatistik');
 DEFINE('_USERMAN','Benutzerverwaltung');
 DEFINE('_LISTU','Benutzer anzeigen');
 DEFINE('_CREATEU','Benutzer erstellen');
-DEFINE('_ROLEMAN','Benutzertypen verwalten');
-DEFINE('_LISTR','Benutzertypen anzeigen');
-DEFINE('_CREATER','Benutzertyp erstellen');
+DEFINE('_ROLEMAN',$UI_CW_Role.'en verwalten');
+DEFINE('_LISTR',$UI_CW_Role.'en anzeigen');
+DEFINE('_CREATER',"$UI_CW_Role erstellen");
 DEFINE('_LISTALL','Alle anzeigen');
 DEFINE('_CREATE','Erstellen');
 DEFINE('_VIEW','Anzeigen');
@@ -209,19 +210,24 @@ DEFINE('_NOUSER','Benutzer existiert nicht!');
 DEFINE('_OLDPWD','Es wurde ein altes Passwort angegeben, das nicht zu unseren Daten passt!');
 DEFINE('_PWDCANT','Es ist nicht m&ouml;glich Ihr Passwort zu &auml;ndern: ');
 DEFINE('_PWDDONE','Ihr Passwort wurde ge&auml;ndert!');
-DEFINE('_ROLEEXIST','Benutzertyp existiert bereits');
-DEFINE('_ROLEIDEXIST',"$UI_AD_RID existiert bereits");
-DEFINE('_ROLEADDED','Benutzertyp erfolgreich hinzugef&uuml;gt');
+DEFINE('_ROLEEXIST',"$UI_CW_Role existiert bereits");
+// TD Migration Hack
+if ($UI_Spacing == 1){
+	$glue = ' ';
+}else{
+	$glue = '';
+}
+DEFINE('_ROLEIDEXIST',implode($glue, $UI_AD_RID)." existiert bereits");
+DEFINE('_ROLEADDED',"$UI_CW_Role erfolgreich hinzugef&uuml;gt");
 
 //base_roleadmin.php
-DEFINE('_ROLEADMIN','BASE Benutzertyp Verwaltung');
-DEFINE('_FRMROLENAME','Benutzertyp Name:');
-DEFINE('_UPDATEROLE','Update Role'); //NEW
+DEFINE('_ROLEADMIN',"BASE $UI_CW_Role Verwaltung");
+DEFINE('_FRMROLENAME',"$UI_CW_Role Name:");
+DEFINE('_UPDATEROLE',"Update $UI_CW_Role"); //NEW
 
 //base_useradmin.php
 DEFINE('_USERADMIN','BASE Benutzerverwaltung');
 DEFINE('_FRMFULLNAME','Voller Name:');
-DEFINE('_FRMROLE','Benutzertyp:');
 DEFINE('_FRMUID','Benutzer ID:');
 DEFINE('_SUBMITQUERY','Submit Query'); //NEW
 DEFINE('_UPDATEUSER','Update User'); //NEW

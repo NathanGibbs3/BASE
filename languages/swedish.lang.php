@@ -46,6 +46,7 @@ $UI_CW_Desc = 'Beskrivning';
 $UI_CW_SucDesc = 'Utfört';
 $UI_CW_Sensor = 'Sensor';
 $UI_CW_Sig = 'Signatur';
+$UI_CW_Role = 'Roll';
 // Common Phrases.
 $UI_CP_SrcName = array($UI_CW_Src,$UI_CW_Name);
 $UI_CP_DstName = array('Dest.',$UI_CW_Name);
@@ -53,7 +54,7 @@ $UI_CP_SrcDst = array('Src','or','Dest');
 // Authentication Data.
 $UI_AD_UND = 'Logga in';
 $UI_AD_PWD = 'Lösenord';
-$UI_AD_RID = "Roll $UI_CW_Id";
+$UI_AD_RID = array($UI_CW_Role,$UI_CW_Id);
 $UI_AD_ASD = 'Möjliggjord';
 
 //common phrases
@@ -152,10 +153,10 @@ DEFINE('_GALERTDT','Graf varning avkänning tid');
 DEFINE('_USERMAN','Användar Hantering');
 DEFINE('_LISTU','Lista användare');
 DEFINE('_CREATEU','Skapa en användare');
-DEFINE('_ROLEMAN','Roll hantering');
-DEFINE('_LISTR','Lista Roller');
+DEFINE('_ROLEMAN',"$UI_CW_Role hantering");
+DEFINE('_LISTR',"Lista $UI_CW_Role".'er');
 DEFINE('_LOGOUT','Logout');
-DEFINE('_CREATER','Skapa en roll');
+DEFINE('_CREATER',"Skapa en $UI_CW_Role");
 DEFINE('_LISTALL','Lista alla');
 DEFINE('_CREATE','Skapa');
 DEFINE('_VIEW','Se/visa');
@@ -209,19 +210,24 @@ DEFINE('_NOUSER','Användare existerar inte!');
 DEFINE('_OLDPWD','Det gamla lösenordet matcha inte våra uppgifter!');
 DEFINE('_PWDCANT','Det gick inte ändra ditt lösenord: ');
 DEFINE('_PWDDONE','Ditt lösenord har ändrats');
-DEFINE('_ROLEEXIST','Rollen existerar redan!');
-DEFINE('_ROLEIDEXIST',"$UI_AD_RID finns redan!");
-DEFINE('_ROLEADDED','Rollen har lagts till');
+DEFINE('_ROLEEXIST',$UI_CW_Role.'en existerar redan!');
+// TD Migration Hack
+if ($UI_Spacing == 1){
+	$glue = ' ';
+}else{
+	$glue = '';
+}
+DEFINE('_ROLEIDEXIST',implode($glue, $UI_AD_RID)." finns redan!");
+DEFINE('_ROLEADDED',$UI_CW_Role.'en har lagts till');
 
 //base_roleadmin.php
-DEFINE('_ROLEADMIN','BASE Roll Administration');
-DEFINE('_FRMROLENAME','Roll Namn:');
-DEFINE('_UPDATEROLE','Uppdatera Roll'); //NEW
+DEFINE('_ROLEADMIN',"BASE $UI_CW_Role Administration");
+DEFINE('_FRMROLENAME',"$UI_CW_Role Namn:");
+DEFINE('_UPDATEROLE',"Uppdatera $UI_CW_Role"); //NEW
 
 //base_useradmin.php
 DEFINE('_USERADMIN','BASE Användar Administration');
 DEFINE('_FRMFULLNAME','Hela Namnet:');
-DEFINE('_FRMROLE','Roll:');
 DEFINE('_FRMUID','Användar ID:');
 DEFINE('_SUBMITQUERY','Exekvera'); //NEW
 DEFINE('_UPDATEUSER','Uppdatera Användare'); //NEW

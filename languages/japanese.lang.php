@@ -46,6 +46,7 @@ $UI_CW_Desc = '詳細';
 $UI_CW_SucDesc = '成功';
 $UI_CW_Sensor = 'センサー';
 $UI_CW_Sig = 'シグネチャ';
+$UI_CW_Role = 'Role';
 // Common Phrases.
 $UI_CP_SrcName = array($UI_CW_Src,$UI_CW_Name);
 $UI_CP_DstName = array($UI_CW_Dst,$UI_CW_Name);
@@ -53,7 +54,7 @@ $UI_CP_SrcDst = array($UI_CW_Src,'or',$UI_CW_Dst);
 // Authentication Data.
 $UI_AD_UND = 'ログイン';
 $UI_AD_PWD = 'パスワード';
-$UI_AD_RID = "Role $UI_CW_Id";
+$UI_AD_RID = array($UI_CW_Role,$UI_CW_Id);
 $UI_AD_ASD = '有効';
 
 //common phrases
@@ -152,9 +153,9 @@ DEFINE('_GALERTDT','時間に基づくグラフ作成');
 DEFINE('_USERMAN','ユーザーマネージメント');
 DEFINE('_LISTU','ユーザー表示');
 DEFINE('_CREATEU','ユーザー作成');
-DEFINE('_ROLEMAN','Role Management');
+DEFINE('_ROLEMAN',"$UI_CW_Role Management");
 DEFINE('_LISTR','List Roles');
-DEFINE('_CREATER','Create a Role');
+DEFINE('_CREATER',"Create a $UI_CW_Role");
 DEFINE('_LISTALL','すべて表示');
 DEFINE('_CREATE','作成');
 DEFINE('_VIEW','View');
@@ -208,19 +209,24 @@ DEFINE('_NOUSER','ユーザーが存在しません。');
 DEFINE('_OLDPWD','古いパスワードが間違っています。');
 DEFINE('_PWDCANT','パスワードの変更が出来ませんでした。: ');
 DEFINE('_PWDDONE','パスワードは正常に変更されました。');
-DEFINE('_ROLEEXIST','Role はすでに存在します。');
-DEFINE('_ROLEIDEXIST',"$UI_AD_RID がすでに存在します。");
-DEFINE('_ROLEADDED','Role は正常に追加されました。');
+DEFINE('_ROLEEXIST',"$UI_CW_Role はすでに存在します。");
+// TD Migration Hack
+if ($UI_Spacing == 1){
+	$glue = ' ';
+}else{
+	$glue = '';
+}
+DEFINE('_ROLEIDEXIST',implode($glue, $UI_AD_RID)."がすでに存在します。");
+DEFINE('_ROLEADDED',"$UI_CW_Role は正常に追加されました。");
 
 //base_roleadmin.php
-DEFINE('_ROLEADMIN','BASE Role管理');
-DEFINE('_FRMROLENAME','Role名:');
-DEFINE('_UPDATEROLE','Update Role'); //NEW
+DEFINE('_ROLEADMIN',"BASE $UI_CW_Role".'管理');
+DEFINE('_FRMROLENAME',$UI_CW_Role.'名:');
+DEFINE('_UPDATEROLE',"Update $UI_CW_Role"); //NEW
 
 //base_useradmin.php
 DEFINE('_USERADMIN','BASE ユーザー管理');
 DEFINE('_FRMFULLNAME','氏名:');
-DEFINE('_FRMROLE','Role:');
 DEFINE('_FRMUID','ユーザーID:');
 DEFINE('_SUBMITQUERY','Submit Query'); //NEW
 DEFINE('_UPDATEUSER','Update User'); //NEW

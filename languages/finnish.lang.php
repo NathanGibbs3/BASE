@@ -51,6 +51,7 @@ $UI_CW_Desc = 'Kuvaus';
 $UI_CW_SucDesc = 'Onnistunut';
 $UI_CW_Sensor = 'Sensori';
 $UI_CW_Sig = 'Signature';
+$UI_CW_Role = 'Role';
 // Common Phrases.
 $UI_CP_SrcName = array('L‰hteen',$UI_CW_Name);
 $UI_CP_DstName = array('Kohteen',$UI_CW_Name);
@@ -58,7 +59,7 @@ $UI_CP_SrcDst = array('L‰hteen','nimi');
 // Authentication Data.
 $UI_AD_UND = 'Login';
 $UI_AD_PWD = 'Salasana';
-$UI_AD_RID = "Role $UI_CW_Id";
+$UI_AD_RID = array($UI_CW_Role,$UI_CW_Id);
 $UI_AD_ASD = 'Toiminnassa';
 
 //common phrases
@@ -157,9 +158,9 @@ DEFINE('_GALERTDT','Graph H‰lytys Detection Aika');//#
 DEFINE('_USERMAN','K‰ytt‰jien Hallinta');
 DEFINE('_LISTU','Listaa k‰ytt‰j‰t');
 DEFINE('_CREATEU','Luo k‰ytt‰j‰t');
-DEFINE('_ROLEMAN','Role Hallinta');//#
+DEFINE('_ROLEMAN',"$UI_CW_Role Hallinta");//#
 DEFINE('_LISTR','Listaa roles');//#
-DEFINE('_CREATER','Luo role');//#
+DEFINE('_CREATER',"Luo $UI_CW_Role");//#
 DEFINE('_LISTALL','Listaa Kaikki');
 DEFINE('_CREATE','Luo');
 DEFINE('_VIEW','Katsele');
@@ -213,20 +214,25 @@ DEFINE('_NOUSER','K‰ytt‰j‰‰ ei ole!');
 DEFINE('_OLDPWD','Annettua vanhaa salasanaa ei tunnisteta!');
 DEFINE('_PWDCANT','Salasanasi vaihtaminen ei onnistu: ');
 DEFINE('_PWDDONE','Salasanasi on vaihdettu!');
-DEFINE('_ROLEEXIST','Role On Jo Olemassa');//#
-DEFINE('_ROLEIDEXIST',"$UI_AD_RID On Jo Olemassa");
-DEFINE('_ROLEADDED','Role lis‰tty');//#
+DEFINE('_ROLEEXIST',"$UI_CW_Role On Jo Olemassa");//#
+// TD Migration Hack
+if ($UI_Spacing == 1){
+	$glue = ' ';
+}else{
+	$glue = '';
+}
+DEFINE('_ROLEIDEXIST',implode($glue, $UI_AD_RID)." On Jo Olemassa");
+DEFINE('_ROLEADDED',"$UI_CW_Role lis‰tty");//#
 
 //base_roleadmin.php
-DEFINE('_ROLEADMIN','BASE Role Administration');//#
-DEFINE('_FRMROLENAME','Role Nimi:');//#
-DEFINE('_UPDATEROLE','Update Role'); //NEW
+DEFINE('_ROLEADMIN',"BASE $UI_CW_Role Administration");//#
+DEFINE('_FRMROLENAME',"$UI_CW_Role Nimi:");//#
+DEFINE('_UPDATEROLE',"Update $UI_CW_Role"); //NEW
 
 //base_useradmin.php
 DEFINE('_USERADMIN','BASE K‰ytt‰j‰ Hallinta');
 DEFINE('_FRMFULLNAME','Koko nimi:');
-DEFINE('_FRMROLE','Role:');//#
-DEFINE('_FRMUID','K‰ytt‰j‰ ID:');//#
+DEFINE('_FRMUID',"K‰ytt‰j‰ $UI_CW_Id:");//#
 DEFINE('_SUBMITQUERY','Submit Query'); //NEW
 DEFINE('_UPDATEUSER','Update User'); //NEW
 
@@ -241,7 +247,7 @@ DEFINE('_ERRNOAG','H‰lytyksen lis‰‰minen ei onnistunut koska AG:a ei m‰‰ritelty 
 DEFINE('_ERRNOEMAIL','H‰lytysten mailaaminen ei onnistunut koska email-osoitetta ei ole m‰‰ritelty');
 DEFINE('_ACTION','ACTION');//#
 DEFINE('_CONTEXT','konteksti');
-DEFINE('_ADDAGID','Lis‰‰ AG:iin ( ID:ll‰');//#
+DEFINE('_ADDAGID',"Lis‰‰ AG:iin ( $UI_CW_Id:ll‰");//#
 DEFINE('_ADDAG','Lis‰‰ uusi AG');//#
 DEFINE('_ADDAGNAME','Lis‰‰ AG:iin (Nimell‰');
 DEFINE('_CREATEAG','Luo AG (Nimell‰');
@@ -257,7 +263,7 @@ DEFINE('_DUPALERTS',' useasti esiintyv‰t h‰lytykset');
 DEFINE('_ALERTSPARA',' h‰lytykset');
 DEFINE('_NOALERTSSELECT','Yht‰‰n h‰lytyst‰ valittu tai');
 DEFINE('_NOTSUCCESSFUL','ei onnistunut');
-DEFINE('_ERRUNKAGID','Tuntematon AG ID annettu (AG:a ei luultavasti ole olemassa)');//#
+DEFINE('_ERRUNKAGID',"Tuntematon AG $UI_CW_Id annettu (AG:a ei luultavasti ole olemassa)");//#
 DEFINE('_ERRREMOVEFAIL','Uuden AG:n poistaminen ei onnistunut');
 DEFINE('_GENBASE','BASE:n generoima');
 DEFINE('_ERRNOEMAILEXP','EXPORT ERROR: Exported h‰lytykset l‰hett‰minen to');//#
@@ -383,8 +389,8 @@ DEFINE('_DISPACTION','{ action }'); //NEW
 //base_ag_common.php
 DEFINE('_ERRAGNAMESEARCH','Annettu AG nimi-etsint‰ on laiton(invalid).  Yrit‰ uudelleen!');
 DEFINE('_ERRAGNAMEEXIST','Annettu AG:a ei ole olemassa.');
-DEFINE('_ERRAGIDSEARCH','Annettu AG ID etsint‰ on laiton(invalid).  Yrit‰ uudelleen!');
-DEFINE('_ERRAGLOOKUP','Error looking up an AG ID:ta');//#
+DEFINE('_ERRAGIDSEARCH',"Annettu AG $UI_CW_Id etsint‰ on laiton(invalid).  Yrit‰ uudelleen!");
+DEFINE('_ERRAGLOOKUP','Error looking up an AG $UI_CW_Id:ta');//#
 DEFINE('_ERRAGINSERT','Error Asetettaessa uutta AG:a');//#
 
 //base_ag_main.php

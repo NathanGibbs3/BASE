@@ -123,6 +123,15 @@ class UILang{
 		}else{
 			$this->SetUIUAItem('Delete');
 		}
+		// Init Common Words
+		if ( isset($UI_CW_Role) ) { // Var New TDF
+			$this->SetUICWItem('Role',$UI_CW_Role);
+		}elseif (defined('_FRMROLE')) { // Const Legacy TDF
+			$tmp = preg_replace("/:$/","",_FRMROLE); // Strip trailing :.
+			$this->SetUICWItem('Role',$tmp);
+		}else{
+			$this->SetUICWItem('Role');
+		}
 		// Init Common Phrases
 		if ( isset($UI_CW_Src) ) { // Var New TDF
 			$this->SetUICPItem('SrcDesc',$UI_CW_Src);
@@ -232,7 +241,7 @@ class UILang{
 				$this->SetUIADItem('DescPW');
 			}
 			if ( isset($UI_AD_RID) ) { // Var New TDF
-				$this->SetUIADItem('DescRI',$UI_AD_RID);
+				$this->SetUIADItem('DescRI',$this->Phrase($UI_AD_RID));
 			}elseif (defined('_FRMPWD')) { // Const Legacy TDF
 				$this->SetUIADItem('DescRI',_ROLEID);
 			}else{
@@ -248,8 +257,6 @@ class UILang{
 		}else{
 			$this->ADA = NULL;
 		}
-		// This Line is here until we migrate some TD into CWA.
-		$this->CWA = array();
 		// Check for unset/NULL TD, replace with default placeholder text.
 		$this->Timefmt = $this->BlankProps('Timefmt',$this->Timefmt);
 		$this->Charset = $this->BlankProps('Charset',$this->Charset);
@@ -334,8 +341,7 @@ class UILang{
 	}
 	// Sets Common Word Item from translation data.
 	function SetUICWItem($Item,$Value = NULL) {
-		$Items = array (
-		);
+		$Items = array ( 'Role' );
 		if (in_array($Item, $Items)) {
 			$this->CWA[$Item] = $Value;
 		}else{

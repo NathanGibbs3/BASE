@@ -22,16 +22,24 @@ table, th, td {
 		<tr>
 			<td>Inter Character Spacing.</td>
 			<td>N/A</td>
-			<td>UI_Spacing</td>
+			<td>$UI_Spacing</td>
 			<td>Boolean</td>
 			<td>Spacing</td>
-			<td rowspan="6">N/A</td>
+			<td>N/A</td>
+		</tr><tr>
+			<td>Common Word</td>
+			<td>Derived from _FRMROLE</td>
+			<td>$UI_CW_Role</td>
+			<td>String</td>
+			<td>Multiple locations via cascading translation.</td>
+			<td>Role</td>
 		</tr><tr>
 			<td rowspan="3">UI Locales.</td>
 			<td>_LOCALESTR1</td>
 			<td rowspan="3">$UI_Locales</td>
 			<td rowspan="3">Array</td>
 			<td rowspan="3">Locales</td>
+			<td rowspan="5">N/A</td>
 		</tr><tr>
 			<td>_LOCALESTR2</td>
 		</tr><tr>
@@ -87,7 +95,7 @@ table, th, td {
 			<td>CPA[DstDesc]</td>
 			<td>Destination</td>
 		</tr><tr>
-			<td rowspan="2">Phrase</td>
+			<td rowspan="2">Common Phrase</td>
 			<td>_DESTNAME</td>
 			<td>$UI_CP_DstName</td>
 			<td rowspan="2">Array</td>
@@ -142,7 +150,7 @@ table, th, td {
 			<td rowspan="2">Authentication Data Phrase</td>
 			<td>_ROLEID</td>
 			<td rowspan="2">$UI_AD_RID</td>
-			<td rowspan="2"></td>
+			<td rowspan="2">Array</td>
 			<td rowspan="2">ADA[DescRI]</td>
 			<td rowspan="2">Role ID</td>
 		</tr><tr>
@@ -618,9 +626,6 @@ table, th, td {
 		</tr><tr>
 			<td>To Do</td>
 			<td>_FRMFULLNAME</td>
-		</tr><tr>
-			<td>To Do</td>
-			<td>_FRMROLE</td>
 		</tr><tr>
 			<td>To Do</td>
 			<td>_FRMUID</td>

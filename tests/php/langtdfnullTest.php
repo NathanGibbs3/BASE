@@ -251,6 +251,26 @@ class nulllangTest extends TestCase {
 			);
 		}
 	}
+	// Test Commonm Word Items.
+	public function testCWASetItemRole() {
+		$lang = self::$langs;
+		$tf = __FUNCTION__;
+		$tmp = "UI$lang";
+		LogTC($tf,'language',$lang);
+		$$tmp = self::$UIL;
+		$file = $$tmp->TDF;
+		$key = 'Role';
+		$KA = 'CWA';
+		$TItem = $KA."[$key]";
+		$EEM = self::$EEM."$TItem.\n";
+		LogTC($tf,'TD file',$file);
+		$this->CWAHas($$tmp, $key, $TItem);
+		$this->assertEquals(
+			$EEM,
+			$$tmp->{$KA}[$key],
+			"Uninitialized: $TItem ."
+		);
+	}
 	// Test Commonm Phrase Items.
 	public function testCPASetItemSrcDesc() {
 		$lang = self::$langs;
@@ -540,6 +560,11 @@ class nulllangTest extends TestCase {
 	}
 
 	// Test Support Functions.
+	private function CWAHas ($UIL, $Key, $KeyDesc) {
+		$this->assertArrayHasKey($Key, $UIL->CWA,
+			"Unset CW Item $KeyDesc: Key: $Key\n"
+		);
+	}
 	private function CPAHas ($UIL, $Key, $KeyDesc) {
 		$this->assertArrayHasKey($Key, $UIL->CPA,
 			"Unset CP Item $KeyDesc: Key: $Key\n"

@@ -492,6 +492,17 @@ class legacylangTest extends TestCase {
 			);
 		}
 	}
+	// Test Commonm Word Items.
+	public function testCWASetItemRole() {
+		$lang = $this->langs;
+		$tf = __FUNCTION__;
+		$tmp = "UI$lang";
+		LogTC($tf,'language',$lang);
+		$$tmp = $this->UIL;
+		$file = $$tmp->TDF;
+		LogTC($tf,'TD file',$file);
+		$this->CWAHas($$tmp,'Role','Role');
+	}
 	// Test Commonm Phrase Items.
 	public function testCPASetItemSrcDesc() {
 		$lang = $this->langs;
@@ -646,6 +657,11 @@ class legacylangTest extends TestCase {
 	}
 
 	// Test Support Functions.
+	private function CWAHas ($UIL, $Key, $KeyDesc) {
+		$this->assertArrayHasKey($Key, $UIL->CWA,
+			"Unset CW Item $KeyDesc: Key: $Key\n"
+		);
+	}
 	private function CPAHas ($UIL, $Key, $KeyDesc) {
 		$this->assertArrayHasKey($Key, $UIL->CPA,
 			"Unset CP Item $KeyDesc: Key: $Key\n"

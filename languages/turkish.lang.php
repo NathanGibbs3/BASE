@@ -46,6 +46,7 @@ $UI_CW_Desc = 'Betimleme';
 $UI_CW_SucDesc = 'Baþarýlý';
 $UI_CW_Sensor = 'Algýlayýcý';
 $UI_CW_Sig = 'Ýmza';
+$UI_CW_Role = 'Rol';
 // Common Phrases.
 $UI_CP_SrcName = array($UI_CW_Src,$UI_CW_Name);
 $UI_CP_DstName = array($UI_CW_Dst,$UI_CW_Name);
@@ -53,7 +54,7 @@ $UI_CP_SrcDst = array($UI_CW_Src,'veya',$UI_CW_Dst);
 // Authentication Data.
 $UI_AD_UND = 'Oturum Aç';
 $UI_AD_PWD = 'Parola';
-$UI_AD_RID = "Rol $UI_CW_Id";
+$UI_AD_RID = array($UI_CW_Role,$UI_CW_Id);
 $UI_AD_ASD = 'Seçilir Kýlýnmýþ';
 
 //common phrases
@@ -152,9 +153,9 @@ DEFINE('_GALERTDT','Çizge Uyarýsý Algýlama Zamaný');
 DEFINE('_USERMAN','Kullanýcý Yönetimi');
 DEFINE('_LISTU','Kullanýcýlarý Listele');
 DEFINE('_CREATEU','Bir Kullanýcý Yarat');
-DEFINE('_ROLEMAN','Rol Yönetimi');
-DEFINE('_LISTR','Rolleri Listele');
-DEFINE('_CREATER','Bir Rol Yarat');
+DEFINE('_ROLEMAN',"$UI_CW_Role Yönetimi");
+DEFINE('_LISTR',$UI_CW_Role.'leri Listele');
+DEFINE('_CREATER',"Bir $UI_CW_Role Yarat");
 DEFINE('_LISTALL','Hepsini Listele');
 DEFINE('_CREATE','Yarat');
 DEFINE('_VIEW','Görünüm');
@@ -208,19 +209,24 @@ DEFINE('_NOUSER','Kullanýcý geçerli deðil!');
 DEFINE('_OLDPWD','Girilen Eski parola kayýtlarýmýzla eþleþmiyor!');
 DEFINE('_PWDCANT','Parolanýzý deðiþtirmek olanaksýz: ');
 DEFINE('_PWDDONE','Parolanýz deðiþtirildi!');
-DEFINE('_ROLEEXIST','Rol Zaten Var');
-DEFINE('_ROLEIDEXIST',"$UI_AD_RID Zaten Var");
-DEFINE('_ROLEADDED','Rol Baþarýlý Biçimde Eklendi');
+DEFINE('_ROLEEXIST',"$UI_CW_Role Zaten Var");
+// TD Migration Hack
+if ($UI_Spacing == 1){
+	$glue = ' ';
+}else{
+	$glue = '';
+}
+DEFINE('_ROLEIDEXIST',implode($glue, $UI_AD_RID)." Zaten Var");
+DEFINE('_ROLEADDED',"$UI_CW_Role Baþarýlý Biçimde Eklendi");
 
 //base_roleadmin.php
-DEFINE('_ROLEADMIN','BASE Rol Yönetimi');
-DEFINE('_FRMROLENAME','Rol Adý:');
+DEFINE('_ROLEADMIN',"BASE $UI_CW_Role Yönetimi");
+DEFINE('_FRMROLENAME',"$UI_CW_Role Adý:");
 DEFINE('_UPDATEROLE','Rolü Güncelle');
 
 //base_useradmin.php
 DEFINE('_USERADMIN','BASE Kullanýcý Yönetimi');
 DEFINE('_FRMFULLNAME','Tüm Ad:');
-DEFINE('_FRMROLE','Rol:');
 DEFINE('_FRMUID','Kullanýcý ID:');
 DEFINE('_SUBMITQUERY','Sorguyu Sun');
 DEFINE('_UPDATEUSER','Kullanýcýyý Güncelle');

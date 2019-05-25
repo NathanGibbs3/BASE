@@ -28,6 +28,8 @@
 
 $UIL = new UILang($BASE_Language); // Create UI Language Abstraction Object.
 $LoginDesc = $UIL->ADA['DescUN'];
+$RoleDesc = $UIL->CWA['Role'];
+$tdc = "<td width='25%' align='right'>";
 
    // Check role out and redirect if needed -- Kevin
   $roleneeded = 10000;
@@ -85,11 +87,11 @@ $LoginDesc = $UIL->ADA['DescUN'];
         $form = "<table border=1 class='query'>";
         $form = $form . "<tr><td width='25%' align='right'>"._FRMUID."</td>";
         $form = $form . "<td align='left'>". $userinfo[0] ."</td></tr>";
-			$form = $form . "<tr><td width='25%' align='right'>$LoginDesc:</td>";
+			$form .= "<tr>$tdc$LoginDesc:</td>";
         $form = $form . "<td align='left'>". $userinfo[1] ."</td></tr>";
         $form = $form . "<tr><td width='25%' align='right'>"._FRMFULLNAME."</td>";
         $form = $form . "<td align='left'>". $userinfo[3] ."</td></tr>";
-        $form = $form . "<tr><td width='25%' align='right'>"._FRMROLE."</td>";
+			$form .= "<tr>$tdc$RoleDesc:</td>";
         $form = $form . "<td align='left'>" . $user->roleName($userinfo[2]) ."</td></tr>";
         $form = $form . "</tr></table>";
        
