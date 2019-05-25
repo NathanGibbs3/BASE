@@ -108,12 +108,12 @@ if ( preg_match("/(create|add)/", $Action) || $Use_Auth_System == 1 ){
 				// $userinfo[2] = $rid // Role id
 				// $userinfo[3] = $ufn // Full Name
 				// $userinfo[4] = $uso // Operative
-				$userinfo = $user->returnEditUser($userid);
 				// Anti XSS Output Data
-				$uid = htmlspecialchars($userinfo[0]);
-				$usn = htmlspecialchars($userinfo[1]);
-				$rid = htmlspecialchars($userinfo[2]);
-				$ufn = htmlspecialchars($userinfo[3]);
+				$userinfo = XSSPrintSafe($user->returnEditUser($userid));
+				$uid = $userinfo[0];
+				$usn = $userinfo[1];
+				$rid = $userinfo[2];
+				$ufn = $userinfo[3];
 
 				$tdc = "<td width='25%' align='right'>";
 				$tdal = "<td align='left'>";
