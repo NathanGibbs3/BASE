@@ -83,7 +83,8 @@ $tdc = "<td width='25%' align='right'>";
         $user = new BaseUser();
         $userlogin = $user->returnUser();
         $userid = $user->returnUserID($userlogin);
-        $userinfo = $user->returnEditUser($userid);
+			// Anti XSS Output Data
+			$userinfo = XSSPrintSafe($user->returnEditUser($userid));
         $form = "<table border=1 class='query'>";
         $form = $form . "<tr><td width='25%' align='right'>"._FRMUID."</td>";
         $form = $form . "<td align='left'>". $userinfo[0] ."</td></tr>";
