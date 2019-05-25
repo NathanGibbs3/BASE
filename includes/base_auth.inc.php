@@ -315,28 +315,30 @@ class BaseUser {
         $rolename = $result->baseFetchRow();
         return $rolename[0];
     }
-    
-    function returnRoleNamesDropDown($roleid)
-    {
-        /* Returns a drop down with all of the role names
-          $roleid will cause the one passed to the function to be selected */
-        $db = $this->db;
-        $sql = "SELECT role_id, role_name FROM base_roles;";
-        $result = $db->baseExecute($sql);
-        $tmpHTML = "<select name='roleID'>";
-        $i = 0;
-        while ( ($myrow = $result->baseFetchRow()) && ($i < $result->baseRecordCount()) )
-        {
-            $selected = ($roleid == $myrow[0]) ? "SELECTED" : "";
-            $tmpHTML = $tmpHTML . "<option value='". $myrow[0] ."' ". $selected .">".$myrow[1] . "</option>";
-            ++$i;
-        }
-        $result->baseFreeRows();
-        $tmpHTML = $tmpHTML . "</select>";
-        return $tmpHTML;
-
-    }
-    
+	function returnRoleNamesDropDown($roleid) {
+		// Returns an HTML drop down list with all of the role names.
+		// The passed $roleid will be selected if it exists.
+		$db = $this->db;
+		$sql = "SELECT role_id, role_name FROM base_roles;";
+		$result = $db->baseExecute($sql);
+		$tmpHTML = "<select name='roleID'>";
+		$i = 0;
+		while (
+			($myrow = $result->baseFetchRow())
+			&& ($i < $result->baseRecordCount())
+		){
+			$selected = "<option value='".$myrow[0]."'";
+			if ( $roleid == $myrow[0] ){
+				$selected .= ' selected';
+			}
+			$tmp = XSSPrintSafe($myrow[1]);
+			$tmpHTML .= $selected .">$tmp</option>";
+			++$i;
+		}
+		$result->baseFreeRows();
+		$tmpHTML .= "</select>";
+		return $tmpHTML;
+	}
     function setRoleCookie($passwd, $user)
     {
         //sets a cookie with the md5 summed passwd embedded
