@@ -84,8 +84,6 @@ if ( preg_match("/(create|add)/", $Action) || $Use_Auth_System == 1 ){
 				$form .= NLI("<input type='password' name='password'/>",7);
 				$form .= NLI('</td>'.$Trc,6);
 				$form .= NLI("$tdc$RoleDesc:</td>",6);
-				// Potential XSS Vector.
-				// See https://github.com/NathanGibbs3/BASE/issues/13
 				$form .= $tdal.$user->returnRoleNamesDropDown($defaultrole).'</td>'.$Trc;
 				$form .= "<td colspan='2' align='center'><input type='submit' name='submit' value='"._SUBMITQUERY."'/></td>";
 				$form .= NLI('</tr>',5);
@@ -132,8 +130,6 @@ if ( preg_match("/(create|add)/", $Action) || $Use_Auth_System == 1 ){
 				$form .= "value='$ufn'/>";
 				$form .= NLI('</td>'.$Trc,6);
 				$form .= NLI("$tdc$RoleDesc:</td>",6);
-				// Potential XSS Vector.
-				// See https://github.com/NathanGibbs3/BASE/issues/13
 				$form .= $tdal.$user->returnRoleNamesDropDown($rid).'</td></tr>';
 				$form .= "<tr><td colspan='2' align='center'><input type='submit' name='submit' value='"._UPDATEUSER."'></td>";
 				$form .= NLI('</tr>',5);

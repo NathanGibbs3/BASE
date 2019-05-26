@@ -32,10 +32,9 @@ $UI_Timefmt = '%a %B %d, %Y %H:%M:%S';
 // UI Init.
 $UI_Charset = 'iso-8859-1';
 $UI_Title = 'Basic Analysis and Security Engine';
-// Universal Actions.
-$UI_UA_Edit = 'Editar';
-$UI_UA_Delete = 'Borrar';
 // Common Words.
+$UI_CW_Edit = 'Editar';
+$UI_CW_Delete = 'Borrar';
 $UI_CW_Src = 'Origen';
 $UI_CW_Dst = 'Destino';
 $UI_CW_Id = 'ID';

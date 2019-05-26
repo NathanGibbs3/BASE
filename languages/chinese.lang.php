@@ -32,10 +32,9 @@ $UI_Timefmt = '%a %B %d, %Y %H:%M:%S';
 // UI Init.
 $UI_Charset = 'UTF-8';
 $UI_Title = '安全基本分析引擎';
-// Universal Actions.
-$UI_UA_Edit = '編輯';
-$UI_UA_Delete = '刪除';
 // Common Words.
+$UI_CW_Edit = '編輯';
+$UI_CW_Delete = '刪除';
 $UI_CW_Src = '來源';
 $UI_CW_Dst = '目地';
 $UI_CW_Id = '識別碼';

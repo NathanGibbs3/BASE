@@ -32,10 +32,9 @@ $UI_Timefmt = '%a %B %d, %Y %H:%M:%S';
 // UI Init.
 $UI_Charset = 'UTF-8';
 $UI_Title = 'Basic Analysis and Security Engine 日本';
-// Universal Actions.
-$UI_UA_Edit = '編集';
-$UI_UA_Delete = '削除';
 // Common Words.
+$UI_CW_Edit = '編集';
+$UI_CW_Delete = '削除';
 $UI_CW_Src = '発信元';
 $UI_CW_Dst = '発信先';
 $UI_CW_Id = 'ID';

@@ -109,15 +109,15 @@ class UILang{
 			$this->SetUITitle();
 		}
 		// Init Universal Actions
-		if ( isset($UI_UA_Edit) ) { // Var New TDF
-			$this->SetUIUAItem('Edit',$UI_UA_Edit);
+		if ( isset($UI_CW_Edit) ) { // Var New TDF
+			$this->SetUIUAItem('Edit',$UI_CW_Edit);
 		}elseif (defined('_EDIT')) { // Const Legacy TDF
 			$this->SetUIUAItem('Edit',_EDIT);
 		}else{
 			$this->SetUIUAItem('Edit');
 		}
-		if ( isset($UI_UA_Delete) ) { // Var New TDF
-			$this->SetUIUAItem('Delete',$UI_UA_Delete);
+		if ( isset($UI_CW_Delete) ) { // Var New TDF
+			$this->SetUIUAItem('Delete',$UI_CW_Delete);
 		}elseif (defined('_DELETE')) { // Const Legacy TDF
 			$this->SetUIUAItem('Delete',_DELETE);
 		}else{

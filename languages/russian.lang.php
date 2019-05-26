@@ -34,10 +34,9 @@ $UI_Timefmt = '%a %B %d, %Y %H:%M:%S';
 // UI Init.
 $UI_Charset = 'windows-1251';
 $UI_Title = 'Базовый движок анализа и безопасности';
-// Universal Actions.
-$UI_UA_Edit = 'Редактировать';
-$UI_UA_Delete = 'Удалить';
 // Common Words.
+$UI_CW_Edit = 'Редактировать';
+$UI_CW_Delete = 'Удалить';
 $UI_CW_Src = 'Источник';
 $UI_CW_Dst = 'Назначение';
 $UI_CW_Id = 'ID';

@@ -32,10 +32,9 @@ $UI_Timefmt = '%a %B %d, %Y %H:%M:%S';
 // UI Init.
 $UI_Charset = 'iso-8859-1';
 $UI_Title = 'Motore di Sicurezza e Analisi Basilare';
-// Universal Actions.
-$UI_UA_Edit = 'Modifica';
-$UI_UA_Delete = 'Elimina';
 // Common Words.
+$UI_CW_Edit = 'Modifica';
+$UI_CW_Delete = 'Elimina';
 $UI_CW_Src = 'Sorgente';
 $UI_CW_Dst = 'Destinazione';
 $UI_CW_Id = 'ID';
