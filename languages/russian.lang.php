@@ -167,14 +167,14 @@ DEFINE('_VIEWGROUPS','Просмотреть группу');
 DEFINE('_EDITGROUPS',"$UI_CW_Edit группу");
 DEFINE('_DELETEGROUPS',"$UI_CW_Delete группу");
 DEFINE('_CLEARGROUPS','Очистить группу');
-DEFINE('_CHNGPWD','Поменять пароль');
+DEFINE('_CHNGPWD',"Поменять $UI_CW_Pw");
 DEFINE('_DISPLAYU','Показать пользователя');
 
 //base_footer.php
 DEFINE('_FOOTER','( by <A class="largemenuitem" href="mailto:base@secureideas.net">Кевин Джонсон (Kevin Johnson)</A> и комманда проекта <A class="largemenuitem" href="http://sourceforge.net/project/memberlist.php?group_id=103348">BASE</A><BR>Основано на ACID Романа Данылива (Roman Danyliw)');
 
 //index.php --страница входа в систему
-DEFINE('_LOGINERROR','Пользователь не существует или Ваш пароль неверный!<br>Пожалуйста, попытайтесь еще раз');
+DEFINE('_LOGINERROR',"Пользователь не существует или Ваш $UI_CW_Pw неверный!<br>Пожалуйста, попытайтесь еще раз");
 
 // base_main.php
 DEFINE('_MOSTRECENT','Самые последние ');
@@ -204,12 +204,12 @@ DEFINE('_USEARCHIDB','Use Archive Database'); //NEW
 DEFINE('_TRAFFICPROBPRO','Traffic Profile by Protocol'); //NEW
 
 //base_auth.inc.php
-DEFINE('_ADDEDSF','Успешно добавлено');
-DEFINE('_NOPWDCHANGE','Невозможно поменять пароль: ');
+DEFINE('_ADDEDSF',"$UI_CW_SucDesc добавлено");
+DEFINE('_NOPWDCHANGE',"Невозможно поменять $UI_CW_Pw: ");
 DEFINE('_NOUSER','Пользователь не сущетсвует!');
-DEFINE('_OLDPWD','Старый введенный пароль не соответствует нашим записям!');
-DEFINE('_PWDCANT','Невозможно поменять Ваш пароль: ');
-DEFINE('_PWDDONE','Ваш пароль изменен!');
+DEFINE('_OLDPWD',"Старый введенный $UI_CW_Pw не соответствует нашим записям!");
+DEFINE('_PWDCANT',"Невозможно поменять Ваш $UI_CW_Pw: ");
+DEFINE('_PWDDONE',"Ваш $UI_CW_Pw изменен!");
 DEFINE('_ROLEEXIST','Роль уже существует');
 // TD Migration Hack
 if ($UI_Spacing == 1){
@@ -218,17 +218,17 @@ if ($UI_Spacing == 1){
 	$glue = '';
 }
 DEFINE('_ROLEIDEXIST',implode($glue, $UI_AD_RID)." уже существует");
-DEFINE('_ROLEADDED','Роль успешно добавлена');
+DEFINE('_ROLEADDED',"Роль $UI_CW_SucDesc добавлена");
 
 //base_roleadmin.php
 DEFINE('_ROLEADMIN','Администрирование ролей BASE');
-DEFINE('_FRMROLENAME','Имя роли:');
+DEFINE('_FRMROLENAME',"$UI_CW_Name $UI_CW_Role:");
 DEFINE('_UPDATEROLE',"Update $UI_CW_Role"); //NEW
 
 //base_useradmin.php
 DEFINE('_USERADMIN','Администрирование пользователей BASE');
-DEFINE('_FRMFULLNAME','Полное имя:');
-DEFINE('_FRMUID','ID пользователя:');
+DEFINE('_FRMFULLNAME',"Полное $UI_CW_Name:");
+DEFINE('_FRMUID',"$UI_CW_Id пользователя:");
 DEFINE('_SUBMITQUERY','Submit Query'); //NEW
 DEFINE('_UPDATEUSER','Update User'); //NEW
 
@@ -243,14 +243,14 @@ DEFINE('_ERRNOAG','Невозможно добавить предупреждения, ГП не указана');
 DEFINE('_ERRNOEMAIL','Невозможно отправить предупреждения по e-mail, не указан e-mail-адрес');
 DEFINE('_ACTION','ДЕЙСТВИЕ');
 DEFINE('_CONTEXT','контекст');
-DEFINE('_ADDAGID','ДОБАВИТЬ в ГП (по ID)');
+DEFINE('_ADDAGID',"ДОБАВИТЬ в ГП (по $UI_CW_Id)");
 DEFINE('_ADDAG','ДОБАВИТЬ-Новую-ГП');
 DEFINE('_ADDAGNAME','ДОБАВИТЬ в ГП (по имени)');
 DEFINE('_CREATEAG','Создать ГП (по имени)');
 DEFINE('_CLEARAG','Очистить ГП');
 DEFINE('_DELETEALERT',"$UI_CW_Delete предупреждение(-я)");
 DEFINE('_EMAILALERTSFULL','Отправить предупреждение(-я) (полностью)');
-DEFINE('_EMAILALERTSSUMM','Отправить предупреждение(-я) (описание)');
+DEFINE('_EMAILALERTSSUMM',"Отправить предупреждение(-я) ($UI_CW_Desc)");
 DEFINE('_EMAILALERTSCSV','Отправить предупреждение(-я) (csv)');
 DEFINE('_ARCHIVEALERTSCOPY','Архивировать предупреждение(-я) (копировать)');
 DEFINE('_ARCHIVEALERTSMOVE','Архивировать предупреждение(-я) (переместить)');
@@ -282,11 +282,11 @@ DEFINE('_ERRSQLTRACE','Не удалось открыть файл трассировки SQL');
 DEFINE('_ERRSQLCONNECT','Ошибка подключения к БД :');
 DEFINE('_ERRSQLCONNECTINFO','<P>Проверьте переменные подключения к БД в файле <I>base_conf.php</I> 
               <PRE>
-               = $alert_dbname   : имя БД MySQL, в которой хранятся предупреждения
+               = $alert_dbname   : '.$UI_CW_Name.' БД MySQL, в которой хранятся предупреждения
                = $alert_host     : хост, на котором хранится БД
                = $alert_port     : порт, на котором хранится БД
-               = $alert_user     : имя пользователя БД
-               = $alert_password : пароль пользователя
+               = $alert_user     : '.$UI_CW_Name.' пользователя БД
+               = $alert_password : '.$UI_CW_Pw.' пользователя
               </PRE>
               <P>');
 DEFINE('_ERRSQLPCONNECT','Ошибка (p)подключения к БД :');
@@ -383,10 +383,10 @@ DEFINE('_QUERYSTATE','Состояние запроса');
 DEFINE('_DISPACTION','{ action }'); //NEW
 
 //base_ag_common.php
-DEFINE('_ERRAGNAMESEARCH','Указанное имя ГП для поиска неверно. Попробуйте еще раз!');
+DEFINE('_ERRAGNAMESEARCH',"Указанное $UI_CW_Name ГП для поиска неверно. Попробуйте еще раз!");
 DEFINE('_ERRAGNAMEEXIST','Указанная ГП не существует.');
-DEFINE('_ERRAGIDSEARCH','Указанный ID ГП для поиска неверный.  Попробуйте еще раз!');
-DEFINE('_ERRAGLOOKUP','Ошибка поиска ID ГП');
+DEFINE('_ERRAGIDSEARCH',"Указанный $UI_CW_Id ГП для поиска неверный.  Попробуйте еще раз!");
+DEFINE('_ERRAGLOOKUP',"Ошибка поиска $UI_CW_Id ГП");
 DEFINE('_ERRAGINSERT','Ошибка вставки новой ГП');
 
 //base_ag_main.php
@@ -394,7 +394,7 @@ DEFINE('_AGMAINTTITLE','Поддержка Групп Предупреждений (ГП)');
 DEFINE('_ERRAGUPDATE','Ошибка обновления ГП');
 DEFINE('_ERRAGPACKETLIST','Ошибка удаления списка пакетов из ГП:');
 DEFINE('_ERRAGDELETE','Ошибка удаления ГП');
-DEFINE('_AGDELETE','успешно УДАЛЕНО');
+DEFINE('_AGDELETE',"$UI_CW_SucDesc УДАЛЕНО");
 DEFINE('_AGDELETEINFO','информация удалена');
 DEFINE('_ERRAGSEARCHINV','Введенные критерии поиска неверны. Попробуйте еще раз!');
 DEFINE('_ERRAGSEARCHNOTFOUND','По данным критериям не найдено ни одной ГП.');
@@ -411,7 +411,7 @@ DEFINE('_PORTSCAN','Траффик сканирования портов');
 
 //base_db_common.php
 DEFINE('_ERRDBINDEXCREATE','Не удалось создать индекс для');
-DEFINE('_DBINDEXCREATE','Индекс успешно создан для');
+DEFINE('_DBINDEXCREATE',"Индекс $UI_CW_SucDesc создан для");
 DEFINE('_ERRSNORTVER','Это может быть старой версии. Поддерживаются базы предупреждений созданные только с помощью Snort 1.7-beta0 или более поздней версии');
 DEFINE('_ERRSNORTVER1','БД-подложка');
 DEFINE('_ERRSNORTVER2','может быть неполной/неверной');
@@ -460,13 +460,13 @@ DEFINE('_CHRTTYPEWEEK','Время (недели) и число предупреждений');
 DEFINE('_CHRTTYPEMONTH','Время (месяцы) и число предупреждений');
 DEFINE('_CHRTTYPEYEAR','Время (годы) и число предупреждений');
 DEFINE('_CHRTTYPESRCIP',"IP-$UI_CW_Src  и число предупреждений");
-DEFINE('_CHRTTYPEDSTIP','IP-назначение и число предупреждений');
-DEFINE('_CHRTTYPEDSTUDP','UDP порт-назначение и число предупреждений');
+DEFINE('_CHRTTYPEDSTIP',"IP-$UI_CW_Dst и число предупреждений");
+DEFINE('_CHRTTYPEDSTUDP',"UDP порт-$UI_CW_Dst и число предупреждений");
 DEFINE('_CHRTTYPESRCUDP',"UDP порт-$UI_CW_Src и число предупреждений");
-DEFINE('_CHRTTYPEDSTPORT','TCP порт-назначение и число предупреждений');
+DEFINE('_CHRTTYPEDSTPORT',"TCP порт-$UI_CW_Dst и число предупреждений");
 DEFINE('_CHRTTYPESRCPORT',"TCP порт-$UI_CW_Src и число предупреждений");
 DEFINE('_CHRTTYPESIG','Сиг. классификация и число предупреждений');
-DEFINE('_CHRTTYPESENSOR','Сенсор и число предупреждений');
+DEFINE('_CHRTTYPESENSOR',"$UI_CW_Sensor и число предупреждений");
 DEFINE('_CHRTBEGIN','Начало графика:');
 DEFINE('_CHRTEND','Конец графика:');
 DEFINE('_CHRTDS',"$UI_CW_Src данных:");
@@ -490,19 +490,19 @@ DEFINE('_CHRTTIME','Время');
 DEFINE('_CHRTALERTOCCUR','Случаи предупреждений');
 DEFINE('_CHRTSIPNUMBER',"IP-$UI_CW_Src и число предупреждений");
 DEFINE('_CHRTSIP',"IP-$UI_CW_Src");
-DEFINE('_CHRTDIPALERTS','IP-назначение и число предупреждений');
-DEFINE('_CHRTDIP','IP-назначение');
-DEFINE('_CHRTUDPPORTNUMBER','UDP порт (назначение) и число предупреждений');
-DEFINE('_CHRTDUDPPORT','UDP порт-назначение');
+DEFINE('_CHRTDIPALERTS',"IP-$UI_CW_Dst и число предупреждений");
+DEFINE('_CHRTDIP',"IP-$UI_CW_Dst");
+DEFINE('_CHRTUDPPORTNUMBER',"UDP порт ($UI_CW_Dst) и число предупреждений");
+DEFINE('_CHRTDUDPPORT',"UDP порт-$UI_CW_Dst");
 DEFINE('_CHRTSUDPPORTNUMBER',"UDP порт ($UI_CW_Src) и число предупреждений");
 DEFINE('_CHRTSUDPPORT',"UDP порт-$UI_CW_Src");
-DEFINE('_CHRTPORTDESTNUMBER','TCP порт (назначение) и число предупреждений');
-DEFINE('_CHRTPORTDEST','TCP порт-назначение');
+DEFINE('_CHRTPORTDESTNUMBER',"TCP порт ($UI_CW_Dst) и число предупреждений");
+DEFINE('_CHRTPORTDEST',"TCP порт-$UI_CW_Dst");
 DEFINE('_CHRTPORTSRCNUMBER',"TCP порт ($UI_CW_Src) и число предупреждений");
 DEFINE('_CHRTPORTSRC',"TCP порт-$UI_CW_Src");
 DEFINE('_CHRTSIGNUMBER','Сиг. классификация и число предупреждений');
 DEFINE('_CHRTCLASS','Классификация');
-DEFINE('_CHRTSENSORNUMBER','Сенсор и число предупреждений');
+DEFINE('_CHRTSENSORNUMBER',"$UI_CW_Sensor и число предупреждений");
 DEFINE('_CHRTHANDLEPERIOD','Определение периода при необходимости');
 DEFINE('_CHRTDUMP','Запись данных ...');
 DEFINE('_CHRTDRAW','Рисование графика');
@@ -521,8 +521,8 @@ DEFINE('_MNTPHPLOGLVL','Уровень протоколирования PHP:');
 DEFINE('_MNTPHPMODS','Загруженные модули:');
 DEFINE('_MNTDBTYPE','Тип DB:');
 DEFINE('_MNTDBALV','Версия абстракции DB:');
-DEFINE('_MNTDBALERTNAME','Имя БД предупреждений:');
-DEFINE('_MNTDBARCHNAME','Имя БД архива:');
+DEFINE('_MNTDBALERTNAME',"$UI_CW_Name БД предупреждений:");
+DEFINE('_MNTDBARCHNAME',"$UI_CW_Name БД архива:");
 DEFINE('_MNTAIC','Кэш информации о предупреждениях:');
 DEFINE('_MNTAICTE','Всего событий:');
 DEFINE('_MNTAICCE','Кэшировано событий:');
@@ -535,13 +535,13 @@ DEFINE('_MNTIPACUDIP','Уникальные IP-назначения:');
 //base_qry_alert.php
 DEFINE('_QAINVPAIR','Неверная пара (sid,cid)');
 DEFINE('_QAALERTDELET','Предупреждение УДАЛЕНО');
-DEFINE('_QATRIGGERSIG','Триггерная сигнатура');
+DEFINE('_QATRIGGERSIG',"Триггерная $UI_CW_Sig");
 DEFINE('_QANORMALD','Normal Display'); //NEW
 DEFINE('_QAPLAIND','Plain Display'); //NEW
 DEFINE('_QANOPAYLOAD','Fast logging used so payload was discarded'); //NEW
 
 //base_qry_common.php
-DEFINE('_QCSIG','сигнатура');
+DEFINE('_QCSIG',$UI_CW_Sig);
 DEFINE('_QCIPADDR','IP адреса');
 DEFINE('_QCIPFIELDS','IP поля');
 DEFINE('_QCTCPPORTS','TCP порты');
@@ -578,7 +578,7 @@ DEFINE('_QCUDPCRIT','Критерий UDP');
 DEFINE('_QCICMPCRIT','Критерий ICMP');
 DEFINE('_QCLAYER4CRIT','Layer 4 Criteria'); //NEW
 DEFINE('_QCERRINVIPCRIT','Неверный критерий: IP адрес');
-DEFINE('_QCERRCRITADDRESSTYPE',"введен(-а) как значение критерия, но тип адреса (напр., $UI_CW_Src, назначение) не был указан.");
+DEFINE('_QCERRCRITADDRESSTYPE',"введен(-а) как значение критерия, но тип адреса (напр., $UI_CW_Src, $UI_CW_Dst) не был указан.");
 DEFINE('_QCERRCRITIPADDRESSNONE','показывающий(-ая), что IP адрес должен быть критерием, но адрес не указан.');
 DEFINE('_QCERRCRITIPADDRESSNONE1','выбран(-а) (#');
 DEFINE('_QCERRCRITIPIPBOOL','В качестве критерия введены несколько IP адресов без логического оператора между ними (напр., AND, OR)');
@@ -588,9 +588,9 @@ DEFINE('_QFRMSORTORDER','Порядок сортировки');
 DEFINE('_QFRMSORTNONE','none'); //NEW
 DEFINE('_QFRMTIMEA','время (восходящий)');
 DEFINE('_QFRMTIMED','время (нисходящий)');
-DEFINE('_QFRMSIG','сигнатура');
+DEFINE('_QFRMSIG',$UI_CW_Sig);
 DEFINE('_QFRMSIP',"IP-$UI_CW_Src");
-DEFINE('_QFRMDIP','IP-назначение');
+DEFINE('_QFRMDIP',"IP-$UI_CW_Dst");
 
 //base_qry_sqlcalls.php
 DEFINE('_QSCSUMM','Общая статистика');
@@ -602,18 +602,18 @@ DEFINE('_ALERTTITLE','Список предупреждений');
 
 //base_stat_common.php
 DEFINE('_SCCATEGORIES','Категории:');
-DEFINE('_SCSENSORTOTAL','Сенсоры/Всего:');
+DEFINE('_SCSENSORTOTAL',$UI_CW_Sensor.'ы/Всего:');
 DEFINE('_SCTOTALNUMALERTS','Общее количество предупреждений:');
-DEFINE('_SCSRCIP',"IP-$UI_CW_Src".':');
-DEFINE('_SCDSTIP','IP-назначение:');
+DEFINE('_SCSRCIP',"IP-$UI_CW_Src:");
+DEFINE('_SCDSTIP',"IP-$UI_CW_Dst:");
 DEFINE('_SCUNILINKS','Уникальные IP связи');
 DEFINE('_SCSRCPORTS',"Порты-$UI_CW_Src".'и: ');
 DEFINE('_SCDSTPORTS','Порты-назначения: ');
-DEFINE('_SCSENSORS','Сенсоры');
+DEFINE('_SCSENSORS',$UI_CW_Sensor.'ы');
 DEFINE('_SCCLASS','классификации');
 DEFINE('_SCUNIADDRESS','Уникальные адресы: ');
 DEFINE('_SCSOURCE',$UI_CW_Src);
-DEFINE('_SCDEST','Назначение');
+DEFINE('_SCDEST',$UI_CW_Dst);
 DEFINE('_SCPORT','Порт');
 
 //base_stat_ipaddr.php
@@ -622,19 +622,19 @@ DEFINE('_PSEVENTERRNOFILE','Ни один файл не указан в переменной $portscan_file.'
 DEFINE('_PSEVENTERROPENFILE','Не удалось открыть файл событий сканирования портов');
 DEFINE('_PSDATETIME','Дата/Время');
 DEFINE('_PSSRCIP',"IP-$UI_CW_Src");
-DEFINE('_PSDSTIP','IP-назначение');
+DEFINE('_PSDSTIP',"IP-$UI_CW_Dst");
 DEFINE('_PSSRCPORT',"порт-$UI_CW_Src");
-DEFINE('_PSDSTPORT','порт-назначение');
+DEFINE('_PSDSTPORT',"порт-$UI_CW_Dst");
 DEFINE('_PSTCPFLAGS','Флаги TCP');
 DEFINE('_PSTOTALOCC','Всего<BR> Случаев');
-DEFINE('_PSNUMSENSORS','Число сенсоров');
+DEFINE('_PSNUMSENSORS',"Число $UI_CW_Sensor".'ов');
 DEFINE('_PSFIRSTOCC','Первый<BR> Случай');
 DEFINE('_PSLASTOCC','Последний<BR> Случай');
 DEFINE('_PSUNIALERTS','Уникальные предупреждения');
 DEFINE('_PSPORTSCANEVE','События сканирования портов');
 DEFINE('_PSREGWHOIS','Поиск (whois) в');
 DEFINE('_PSNODNS','не получено DNS-разрешения');
-DEFINE('_PSNUMSENSORSBR','Число <BR>Сенсоров');
+DEFINE('_PSNUMSENSORSBR',"Число <BR>$UI_CW_Sensor".'ов');
 DEFINE('_PSOCCASSRC',"Случаи <BR>как $UI_CW_Src".'и.');
 DEFINE('_PSOCCASDST','Случаи <BR>как назначения.');
 DEFINE('_PSWHOISINFO','Информация Whois');
@@ -647,7 +647,7 @@ DEFINE('_PSEXTERNAL','external'); //NEW
 //base_stat_iplink.php
 DEFINE('_SIPLTITLE','IP Связи');
 DEFINE('_SIPLSOURCEFGDN',"$UI_CW_Src FQDN");
-DEFINE('_SIPLDESTFGDN','Назначение FQDN');
+DEFINE('_SIPLDESTFGDN',"$UI_CW_Dst FQDN");
 DEFINE('_SIPLDIRECTION','Направление');
 DEFINE('_SIPLPROTO','Протокол');
 DEFINE('_SIPLUNIDSTPORTS','Уникальные порты-назначения');
@@ -661,7 +661,7 @@ DEFINE('_SRCPS',"Порт-$UI_CW_Src".'и');
 DEFINE('_OCCURRENCES','Occurrences'); //NEW
 
 //base_stat_sensor.php
-DEFINE('SPSENSORLIST','Список сенсоров');
+DEFINE('SPSENSORLIST',"Список $UI_CW_Sensor".'ов');
 
 //base_stat_time.php
 DEFINE('_BSTTITLE','Временной профиль предупреждений');
@@ -679,19 +679,19 @@ DEFINE('_PROFILEALERT','Profile Alert'); //NEW
 //base_stat_uaddr.php
 DEFINE('_UNISADD',"Уникальные адреса-$UI_CW_Src".'и');
 DEFINE('_SUASRCIP',"IP-$UI_CW_Src");
-DEFINE('_SUAERRCRITADDUNK','ОШИБКА КРИТЕРИЯ: неизвестный типа адреса -- предполагается адрес-назначение');
+DEFINE('_SUAERRCRITADDUNK',"ОШИБКА КРИТЕРИЯ: неизвестный типа адреса -- предполагается адрес-$UI_CW_Dst");
 DEFINE('_UNIDADD','Уникальниые адреса-назначения');
-DEFINE('_SUADSTIP','IP-назначение');
+DEFINE('_SUADSTIP',"IP-$UI_CW_Dst");
 DEFINE('_SUAUNIALERTS','Уникальные&nbsp;предупреждения');
 DEFINE('_SUASRCADD',"Адрес&nbsp;$UI_CW_Src".'.');
-DEFINE('_SUADSTADD','Адрес.&nbsp;назначение');
+DEFINE('_SUADSTADD',"Адрес.&nbsp;$UI_CW_Dst");
 
 //base_user.php
 DEFINE('_BASEUSERTITLE','Пользовательские установки BASE');
-DEFINE('_BASEUSERERRPWD','Ваш пароль не может быть пустым или два пароля не совпали!');
-DEFINE('_BASEUSEROLDPWD','Старый пароль:');
-DEFINE('_BASEUSERNEWPWD','Новый пароль:');
-DEFINE('_BASEUSERNEWPWDAGAIN','Еще раз новый пароль:');
+DEFINE('_BASEUSERERRPWD',"Ваш $UI_CW_Pw не может быть пустым или два пароля не совпали!");
+DEFINE('_BASEUSEROLDPWD',"Старый $UI_CW_Pw:");
+DEFINE('_BASEUSERNEWPWD',"Новый $UI_CW_Pw:");
+DEFINE('_BASEUSERNEWPWDAGAIN',"Еще раз новый $UI_CW_Pw:");
 
 DEFINE('_LOGOUT','Выход');
 
