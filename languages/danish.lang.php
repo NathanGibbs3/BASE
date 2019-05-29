@@ -46,13 +46,13 @@ $UI_CW_SucDesc = 'Successful';
 $UI_CW_Sensor = 'Sensor';
 $UI_CW_Sig = 'Signature';
 $UI_CW_Role = 'Rolle';
+$UI_CW_Pw = 'Password';
 // Common Phrases.
 $UI_CP_SrcName = array($UI_CW_Src,$UI_CW_Name);
 $UI_CP_DstName = array('Dest.',$UI_CW_Name);
 $UI_CP_SrcDst = array($UI_CW_Src,'eller','Dest.');
 // Authentication Data.
 $UI_AD_UND = 'Login';
-$UI_AD_PWD = 'Password';
 $UI_AD_RID = array($UI_CW_Role,$UI_CW_Id);
 $UI_AD_ASD = 'Enabled';
 
@@ -166,14 +166,14 @@ DEFINE('_VIEWGROUPS','Vis Gruppe');
 DEFINE('_EDITGROUPS','Rediger Gruppe');
 DEFINE('_DELETEGROUPS','Slet Gruppe');
 DEFINE('_CLEARGROUPS','Ryd Gruppe');
-DEFINE('_CHNGPWD','Ændre password');
+DEFINE('_CHNGPWD','Ændre '.strtolower($UI_CW_Pw));
 DEFINE('_DISPLAYU','Vis bruger');
 
 //base_footer.php
 DEFINE('_FOOTER','( by <A class="largemenuitem" href="mailto:base@secureideas.net">Kevin Johnson</A> and the <A class="largemenuitem" href="http://sourceforge.net/project/memberlist.php?group_id=103348">BASE Project Team</A><BR>Built on ACID by Roman Danyliw )');
 
 //index.php --Log in Page
-DEFINE('_LOGINERROR','Bruger eksistere ikke eller dit password var forkert!<br>Prøv venligst igen');
+DEFINE('_LOGINERROR','Bruger eksistere ikke eller dit '.strtolower($UI_CW_Pw).' var forkert!<br>Prøv venligst igen');
 
 // base_main.php
 DEFINE('_MOSTRECENT','Seneste ');
@@ -204,11 +204,11 @@ DEFINE('_TRAFFICPROBPRO','Traffic Profile by Protocol'); //NEW
 
 //base_auth.inc.php
 DEFINE('_ADDEDSF','Lagt Til Vellykket');
-DEFINE('_NOPWDCHANGE','Kan ikke ændre dit password: ');
+DEFINE('_NOPWDCHANGE','Kan ikke ændre dit '.strtolower($UI_CW_Pw).': ');
 DEFINE('_NOUSER','Bruger eksistere ikke!');
-DEFINE('_OLDPWD','Det gamle password tastet ind matcher ikke vores registreringer!');
-DEFINE('_PWDCANT','Kan ikke ændre dit password: ');
-DEFINE('_PWDDONE','Dit password er blevet ændret!');
+DEFINE('_OLDPWD','Det gamle '.strtolower($UI_CW_Pw).' tastet ind matcher ikke vores registreringer!');
+DEFINE('_PWDCANT','Kan ikke ændre dit '.strtolower($UI_CW_Pw).': ');
+DEFINE('_PWDDONE','Dit '.strtolower($UI_CW_Pw).' er blevet ændret!');
 DEFINE('_ROLEEXIST',"$UI_CW_Role Eksistere Allerede");
 // TD Migration Hack
 if ($UI_Spacing == 1){
@@ -285,7 +285,7 @@ DEFINE('_ERRSQLCONNECTINFO','<P>Check DB forbindelses variablerne i <I>base_conf
                = $alert_host     : host hvor databasen er gemt
                = $alert_port     : port hvor databasen er gemt
                = $alert_user     : brugername ind i databasen
-               = $alert_password : password for bruger navnet
+               = $alert_password : '.strtolower($UI_CW_Pw).' for bruger navnet
               </PRE>
               <P>');
 DEFINE('_ERRSQLPCONNECT','Fejl under (p)forbindelsen til DB :');
@@ -687,9 +687,9 @@ DEFINE('_SUADSTADD','Dest.&nbsp;Addr.');
 
 //base_user.php
 DEFINE('_BASEUSERTITLE','BASE User preferences');
-DEFINE('_BASEUSERERRPWD','Your password can not be blank or the two passwords did not match!');
-DEFINE('_BASEUSEROLDPWD','Old Password:');
-DEFINE('_BASEUSERNEWPWD','New Password:');
-DEFINE('_BASEUSERNEWPWDAGAIN','New Password Again:');
+DEFINE('_BASEUSERERRPWD','Your '.strtolower($UI_CW_Pw).' can not be blank or the two '.strtolower($UI_CW_Pw).'s did not match!');
+DEFINE('_BASEUSEROLDPWD',"Old $UI_CW_Pw".':');
+DEFINE('_BASEUSERNEWPWD',"New $UI_CW_Pw".':');
+DEFINE('_BASEUSERNEWPWDAGAIN',"New $UI_CW_Pw Again:");
 
 ?>

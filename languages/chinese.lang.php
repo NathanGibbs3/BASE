@@ -46,13 +46,13 @@ $UI_CW_SucDesc = '已成功 ';
 $UI_CW_Sensor = '偵測器';
 $UI_CW_Sig = '特徵';
 $UI_CW_Role = '角色';
+$UI_CW_Pw = '密碼';
 // Common Phrases.
 $UI_CP_SrcName = array($UI_CW_Src,$UI_CW_Name);
 $UI_CP_DstName = array($UI_CW_Dst,$UI_CW_Name);
 $UI_CP_SrcDst = array($UI_CW_Src,'或',$UI_CW_Dst);
 // Authentication Data.
 $UI_AD_UND = '使用者登入';
-$UI_AD_PWD = '密碼';
 $UI_AD_RID = array($UI_CW_Role,$UI_CW_Id);
 $UI_AD_ASD = '啟用';
 
@@ -165,14 +165,14 @@ DEFINE('_VIEWGROUPS',' 顯示群組');
 DEFINE('_EDITGROUPS',' 編輯群組');
 DEFINE('_DELETEGROUPS',' 刪除群組');
 DEFINE('_CLEARGROUPS',' 清除群組');
-DEFINE('_CHNGPWD',' 變更密碼');
+DEFINE('_CHNGPWD'," 變更$UI_CW_Pw");
 DEFINE('_DISPLAYU',' 顯示使用者');
 
 //base_footer.php
 DEFINE('_FOOTER','(by <A class="largemenuitem" href="mailto:base@secureideas.net">Kevin Johnson</A> and the <A class="largemenuitem" href="http://sourceforge.net/project/memberlist.php?group_id=103348">BASE Project Team</A><BR>Built on ACID by Roman Danyliw 中文 <a href="mailto:js547441@ms15.hinet.net">Johnson Chiang</a>  )');
 
 //index.php --Log in Page
-DEFINE('_LOGINERROR','使用者不存在或您的密碼不正確!<br>請再試一次');
+DEFINE('_LOGINERROR',"使用者不存在或您的$UI_CW_Pw".'不正確!<br>請再試一次');
 
 // base_main.php
 DEFINE('_MOSTRECENT','最近 ');
@@ -203,12 +203,12 @@ DEFINE('_TRAFFICPROBPRO','以通訊協定的傳輸概況'); //NEW
 
 //base_auth.inc.php
 DEFINE('_ADDEDSF','新增成功 ');
-DEFINE('_NOPWDCHANGE','無法變更您的密碼: ');
+DEFINE('_NOPWDCHANGE',"無法變更您的$UI_CW_Pw".': ');
 DEFINE('_NOUSER','使用者不存在!');
-DEFINE('_OLDPWD','輸入的舊密碼與記錄不相符!');
-DEFINE('_PWDCANT','無法變更您的密碼: ');
-DEFINE('_PWDDONE','您的密碼已經變更!');
-DEFINE('_ROLEEXIST',$UI_CW_Role."已經存在");
+DEFINE('_OLDPWD',"輸入的舊$UI_CW_Pw".'與記錄不相符!');
+DEFINE('_PWDCANT',"無法變更您的$UI_CW_Pw".': ');
+DEFINE('_PWDDONE',"您的$UI_CW_Pw".'已經變更!');
+DEFINE('_ROLEEXIST',$UI_CW_Role.'已經存在');
 // TD Migration Hack
 if ($UI_Spacing == 1){
 	$glue = ' ';
@@ -284,7 +284,7 @@ DEFINE('_ERRSQLCONNECTINFO','<P>檢察資料庫連線參數 <I>base_conf.php</I>
                = $alert_host     : 要儲存資料庫的主機
                = $alert_port     : 要儲存資料庫使用的通訊埠
                = $alert_user     : 進入資料庫的使用者帳號
-               = $alert_password : 使用者密碼
+               = $alert_password : 使用者'.$UI_CW_Pw.'
               </PRE>
               <P>');
 DEFINE('_ERRSQLPCONNECT','(p)connecting 到資料庫發生錯誤:');
@@ -686,10 +686,10 @@ DEFINE('_SUADSTADD','目地&nbsp;位址');
 
 //base_user.php
 DEFINE('_BASEUSERTITLE','BASE 使用者參數');
-DEFINE('_BASEUSERERRPWD','您的密碼不能為空白或兩個密碼沒有吻合!');
-DEFINE('_BASEUSEROLDPWD','舊密碼:');
-DEFINE('_BASEUSERNEWPWD','新密碼:');
-DEFINE('_BASEUSERNEWPWDAGAIN',' 再輸入新密碼一次:');
+DEFINE('_BASEUSERERRPWD',"您的$UI_CW_Pw"."不能為空白或兩個$UI_CW_Pw".'沒有吻合!');
+DEFINE('_BASEUSEROLDPWD',"舊$UI_CW_Pw".':');
+DEFINE('_BASEUSERNEWPWD',"新$UI_CW_Pw".':');
+DEFINE('_BASEUSERNEWPWDAGAIN'," 再輸入新$UI_CW_Pw".'一次:');
 
 DEFINE('_LOGOUT',' 登出');
 

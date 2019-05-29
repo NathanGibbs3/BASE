@@ -46,13 +46,13 @@ $UI_CW_SucDesc = 'Completo';
 $UI_CW_Sensor = 'Sensore';
 $UI_CW_Sig = 'Firma';
 $UI_CW_Role = 'Ruolo';
+$UI_CW_Pw = 'Password';
 // Common Phrases.
 $UI_CP_SrcName = array($UI_CW_Name,'Sorgente');
 $UI_CP_DstName = array($UI_CW_Name,'Dest.');
 $UI_CP_SrcDst = array('Sorg.','o','Dest.');
 // Authentication Data.
 $UI_AD_UND = 'Login';
-$UI_AD_PWD = 'Password';
 $UI_AD_RID = array($UI_CW_Id,$UI_CW_Role);
 $UI_AD_ASD = 'Abilitato';
 
@@ -166,7 +166,7 @@ DEFINE('_VIEWGROUPS','Visualizza Gruppo');
 DEFINE('_EDITGROUPS','Modifica Gruppo');
 DEFINE('_DELETEGROUPS','Elimina Gruppo');
 DEFINE('_CLEARGROUPS','Svuota Gruppo');
-DEFINE('_CHNGPWD','Cambia password');
+DEFINE('_CHNGPWD','Cambia '.strtolower($UI_CW_Pw));
 DEFINE('_DISPLAYU','Visualizza Utente');
 
 //base_footer.php
@@ -204,11 +204,11 @@ DEFINE('_TRAFFICPROBPRO','Traffic Profile by Protocol'); //NEW
 
 //base_auth.inc.php
 DEFINE('_ADDEDSF','Aggiunto con successo');
-DEFINE('_NOPWDCHANGE','Impossibile cambiare la password: ');
+DEFINE('_NOPWDCHANGE','Impossibile cambiare la '.strtolower($UI_CW_Pw).': ');
 DEFINE('_NOUSER','L\'utente non esiste!');
-DEFINE('_OLDPWD','La vecchia password inserita non è corretta!');
-DEFINE('_PWDCANT','Impossibile cambiare la password: ');
-DEFINE('_PWDDONE','Password cambiata!');
+DEFINE('_OLDPWD','La vecchia '.strtolower($UI_CW_Pw).' inserita non è corretta!');
+DEFINE('_PWDCANT','Impossibile cambiare la '.strtolower($UI_CW_Pw).': ');
+DEFINE('_PWDDONE',"$UI_CW_Pw cambiata!");
 DEFINE('_ROLEEXIST',"$UI_CW_Role già esistente");
 // TD Migration Hack
 if ($UI_Spacing == 1){
@@ -285,7 +285,7 @@ DEFINE('_ERRSQLCONNECTINFO','<P>Controllare le variabili di configurazione in <I
                = $alert_host     : nome host del server MySQL
                = $alert_port     : porta del server MySQL
                = $alert_user     : nome utente MySQL
-               = $alert_password : password utente MySQL
+               = $alert_password : '.strtolower($UI_CW_Pw).' utente MySQL
               </PRE>
               <P>');
 DEFINE('_ERRSQLPCONNECT','Errore di connessione al database :');
@@ -687,9 +687,9 @@ DEFINE('_SUADSTADD','Indir.&nbsp;Dest.');
 
 //base_user.php
 DEFINE('_BASEUSERTITLE','Preferenze Utente BASE');
-DEFINE('_BASEUSERERRPWD','La password non può essere vuota o le due password non combaciano!');
-DEFINE('_BASEUSEROLDPWD','Vecchia Password:');
-DEFINE('_BASEUSERNEWPWD','Nuova Password:');
-DEFINE('_BASEUSERNEWPWDAGAIN','Ripeti Nuova Password:');
+DEFINE('_BASEUSERERRPWD','La '.strtolower($UI_CW_Pw).' non può essere vuota o le due '.strtolower($UI_CW_Pw).' non combaciano!');
+DEFINE('_BASEUSEROLDPWD','Vecchia '.$UI_CW_Pw.':');
+DEFINE('_BASEUSERNEWPWD','Nuova '.$UI_CW_Pw.':');
+DEFINE('_BASEUSERNEWPWDAGAIN','Ripeti Nuova '.$UI_CW_Pw.':');
 
 ?>

@@ -45,13 +45,13 @@ $UI_CW_SucDesc = 'Successful';
 $UI_CW_Sensor = 'Sensor';
 $UI_CW_Sig = 'Signature';
 $UI_CW_Role = 'Role';
+$UI_CW_Pw = 'Password';
 // Common Phrases.
 $UI_CP_SrcName = array($UI_CW_Src,$UI_CW_Name);
 $UI_CP_DstName = array('Dest.',$UI_CW_Name);
 $UI_CP_SrcDst = array('Src','or','Dest');
 // Authentication Data.
 $UI_AD_UND = 'Login';
-$UI_AD_PWD = 'Password';
 $UI_AD_RID = array($UI_CW_Role,$UI_CW_Id);
 $UI_AD_ASD = 'Enabled';
 
@@ -164,14 +164,14 @@ DEFINE('_VIEWGROUPS','View Group');
 DEFINE('_EDITGROUPS','Edit Group');
 DEFINE('_DELETEGROUPS','Delete Group');
 DEFINE('_CLEARGROUPS','Clear Group');
-DEFINE('_CHNGPWD','Change password');
+DEFINE('_CHNGPWD','Change '.strtolower ($UI_CW_Pw));
 DEFINE('_DISPLAYU','Display user');
 
 //base_footer.php
 DEFINE('_FOOTER',' (by <A class="largemenuitem" href="mailto:base@secureideas.net">Kevin Johnson</A> and the <A class="largemenuitem" href="http://sourceforge.net/project/memberlist.php?group_id=103348">BASE Project Team</A><BR>Built on ACID by Roman Danyliw )');
 
 //index.php --Log in Page
-DEFINE('_LOGINERROR','User does not exist or your password was incorrect!<br>Please try again');
+DEFINE('_LOGINERROR','User does not exist or your '.strtolower ($UI_CW_Pw).' was incorrect!<br>Please try again');
 
 // base_main.php
 DEFINE('_MOSTRECENT','Most recent ');
@@ -202,11 +202,11 @@ DEFINE('_TRAFFICPROBPRO','Traffic Profile by Protocol');
 
 //base_auth.inc.php
 DEFINE('_ADDEDSF','Added Successfully');
-DEFINE('_NOPWDCHANGE','Unable to change your password: ');
+DEFINE('_NOPWDCHANGE','Unable to change your '.strtolower ($UI_CW_Pw).': ');
 DEFINE('_NOUSER','User doesn\'t exist!');
-DEFINE('_OLDPWD','Old password entered doesn\'t match our records!');
-DEFINE('_PWDCANT','Unable to change your password: ');
-DEFINE('_PWDDONE','Your password has been changed!');
+DEFINE('_OLDPWD','Old '.strtolower ($UI_CW_Pw).' entered doesn\'t match our records!');
+DEFINE('_PWDCANT','Unable to change your '.strtolower ($UI_CW_Pw).': ');
+DEFINE('_PWDDONE','Your '.strtolower ($UI_CW_Pw).' has been changed!');
 DEFINE('_ROLEEXIST',"$UI_CW_Role Already Exists");
 // TD Migration Hack
 if ($UI_Spacing == 1){
@@ -283,7 +283,7 @@ DEFINE('_ERRSQLCONNECTINFO','<P>Check the DB connection variables in <I>base_con
                = $alert_host     : host where the database is stored
                = $alert_port     : port where the database is stored
                = $alert_user     : username into the database
-               = $alert_password : password for the username
+               = $alert_password : '.strtolower ($UI_CW_Pw).' for the username
               </PRE>
               <P>');
 DEFINE('_ERRSQLPCONNECT','Error (p)connecting to DB :');
@@ -336,7 +336,7 @@ DEFINE('_SHORTSEP','Sep');
 DEFINE('_SHORTOCT','Oct');
 DEFINE('_SHORTNOV','Nov');
 DEFINE('_SHORTDEC','Dec');
-DEFINE('_DISPSIG','{ signature }');
+DEFINE('_DISPSIG','{ '.strtolower ($UI_CW_Sig).' }');
 DEFINE('_DISPANYCLASS','{ any Classification }');
 DEFINE('_DISPANYPRIO','{ any Priority }');
 DEFINE('_DISPANYSENSOR','{ any Sensor }');
@@ -538,7 +538,7 @@ DEFINE('_QAPLAIND','Plain Display');
 DEFINE('_QANOPAYLOAD','Fast logging used so payload was discarded');
 
 //base_qry_common.php
-DEFINE('_QCSIG','signature');
+DEFINE('_QCSIG',strtolower ($UI_CW_Sig));
 DEFINE('_QCIPADDR','IP addresses');
 DEFINE('_QCIPFIELDS','IP fields');
 DEFINE('_QCTCPPORTS','TCP ports');
@@ -585,7 +585,7 @@ DEFINE('_QFRMSORTORDER','Sort order');
 DEFINE('_QFRMSORTNONE','none');
 DEFINE('_QFRMTIMEA','timestamp (ascend)');
 DEFINE('_QFRMTIMED','timestamp (descend)');
-DEFINE('_QFRMSIG','signature');
+DEFINE('_QFRMSIG',strtolower ($UI_CW_Sig));
 DEFINE('_QFRMSIP','source IP');
 DEFINE('_QFRMDIP','dest. IP');
 
@@ -685,10 +685,10 @@ DEFINE('_SUADSTADD','Dest.&nbsp;Addr.');
 
 //base_user.php
 DEFINE('_BASEUSERTITLE','BASE User preferences');
-DEFINE('_BASEUSERERRPWD','Your password can not be blank or the two passwords did not match!');
-DEFINE('_BASEUSEROLDPWD','Old Password:');
-DEFINE('_BASEUSERNEWPWD','New Password:');
-DEFINE('_BASEUSERNEWPWDAGAIN','New Password Again:');
+DEFINE('_BASEUSERERRPWD','Your '.strtolower ($UI_CW_Pw).' can not be blank or the two '.strtolower ($UI_CW_Pw).'s did not match!');
+DEFINE('_BASEUSEROLDPWD',"Old $UI_CW_Pw:");
+DEFINE('_BASEUSERNEWPWD',"New $UI_CW_Pw:");
+DEFINE('_BASEUSERNEWPWDAGAIN',"New $UI_CW_Pw Again:");
 
 DEFINE('_LOGOUT','Logout');
 

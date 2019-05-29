@@ -1,0 +1,5 @@
+Sed patterns to fix invlaid utf-8 codepoints
+
+ö
+sed 's/\xF6/\xC3\xB6/'
+

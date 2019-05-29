@@ -47,13 +47,13 @@ $UI_CW_SucDesc = 'Pomyslny';
 $UI_CW_Sensor = 'Sensor';
 $UI_CW_Sig = 'Sygnatura';
 $UI_CW_Role = 'Rola';
+$UI_CW_Pw = 'Haslo';
 // Common Phrases.
 $UI_CP_SrcName = array($UI_CW_Name,'Zrodlowa');
 $UI_CP_DstName = array($UI_CW_Name,'Docelowa');
 $UI_CP_SrcDst = array($UI_CW_Src,'lub',$UI_CW_Dst);
 // Authentication Data.
 $UI_AD_UND = 'Login';
-$UI_AD_PWD = 'Haslo';
 $UI_AD_RID = array($UI_CW_Id,'Roli');
 $UI_AD_ASD = 'Wlaczony';
 
@@ -166,14 +166,14 @@ DEFINE('_VIEWGROUPS','Wyswietl Grupe');
 DEFINE('_EDITGROUPS','Edytuj Grupe');
 DEFINE('_DELETEGROUPS','Kasuj Grupe');
 DEFINE('_CLEARGROUPS','Wyczysc Grupe');
-DEFINE('_CHNGPWD','Zmien haslo');
+DEFINE('_CHNGPWD','Zmien '.strtolower($UI_CW_Pw));
 DEFINE('_DISPLAYU','Wyswietl uzytkownika');
 
 //base_footer.php
 DEFINE('_FOOTER',' (by <A class="largemenuitem" href="mailto:base@secureideas.net">Kevin Johnson</A> i <A class="largemenuitem" href="http://sourceforge.net/project/memberlist.php?group_id=103348">Zespol BASE Project</A><BR>Built on ACID by Roman Danyliw )');
 
 //index.php --Log in Page
-DEFINE('_LOGINERROR','Uzytkownik nie istnieje lub nieprawidlowe haslo!<br>Sprobuj ponownie');
+DEFINE('_LOGINERROR','Uzytkownik nie istnieje lub nieprawidlowe '.strtolower($UI_CW_Pw).'!<br>Sprobuj ponownie');
 
 // base_main.php
 DEFINE('_MOSTRECENT','Ostatnie ');
@@ -206,9 +206,9 @@ DEFINE('_TRAFFICPROBPRO','Profil Ruchu po Protokole'); //NEW
 DEFINE('_ADDEDSF','Dodano Pomyslnie');
 DEFINE('_NOPWDCHANGE','Nie mozna zmienic hasla: ');
 DEFINE('_NOUSER','Uzytkownik nie istnieje!');
-DEFINE('_OLDPWD','Wpisane stare haslo nie zgadza sie z zapisanym!');
+DEFINE('_OLDPWD','Wpisane stare '.strtolower($UI_CW_Pw).' nie zgadza sie z zapisanym!');
 DEFINE('_PWDCANT','Nie mozna zmienic hasla: ');
-DEFINE('_PWDDONE','Twoje haslo zostalo zmienione!');
+DEFINE('_PWDDONE','Twoje '.strtolower($UI_CW_Pw).' zostalo zmienione!');
 DEFINE('_ROLEEXIST','Role juz istnieje');
 // TD Migration Hack
 if ($UI_Spacing == 1){
@@ -285,7 +285,7 @@ DEFINE('_ERRSQLCONNECTINFO','<P>Check the DB connection variables in <I>base_con
                = $alert_host     : host where the database is stored
                = $alert_port     : port where the database is stored
                = $alert_user     : username into the database
-               = $alert_password : password for the username
+               = $alert_password : '.strtolower($UI_CW_Pw).' for the username
               </PRE>
               <P>');
 DEFINE('_ERRSQLPCONNECT','Error (p)connecting to DB :');
@@ -687,10 +687,10 @@ DEFINE('_SUADSTADD','Docel.&nbsp;Adr.');
 
 //base_user.php
 DEFINE('_BASEUSERTITLE','Ustawienia uzytkownika');
-DEFINE('_BASEUSERERRPWD','Your password can not be blank or the two passwords did not match!');
-DEFINE('_BASEUSEROLDPWD','Stare Haslo:');
-DEFINE('_BASEUSERNEWPWD','Nowe Haslo:');
-DEFINE('_BASEUSERNEWPWDAGAIN','Powtorz Nowe Haslo:');
+DEFINE('_BASEUSERERRPWD','Your '.strtolower($UI_CW_Pw).' can not be blank or the two '.strtolower($UI_CW_Pw).'s did not match!');
+DEFINE('_BASEUSEROLDPWD','Stare '.$UI_CW_Pw.':');
+DEFINE('_BASEUSERNEWPWD','Nowe '.$UI_CW_Pw.':');
+DEFINE('_BASEUSERNEWPWDAGAIN','Powtorz Nowe '.$UI_CW_Pw.':');
 
 DEFINE('_LOGOUT','Wyloguj');
 

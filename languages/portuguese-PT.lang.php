@@ -54,13 +54,13 @@ $UI_CW_SucDesc = 'Com Sucesso';
 $UI_CW_Sensor = 'Sensor';
 $UI_CW_Sig = 'Assinatura';
 $UI_CW_Role = 'perfil';
+$UI_CW_Pw = 'Senha';
 // Common Phrases.
 $UI_CP_SrcName = array($UI_CW_Name,'da',$UI_CW_Src);
 $UI_CP_DstName = array($UI_CW_Name,'do',$UI_CW_Dst);
 $UI_CP_SrcDst = array($UI_CW_Src,'ou',$UI_CW_Dst);
 // Authentication Data.
-$UI_AD_UND = 'Nome';
-$UI_AD_PWD = 'Senha';
+$UI_AD_UND = $UI_CW_Name;
 $UI_AD_RID = array($UI_CW_Id,'do',$UI_CW_Role);
 $UI_AD_ASD = 'Habilitado';
 
@@ -173,14 +173,14 @@ DEFINE('_VIEWGROUPS','Ver Grupo');
 DEFINE('_EDITGROUPS','Editar Grupo');
 DEFINE('_DELETEGROUPS','Apagar Grupo');
 DEFINE('_CLEARGROUPS','Limpar Grupo');
-DEFINE('_CHNGPWD','Mudar Senha');
+DEFINE('_CHNGPWD','Mudar '.$UI_CW_Pw);
 DEFINE('_DISPLAYU','Mostrar Utilizador');
 
 //base_footer.php
 DEFINE('_FOOTER','( Por <A class="largemenuitem" href="mailto:base@secureideas.net">Kevin Johnson</A> e grupo <A class="largemenuitem" href="http://sourceforge.net/project/memberlist.php?group_id=103348">do projecto BASE</A><BR>Baseado no ACID de Roman Danyliw )');
 
 //index.php --Log in Page
-DEFINE('_LOGINERROR','Utilizador inexistente ou senha incorreta!<br>Por favor tente novamente');
+DEFINE('_LOGINERROR','Utilizador inexistente ou '.strtolower($UI_CW_Pw).' incorreta!<br>Por favor tente novamente');
 
 // base_main.php
 DEFINE('_MOSTRECENT','Alertas mais recentes - ');
@@ -211,11 +211,11 @@ DEFINE('_TRAFFICPROBPRO','Carácter do Tráfego por Protocolo');
 
 //base_auth.inc.php
 DEFINE('_ADDEDSF','Adicionado(s) com Sucesso');
-DEFINE('_NOPWDCHANGE','Não foi possível trocar a sua senha: ');
+DEFINE('_NOPWDCHANGE','Não foi possível trocar a sua '.strtolower($UI_CW_Pw).': ');
 DEFINE('_NOUSER','Utilizador não existe!');
-DEFINE('_OLDPWD','Senha antiga incorrecta!');
-DEFINE('_PWDCANT','Não foi possível mudar a sua senha: ');
-DEFINE('_PWDDONE','A sua senha foi mudada!');
+DEFINE('_OLDPWD',"$UI_CW_Pw antiga incorrecta!");
+DEFINE('_PWDCANT','Não foi possível mudar a sua '.strtolower($UI_CW_Pw).': ');
+DEFINE('_PWDDONE','A sua '.strtolower($UI_CW_Pw).' foi mudada!');
 DEFINE('_ROLEEXIST',"$UI_CW_Role já existe");
 // TD Migration Hack
 if ($UI_Spacing == 1){
@@ -292,7 +292,7 @@ DEFINE('_ERRSQLCONNECTINFO','<P>Verfique as variáveis de conexão à BD em <I>b
                = $alert_host     : host onde a base de dados está gravada
                = $alert_port     : porta onde a base de dados está gravada
                = $alert_user     : nome do utilizador da base de dados
-               = $alert_password : senha para o utilizador
+               = $alert_password : '.strtolower($UI_CW_Pw).' para o utilizador
               </PRE>
               <P>');
 DEFINE('_ERRSQLPCONNECT','Erro ao conectar à BD: ');
@@ -697,10 +697,10 @@ DEFINE('_SUADSTADD','Ends.&nbsp;de&nbsp;Destino');
 
 //base_user.php
 DEFINE('_BASEUSERTITLE','Preferências de usuário do BASE');
-DEFINE('_BASEUSERERRPWD','A senha não pode ser nula ou as duas senhas não coincidem!');
-DEFINE('_BASEUSEROLDPWD','Senha antiga:');
-DEFINE('_BASEUSERNEWPWD','Nova senha:');
-DEFINE('_BASEUSERNEWPWDAGAIN','Repita a nova senha:');
+DEFINE('_BASEUSERERRPWD','A '.strtolower($UI_CW_Pw).' não pode ser nula ou as duas '.strtolower($UI_CW_Pw).'s não coincidem!');
+DEFINE('_BASEUSEROLDPWD',"$UI_CW_Pw antiga:");
+DEFINE('_BASEUSERNEWPWD','Nova '.strtolower($UI_CW_Pw).':');
+DEFINE('_BASEUSERNEWPWDAGAIN','Repita a nova '.strtolower($UI_CW_Pw).':');
 
 DEFINE('_LOGOUT','Logout');
 

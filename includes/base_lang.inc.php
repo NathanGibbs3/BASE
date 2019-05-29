@@ -29,6 +29,7 @@ class UILang{
 	var $CWA;
 	var $UAA;
 	var $Spacing;
+	var $Caps;
 
 	function __construct($UILang) { // PHP 5+ constructor Shim.
 		// Class/Method agnostic shim code.
@@ -65,11 +66,14 @@ class UILang{
 				$UI_Spacing = 1; // Default to 1 on invalid data.
 			}
 			$this->Spacing = $UI_Spacing;
+			$this->Caps = $UI_Spacing;
 		}else{ // Legacy TDF. Spacing Information does not exist.
 			if ( preg_match("/(chi|japa)nese/", $UILang) ){
 				$this->Spacing = 0;
+				$this->Caps = 0;
 			}else{
 				$this->Spacing = 1;
+				$this->Caps = 1;
 			}
 		}
 		if ( isset($UI_Locales) ) { // Var New TDF
@@ -233,8 +237,8 @@ class UILang{
 			}else{
 				$this->SetUIADItem('DescUN');
 			}
-			if ( isset($UI_AD_PWD) ) { // Var New TDF
-				$this->SetUIADItem('DescPW',$UI_AD_PWD);
+			if ( isset($UI_CW_Pw) ) { // Var New TDF
+				$this->SetUIADItem('DescPW',$UI_CW_Pw);
 			}elseif (defined('_FRMPWD')) { // Const Legacy TDF
 				$this->SetUIADItem('DescPW',_FRMPWD);
 			}else{

@@ -46,13 +46,13 @@ $UI_CW_SucDesc = 'Succès -';
 $UI_CW_Sensor = 'Sonde';
 $UI_CW_Sig = 'Signature';
 $UI_CW_Role = 'RÃ´le';
+$UI_CW_Pw = 'Mot de passe';
 // Common Phrases.
 $UI_CP_SrcName = array($UI_CW_Name,'de la',$UI_CW_Src);
 $UI_CP_DstName = array($UI_CW_Name,'de la',$UI_CW_Dst);
 $UI_CP_SrcDst = array('Src','ou','Dest');
 // Authentication Data.
 $UI_AD_UND = 'Identifiant';
-$UI_AD_PWD = 'Mot de passe';
 $UI_AD_RID = array($UI_CW_Id,'de',$UI_CW_Role);
 $UI_AD_ASD = 'Activé';
 
@@ -153,8 +153,7 @@ DEFINE('_DELETEGROUPS','Supprimer le Groupe');
 // Delete Group
 DEFINE('_CLEARGROUPS','Vider le Groupe');
 // Clear Group
-DEFINE('_CHNGPWD','Modifier le mot de passe');
-// Change password
+DEFINE('_CHNGPWD','Modifier le '.strtolower($UI_CW_Pw)); // Change password
 DEFINE('_DISPLAYU','Afficher l\'utilisateur');
 // Display user
 //base_footer.php
@@ -164,7 +163,7 @@ DEFINE('_FOOTER','( de <A class="largemenuitem" href="mailto:base@secureideas.ne
 */
 
 //index.php --Log in Page
-DEFINE('_LOGINERROR','Utilisateur inconnu ou mot de passe incorrect !<br> Veuillez essayer à nouveau');
+DEFINE('_LOGINERROR','Utilisateur inconnu ou '.strtolower($UI_CW_Pw).' incorrect !<br> Veuillez essayer à nouveau');
 // User does not exist or your password was incorrect!<br>Please try again
 
 // base_main.php
@@ -213,15 +212,15 @@ DEFINE('_NOALERTSDETECT','aucune alerte detectée');
 //base_auth.inc.php
 DEFINE('_ADDEDSF','Ajout réussi');
 // Added Successfully
-DEFINE('_NOPWDCHANGE','Impossible de modifier votre mot de passe: ');
+DEFINE('_NOPWDCHANGE','Impossible de modifier votre '.strtolower($UI_CW_Pw).': ');
 // Unable to change your password: 
 DEFINE('_NOUSER','Utilisateur inconnu');
 // User doesn\'t exist!
-DEFINE('_OLDPWD','Ancien mot de passe invalide');
+DEFINE('_OLDPWD','Ancien '.strtolower($UI_CW_Pw).' invalide');
 // Old password entered doesn\'t match our records!
-DEFINE('_PWDCANT','Impossible de modifier votre mot de passe');
+DEFINE('_PWDCANT','Impossible de modifier votre '.strtolower($UI_CW_Pw));
 // Unable to change your password: 
-DEFINE('_PWDDONE','Votre mot de passe a été modifié');
+DEFINE('_PWDDONE','Votre '.strtolower($UI_CW_Pw).' a été modifié');
 // Your password has been changed!
 DEFINE('_ROLEEXIST',"$UI_CW_Role existe déjà");
 // Role Already Exists
@@ -345,7 +344,7 @@ DEFINE('_ERRSQLCONNECTINFO','<P>Contrôler les variables de connexion à la base d
                = $alert_host     : adresse de la machine où la base de données est localisée
                = $alert_port     : port où la base de données est localisée
                = $alert_user     : compte (username) pour accéder à la base de données
-               = $alert_password : mot de passe pour ce compte
+               = $alert_password : '.strtolower($UI_CW_Pw).' pour ce compte
               </PRE>
               <P> ');
 /*'<P>Check the DB connection variables in <I>base_conf.php</I> 
@@ -971,13 +970,13 @@ DEFINE('_SUADSTADD','Adresse&nbsp;Dest.');
 //base_user.php
 DEFINE('_BASEUSERTITLE','Préférence Utilisateur BASE ');
 // BASE User preferences
-DEFINE('_BASEUSERERRPWD','Votre mot de passe ne peut pas être nul ou les deux mots de passe n\'était pas identiques!');
+DEFINE('_BASEUSERERRPWD','Votre '.strtolower($UI_CW_Pw).' ne peut pas être nul ou les deux mots de passe n\'était pas identiques!');
 // Your password can not be blank or the two passwords did not match!
-DEFINE('_BASEUSEROLDPWD','Ancien mot de passe :');
+DEFINE('_BASEUSEROLDPWD','Ancien '.strtolower($UI_CW_Pw).' :');
 // Old Password:
-DEFINE('_BASEUSERNEWPWD','Nouveau mot de passe :');
+DEFINE('_BASEUSERNEWPWD','Nouveau '.strtolower($UI_CW_Pw).' :');
 // New Password:
-DEFINE('_BASEUSERNEWPWDAGAIN','Confirmer le mot de passe :');
+DEFINE('_BASEUSERNEWPWDAGAIN','Confirmer le '.strtolower($UI_CW_Pw).' :');
 // New Password Again:
 
 //New stuff:

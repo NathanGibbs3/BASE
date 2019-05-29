@@ -47,13 +47,13 @@ $UI_CW_SucDesc = 'Successful';
 $UI_CW_Sensor = 'Senzor';
 $UI_CW_Sig = 'Podpis';
 $UI_CW_Role = 'role';
+$UI_CW_Pw = 'Heslo';
 // Common Phrases.
 $UI_CP_SrcName = array($UI_CW_Name,$UI_CW_Src);
 $UI_CP_DstName = array($UI_CW_Name,$UI_CW_Dst);
 $UI_CP_SrcDst = array($UI_CW_Src,'n.',$UI_CW_Dst);
 // Authentication Data.
 $UI_AD_UND = 'Login';
-$UI_AD_PWD = 'Heslo';
 $UI_AD_RID = array($UI_CW_Id,$UI_CW_Role);
 $UI_AD_ASD = 'Enabled';
 
@@ -166,14 +166,14 @@ DEFINE('_VIEWGROUPS','Zobraz skupinu');
 DEFINE('_EDITGROUPS','Edituj skupinu');
 DEFINE('_DELETEGROUPS','Sma¾ skupinu');
 DEFINE('_CLEARGROUPS','Vyèisti skupinu');
-DEFINE('_CHNGPWD','Zmìnit heslo');
+DEFINE('_CHNGPWD','Zmìnit '.strtolower($UI_CW_Pw));
 DEFINE('_DISPLAYU','Zobraz u¾ivatele');
 
 //base_footer.php
 DEFINE('_FOOTER',' (by <A class="largemenuitem" href="mailto:base@secureideas.net">Kevin Johnson</A> and the <A class="largemenuitem" href="http://sourceforge.net/project/memberlist.php?group_id=103348">BASE Project Team</A><BR>Built on ACID by Roman Danyliw )');
 
 //index.php --Log in Page
-DEFINE('_LOGINERROR','U¾ivatel neexistuje nebo jste zadali ¹patné heslo!<br>Zkuste prosím znovu.');
+DEFINE('_LOGINERROR','U¾ivatel neexistuje nebo jste zadali ¹patné '.strtolower($UI_CW_Pw).'!<br>Zkuste prosím znovu.');
 
 // base_main.php
 DEFINE('_MOSTRECENT','Posledních ');
@@ -204,11 +204,11 @@ DEFINE('_TRAFFICPROBPRO','Traffic Profile by Protocol'); //NEW
 
 //base_auth.inc.php
 DEFINE('_ADDEDSF','Úspì¹nì pøidán');
-DEFINE('_NOPWDCHANGE','Nelze zmìnit heslo: ');
+DEFINE('_NOPWDCHANGE','Nelze zmìnit '.strtolower($UI_CW_Pw).': ');
 DEFINE('_NOUSER','U¾ivatel neexistuje!');
-DEFINE('_OLDPWD','Aktuální heslo není správné!');
-DEFINE('_PWDCANT','Nelze zmìnit heslo: ');
-DEFINE('_PWDDONE','Heslo bylo zmìnìno.');
+DEFINE('_OLDPWD','Aktuální '.strtolower($UI_CW_Pw).' není správné!');
+DEFINE('_PWDCANT','Nelze zmìnit '.strtolower($UI_CW_Pw).': ');
+DEFINE('_PWDDONE',"$UI_CW_Pw bylo zmìnìno.");
 DEFINE('_ROLEEXIST',"$UI_CW_Role existuje");
 // TD Migration Hack
 if ($UI_Spacing == 1){
@@ -285,7 +285,7 @@ DEFINE('_ERRSQLCONNECTINFO','<P>Zkontrolujte promìnné pro pøipojování se do data
                = $alert_host     : hostitel
                = $alert_port     : port
                = $alert_user     : u¾ivatelské jméno
-               = $alert_password : heslo
+               = $alert_password : '.strtolower($UI_CW_Pw).'
               </PRE>
               <P>');
 DEFINE('_ERRSQLPCONNECT','Chyba pøi pøipojování databáze:');
@@ -687,10 +687,10 @@ DEFINE('_SUADSTADD','Cílových adres');
 
 //base_user.php
 DEFINE('_BASEUSERTITLE','U¾ivatelské pøedvolby BASE');
-DEFINE('_BASEUSERERRPWD','Heslo nesmí být prázné nebo heslo nesouhlasí!');
-DEFINE('_BASEUSEROLDPWD','Staré heslo:');
-DEFINE('_BASEUSERNEWPWD','Nové heslo:');
-DEFINE('_BASEUSERNEWPWDAGAIN','Nové heslo znovu:');
+DEFINE('_BASEUSERERRPWD',"$UI_CW_Pw nesmí být prázné nebo ".strtolower($UI_CW_Pw).' nesouhlasí!');
+DEFINE('_BASEUSEROLDPWD','Staré '.strtolower($UI_CW_Pw).':');
+DEFINE('_BASEUSERNEWPWD','Nové '.strtolower($UI_CW_Pw).':');
+DEFINE('_BASEUSERNEWPWDAGAIN','Nové '.strtolower($UI_CW_Pw).' znovu:');
 
 DEFINE('_LOGOUT','Odhlásit');
 ?>

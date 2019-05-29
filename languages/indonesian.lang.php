@@ -46,13 +46,13 @@ $UI_CW_SucDesc = 'Berhasil';
 $UI_CW_Sensor = 'Sensor';
 $UI_CW_Sig = 'Nama Alarem');
 $UI_CW_Role = 'Peran';
+$UI_CW_Pw = 'Kata Sandi';
 // Common Phrases.
 $UI_CP_SrcName = array($UI_CW_Name,$UI_CW_Src);
 $UI_CP_DstName = array($UI_CW_Name,$UI_CW_Dst);
 $UI_CP_SrcDst = array($UI_CW_Src,'atau',$UI_CW_Dst);
 // Authentication Data.
 $UI_AD_UND = 'Login';
-$UI_AD_PWD = 'Kata Sandi';
 $UI_AD_RID = array($UI_CW_Id,$UI_CW_Role);
 $UI_AD_ASD = 'Aktif';
 
@@ -165,14 +165,14 @@ DEFINE('_VIEWGROUPS','Tampilan Kelompok');
 DEFINE('_EDITGROUPS','Edit Kelompok');
 DEFINE('_DELETEGROUPS','Hapus Kelompok');
 DEFINE('_CLEARGROUPS','Kosongkan Kelompok');
-DEFINE('_CHNGPWD','Ganti kata sandi');
+DEFINE('_CHNGPWD','Ganti '.strtolower($UI_CW_Pw));
 DEFINE('_DISPLAYU','Tampilkan pengguna');
 
 //base_footer.php
 DEFINE('_FOOTER','( oleh <A class="largemenuitem" href="mailto:base@secureideas.net">Kevin Johnson</A> dan kelompok <A class="largemenuitem" href="http://sourceforge.net/project/memberlist.php?group_id=103348">projek BASE</A><BR>Diciptakan dari sumber ACID oleh Roman Danyliw )');
 
 //index.php --Log in Page
-DEFINE('_LOGINERROR','Nama pengguna atau kata sandi salah!<br>Silakan dicoba ulang');
+DEFINE('_LOGINERROR','Nama pengguna atau '.strtolower($UI_CW_Pw).' salah!<br>Silakan dicoba ulang');
 
 // base_main.php
 DEFINE('_MOSTRECENT','Terbaru, ');
@@ -203,10 +203,10 @@ DEFINE('_TRAFFICPROBPRO','Traffic Profile by Protocol'); //NEW
 
 //base_auth.inc.php
 DEFINE('_ADDEDSF','Sukses Ditambahkan');
-DEFINE('_NOPWDCHANGE','Gagal merubah kata sandi Anda: ');
+DEFINE('_NOPWDCHANGE','Gagal merubah '.strtolower($UI_CW_Pw).' Anda: ');
 DEFINE('_NOUSER','Pengguna tidak ditemukan!');
-DEFINE('_OLDPWD','Sebuah kata sandi lama digunakan yang tidak cocok dengan catatan!');
-DEFINE('_PWDCANT','Gagal merubah kata sandi Anda: ');
+DEFINE('_OLDPWD','Sebuah '.strtolower($UI_CW_Pw).' lama digunakan yang tidak cocok dengan catatan!');
+DEFINE('_PWDCANT','Gagal merubah '.strtolower($UI_CW_Pw).' Anda: ');
 DEFINE('_PWDDONE','Kata sandi Anda telah diubah!');
 DEFINE('_ROLEEXIST','Jenis ini sudah ada');
 // TD Migration Hack
@@ -284,7 +284,7 @@ DEFINE('_ERRSQLCONNECTINFO','<P>Mohon periksa variabel koneksi ke DB pada file <
                = $alert_host     : nama host yang menyimpan database
                = $alert_port     : nama port yang digunakan oleh database
                = $alert_user     : nama pengguna pada database
-               = $alert_password : kata sandi untuk nama pengguna
+               = $alert_password : '.strtolower($UI_CW_Pw).' untuk nama pengguna
               </PRE>
               <P>');
 DEFINE('_ERRSQLPCONNECT','Gagal (p)menghubungi DB :');
@@ -686,10 +686,10 @@ DEFINE('_SUADSTADD','Sasaran&nbsp;Alamat');
 
 //base_user.php
 DEFINE('_BASEUSERTITLE','Preferensi pengguna BASE');
-DEFINE('_BASEUSERERRPWD','Kata Sandi kosong tidak diperbolehkan atau kedua kata sandi tidak sama!');
-DEFINE('_BASEUSEROLDPWD','Kata Sandi lama:');
-DEFINE('_BASEUSERNEWPWD','Kata Sandi baru:');
-DEFINE('_BASEUSERNEWPWDAGAIN','Ulangi kata sandi baru:');
+DEFINE('_BASEUSERERRPWD',"$UI_CW_Pw kosong tidak diperbolehkan atau kedua ".strtolower($UI_CW_Pw).' tidak sama!');
+DEFINE('_BASEUSEROLDPWD',"$UI_CW_Pw lama:");
+DEFINE('_BASEUSERNEWPWD',"$UI_CW_Pw baru:");
+DEFINE('_BASEUSERNEWPWDAGAIN','Ulangi '.strtolower($UI_CW_Pw).' baru:');
 
 DEFINE('_LOGOUT','Logout');
 

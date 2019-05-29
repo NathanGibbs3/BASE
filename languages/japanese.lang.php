@@ -46,13 +46,13 @@ $UI_CW_SucDesc = '成功';
 $UI_CW_Sensor = 'センサー';
 $UI_CW_Sig = 'シグネチャ';
 $UI_CW_Role = 'Role';
+$UI_CW_Pw = 'パスワード';
 // Common Phrases.
 $UI_CP_SrcName = array($UI_CW_Src,$UI_CW_Name);
 $UI_CP_DstName = array($UI_CW_Dst,$UI_CW_Name);
 $UI_CP_SrcDst = array($UI_CW_Src,'or',$UI_CW_Dst);
 // Authentication Data.
 $UI_AD_UND = 'ログイン';
-$UI_AD_PWD = 'パスワード';
 $UI_AD_RID = array($UI_CW_Role,$UI_CW_Id);
 $UI_AD_ASD = '有効';
 
@@ -165,14 +165,14 @@ DEFINE('_VIEWGROUPS','グループを見る');
 DEFINE('_EDITGROUPS','グループを編集');
 DEFINE('_DELETEGROUPS','グループを削除');
 DEFINE('_CLEARGROUPS','グループをクリア');
-DEFINE('_CHNGPWD','パスワード変更');
+DEFINE('_CHNGPWD',$UI_CW_Pw.'変更');
 DEFINE('_DISPLAYU','ユーザー表示');
 
 //base_footer.php
 DEFINE('_FOOTER','(<A class="largemenuitem" href="mailto:base@secureideas.net">Kevin Johnson</A> BASEプロジェクトチーム) <A class="largemenuitem" href="mailto:kenji@pingu.zive.net">日本語訳に関してはこちら。</A>BASEはRoman Danyliw氏のACIDを引き継いで開発されています。 )');
 
 //index.php --Log in Page
-DEFINE('_LOGINERROR','ユーザーが存在しないか、パスワードが間違っています。!<br>Please try again');
+DEFINE('_LOGINERROR','ユーザーが存在しないか、'.$UI_CW_Pw.'が間違っています。!<br>Please try again');
 
 // base_main.php
 DEFINE('_MOSTRECENT','最近');
@@ -203,11 +203,11 @@ DEFINE('_TRAFFICPROBPRO','Traffic Profile by Protocol'); //NEW
 
 //base_auth.inc.php
 DEFINE('_ADDEDSF','追加されました。');
-DEFINE('_NOPWDCHANGE','パスワードの変更が出来ませんでした。: ');
+DEFINE('_NOPWDCHANGE',$UI_CW_Pw.'の変更が出来ませんでした。: ');
 DEFINE('_NOUSER','ユーザーが存在しません。');
-DEFINE('_OLDPWD','古いパスワードが間違っています。');
-DEFINE('_PWDCANT','パスワードの変更が出来ませんでした。: ');
-DEFINE('_PWDDONE','パスワードは正常に変更されました。');
+DEFINE('_OLDPWD','古い'.$UI_CW_Pw.'が間違っています。');
+DEFINE('_PWDCANT',$UI_CW_Pw.'の変更が出来ませんでした。: ');
+DEFINE('_PWDDONE',$UI_CW_Pw.'は正常に変更されました。');
 DEFINE('_ROLEEXIST',"$UI_CW_Role はすでに存在します。");
 // TD Migration Hack
 if ($UI_Spacing == 1){
@@ -284,7 +284,7 @@ DEFINE('_ERRSQLCONNECTINFO','<P>データベース接続設定を確認して下
                = $alert_host     : データベースのホスト名
                = $alert_port     : データベースのポート番号
                = $alert_user     : データベースのユーザー名
-               = $alert_password : データベースのパスワード
+               = $alert_password : データベースの'.$UI_CW_Pw.'
               </PRE>
               <P>');
 DEFINE('_ERRSQLPCONNECT','データーベース接続エラー :');
@@ -686,10 +686,10 @@ DEFINE('_SUADSTADD','送信先&nbsp;アドレス');
 
 //base_user.php
 DEFINE('_BASEUSERTITLE','BASEユーザー設定');
-DEFINE('_BASEUSERERRPWD','パスワードが空かまたは確認用パスワードが間違っています。');
-DEFINE('_BASEUSEROLDPWD','古いパスワード:');
-DEFINE('_BASEUSERNEWPWD','新しいパスワード:');
-DEFINE('_BASEUSERNEWPWDAGAIN','新しいパスワード（確認）:');
+DEFINE('_BASEUSERERRPWD',$UI_CW_Pw.'が空かまたは確認用'.$UI_CW_Pw.'が間違っています。');
+DEFINE('_BASEUSEROLDPWD','古い'.$UI_CW_Pw.':');
+DEFINE('_BASEUSERNEWPWD','新しい'.$UI_CW_Pw.':');
+DEFINE('_BASEUSERNEWPWDAGAIN','新しい'.$UI_CW_Pw'.（確認）:');
 
 DEFINE('_LOGOUT','ログアウト');
 

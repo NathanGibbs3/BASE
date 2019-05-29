@@ -48,13 +48,13 @@ $UI_CW_SucDesc = 'Успешно';
 $UI_CW_Sensor = 'Сенсор';
 $UI_CW_Sig = 'Сигнатура';
 $UI_CW_Role = 'роли';
+$UI_CW_Pw = 'Пароль';
 // Common Phrases.
 $UI_CP_SrcName = array($UI_CW_Name,$UI_CW_Src);
 $UI_CP_DstName = array($UI_CW_Name,$UI_CW_Dst);
 $UI_CP_SrcDst = array($UI_CW_Src,'или',$UI_CW_Dst);
 // Authentication Data.
 $UI_AD_UND = 'Логин';
-$UI_AD_PWD = 'Пароль';
 $UI_AD_RID = array($UI_CW_Id,$UI_CW_Role);
 $UI_AD_ASD = 'Включено';
 

@@ -45,14 +45,14 @@ $UI_CW_Desc = '说明';
 $UI_CW_SucDesc = '已成功';
 $UI_CW_Sensor = '探测器';
 $UI_CW_Sig = '特征';
-$UI_CW_Role ='角色'
+$UI_CW_Role ='角色';
+$UI_CW_Pw = '密码';
 // Common Phrases.
 $UI_CP_SrcName = array($UI_CW_Src,$UI_CW_Name);
 $UI_CP_DstName = array($UI_CW_Dst,$UI_CW_Name);
 $UI_CP_SrcDst = array($UI_CW_Src,'或',$UI_CW_Dst);
 // Authentication Data.
 $UI_AD_UND = '用户登录';
-$UI_AD_PWD = '密码';
 $UI_AD_RID = array($UI_CW_Role,$UI_CW_Id);
 $UI_AD_ASD = '启用';
 
@@ -165,7 +165,7 @@ DEFINE('_VIEWGROUPS','显示群组');
 DEFINE('_EDITGROUPS','编辑群组');
 DEFINE('_DELETEGROUPS','删除群组');
 DEFINE('_CLEARGROUPS','清空群组');
-DEFINE('_CHNGPWD','修改密码');
+DEFINE('_CHNGPWD',"修改$UI_CW_Pw");
 DEFINE('_DISPLAYU','显示用户');
 
 //base_footer.php
@@ -176,7 +176,7 @@ href="http://sourceforge.net/project/memberlist.php?group_id=103348">BASE
 项目组</A><BR> 基于 Roman Danyliw 的ACID 构建)');
 
 //index.php --Log in Page
-DEFINE('_LOGINERROR','用户不存在或者您输入的密码错误<br>请重新输入');
+DEFINE('_LOGINERROR',"用户不存在或者您输入的$UI_CW_Pw".'错误<br>请重新输入');
 
 // base_main.php
 DEFINE('_MOSTRECENT','最近 ');
@@ -207,11 +207,11 @@ DEFINE('_NOALERTSDETECT','没检测到警告');
 
 //base_auth.inc.php
 DEFINE('_ADDEDSF','添加成功');
-DEFINE('_NOPWDCHANGE','无法修改您的密码: ');
+DEFINE('_NOPWDCHANGE',"无法修改您的$UI_CW_Pw".': ');
 DEFINE('_NOUSER','用户不存在!');
-DEFINE('_OLDPWD','输入的旧密码与记录不符!');
-DEFINE('_PWDCANT','无法修改您的密码: ');
-DEFINE('_PWDDONE','您的密码已经被修改!');
+DEFINE('_OLDPWD',"输入的旧$UI_CW_Pw".'与记录不符!');
+DEFINE('_PWDCANT',"无法修改您的$UI_CW_Pw".': ');
+DEFINE('_PWDDONE',"您的$UI_CW_Pw".'已经被修改!');
 DEFINE('_ROLEEXIST',$UI_CW_Role.'已经存在');
 // TD Migration Hack
 if ($UI_Spacing == 1){
@@ -289,7 +289,7 @@ DEFINE('_ERRSQLCONNECTINFO','<P>检查 <I>base_conf.php</I>
                = $alert_host     : 存放数据库的主机
                = $alert_port     : 数据库所用端口
                = $alert_user     : 访问数据库的用户名
-               = $alert_password : 用户名对应的密码
+               = $alert_password : 用户名对应的'.$UI_CW_Pw.'
               </PRE>
               <P>');
 DEFINE('_ERRSQLPCONNECT','(p)连接数据库错误:');
@@ -732,10 +732,10 @@ DEFINE('_SUADSTADD','目标&nbsp;地址');
 
 //base_user.php
 DEFINE('_BASEUSERTITLE','BASE 用户参数设置');
-DEFINE('_BASEUSERERRPWD','您的密码不能为空或者两次密码不相同!');
-DEFINE('_BASEUSEROLDPWD','旧密码:');
-DEFINE('_BASEUSERNEWPWD','新密码:');
-DEFINE('_BASEUSERNEWPWDAGAIN','再次确认新密码:');
+DEFINE('_BASEUSERERRPWD',"您的$UI_CW_Pw"."不能为空或者两次$UI_CW_Pw".'不相同!');
+DEFINE('_BASEUSEROLDPWD',"旧$UI_CW_Pw".':');
+DEFINE('_BASEUSERNEWPWD',"新$UI_CW_Pw".':');
+DEFINE('_BASEUSERNEWPWDAGAIN',"再次确认新$UI_CW_Pw".':');
 
 DEFINE('_LOGOUT','注销');
 

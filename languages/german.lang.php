@@ -47,13 +47,13 @@ $UI_CW_SucDesc = 'Erfolgreich';
 $UI_CW_Sensor = 'Sensor';
 $UI_CW_Sig = 'Signatur';
 $UI_CW_Role = 'Benutzertyp';
+$UI_CW_Pw = 'Passwort';
 // Common Phrases.
 $UI_CP_SrcName = 'Quellname';
 $UI_CP_DstName = 'Zielname';
 $UI_CP_SrcDst = array('Quelle','oder','Ziel');
 // Authentication Data.
 $UI_AD_UND = 'Login';
-$UI_AD_PWD = 'Passwort';
 $UI_AD_RID = array($UI_CW_Role,$UI_CW_Id);
 $UI_AD_ASD = 'Aktiv';
 
@@ -166,14 +166,14 @@ DEFINE('_VIEWGROUPS','Gruppe anzeigen');
 DEFINE('_EDITGROUPS','Gruppe bearbeiten');
 DEFINE('_DELETEGROUPS','Gruppe entfernen');
 DEFINE('_CLEARGROUPS','Gruppe l&ouml;schen');
-DEFINE('_CHNGPWD','Passwort &auml;ndern');
+DEFINE('_CHNGPWD',"$UI_CW_Pw &auml;ndern");
 DEFINE('_DISPLAYU','Benutzer anzeigen');
 
 //base_footer.php
 DEFINE('_FOOTER','( by <A class="largemenuitem" href="mailto:base@secureideas.net">Kevin Johnson</A> und das <A class="largemenuitem" href="http://sourceforge.net/project/memberlist.php?group_id=103348">BASE Project Team</A><BR>Erstellt mit ACID von Roman Danyliw )');
 
 //index.php --Log in Page
-DEFINE('_LOGINERROR','Benutzer bzw. Passwort nicht korrekt!<br>Bitte nochmal versuchen');
+DEFINE('_LOGINERROR',"Benutzer bzw. $UI_CW_Pw nicht korrekt!<br>Bitte nochmal versuchen");
 
 // base_main.php
 DEFINE('_MOSTRECENT','Letzten ');
@@ -204,11 +204,11 @@ DEFINE('_TRAFFICPROBPRO','Traffic Profile by Protocol'); //NEW
 
 //base_auth.inc.php
 DEFINE('_ADDEDSF','Erfolgreich hinzugef&uuml;gt');
-DEFINE('_NOPWDCHANGE','Es ist nicht m&ouml;glich Ihr Passwort zu &auml;ndern: ');
+DEFINE('_NOPWDCHANGE',"Es ist nicht m&ouml;glich Ihr $UI_CW_Pw zu &auml;ndern: ");
 DEFINE('_NOUSER','Benutzer existiert nicht!');
-DEFINE('_OLDPWD','Es wurde ein altes Passwort angegeben, das nicht zu unseren Daten passt!');
-DEFINE('_PWDCANT','Es ist nicht m&ouml;glich Ihr Passwort zu &auml;ndern: ');
-DEFINE('_PWDDONE','Ihr Passwort wurde ge&auml;ndert!');
+DEFINE('_OLDPWD',"Es wurde ein altes $UI_CW_Pw angegeben, das nicht zu unseren Daten passt!");
+DEFINE('_PWDCANT',"Es ist nicht m&ouml;glich Ihr $UI_CW_Pw zu &auml;ndern: ");
+DEFINE('_PWDDONE',"Ihr $UI_CW_Pw wurde ge&auml;ndert!");
 DEFINE('_ROLEEXIST',"$UI_CW_Role existiert bereits");
 // TD Migration Hack
 if ($UI_Spacing == 1){
@@ -285,7 +285,7 @@ DEFINE('_ERRSQLCONNECTINFO','<P>&Uuml;berpr&uuml;fen Sie die Datenbankverbindung
                = $alert_host     : Host auf dem die Datenbank gespeichert ist
                = $alert_port     : Port where the database is stored ?
                = $alert_user     : Benutzername in der Datenbank
-               = $alert_password : Passwort zum Benutzernamen
+               = $alert_password : '.$UI_CW_Pw.' zum Benutzernamen
               </PRE>
               <P>');
 DEFINE('_ERRSQLPCONNECT','Fehler (p)beim Verbinden mit der Datenbank:');
@@ -687,12 +687,11 @@ DEFINE('_SUADSTADD','Ziel&nbsp;Adr.');
 
 //base_user.php
 DEFINE('_BASEUSERTITLE','BASE Benutzereinstellungen');
-DEFINE('_BASEUSERERRPWD','Ihr Passwort darf nicht leer sein bzw. die beiden Passw&ouml;rter stimmen nicht &uuml;berein!');
-DEFINE('_BASEUSEROLDPWD','Altes Passwort:');
-DEFINE('_BASEUSERNEWPWD','Neues Passwort:');
-DEFINE('_BASEUSERNEWPWDAGAIN','Neues Passwort (Best&auml;tigung):');
+DEFINE('_BASEUSERERRPWD',"Ihr $UI_CW_Pw darf nicht leer sein bzw. die beiden Passw&ouml;rter stimmen nicht &uuml;berein!");
+DEFINE('_BASEUSEROLDPWD',"Altes $UI_CW_Pw".':');
+DEFINE('_BASEUSERNEWPWD',"Neues $UI_CW_Pw".':');
+DEFINE('_BASEUSERNEWPWDAGAIN',"Neues $UI_CW_Pw (Best&auml;tigung):");
 
 DEFINE('_LOGOUT','Logout');
-
 
 ?>

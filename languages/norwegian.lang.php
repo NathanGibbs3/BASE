@@ -45,13 +45,13 @@ $UI_CW_SucDesc = 'Vellykket';
 $UI_CW_Sensor = 'Sensor';
 $UI_CW_Sig = 'Signatur';
 $UI_CW_Role = 'Rolle';
+$UI_CW_Pw = 'Passord';
 // Common Phrases.
 $UI_CP_SrcName = array($UI_CW_Src,$UI_CW_Name);
 $UI_CP_DstName = array('Dest.',$UI_CW_Name);
 $UI_CP_SrcDst = array($UI_CW_Src,'eller','Dest.');
 // Authentication Data.
 $UI_AD_UND = 'Brukernavn';
-$UI_AD_PWD = 'Passord';
 $UI_AD_RID = array($UI_CW_Role,$UI_CW_Id);
 $UI_AD_ASD = 'Aktivert';
 
@@ -165,14 +165,14 @@ DEFINE('_VIEWGROUPS','Vis gruppe');
 DEFINE('_EDITGROUPS','Endre gruppe');
 DEFINE('_DELETEGROUPS','Slett gruppe');
 DEFINE('_CLEARGROUPS','Rens gruppe');
-DEFINE('_CHNGPWD','Bytt passord');
+DEFINE('_CHNGPWD','Bytt '.strtolower($UI_CW_Pw));
 DEFINE('_DISPLAYU','Vis bruker');
 
 //base_footer.php
 DEFINE('_FOOTER','( by <A class="largemenuitem" href="mailto:base@secureideas.net">Kevin Johnson</A> and the <A class="largemenuitem" href="http://sourceforge.net/project/memberlist.php?group_id=103348">BASE Project Team</A><BR>Built on ACID by Roman Danyliw<BR>');
 
 //index.php --Log in Page
-DEFINE('_LOGINERROR','Enten eksisterer ikke brukeren, ellers så var passordet feil!<br>Vennligst prv igjen');
+DEFINE('_LOGINERROR','Enten eksisterer ikke brukeren, ellers så var '.strtolower($UI_CW_Pw).'et feil!<br>Vennligst prv igjen');
 
 // base_main.php
 DEFINE('_MOSTRECENT','Seneste ');
@@ -204,11 +204,11 @@ DEFINE('_NOALERTSDETECT','ingen hendelser detektert');
 
 //base_auth.inc.php
 DEFINE('_ADDEDSF','Vellykket!');
-DEFINE('_NOPWDCHANGE','Greide ikke å bytte passord: ');
+DEFINE('_NOPWDCHANGE','Greide ikke å bytte '.strtolower($UI_CW_Pw).': ');
 DEFINE('_NOUSER','Brukeren eksisterer ikke!');
-DEFINE('_OLDPWD','Det gamle passordet er feil!');
-DEFINE('_PWDCANT','Greide ikke å bytte passord: ');
-DEFINE('_PWDDONE','Passordet er endret!');
+DEFINE('_OLDPWD','Det gamle '.strtolower($UI_CW_Pw).'et er feil!');
+DEFINE('_PWDCANT','Greide ikke å bytte '.strtolower($UI_CW_Pw).': ');
+DEFINE('_PWDDONE',$UI_CW_Pw.'et er endret!');
 DEFINE('_ROLEEXIST','Rollen eksisterer allerede');
 // TD Migration Hack
 if ($UI_Spacing == 1){
@@ -688,10 +688,10 @@ DEFINE('_SUADSTADD','Dest.&nbsp;Adr.');
 
 //base_user.php
 DEFINE('_BASEUSERTITLE','BASE Brukerpreferanser');
-DEFINE('_BASEUSERERRPWD','Passordet kan ikke være blankt, eller passordene du oppgav var ikke like!');
-DEFINE('_BASEUSEROLDPWD','Gammelt passord:');
-DEFINE('_BASEUSERNEWPWD','Nytt passord:');
-DEFINE('_BASEUSERNEWPWDAGAIN','Nytt passord igjen:');
+DEFINE('_BASEUSERERRPWD',$UI_CW_Pw.'et kan ikke være blankt, eller '.strtolower($UI_CW_Pw).'ene du oppgav var ikke like!');
+DEFINE('_BASEUSEROLDPWD','Gammelt '.strtolower($UI_CW_Pw).':');
+DEFINE('_BASEUSERNEWPWD','Nytt '.strtolower($UI_CW_Pw).':');
+DEFINE('_BASEUSERNEWPWDAGAIN','Nytt '.strtolower($UI_CW_Pw).' igjen:');
 
 DEFINE('_LOGOUT','Logout');
 ?>

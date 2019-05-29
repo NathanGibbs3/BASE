@@ -42,19 +42,19 @@ $UI_CW_Name = 'Namn';
 $UI_CW_Int = 'Gränssnitt';
 $UI_CW_Filter = 'Filter';
 $UI_CW_Desc = 'Beskrivning';
-$UI_CW_SucDesc = 'Utfört';
+$UI_CW_SucDesc = 'UtfÃ¶rt';
 $UI_CW_Sensor = 'Sensor';
 $UI_CW_Sig = 'Signatur';
 $UI_CW_Role = 'Roll';
+$UI_CW_Pw = 'LÃ¶senord';
 // Common Phrases.
 $UI_CP_SrcName = array($UI_CW_Src,$UI_CW_Name);
 $UI_CP_DstName = array('Dest.',$UI_CW_Name);
 $UI_CP_SrcDst = array('Src','or','Dest');
 // Authentication Data.
 $UI_AD_UND = 'Logga in';
-$UI_AD_PWD = 'Lösenord';
 $UI_AD_RID = array($UI_CW_Role,$UI_CW_Id);
-$UI_AD_ASD = 'Möjliggjord';
+$UI_AD_ASD = 'MÃ¶jliggjord';
 
 //common phrases
 DEFINE('_TIMESTAMP','Tid stämpel');
@@ -76,7 +76,7 @@ DEFINE('_OCTOBER','Oktober');
 DEFINE('_NOVEMBER','November');
 DEFINE('_DECEMBER','December');
 DEFINE('_LAST','Senaste');
-DEFINE('_FIRST','Föregående'); //NEW
+DEFINE('_FIRST','FÃ¶regående'); //NEW
 DEFINE('_TOTAL','Total'); //NEW
 DEFINE('_ALERT','Varningar');
 DEFINE('_ADDRESS','Adress');
@@ -131,19 +131,19 @@ DEFINE('_QUERYDBP','Query+DB'); //NEW - Equals to _QUERYDB where spaces are '+'s
                                 //Should be something like: DEFINE('_QUERYDBP',str_replace(" ", "+", _QUERYDB));
 DEFINE('_SELECTED','Valda'); //NEW
 DEFINE('_ALLONSCREEN','ALLA på skärmen'); //NEW
-DEFINE('_ENTIREQUERY','Hela förfrågan'); //NEW
+DEFINE('_ENTIREQUERY','Hela fÃ¶rfrågan'); //NEW
 DEFINE('_OPTIONS','Options'); //NEW
 DEFINE('_LENGTH','längd'); //NEW
 DEFINE('_CODE','kod'); //NEW
 DEFINE('_DATA','data'); //NEW
 DEFINE('_TYPE','type'); //NEW
 DEFINE('_NEXT','Nästa'); //NEW
-DEFINE('_PREVIOUS','Föregående'); //NEW
+DEFINE('_PREVIOUS','FÃ¶regående'); //NEW
 
 //Menu items
 DEFINE('_HOME','Hem');
-DEFINE('_SEARCH','Sök');
-DEFINE('_AGMAINT','Varnings grupp Skötsel');
+DEFINE('_SEARCH','SÃ¶k');
+DEFINE('_AGMAINT','Varnings grupp SkÃ¶tsel');
 DEFINE('_USERPREF','Användar inställningar');
 DEFINE('_CACHE','Cache & Status');
 DEFINE('_ADMIN','Administration');
@@ -166,18 +166,18 @@ DEFINE('_VIEWGROUPS','Se Grupp');
 DEFINE('_EDITGROUPS','Redigera Grupp');
 DEFINE('_DELETEGROUPS','Ta bort grupp');
 DEFINE('_CLEARGROUPS','Rensa Grupp');
-DEFINE('_CHNGPWD','Byta lösenord');
+DEFINE('_CHNGPWD','Byta '.strtolower($UI_CW_Pw));
 DEFINE('_DISPLAYU','Se användare');
 
 //base_footer.php
 DEFINE('_FOOTER','( av <A class="largemenuitem" href="mailto:base@secureideas.net">Kevin Johnson</A> och <A class="largemenuitem" href="http://sourceforge.net/project/memberlist.php?group_id=103348">BASE Project Team</A><BR>Built on ACID by Roman Danyliw )'); //----
 
 //index.php --Log in Page
-DEFINE('_LOGINERROR','Användare finns inte kontrollera användarnamn och lösenord!<br>Var vänlig försök igen');
+DEFINE('_LOGINERROR','Användare finns inte kontrollera användarnamn och '.strtolower($UI_CW_Pw).'!<br>Var vänlig försök igen');
 
 // base_main.php
 DEFINE('_MOSTRECENT','De senaste ');
-DEFINE('_MOSTFREQUENT','Ofta förkommande ');
+DEFINE('_MOSTFREQUENT','Ofta fÃ¶rkommande ');
 DEFINE('_ALERTS',' Varningar:');
 DEFINE('_ADDRESSES',' Adresser:');
 DEFINE('_ANYPROTO','Protokoll');
@@ -191,12 +191,12 @@ DEFINE('_L72ALERTS','Varningar dom senaste 72 timmarna: ');
 DEFINE('_UNIALERTS',' Unika varningar');
 DEFINE('_LSOURCEPORTS','Senaste käll Port(ar): ');
 DEFINE('_LDESTPORTS','Senaste Destination Port(ar): ');
-DEFINE('_FREGSOURCEP','Mest förekommande käll Portar: ');
-DEFINE('_FREGDESTP','Mest förkommande Destinations Portar: ');
+DEFINE('_FREGSOURCEP','Mest fÃ¶rekommande käll Portar: ');
+DEFINE('_FREGDESTP','Mest fÃ¶rkommande Destinations Portar: ');
 DEFINE('_QUERIED','Queried on'); //---------------------------------------------- 
 DEFINE('_DATABASE','Databas:');
 DEFINE('_SCHEMAV','Diagram Version:');
-DEFINE('_TIMEWIN','Tid Fönster:');
+DEFINE('_TIMEWIN','Tid FÃ¶nster:');
 DEFINE('_NOALERTSDETECT','Inga varningar hittades');
 DEFINE('_USEALERTDB','Välj Alert Databasen'); //NEW
 DEFINE('_USEARCHIDB','Välj Archive Databasen'); //NEW
@@ -204,11 +204,11 @@ DEFINE('_TRAFFICPROBPRO','Traffic Profile by Protocol'); //NEW
 
 //base_auth.inc.php
 DEFINE('_ADDEDSF','Åtgärden lyckades');
-DEFINE('_NOPWDCHANGE','Kunde inte ändra ditt lösenord!: ');
+DEFINE('_NOPWDCHANGE','Kunde inte ändra ditt '.strtolower($UI_CW_Pw).'!: ');
 DEFINE('_NOUSER','Användare existerar inte!');
-DEFINE('_OLDPWD','Det gamla lösenordet matcha inte våra uppgifter!');
-DEFINE('_PWDCANT','Det gick inte ändra ditt lösenord: ');
-DEFINE('_PWDDONE','Ditt lösenord har ändrats');
+DEFINE('_OLDPWD','Det gamla '.strtolower($UI_CW_Pw).'et matcha inte våra uppgifter!');
+DEFINE('_PWDCANT','Det gick inte ändra ditt '.strtolower($UI_CW_Pw).': ');
+DEFINE('_PWDDONE','Ditt '.strtolower($UI_CW_Pw).' har ändrats');
 DEFINE('_ROLEEXIST',$UI_CW_Role.'en existerar redan!');
 // TD Migration Hack
 if ($UI_Spacing == 1){
@@ -233,7 +233,7 @@ DEFINE('_UPDATEUSER','Uppdatera Användare'); //NEW
 
 //admin/index.php
 DEFINE('_BASEADMIN','BASE Administration');
-DEFINE('_BASEADMINTEXT','Vänligen välj en valmöjlighet från vänster.');
+DEFINE('_BASEADMINTEXT','Vänligen välj en valmÃ¶jlighet från vänster.');
 
 //base_action.inc.php 
 DEFINE('_NOACTION','Inget agerande var specifierat på varningar');
@@ -257,8 +257,8 @@ DEFINE('_IGNORED','Ignorerad ');
 DEFINE('_DUPALERTS',' Dubblet Varning(ar)');
 DEFINE('_ALERTSPARA',' Varning(ar)');
 DEFINE('_NOALERTSSELECT','Inga varningar var valda till');
-DEFINE('_NOTSUCCESSFUL','Gick inte utföra');
-DEFINE('_ERRUNKAGID','Okänd AG ID specifierad (AG finns förmodligen inte)');
+DEFINE('_NOTSUCCESSFUL','Gick inte utfÃ¶ra');
+DEFINE('_ERRUNKAGID','Okänd AG ID specifierad (AG finns fÃ¶rmodligen inte)');
 DEFINE('_ERRREMOVEFAIL','Kunde inte ta bort nya AG');
 DEFINE('_GENBASE','Genererad av BASE');
 DEFINE('_ERRNOEMAILEXP','EXPORT ERROR: Kunde inte skicka exporterade varningar till');
@@ -271,13 +271,13 @@ DEFINE('_ERRMAILNORECP','POST FEL: Ingen mottagare har Specifierats');
 DEFINE('_ADDED','Added ');
 DEFINE('_HOSTNAMESDNS',' Värdnamn till IP DNS cachen');
 DEFINE('_HOSTNAMESWHOIS',' Värdnamn till Whois cachen');
-DEFINE('_ERRCACHENULL','Caching FEL: Värdelös händelse rad funnen?');
+DEFINE('_ERRCACHENULL','Caching FEL: VärdelÃ¶s händelse rad funnen?');
 DEFINE('_ERRCACHEERROR','Händelse CACHE fel:');
 DEFINE('_ERRCACHEUPDATE','Kunde inte uppdatera händelse cachen');
 DEFINE('_ALERTSCACHE',' Varning(ar) till varnings cachen');
 
 //base_db.inc.php
-DEFINE('_ERRSQLTRACE','Förhindrad till att öppna SQL spår filen');
+DEFINE('_ERRSQLTRACE','FÃ¶rhindrad till att öppna SQL spår filen');
 DEFINE('_ERRSQLCONNECT','Fel vid anslutande till DB :');
 DEFINE('_ERRSQLCONNECTINFO','<P>Kontrollera DB anslutnings variabler i  <I>base_conf.php</I>
               <PRE>
@@ -285,20 +285,20 @@ DEFINE('_ERRSQLCONNECTINFO','<P>Kontrollera DB anslutnings variabler i  <I>base_
                = $alert_host     : värd där databasen är sparad
                = $alert_port     : Port till databasen
                = $alert_user     : användarnamn till databasen
-               = $alert_password : lösenord för användarnamn
+               = $alert_password : '.strtolower($UI_CW_Pw).' för användarnamn
               </PRE>
               <P>');
 DEFINE('_ERRSQLPCONNECT','Fel (p)Kopplar till DB :');
 DEFINE('_ERRSQLDB','Databas FEL:');
-DEFINE('_DBALCHECK','Kontroll för DB abstraktion lib i');
+DEFINE('_DBALCHECK','Kontroll fÃ¶r DB abstraktion lib i');
 DEFINE('_ERRSQLDBALLOAD1','<P><B>Fel vid laddning av DB Abstraktion biblioteket </B> från ');
 DEFINE('_ERRSQLDBALLOAD2','<P>Kontrollera DB abstraktion bibliotek variabel <CODE>$DBlib_path</CODE> i <CODE>base_conf.php</CODE>
             <P>
-            Bakomliggande databas bibliotek som används för närvarande är ADODB, som kan laddas ner
+            Bakomliggande databas bibliotek som används fÃ¶r närvarande är ADODB, som kan laddas ner
             från <A HREF="http://adodb.sourceforge.net/">http://adodb.sourceforge.net/</A>');
 DEFINE('_ERRSQLDBTYPE','Ogiltig Databas typ Specifierad');
 DEFINE('_ERRSQLDBTYPEINFO1','variabel <CODE>\$DBtype</CODE> i <CODE>base_conf.php</CODE> var satt till anonym databas typ av ');
-DEFINE('_ERRSQLDBTYPEINFO2','Endast följande databaser är giltiga: <PRE>
+DEFINE('_ERRSQLDBTYPEINFO2','Endast fÃ¶ljande databaser är giltiga: <PRE>
                 MySQL         : \'mysql\'
                 PostgreSQL    : \'postgres\'
                 MS SQL Server : \'mssql\'
@@ -359,7 +359,7 @@ DEFINE('_SHORTDEST','Mål'); //NEW
 DEFINE('_SHORTSOURCEORDEST','Källa eller Dest.'); //NEW
 DEFINE('_NOLAYER4','ingen layer4'); //NEW
 DEFINE('_INPUTCRTENC','Kodnings Typ'); //NEW
-DEFINE('_CONVERT2WS','Konventera Till (under sökning)'); //NEW
+DEFINE('_CONVERT2WS','Konventera Till (under sÃ¶kning)'); //NEW
 DEFINE('_NODENCODED','(no data conversion, assuming criteria in DB native encoding)');
 
 //base_state_common.inc.php
@@ -379,11 +379,11 @@ DEFINE('_DISPLAYING','Visar');
 DEFINE('_DISPLAYINGTOTAL','Visar varningar %d-%d av %d total');
 DEFINE('_NOALERTS','Inga varningar funna.');
 DEFINE('_QUERYRESULTS','Query Results'); //---------------
-DEFINE('_DISPACTION','{ att göra }'); //NEW
+DEFINE('_DISPACTION','{ att gÃ¶ra }'); //NEW
 DEFINE('_QUERYSTATE','Query State'); //--------------------
 
 //base_ag_common.php
-DEFINE('_ERRAGNAMESEARCH','Det Specifierade AG namnet du sökte efter är ogiltig.  Prova igen!');
+DEFINE('_ERRAGNAMESEARCH','Det Specifierade AG namnet du sÃ¶kte efter är ogiltig.  Prova igen!');
 DEFINE('_ERRAGNAMEEXIST','Den specifierade AG existerar.');
 DEFINE('_ERRAGIDSEARCH','The specified AG ID search is invalid.  Try again!');
 DEFINE('_ERRAGLOOKUP','Error looking up an AG ID');
@@ -392,7 +392,7 @@ DEFINE('_ERRAGINSERT','Error Inserting new AG');
 //base_ag_main.php
 DEFINE('_AGMAINTTITLE','Alert Group (AG) Maintenance');
 DEFINE('_ERRAGUPDATE','Fel vid uppdatering av AG');
-DEFINE('_ERRAGPACKETLIST','Fel raderar paket listan för AG:');
+DEFINE('_ERRAGPACKETLIST','Fel raderar paket listan fÃ¶r AG:');
 DEFINE('_ERRAGDELETE','FEL vid radering av AG');
 DEFINE('_AGDELETE','Raderingen lyckades');
 DEFINE('_AGDELETEINFO','information raderad');
@@ -410,8 +410,8 @@ DEFINE('_NOTASSIGN','not assigned yet');
 DEFINE('_PORTSCAN','Portscan Traffic'); //-------------------------------------------------------------------------------
 
 //base_db_common.php
-DEFINE('_ERRDBINDEXCREATE','Kunde inte skapa INDEX för');
-DEFINE('_DBINDEXCREATE','Lyckades skapa INDEX för');
+DEFINE('_ERRDBINDEXCREATE','Kunde inte skapa INDEX fÃ¶r');
+DEFINE('_DBINDEXCREATE','Lyckades skapa INDEX fÃ¶r');
 DEFINE('_ERRSNORTVER','It might be an older version.  Only alert databases created by Snort 1.7-beta0 or later are supported');
 DEFINE('_ERRSNORTVER1','The underlying database');
 DEFINE('_ERRSNORTVER2','appears to be incomplete/invalid');
@@ -420,7 +420,7 @@ DEFINE('_ERRDBSTRUCT2','is not present. Use the <A HREF="base_db_setup.php">Setu
 DEFINE('_ERRPHPERROR','PHP ERROR');
 DEFINE('_ERRPHPERROR1','Incompatible version');
 DEFINE('_ERRVERSION','Version');
-DEFINE('_ERRPHPERROR2','Din verison av PHP är för gammal!.  Var vänlig och uppgradera till version 4.0.4 eller nyare!');
+DEFINE('_ERRPHPERROR2','Din verison av PHP är fÃ¶r gammal!.  Var vänlig och uppgradera till version 4.0.4 eller nyare!');
 DEFINE('_ERRPHPMYSQLSUP','<B>PHP build incomplete</B>: <FONT>the prerequisite MySQL support required to 
                read the alert database was not built into PHP.  
                Please recompile PHP with the necessary library (<CODE>--with-mysql</CODE>)</FONT>');
@@ -442,8 +442,8 @@ DEFINE('_PERIODNO','ingen period'); //NEW
 DEFINE('_PERIODWEEK','7 (en vecka)'); //NEW
 DEFINE('_PERIODDAY','24 (hel dag)'); //NEW
 DEFINE('_PERIOD168','168 (24x7)'); //NEW
-DEFINE('_CHARTSIZE','Size: (bredd x höjd)'); //NEW
-DEFINE('_PLOTMARGINS','Graf Marginaler: (vänster x höger x uppe x nere)'); //NEW
+DEFINE('_CHARTSIZE','Size: (bredd x hÃ¶jd)'); //NEW
+DEFINE('_PLOTMARGINS','Graf Marginaler: (vänster x hÃ¶ger x uppe x nere)'); //NEW
 DEFINE('_PLOTTYPE','Graf typ:'); //NEW
 DEFINE('_TYPEBAR','Stapel'); //NEW
 DEFINE('_TYPELINE','linje'); //NEW
@@ -628,7 +628,7 @@ DEFINE('_PSDSTPORT','Destination Port');
 DEFINE('_PSTCPFLAGS','TCP Flags');
 DEFINE('_PSTOTALOCC','Total<BR> Occurrences');
 DEFINE('_PSNUMSENSORS','Antal Sensors');
-DEFINE('_PSFIRSTOCC','Första<BR> Occurrence');
+DEFINE('_PSFIRSTOCC','FÃ¶rsta<BR> Occurrence');
 DEFINE('_PSLASTOCC','Sista<BR> Occurrence');
 DEFINE('_PSUNIALERTS','Unika Varningar');
 DEFINE('_PSPORTSCANEVE','Portscan Events');
@@ -657,7 +657,7 @@ DEFINE('_SIPLTOTALEVENTS','Alla händelser');
 //base_stat_ports.php
 DEFINE('_UNIQ','Unik');
 DEFINE('_DSTPS','Destination Port(s)');
-DEFINE('_OCCURRENCES','Förekommande'); //NEW
+DEFINE('_OCCURRENCES','FÃ¶rekommande'); //NEW
 DEFINE('_SRCPS','Käll Port(ar)');
 
 //base_stat_sensor.php
@@ -667,7 +667,7 @@ DEFINE('SPSENSORLIST','Lista Sensorer ');
 DEFINE('_BSTTITLE','Tid Profil av Varningar');
 DEFINE('_BSTTIMECRIT','Time Criteria'); //Ingen profilering kriterium var specifierad
 DEFINE('_BSTERRPROFILECRIT','<FONT><B>Ingen profilering kriterium var specifierad</B>  Klicka på "timme", "dag", eller "månad" att välja kornighet av total statistik.</FONT>');
-DEFINE('_BSTERRTIMETYPE','<FONT><B>Arten av tid parameter vilken kommer att vara passerade var inte specifierad!</B>  .</FONT>'); //Välj antingen "på", för att specifiera ett  datum, eller "mellan" för att specifiera en intervall.
+DEFINE('_BSTERRTIMETYPE','<FONT><B>Arten av tid parameter vilken kommer att vara passerade var inte specifierad!</B>  .</FONT>'); //Välj antingen "på", fÃ¶r att specifiera ett  datum, eller "mellan" för att specifiera en intervall.
 DEFINE('_BSTERRNOYEAR','<FONT><B>Ingen År parameter var specifierad!</B></FONT>');
 DEFINE('_BSTERRNOMONTH','<FONT><B>Ingen Månad parameter var specifierad!</B></FONT>');
 DEFINE('_BSTPROFILEBY','Profil'); //NEW
@@ -688,9 +688,9 @@ DEFINE('_SUADSTADD','Dest.&nbsp;Addr.');
 
 //base_user.php
 DEFINE('_BASEUSERTITLE','BASE Användar inställningar');
-DEFINE('_BASEUSERERRPWD','Ditt lösenord kan inte vara blankt eller så var lösenorden inte lika!');
-DEFINE('_BASEUSEROLDPWD','Gammalt lösenord:');
-DEFINE('_BASEUSERNEWPWD','Nytt lösenord:');
-DEFINE('_BASEUSERNEWPWDAGAIN','Nytt lösenord igen:');
+DEFINE('_BASEUSERERRPWD','Ditt '.strtolower($UI_CW_Pw).' kan inte vara blankt eller så var lösenorden inte lika!');
+DEFINE('_BASEUSEROLDPWD','Gammalt '.strtolower($UI_CW_Pw).':');
+DEFINE('_BASEUSERNEWPWD','Nytt '.strtolower($UI_CW_Pw).':');
+DEFINE('_BASEUSERNEWPWDAGAIN','Nytt '.strtolower($UI_CW_Pw).' igen:');
 
 ?>

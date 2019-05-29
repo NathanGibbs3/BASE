@@ -44,20 +44,20 @@ $UI_CW_Src = 'L‰hde';
 $UI_CW_Dst = 'Kohde';
 $UI_CW_Id = 'ID';
 $UI_CW_Name = 'Nimi';
-$UI_CW_Int = 'K‰yttˆliittym‰';
+$UI_CW_Int = 'K‰ytt√∂liittym‰';
 $UI_CW_Filter = 'Suodatin';
 $UI_CW_Desc = 'Kuvaus';
 $UI_CW_SucDesc = 'Onnistunut';
 $UI_CW_Sensor = 'Sensori';
 $UI_CW_Sig = 'Signature';
 $UI_CW_Role = 'Role';
+$UI_CW_Pw = 'Salasana';
 // Common Phrases.
 $UI_CP_SrcName = array('L‰hteen',$UI_CW_Name);
 $UI_CP_DstName = array('Kohteen',$UI_CW_Name);
 $UI_CP_SrcDst = array('L‰hteen','nimi');
 // Authentication Data.
 $UI_AD_UND = 'Login';
-$UI_AD_PWD = 'Salasana';
 $UI_AD_RID = array($UI_CW_Role,$UI_CW_Id);
 $UI_AD_ASD = 'Toiminnassa';
 
@@ -170,14 +170,14 @@ DEFINE('_VIEWGROUPS','N‰yt‰ Ryhm‰t');
 DEFINE('_EDITGROUPS','Muuta Ryhm‰t');
 DEFINE('_DELETEGROUPS','Poista Ryhm‰t');
 DEFINE('_CLEARGROUPS','Clear Ryhm‰t');//#
-DEFINE('_CHNGPWD','Vaihda salasana');
+DEFINE('_CHNGPWD','Vaihda '.strtolower($UI_CW_Pw));
 DEFINE('_DISPLAYU','N‰yt‰ K‰ytt‰j‰');
 
 //base_footer.php
 DEFINE('_FOOTER','( <A class="largemenuitem" href="mailto:base@secureideas.net">Kevin Johnsonilta</A> ja <A class="largemenuitem" href="http://sourceforge.net/project/memberlist.php?group_id=103348">BASE Projektin Tiimilt‰</A><BR>Rakennettu ACID:n(Roman Danyliw) p‰‰lle )');//#
 
 //index.php --Log in Page
-DEFINE('_LOGINERROR','K‰ytt‰j‰‰ ei ole tai antamasi salasana on v‰‰r‰!<br>Yrit‰ uudelleen');
+DEFINE('_LOGINERROR','K‰ytt‰j‰‰ ei ole tai antamasi '.strtolower($UI_CW_Pw).' on v‰‰r‰!<br>Yrit‰ uudelleen');
 
 // base_main.php
 DEFINE('_MOSTRECENT','Uusin ');
@@ -208,11 +208,11 @@ DEFINE('_TRAFFICPROBPRO','Traffic Profile by Protocol'); //NEW
 
 //base_auth.inc.php
 DEFINE('_ADDEDSF','Lis‰tty Onnistuneesti');
-DEFINE('_NOPWDCHANGE','Salasananasi vaihtaminen ei onnistu: ');
+DEFINE('_NOPWDCHANGE',$UI_CW_Pw.'nasi vaihtaminen ei onnistu: ');
 DEFINE('_NOUSER','K‰ytt‰j‰‰ ei ole!');
-DEFINE('_OLDPWD','Annettua vanhaa salasanaa ei tunnisteta!');
-DEFINE('_PWDCANT','Salasanasi vaihtaminen ei onnistu: ');
-DEFINE('_PWDDONE','Salasanasi on vaihdettu!');
+DEFINE('_OLDPWD','Annettua vanhaa '.strtolower($UI_CW_Pw).'a ei tunnisteta!');
+DEFINE('_PWDCANT',$UI_CW_Pw.'si vaihtaminen ei onnistu: ');
+DEFINE('_PWDDONE',$UI_CW_Pw.'si on vaihdettu!');
 DEFINE('_ROLEEXIST',"$UI_CW_Role On Jo Olemassa");//#
 // TD Migration Hack
 if ($UI_Spacing == 1){
@@ -266,7 +266,7 @@ DEFINE('_ERRUNKAGID',"Tuntematon AG $UI_CW_Id annettu (AG:a ei luultavasti ole o
 DEFINE('_ERRREMOVEFAIL','Uuden AG:n poistaminen ei onnistunut');
 DEFINE('_GENBASE','BASE:n generoima');
 DEFINE('_ERRNOEMAILEXP','EXPORT ERROR: Exported h‰lytykset l‰hett‰minen to');//#
-DEFINE('_ERRNOEMAILPHP','Tarkista PHP:n s‰hkˆpostiasetukset.');
+DEFINE('_ERRNOEMAILPHP','Tarkista PHP:n s‰hk√∂postiasetukset.');
 DEFINE('_ERRDELALERT','Error Poistettaessa H‰lytyst‰');//#
 DEFINE('_ERRARCHIVE','Arkisto error:');//#
 DEFINE('_ERRMAILNORECP','MAIL ERROR: Vastaanottajaa ei m‰‰ritelty');//#
@@ -289,7 +289,7 @@ DEFINE('_ERRSQLCONNECTINFO','<P>Tarkista DB connection variables(tietokantayhtey
                = $alert_host     : is‰nt‰ johon tietokanta on tallennettu
                = $alert_port     : portti johon tietokanta on tallennettu
                = $alert_user     : k‰ytt‰j‰nimi tietokantaan
-               = $alert_password : salasana k‰ytt‰j‰nimelle
+               = $alert_password : '.strtolower($UI_CW_Pw).' k‰ytt‰j‰nimelle
               </PRE>
               <P>');
 DEFINE('_ERRSQLPCONNECT','Error ?(p)? yhditett‰ess‰ tietokantaan :');//#
@@ -298,7 +298,7 @@ DEFINE('_DBALCHECK','Tarkastaa tietokannan-abstraktio-kirjastoa in');
 DEFINE('_ERRSQLDBALLOAD1','<P><B>Virhe Ladattaessa tietokannan-abstraktio-kirjastoa : </B> from ');
 DEFINE('_ERRSQLDBALLOAD2','<P>Tarkista tietokannan-abstraktio-kirjasto muuttuja <CODE>$DBlib_path</CODE> tiedostossa <CODE>base_conf.php</CODE>
             <P>
-             T‰ll‰ hetkell‰ k‰ytˆssa oleva tietokanta-kirjasto on nimelt‰‰n ADODB, jonka voi ladata osoitteesta
+             T‰ll‰ hetkell‰ k‰yt√∂ssa oleva tietokanta-kirjasto on nimelt‰‰n ADODB, jonka voi ladata osoitteesta
              <A HREF="http://adodb.sourceforge.net/">http://adodb.sourceforge.net/</A>');
 DEFINE('_ERRSQLDBTYPE','M‰‰ritelty tietokannan tyyppi on virheellinen');
 DEFINE('_ERRSQLDBTYPEINFO1','Muuttuja <CODE>\$DBtype</CODE> tiedostossa <CODE>base_conf.php</CODE> oli asetettu mainittuun virheelliseen tietokannan tyyppiin ');
@@ -400,8 +400,8 @@ DEFINE('_ERRAGDELETE','Error poistettaessa AG:a');//#
 DEFINE('_AGDELETE','POISTETTU Onnistuneesti');
 DEFINE('_AGDELETEINFO','tieto poistettu');
 DEFINE('_ERRAGSEARCHINV','Annetty hakukriteeri ei ole laillinen(valid).  Yrit‰ uudelleen!');
-DEFINE('_ERRAGSEARCHNOTFOUND','Yht‰‰n AG:a ei lˆydetty tuolla kriteerill‰.');
-DEFINE('_NOALERTGOUPS','Yht‰‰n AG:a ei lˆydy');
+DEFINE('_ERRAGSEARCHNOTFOUND','Yht‰‰n AG:a ei l√∂ydetty tuolla kriteerill‰.');
+DEFINE('_NOALERTGOUPS','Yht‰‰n AG:a ei l√∂ydy');
 DEFINE('_NUMALERTS','# H‰lytykset');
 DEFINE('_ACTIONS','Actions');//#
 DEFINE('_NOTASSIGN','not assigned yet');//#
@@ -416,7 +416,7 @@ DEFINE('_PORTSCAN','Portscan Traffic');//#
 DEFINE('_ERRDBINDEXCREATE','Indexin luominen ei onnistu for');//#
 DEFINE('_DBINDEXCREATE','Onnistuneesti luotu INDEXI for');//#
 DEFINE('_ERRSNORTVER','Se saattaa olla vanhempaa versiota. Vain Snort 1.7-beta:lla tai uudemalla luodut tietokannat ovat tuettuja ');
-DEFINE('_ERRSNORTVER1','K‰ytˆss‰ oleva tietokanta');
+DEFINE('_ERRSNORTVER1','K‰yt√∂ss‰ oleva tietokanta');
 DEFINE('_ERRSNORTVER2','n‰ytt‰‰ olevan ep‰t‰ydellinen/laiton(invalid)');
 DEFINE('_ERRDBSTRUCT1','Tietokannan versio on k‰yp‰, mutta BASE-tietokannan rakenne');
 DEFINE('_ERRDBSTRUCT2','ei ole saatavilla. K‰yt‰ <A HREF="base_db_setup.php">Asetus Sivua</A> konfiguroidaksesi ja optimoidaksesi tietokannan.');
@@ -424,11 +424,11 @@ DEFINE('_ERRPHPERROR','PHP ERROR');//#
 DEFINE('_ERRPHPERROR1','Yhteensopimaton versio');
 DEFINE('_ERRVERSION','Versio');
 DEFINE('_ERRPHPERROR2','(PHP) on liian vanha. P‰ivit‰ PHP:n versioon 4.0.4 tai uudempaan');
-DEFINE('_ERRPHPMYSQLSUP','<B>PHP k‰‰nnˆs(build) ep‰t‰ydellinen</B>: <FONT>the prerequisite MySQL:n tuki joka vaaditaan h‰lytystietokannan lukemiseen ei ole k‰‰nnetty PHP:n sis‰‰n.
+DEFINE('_ERRPHPMYSQLSUP','<B>PHP k‰‰nn√∂s(build) ep‰t‰ydellinen</B>: <FONT>the prerequisite MySQL:n tuki joka vaaditaan h‰lytystietokannan lukemiseen ei ole k‰‰nnetty PHP:n sis‰‰n.
                    K‰‰nn‰ PHP uudelleen tarvittavien kirjastojen kanssa (<CODE>--with-mysql</CODE>)</FONT>');//#
-DEFINE('_ERRPHPPOSTGRESSUP','<B>PHP k‰‰nnˆs(build) ep‰t‰ydellinen</B>: <FONT>the prerequisite PostgreSQL:n tuki joka vaaditaan h‰lytystietokannan lukemiseen ei ole k‰‰nnetty PHP:n sis‰‰n.
+DEFINE('_ERRPHPPOSTGRESSUP','<B>PHP k‰‰nn√∂s(build) ep‰t‰ydellinen</B>: <FONT>the prerequisite PostgreSQL:n tuki joka vaaditaan h‰lytystietokannan lukemiseen ei ole k‰‰nnetty PHP:n sis‰‰n.
                    K‰‰nn‰ PHP uudelleen tarvittavien kirjastojen kanssa (<CODE>--with-pgsql</CODE>)</FONT>');//#
-DEFINE('_ERRPHPMSSQLSUP','<B>PHP k‰‰nnˆs(build) ep‰t‰ydellinen</B>: <FONT>the prerequisite MS SQL Serverin tuki joka vaaditaan h‰lytystietokannan lukemiseen ei ole k‰‰nnetty PHP:n sis‰‰n.
+DEFINE('_ERRPHPMSSQLSUP','<B>PHP k‰‰nn√∂s(build) ep‰t‰ydellinen</B>: <FONT>the prerequisite MS SQL Serverin tuki joka vaaditaan h‰lytystietokannan lukemiseen ei ole k‰‰nnetty PHP:n sis‰‰n.
                    K‰‰nn‰ PHP uudelleen tarvittavien kirjastojen kanssa (<CODE>--enable-mssql</CODE>)</FONT>');//#
 DEFINE('_ERRPHPORACLESUP','<B>PHP build incomplete</B>: <FONT>the prerequisite Oracle support required to 
                    read the alert database was not built into PHP.  
@@ -473,7 +473,7 @@ DEFINE('_CHRTDS','Data L‰hde:');
 DEFINE('_CHRTX','X-akseli');
 DEFINE('_CHRTY','Y-akseli');
 DEFINE('_CHRTMINTRESH','Minimum Threshold Value');//#
-DEFINE('_CHRTROTAXISLABEL','Pyˆrit‰ Akseli Labels (90 astetta)');//#
+DEFINE('_CHRTROTAXISLABEL','Py√∂rit‰ Akseli Labels (90 astetta)');//#
 DEFINE('_CHRTSHOWX','N‰yt‰ X-akseli grid-lines');//#
 DEFINE('_CHRTDISPLABELX','Display X-akseli label every');//#
 DEFINE('_CHRTDATAPOINTS','data points');//#
@@ -511,7 +511,7 @@ DEFINE('_ERRCHRTNODATAPOINTS','No data points to plot');//#
 //base_maintenance.php
 DEFINE('_MAINTTITLE','Yll‰ito');
 DEFINE('_GRAPHALERTDATA','Graph Alert Data'); //NEW
-DEFINE('_MNTPHP','PHP k‰‰nnˆs(build)versio:');
+DEFINE('_MNTPHP','PHP k‰‰nn√∂s(build)versio:');
 DEFINE('_MNTCLIENT','ASIAKAS:');
 DEFINE('_MNTSERVER','SERVERI:');
 DEFINE('_MNTSERVERHW','SERVER HW:');//#
@@ -688,10 +688,10 @@ DEFINE('_SUADSTADD','Kohde&nbsp;Osoite');
 
 //base_user.php
 DEFINE('_BASEUSERTITLE','BASE K‰ytt‰j‰n asetukset');
-DEFINE('_BASEUSERERRPWD','Salasana ei voi olla tyhj‰ tai salasanat eiv‰t t‰sm‰‰!');
-DEFINE('_BASEUSEROLDPWD','Vanha Salasana:');
-DEFINE('_BASEUSERNEWPWD','Uusi Salasana:');
-DEFINE('_BASEUSERNEWPWDAGAIN','Uusi Salasana Uudestaan:');
+DEFINE('_BASEUSERERRPWD',"$UI_CW_Pw ei voi olla tyhj‰ tai ".strtolower($UI_CW_Pw).'t eiv‰t t‰sm‰‰!');
+DEFINE('_BASEUSEROLDPWD','Vanha '.$UI_CW_Pw.':');
+DEFINE('_BASEUSERNEWPWD','Uusi '.$UI_CW_Pw.':');
+DEFINE('_BASEUSERNEWPWDAGAIN',"Uusi $UI_CW_Pw Uudestaan:");
 
 DEFINE('_LOGOUT','Kirjaudu ulos');
 
