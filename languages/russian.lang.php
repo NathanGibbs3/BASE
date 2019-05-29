@@ -60,7 +60,7 @@ $UI_AD_ASD = 'Включено';
 
 // основные фразы
 DEFINE('_TIMESTAMP','Время');
-DEFINE('_NBSOURCEADDR','Адрес&nbsp;источника');
+DEFINE('_NBSOURCEADDR',"Адрес&nbsp;$UI_CW_Src".'а');
 DEFINE('_NBDESTADDR','Адрес&nbsp;назначения');
 DEFINE('_NBLAYER4','Слой&nbsp;для&nbsp;прото');
 DEFINE('_PRIORITY','Приоритет');
@@ -164,8 +164,8 @@ DEFINE('_CLEAR','Очистить');
 DEFINE('_LISTGROUPS','Список групп');
 DEFINE('_CREATEGROUPS','Создать группу');
 DEFINE('_VIEWGROUPS','Просмотреть группу');
-DEFINE('_EDITGROUPS','Редактировать группу');
-DEFINE('_DELETEGROUPS','Удалить группу');
+DEFINE('_EDITGROUPS',"$UI_CW_Edit группу");
+DEFINE('_DELETEGROUPS',"$UI_CW_Delete группу");
 DEFINE('_CLEARGROUPS','Очистить группу');
 DEFINE('_CHNGPWD','Поменять пароль');
 DEFINE('_DISPLAYU','Показать пользователя');
@@ -190,9 +190,9 @@ DEFINE('_DESTIP','Destination IP'); //NEW
 DEFINE('_L24ALERTS','Предупреждения за последние 24 часа: ');
 DEFINE('_L72ALERTS','Предупреждения за последние 72 часа: ');
 DEFINE('_UNIALERTS',' Уникальные предупреждения');
-DEFINE('_LSOURCEPORTS','Последние порты-источники: ');
+DEFINE('_LSOURCEPORTS',"Последние порты-$UI_CW_Src".'и: ');
 DEFINE('_LDESTPORTS','Последние порты-назначения: ');
-DEFINE('_FREGSOURCEP','Самые частые порты-источники: ');
+DEFINE('_FREGSOURCEP',"Самые частые порты-$UI_CW_Src".'и: ');
 DEFINE('_FREGDESTP','Самые частые порты-назначения: ');
 DEFINE('_QUERIED','Запрос по');
 DEFINE('_DATABASE','База данных:');
@@ -248,7 +248,7 @@ DEFINE('_ADDAG','ДОБАВИТЬ-Новую-ГП');
 DEFINE('_ADDAGNAME','ДОБАВИТЬ в ГП (по имени)');
 DEFINE('_CREATEAG','Создать ГП (по имени)');
 DEFINE('_CLEARAG','Очистить ГП');
-DEFINE('_DELETEALERT','Удалить предупреждение(-я)');
+DEFINE('_DELETEALERT',"$UI_CW_Delete предупреждение(-я)");
 DEFINE('_EMAILALERTSFULL','Отправить предупреждение(-я) (полностью)');
 DEFINE('_EMAILALERTSSUMM','Отправить предупреждение(-я) (описание)');
 DEFINE('_EMAILALERTSCSV','Отправить предупреждение(-я) (csv)');
@@ -260,7 +260,7 @@ DEFINE('_ALERTSPARA',' предупреждение(-я)');
 DEFINE('_NOALERTSSELECT','Предупреждения не выбраны или');
 DEFINE('_NOTSUCCESSFUL','не был успешным');
 DEFINE('_ERRUNKAGID','Указан неизвестный идентификатор ГП (возможно, ГП не существует)');
-DEFINE('_ERRREMOVEFAIL','Не удалось удалить новый ГП');
+DEFINE('_ERRREMOVEFAIL',"Не удалось $UI_CW_Delete новый ГП");
 DEFINE('_GENBASE','Сгенерировано BASE');
 DEFINE('_ERRNOEMAILEXP','ОШИБКА ЭКСПОРТА: Не удалось отправить экспортированные предупреждения на');
 DEFINE('_ERRNOEMAILPHP','Проверьте конфигурацию почты PHP.');
@@ -459,17 +459,17 @@ DEFINE('_CHRTTYPEDAY','Время (дни) и число предупреждений');
 DEFINE('_CHRTTYPEWEEK','Время (недели) и число предупреждений');
 DEFINE('_CHRTTYPEMONTH','Время (месяцы) и число предупреждений');
 DEFINE('_CHRTTYPEYEAR','Время (годы) и число предупреждений');
-DEFINE('_CHRTTYPESRCIP','IP-источник  и число предупреждений');
+DEFINE('_CHRTTYPESRCIP',"IP-$UI_CW_Src  и число предупреждений");
 DEFINE('_CHRTTYPEDSTIP','IP-назначение и число предупреждений');
 DEFINE('_CHRTTYPEDSTUDP','UDP порт-назначение и число предупреждений');
-DEFINE('_CHRTTYPESRCUDP','UDP порт-источник и число предупреждений');
+DEFINE('_CHRTTYPESRCUDP',"UDP порт-$UI_CW_Src и число предупреждений");
 DEFINE('_CHRTTYPEDSTPORT','TCP порт-назначение и число предупреждений');
-DEFINE('_CHRTTYPESRCPORT','TCP порт-источник и число предупреждений');
+DEFINE('_CHRTTYPESRCPORT',"TCP порт-$UI_CW_Src и число предупреждений");
 DEFINE('_CHRTTYPESIG','Сиг. классификация и число предупреждений');
 DEFINE('_CHRTTYPESENSOR','Сенсор и число предупреждений');
 DEFINE('_CHRTBEGIN','Начало графика:');
 DEFINE('_CHRTEND','Конец графика:');
-DEFINE('_CHRTDS','Источник данных:');
+DEFINE('_CHRTDS',"$UI_CW_Src данных:");
 DEFINE('_CHRTX','Ось X');
 DEFINE('_CHRTY','Ось Y');
 DEFINE('_CHRTMINTRESH','Минимальное пороговое значение');
@@ -488,18 +488,18 @@ DEFINE('_CHRTDATAIMPORT','Начало импорта данных');
 DEFINE('_CHRTTIMEVNUMBER','Время и число предупреждений');
 DEFINE('_CHRTTIME','Время');
 DEFINE('_CHRTALERTOCCUR','Случаи предупреждений');
-DEFINE('_CHRTSIPNUMBER','IP-источник и число предупреждений');
-DEFINE('_CHRTSIP','IP-источник');
+DEFINE('_CHRTSIPNUMBER',"IP-$UI_CW_Src и число предупреждений");
+DEFINE('_CHRTSIP',"IP-$UI_CW_Src");
 DEFINE('_CHRTDIPALERTS','IP-назначение и число предупреждений');
 DEFINE('_CHRTDIP','IP-назначение');
 DEFINE('_CHRTUDPPORTNUMBER','UDP порт (назначение) и число предупреждений');
 DEFINE('_CHRTDUDPPORT','UDP порт-назначение');
-DEFINE('_CHRTSUDPPORTNUMBER','UDP порт (источник) и число предупреждений');
-DEFINE('_CHRTSUDPPORT','UDP порт-источник');
+DEFINE('_CHRTSUDPPORTNUMBER',"UDP порт ($UI_CW_Src) и число предупреждений");
+DEFINE('_CHRTSUDPPORT',"UDP порт-$UI_CW_Src");
 DEFINE('_CHRTPORTDESTNUMBER','TCP порт (назначение) и число предупреждений');
 DEFINE('_CHRTPORTDEST','TCP порт-назначение');
-DEFINE('_CHRTPORTSRCNUMBER','TCP порт (источник) и число предупреждений');
-DEFINE('_CHRTPORTSRC','TCP порт-источник');
+DEFINE('_CHRTPORTSRCNUMBER',"TCP порт ($UI_CW_Src) и число предупреждений");
+DEFINE('_CHRTPORTSRC',"TCP порт-$UI_CW_Src");
 DEFINE('_CHRTSIGNUMBER','Сиг. классификация и число предупреждений');
 DEFINE('_CHRTCLASS','Классификация');
 DEFINE('_CHRTSENSORNUMBER','Сенсор и число предупреждений');
@@ -527,7 +527,7 @@ DEFINE('_MNTAIC','Кэш информации о предупреждениях:');
 DEFINE('_MNTAICTE','Всего событий:');
 DEFINE('_MNTAICCE','Кэшировано событий:');
 DEFINE('_MNTIPAC','Кэш IP-адресов');
-DEFINE('_MNTIPACUSIP','Уникальные IP-источники:');
+DEFINE('_MNTIPACUSIP',"Уникальные IP-$UI_CW_Src".'и:');
 DEFINE('_MNTIPACDNSC','Кэшированных DNS:');
 DEFINE('_MNTIPACWC','Кэшированных Whois:');
 DEFINE('_MNTIPACUDIP','Уникальные IP-назначения:');
@@ -578,7 +578,7 @@ DEFINE('_QCUDPCRIT','Критерий UDP');
 DEFINE('_QCICMPCRIT','Критерий ICMP');
 DEFINE('_QCLAYER4CRIT','Layer 4 Criteria'); //NEW
 DEFINE('_QCERRINVIPCRIT','Неверный критерий: IP адрес');
-DEFINE('_QCERRCRITADDRESSTYPE','введен(-а) как значение критерия, но тип адреса (напр., источник, назначение) не был указан.');
+DEFINE('_QCERRCRITADDRESSTYPE',"введен(-а) как значение критерия, но тип адреса (напр., $UI_CW_Src, назначение) не был указан.");
 DEFINE('_QCERRCRITIPADDRESSNONE','показывающий(-ая), что IP адрес должен быть критерием, но адрес не указан.');
 DEFINE('_QCERRCRITIPADDRESSNONE1','выбран(-а) (#');
 DEFINE('_QCERRCRITIPIPBOOL','В качестве критерия введены несколько IP адресов без логического оператора между ними (напр., AND, OR)');
@@ -589,7 +589,7 @@ DEFINE('_QFRMSORTNONE','none'); //NEW
 DEFINE('_QFRMTIMEA','время (восходящий)');
 DEFINE('_QFRMTIMED','время (нисходящий)');
 DEFINE('_QFRMSIG','сигнатура');
-DEFINE('_QFRMSIP','IP-источник');
+DEFINE('_QFRMSIP',"IP-$UI_CW_Src");
 DEFINE('_QFRMDIP','IP-назначение');
 
 //base_qry_sqlcalls.php
@@ -604,15 +604,15 @@ DEFINE('_ALERTTITLE','Список предупреждений');
 DEFINE('_SCCATEGORIES','Категории:');
 DEFINE('_SCSENSORTOTAL','Сенсоры/Всего:');
 DEFINE('_SCTOTALNUMALERTS','Общее количество предупреждений:');
-DEFINE('_SCSRCIP','IP-источник:');
+DEFINE('_SCSRCIP',"IP-$UI_CW_Src".':');
 DEFINE('_SCDSTIP','IP-назначение:');
 DEFINE('_SCUNILINKS','Уникальные IP связи');
-DEFINE('_SCSRCPORTS','Порты-источники: ');
+DEFINE('_SCSRCPORTS',"Порты-$UI_CW_Src".'и: ');
 DEFINE('_SCDSTPORTS','Порты-назначения: ');
 DEFINE('_SCSENSORS','Сенсоры');
 DEFINE('_SCCLASS','классификации');
 DEFINE('_SCUNIADDRESS','Уникальные адресы: ');
-DEFINE('_SCSOURCE','Источник');
+DEFINE('_SCSOURCE',$UI_CW_Src);
 DEFINE('_SCDEST','Назначение');
 DEFINE('_SCPORT','Порт');
 
@@ -621,9 +621,9 @@ DEFINE('_PSEVENTERR','ОШИБКА СОБЫТИЯ СКАНИРОВАНИЯ ПОРТОВ: ');
 DEFINE('_PSEVENTERRNOFILE','Ни один файл не указан в переменной $portscan_file.');
 DEFINE('_PSEVENTERROPENFILE','Не удалось открыть файл событий сканирования портов');
 DEFINE('_PSDATETIME','Дата/Время');
-DEFINE('_PSSRCIP','IP-источник');
+DEFINE('_PSSRCIP',"IP-$UI_CW_Src");
 DEFINE('_PSDSTIP','IP-назначение');
-DEFINE('_PSSRCPORT','порт-источник');
+DEFINE('_PSSRCPORT',"порт-$UI_CW_Src");
 DEFINE('_PSDSTPORT','порт-назначение');
 DEFINE('_PSTCPFLAGS','Флаги TCP');
 DEFINE('_PSTOTALOCC','Всего<BR> Случаев');
@@ -635,7 +635,7 @@ DEFINE('_PSPORTSCANEVE','События сканирования портов');
 DEFINE('_PSREGWHOIS','Поиск (whois) в');
 DEFINE('_PSNODNS','не получено DNS-разрешения');
 DEFINE('_PSNUMSENSORSBR','Число <BR>Сенсоров');
-DEFINE('_PSOCCASSRC','Случаи <BR>как источники.');
+DEFINE('_PSOCCASSRC',"Случаи <BR>как $UI_CW_Src".'и.');
 DEFINE('_PSOCCASDST','Случаи <BR>как назначения.');
 DEFINE('_PSWHOISINFO','Информация Whois');
 DEFINE('_PSTOTALHOSTS','Total Hosts Scanned'); //NEW
@@ -646,7 +646,7 @@ DEFINE('_PSEXTERNAL','external'); //NEW
 
 //base_stat_iplink.php
 DEFINE('_SIPLTITLE','IP Связи');
-DEFINE('_SIPLSOURCEFGDN','Источник FQDN');
+DEFINE('_SIPLSOURCEFGDN',"$UI_CW_Src FQDN");
 DEFINE('_SIPLDESTFGDN','Назначение FQDN');
 DEFINE('_SIPLDIRECTION','Направление');
 DEFINE('_SIPLPROTO','Протокол');
@@ -657,7 +657,7 @@ DEFINE('_SIPLTOTALEVENTS','Всего событий');
 //base_stat_ports.php
 DEFINE('_UNIQ','Уникальные');
 DEFINE('_DSTPS','Порты-назначения');
-DEFINE('_SRCPS','Порт-источники');
+DEFINE('_SRCPS',"Порт-$UI_CW_Src".'и');
 DEFINE('_OCCURRENCES','Occurrences'); //NEW
 
 //base_stat_sensor.php
@@ -677,13 +677,13 @@ DEFINE('_TIMEBETWEEN','between'); //NEW
 DEFINE('_PROFILEALERT','Profile Alert'); //NEW
 
 //base_stat_uaddr.php
-DEFINE('_UNISADD','Уникальные адреса-источники');
-DEFINE('_SUASRCIP','IP-источник');
+DEFINE('_UNISADD',"Уникальные адреса-$UI_CW_Src".'и');
+DEFINE('_SUASRCIP',"IP-$UI_CW_Src");
 DEFINE('_SUAERRCRITADDUNK','ОШИБКА КРИТЕРИЯ: неизвестный типа адреса -- предполагается адрес-назначение');
 DEFINE('_UNIDADD','Уникальниые адреса-назначения');
 DEFINE('_SUADSTIP','IP-назначение');
 DEFINE('_SUAUNIALERTS','Уникальные&nbsp;предупреждения');
-DEFINE('_SUASRCADD','Адрес&nbsp;источник.');
+DEFINE('_SUASRCADD',"Адрес&nbsp;$UI_CW_Src".'.');
 DEFINE('_SUADSTADD','Адрес.&nbsp;назначение');
 
 //base_user.php
