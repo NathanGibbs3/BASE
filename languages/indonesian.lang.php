@@ -294,7 +294,7 @@ DEFINE('_ERRSQLDBALLOAD1','<P><B>Kesalahan mengangkat libari niskala DB: </B> da
 DEFINE('_ERRSQLDBALLOAD2','<P>Periksalah variabel libari niskala DB <CODE>$DBlib_path</CODE> pada <CODE>base_conf.php</CODE>
             <P>
             Libari database yang digunakan sebagai syarat pada saat ini adalah ADODB, yang dapat di-download
-            melalui <A HREF="http://adodb.sourceforge.net/">http://adodb.sourceforge.net/</A>');
+            melalui ');
 DEFINE('_ERRSQLDBTYPE','Jenis database yang ditetapkan tidak valid');
 DEFINE('_ERRSQLDBTYPEINFO1','Variabel <CODE>\$DBtype</CODE> pada <CODE>base_conf.php</CODE> ditetapkan pada jenis database yang tidak dikenal. ');
 DEFINE('_ERRSQLDBTYPEINFO2','Hanya jenis database yang berikut didukung oleh BASE: <PRE>

@@ -367,7 +367,7 @@ DEFINE('_ERRSQLDBALLOAD1','<P><B>Erreur lors du chargement de la bibliothèque d\
 DEFINE('_ERRSQLDBALLOAD2','<P> Vérifier la variable <CODE>$DBlib_path</CODE> dans <CODE>base_conf.php</CODE></P>
 		<P>
 		La bibliotèque sousjacente actuellement utilisée est ADODB, téléchargeable
-		 à <A HREF="http://adodb.sourceforge.net/">http://adodb.sourceforge.net/</A></P>');
+		 à ');
 /*
 <P>Check the DB abstraction library variable <CODE>$DBlib_path</CODE> in <CODE>base_conf.php</CODE>
             <P>

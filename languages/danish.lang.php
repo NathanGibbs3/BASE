@@ -295,7 +295,7 @@ DEFINE('_ERRSQLDBALLOAD1','<P><B>Fejl ved loading af DB Abstraction biblioteket:
 DEFINE('_ERRSQLDBALLOAD2','<P>Check DB abstraction bibliotekets variable <CODE>$DBlib_path</CODE> i <CODE>base_conf.php</CODE>
             <P>
             Det underliggende database bibliotek brugt er ADODB, som kan downloades
-            på <A HREF="http://adodb.sourceforge.net/">http://adodb.sourceforge.net/</A>');
+            på ');
 DEFINE('_ERRSQLDBTYPE','Invalid Database Type Specificeret');
 DEFINE('_ERRSQLDBTYPEINFO1','Variablen <CODE>\$DBtype</CODE> i <CODE>base_conf.php</CODE> var sat til den ukendte database type af ');
 DEFINE('_ERRSQLDBTYPEINFO2','Kun de følgende databaser kan bruges: <PRE>

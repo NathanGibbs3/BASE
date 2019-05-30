@@ -296,7 +296,7 @@ DEFINE('_ERRSQLDBALLOAD1','<P><B>Error loading the DB Abstraction library: </B> 
 DEFINE('_ERRSQLDBALLOAD2','<P>Check the DB abstraction library variable <CODE>$DBlib_path</CODE> in <CODE>base_conf.php</CODE>
             <P>
             The underlying database library currently used is ADODB, that can be downloaded
-            at <A HREF="http://adodb.sourceforge.net/">http://adodb.sourceforge.net/</A>');
+            at ');
 DEFINE('_ERRSQLDBTYPE','Invalid Database Type Specified');
 DEFINE('_ERRSQLDBTYPEINFO1','The variable <CODE>\$DBtype</CODE> in <CODE>base_conf.php</CODE> was set to the unrecognized database type of ');
 DEFINE('_ERRSQLDBTYPEINFO2','Only the following databases are supported: <PRE>

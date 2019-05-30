@@ -295,7 +295,7 @@ DEFINE('_ERRSQLDBALLOAD1','<P><B>Fel vid laddning av DB Abstraktion biblioteket 
 DEFINE('_ERRSQLDBALLOAD2','<P>Kontrollera DB abstraktion bibliotek variabel <CODE>$DBlib_path</CODE> i <CODE>base_conf.php</CODE>
             <P>
             Bakomliggande databas bibliotek som används fÃ¶r närvarande är ADODB, som kan laddas ner
-            från <A HREF="http://adodb.sourceforge.net/">http://adodb.sourceforge.net/</A>');
+            från ');
 DEFINE('_ERRSQLDBTYPE','Ogiltig Databas typ Specifierad');
 DEFINE('_ERRSQLDBTYPEINFO1','variabel <CODE>\$DBtype</CODE> i <CODE>base_conf.php</CODE> var satt till anonym databas typ av ');
 DEFINE('_ERRSQLDBTYPEINFO2','Endast fÃ¶ljande databaser är giltiga: <PRE>

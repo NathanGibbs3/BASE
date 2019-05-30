@@ -89,7 +89,7 @@ function DBLink(){ // generate the link to select the other database....
 
 PageStart(1);
 include("$BASE_path/base_hdr1.php");
-if ($debug_mode == 1) {
+if ($debug_mode > 0) {
 	PrintPageHeader();
 }
 
