@@ -294,7 +294,7 @@ DEFINE('_ERRSQLDBALLOAD1','<P><B>Erro ao carregar lib de abstração da BD: </B>
 DEFINE('_ERRSQLDBALLOAD2','<P>Verifique a variável da lib de abstração de BD <CODE>$DBlib_path</CODE> no <CODE>base_conf.php</CODE>
             <P>
             A biblioteca de Base de Dados actual utilizada é o ADODB, que pode ser descarregada
-            em <A HREF="http://adodb.sourceforge.net/">http://adodb.sourceforge.net/</A>');
+            em ');
 DEFINE('_ERRSQLDBTYPE','Tipo de Base de Dados Inválido Especificado');
 DEFINE('_ERRSQLDBTYPEINFO1','A variável <CODE>\$DBtype</CODE> em <CODE>base_conf.php</CODE> foi selecionada para o tipo não reconhecido de ');
 DEFINE('_ERRSQLDBTYPEINFO2','Somente as seguintes base de dados são suportadas: <PRE>

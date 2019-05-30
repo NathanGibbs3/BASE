@@ -631,82 +631,84 @@ class baseRS {
   }
 }
 
-function VerifyDBAbstractionLib($path)
-{
-  GLOBAL $debug_mode;
-
-  if ( $debug_mode > 0 )
-      echo(_DBALCHECK." '$path'<BR>");
-
-  if( !ini_get('safe_mode') ){
-    if ( is_readable($path) ) // is_file
-        return true;
-     else
-     {
-        echo _ERRSQLDBALLOAD1.'"'.$path.
-             '"'._ERRSQLDBALLOAD2;
-  
-        die();
-     }
-  }
+function VerifyDBAbstractionLib($path){
+	GLOBAL $debug_mode;
+	// This safe mode cutout was added on 200503253.
+	// See https://sourceforge.net/p/secureideas/bugs/47
+	// It may only be needed on PHP Versions below 5.1.5 as
+	// PHP 5.1x was released on 20051124.
+	// See https://www.php.net/manual/en/function.is-readable.php
+	// Created Issue #34 to research this further.
+	// See https://github.com/NathanGibbs3/BASE/issues/34
+	if( !ini_get('safe_mode') ){
+		if ( $debug_mode > 0 ){
+			print _DBALCHECK." '".XSSPrintSafe($path)."'<BR>";
+		}
+		if ( is_readable($path) ){ // is_file
+			return true;
+		}else{
+			return false;
+		}
+	}else{
+		return true;
+	}
 }
 
-function NewBASEDBConnection($path, $type)
-{
-  GLOBAL $debug_mode;
-  if ( !(
-          ($type == "mysql") ||
-	  ($type == "mysqlt") ||
-	  ($type == "maxsql") ||
-          ($type == "postgres") ||
-	  ($type == "mssql") ||
-	  ($type == "oci8")
-	)
-     )
-  {
-     echo "<B>"._ERRSQLDBTYPE."</B>".
-            "<P>:"._ERRSQLDBTYPEINFO1."<CODE>'$type'</CODE>. "._ERRSQLDBTYPEINFO2;
-     die(); 
-  }
-
-   /* Export ADODB_DIR for use by ADODB */
-   /** Sometimes it may already be defined. So check to see if it is first -- Tim Rupp**/
-   if (!defined('ADODB_DIR')) {
-   	define('ADODB_DIR', $path);
-   }
-   	$GLOBALS['ADODB_DIR'] = $path;
- 
-   $last_char =  substr($path, strlen($path)-1, 1);
-
-   if ( $debug_mode > 1 )
-      echo "Original path = '".$path."'<BR>";
-
-   if ( $last_char == "\\" || $last_char == "/" )
-   {
-      if ( $debug_mode > 1 ) echo "Attempting to load: '".$path."adodb.inc.php'<BR>";
-
-      VerifyDBAbstractionLib($path."adodb.inc.php");
-      include($path."adodb.inc.php");
-   }
-   else if ( strstr($path,"/") || $path == "" )
-   {
-      if ( $debug_mode > 1 ) echo "Attempting to load: '".$path."/adodb.inc.php'<BR>";
-
-      VerifyDBAbstractionLib($path."/adodb.inc.php");
-      include($path."/adodb.inc.php");
-   }
-   else if ( strstr($path,"\\") )
-   {
-      if ( $debug_mode > 1 ) echo "Attempting to load: '".$path."\\adodb.inc.php'<BR>";
-
-      VerifyDBAbstractionLib($path."\\adodb.inc.php");
-      include($path."\\adodb.inc.php");
-   }
+function NewBASEDBConnection($path, $type){
+	GLOBAL $debug_mode;
+	if ( !(
+		($type == "mysql")
+		|| ($type == "mysqlt")
+		|| ($type == "maxsql")
+		|| ($type == "postgres")
+		|| ($type == "mssql")
+		|| ($type == "oci8")
+	)){
+		print "<B>"._ERRSQLDBTYPE."</B>"."<P>:"._ERRSQLDBTYPEINFO1.
+		"<CODE>'$type'</CODE>. "._ERRSQLDBTYPEINFO2;
+		die();
+	}
+	// Export ADODB_DIR for use by ADODB
+	// It may already be defined, so check to see if it is first. -- Tim Rupp
+	if (!defined('ADODB_DIR')) {
+		define('ADODB_DIR', $path);
+	}
+	$GLOBALS['ADODB_DIR'] = $path;
+	if ( $debug_mode > 1 ){
+		print "Original path = '".XSSPrintSafe($path)."'<BR>";
+	}
+	$last_char =  substr($path, strlen($path)-1, 1);
+	if ( $last_char != "\\" && $last_char != "/" ){
+		$tmppath = $path;
+		if ( strstr($path,"/") || $path == "" ){
+			$path .= "/";
+		}else if ( strstr($path,"\\") ){
+			$path .= "\\";
+		}
+		if ( $debug_mode > 1 && $tmppath != $path ) {
+			print "Modified path = '".XSSPrintSafe($path)."'<BR>";
+		}
+	}
+	if ( $debug_mode > 1 ){
+		print "Attempting to load: '".XSSPrintSafe($path)."adodb.inc.php'<BR>";
+	}
+	$version = explode( ".", phpversion() );
+	if (VerifyDBAbstractionLib($path."adodb.inc.php")){
+		include($path."adodb.inc.php");
+	}else{
+		$msg = _ERRSQLDBALLOAD1.'"'.$path.'"'._ERRSQLDBALLOAD2;
+		if ( $version[0] > 5 || ( $version[0] == 5 && $version[1] > 2) ){
+			$tmp = 'https://github.com/ADOdb/ADOdb';
+		}else{
+			$tmp = 'https://sourceforge.net/projects/adodb';
+		}
+		$msg .= '<a href="'.$tmp.'"></a>';
+		FatalError ($msg);
+	}
 	// On PHP 5.5+, use mysqli ADODB driver & gracefully deprecate the mysql,
 	// mysqlt & maxsql drivers.
 	$tmptype = $type;
 	if ( $type == "mysql" || $type == "mysqlt" || $type == "maxsql" ){
-		$version = explode( ".", phpversion() );
 		if ( $version[0] > 5 || ( $version[0] == 5 && $version[1] > 4) ){
 			$tmptype = "mysqli";
 		}

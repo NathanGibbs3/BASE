@@ -287,7 +287,7 @@ DEFINE('_ERRSQLDBALLOAD1','<P><B>Error cargando biblioteca de DB abstracci&oacut
 DEFINE('_ERRSQLDBALLOAD2','<P>Por favor compruebe la variable de la biblioteca de DB abstracci&oacute;n <CODE>$DBlib_path</CODE> en <CODE>base_conf.php</CODE>
             <P>
             En este momento, se usa la biblioteca ADODB, que se puede encontrar en
-            at <A HREF="http://adodb.sourceforge.net/">http://adodb.sourceforge.net/</A>');
+            at ');
 DEFINE('_ERRSQLDBTYPE','Tipo de DB desconocido');
 DEFINE('_ERRSQLDBTYPEINFO1','La variable <CODE>\$DBtype</CODE> en <CODE>base_conf.php</CODE> tiene el tipo desconocido de ');
 DEFINE('_ERRSQLDBTYPEINFO2','Solo los tipos siguientes son soportados: <PRE>

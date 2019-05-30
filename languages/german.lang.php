@@ -288,7 +288,7 @@ DEFINE('_ERRSQLDBALLOAD1','<P><B>Fehler beim lader der Datenbank Abstraktionsbib
 DEFINE('_ERRSQLDBALLOAD2','<P>&Uuml;berpr&uuml;fen Sie die Variable f&uuml; die Datenbank Abstraktionsbibliothek <CODE>$DBlib_path</CODE> in der Datei <CODE>base_conf.php</CODE>
             <P>
             Die zugrundeliegende Datenbankbibliothek, die z. Zt. verwendet wird ist ADODB, erh&auml;ltlich
-            bei <A HREF="http://adodb.sourceforge.net/">http://adodb.sourceforge.net/</A>');
+            bei ');
 DEFINE('_ERRSQLDBTYPE','Ung&uuml;ltiger Datenbanktyp');
 DEFINE('_ERRSQLDBTYPEINFO1','Die Variable <CODE>\$DBtype</CODE> in der Datei <CODE>base_conf.php</CODE> wurde auf eine nicht unterst&uuml;tzte Datenbank gesetzt: ');
 DEFINE('_ERRSQLDBTYPEINFO2','Nur die folgenden Datenbanken werden unterst&uuml;tzt: <PRE>

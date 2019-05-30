@@ -287,7 +287,7 @@ DEFINE('_DBALCHECK','Kontraoluje knihovnu pro práci s databází v');
 DEFINE('_ERRSQLDBALLOAD1','<P><B>Chyba pøi naèítání knihovny pro práci s databází: </B> od ');
 DEFINE('_ERRSQLDBALLOAD2','<P>Zkontrolujte promìnnou pro urèení cesty ke knihovnì pro práci s databází <CODE>$DBlib_path</CODE> v souboru <CODE>base_conf.php</CODE>
             <P>Knihovnu pro práci s databází ADODB stáhnìte z
-            <A HREF="http://adodb.sourceforge.net/">http://adodb.sourceforge.net/</A>');
+            ');
 DEFINE('_ERRSQLDBTYPE','Specifikován neplatný typ databáze');
 DEFINE('_ERRSQLDBTYPEINFO1','Promìnná <CODE>\$DBtype</CODE> v souboru <CODE>base_conf.php</CODE> byla ¹patnì nastavena na ');
 DEFINE('_ERRSQLDBTYPEINFO2','Podporovány jsou pouze následující databázové systémy: <PRE>
