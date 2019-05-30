@@ -47,6 +47,7 @@ $UI_CW_Sensor = '偵測器';
 $UI_CW_Sig = '特徵';
 $UI_CW_Role = '角色';
 $UI_CW_Pw = '密碼';
+$UI_CW_Ts = '時間戳記';
 // Common Phrases.
 $UI_CP_SrcName = array($UI_CW_Src,$UI_CW_Name);
 $UI_CP_DstName = array($UI_CW_Dst,$UI_CW_Name);
@@ -57,7 +58,6 @@ $UI_AD_RID = array($UI_CW_Role,$UI_CW_Id);
 $UI_AD_ASD = '啟用';
 
 //common phrases
-DEFINE('_TIMESTAMP','時間戳記');
 DEFINE('_NBSOURCEADDR','來源&nbsp;位址');
 DEFINE('_NBDESTADDR','目地&nbsp;位址');
 DEFINE('_NBLAYER4','通訊&nbsp;4&nbsp;層級');
@@ -584,8 +584,8 @@ DEFINE('_QCERRCRITIPIPBOOL','多個 IP 位址標準輸入但是沒有一個邏�
 //base_qry_form.php
 DEFINE('_QFRMSORTORDER','排序規則');
 DEFINE('_QFRMSORTNONE','無'); //NEW
-DEFINE('_QFRMTIMEA','時間戳記 (ascend)');
-DEFINE('_QFRMTIMED','時間戳記 (descend)');
+DEFINE('_QFRMTIMEA',"$UI_CW_Ts (ascend)");
+DEFINE('_QFRMTIMED',"$UI_CW_Ts (descend)");
 DEFINE('_QFRMSIG',$UI_CW_Sig);
 DEFINE('_QFRMSIP','來源 IP');
 DEFINE('_QFRMDIP','目地 IP');

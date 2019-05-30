@@ -47,6 +47,7 @@ $UI_CW_Sensor = 'Sensore';
 $UI_CW_Sig = 'Firma';
 $UI_CW_Role = 'Ruolo';
 $UI_CW_Pw = 'Password';
+$UI_CW_Ts = 'Orario';
 // Common Phrases.
 $UI_CP_SrcName = array($UI_CW_Name,'Sorgente');
 $UI_CP_DstName = array($UI_CW_Name,'Dest.');
@@ -57,7 +58,6 @@ $UI_AD_RID = array($UI_CW_Id,$UI_CW_Role);
 $UI_AD_ASD = 'Abilitato';
 
 //common phrases
-DEFINE('_TIMESTAMP','Orario');
 DEFINE('_NBSOURCEADDR','Indirizzo Sorgente');
 DEFINE('_NBDESTADDR','Indirizzo Destinatario');
 DEFINE('_NBLAYER4','Layer 4 Proto');

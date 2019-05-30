@@ -47,6 +47,7 @@ $UI_CW_Sensor = 'Algýlayýcý';
 $UI_CW_Sig = 'Ýmza';
 $UI_CW_Role = 'Rol';
 $UI_CW_Pw = 'Parola';
+$UI_CW_Ts = 'Zaman Damgasý';
 // Common Phrases.
 $UI_CP_SrcName = array($UI_CW_Src,$UI_CW_Name);
 $UI_CP_DstName = array($UI_CW_Dst,$UI_CW_Name);
@@ -57,7 +58,6 @@ $UI_AD_RID = array($UI_CW_Role,$UI_CW_Id);
 $UI_AD_ASD = 'Seçilir Kýlýnmýþ';
 
 //common phrases
-DEFINE('_TIMESTAMP','Zaman Damgasý');
 DEFINE('_NBSOURCEADDR','Kaynak Adresi');
 DEFINE('_NBDESTADDR','Varýþ Adresi');
 DEFINE('_NBLAYER4','4. Katman Protokolü');

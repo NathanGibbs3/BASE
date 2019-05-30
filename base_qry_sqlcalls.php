@@ -41,6 +41,7 @@ global $colored_alerts, $debug_mode;
 
 // UI Language Vars
 $CPSig = $UIL->CPA['Sig'];
+$CPTs = $UIL->CPA['Ts'];
 
   /* Run the query to determine the number of rows (No LIMIT)*/
   $qs->GetNumResultRows($cnt_sql, $db);
@@ -55,9 +56,10 @@ $qro->AddTitle($CPSig,
 	"sig_a", " ", " ORDER BY sig_name ASC",
 	"sig_d", " ", " ORDER BY sig_name DESC"
 );
-  $qro->AddTitle(_TIMESTAMP,
-                 "time_a", " ", " ORDER BY timestamp ASC ",
-                 "time_d", " ", " ORDER BY timestamp DESC "); 
+$qro->AddTitle($CPTs,
+	"time_a", " ", " ORDER BY timestamp ASC ",
+	"time_d", " ", " ORDER BY timestamp DESC "
+);
   $qro->AddTitle(_NBSOURCEADDR, 
                  "sip_a", " ", " ORDER BY ip_src ASC",
                  "sip_d", " ", " ORDER BY ip_src DESC");
@@ -251,28 +253,23 @@ $qro->AddTitle($CPSig,
          qroPrintEntry('<A HREF="base_stat_ipaddr.php?ip='.$current_sip.'&amp;netmask=32">'.
                        $current_sip.
                        '</A><FONT SIZE="-1">'.$current_sport.'</FONT>');
-      }
-      else
-      {
+      }else{
         /* if no IP address was found check if this is a spp_portscan message
          * and try to extract a source IP
          * - contrib: Michael Bell <michael.bell@web.de>
          */
-        if ( stristr($current_sig_txt, "portscan") )
-        {
+	if ( stristr($current_sig_txt, "portscan") ){
            $line = split (" ", $current_sig_txt);
-           foreach ($line as $ps_element) 
-           {
-			if ( preg_match("/[0-9]*\.[0-9]*\.[0-9]*\.[0-9]/", $ps_element) )
-			{
+		foreach ($line as $ps_element){
+			if ( preg_match("/[0-9]*\.[0-9]*\.[0-9]*\.[0-9]/", $ps_element) ){
 				$ps_element = preg_replace ("/:/", "", $ps_element);
                 qroPrintEntry("<A HREF=\"base_stat_ipaddr.php?ip=".$ps_element."&amp;netmask=32\">".
                               $ps_element."</A>");
-             }
-           }
-        }
-        else
-           qroPrintEntry('<A HREF="'.$BASE_urlpath.'/help/base_app_faq.php#1">'._UNKNOWN.'</A>');
+			}
+		}
+	}else{
+		qroPrintEntry('<A HREF="'.$BASE_urlpath.'/help/base_app_faq.php#1">'._UNKNOWN.'</A>');
+	}
       }
 
       if ( $current_dip32 != "" )
@@ -300,11 +297,3 @@ $qro->AddTitle($CPSig,
   $qs->PrintBrowseButtons();
   $qs->PrintAlertActionButtons();
 ?>
-
-
-
-
-
-
-
-

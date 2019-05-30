@@ -47,6 +47,7 @@ $UI_CW_Sensor = 'Sonde';
 $UI_CW_Sig = 'Signature';
 $UI_CW_Role = 'RÃ´le';
 $UI_CW_Pw = 'Mot de passe';
+$UI_CW_Ts = 'Horodatage';
 // Common Phrases.
 $UI_CP_SrcName = array($UI_CW_Name,'de la',$UI_CW_Src);
 $UI_CP_DstName = array($UI_CW_Name,'de la',$UI_CW_Dst);
@@ -57,8 +58,6 @@ $UI_AD_RID = array($UI_CW_Id,'de',$UI_CW_Role);
 $UI_AD_ASD = 'Activé';
 
 //common phrases
-DEFINE('_TIMESTAMP','Horodatage');
-// Timestamp
 DEFINE('_NBSOURCEADDR','Adresse&nbsp;Source');
 // Source&nbsp;Address
 DEFINE('_NBDESTADDR','Adresse&nbsp;Dest.');

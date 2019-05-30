@@ -47,6 +47,7 @@ $UI_CW_Sensor = '探测器';
 $UI_CW_Sig = '特征';
 $UI_CW_Role ='角色';
 $UI_CW_Pw = '密码';
+$UI_CW_Ts = '时间戳';
 // Common Phrases.
 $UI_CP_SrcName = array($UI_CW_Src,$UI_CW_Name);
 $UI_CP_DstName = array($UI_CW_Dst,$UI_CW_Name);
@@ -57,7 +58,6 @@ $UI_AD_RID = array($UI_CW_Role,$UI_CW_Id);
 $UI_AD_ASD = '启用';
 
 //common phrases
-DEFINE('_TIMESTAMP','时间戳');
 DEFINE('_NBSOURCEADDR','来源&nbsp;地址');
 DEFINE('_NBDESTADDR','目标&nbsp;地址');
 DEFINE('_NBLAYER4','第&nbsp;4&nbsp;层协议');
@@ -624,8 +624,8 @@ DEFINE('_QCERRCRITIPIPBOOL','输入的多 IP 地址准则在IP
 
 //base_qry_form.php
 DEFINE('_QFRMSORTORDER','排列顺序');
-DEFINE('_QFRMTIMEA','时间戳 (递增)');
-DEFINE('_QFRMTIMED','时间戳 (递减)');
+DEFINE('_QFRMTIMEA',$UI_CW_Ts.' (递增)');
+DEFINE('_QFRMTIMED',$UI_CW_Ts.' (递减)');
 DEFINE('_QFRMSIG',$UI_CW_Sig);
 DEFINE('_QFRMSIP','源 IP');
 DEFINE('_QFRMDIP','目标 IP');

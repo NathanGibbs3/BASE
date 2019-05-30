@@ -47,6 +47,7 @@ $UI_CW_Sensor = 'Sensor';
 $UI_CW_Sig = 'Signatur';
 $UI_CW_Role = 'Roll';
 $UI_CW_Pw = 'LÃ¶senord';
+$UI_CW_Ts = 'Tid stämpel';
 // Common Phrases.
 $UI_CP_SrcName = array($UI_CW_Src,$UI_CW_Name);
 $UI_CP_DstName = array('Dest.',$UI_CW_Name);
@@ -57,7 +58,6 @@ $UI_AD_RID = array($UI_CW_Role,$UI_CW_Id);
 $UI_AD_ASD = 'MÃ¶jliggjord';
 
 //common phrases
-DEFINE('_TIMESTAMP','Tid stämpel');
 DEFINE('_NBSOURCEADDR','Källa&nbsp;Adress');
 DEFINE('_NBDESTADDR','Dest.&nbsp;Adress');
 DEFINE('_NBLAYER4','Layer&nbsp;4&nbsp;Proto');

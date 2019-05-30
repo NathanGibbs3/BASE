@@ -321,7 +321,7 @@ function TCPOption2str($tcpopt_code)
           return "(6) Echo";
       case 7:                  /* TCPOPT_ECHOREPLY (rfc1072)- echo reply */
           return "(7) Echo Reply";
-      case 8:                  /* TCPOPT_TIMESTAMP (rfc1323)- timestamps */
+		case 8:	// TCPOpt Timestamp (rfc1323)- timestamps
           return "(8) TS";
       case 9:                  /* RFC1693 */
           return "(9) Partial Order Connection Permitted";
@@ -411,9 +411,9 @@ function ICMPType2str($icmp_type)
           return "Time Exceeded";
       case 12:                            /* ICMP_PARAMETERPROB */
           return "Parameter Problem";
-      case 13:                            /* ICMP_TIMESTAMP */
+		case 13:	// ICMP Timestamp
           return "Timestamp Request";
-      case 14:                            /* ICMP_TIMESTAMPREPLY */
+		case 14:	// ICMP TimestampReply
           return "Timestamp Reply";
       case 15:                            /* ICMP_INFO_REQUEST */
           return "Information Request";

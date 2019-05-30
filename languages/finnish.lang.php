@@ -52,6 +52,7 @@ $UI_CW_Sensor = 'Sensori';
 $UI_CW_Sig = 'Signature';
 $UI_CW_Role = 'Role';
 $UI_CW_Pw = 'Salasana';
+$UI_CW_Ts = 'Aikaleima';
 // Common Phrases.
 $UI_CP_SrcName = array('Lähteen',$UI_CW_Name);
 $UI_CP_DstName = array('Kohteen',$UI_CW_Name);
@@ -62,7 +63,6 @@ $UI_AD_RID = array($UI_CW_Role,$UI_CW_Id);
 $UI_AD_ASD = 'Toiminnassa';
 
 //common phrases
-DEFINE('_TIMESTAMP','Aikaleima');
 DEFINE('_NBSOURCEADDR','Lähde&nbsp;Osoite');
 DEFINE('_NBDESTADDR','Kohde&nbsp;Osoite');
 DEFINE('_NBLAYER4','Layer&nbsp;4&nbsp;Proto');//#

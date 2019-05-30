@@ -47,6 +47,7 @@ $UI_CW_Sensor = 'センサー';
 $UI_CW_Sig = 'シグネチャ';
 $UI_CW_Role = 'Role';
 $UI_CW_Pw = 'パスワード';
+$UI_CW_Ts = 'タイムスタンプ';
 // Common Phrases.
 $UI_CP_SrcName = array($UI_CW_Src,$UI_CW_Name);
 $UI_CP_DstName = array($UI_CW_Dst,$UI_CW_Name);
@@ -57,7 +58,6 @@ $UI_AD_RID = array($UI_CW_Role,$UI_CW_Id);
 $UI_AD_ASD = '有効';
 
 //common phrases
-DEFINE('_TIMESTAMP','タイムスタンプ');
 DEFINE('_NBSOURCEADDR','発信元&nbsp;アドレス');
 DEFINE('_NBDESTADDR','発信先&nbsp;アドレス');
 DEFINE('_NBLAYER4','レイヤー&nbsp;4&nbsp;Proto');
@@ -584,8 +584,8 @@ DEFINE('_QCERRCRITIPIPBOOL','Multiple IP address criteria entered without a bool
 //base_qry_form.php
 DEFINE('_QFRMSORTORDER','ソートオーダー');
 DEFINE('_QFRMSORTNONE','none'); //NEW
-DEFINE('_QFRMTIMEA','タイムスタンプ(降順)');
-DEFINE('_QFRMTIMED','タイムスタンプ(昇順)');
+DEFINE('_QFRMTIMEA',$UI_CW_Ts.'(降順)');
+DEFINE('_QFRMTIMED',$UI_CW_Ts.'(昇順)');
 DEFINE('_QFRMSIG',$UI_CW_Sig);
 DEFINE('_QFRMSIP','発信元IP');
 DEFINE('_QFRMDIP','送信先IP');

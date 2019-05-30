@@ -403,6 +403,22 @@ class commonlangTest extends TestCase {
 			'Class did not set Spacing to 1.'
 		);
 	}
+	// Capitalization
+	// Move testTDNewCapsOff()
+	// From sp tests to here once TD migration is done.
+	public function testTDNewInitCapsOn() {
+		$lang = self::$langs;
+		$tf = __FUNCTION__;
+		$tmp = "UI$lang";
+		LogTC($tf,'language',$lang);
+		$$tmp = self::$UIL;
+		$file = $$tmp->TDF;
+		LogTC($tf,'TD file:',$file);
+		$this->assertEquals(
+			1, $$tmp->Caps,
+			'Class did not set Spacing to 1.'
+		);
+	}
 	/**
 	 * @covers UILang::Phrase
 	 */

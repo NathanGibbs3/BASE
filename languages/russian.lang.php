@@ -49,6 +49,7 @@ $UI_CW_Sensor = 'Сенсор';
 $UI_CW_Sig = 'Сигнатура';
 $UI_CW_Role = 'роли';
 $UI_CW_Pw = 'Пароль';
+$UI_CW_Ts = 'Время';
 // Common Phrases.
 $UI_CP_SrcName = array($UI_CW_Name,$UI_CW_Src);
 $UI_CP_DstName = array($UI_CW_Name,$UI_CW_Dst);
@@ -59,7 +60,6 @@ $UI_AD_RID = array($UI_CW_Id,$UI_CW_Role);
 $UI_AD_ASD = 'Включено';
 
 // основные фразы
-DEFINE('_TIMESTAMP','Время');
 DEFINE('_NBSOURCEADDR',"Адрес&nbsp;$UI_CW_Src".'а');
 DEFINE('_NBDESTADDR','Адрес&nbsp;назначения');
 DEFINE('_NBLAYER4','Слой&nbsp;для&nbsp;прото');

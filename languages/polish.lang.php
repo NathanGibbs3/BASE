@@ -48,6 +48,7 @@ $UI_CW_Sensor = 'Sensor';
 $UI_CW_Sig = 'Sygnatura';
 $UI_CW_Role = 'Rola';
 $UI_CW_Pw = 'Haslo';
+$UI_CW_Ts = 'Data/Czas';
 // Common Phrases.
 $UI_CP_SrcName = array($UI_CW_Name,'Zrodlowa');
 $UI_CP_DstName = array($UI_CW_Name,'Docelowa');
@@ -58,7 +59,6 @@ $UI_AD_RID = array($UI_CW_Id,'Roli');
 $UI_AD_ASD = 'Wlaczony';
 
 //common phrases
-DEFINE('_TIMESTAMP','Data/Czas');
 DEFINE('_NBSOURCEADDR','Adres&nbsp;Zrodlowy');
 DEFINE('_NBDESTADDR','Adres&nbsp;Docelowy');
 DEFINE('_NBLAYER4','Protokol&nbsp;Warstwy&nbsp;4');

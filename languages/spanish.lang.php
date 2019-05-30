@@ -47,6 +47,7 @@ $UI_CW_Sensor = 'Sensor';
 $UI_CW_Sig = 'Firma';
 $UI_CW_Role = 'de rol';
 $UI_CW_Pw = 'Clave';
+$UI_CW_Ts = 'Marca de tiempo';
 // Common Phrases.
 $UI_CP_SrcName = array($UI_CW_Name,'del','origen');
 $UI_CP_DstName = array($UI_CW_Name,'del','dest.');
@@ -57,7 +58,6 @@ $UI_AD_RID = array($UI_CW_Id,$UI_CW_Role);
 $UI_AD_ASD = 'Activado';
 
 //common phrases
-DEFINE('_TIMESTAMP','Marca de tiempo');
 DEFINE('_NBSOURCEADDR','Direcci&oacute;n&nbsp;Origen');
 DEFINE('_NBDESTADDR','Direcci&oacute;n&nbsp;Dest');
 DEFINE('_NBLAYER4','Proto&nbsp;capa&nbsp;4');

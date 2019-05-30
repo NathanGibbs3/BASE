@@ -55,6 +55,7 @@ $UI_CW_Sensor = 'Sensor';
 $UI_CW_Sig = 'Assinatura';
 $UI_CW_Role = 'perfil';
 $UI_CW_Pw = 'Senha';
+$UI_CW_Ts = 'Data';
 // Common Phrases.
 $UI_CP_SrcName = array($UI_CW_Name,'da',$UI_CW_Src);
 $UI_CP_DstName = array($UI_CW_Name,'do',$UI_CW_Dst);
@@ -65,7 +66,6 @@ $UI_AD_RID = array($UI_CW_Id,'do',$UI_CW_Role);
 $UI_AD_ASD = 'Habilitado';
 
 //common phrases
-DEFINE('_TIMESTAMP','Data');
 DEFINE('_NBSOURCEADDR','End.&nbsp;de&nbsp;Origem');
 DEFINE('_NBDESTADDR','End.&nbsp;de&nbsp;Destino');
 DEFINE('_NBLAYER4','Proto.&nbsp;Camada&nbsp;4');
