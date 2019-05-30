@@ -13,6 +13,8 @@ Item | Description
 **Class:** | 
 **Function:** | 
 **Similar Issues:** | 
+**Depends on Issue(s):** | 
+**Dependency Type:** | 
 **Misc. Info.:** | 
 ---
 **Expected Behavior:** 

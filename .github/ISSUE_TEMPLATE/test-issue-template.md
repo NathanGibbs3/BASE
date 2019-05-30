@@ -14,6 +14,7 @@ Optional link to CI build.
 **PHPUnit Version**: 
 **Other Info**:
 What else might be helpful to know.
+---
 **Expected Behavior**:
 **Current Behavior**:
 **Solution**:
