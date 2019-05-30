@@ -292,7 +292,7 @@ DEFINE('_ERRSQLDBALLOAD1','<P><B>Virhe Ladattaessa tietokannan-abstraktio-kirjas
 DEFINE('_ERRSQLDBALLOAD2','<P>Tarkista tietokannan-abstraktio-kirjasto muuttuja <CODE>$DBlib_path</CODE> tiedostossa <CODE>base_conf.php</CODE>
             <P>
              Tällä hetkellä käytössa oleva tietokanta-kirjasto on nimeltään ADODB, jonka voi ladata osoitteesta
-             <A HREF="http://adodb.sourceforge.net/">http://adodb.sourceforge.net/</A>');
+             ');
 DEFINE('_ERRSQLDBTYPE','Määritelty tietokannan tyyppi on virheellinen');
 DEFINE('_ERRSQLDBTYPEINFO1','Muuttuja <CODE>\$DBtype</CODE> tiedostossa <CODE>base_conf.php</CODE> oli asetettu mainittuun virheelliseen tietokannan tyyppiin ');
 DEFINE('_ERRSQLDBTYPEINFO2','Vain seuraavat tietokannat ovat tuettuja: <PRE>

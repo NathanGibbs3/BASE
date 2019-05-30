@@ -287,7 +287,7 @@ DEFINE('_ERRSQLDBALLOAD1','<P><B>データベースライブラリがロード�
 DEFINE('_ERRSQLDBALLOAD2','<P>データベース抽象ライブラリのパスを確認してください <CODE>($DBlib_path)</CODE> in <CODE>base_conf.php</CODE>
             <P>
             データベースライブラリはADODBを使用しています。ダウンロードはこちら→
-            <A HREF="http://adodb.sourceforge.net/">http://adodb.sourceforge.net/</A>');
+            ');
 DEFINE('_ERRSQLDBTYPE','不正なデータベースタイプです');
 DEFINE('_ERRSQLDBTYPEINFO1','<CODE>\$DBtype</CODE> in <CODE>base_conf.php</CODE> が不正です');
 DEFINE('_ERRSQLDBTYPEINFO2','Only the following databases are supported: <PRE>
