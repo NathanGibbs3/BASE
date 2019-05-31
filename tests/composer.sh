@@ -23,9 +23,9 @@ if [ "$Composer" = "1" ]; then
 	if [ "$TRAVIS" == "true" ]; then # Only install on travis
 		curl -s http://getcomposer.org/installer | php
 	fi
-	px="php $pu.phar"
+	px="php -dsafe_mode=0 $pu.phar"
 elif [ "$Composer" = "2" ]; then
-	px=$pu
+	px="php -dsafe_mode=0 $pu"
 else
 	echo "PHP Composer install not supported."
 	if [ "$TRAVIS" != "true" ]; then
@@ -48,7 +48,7 @@ if [ "$Composer" \> "0" ]; then
 	$px --version
 	if [ "$TRAVIS" == "true" ]; then
 		echo "Running Composer: $px"
-		$px install -vvv --no-interaction -dsafe_mode=0
+		$px install -vvv --no-interaction
 		# Enable Xdebug
 		mv ${HOME}/xdebug.ini ${HOME}/.phpenv/versions/$(phpenv version-name)/etc/conf.d/xdebug.ini
 	else
