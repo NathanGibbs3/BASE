@@ -14,8 +14,7 @@ if [ "$TRAVIS" != "true" ]; then
 		echo "installed."
 		Composer=2
 	else
-		echo "not installed."
-		# Can we install it?
+		echo "not installed." # Can we install it?
 	fi
 fi
 
@@ -25,7 +24,8 @@ if [ "$Composer" = "1" ]; then
 	fi
 	px="php -dsafe_mode=0 $pu.phar"
 elif [ "$Composer" = "2" ]; then
-	px="php -dsafe_mode=0 $pu"
+	pt=`which $pu`
+	px="php -dsafe_mode=0 $pt"
 else
 	echo "PHP Composer install not supported."
 	if [ "$TRAVIS" != "true" ]; then
