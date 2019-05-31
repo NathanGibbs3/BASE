@@ -46,9 +46,9 @@ if [ "$Composer" \> "0" ]; then
 		echo "               Location: `which $pu`"
 	fi
 	$px --version
-	if [ "$TRAVIS" == "true" ]; then 
+	if [ "$TRAVIS" == "true" ]; then
 		echo "Running Composer: $px"
-		$px install -vvv --no-interaction
+		$px install -vvv --no-interaction -dsafe_mode=0
 		# Enable Xdebug
 		mv ${HOME}/xdebug.ini ${HOME}/.phpenv/versions/$(phpenv version-name)/etc/conf.d/xdebug.ini
 	else
