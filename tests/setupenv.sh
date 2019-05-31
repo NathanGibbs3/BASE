@@ -123,12 +123,12 @@ if [ "$Composer" \< "1" ]; then # Can we install it?
 		fi
 	fi
 	# Travis Adjustments
-	if [ "$TRAVIS" == "true" ]; then
-		if [ "$Composer" \> "0" ]; then
+#	if [ "$TRAVIS" == "true" ]; then
+#		if [ "$Composer" \> "0" ]; then
 			# If composer enabled use system Composer.
 #			export Composer=2
-		fi
-	fi
+#		fi
+#	fi
 fi
 
 echo -n "PHP Coveralls "
