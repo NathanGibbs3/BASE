@@ -62,7 +62,8 @@ if [ "$pvM" \< "5" ] || ( [ "$pvM" == "5" ] && [ "$pvm" \< "3" ]); then
 		# Fix XDebug on travis-ci PHP 5.2x.
 		# Solution: Load Custom xdebug.ini from repo
 		echo "Enabling PHP XDebug."
-		cp ./tests/phpcommon/5.2-xdebug.ini ${HOME}/.phpenv/versions/$(phpenv version-name)/etc/conf.d/xdebug.ini
+		phpenv config-add tests/phpcommon/5.2-xdebug.ini
+#		cp ./tests/phpcommon/5.2-xdebug.ini ${HOME}/.phpenv/versions/$(phpenv version-name)/etc/conf.d/xdebug.ini
 		echo "Enabling PHP 5.2x Code Coverage fix."
 		cp ./tests/phpcommon/5.2-base_conf.php ./base_conf.php
 	fi
@@ -81,7 +82,8 @@ if [ "$pvM" == "5" ] && (
 		# Enable safe_mode on PHP 5.1.5 to 5.3x
 		# Solution: Load Custom safe_mode.ini from repo
 		echo "Enabling Safe Mode."
-		cp ./tests/phpcommon/safe_mode.ini ${HOME}/.phpenv/versions/$(phpenv version-name)/etc/conf.d/safe_mode.ini
+		phpenv config-add tests/phpcommon/safe_mode.ini
+#		cp ./tests/phpcommon/safe_mode.ini ${HOME}/.phpenv/versions/$(phpenv version-name)/etc/conf.d/safe_mode.ini
 	fi
 else
 	if [ "$pvM" \> "5" ] || ( [ "$pvM" == "5" ] && [ "$pvm" \> "3" ] ); then
