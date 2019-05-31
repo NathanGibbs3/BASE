@@ -69,6 +69,27 @@ if [ "$pvM" \< "5" ] || ( [ "$pvM" == "5" ] && [ "$pvm" \< "3" ]); then
 else
 	echo "enabled."
 fi
+# Issue #34 CI Experiment.
+# PHP Safe Mode not enabled on travis-ci PHP < 5.4x
+echo -n "PHP Safe Mode "
+if [ "$pvM" == "5" ] && (
+	( [ "$pvm" \< "4" ] && [ "$pvm" \> "1" ] ) ||
+	( [ "$pvm" == "1" ] && [ "$pvr" \> "4" ] )
+); then
+	echo "enabled."
+	if [ "$1" == "" ] && [ "$TRAVIS" == "true" ]; then
+		# Enable safe_mode on PHP 5.1.5 to 5.3x
+		# Solution: Load Custom safe_mode.ini from repo
+		echo "Enabling Safe Mode."
+		cp ./tests/phpcommon/safe_mode.ini ${HOME}/.phpenv/versions/$(phpenv version-name)/etc/conf.d/safe_mode.ini
+	fi
+else
+	if [ "$pvM" \> "5" ] || ( [ "$pvM" == "5" ] && [ "$pvm" \> "3" ] ); then
+		echo "not available."
+	else
+		echo "disabled."
+	fi
+fi
 
 if [ "$TRAVIS" != "true" ]; then
 	echo -n "PHP Composer "
