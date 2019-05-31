@@ -24,7 +24,7 @@ if [ "$Composer" = "1" ]; then
 	fi
 	px="php -dsafe_mode=0 $pu.phar"
 elif [ "$Composer" = "2" ]; then
-	px="php -dsafe_mode=0 $pu"
+	px=$pu
 else
 	echo "PHP Composer install not supported."
 	if [ "$TRAVIS" != "true" ]; then
@@ -33,16 +33,20 @@ else
 fi
 
 if [ "$Composer" \> "0" ]; then
-	puv=`$pu --version|sed -e "s/^Composer version //" -r -e "s/ [0-9]+.*$//"`
+	if [ "$Composer" == "2" ]; then
+		puv=`$pu --version|sed -e "s/^Composer version //" -r -e "s/ [0-9]+.*$//"`
+	fi
 	#pvM=`echo $puv|sed -r -e "s/\.[0-9]\.[0-9]+$//"`
 	#pvm=`echo $puv|sed -r -e "s/^[0-9]\.//" -e "s/\.[0-9]+$//"`
 	#pvr=`echo $puv|sed -r -e "s/^[0-9]\.[0-9]\.//"`
 	if [ "$TRAVIS" == "true" ]; then # Disable XDebug
 		mv ${HOME}/.phpenv/versions/$(phpenv version-name)/etc/conf.d/xdebug.ini ${HOME}/xdebug.ini
 	fi
-	echo "System Composer Version: $puv"
-	if [ "$TRAVIS" != "true" ]; then
-		echo "               Location: `which $pu`"
+	if [ "$Composer" == "2" ]; then
+		echo "System Composer Version: $puv"
+		if [ "$TRAVIS" != "true" ]; then
+			echo "               Location: `which $pu`"
+		fi
 	fi
 	$px --version
 	if [ "$TRAVIS" == "true" ]; then

@@ -63,27 +63,24 @@ if [ "$pvM" \< "5" ] || ( [ "$pvM" == "5" ] && [ "$pvm" \< "3" ]); then
 		# Solution: Load Custom xdebug.ini from repo
 		echo "Enabling PHP XDebug."
 		phpenv config-add tests/phpcommon/5.2-xdebug.ini
-#		cp ./tests/phpcommon/5.2-xdebug.ini ${HOME}/.phpenv/versions/$(phpenv version-name)/etc/conf.d/xdebug.ini
 		echo "Enabling PHP 5.2x Code Coverage fix."
 		cp ./tests/phpcommon/5.2-base_conf.php ./base_conf.php
 	fi
 else
 	echo "enabled."
 fi
-# Issue #34 CI Experiment.
 # PHP Safe Mode not enabled on travis-ci PHP < 5.4x
 echo -n "PHP Safe Mode "
 if [ "$pvM" == "5" ] && (
 	( [ "$pvm" \< "4" ] && [ "$pvm" \> "1" ] ) ||
 	( [ "$pvm" == "1" ] && [ "$pvr" \> "4" ] )
 ); then
-	echo "enabled."
+	echo "can be enabled."
 	if [ "$1" == "" ] && [ "$TRAVIS" == "true" ]; then
 		# Enable safe_mode on PHP 5.1.5 to 5.3x
 		# Solution: Load Custom safe_mode.ini from repo
 		echo "Enabling Safe Mode."
 		phpenv config-add tests/phpcommon/safe_mode.ini
-#		cp ./tests/phpcommon/safe_mode.ini ${HOME}/.phpenv/versions/$(phpenv version-name)/etc/conf.d/safe_mode.ini
 	fi
 else
 	if [ "$pvM" \> "5" ] || ( [ "$pvM" == "5" ] && [ "$pvm" \> "3" ] ); then
@@ -123,12 +120,20 @@ if [ "$Composer" \< "1" ]; then # Can we install it?
 		fi
 	fi
 	# Travis Adjustments
-#	if [ "$TRAVIS" == "true" ]; then
-#		if [ "$Composer" \> "0" ]; then
-			# If composer enabled use system Composer.
-#			export Composer=2
-#		fi
-#	fi
+	if [ "$TRAVIS" == "true" ]; then
+		if [ "$Composer" \> "0" ]; then
+			if [ "$pvM" == "5" ] && (
+				( [ "$pvm" \< "4" ] && [ "$pvm" \> "1" ] ) ||
+				( [ "$pvm" == "1" ] && [ "$pvr" \> "4" ] )
+			); then
+				# May be in safe mode, install composer.
+				export Composer=1
+			else
+				# Use system Composer.
+				export Composer=2
+			fi
+		fi
+	fi
 fi
 
 echo -n "PHP Coveralls "
