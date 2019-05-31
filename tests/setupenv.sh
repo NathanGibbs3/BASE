@@ -126,7 +126,7 @@ if [ "$Composer" \< "1" ]; then # Can we install it?
 	if [ "$TRAVIS" == "true" ]; then
 		if [ "$Composer" \> "0" ]; then
 			# If composer enabled use system Composer.
-			export Composer=2
+#			export Composer=2
 		fi
 	fi
 fi
