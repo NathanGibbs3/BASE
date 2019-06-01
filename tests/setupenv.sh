@@ -76,13 +76,19 @@ if [ "$pvM" == "5" ] && (
 	( [ "$pvm" == "1" ] && [ "$pvr" \> "4" ] )
 ); then
 	echo "can be enabled."
+	SafeMode=1
 	if [ "$1" == "" ] && [ "$TRAVIS" == "true" ]; then
 		# Enable safe_mode on PHP 5.1.5 to 5.3x
 		# Solution: Load Custom safe_mode.ini from repo
 		echo "Enabling Safe Mode."
 		phpenv config-add tests/phpcommon/safe_mode.ini
+		export SafeMode=1
 	fi
 else
+	SafeMode=0
+	if [ "$1" == "" ] && [ "$TRAVIS" == "true" ]; then
+		export SafeMode=0
+	fi
 	if [ "$pvM" \> "5" ] || ( [ "$pvM" == "5" ] && [ "$pvm" \> "3" ] ); then
 		echo "not available."
 	else
@@ -122,11 +128,8 @@ if [ "$Composer" \< "1" ]; then # Can we install it?
 	# Travis Adjustments
 	if [ "$TRAVIS" == "true" ]; then
 		if [ "$Composer" \> "0" ]; then
-			if [ "$pvM" == "5" ] && (
-				( [ "$pvm" \< "4" ] && [ "$pvm" \> "1" ] ) ||
-				( [ "$pvm" == "1" ] && [ "$pvr" \> "4" ] )
-			); then
-				# May be in safe mode, install composer.
+			if [ "$SafeMode" == "1" ]; then # Safe mode.
+				# Install composer.
 				export Composer=1
 			else
 				# Use system Composer.
