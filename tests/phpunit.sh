@@ -54,5 +54,5 @@ fi
 # Now what PHPUnit Version are we using?
 puv=`$px --version|sed -e "s/^PHPUnit\s//" -e "s/\sby.*$//"`
 echo "Will test with $pi PHPUnit Version: $puv.";
-./tests/cptgenerate $puv # Generate PHPUnit Tests
+$ph ./tests/cptgenerate $puv # Generate PHPUnit Tests
 $px -c $pu.xml.dist
