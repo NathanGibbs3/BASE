@@ -33,7 +33,19 @@ class dbTest extends TestCase {
 			'Unexpected return VerifyDBAbstractionLib().'
 		);
 	}
-
+	public function testreturnVerifyDBAbstractionLibSafeModeCutout() {
+		$PHPV = GetPHPV();
+		$DBlib_path = "invalid";
+		if (version_compare($PHPV, '5.1.4', '>')){
+			$this->assertTrue(true,'Passing Test.');
+		}else{
+			$this->assertTrue(ini_get("safe_mode"),'PHP SafeMode: Off');
+			$this->assertTrue(
+				VerifyDBAbstractionLib($DBlib_path),
+				'Unexpected return VerifyDBAbstractionLib().'
+			);
+		}
+	}
 	// Add code to a function if needed.
 	// Stop here and mark test incomplete.
 	//$this->markTestIncomplete('Incomplete Test.');

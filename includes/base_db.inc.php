@@ -634,10 +634,10 @@ class baseRS {
 function VerifyDBAbstractionLib($path){
 	GLOBAL $debug_mode;
 	$version = explode('.', phpversion());
-	// PHP Safe Mode Enabled cutout.
+	// PHP Safe Mode cutout.
 	//    Added: 2005-03-25 for compatabibility with PHP 4x & 5.0x
 	//      See: https://sourceforge.net/p/secureideas/bugs/47
-	// PHP Safe Mode Enabled successful run.
+	// PHP Safe Mode w/o cutout successful.
 	// Verified: 2019-05-31 PHP 5.3.29 via CI & Unit Tests.
 	//      See: https://github.com/NathanGibbs3/BASE/issues/34
 	// May work: PHP > 5.1.4.
@@ -657,7 +657,11 @@ function VerifyDBAbstractionLib($path){
 			return false;
 		}
 	}else{
+		// @codeCoverageIgnoreStart
+		// PHPUnit test only covers this code path on PHP < 5.1.5
+		// Unable to validate in CI.
 		return true;
+		// @codeCoverageIgnoreEnd
 	}
 }
 
