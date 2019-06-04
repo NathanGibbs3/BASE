@@ -175,26 +175,30 @@ elif [ "$pvM" \> "4" ]; then # PHP 5x
 			export ADODBPATH="ADOdb-$ADODBVer/phplens/adodb5"
 		fi
 	else
-		ADODBVer=494
+#		ADODBVer=494
 		# Sourceforge Source Setup
-		ADOSrc=sourceforge.net/projects/adodb
-		ADODl=files/adodb-php-4-and-5
-		ADOFileSfx=.tgz
-		if [ "$ADODBVer" == "494" ]; then
-			# V 494 weirdness :-)
-			ADOFilePfx="adodb-$ADODBVer-for-php4-and-5/adodb"
-		else
+#		ADOSrc=sourceforge.net/projects/adodb
+#		ADODl=files/adodb-php-4-and-5
+#		ADOFileSfx=.tgz
+#		if [ "$ADODBVer" == "494" ]; then
+#			# V 494 weirdness :-)
+#			ADOFilePfx="adodb-$ADODBVer-for-php4-and-5/adodb"
+#		else
 			# Sourceforge standard
-			ADOFilePfx="adodb-$ADODBVer-for-php/adodb"
-		fi
+#			ADOFilePfx="adodb-$ADODBVer-for-php/adodb"
+#		fi
+#		if [ "$1" == "" ] && [ "$TRAVIS" == "true" ]; then
+#			export ADODBPATH="adodb"
+#		fi
+		ADODBVer=5.01beta
 		if [ "$1" == "" ] && [ "$TRAVIS" == "true" ]; then
-			export ADODBPATH="adodb"
+			export ADODBPATH="ADOdb-$ADODBVer/phplens/adodb"
 		fi
 	fi
 else # PHP 4x
 	ADODBVer=5.01beta
 	if [ "$1" == "" ] && [ "$TRAVIS" == "true" ]; then
-			export ADODBPATH="ADOdb-$ADODBVer/phplens/adodb"
+		export ADODBPATH="ADOdb-$ADODBVer/phplens/adodb"
 	fi
 fi
 ADOFile=$ADOFilePfx$ADODBVer$ADOFileSfx

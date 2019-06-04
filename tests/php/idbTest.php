@@ -16,13 +16,13 @@ class dbTest extends TestCase {
 		}else{
 			$tmp = 'build/adodb/';
 			$PHPV = GetPHPV();
-			if (version_compare($PHPV, '5.0', '<')){ // PHP 4x-
+			if (version_compare($PHPV, '5.4', '<')){ // PHP 4x-
 				$ADODBVer='5.01beta';
 				$tmp .= "ADOdb-$ADODBVer/phplens/adodb";
-			}elseif (version_compare($PHPV, '5.4', '<')){ // PHP 5.3x
-				$ADODBVer='494';
+//			}elseif (version_compare($PHPV, '5.4', '<')){ // PHP 5.3x
+//				$ADODBVer='494';
 				// Sourceforge Source Setup
-				$tmp .= "adodb-$ADODBVer-for-php4-and-5/adodb";
+//				$tmp .= "adodb-$ADODBVer-for-php4-and-5/adodb";
 				// Sourceforge standard
 				// $tmp = "adodb-$ADODBVer-for-php/adodb"
 			}elseif (version_compare($PHPV, '7.0', '<')){ // PHP 5.4x
