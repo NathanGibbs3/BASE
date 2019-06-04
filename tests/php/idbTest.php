@@ -16,25 +16,28 @@ class dbTest extends TestCase {
 		}else{
 			$tmp = 'build/adodb/';
 			$PHPV = GetPHPV();
-			if (version_compare($PHPV, '7.0', '=>')){
-				$ADODBVer='5.20.0';
-				$tmp .= "ADOdb-$ADODBVer";
-			}elseif (version_compare($PHPV, '5.4', '=>')){
-				$ADODBVer='5.10';
-				$tmp .= "ADOdb-$ADODBVer/phplens/adodb5";
-			}elseif (version_compare($PHPV, '5.3', '=>')){
+			if (version_compare($PHPV, '5.0', '<')){ // PHP 4x-
+				$ADODBVer='5.01beta';
+				$tmp .= "ADOdb-$ADODBVer/phplens/adodb";
+			}elseif (version_compare($PHPV, '5.4', '<')){ // PHP 5.3x
 				$ADODBVer='494';
 				// Sourceforge Source Setup
 				$tmp .= "adodb-$ADODBVer-for-php4-and-5/adodb";
 				// Sourceforge standard
 				// $tmp = "adodb-$ADODBVer-for-php/adodb"
-			}else{
-				$ADODBVer='5.01beta';
-				$tmp .= "ADOdb-$ADODBVer/phplens/adodb";
+			}elseif (version_compare($PHPV, '7.0', '<')){ // PHP 5.4x
+				$ADODBVer='5.10';
+				$tmp .= "ADOdb-$ADODBVer/phplens/adodb5";
+			}else{ // PHP 7x+
+				$ADODBVer='5.20.0';
+				$tmp .= "ADOdb-$ADODBVer";
 			}
 		}
 		if (ADODB_DIR != $tmp ){
-			self::markTestIncomplete("ADODB in nonstandard location: ".ADODB_DIR);
+			self::markTestIncomplete(
+				"Expected ADODB in location: $tmp\n".
+				"   Found ADODB in location: ".ADODB_DIR
+			);
 		}
 	}
 	// Tests go here.
