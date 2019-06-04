@@ -17,8 +17,8 @@ class dbTest extends TestCase {
 			$tmp = 'build/adodb/';
 			$PHPV = GetPHPV();
 			if (version_compare($PHPV, '5.4', '<')){ // PHP 4x-
-				$ADODBVer='5.01beta';
-				$tmp .= "ADOdb-$ADODBVer/phplens/adodb";
+				$ADODBVer='5.00beta';
+				$tmp .= "ADOdb-$ADODBVer/phplens/adodb5";
 //			}elseif (version_compare($PHPV, '5.4', '<')){ // PHP 5.3x
 //				$ADODBVer='494';
 				// Sourceforge Source Setup
@@ -26,7 +26,7 @@ class dbTest extends TestCase {
 				// Sourceforge standard
 				// $tmp = "adodb-$ADODBVer-for-php/adodb"
 			}elseif (version_compare($PHPV, '7.0', '<')){ // PHP 5.4x
-				$ADODBVer='5.10';
+				$ADODBVer='5.09';
 				$tmp .= "ADOdb-$ADODBVer/phplens/adodb5";
 			}else{ // PHP 7x+
 				$ADODBVer='5.20.0';

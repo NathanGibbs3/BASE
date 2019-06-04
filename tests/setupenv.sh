@@ -170,7 +170,7 @@ if [ "$pvM" \> "5" ]; then # PHP 7x
 	fi
 elif [ "$pvM" \> "4" ]; then # PHP 5x
 	if [ "$pvm" \> "3" ]; then # PHP 5.4+
-		ADODBVer=5.10
+		ADODBVer=5.09
 		if [ "$1" == "" ] && [ "$TRAVIS" == "true" ]; then
 			export ADODBPATH="ADOdb-$ADODBVer/phplens/adodb5"
 		fi
@@ -190,9 +190,9 @@ elif [ "$pvM" \> "4" ]; then # PHP 5x
 #		if [ "$1" == "" ] && [ "$TRAVIS" == "true" ]; then
 #			export ADODBPATH="adodb"
 #		fi
-		ADODBVer=5.01beta
+		ADODBVer=5.00beta
 		if [ "$1" == "" ] && [ "$TRAVIS" == "true" ]; then
-			export ADODBPATH="ADOdb-$ADODBVer/phplens/adodb"
+			export ADODBPATH="ADOdb-$ADODBVer/phplens/adodb5"
 		fi
 	fi
 else # PHP 4x
