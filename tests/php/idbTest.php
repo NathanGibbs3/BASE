@@ -7,6 +7,36 @@ use PHPUnit\Framework\TestCase;
   * @covers ::VerifyDBAbstractionLib
   */
 class dbTest extends TestCase {
+	// Check ADODB Sanity.
+	public static function setUpBeforeClass() {
+		$TRAVIS = getenv('TRAVIS');
+		if (!$TRAVIS){ // Running on Local Test System.
+			// Default Debian/Ubuntu location.
+			$tmp = '/usr/share/php/adodb';
+		}else{
+			$tmp = 'build/adodb/';
+			$PHPV = GetPHPV();
+			if (version_compare($PHPV, '7.0', '=>')){
+				$ADODBVer='5.20.0';
+				$tmp .= "ADOdb-$ADODBVer";
+			}elseif (version_compare($PHPV, '5.4', '=>')){
+				$ADODBVer='5.10';
+				$tmp .= "ADOdb-$ADODBVer/phplens/adodb5";
+			}elseif (version_compare($PHPV, '5.3', '=>')){
+				$ADODBVer='494';
+				// Sourceforge Source Setup
+				$tmp .= "adodb-$ADODBVer-for-php4-and-5/adodb";
+				// Sourceforge standard
+				// $tmp = "adodb-$ADODBVer-for-php/adodb"
+			}else{
+				$ADODBVer='5.01beta';
+				$tmp .= "ADOdb-$ADODBVer/phplens/adodb";
+			}
+		}
+		if (ADODB_DIR != $tmp ){
+			self::markTestIncomplete("ADODB in nonstandard location: ".ADODB_DIR);
+		}
+	}
 	// Tests go here.
 	public function testreturnVerifyDBAbstractionLibValid() {
 		$TRAVIS = getenv('TRAVIS');

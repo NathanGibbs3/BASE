@@ -31,7 +31,7 @@ else
 	pvr=`echo $puv|sed -r -e "s/^[0-9]\.[0-9]\.//"`
 	echo "System PHPUnit Version: $puv"
 	if [ "$TRAVIS" != "true" ]; then
-		echo "                Location: `which $pu`"
+		echo "              Location: `which $pu`"
 	fi
 	if [ "$pvM" == "4" ] && [ "$pvm" == "8" ] && [ "$pvr" \< "19" ]; then
 		# Apparantly PHPUnits below 4.8.19 fail with a

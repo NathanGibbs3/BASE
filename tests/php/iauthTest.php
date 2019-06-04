@@ -59,8 +59,6 @@ class authTest extends TestCase {
 
 	// Tests go here.
 	public function testreturnRoleNamesDropDownNone() {
-		GLOBAL $DBlib_path, $DBtype, $alert_dbname, $alert_host,
-		$alert_user, $alert_password, $alert_port, $db_connect_method, $db;
 		$user = self::$user;
 		$msg = 'selected';
 		$this->assertNotRegExp(
@@ -70,8 +68,6 @@ class authTest extends TestCase {
 		);
 	}
 	public function testreturnRoleNamesDropDownAdmin() {
-		GLOBAL $DBlib_path, $DBtype, $alert_dbname, $alert_host,
-		$alert_user, $alert_password, $alert_port, $db_connect_method, $db;
 		$user = self::$user;
 		$msg = '<option value=\'1\' selected>Admin<\/option>';
 		$this->assertRegExp(
@@ -81,8 +77,6 @@ class authTest extends TestCase {
 		);
 	}
 	public function testreturnRoleNamesDropDownUser() {
-		GLOBAL $DBlib_path, $DBtype, $alert_dbname, $alert_host,
-		$alert_user, $alert_password, $alert_port, $db_connect_method, $db;
 		$user = self::$user;
 		$msg = '<option value=\'10\' selected>user<\/option>';
 		$this->assertRegExp(
@@ -92,8 +86,6 @@ class authTest extends TestCase {
 		);
 	}
 	public function testreturnRoleNamesDropDownAnonymous() {
-		GLOBAL $DBlib_path, $DBtype, $alert_dbname, $alert_host,
-		$alert_user, $alert_password, $alert_port, $db_connect_method, $db;
 		$user = self::$user;
 		$msg = '<option value=\'10000\' selected>anonymous<\/option>';
 		$this->assertRegExp(
@@ -103,8 +95,6 @@ class authTest extends TestCase {
 		);
 	}
 	public function testreturnRoleNamesDropDownAGEditor() {
-		GLOBAL $DBlib_path, $DBtype, $alert_dbname, $alert_host,
-		$alert_user, $alert_password, $alert_port, $db_connect_method, $db;
 		$user = self::$user;
 		$msg = '<option value=\'50\' selected>ag_editor<\/option>';
 		$this->assertRegExp(
