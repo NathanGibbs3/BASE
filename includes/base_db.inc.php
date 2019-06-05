@@ -633,14 +633,21 @@ class baseRS {
 
 function VerifyDBAbstractionLib($path){
 	GLOBAL $debug_mode;
-	// This safe mode cutout was added on 200503253.
-	// See https://sourceforge.net/p/secureideas/bugs/47
-	// It may only be needed on PHP Versions below 5.1.5 as
-	// PHP 5.1x was released on 20051124.
-	// See https://www.php.net/manual/en/function.is-readable.php
-	// Created Issue #34 to research this further.
-	// See https://github.com/NathanGibbs3/BASE/issues/34
-	if( !ini_get('safe_mode') ){
+	$version = explode('.', phpversion());
+	// PHP Safe Mode cutout.
+	//    Added: 2005-03-25 for compatabibility with PHP 4x & 5.0x
+	//      See: https://sourceforge.net/p/secureideas/bugs/47
+	// PHP Safe Mode w/o cutout successful.
+	// Verified: 2019-05-31 PHP 5.3.29 via CI & Unit Tests.
+	//      See: https://github.com/NathanGibbs3/BASE/issues/34
+	// May work: PHP > 5.1.4.
+	//      See: https://www.php.net/manual/en/function.is-readable.php
+	if (
+		$version[0] > 5
+		|| ($version[0] == 5 && $version[1] > 1)
+		|| ($version[0] == 5 && $version[1] == 1 && $version[2] > 4 )
+		|| ini_get("safe_mode") != true
+	){
 		if ( $debug_mode > 0 ){
 			print _DBALCHECK." '".XSSPrintSafe($path)."'<BR>";
 		}
@@ -650,7 +657,11 @@ function VerifyDBAbstractionLib($path){
 			return false;
 		}
 	}else{
+		// @codeCoverageIgnoreStart
+		// PHPUnit test only covers this code path on PHP < 5.1.5
+		// Unable to validate in CI.
 		return true;
+		// @codeCoverageIgnoreEnd
 	}
 }
 
@@ -664,12 +675,12 @@ function NewBASEDBConnection($path, $type){
 		|| ($type == "mssql")
 		|| ($type == "oci8")
 	)){
-		print "<B>"._ERRSQLDBTYPE."</B>"."<P>:"._ERRSQLDBTYPEINFO1.
-		"<CODE>'$type'</CODE>. "._ERRSQLDBTYPEINFO2;
-		die();
+		$msg = "<B>"._ERRSQLDBTYPE."</B>"."<P>:"._ERRSQLDBTYPEINFO1.
+		"<CODE>'".XSSPrintSafe($type)."'</CODE>. "._ERRSQLDBTYPEINFO2;
+		FatalError ($msg);
 	}
-	// Export ADODB_DIR for use by ADODB
-	// It may already be defined, so check to see if it is first. -- Tim Rupp
+	// Export ADODB_DIR for use by ADODB.
+	// May already be defined, so check first. -- Tim Rupp
 	if (!defined('ADODB_DIR')) {
 		define('ADODB_DIR', $path);
 	}
@@ -692,11 +703,11 @@ function NewBASEDBConnection($path, $type){
 	if ( $debug_mode > 1 ){
 		print "Attempting to load: '".XSSPrintSafe($path)."adodb.inc.php'<BR>";
 	}
-	$version = explode( ".", phpversion() );
+	$version = explode( '.', phpversion() );
 	if (VerifyDBAbstractionLib($path."adodb.inc.php")){
 		include($path."adodb.inc.php");
 	}else{
-		$msg = _ERRSQLDBALLOAD1.'"'.$path.'"'._ERRSQLDBALLOAD2;
+		$msg = _ERRSQLDBALLOAD1.'"'.XSSPrintSafe($path).'"'._ERRSQLDBALLOAD2;
 		if ( $version[0] > 5 || ( $version[0] == 5 && $version[1] > 2) ){
 			$tmp = 'https://github.com/ADOdb/ADOdb';
 		}else{
