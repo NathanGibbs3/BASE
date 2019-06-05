@@ -36,9 +36,8 @@ class output_htmlSPTest extends TestCase {
 		self::assertInstanceOf('UILang',self::$UIL = new UILang($ll),
 			"Class for $ll not created."
 		);
-		if ( version_compare(GetPHPV(), '5.2', '>') ){
+		if ( version_compare(GetPHPV(), '5.4', '<') ){
 			self::$PSM = ini_get("safe_mode");
-			print "PHP SafeMode value at $tf is: '$PSM'\n";
 		}else{
 			self::$PSM = false;
 		}
@@ -52,7 +51,7 @@ class output_htmlSPTest extends TestCase {
 	protected function setUp() {
 		$PSM = self::$PSM;
 		if ( $PSM != false ){
-			print "PHP SafeMode value is: '$PSM'\n";
+			print "PHP SafeMode value at $tf is: '$PSM'\n";
 			// Try to turn off safe mode.
 //			if ( ini_set('safe_mode','0') === false){
 //				self::markTestIncomplete('PHP SafeMode: On');
