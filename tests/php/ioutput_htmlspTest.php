@@ -38,7 +38,7 @@ class output_htmlSPTest extends TestCase {
 		$PHPV = GetPHPV();
 		if (
 			version_compare($PHPV, '5.2', '>')
-			&& ini_get("safe_mode") == true
+			&& ini_get("safe_mode") != false
 		){
 			// Try to turn off safe mode.
 			if ( ini_set('safe_mode','0') === false){
