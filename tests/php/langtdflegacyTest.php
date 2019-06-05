@@ -52,10 +52,12 @@ class legacylangTest extends TestCase {
 			LogTC($tf,'TD file',$file);
 		}
 		$PHPV = GetPHPV();
+		$PSM = ini_get("safe_mode");
 		if (
 			version_compare($PHPV, '5.2', '>')
+			&& ( $PSM != false || $PSM != '' )
 		){
-			print 'PHP SafeMode is: '.ini_get("safe_mode");
+			print "PHP SafeMode value is: '$PSM'\n";
 			// Try to turn off safe mode.
 			if ( ini_set('safe_mode','0') === false){
 				self::markTestIncomplete('PHP SafeMode: On');
