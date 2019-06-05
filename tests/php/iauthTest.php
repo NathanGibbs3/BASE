@@ -41,17 +41,28 @@ class authTest extends TestCase {
 			}else{
 				self::markTestSkipped("CI Support unavialable for DB: $DB.");
 			}
-			if (!isset($DBtype)){
-				self::markTestIncomplete("Unable to Set DB: $DB.");
+		}
+		if (!isset($DBtype)){
+			self::markTestIncomplete("Unable to Set DB: $DB.");
+		}else{
+			$alert_dbname='snort';
+			// Setup DB Connection
+			$db = NewBASEDBConnection($DBlib_path, $DBtype);
+			// Check ADODB Sanity.
+			// See: https://github.com/NathanGibbs3/BASE/issues/35
+			if (ADODB_DIR != $DBlib_path ){
+				self::markTestIncomplete(
+					"Expected ADODB in location: $DBlib_path\n".
+					"   Found ADODB in location: ".ADODB_DIR
+				);
+			}else{
+				$db->baseDBConnect(
+					$db_connect_method, $alert_dbname, $alert_host,
+					$alert_port, $alert_user, $alert_password
+				);
+				self::$user = new BaseUser();
 			}
 		}
-		$alert_dbname='snort';
-		$db = NewBASEDBConnection($DBlib_path, $DBtype); // Setup DB Connection
-		$db->baseDBConnect(
-			$db_connect_method, $alert_dbname, $alert_host, $alert_port,
-			$alert_user, $alert_password
-		);
-		self::$user = new BaseUser();
 	}
 	public static function tearDownAfterClass() {
 		self::$user = null;

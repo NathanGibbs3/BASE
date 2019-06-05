@@ -169,33 +169,37 @@ if [ "$pvM" \> "5" ]; then # PHP 7x
 		export ADODBPATH="ADOdb-$ADODBVer"
 	fi
 elif [ "$pvM" \> "4" ]; then # PHP 5x
-	if [ "$pvm" \> "3" ]; then # PHP 5.4+
-		ADODBVer=5.09
+	if [ "$pvm" \> "2" ]; then # PHP 5.3+
+		ADODBVer=5.10
 		if [ "$1" == "" ] && [ "$TRAVIS" == "true" ]; then
 			export ADODBPATH="ADOdb-$ADODBVer/phplens/adodb5"
 		fi
 	else
-#		ADODBVer=494
-		# Sourceforge Source Setup
-#		ADOSrc=sourceforge.net/projects/adodb
-#		ADODl=files/adodb-php-4-and-5
-#		ADOFileSfx=.tgz
-#		if [ "$ADODBVer" == "494" ]; then
-#			# V 494 weirdness :-)
-#			ADOFilePfx="adodb-$ADODBVer-for-php4-and-5/adodb"
-#		else
-			# Sourceforge standard
-#			ADOFilePfx="adodb-$ADODBVer-for-php/adodb"
-#		fi
-#		if [ "$1" == "" ] && [ "$TRAVIS" == "true" ]; then
-#			export ADODBPATH="adodb"
-#		fi
-		ADODBVer=5.00beta
+		ADODBVer=5.01beta
 		if [ "$1" == "" ] && [ "$TRAVIS" == "true" ]; then
 			export ADODBPATH="ADOdb-$ADODBVer/phplens/adodb5"
 		fi
 	fi
 else # PHP 4x
+#	Legacy ADODB
+#	If we get the chance, verify Legacy PHP / ADODB version interoperability
+#	and update:
+#	https://github.com/NathanGibbs3/BASE/wiki/ADOdb-version-requirements-by-PHP-Version
+#	ADODBVer=494
+#	Sourceforge Source Setup
+#	ADOSrc=sourceforge.net/projects/adodb
+#	ADODl=files/adodb-php-4-and-5
+#	ADOFileSfx=.tgz
+#	if [ "$ADODBVer" == "494" ]; then
+#		# V 494 weirdness :-)
+#		ADOFilePfx="adodb-$ADODBVer-for-php4-and-5/adodb"
+#	else
+#		Sourceforge standard
+#		ADOFilePfx="adodb-$ADODBVer-for-php/adodb"
+#	fi
+#	if [ "$1" == "" ] && [ "$TRAVIS" == "true" ]; then
+#		export ADODBPATH="adodb"
+#	fi
 	ADODBVer=5.01beta
 	if [ "$1" == "" ] && [ "$TRAVIS" == "true" ]; then
 		export ADODBPATH="ADOdb-$ADODBVer/phplens/adodb"
@@ -205,7 +209,7 @@ ADOFile=$ADOFilePfx$ADODBVer$ADOFileSfx
 echo "Setup PHP ADODB: $ADODBVer from: https://$ADOSrc"
 if [ "$1" == "" ] && [ "$TRAVIS" == "true" ]; then
 	mkdir -p build/adodb
-	wget https://$ADOSrc/$ADODl/$ADOFile -O build/adodb.tgz
+	wget -nv https://$ADOSrc/$ADODl/$ADOFile -O build/adodb.tgz
 	tar -C build/adodb -zxf build/adodb.tgz
 else
 	echo "Would Download https://$ADOSrc/$ADODl/$ADOFile"
