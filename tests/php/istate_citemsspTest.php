@@ -17,6 +17,7 @@ class state_citemsSPTest extends TestCase {
 	protected static $files;
 	protected static $langs;
 	protected static $UIL;
+	protected static $db;
 
 	// We are using a single TD file.
 	// Share class instance as common test fixture.
@@ -63,31 +64,43 @@ class state_citemsSPTest extends TestCase {
 			}else{
 				self::markTestSkipped("CI Support unavialable for DB: $DB.");
 			}
-			if (!isset($DBtype)){
-				self::markTestIncomplete("Unable to Set DB: $DB.");
-			}
 		}
-		$alert_dbname='snort';
+		if (!isset($DBtype)){
+			self::markTestIncomplete("Unable to Set DB: $DB.");
+		}else{
+			$alert_dbname='snort';
+			// Setup DB Connection
+			$db = NewBASEDBConnection($DBlib_path, $DBtype);
+			// Check ADODB Sanity.
+			// See: https://github.com/NathanGibbs3/BASE/issues/35
+			if (ADODB_DIR != $DBlib_path ){
+				self::markTestIncomplete(
+					"Expected ADODB in location: $DBlib_path\n".
+					"   Found ADODB in location: ".ADODB_DIR
+				);
+			}else{
+				$db->baseDBConnect(
+					$db_connect_method, $alert_dbname, $alert_host,
+					$alert_port, $alert_user, $alert_password
+				);
+			}
+			self::$db = $db;
+		}
 	}
 	public static function tearDownAfterClass() {
 		self::$UIL = null;
 		self::$langs = null;
 		self::$files = null;
+		self::$db = null;
 	}
-
 
 	// Tests go here.
 	public function testClassSignatureCriteriaFuncDescriptionReturnsNULL() {
-		GLOBAL $DBlib_path, $DBtype, $UIL, $alert_dbname, $alert_host,
-		$alert_user, $alert_password, $alert_port, $db_connect_method, $db;
+		GLOBAL $UIL;
 		$UIL = self::$UIL;
+		$db = self::$db;
 		$cs = new CriteriaState('Unit_Test'); // Create Criteria State Object.
 		$cst = $cs->criteria['sig']; // Porperty under test.
-		$db = NewBASEDBConnection($DBlib_path, $DBtype); // Setup DB Connection
-		$db->baseDBConnect(
-			$db_connect_method, $alert_dbname, $alert_host, $alert_port,
-			$alert_user, $alert_password
-		);
 		$EEM = '';
 		$this->assertEquals( // CSO Not Setup.
 			$EEM,
@@ -112,16 +125,11 @@ class state_citemsSPTest extends TestCase {
 		);
 	}
 	public function testClassSignatureCriteriaFuncDescription() {
-		GLOBAL $DBlib_path, $DBtype, $UIL, $alert_dbname, $alert_host,
-		$alert_user, $alert_password, $alert_port, $db_connect_method, $db;
+		GLOBAL $UIL;
 		$UIL = self::$UIL;
+		$db = self::$db;
 		$cs = new CriteriaState('Unit_Test'); // Create Criteria State Object.
 		$cst = $cs->criteria['sig']; // Porperty under test.
-		$db = NewBASEDBConnection($DBlib_path, $DBtype); // Setup DB Connection
-		$db->baseDBConnect(
-			$db_connect_method, $alert_dbname, $alert_host, $alert_port,
-			$alert_user, $alert_password
-		);
 		// Common
 		$Ts = 'Test Signature';
 		$cst->criteria[1] = $Ts;
