@@ -17,6 +17,7 @@ class output_htmlSPTest extends TestCase {
 	protected static $files;
 	protected static $langs;
 	protected static $UIL;
+	protected static $PSM;
 
 	// We are using a single TD file.
 	// Share class instance as common test fixture.
@@ -35,15 +36,21 @@ class output_htmlSPTest extends TestCase {
 		self::assertInstanceOf('UILang',self::$UIL = new UILang($ll),
 			"Class for $ll not created."
 		);
+		if ( version_compare(GetPHPV(), '5.2', '>') ){
+			self::$PSM = ini_get("safe_mode");
+		}else{
+			self::$PSM = false;
+		}
 	}
 	public static function tearDownAfterClass() {
+		self::$PSM = null;
 		self::$UIL = null;
 		self::$langs = null;
 		self::$files = null;
 	}
 	protected function setUp() {
+		$PSM = self::$PSM;
 		$PHPV = GetPHPV();
-		$PSM = ini_get("safe_mode");
 		if (
 			version_compare($PHPV, '5.2', '>')
 			&& ( $PSM != false || $PSM != '' )
@@ -54,8 +61,8 @@ class output_htmlSPTest extends TestCase {
 //				self::markTestIncomplete('PHP SafeMode: On');
 //			}
 
-		$EEM = "Deprecated: Directive 'safe_mode' is deprecated in PHP 5.3 ".
-		"and greater in Unknown on line 0";
+		$EEM = "PHP Deprecated:  Directive 'safe_mode' is ".
+		"deprecated in PHP 5.3 and greater in Unknown on line 0";
 		$PHPUV = GetPHPUV();
 		if (version_compare($PHPUV, '4.0', '<')) {
 			$this->markTestSkipped('Requires Phpunit 4+ to run.');
