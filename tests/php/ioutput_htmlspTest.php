@@ -38,6 +38,7 @@ class output_htmlSPTest extends TestCase {
 		);
 		if ( version_compare(GetPHPV(), '5.2', '>') ){
 			self::$PSM = ini_get("safe_mode");
+			print "PHP SafeMode value at $tf is: '$PSM'\n";
 		}else{
 			self::$PSM = false;
 		}
@@ -50,11 +51,7 @@ class output_htmlSPTest extends TestCase {
 	}
 	protected function setUp() {
 		$PSM = self::$PSM;
-		$PHPV = GetPHPV();
-		if (
-			version_compare($PHPV, '5.2', '>')
-			&& ( $PSM != false || $PSM != '' )
-		){
+		if ( $PSM != false ){
 			print "PHP SafeMode value is: '$PSM'\n";
 			// Try to turn off safe mode.
 //			if ( ini_set('safe_mode','0') === false){

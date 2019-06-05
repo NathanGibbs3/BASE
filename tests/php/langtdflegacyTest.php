@@ -54,11 +54,12 @@ class legacylangTest extends TestCase {
 		}
 		if ( version_compare(GetPHPV(), '5.2', '>') ){
 			self::$PSM = ini_get("safe_mode");
+			print "PHP SafeMode value at $tf is: '$PSM'\n";
 		}else{
 			self::$PSM = false;
 		}
 		$PSM = self::$PSM;
-		if ( $PSM != false || $PSM != ''){
+		if ( $PSM != false ){
 			print "PHP SafeMode value is: '$PSM'\n";
 			// Try to turn off safe mode.
 			if ( ini_set('safe_mode','0') === false){
