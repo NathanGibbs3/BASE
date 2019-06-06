@@ -11,7 +11,6 @@ pu=phpunit
 ph=php
 if [ "$SafeMode" = "1" ]; then
 	ph="$ph -dsafe_mode=0"
-	pu="$pu -dsafe_mode=0"
 fi
 if [ "$TRAVIS" != "true" ]; then
 	if ! which $pu > /dev/null; then # No System PHPUnit
