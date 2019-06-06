@@ -30,11 +30,12 @@ class commonlangSPTest extends TestCase {
 		$this->files = $lf;
 		$file = "$BASE_path/languages/$lf";
 		if ($debug_mode > 1) {
-			LogTC($tf,'language',$lang);
+			LogTC($tf,'language',$ll);
 			LogTC($tf,'TD file',$file);
 		}
 		if ( version_compare(GetPHPV(), '5.4', '<') ){
 			$PSM = ini_get("safe_mode");
+			ini_set('safe_mode',$PSM);
 			print "LC PHP SafeMode value at $tf is: '$PSM'\n";
 			if ( $PSM != false ){
 				// Try to turn off safe mode.
