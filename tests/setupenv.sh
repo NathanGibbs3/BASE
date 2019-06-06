@@ -69,17 +69,20 @@ if [ "$pvM" \< "5" ] || ( [ "$pvM" == "5" ] && [ "$pvm" \< "3" ]); then
 else
 	echo "enabled."
 fi
-# PHP Safe Mode not enabled on travis-ci PHP < 5.4x
+# PHP Safe Mode not available on PHP 5.4+
+# Throws Deprecation errors on 5.3x.
+# Breaks unit tests that need process isolation and don't preserve global
+# state. See: https://github.com/NathanGibbs3/BASE/issues/36
 echo -n "PHP Safe Mode "
 if [ "$pvM" == "5" ] && (
-	( [ "$pvm" \< "4" ] && [ "$pvm" \> "1" ] ) ||
+	( [ "$pvm" \< "3" ] && [ "$pvm" \> "1" ] ) ||
 	( [ "$pvm" == "1" ] && [ "$pvr" \> "4" ] )
 ); then
 	echo "can be enabled."
 	SafeMode=1
 	if [ "$1" == "" ] && [ "$TRAVIS" == "true" ]; then
-		# Enable safe_mode on PHP 5.1.5 to 5.3x
-		# Solution: Load Custom safe_mode.ini from repo
+		# Enable safe_mode on PHP 5.1.5 to 5.2x
+		# Load Custom safe_mode.ini from repo
 		echo "Enabling Safe Mode."
 		phpenv config-add tests/phpcommon/safe_mode.ini
 		export SafeMode=1
