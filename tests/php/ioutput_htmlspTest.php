@@ -35,13 +35,6 @@ class output_htmlSPTest extends TestCase {
 		self::assertInstanceOf('UILang',self::$UIL = new UILang($ll),
 			"Class for $ll not created."
 		);
-	}
-	public static function tearDownAfterClass() {
-		self::$UIL = null;
-		self::$langs = null;
-		self::$files = null;
-	}
-	protected function setUp() {
 		$PHPV = GetPHPV();
 		$PSM = ini_get("safe_mode");
 		if (
@@ -73,6 +66,12 @@ class output_htmlSPTest extends TestCase {
 
 		}
 	}
+	public static function tearDownAfterClass() {
+		self::$UIL = null;
+		self::$langs = null;
+		self::$files = null;
+	}
+
 
 	// Tests go here.
 	public function testPageStartDefaults() {
