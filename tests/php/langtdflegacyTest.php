@@ -37,7 +37,6 @@ class legacylangTest extends TestCase {
 	protected static $files;
 	protected static $langs;
 	protected static $UIL;
-	protected static $PSM;
 
 	// Share class instance as common test fixture.
 	public static function setUpBeforeClass() {
@@ -52,13 +51,12 @@ class legacylangTest extends TestCase {
 			LogTC($tf,'language',$lang);
 			LogTC($tf,'TD file',$file);
 		}
-		if ( version_compare(GetPHPV(), '5.2', '>') ){
-			self::$PSM = ini_get("safe_mode");
-		}else{
-			self::$PSM = false;
-		}
-		$PSM = self::$PSM;
-		if ( $PSM != false || $PSM != ''){
+		$PHPV = GetPHPV();
+		$PSM = ini_get("safe_mode");
+		if (
+			version_compare($PHPV, '5.2', '>')
+			&& ( $PSM != false || $PSM != '' )
+		){
 			print "PHP SafeMode value is: '$PSM'\n";
 			// Try to turn off safe mode.
 			if ( ini_set('safe_mode','0') === false){
@@ -67,7 +65,6 @@ class legacylangTest extends TestCase {
 		}
 	}
 	public static function tearDownAfterClass() {
-		self::$PSM = null;
 		self::$UIL = null;
 		self::$langs = null;
 		self::$files = null;
