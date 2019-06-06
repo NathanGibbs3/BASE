@@ -11,6 +11,7 @@ pu=phpunit
 ph=php
 if [ "$SafeMode" = "1" ]; then
 	ph="$ph -dsafe_mode=0"
+	pu="$pu -dsafe_mode=0"
 fi
 if [ "$TRAVIS" != "true" ]; then
 	if ! which $pu > /dev/null; then # No System PHPUnit
@@ -22,7 +23,7 @@ fi
 # Use Composer installed or System version?
 if [ "$SafeMode" = "1" ]; then
 	pi=Composer
-	px="$ph vendor/bin/$pu -dsafe_mode=0"
+	px="$ph vendor/bin/$pu"
 else
 	puv=`$pu --version`
 	puv=`echo $puv|sed -e "s/^PHPUnit\s//" -e "s/\sby.*$//"`
