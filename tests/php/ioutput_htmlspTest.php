@@ -38,7 +38,6 @@ class output_htmlSPTest extends TestCase {
 		);
 		if ( version_compare(GetPHPV(), '5.4', '<') ){
 			self::$PSM = ini_get("safe_mode");
-			print "IO PHP SafeMode value at $tf is: '".self::$PSM."'\n";
 		}else{
 			self::$PSM = false;
 		}
