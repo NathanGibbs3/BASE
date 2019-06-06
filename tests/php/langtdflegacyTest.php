@@ -53,8 +53,8 @@ class legacylangTest extends TestCase {
 			LogTC($tf,'TD file',$file);
 		}
 		if ( version_compare(GetPHPV(), '5.4', '<') ){
-			print "TDF PHP SafeMode value at $tf is: '".self::$PSM."'\n";
 			self::$PSM = ini_get("safe_mode");
+			print "TDF PHP SafeMode value at $tf is: '".self::$PSM."'\n";
 		}else{
 			self::$PSM = false;
 		}

@@ -33,8 +33,7 @@ class commonlangSPTest extends TestCase {
 			LogTC($tf,'language',$lang);
 			LogTC($tf,'TD file',$file);
 		}
-		$PHPV = GetPHPV();
-		if ( version_compare($PHPV, '5.4', '<') ){
+		if ( version_compare(GetPHPV(), '5.4', '<') ){
 			$PSM = ini_get("safe_mode");
 			print "LC PHP SafeMode value at $tf is: '$PSM'\n";
 			if ( $PSM != false ){
