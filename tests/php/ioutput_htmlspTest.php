@@ -67,13 +67,13 @@ class output_htmlSPTest extends TestCase {
 			$this->markTestSkipped('Requires Phpunit 4+ to run.');
 		}elseif (version_compare($PHPUV, '5.0', '<')) { // PHPUnit 4x
 			$this->setExpectedException(
-				"PHPUnit_Framework_Error_Error", $EEM
+				"PHPUnit_Framework_Error_Notice", $EEM
 			);
 		}elseif (version_compare($PHPUV, '6.0', '<')) { // PHPUnit 5x
-			$this->expectException("PHPUnit_Framework_Error");
+			$this->expectException("PHPUnit_Framework_Error_Notice");
 			$this->expectExceptionMessage($EEM);
 		}else{ // PHPUnit 6+
-			$this->expectException("PHPUnit\Framework\Error\Error");
+			$this->expectException("PHPUnit\Framework\Error\Notice");
 			$this->expectExceptionMessage($EEM);
 		}
 
