@@ -78,8 +78,6 @@ class legacylangTest extends TestCase {
 		GLOBAL $BASE_path, $BASE_installID, $debug_mode;
 		$ll = self::$langs;
 		$lf = self::$files;
-		$PSM = self::$PSM;
-		ini_set('safe_mode',$PSM);
 		copy ("$BASE_path/tests/$lf","$BASE_path/languages/$lf");
 		self::assertInstanceOf('UILang',self::$UIL = new UILang($ll),
 			"Class for $ll not created."
