@@ -36,12 +36,10 @@ class output_htmlSPTest extends TestCase {
 			"Class for $ll not created."
 		);
 		$PHPV = GetPHPV();
-		$PSM = ini_get("safe_mode");
 		if (
 			version_compare($PHPV, '5.2', '>')
-			&& ( $PSM != false || $PSM != '' )
 		){
-			print "PHP SafeMode value is: '$PSM'\n";
+			print 'PHP SafeMode is: '.ini_get("safe_mode");
 			// Try to turn off safe mode.
 //			if ( ini_set('safe_mode','0') === false){
 //				self::markTestIncomplete('PHP SafeMode: On');
@@ -51,17 +49,17 @@ class output_htmlSPTest extends TestCase {
 		"and greater in Unknown on line 0";
 		$PHPUV = GetPHPUV();
 		if (version_compare($PHPUV, '4.0', '<')) {
-			$this->markTestSkipped('Requires Phpunit 4+ to run.');
+			self::markTestSkipped('Requires Phpunit 4+ to run.');
 		}elseif (version_compare($PHPUV, '5.0', '<')) { // PHPUnit 4x
-			$this->setExpectedException(
+			self::setExpectedException(
 				"PHPUnit_Framework_Error_Notice", $EEM
 			);
 		}elseif (version_compare($PHPUV, '6.0', '<')) { // PHPUnit 5x
-			$this->expectException("PHPUnit_Framework_Error_Notice");
-			$this->expectExceptionMessage($EEM);
+			self::expectException("PHPUnit_Framework_Error_Notice");
+			self::expectExceptionMessage($EEM);
 		}else{ // PHPUnit 6+
-			$this->expectException("PHPUnit\Framework\Error\Notice");
-			$this->expectExceptionMessage($EEM);
+			self::expectException("PHPUnit\Framework\Error\Notice");
+			self::expectExceptionMessage($EEM);
 		}
 
 		}
