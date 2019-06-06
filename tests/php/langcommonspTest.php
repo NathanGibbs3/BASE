@@ -34,14 +34,15 @@ class commonlangSPTest extends TestCase {
 			LogTC($tf,'TD file',$file);
 		}
 		$PHPV = GetPHPV();
-		if ( version_compare($PHPV, '5.4', '<') ){
-			$PSM = ini_get("safe_mode");
-			if ( $PSM != false ){
-				print "PHP SafeMode value at $tf is: '$PSM'\n";
-				// Try to turn off safe mode.
-				if ( ini_set('safe_mode','0') === false){
-					$this->markTestIncomplete('PHP SafeMode: On');
-				}
+		$PSM = ini_get("safe_mode");
+		if (
+			version_compare($PHPV, '5.2', '>')
+			&& ( $PSM != false || $PSM != '' )
+		){
+			print "PHP SafeMode value is: '$PSM'\n";
+			// Try to turn off safe mode.
+			if ( ini_set('safe_mode','0') === false){
+				$this->markTestIncomplete('PHP SafeMode: On');
 			}
 		}
 	}
