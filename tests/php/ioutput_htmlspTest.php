@@ -41,27 +41,9 @@ class output_htmlSPTest extends TestCase {
 		){
 			print 'PHP SafeMode is: '.ini_get("safe_mode");
 			// Try to turn off safe mode.
-//			if ( ini_set('safe_mode','0') === false){
-//				self::markTestIncomplete('PHP SafeMode: On');
-//			}
-
-		$EEM = "Deprecated: Directive 'safe_mode' is deprecated in PHP 5.3 ".
-		"and greater in Unknown on line 0";
-		$PHPUV = GetPHPUV();
-		if (version_compare($PHPUV, '4.0', '<')) {
-			self::markTestSkipped('Requires Phpunit 4+ to run.');
-		}elseif (version_compare($PHPUV, '5.0', '<')) { // PHPUnit 4x
-			self::setExpectedException(
-				"PHPUnit_Framework_Error_Notice", $EEM
-			);
-		}elseif (version_compare($PHPUV, '6.0', '<')) { // PHPUnit 5x
-			self::expectException("PHPUnit_Framework_Error_Notice");
-			self::expectExceptionMessage($EEM);
-		}else{ // PHPUnit 6+
-			self::expectException("PHPUnit\Framework\Error\Notice");
-			self::expectExceptionMessage($EEM);
-		}
-
+			if ( ini_set('safe_mode','0') === false){
+				self::markTestIncomplete('PHP SafeMode: On');
+			}
 		}
 	}
 	public static function tearDownAfterClass() {
