@@ -8,6 +8,13 @@ else
 fi
 
 pu=phpunit
+ph=php
+if [ "$SafeMode" = "1" ]; then
+	ph="$ph -dsafe_mode=0"
+	px="$pu -dsafe_mode=0"
+else
+	px=$pu
+fi
 if [ "$TRAVIS" != "true" ]; then
 	if ! which $pu > /dev/null; then # No System PHPUnit
 		echo "PHPUnit not installed."
@@ -15,7 +22,7 @@ if [ "$TRAVIS" != "true" ]; then
 		exit
 	fi
 fi
-puv=`$pu --version|sed -e "s/^PHPUnit\s//" -e "s/\sby.*$//"`
+puv=`$px --version|sed -e "s/^PHPUnit\s//" -e "s/\sby.*$//"`
 pvM=`echo $puv|sed -r -e "s/\.[0-9]\.[0-9]+$//"`
 pvm=`echo $puv|sed -r -e "s/^[0-9]\.//" -e "s/\.[0-9]+$//"`
 pvr=`echo $puv|sed -r -e "s/^[0-9]\.[0-9]\.//"`
@@ -30,7 +37,7 @@ if [ "$pvM" == "4" ] && [ "$pvm" == "8" ] && [ "$pvr" \< "19" ]; then
 	# when using expectOutputString in test code.
 	# This may be a Debian/Ubuntu specific Issue.
 	pi=Composer
-	px="vendor/bin/$pu"
+	px="vendor/bin/$px"
 else
 	pi=System
 	px=$pu
@@ -38,5 +45,5 @@ fi
 # Now what PHPUnit Version are we using?
 puv=`$px --version|sed -e "s/^PHPUnit\s//" -e "s/\sby.*$//"`
 echo "Will test with $pi PHPUnit Version: $puv.";
-./tests/cptgenerate $puv # Generate PHPUnit Tests
+$ph ./tests/cptgenerate $puv # Generate PHPUnit Tests
 $px -c $pu.xml.dist

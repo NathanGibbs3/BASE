@@ -287,7 +287,7 @@ DEFINE('_ERRSQLDBALLOAD1','<P><B>載入提取的函式庫中發生錯誤: </B> f
 DEFINE('_ERRSQLDBALLOAD2','<P>檢查資料庫中函式庫可用性 <CODE>$DBlib_path</CODE> in <CODE>base_conf.php</CODE>
             <P>
             底層資料庫連結函式數使用 ADODB, 該程式可下載自
-            <A HREF="http://adodb.sourceforge.net/">http://adodb.sourceforge.net/</A>');
+            ');
 DEFINE('_ERRSQLDBTYPE','指定了不合法的資料庫型態');
 DEFINE('_ERRSQLDBTYPEINFO1','變數 <CODE>\$DBtype</CODE> 在 <CODE>base_conf.php</CODE> 被設成不認識的資料庫型態 ');
 DEFINE('_ERRSQLDBTYPEINFO2','只有下列的資料庫被支援: <PRE>

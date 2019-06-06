@@ -107,7 +107,6 @@ script:
   - ./tests/setupdb.sh
   - ./tests/utf-8lint.sh
   - ./tests/phpunit.sh
-  - php -f index.php
 
 after_success:
   # Submit Reports to Code Coverage services.

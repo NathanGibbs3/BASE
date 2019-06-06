@@ -286,8 +286,8 @@ DEFINE('_DBALCHECK','DB soyutlama kitaplýðý kontrol ediliyor');
 DEFINE('_ERRSQLDBALLOAD1','<P><B>DB soyutlama kitaplýðý yükleme hatasý: </B> from ');
 DEFINE('_ERRSQLDBALLOAD2','<P><CODE>base_conf.php</CODE> dosyasýndaki <CODE>$DBlib_path</CODE> DB soyutlama kitaplýðý deðiþkenini kontrol edin 
             <P>
-            Yürürlükte kullanýlan temel veritabaný kitaplýðý ADODB\'dir,
-            <A HREF="http://adodb.sourceforge.net/">http://adodb.sourceforge.net/</A> ten indirilebilir');
+            Yürürlükte kullanýlan temel veritabaný kitaplýðý ADODB\'dir ten indirilebilir
+            ');
 DEFINE('_ERRSQLDBTYPE','Geçersiz Veritabaný Tipi Belirlenmiþ');
 DEFINE('_ERRSQLDBTYPEINFO1','<CODE>base_conf.php</CODE> dosyasýndaki <CODE>\$DBtype</CODE> deðiþkeni tanýmlanmamýþ veritabaný tipinde ayarlanmýþ ');
 DEFINE('_ERRSQLDBTYPEINFO2','Yalnýzca aþaðýdaki veritabanlarý desteklenmektedir: <PRE>

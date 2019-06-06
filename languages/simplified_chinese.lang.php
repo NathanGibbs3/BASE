@@ -295,8 +295,7 @@ DEFINE('_ERRSQLDBALLOAD2','<P>检查 DB 抽象库变量
 <CODE>$DBlib_path</CODE> 在 <CODE>base_conf.php</CODE>
             <P>
             下面的使用的数据库是ADODB, 可以从这里下载:
-             <A 
-HREF="http://adodb.sourceforge.net/">http://adodb.sourceforge.net/</A>');
+             ');
 DEFINE('_ERRSQLDBTYPE','指定的数据库类型无效');
 DEFINE('_ERRSQLDBTYPEINFO1','变量 <CODE>\$DBtype</CODE> 在 
 <CODE>base_conf.php</CODE> 被设置成无法认出的数据库类型 ');

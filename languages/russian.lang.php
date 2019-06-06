@@ -289,7 +289,7 @@ DEFINE('_ERRSQLDBALLOAD1','<P><B>Ошибка зарузки абстракционной библиотеки БД: </
 DEFINE('_ERRSQLDBALLOAD2','<P>Проверьте переменную абстракционной библиотеки БД <CODE>$DBlib_path</CODE> в <CODE>base_conf.php</CODE>
             <P>
             В данный момент используется ADODB как библиотека работы с БД, она может быть загружена с
-            <A HREF="http://adodb.sourceforge.net/">http://adodb.sourceforge.net/</A>');
+            ');
 DEFINE('_ERRSQLDBTYPE','Указан неверный тип БД');
 DEFINE('_ERRSQLDBTYPEINFO1','Переменная <CODE>\$DBtype</CODE> в <CODE>base_conf.php</CODE> установлена в нераспознаваемое значение типа БД ');
 DEFINE('_ERRSQLDBTYPEINFO2','Поддерживаются только следующие БД: <PRE>

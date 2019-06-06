@@ -108,7 +108,7 @@ echo ('<title>' . _TITLE . $BASE_VERSION . $archiveDisplay . '</title>
 <body>
   <div class="mainheadertitle">&nbsp;<?php echo _TITLE . $archiveDisplay; ?></div>
 <?php
-if ($debug_mode == 1) {
+if ($debug_mode > 0) {
     PrintPageHeader();
 }
 
