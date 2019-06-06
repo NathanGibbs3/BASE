@@ -51,6 +51,16 @@ class legacylangTest extends TestCase {
 			LogTC($tf,'language',$lang);
 			LogTC($tf,'TD file',$file);
 		}
+		$PHPV = GetPHPV();
+		if (
+			version_compare($PHPV, '5.2', '>')
+//			&& ini_get("safe_mode") == true
+		){
+			// Turn off safe mode.
+			if ( ini_set('safe_mode','0') === false){
+				self::markTestIncomplete('PHP SafeMode: On');
+			}
+		}
 	}
 	public static function tearDownAfterClass() {
 		self::$UIL = null;
@@ -62,16 +72,6 @@ class legacylangTest extends TestCase {
 		GLOBAL $BASE_path, $BASE_installID, $debug_mode;
 		$ll = self::$langs;
 		$lf = self::$files;
-		$PHPV = GetPHPV();
-		if (
-			version_compare($PHPV, '5.2', '>')
-			&& ini_get("safe_mode") == true
-		){
-			// Try to turn off safe mode.
-			if ( ini_set('safe_mode','0') === false){
-				self::markTestIncomplete('PHP SafeMode: On');
-			}
-		}
 		copy ("$BASE_path/tests/$lf","$BASE_path/languages/$lf");
 		self::assertInstanceOf('UILang',self::$UIL = new UILang($ll),
 			"Class for $ll not created."
