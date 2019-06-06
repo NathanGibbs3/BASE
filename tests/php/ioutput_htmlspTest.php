@@ -50,15 +50,12 @@ class output_htmlSPTest extends TestCase {
 	}
 	protected function setUp() {
 		$PSM = self::$PSM;
-		if ( version_compare(GetPHPV(), '5.4', '<') ){
-			print "PHP SafeMode value at $tf is: '$PSM'\n";
-		}
 		if ( $PSM != false ){
 			print "PHP SafeMode value at $tf is: '$PSM'\n";
 			// Try to turn off safe mode.
-			if ( ini_set('safe_mode','0') === false){
-				self::markTestIncomplete('PHP SafeMode: On');
-			}
+//			if ( ini_set('safe_mode','0') === false){
+//				self::markTestIncomplete('PHP SafeMode: On');
+//			}
 
 		$EEM = "PHP Deprecated:  Directive 'safe_mode' is ".
 		"deprecated in PHP 5.3 and greater in Unknown on line 0";

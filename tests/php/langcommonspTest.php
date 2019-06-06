@@ -36,8 +36,8 @@ class commonlangSPTest extends TestCase {
 		$PHPV = GetPHPV();
 		if ( version_compare($PHPV, '5.4', '<') ){
 			$PSM = ini_get("safe_mode");
-			print "PHP SafeMode value at $tf is: '$PSM'\n";
 			if ( $PSM != false ){
+				print "PHP SafeMode value at $tf is: '$PSM'\n";
 				// Try to turn off safe mode.
 				if ( ini_set('safe_mode','0') === false){
 					$this->markTestIncomplete('PHP SafeMode: On');
