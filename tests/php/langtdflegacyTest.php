@@ -53,7 +53,7 @@ class legacylangTest extends TestCase {
 			LogTC($tf,'TD file',$file);
 		}
 		if ( version_compare(GetPHPV(), '5.4', '<') ){
-			print "TDF PHP SafeMode value at $tf is: '".self::$PSM."'\n";
+			print "PHP SafeMode value at $tf is: '".self::$PSM."'\n";
 			self::$PSM = ini_get("safe_mode");
 		}else{
 			self::$PSM = false;
@@ -62,9 +62,9 @@ class legacylangTest extends TestCase {
 		if ( $PSM != false ){
 			print "PHP SafeMode value at $tf is: '$PSM'\n";
 			// Try to turn off safe mode.
-//			if ( ini_set('safe_mode','0') === false){
+			if ( ini_set('safe_mode','0') === false){
 				self::markTestIncomplete('PHP SafeMode: On');
-//			}
+			}
 		}
 	}
 	public static function tearDownAfterClass() {
