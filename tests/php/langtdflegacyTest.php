@@ -34,44 +34,24 @@ use PHPUnit\Framework\TestCase;
   */
 class legacylangTest extends TestCase {
 	// Pre Test Setup.
-	protected static $files;
-	protected static $langs;
-	protected static $UIL;
+	var $files;
+	var $langs;
+	var $UIL;
 
-	// Share class instance as common test fixture.
-	public static function setUpBeforeClass() {
-		GLOBAL $BASE_path, $debug_mode;
+	protected function setUp() {
+		GLOBAL $BASE_path, $BASE_installID, $debug_mode;
 		$tf = __FUNCTION__;
 		$ll = 'legacy-english';
-		self::$langs = $ll;
+		$this->langs = $ll;
 		$lf = "$ll.lang.php";
-		self::$files = $lf;
+		$this->files = $lf;
 		$file = "$BASE_path/languages/$lf";
 		if ($debug_mode > 1) {
 			LogTC($tf,'language',$lang);
 			LogTC($tf,'TD file',$file);
 		}
-		$PHPV = GetPHPV();
-		if (
-			version_compare($PHPV, '5.2', '>')
-			&& ini_get("safe_mode") == true
-		){
-			// Turn off safe mode.
-			ini_set("safe_mode",0);
-		}
-	}
-	public static function tearDownAfterClass() {
-		self::$UIL = null;
-		self::$langs = null;
-		self::$files = null;
-	}
-
-	protected function setUp() {
-		GLOBAL $BASE_path, $BASE_installID, $debug_mode;
-		$ll = self::$langs;
-		$lf = self::$files;
 		copy ("$BASE_path/tests/$lf","$BASE_path/languages/$lf");
-		self::assertInstanceOf('UILang',self::$UIL = new UILang($ll),
+		$this->assertInstanceOf('UILang',$this->UIL = new UILang($ll),
 			"Class for $ll not created."
 		);
 		unlink ("$BASE_path/languages/$lf");
@@ -370,11 +350,11 @@ class legacylangTest extends TestCase {
 	  * @covers UILang::SetUILocale
 	  */
 	public function testSetUILocale() {
-		$lang = self::$langs;
+		$lang = $this->langs;
 		$tf = __FUNCTION__;
 		$tmp = "UI$lang";
 		LogTC($tf,'language',$lang);
-		$$tmp = self::$UIL;
+		$$tmp = $this->UIL;
 		$file = $$tmp->TDF;
 		LogTC($tf,'TD file',$file);
 		$this->assertTrue( is_array($$tmp->Locale), "Invalid TDF: $file." );
@@ -389,11 +369,11 @@ class legacylangTest extends TestCase {
 		}
 	}
 	public function testSetUITimefmt() {
-		$lang = self::$langs;
+		$lang = $this->langs;
 		$tf = __FUNCTION__;
 		$tmp = "UI$lang";
 		LogTC($tf,'language',$lang);
-		$$tmp = self::$UIL;
+		$$tmp = $this->UIL;
 		$file = $$tmp->TDF;
 		LogTC($tf,'TD file',$file);
 		$this->assertTrue(
@@ -402,11 +382,11 @@ class legacylangTest extends TestCase {
 		);
 	}
 	public function testSetUICharset() {
-		$lang = self::$langs;
+		$lang = $this->langs;
 		$tf = __FUNCTION__;
 		$tmp = "UI$lang";
 		LogTC($tf,'language',$lang);
-		$$tmp = self::$UIL;
+		$$tmp = $this->UIL;
 		$file = $$tmp->TDF;
 		LogTC($tf,'TD file',$file);
 		$this->assertTrue(
@@ -415,11 +395,11 @@ class legacylangTest extends TestCase {
 		);
 	}
 	public function testSetUITitle() {
-		$lang = self::$langs;
+		$lang = $this->langs;
 		$tf = __FUNCTION__;
 		$tmp = "UI$lang";
 		LogTC($tf,'language',$lang);
-		$$tmp = self::$UIL;
+		$$tmp = $this->UIL;
 		$file = $$tmp->TDF;
 		LogTC($tf,'TD file',$file);
 		$this->assertTrue(
@@ -430,11 +410,11 @@ class legacylangTest extends TestCase {
 	// Authentication Data SubStructure.
 	public function testADASetItemLoginDesc() {
 		GLOBAL $Use_Auth_System;
-		$lang = self::$langs;
+		$lang = $this->langs;
 		$tf = __FUNCTION__;
 		$tmp = "UI$lang";
 		LogTC($tf,'language',$lang);
-		$$tmp = self::$UIL;
+		$$tmp = $this->UIL;
 		$file = $$tmp->TDF;
 		LogTC($tf,'TD file',$file);
 		if ($Use_Auth_System == 1) {
@@ -451,11 +431,11 @@ class legacylangTest extends TestCase {
 	}
 	public function testADASetItemPWDesc() {
 		GLOBAL $Use_Auth_System;
-		$lang = self::$langs;
+		$lang = $this->langs;
 		$tf = __FUNCTION__;
 		$tmp = "UI$lang";
 		LogTC($tf,'language',$lang);
-		$$tmp = self::$UIL;
+		$$tmp = $this->UIL;
 		$file = $$tmp->TDF;
 		LogTC($tf,'TD file',$file);
 		if ($Use_Auth_System == 1) {
@@ -472,11 +452,11 @@ class legacylangTest extends TestCase {
 	}
 	public function testADASetItemRIDesc() {
 		GLOBAL $Use_Auth_System;
-		$lang = self::$langs;
+		$lang = $this->langs;
 		$tf = __FUNCTION__;
 		$tmp = "UI$lang";
 		LogTC($tf,'language',$lang);
-		$$tmp = self::$UIL;
+		$$tmp = $this->UIL;
 		$file = $$tmp->TDF;
 		LogTC($tf,'TD file',$file);
 		if ($Use_Auth_System == 1) {
@@ -493,11 +473,11 @@ class legacylangTest extends TestCase {
 	}
 	public function testADASetItemAsDesc() {
 		GLOBAL $Use_Auth_System;
-		$lang = self::$langs;
+		$lang = $this->langs;
 		$tf = __FUNCTION__;
 		$tmp = "UI$lang";
 		LogTC($tf,'language',$lang);
-		$$tmp = self::$UIL;
+		$$tmp = $this->UIL;
 		$file = $$tmp->TDF;
 		LogTC($tf,'TD file',$file);
 		if ($Use_Auth_System == 1) {
@@ -514,173 +494,173 @@ class legacylangTest extends TestCase {
 	}
 	// Test Commonm Word Items.
 	public function testCWASetItemRole() {
-		$lang = self::$langs;
+		$lang = $this->langs;
 		$tf = __FUNCTION__;
 		$tmp = "UI$lang";
 		LogTC($tf,'language',$lang);
-		$$tmp = self::$UIL;
+		$$tmp = $this->UIL;
 		$file = $$tmp->TDF;
 		LogTC($tf,'TD file',$file);
 		$this->CWAHas($$tmp,'Role','Role');
 	}
 	// Test Commonm Phrase Items.
 	public function testCPASetItemSrcDesc() {
-		$lang = self::$langs;
+		$lang = $this->langs;
 		$tf = __FUNCTION__;
 		$tmp = "UI$lang";
 		LogTC($tf,'language',$lang);
-		$$tmp = self::$UIL;
+		$$tmp = $this->UIL;
 		$file = $$tmp->TDF;
 		LogTC($tf,'TD file',$file);
 		$this->CPAHas($$tmp,'SrcDesc','Source');
 	}
 	public function testCPASetItemSrcName() {
-		$lang = self::$langs;
+		$lang = $this->langs;
 		$tf = __FUNCTION__;
 		$tmp = "UI$lang";
 		LogTC($tf,'language',$lang);
-		$$tmp = self::$UIL;
+		$$tmp = $this->UIL;
 		$file = $$tmp->TDF;
 		LogTC($tf,'TD file',$file);
 		$this->CPAHas($$tmp,'SrcName','Source Name');
 	}
 	public function testCPASetItemDstDesc() {
-		$lang = self::$langs;
+		$lang = $this->langs;
 		$tf = __FUNCTION__;
 		$tmp = "UI$lang";
 		LogTC($tf,'language',$lang);
-		$$tmp = self::$UIL;
+		$$tmp = $this->UIL;
 		$file = $$tmp->TDF;
 		LogTC($tf,'TD file',$file);
 		$this->CPAHas($$tmp,'DstDesc','Destination');
 	}
 	public function testCPASetItemDstName() {
-		$lang = self::$langs;
+		$lang = $this->langs;
 		$tf = __FUNCTION__;
 		$tmp = "UI$lang";
 		LogTC($tf,'language',$lang);
-		$$tmp = self::$UIL;
+		$$tmp = $this->UIL;
 		$file = $$tmp->TDF;
 		LogTC($tf,'TD file',$file);
 		$this->CPAHas($$tmp,'DstName','Dest. Name');
 	}
 	public function testCPASetItemSrcDst() {
-		$lang = self::$langs;
+		$lang = $this->langs;
 		$tf = __FUNCTION__;
 		$tmp = "UI$lang";
 		LogTC($tf,'language',$lang);
-		$$tmp = self::$UIL;
+		$$tmp = $this->UIL;
 		$file = $$tmp->TDF;
 		LogTC($tf,'TD file',$file);
 		$this->CPAHas($$tmp,'SrcDst','Src or Dest');
 	}
 	public function testCPASetItemId() {
-		$lang = self::$langs;
+		$lang = $this->langs;
 		$tf = __FUNCTION__;
 		$tmp = "UI$lang";
 		LogTC($tf,'language',$lang);
-		$$tmp = self::$UIL;
+		$$tmp = $this->UIL;
 		$file = $$tmp->TDF;
 		LogTC($tf,'TD file',$file);
 		$this->CPAHas($$tmp,'Id','ID');
 	}
 	public function testCPASetItemName() {
-		$lang = self::$langs;
+		$lang = $this->langs;
 		$tf = __FUNCTION__;
 		$tmp = "UI$lang";
 		LogTC($tf,'language',$lang);
-		$$tmp = self::$UIL;
+		$$tmp = $this->UIL;
 		$file = $$tmp->TDF;
 		LogTC($tf,'TD file',$file);
 		$this->CPAHas($$tmp,'Name','Name');
 	}
 	public function testCPASetItemInt() {
-		$lang = self::$langs;
+		$lang = $this->langs;
 		$tf = __FUNCTION__;
 		$tmp = "UI$lang";
 		LogTC($tf,'language',$lang);
-		$$tmp = self::$UIL;
+		$$tmp = $this->UIL;
 		$file = $$tmp->TDF;
 		LogTC($tf,'TD file',$file);
 		$this->CPAHas($$tmp,'Int','Interface');
 	}
 	public function testCPASetItemFilter() {
-		$lang = self::$langs;
+		$lang = $this->langs;
 		$tf = __FUNCTION__;
 		$tmp = "UI$lang";
 		LogTC($tf,'language',$lang);
-		$$tmp = self::$UIL;
+		$$tmp = $this->UIL;
 		$file = $$tmp->TDF;
 		LogTC($tf,'TD file',$file);
 		$this->CPAHas($$tmp,'Filter','Filter');
 	}
 	public function testCPASetItemDesc() {
-		$lang = self::$langs;
+		$lang = $this->langs;
 		$tf = __FUNCTION__;
 		$tmp = "UI$lang";
 		LogTC($tf,'language',$lang);
-		$$tmp = self::$UIL;
+		$$tmp = $this->UIL;
 		$file = $$tmp->TDF;
 		LogTC($tf,'TD file',$file);
 		$this->CPAHas($$tmp,'Desc','Description');
 	}
 	public function testCPASetItemSucDesc() {
-		$lang = self::$langs;
+		$lang = $this->langs;
 		$tf = __FUNCTION__;
 		$tmp = "UI$lang";
 		LogTC($tf,'language',$lang);
-		$$tmp = self::$UIL;
+		$$tmp = $this->UIL;
 		$file = $$tmp->TDF;
 		LogTC($tf,'TD file',$file);
 		$this->CPAHas($$tmp,'SucDesc','Successful');
 	}
 	public function testCPASetItemSensor() {
-		$lang = self::$langs;
+		$lang = $this->langs;
 		$tf = __FUNCTION__;
 		$tmp = "UI$lang";
 		LogTC($tf,'language',$lang);
-		$$tmp = self::$UIL;
+		$$tmp = $this->UIL;
 		$file = $$tmp->TDF;
 		LogTC($tf,'TD file',$file);
 		$this->CPAHas($$tmp,'Sensor','Sensor');
 	}
 	public function testCPASetItemSig() {
-		$lang = self::$langs;
+		$lang = $this->langs;
 		$tf = __FUNCTION__;
 		$tmp = "UI$lang";
 		LogTC($tf,'language',$lang);
-		$$tmp = self::$UIL;
+		$$tmp = $this->UIL;
 		$file = $$tmp->TDF;
 		LogTC($tf,'TD file',$file);
 		$this->CPAHas($$tmp,'Sig','Signature');
 	}
 	public function testCPASetItemTs() {
-		$lang = self::$langs;
+		$lang = $this->langs;
 		$tf = __FUNCTION__;
 		$tmp = "UI$lang";
 		LogTC($tf,'language',$lang);
-		$$tmp = self::$UIL;
+		$$tmp = $this->UIL;
 		$file = $$tmp->TDF;
 		LogTC($tf,'TD file',$file);
 		$this->CPAHas($$tmp,'Ts','Timestamp');
 	}
 	// Test Universal Action Items.
 	public function testUAASetItemEdit() {
-		$lang = self::$langs;
+		$lang = $this->langs;
 		$tf = __FUNCTION__;
 		$tmp = "UI$lang";
 		LogTC($tf,'language',$lang);
-		$$tmp = self::$UIL;
+		$$tmp = $this->UIL;
 		$file = $$tmp->TDF;
 		LogTC($tf,'TD file',$file);
 		$this->UAAHas($$tmp,'Edit','Edit');
 	}
 	public function testUAASetItemDelete() {
-		$lang = self::$langs;
+		$lang = $this->langs;
 		$tf = __FUNCTION__;
 		$tmp = "UI$lang";
 		LogTC($tf,'language',$lang);
-		$$tmp = self::$UIL;
+		$$tmp = $this->UIL;
 		$file = $$tmp->TDF;
 		LogTC($tf,'TD file',$file);
 		$this->UAAHas($$tmp,'Delete','Delete');

@@ -35,14 +35,6 @@ class output_htmlSPTest extends TestCase {
 		self::assertInstanceOf('UILang',self::$UIL = new UILang($ll),
 			"Class for $ll not created."
 		);
-		$PHPV = GetPHPV();
-		if (
-			version_compare($PHPV, '5.2', '>')
-			&& ini_get("safe_mode") == true
-		){
-			// Turn off safe mode.
-			ini_set("safe_mode",0);
-		}
 	}
 	public static function tearDownAfterClass() {
 		self::$UIL = null;
