@@ -95,6 +95,10 @@ before_install:
   - php -m
   # Setup Environment
   - source ./tests/setupenv.sh
+  # Rerun these as setupenv may have enabled some things.
+  - php --ini
+  - php -m
+  - php -i
 
 install:
   # PEAR Support
