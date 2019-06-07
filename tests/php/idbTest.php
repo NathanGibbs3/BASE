@@ -41,7 +41,7 @@ class dbTest extends TestCase {
 	}
 	public function testreturnVerifyDBAbstractionLibInValid() {
 		$DBlib_path = "invalid";
-		$this->assertNotTrue(
+		$this->assertFalse(
 			VerifyDBAbstractionLib($DBlib_path),
 			'Unexpected return VerifyDBAbstractionLib().'
 		);
