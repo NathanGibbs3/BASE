@@ -16,7 +16,6 @@ function GetPHPUV () { // Get PHPUnit Version
 		// Fix for No NameSpaces on PHP 5.2 or lower.
 		$Ret = 0.0; // Default if eval fails.
 		eval("$Ret = PHPUnit\Runner\Version::id();");
-		$Ret = PHPUnit\Runner\Version::id();
 	}elseif ( method_exists('PHPUnit_Runner_Version','id')) {
 		$Ret = PHPUnit_Runner_Version::id();
 	}else{
