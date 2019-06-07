@@ -6,64 +6,13 @@
 //
 // For license info: See the file LICENSE
 //     Project Lead: Nathan Gibbs
-//          Purpose: Generate test sets for multiple PHPUnit Versions.
-//                   Using a canonical test set of PHPUnit Test files.
-//                   Can generate multiple test sets to be run based on
-//                   installed PHP version or a single test set based on
-//                   supplied PHPUnit version.
-//
+//          Purpose: Build Unit tests for diverse PHPUnit versions from a
+//                   master set of PHPUnit tests.
+//                   Generates a single set of Unit tests based on supplied
+//                   PHPUnit version or multiple test sets that can be run by
+//                   PHPUnit based on installed PHP version.
 //        Author(s): Nathan Gibbs
 //
-//          History: While working on the BASE project
-//                   https://github.com/NathanGibbs3/BASE, specifically
-//                   Issue11 https://github.com/NathanGibbs3/BASE/issues/11,
-//                   We ended up with test sets for 3 different versions of
-//                   PHPUnit. The gaol is to accommodate the PHP/PHPUnit
-//                   combinations run by default on travis-ci while building
-//                   with all available PHP X.Y versions. At least 90% of the
-//                   test set code was identical. What differed were the
-//                   details in, Class defines, Namespaced vs. Non-Namespaced;
-//                   and test fixture defines, Typehinted vs. Non-Typehinted.
-//
-//                   Occasionally, builds failed or did not test the same code
-//                   on a specific PHPUnit as maintaining the test sets was
-//                   done manualy. Local testing in VM's also raised new
-//                   issues with PHP/PHPUnit combinations not seen via CI. Our
-//                   solution, a tool to build, from a canonical test set, the
-//                   test set that PHPUnit actually runs.
-//
-
-// Cmd Line Options ( space sepearated ).
-// All Locations relative to execution dir.
-//	Location of Master Test Set ( defaults to tests/php );
-//	Location of Test Build ( defaults to tests/PhpUnit );
-//		If option is set to "multi" will search for multiple Test Set
-//		Locations formated as tests/phpX.X
-//		Dir tests/php5.2 Tests built as Non-Ns Non-Th
-//		Dir tests/php7.1 Tests built as Ns Th
-//		Anythng else defaults to Ns Non-Th
-//	PHPUnit Version ( defaults to 0.0.0 )
-//
-// Examples:
-// php -f ./tests/phptestgen.php
-//    Looks for Master test set in ./tests/php
-//      Builds PHPUnit test set in ./tests/PhpUnit
-// php -f ./tests/phptestgen.php LocA
-//    Looks for Master test set in ./tests/LocA
-//      Builds PHPUnit test set in ./tests/PhpUnit
-// php -f ./tests/phptestgen.php LocA LocB
-//    Looks for Master test set in ./tests/LocA
-//      Builds PHPUnit test set in ./tests/LocB
-// php -f ./tests/phptestgen.php LocA multi
-//    Looks for Master test set in ./tests/LocA
-//      Builds PHPUnit test set in ./tests/php*.* with customizations.
-//
-// Any of the above with an additional PHPUnit option given as X.Y.Z will write
-// files as specified above with customization.
-// When PHPUnit version is <  4.8.28, tests built as Non-Ns Non-Th.
-// When PHPUnit vesrion is between, tests built as Ns Non-Th.
-// When PHPUnit version is >= 7.0, tests built as Ns Th.
-
 
 $debug = 0; // Debuging output information level.
 $Testing = 0; // Run in testing mode. Do not write to the filse system.
@@ -77,7 +26,7 @@ if ($debug > 0) {
 }
 
 // Set defaults.
-$Ver = '0.0.1'; // Release Version
+$Ver = '0.0.3'; // Release Version
 $Mts = 'tests/php'; // Master Test Set
 $tsl = array("$BD/tests/PhpUnit"); // Test Set Build List
 $PHPUV = '0.0.0'; // PHP Unit Ver.
@@ -141,6 +90,21 @@ if ($tfl == NULL) {
 			$TgNs = 1;
 			$TgTh = 0;
 			print " Build Test Set: $gts\n";
+			// Clean Old Tests form dir.
+			$ots = testfiles("$gts");
+			if ($ots != NULL) {
+				foreach($ots as $otf){ // Process Test files.
+					$otfn = "$gts/$otf";
+					if ( $Testing == 0 ) {
+						if ($debug > 0) {
+							print "Delete old test: $otfn\n";
+						}
+						unlink ($otfn);
+					}else{
+						print "Would delete old test: $otfn\n";
+					}
+				}
+			}
 			if ( $PHPUV == '0.0.0' ){
 				if(preg_match("/tests\/php5.2/", $gts)) {
 					$TgNs = 0;
@@ -349,7 +313,9 @@ function GetPHPUV () { // Get PHPUnit Version
 	if ( method_exists('PHPUnit_Runner_Version','id')) {
 		$Ret = PHPUnit_Runner_Version::id();
 	}elseif (method_exists('PHPUnit\Runner\Version','id')) {
-		$Ret = PHPUnit\Runner\Version::id();
+		# Fix for No NameSpaces on PHP 5.2 or lower.
+		$Ret = 0.0; // Default if eval fails.
+		eval("$Ret = PHPUnit\Runner\Version::id();");
 	}else{
 		$Ret = 0.0;
 	}
