@@ -17,8 +17,10 @@
 **
 ********************************************************************************
 */
-  
-  include("../base_conf.php");
+
+	$BASE_path = dirname(__FILE__);
+	$BASE_path = preg_replace("/\/admin.*/", "", $BASE_path);
+	include("$BASE_path/base_conf.php");
   include("$BASE_path/includes/base_constants.inc.php");
   include("$BASE_path/includes/base_include.inc.php");
   include_once("$BASE_path/base_db_common.php");
