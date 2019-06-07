@@ -26,7 +26,7 @@ if ($debug > 0) {
 }
 
 // Set defaults.
-$Ver = '0.0.2'; // Release Version
+$Ver = '0.0.3'; // Release Version
 $Mts = 'tests/php'; // Master Test Set
 $tsl = array("$BD/tests/PhpUnit"); // Test Set Build List
 $PHPUV = '0.0.0'; // PHP Unit Ver.
@@ -313,7 +313,9 @@ function GetPHPUV () { // Get PHPUnit Version
 	if ( method_exists('PHPUnit_Runner_Version','id')) {
 		$Ret = PHPUnit_Runner_Version::id();
 	}elseif (method_exists('PHPUnit\Runner\Version','id')) {
-		$Ret = PHPUnit\Runner\Version::id();
+		# Fix for No NameSpaces on PHP 5.2 or lower.
+		$Ret = 0.0; // Default if eval fails.
+		eval("$Ret = PHPUnit\Runner\Version::id();");
 	}else{
 		$Ret = 0.0;
 	}
