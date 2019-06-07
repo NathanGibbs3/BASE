@@ -26,8 +26,8 @@ echo "PEAR install path: $peip"
 echo " PHP include path: $phip"
 
 if [ "$TRAVIS" == "true" ]; then
-	# Don't update channel on travis-ci PHP 5.2x
-	if [ "$pvM" \< "5" ] || ( [ "$pvM" == "5" ] && [ "$pvm" \< "3" ]); then
+	# Don't update channel on travis-ci PHP < 5.3x
+	if [ "$pvM" \> "5" ] || ( [ "$pvM" == "5" ] && [ "$pvm" \> "2" ]); then
 		pear channel-update pear.php.net
 	fi
 	pear install mail Mail_Mime
