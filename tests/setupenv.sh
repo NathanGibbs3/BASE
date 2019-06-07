@@ -224,5 +224,4 @@ if [ "$1" == "" ]; then
 		echo "Creating Build Log Directory: `pwd`/build/logs"
 		mkdir -p build/logs
 	fi
-	pear -V
 fi
