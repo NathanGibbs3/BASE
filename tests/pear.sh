@@ -26,9 +26,17 @@ echo "PEAR install path: $peip"
 echo " PHP include path: $phip"
 
 if [ "$TRAVIS" == "true" ]; then
-	# Don't update channel on travis-ci PHP < 5.3x
+	# Pear doesn't work on travis-ci PHP 5.2x
+	# Due to openssl not being built into PHP.
 	if [ "$pvM" \> "5" ] || ( [ "$pvM" == "5" ] && [ "$pvm" \> "2" ]); then
+		# Manual install
+		wget -nv http://download.pear.php.net/package/Mail-1.4.1.tgz -O build/Mail.tgz
+		wget -nv http://download.pear.php.net/package/Mail_Mime-1.10.2.tgz -O build/Mail_Mime.tgz
+		pear install build/Mail.tgz
+		pear install build/Mail_Mime.tgz
+	else
+		# Pear Install
 		pear channel-update pear.php.net
+		pear install mail Mail_Mime
 	fi
-	pear install mail Mail_Mime
 fi
