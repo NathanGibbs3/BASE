@@ -23,12 +23,12 @@ services:
 # Default matrix overlay.
 matrix:
   include:
-#    - php: 5.2
-#      dist: precise
-#      env: DB=mysql
-#    - php: 5.2
-#      dist: precise
-#      env: DB=postgres
+    - php: 5.2
+      dist: precise
+      env: DB=mysql
+    - php: 5.2
+      dist: precise
+      env: DB=postgres
     - php: 5.3
       dist: precise
       env: DB=mysql
