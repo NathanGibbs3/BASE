@@ -45,7 +45,7 @@ else if (!is_readable($ado_inc_php))
   exit();
 }
 include($ado_inc_php);
-include("../includes/base_state_common.inc.php");
+include_once("../includes/base_state_common.inc.php");
 include_once("../includes/base_constants.inc.php");
 
 if (file_exists('../base_conf.php'))
