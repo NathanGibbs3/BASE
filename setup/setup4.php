@@ -26,7 +26,7 @@
    $BASE_InstallID = 1;
    
   include("../languages/english.lang.php");
-  include("../includes/base_constants.inc.php");
+include_once("../includes/base_constants.inc.php");
   include("../includes/base_include.inc.php");
   include_once("../base_db_common.php");
   include_once("../base_common.php");
