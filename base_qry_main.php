@@ -67,7 +67,7 @@
  */
 
   include("base_conf.php");
-  include("$BASE_path/includes/base_constants.inc.php");
+include_once("$BASE_path/includes/base_constants.inc.php");
   include("$BASE_path/includes/base_include.inc.php");
 
   include_once("$BASE_path/includes/base_action.inc.php");

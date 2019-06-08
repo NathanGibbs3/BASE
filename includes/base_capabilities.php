@@ -1,4 +1,4 @@
-<?PHP
+<?php
 /*******************************************************************************
 ** Basic Analysis and Security Engine (BASE)
 ** Copyright (C) 2004 BASE Project Team

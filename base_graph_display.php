@@ -33,8 +33,8 @@
 */
 
   include ("base_conf.php");
-  include ("$BASE_path/includes/base_constants.inc.php");
-  include ("$BASE_path/includes/base_state_common.inc.php");
+include_once ("$BASE_path/includes/base_constants.inc.php");
+include_once ("$BASE_path/includes/base_state_common.inc.php");
   include ("$BASE_path/base_graph_common.php");
   require_once('Image/Graph.php');
   
