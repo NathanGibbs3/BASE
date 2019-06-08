@@ -17,7 +17,6 @@ $stat_page_refresh_time = 180;
 $debug_time_mode = 1;
 $debug_mode = 0;
 $sql_trace_mode = 0;
-$db_connect_method = 1;
 
 print "   Testing with: (BASE) $BASE_installID $BASE_VERSION\n";
 print "Testing code in: $BASE_path\n";
