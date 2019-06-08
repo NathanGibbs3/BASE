@@ -12,17 +12,29 @@ function GetPHPV () { // Get PHP Version
 	return "$version[0].$version[1].$version[2]";
 }
 function GetPHPUV () { // Get PHPUnit Version
-	if (method_exists('PHPUnit\Runner\Version','id')) {
+	if ( method_exists('PHPUnit_Runner_Version','id')) {
+		$Ret = PHPUnit_Runner_Version::id();
+	}elseif (method_exists('PHPUnit\Runner\Version','id')) {
 		// Fix for No NameSpaces on PHP 5.2 or lower.
 		$Ret = 0.0; // Default if eval fails.
 		eval("$Ret = PHPUnit\Runner\Version::id();");
-	}elseif ( method_exists('PHPUnit_Runner_Version','id')) {
-		$Ret = PHPUnit_Runner_Version::id();
 	}else{
 		$Ret = 0.0;
 	}
 	return $Ret;
 }
+//function GetPHPUV () { // Get PHPUnit Version
+//	if (method_exists('PHPUnit\Runner\Version','id')) {
+//		// Fix for No NameSpaces on PHP 5.2 or lower.
+//		$Ret = 0.0; // Default if eval fails.
+//		eval("$Ret = PHPUnit\Runner\Version::id();");
+//	}elseif ( method_exists('PHPUnit_Runner_Version','id')) {
+//		$Ret = PHPUnit_Runner_Version::id();
+//	}else{
+//		$Ret = 0.0;
+//	}
+//	return $Ret;
+//}
 function LogTC ($cf,$Item,$Value) { // Output to Test Console
 	GLOBAL $debug_mode;
 	if ($debug_mode > 0) {
