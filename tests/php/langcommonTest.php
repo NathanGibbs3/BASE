@@ -212,9 +212,11 @@ class commonlangTest extends TestCase {
 			$kD = 'Invalid Item';
 			$EEM = "Invalid AD Set Request for: $key.";
 			$PHPUV = GetPHPUV();
-			if (version_compare($PHPUV, '4.0', '<')) {
-				$this->markTestSkipped('Requires Phpunit 4+ to run.');
-			}elseif (version_compare($PHPUV, '5.0', '<')) { // PHPUnit 4x
+//			if (version_compare($PHPUV, '4.0', '<')) {
+//				$this->markTestSkipped('Requires Phpunit 4+ to run.');
+//			}else
+			if (version_compare($PHPUV, '5.0', '<')) { // PHPUnit 4x
+				print "PHPUnit: $PHPUV \n";
 				$this->setExpectedException(
 					"PHPUnit_Framework_Error_Notice", $EEM
 				);
@@ -247,9 +249,10 @@ class commonlangTest extends TestCase {
 		$kD = 'Invalid Item';
 		$EEM = "Invalid CW Set Request for: $key.";
 		$PHPUV = GetPHPUV();
-		if (version_compare($PHPUV, '4.0', '<')) {
-			$this->markTestSkipped('Requires Phpunit 4+ to run.');
-		}elseif (version_compare($PHPUV, '5.0', '<')) { // PHPUnit 4x
+//		if (version_compare($PHPUV, '4.0', '<')) {
+//			$this->markTestSkipped('Requires Phpunit 4+ to run.');
+//		}else
+		if (version_compare($PHPUV, '5.0', '<')) { // PHPUnit 4x
 			$this->setExpectedException(
 				"PHPUnit_Framework_Error_Notice", $EEM
 			);
@@ -277,9 +280,10 @@ class commonlangTest extends TestCase {
 		$kD = 'Invalid Item';
 		$EEM = "Invalid CP Set Request for: $key.";
 		$PHPUV = GetPHPUV();
-		if (version_compare($PHPUV, '4.0', '<')) {
-			$this->markTestSkipped('Requires Phpunit 4+ to run.');
-		}elseif (version_compare($PHPUV, '5.0', '<')) { // PHPUnit 4x
+//		if (version_compare($PHPUV, '4.0', '<')) {
+//			$this->markTestSkipped('Requires Phpunit 4+ to run.');
+//		}else
+		if (version_compare($PHPUV, '5.0', '<')) { // PHPUnit 4x
 			$this->setExpectedException(
 				"PHPUnit_Framework_Error_Notice", $EEM
 			);
@@ -307,9 +311,10 @@ class commonlangTest extends TestCase {
 		$kD = 'Invalid Item';
 		$EEM = "Invalid UA Set Request for: $key.";
 		$PHPUV = GetPHPUV();
-		if (version_compare($PHPUV, '4.0', '<')) {
-			$this->markTestSkipped('Requires Phpunit 4+ to run.');
-		}elseif (version_compare($PHPUV, '5.0', '<')) { // PHPUnit 4x
+//		if (version_compare($PHPUV, '4.0', '<')) {
+//			$this->markTestSkipped('Requires Phpunit 4+ to run.');
+//		}else
+		if (version_compare($PHPUV, '5.0', '<')) { // PHPUnit 4x
 			$this->setExpectedException(
 				"PHPUnit_Framework_Error_Notice", $EEM
 			);
