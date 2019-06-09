@@ -57,9 +57,9 @@ class commonlangSPTest extends TestCase {
 		$tmp = "UI$lang";
 		$EEM = "No TD found for Language: invalid. Default to english.\n";
 		$PHPUV = GetPHPUV();
-		if (version_compare($PHPUV, '4.0', '<')) {
-			$this->markTestSkipped('Requires Phpunit 4+ to run.');
-		}elseif (version_compare($PHPUV, '5.0', '<')) { // PHPUnit 4x
+		if (version_compare($PHPUV, '3.0', '<')) {
+			$this->markTestSkipped('Requires Phpunit 3+ to run.');
+		}elseif (version_compare($PHPUV, '5.0', '<')) { // PHPUnit 3x - 4x
 			$this->setExpectedException(
 				"PHPUnit_Framework_Error_Notice", $EEM
 			);

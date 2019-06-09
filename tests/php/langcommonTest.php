@@ -115,9 +115,9 @@ class commonlangTest extends TestCase {
 		LogTC($tf,'TD file:',$file);
 		$EEM = "Missing TD Item: NULL.\n";
 		$PHPUV = GetPHPUV();
-		if (version_compare($PHPUV, '4.0', '<')) {
-			$this->markTestSkipped('Requires Phpunit 4+ to run.');
-		}elseif (version_compare($PHPUV, '5.0', '<')) { // PHPUnit 4x
+		if (version_compare($PHPUV, '3.0', '<')) {
+			$this->markTestSkipped('Requires Phpunit 3+ to run.');
+		}elseif (version_compare($PHPUV, '5.0', '<')) { // PHPUnit 3x - 4x
 			$this->setExpectedException(
 				"PHPUnit_Framework_Error_Notice", $EEM
 			);
@@ -212,11 +212,9 @@ class commonlangTest extends TestCase {
 			$kD = 'Invalid Item';
 			$EEM = "Invalid AD Set Request for: $key.";
 			$PHPUV = GetPHPUV();
-//			if (version_compare($PHPUV, '4.0', '<')) {
-//				$this->markTestSkipped('Requires Phpunit 4+ to run.');
-//			}else
-			if (version_compare($PHPUV, '5.0', '<')) { // PHPUnit 4x
-				print "PHPUnit: $PHPUV \n";
+			if (version_compare($PHPUV, '3.0', '<')) {
+				$this->markTestSkipped('Requires Phpunit 3+ to run.');
+			}elseif (version_compare($PHPUV, '5.0', '<')) { // PHPUnit 3x - 4x
 				$this->setExpectedException(
 					"PHPUnit_Framework_Error_Notice", $EEM
 				);
@@ -249,10 +247,9 @@ class commonlangTest extends TestCase {
 		$kD = 'Invalid Item';
 		$EEM = "Invalid CW Set Request for: $key.";
 		$PHPUV = GetPHPUV();
-//		if (version_compare($PHPUV, '4.0', '<')) {
-//			$this->markTestSkipped('Requires Phpunit 4+ to run.');
-//		}else
-		if (version_compare($PHPUV, '5.0', '<')) { // PHPUnit 4x
+		if (version_compare($PHPUV, '3.0', '<')) {
+			$this->markTestSkipped('Requires Phpunit 3+ to run.');
+		}elseif (version_compare($PHPUV, '5.0', '<')) { // PHPUnit 3x - 4x
 			$this->setExpectedException(
 				"PHPUnit_Framework_Error_Notice", $EEM
 			);
@@ -280,10 +277,9 @@ class commonlangTest extends TestCase {
 		$kD = 'Invalid Item';
 		$EEM = "Invalid CP Set Request for: $key.";
 		$PHPUV = GetPHPUV();
-//		if (version_compare($PHPUV, '4.0', '<')) {
-//			$this->markTestSkipped('Requires Phpunit 4+ to run.');
-//		}else
-		if (version_compare($PHPUV, '5.0', '<')) { // PHPUnit 4x
+		if (version_compare($PHPUV, '3.0', '<')) {
+			$this->markTestSkipped('Requires Phpunit 3+ to run.');
+		}elseif (version_compare($PHPUV, '5.0', '<')) { // PHPUnit 3x - 4x
 			$this->setExpectedException(
 				"PHPUnit_Framework_Error_Notice", $EEM
 			);
@@ -311,10 +307,9 @@ class commonlangTest extends TestCase {
 		$kD = 'Invalid Item';
 		$EEM = "Invalid UA Set Request for: $key.";
 		$PHPUV = GetPHPUV();
-//		if (version_compare($PHPUV, '4.0', '<')) {
-//			$this->markTestSkipped('Requires Phpunit 4+ to run.');
-//		}else
-		if (version_compare($PHPUV, '5.0', '<')) { // PHPUnit 4x
+		if (version_compare($PHPUV, '3.0', '<')) {
+			$this->markTestSkipped('Requires Phpunit 3+ to run.');
+		}elseif (version_compare($PHPUV, '5.0', '<')) { // PHPUnit 3x - 4x
 			$this->setExpectedException(
 				"PHPUnit_Framework_Error_Notice", $EEM
 			);

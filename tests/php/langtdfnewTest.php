@@ -97,9 +97,9 @@ class langTest extends TestCase {
 			LogTC($tf,"Create UILang Class","$tmp for $lang");
 			// Expect errors as we Transition Translation Data
 			$PHPUV = $this->PHPUV;
-			if (version_compare($PHPUV, '4.0', '<')) {
-				$this->markTestSkipped('Requires Phpunit 4+ to run.');
-			}elseif (version_compare($PHPUV, '5.0', '<')) { // PHPUnit 4x
+			if (version_compare($PHPUV, '3.0', '<')) {
+				$this->markTestSkipped('Requires Phpunit 3+ to run.');
+			}elseif (version_compare($PHPUV, '5.0', '<')) { // PHPUnit 3x - 4x
 				$this->setExpectedException("PHPUnit_Framework_Error");
 			}elseif (version_compare($PHPUV, '6.0', '<')) { // PHPUnit 5x
 				$this->expectException("PHPUnit_Framework_Error");
@@ -123,9 +123,9 @@ class langTest extends TestCase {
 			LogTC($tf,'language',$lang);
 			// Expect errors as we Transition Translation Data
 			$PHPUV = $this->PHPUV;
-			if (version_compare($PHPUV, '4.0', '<')) {
-				$this->markTestSkipped('Requires Phpunit 4+ to run.');
-			}elseif (version_compare($PHPUV, '5.0', '<')) { // PHPUnit 4x
+			if (version_compare($PHPUV, '3.0', '<')) {
+				$this->markTestSkipped('Requires Phpunit 3+ to run.');
+			}elseif (version_compare($PHPUV, '5.0', '<')) { // PHPUnit 3x - 4x
 				$this->setExpectedException("PHPUnit_Framework_Error");
 			}elseif (version_compare($PHPUV, '6.0', '<')) { // PHPUnit 5x
 				$this->expectException("PHPUnit_Framework_Error");
@@ -157,9 +157,9 @@ class langTest extends TestCase {
 			LogTC($tf,'language',$lang);
 			// Expect errors as we Transition Translation Data
 			$PHPUV = $this->PHPUV;
-			if (version_compare($PHPUV, '4.0', '<')) {
-				$this->markTestSkipped('Requires Phpunit 4+ to run.');
-			}elseif (version_compare($PHPUV, '5.0', '<')) { // PHPUnit 4x
+			if (version_compare($PHPUV, '3.0', '<')) {
+				$this->markTestSkipped('Requires Phpunit 3+ to run.');
+			}elseif (version_compare($PHPUV, '5.0', '<')) { // PHPUnit 3x - 4x
 				$this->setExpectedException("PHPUnit_Framework_Error");
 			}elseif (version_compare($PHPUV, '6.0', '<')) { // PHPUnit 5x
 				$this->expectException("PHPUnit_Framework_Error");
@@ -185,9 +185,9 @@ class langTest extends TestCase {
 			LogTC($tf,'language',$lang);
 			// Expect errors as we Transition Translation Data
 			$PHPUV = $this->PHPUV;
-			if (version_compare($PHPUV, '4.0', '<')) {
-				$this->markTestSkipped('Requires Phpunit 4+ to run.');
-			}elseif (version_compare($PHPUV, '5.0', '<')) { // PHPUnit 4x
+			if (version_compare($PHPUV, '3.0', '<')) {
+				$this->markTestSkipped('Requires Phpunit 3+ to run.');
+			}elseif (version_compare($PHPUV, '5.0', '<')) { // PHPUnit 3x - 4x
 				$this->setExpectedException("PHPUnit_Framework_Error");
 			}elseif (version_compare($PHPUV, '6.0', '<')) { // PHPUnit 5x
 				$this->expectException("PHPUnit_Framework_Error");
@@ -213,9 +213,9 @@ class langTest extends TestCase {
 			LogTC($tf,'language',$lang);
 			// Expect errors as we Transition Translation Data
 			$PHPUV = $this->PHPUV;
-			if (version_compare($PHPUV, '4.0', '<')) {
-				$this->markTestSkipped('Requires Phpunit 4+ to run.');
-			}elseif (version_compare($PHPUV, '5.0', '<')) { // PHPUnit 4x
+			if (version_compare($PHPUV, '3.0', '<')) {
+				$this->markTestSkipped('Requires Phpunit 3+ to run.');
+			}elseif (version_compare($PHPUV, '5.0', '<')) { // PHPUnit 3x - 4x
 				$this->setExpectedException("PHPUnit_Framework_Error");
 			}elseif (version_compare($PHPUV, '6.0', '<')) { // PHPUnit 5x
 				$this->expectException("PHPUnit_Framework_Error");
@@ -243,9 +243,9 @@ class langTest extends TestCase {
 			LogTC($tf,'language',$lang);
 			// Expect errors as we Transition Translation Data
 			$PHPUV = $this->PHPUV;
-			if (version_compare($PHPUV, '4.0', '<')) {
-				$this->markTestSkipped('Requires Phpunit 4+ to run.');
-			}elseif (version_compare($PHPUV, '5.0', '<')) { // PHPUnit 4x
+			if (version_compare($PHPUV, '3.0', '<')) {
+				$this->markTestSkipped('Requires Phpunit 3+ to run.');
+			}elseif (version_compare($PHPUV, '5.0', '<')) { // PHPUnit 3x - 4x
 				$this->setExpectedException("PHPUnit_Framework_Error");
 			}elseif (version_compare($PHPUV, '6.0', '<')) { // PHPUnit 5x
 				$this->expectException("PHPUnit_Framework_Error");
@@ -279,9 +279,9 @@ class langTest extends TestCase {
 			LogTC($tf,'language',$lang);
 			// Expect errors as we Transition Translation Data
 			$PHPUV = $this->PHPUV;
-			if (version_compare($PHPUV, '4.0', '<')) {
-				$this->markTestSkipped('Requires Phpunit 4+ to run.');
-			}elseif (version_compare($PHPUV, '5.0', '<')) { // PHPUnit 4x
+			if (version_compare($PHPUV, '3.0', '<')) {
+				$this->markTestSkipped('Requires Phpunit 3+ to run.');
+			}elseif (version_compare($PHPUV, '5.0', '<')) { // PHPUnit 3x - 4x
 				$this->setExpectedException("PHPUnit_Framework_Error");
 			}elseif (version_compare($PHPUV, '6.0', '<')) { // PHPUnit 5x
 				$this->expectException("PHPUnit_Framework_Error");
@@ -315,9 +315,9 @@ class langTest extends TestCase {
 			LogTC($tf,'language',$lang);
 			// Expect errors as we Transition Translation Data
 			$PHPUV = $this->PHPUV;
-			if (version_compare($PHPUV, '4.0', '<')) {
-				$this->markTestSkipped('Requires Phpunit 4+ to run.');
-			}elseif (version_compare($PHPUV, '5.0', '<')) { // PHPUnit 4x
+			if (version_compare($PHPUV, '3.0', '<')) {
+				$this->markTestSkipped('Requires Phpunit 3+ to run.');
+			}elseif (version_compare($PHPUV, '5.0', '<')) { // PHPUnit 3x - 4x
 				$this->setExpectedException("PHPUnit_Framework_Error");
 			}elseif (version_compare($PHPUV, '6.0', '<')) { // PHPUnit 5x
 				$this->expectException("PHPUnit_Framework_Error");
@@ -351,9 +351,9 @@ class langTest extends TestCase {
 			LogTC($tf,'language',$lang);
 			// Expect errors as we Transition Translation Data
 			$PHPUV = $this->PHPUV;
-			if (version_compare($PHPUV, '4.0', '<')) {
-				$this->markTestSkipped('Requires Phpunit 4+ to run.');
-			}elseif (version_compare($PHPUV, '5.0', '<')) { // PHPUnit 4x
+			if (version_compare($PHPUV, '3.0', '<')) {
+				$this->markTestSkipped('Requires Phpunit 3+ to run.');
+			}elseif (version_compare($PHPUV, '5.0', '<')) { // PHPUnit 3x - 4x
 				$this->setExpectedException("PHPUnit_Framework_Error");
 			}elseif (version_compare($PHPUV, '6.0', '<')) { // PHPUnit 5x
 				$this->expectException("PHPUnit_Framework_Error");
@@ -387,9 +387,9 @@ class langTest extends TestCase {
 			LogTC($tf,'language',$lang);
 			// Expect errors as we Transition Translation Data
 			$PHPUV = $this->PHPUV;
-			if (version_compare($PHPUV, '4.0', '<')) {
-				$this->markTestSkipped('Requires Phpunit 4+ to run.');
-			}elseif (version_compare($PHPUV, '5.0', '<')) { // PHPUnit 4x
+			if (version_compare($PHPUV, '3.0', '<')) {
+				$this->markTestSkipped('Requires Phpunit 3+ to run.');
+			}elseif (version_compare($PHPUV, '5.0', '<')) { // PHPUnit 3x - 4x
 				$this->setExpectedException("PHPUnit_Framework_Error");
 			}elseif (version_compare($PHPUV, '6.0', '<')) { // PHPUnit 5x
 				$this->expectException("PHPUnit_Framework_Error");
@@ -413,9 +413,9 @@ class langTest extends TestCase {
 			LogTC($tf,'language',$lang);
 			// Expect errors as we Transition Translation Data
 			$PHPUV = $this->PHPUV;
-			if (version_compare($PHPUV, '4.0', '<')) {
-				$this->markTestSkipped('Requires Phpunit 4+ to run.');
-			}elseif (version_compare($PHPUV, '5.0', '<')) { // PHPUnit 4x
+			if (version_compare($PHPUV, '3.0', '<')) {
+				$this->markTestSkipped('Requires Phpunit 3+ to run.');
+			}elseif (version_compare($PHPUV, '5.0', '<')) { // PHPUnit 3x - 4x
 				$this->setExpectedException("PHPUnit_Framework_Error");
 			}elseif (version_compare($PHPUV, '6.0', '<')) { // PHPUnit 5x
 				$this->expectException("PHPUnit_Framework_Error");
@@ -438,9 +438,9 @@ class langTest extends TestCase {
 			LogTC($tf,'language',$lang);
 			// Expect errors as we Transition Translation Data
 			$PHPUV = $this->PHPUV;
-			if (version_compare($PHPUV, '4.0', '<')) {
-				$this->markTestSkipped('Requires Phpunit 4+ to run.');
-			}elseif (version_compare($PHPUV, '5.0', '<')) { // PHPUnit 4x
+			if (version_compare($PHPUV, '3.0', '<')) {
+				$this->markTestSkipped('Requires Phpunit 3+ to run.');
+			}elseif (version_compare($PHPUV, '5.0', '<')) { // PHPUnit 3x - 4x
 				$this->setExpectedException("PHPUnit_Framework_Error");
 			}elseif (version_compare($PHPUV, '6.0', '<')) { // PHPUnit 5x
 				$this->expectException("PHPUnit_Framework_Error");
@@ -463,9 +463,9 @@ class langTest extends TestCase {
 			LogTC($tf,'language',$lang);
 			// Expect errors as we Transition Translation Data
 			$PHPUV = $this->PHPUV;
-			if (version_compare($PHPUV, '4.0', '<')) {
-				$this->markTestSkipped('Requires Phpunit 4+ to run.');
-			}elseif (version_compare($PHPUV, '5.0', '<')) { // PHPUnit 4x
+			if (version_compare($PHPUV, '3.0', '<')) {
+				$this->markTestSkipped('Requires Phpunit 3+ to run.');
+			}elseif (version_compare($PHPUV, '5.0', '<')) { // PHPUnit 3x - 4x
 				$this->setExpectedException("PHPUnit_Framework_Error");
 			}elseif (version_compare($PHPUV, '6.0', '<')) { // PHPUnit 5x
 				$this->expectException("PHPUnit_Framework_Error");
@@ -488,9 +488,9 @@ class langTest extends TestCase {
 			LogTC($tf,'language',$lang);
 			// Expect errors as we Transition Translation Data
 			$PHPUV = $this->PHPUV;
-			if (version_compare($PHPUV, '4.0', '<')) {
-				$this->markTestSkipped('Requires Phpunit 4+ to run.');
-			}elseif (version_compare($PHPUV, '5.0', '<')) { // PHPUnit 4x
+			if (version_compare($PHPUV, '3.0', '<')) {
+				$this->markTestSkipped('Requires Phpunit 3+ to run.');
+			}elseif (version_compare($PHPUV, '5.0', '<')) { // PHPUnit 3x - 4x
 				$this->setExpectedException("PHPUnit_Framework_Error");
 			}elseif (version_compare($PHPUV, '6.0', '<')) { // PHPUnit 5x
 				$this->expectException("PHPUnit_Framework_Error");
@@ -513,9 +513,9 @@ class langTest extends TestCase {
 			LogTC($tf,'language',$lang);
 			// Expect errors as we Transition Translation Data
 			$PHPUV = $this->PHPUV;
-			if (version_compare($PHPUV, '4.0', '<')) {
-				$this->markTestSkipped('Requires Phpunit 4+ to run.');
-			}elseif (version_compare($PHPUV, '5.0', '<')) { // PHPUnit 4x
+			if (version_compare($PHPUV, '3.0', '<')) {
+				$this->markTestSkipped('Requires Phpunit 3+ to run.');
+			}elseif (version_compare($PHPUV, '5.0', '<')) { // PHPUnit 3x - 4x
 				$this->setExpectedException("PHPUnit_Framework_Error");
 			}elseif (version_compare($PHPUV, '6.0', '<')) { // PHPUnit 5x
 				$this->expectException("PHPUnit_Framework_Error");
@@ -538,9 +538,9 @@ class langTest extends TestCase {
 			LogTC($tf,'language',$lang);
 			// Expect errors as we Transition Translation Data
 			$PHPUV = $this->PHPUV;
-			if (version_compare($PHPUV, '4.0', '<')) {
-				$this->markTestSkipped('Requires Phpunit 4+ to run.');
-			}elseif (version_compare($PHPUV, '5.0', '<')) { // PHPUnit 4x
+			if (version_compare($PHPUV, '3.0', '<')) {
+				$this->markTestSkipped('Requires Phpunit 3+ to run.');
+			}elseif (version_compare($PHPUV, '5.0', '<')) { // PHPUnit 3x - 4x
 				$this->setExpectedException("PHPUnit_Framework_Error");
 			}elseif (version_compare($PHPUV, '6.0', '<')) { // PHPUnit 5x
 				$this->expectException("PHPUnit_Framework_Error");
@@ -563,9 +563,9 @@ class langTest extends TestCase {
 			LogTC($tf,'language',$lang);
 			// Expect errors as we Transition Translation Data
 			$PHPUV = $this->PHPUV;
-			if (version_compare($PHPUV, '4.0', '<')) {
-				$this->markTestSkipped('Requires Phpunit 4+ to run.');
-			}elseif (version_compare($PHPUV, '5.0', '<')) { // PHPUnit 4x
+			if (version_compare($PHPUV, '3.0', '<')) {
+				$this->markTestSkipped('Requires Phpunit 3+ to run.');
+			}elseif (version_compare($PHPUV, '5.0', '<')) { // PHPUnit 3x - 4x
 				$this->setExpectedException("PHPUnit_Framework_Error");
 			}elseif (version_compare($PHPUV, '6.0', '<')) { // PHPUnit 5x
 				$this->expectException("PHPUnit_Framework_Error");
@@ -588,9 +588,9 @@ class langTest extends TestCase {
 			LogTC($tf,'language',$lang);
 			// Expect errors as we Transition Translation Data
 			$PHPUV = $this->PHPUV;
-			if (version_compare($PHPUV, '4.0', '<')) {
-				$this->markTestSkipped('Requires Phpunit 4+ to run.');
-			}elseif (version_compare($PHPUV, '5.0', '<')) { // PHPUnit 4x
+			if (version_compare($PHPUV, '3.0', '<')) {
+				$this->markTestSkipped('Requires Phpunit 3+ to run.');
+			}elseif (version_compare($PHPUV, '5.0', '<')) { // PHPUnit 3x - 4x
 				$this->setExpectedException("PHPUnit_Framework_Error");
 			}elseif (version_compare($PHPUV, '6.0', '<')) { // PHPUnit 5x
 				$this->expectException("PHPUnit_Framework_Error");
@@ -613,9 +613,9 @@ class langTest extends TestCase {
 			LogTC($tf,'language',$lang);
 			// Expect errors as we Transition Translation Data
 			$PHPUV = $this->PHPUV;
-			if (version_compare($PHPUV, '4.0', '<')) {
-				$this->markTestSkipped('Requires Phpunit 4+ to run.');
-			}elseif (version_compare($PHPUV, '5.0', '<')) { // PHPUnit 4x
+			if (version_compare($PHPUV, '3.0', '<')) {
+				$this->markTestSkipped('Requires Phpunit 3+ to run.');
+			}elseif (version_compare($PHPUV, '5.0', '<')) { // PHPUnit 3x - 4x
 				$this->setExpectedException("PHPUnit_Framework_Error");
 			}elseif (version_compare($PHPUV, '6.0', '<')) { // PHPUnit 5x
 				$this->expectException("PHPUnit_Framework_Error");
@@ -638,9 +638,9 @@ class langTest extends TestCase {
 			LogTC($tf,'language',$lang);
 			// Expect errors as we Transition Translation Data
 			$PHPUV = $this->PHPUV;
-			if (version_compare($PHPUV, '4.0', '<')) {
-				$this->markTestSkipped('Requires Phpunit 4+ to run.');
-			}elseif (version_compare($PHPUV, '5.0', '<')) { // PHPUnit 4x
+			if (version_compare($PHPUV, '3.0', '<')) {
+				$this->markTestSkipped('Requires Phpunit 3+ to run.');
+			}elseif (version_compare($PHPUV, '5.0', '<')) { // PHPUnit 3x - 4x
 				$this->setExpectedException("PHPUnit_Framework_Error");
 			}elseif (version_compare($PHPUV, '6.0', '<')) { // PHPUnit 5x
 				$this->expectException("PHPUnit_Framework_Error");
@@ -663,9 +663,9 @@ class langTest extends TestCase {
 			LogTC($tf,'language',$lang);
 			// Expect errors as we Transition Translation Data
 			$PHPUV = $this->PHPUV;
-			if (version_compare($PHPUV, '4.0', '<')) {
-				$this->markTestSkipped('Requires Phpunit 4+ to run.');
-			}elseif (version_compare($PHPUV, '5.0', '<')) { // PHPUnit 4x
+			if (version_compare($PHPUV, '3.0', '<')) {
+				$this->markTestSkipped('Requires Phpunit 3+ to run.');
+			}elseif (version_compare($PHPUV, '5.0', '<')) { // PHPUnit 3x - 4x
 				$this->setExpectedException("PHPUnit_Framework_Error");
 			}elseif (version_compare($PHPUV, '6.0', '<')) { // PHPUnit 5x
 				$this->expectException("PHPUnit_Framework_Error");
@@ -688,9 +688,9 @@ class langTest extends TestCase {
 			LogTC($tf,'language',$lang);
 			// Expect errors as we Transition Translation Data
 			$PHPUV = $this->PHPUV;
-			if (version_compare($PHPUV, '4.0', '<')) {
-				$this->markTestSkipped('Requires Phpunit 4+ to run.');
-			}elseif (version_compare($PHPUV, '5.0', '<')) { // PHPUnit 4x
+			if (version_compare($PHPUV, '3.0', '<')) {
+				$this->markTestSkipped('Requires Phpunit 3+ to run.');
+			}elseif (version_compare($PHPUV, '5.0', '<')) { // PHPUnit 3x - 4x
 				$this->setExpectedException("PHPUnit_Framework_Error");
 			}elseif (version_compare($PHPUV, '6.0', '<')) { // PHPUnit 5x
 				$this->expectException("PHPUnit_Framework_Error");
@@ -713,9 +713,9 @@ class langTest extends TestCase {
 			LogTC($tf,'language',$lang);
 			// Expect errors as we Transition Translation Data
 			$PHPUV = $this->PHPUV;
-			if (version_compare($PHPUV, '4.0', '<')) {
-				$this->markTestSkipped('Requires Phpunit 4+ to run.');
-			}elseif (version_compare($PHPUV, '5.0', '<')) { // PHPUnit 4x
+			if (version_compare($PHPUV, '3.0', '<')) {
+				$this->markTestSkipped('Requires Phpunit 3+ to run.');
+			}elseif (version_compare($PHPUV, '5.0', '<')) { // PHPUnit 3x - 4x
 				$this->setExpectedException("PHPUnit_Framework_Error");
 			}elseif (version_compare($PHPUV, '6.0', '<')) { // PHPUnit 5x
 				$this->expectException("PHPUnit_Framework_Error");
@@ -738,9 +738,9 @@ class langTest extends TestCase {
 			LogTC($tf,'language',$lang);
 			// Expect errors as we Transition Translation Data
 			$PHPUV = $this->PHPUV;
-			if (version_compare($PHPUV, '4.0', '<')) {
-				$this->markTestSkipped('Requires Phpunit 4+ to run.');
-			}elseif (version_compare($PHPUV, '5.0', '<')) { // PHPUnit 4x
+			if (version_compare($PHPUV, '3.0', '<')) {
+				$this->markTestSkipped('Requires Phpunit 3+ to run.');
+			}elseif (version_compare($PHPUV, '5.0', '<')) { // PHPUnit 3x - 4x
 				$this->setExpectedException("PHPUnit_Framework_Error");
 			}elseif (version_compare($PHPUV, '6.0', '<')) { // PHPUnit 5x
 				$this->expectException("PHPUnit_Framework_Error");
@@ -764,9 +764,9 @@ class langTest extends TestCase {
 			LogTC($tf,'language',$lang);
 			// Expect errors as we Transition Translation Data
 			$PHPUV = $this->PHPUV;
-			if (version_compare($PHPUV, '4.0', '<')) {
-				$this->markTestSkipped('Requires Phpunit 4+ to run.');
-			}elseif (version_compare($PHPUV, '5.0', '<')) { // PHPUnit 4x
+			if (version_compare($PHPUV, '3.0', '<')) {
+				$this->markTestSkipped('Requires Phpunit 3+ to run.');
+			}elseif (version_compare($PHPUV, '5.0', '<')) { // PHPUnit 3x - 4x
 				$this->setExpectedException("PHPUnit_Framework_Error");
 			}elseif (version_compare($PHPUV, '6.0', '<')) { // PHPUnit 5x
 				$this->expectException("PHPUnit_Framework_Error");
@@ -789,9 +789,9 @@ class langTest extends TestCase {
 			LogTC($tf,'language',$lang);
 			// Expect errors as we Transition Translation Data
 			$PHPUV = $this->PHPUV;
-			if (version_compare($PHPUV, '4.0', '<')) {
-				$this->markTestSkipped('Requires Phpunit 4+ to run.');
-			}elseif (version_compare($PHPUV, '5.0', '<')) { // PHPUnit 4x
+			if (version_compare($PHPUV, '3.0', '<')) {
+				$this->markTestSkipped('Requires Phpunit 3+ to run.');
+			}elseif (version_compare($PHPUV, '5.0', '<')) { // PHPUnit 3x - 4x
 				$this->setExpectedException("PHPUnit_Framework_Error");
 			}elseif (version_compare($PHPUV, '6.0', '<')) { // PHPUnit 5x
 				$this->expectException("PHPUnit_Framework_Error");
@@ -817,9 +817,9 @@ class langTest extends TestCase {
 			}
 			// Expect errors as we Transition Translation Data
 			$PHPUV = $this->PHPUV;
-			if (version_compare($PHPUV, '4.0', '<')) {
-				$this->markTestSkipped('Requires Phpunit 4+ to run.');
-			}elseif (version_compare($PHPUV, '5.0', '<')) { // PHPUnit 4x
+			if (version_compare($PHPUV, '3.0', '<')) {
+				$this->markTestSkipped('Requires Phpunit 3+ to run.');
+			}elseif (version_compare($PHPUV, '5.0', '<')) { // PHPUnit 3x - 4x
 				$this->setExpectedException("PHPUnit_Framework_Error");
 			}elseif (version_compare($PHPUV, '6.0', '<')) { // PHPUnit 5x
 				$this->expectException("PHPUnit_Framework_Error");
@@ -1000,9 +1000,9 @@ class langTest extends TestCase {
 			}
 			// Expect errors as we Transition Translation Data
 			$PHPUV = $this->PHPUV;
-			if (version_compare($PHPUV, '4.0', '<')) {
-				$this->markTestSkipped('Requires Phpunit 4+ to run.');
-			}elseif (version_compare($PHPUV, '5.0', '<')) { // PHPUnit 4x
+			if (version_compare($PHPUV, '3.0', '<')) {
+				$this->markTestSkipped('Requires Phpunit 3+ to run.');
+			}elseif (version_compare($PHPUV, '5.0', '<')) { // PHPUnit 3x - 4x
 				$this->setExpectedException("PHPUnit_Framework_Error");
 			}elseif (version_compare($PHPUV, '6.0', '<')) { // PHPUnit 5x
 				$this->expectException("PHPUnit_Framework_Error");
@@ -1074,9 +1074,9 @@ class langTest extends TestCase {
 			}
 			// Expect errors as we Transition Translation Data
 			$PHPUV = $this->PHPUV;
-			if (version_compare($PHPUV, '4.0', '<')) {
-				$this->markTestSkipped('Requires Phpunit 4+ to run.');
-			}elseif (version_compare($PHPUV, '5.0', '<')) { // PHPUnit 4x
+			if (version_compare($PHPUV, '3.0', '<')) {
+				$this->markTestSkipped('Requires Phpunit 3+ to run.');
+			}elseif (version_compare($PHPUV, '5.0', '<')) { // PHPUnit 3x - 4x
 				$this->setExpectedException("PHPUnit_Framework_Error");
 			}elseif (version_compare($PHPUV, '6.0', '<')) { // PHPUnit 5x
 				$this->expectException("PHPUnit_Framework_Error");
@@ -1102,9 +1102,9 @@ class langTest extends TestCase {
 			}
 			// Expect errors as we Transition Translation Data
 			$PHPUV = $this->PHPUV;
-			if (version_compare($PHPUV, '4.0', '<')) {
-				$this->markTestSkipped('Requires Phpunit 4+ to run.');
-			}elseif (version_compare($PHPUV, '5.0', '<')) { // PHPUnit 4x
+			if (version_compare($PHPUV, '3.0', '<')) {
+				$this->markTestSkipped('Requires Phpunit 3+ to run.');
+			}elseif (version_compare($PHPUV, '5.0', '<')) { // PHPUnit 3x - 4x
 				$this->setExpectedException("PHPUnit_Framework_Error");
 			}elseif (version_compare($PHPUV, '6.0', '<')) { // PHPUnit 5x
 				$this->expectException("PHPUnit_Framework_Error");
