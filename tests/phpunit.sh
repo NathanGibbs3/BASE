@@ -11,7 +11,7 @@ pu=phpunit
 ph=php
 if [ "$SafeMode" == "1" ] && [ "$Composer" == "1" ]; then
 	ph="$ph -dsafe_mode=0"
-	px="$ph vendor/bin/$px"
+	px="$ph vendor/bin/$pu"
 else
 	px=$pu
 fi
@@ -27,26 +27,32 @@ pvM=`echo $puv|sed -r -e "s/\.[0-9]\.[0-9]+$//"`
 pvm=`echo $puv|sed -r -e "s/^[0-9]\.//" -e "s/\.[0-9]+$//"`
 pvr=`echo $puv|sed -r -e "s/^[0-9]\.[0-9]\.//"`
 if [ "$TRAVIS" == "true" ] && [ "$SafeMode" == "1" ] && [ "$Composer" == "1" ]; then
-	echo "Composer PHPUnit Version: $puv"
-else
-	echo "  System PHPUnit Version: $puv"
-fi
-if [ "$TRAVIS" != "true" ]; then
-	echo "                Location: `which $pu`"
-fi
-# Use Composer installed or System version?
-if [ "$pvM" == "4" ] && [ "$pvm" == "8" ] && [ "$pvr" \< "19" ]; then
-	# Apparantly PHPUnits below 4.8.19 fail with a
-	# PHP Fatal error: Class 'Text_Template' not found
-	# when using expectOutputString in test code.
-	# This may be a Debian/Ubuntu specific Issue.
 	pi=Composer
-	px="$ph vendor/bin/$px"
 else
 	pi=System
-	px=$pu
 fi
-# Now what PHPUnit Version are we using?
+echo "$pi PHPUnit Version: $puv"
+if [ "$TRAVIS" != "true" ]; then
+	echo "              Location: `which $pu`"
+fi
+# Use Composer installed or System version?
+if [ "$SafeMode" == "1" ] && [ "$Composer" == "1" ]; then
+	pi=Composer
+	px="$ph vendor/bin/$pu"
+else
+	if [ "$pvM" == "4" ] && [ "$pvm" == "8" ] && [ "$pvr" \< "19" ]; then
+		# Apparantly PHPUnits below 4.8.19 fail with a
+		# PHP Fatal error: Class 'Text_Template' not found
+		# when using expectOutputString in test code.
+		# This may be a Debian/Ubuntu specific Issue.
+		pi=Composer
+		px="$ph vendor/bin/$pu"
+	else
+		pi=System
+		px=$pu
+	fi
+fi
+# What PHPUnit Version are we using?
 puv=`$px --version|sed -e "s/^PHPUnit\s//" -e "s/\sby.*$//"`
 echo "Will test with $pi PHPUnit Version: $puv.";
 $ph ./tests/cptgenerate $puv # Generate PHPUnit Tests
