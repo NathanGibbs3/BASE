@@ -1071,14 +1071,12 @@ function ExportPacket_summary($sid, $cid, $db, $export_type = 0)
   return $s; 
 }
 
-// @codeCoverageIgnoreStart
 function base_header($url) {
 	if (!headers_sent()) {
 		header($url);
+		exit;
 	}
-	exit;
 }
-// @codeCoverageIgnoreEnd
 
 function base_microtime()
 {
