@@ -9,7 +9,7 @@ $Use_Auth_System = 1;
 $debug_time_mode = 1;
 $debug_mode = 0;
 $TRAVIS = getenv('TRAVIS');
-if ($TRAVIS){ // Running o
+if ($TRAVIS){ // Running on Travis CI.
 	$ADO = getenv('ADODBPATH');
 	$DBlib_path = "build/adodb/$ADO";
 	$DB = getenv('DB');

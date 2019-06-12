@@ -1071,20 +1071,12 @@ function ExportPacket_summary($sid, $cid, $db, $export_type = 0)
   return $s; 
 }
 
-// @codeCoverageIgnoreStart
 function base_header($url) {
-	// Fix for Issue #5 Code Coverage Warnings.
-	// Conditional execution of header().
-	$version = explode( '.', phpversion() );
-	if (
-		!getenv('TRAVIS') || $version[0] != 5
-		|| ($version[0] == 5 && $version[1] != 2)
-	){
+	if (!headers_sent()) {
 		header($url);
+		exit;
 	}
-	exit;
 }
-// @codeCoverageIgnoreEnd
 
 function base_microtime()
 {
