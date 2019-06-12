@@ -60,7 +60,7 @@ class legacylangTest extends TestCase {
 		$PHPV = GetPHPV();
 		$PSM = getenv('SafeMode');
 		if (version_compare($PHPV, '5.4', '<') && $PSM == 1){
-			$this->markTestSkipped();
+			self::markTestSkipped();
 		}
 	}
 

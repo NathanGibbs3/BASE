@@ -9,7 +9,7 @@ fi
 
 pu=phpunit
 ph=php
-if [ "$SafeMode" = "1" ]; then
+if [ "$SafeMode" == "1" ]; then
 	ph="$ph -dsafe_mode=0"
 	px="$pu -dsafe_mode=0"
 else
