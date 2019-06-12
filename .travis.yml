@@ -71,12 +71,12 @@ matrix:
     - php: 7.3
       if: branch != php5only
       env: DB=postgres
-    - php: nightly
-      if: branch != php5only
-      env: DB=mysql
-    - php: nightly
-      if: branch != php5only
-      env: DB=postgres
+#    - php: nightly
+#      if: branch != php5only
+#      env: DB=mysql
+#    - php: nightly
+#      if: branch != php5only
+#      env: DB=postgres
 
 cache:
   directories:

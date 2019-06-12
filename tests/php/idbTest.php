@@ -21,7 +21,7 @@ class dbTest extends TestCase {
 	}
 
 	// Tests go here.
-	public function testreturnVerifyDBAbstractionLinValid() {
+	public function testreturnVerifyDBAbstractionLibValid() {
 		$TRAVIS = getenv('TRAVIS');
 		if (!$TRAVIS){ // Running on Local Test System.
 			// Default Debian/Ubuntu location.
