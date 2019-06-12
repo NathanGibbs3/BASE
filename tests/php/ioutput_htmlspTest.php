@@ -21,20 +21,20 @@ class output_htmlSPTest extends TestCase {
 	// We are using a single TD file.
 	// Share class instance as common test fixture.
 	public static function setUpBeforeClass() {
-		GLOBAL $BASE_path, $debug_mode;
-		$tf = __FUNCTION__;
 		$ll = 'english';
 		self::$langs = $ll;
 		$lf = "$ll.lang.php";
 		self::$files = $lf;
-		$file = "$BASE_path/languages/$lf";
-		if ($debug_mode > 1) {
-			LogTC($tf,'language',$lang);
-			LogTC($tf,'TD file',$file);
-		}
 		self::assertInstanceOf('UILang',self::$UIL = new UILang($ll),
 			"Class for $ll not created."
 		);
+		// Issue #36 Cutout.
+		// See: https://github.com/NathanGibbs3/BASE/issues/36
+		$PHPV = GetPHPV();
+		$PSM = getenv('SafeMode');
+		if (version_compare($PHPV, '5.4', '<') && $PSM == 1){
+			self::markTestSkipped();
+		}
 	}
 	public static function tearDownAfterClass() {
 		self::$UIL = null;

@@ -47,7 +47,7 @@ class legacylangTest extends TestCase {
 		$this->files = $lf;
 		$file = "$BASE_path/languages/$lf";
 		if ($debug_mode > 1) {
-			LogTC($tf,'language',$lang);
+			LogTC($tf,'language',$ll);
 			LogTC($tf,'TD file',$file);
 		}
 		copy ("$BASE_path/tests/$lf","$BASE_path/languages/$lf");
@@ -55,6 +55,13 @@ class legacylangTest extends TestCase {
 			"Class for $ll not created."
 		);
 		unlink ("$BASE_path/languages/$lf");
+		// Issue #36 Cutout.
+		// See: https://github.com/NathanGibbs3/BASE/issues/36
+		$PHPV = GetPHPV();
+		$PSM = getenv('SafeMode');
+		if (version_compare($PHPV, '5.4', '<') && $PSM == 1){
+			$this->markTestSkipped();
+		}
 	}
 
 	// Tests go here.

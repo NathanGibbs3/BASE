@@ -30,8 +30,15 @@ class commonlangSPTest extends TestCase {
 		$this->files = $lf;
 		$file = "$BASE_path/languages/$lf";
 		if ($debug_mode > 1) {
-			LogTC($tf,'language',$lang);
+			LogTC($tf,'language',$ll);
 			LogTC($tf,'TD file',$file);
+		}
+		// Issue #36 Cutout.
+		// See: https://github.com/NathanGibbs3/BASE/issues/36
+		$PHPV = GetPHPV();
+		$PSM = getenv('SafeMode');
+		if (version_compare($PHPV, '5.4', '<') && $PSM == 1){
+			$this->markTestSkipped();
 		}
 	}
 
