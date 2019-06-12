@@ -25,6 +25,7 @@
 				<directory>./styles</directory>
 				<directory>./tests</directory>
 				<directory>./vendor</directory>
+				<file>base_conf.php</file>
 				<file>languages/czech.lang.php</file>
 				<file>languages/danish.lang.php</file>
 				<file>languages/finnish.lang.php</file>

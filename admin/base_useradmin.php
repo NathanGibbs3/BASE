@@ -28,6 +28,11 @@ include_once("$BASE_path/includes/base_constants.inc.php");
   include_once("$BASE_path/base_stat_common.php");
 
   $et = new EventTiming($debug_time_mode);
+if ( isset($_GET['action']) ){
+	$Action = filterSql($_GET['action']);
+}else{
+	$Action = 'Invalid';
+}
   $cs = new CriteriaState("admin/base_useradmin.php");
   $cs->ReadState();
   
@@ -40,8 +45,7 @@ include_once("$BASE_path/includes/base_constants.inc.php");
   $page_title = _USERADMIN;
     
   // I would like to clean this up later into a display class or set of functions -- Kevin
-  switch (filterSql($_GET['action']))
-  {
+switch ($Action) {
     case "create";
       // display the new user form
       $user = new BaseUser();
@@ -173,6 +177,8 @@ include_once("$BASE_path/includes/base_constants.inc.php");
       
       $pagebody = $tmpHTML;
       break;
+		default:
+			$pagebody = returnErrorMessage('Invalid Action!');
   }
   
   // Start the output to the page.....
