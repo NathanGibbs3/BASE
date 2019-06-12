@@ -17,21 +17,23 @@ use PHPUnit\Framework\TestCase;
  */
 class commonlangSPTest extends TestCase {
 	// Pre Test Setup.
-	var $files;
-	var $langs;
-	var $UIL;
+	protected static $files;
+	protected static $langs;
+	protected static $UIL;
 
-	protected function setUp() {
+	// We are using a single TD file.
+	// Share class instance as common test fixture.
+	public static function setUpBeforeClass() {
 		GLOBAL $BASE_path, $BASE_installID, $debug_mode;
 		$tf = __FUNCTION__;
 		$ll = 'english';
-		$this->langs = $ll;
+		self::$langs = $ll;
 		$lf = "$ll.lang.php";
-		$this->files = $lf;
+		self::$files = $lf;
 		$file = "$BASE_path/languages/$lf";
 		if ($debug_mode > 1) {
 			LogTC($tf,'language',$ll);
-			LogTC($tf,'TD file',$file);
+			LogTC($tf,'TD file:',$file);
 		}
 		// Issue #36 Cutout.
 		// See: https://github.com/NathanGibbs3/BASE/issues/36
@@ -41,6 +43,11 @@ class commonlangSPTest extends TestCase {
 			self::markTestSkipped();
 		}
 	}
+	public static function tearDownAfterClass() {
+		self::$UIL = null;
+		self::$langs = null;
+		self::$files = null;
+	}
 
 	// Tests go here.
 	// Invalid TD Tests
@@ -49,10 +56,10 @@ class commonlangSPTest extends TestCase {
 		$tmp = "UI$lang";
 		// Test conditions will throw error.
 		// Use error suppression @ symbol.
-		$this->assertInstanceOf('UILang',$this->UIL = @new UILang($lang),
+		$this->assertInstanceOf('UILang',self::$UIL = @new UILang($lang),
 			"Class for $lang not created."
 		);
-		$$tmp = $this->UIL;
+		$$tmp = self::$UIL;
 		$this->assertEquals(
 			'english',
 			$$tmp->Lang,
@@ -77,7 +84,7 @@ class commonlangSPTest extends TestCase {
 			$this->expectException("PHPUnit\Framework\Error\Notice");
 			$this->expectExceptionMessage($EEM);
 		}
-		$this->assertInstanceOf('UILang',$this->UIL = new UILang($lang),
+		$this->assertInstanceOf('UILang',self::$UIL = new UILang($lang),
 			"Class for $lang not created."
 		);
 	}
@@ -89,11 +96,11 @@ class commonlangSPTest extends TestCase {
 		LogTC($tf,'language',$lang);
 		$lf = "$lang.lang.php";
 		copy ("$BASE_path/tests/$lf","$BASE_path/languages/$lf");
-		$this->assertInstanceOf('UILang',$this->UIL = new UILang($lang),
+		$this->assertInstanceOf('UILang',self::$UIL = new UILang($lang),
 			"Class for $lang not created."
 		);
 		unlink ("$BASE_path/languages/$lf");
-		$$tmp = $this->UIL;
+		$$tmp = self::$UIL;
 		$file = $$tmp->TDF;
 		LogTC($tf,'Invalid TDF:',$file);
 		if (is_array($$tmp->Locale) ) {
@@ -115,11 +122,11 @@ class commonlangSPTest extends TestCase {
 		LogTC($tf,'language',$lang);
 		$lf = "$lang.lang.php";
 		copy ("$BASE_path/tests/$lf","$BASE_path/languages/$lf");
-		$this->assertInstanceOf('UILang',$this->UIL = new UILang($lang),
+		$this->assertInstanceOf('UILang',self::$UIL = new UILang($lang),
 			"Class for $lang not created."
 		);
 		unlink ("$BASE_path/languages/$lf");
-		$$tmp = $this->UIL;
+		$$tmp = self::$UIL;
 		$file = $$tmp->TDF;
 		LogTC($tf,'Invalid TDF:',$file);
 		$this->assertEquals(
@@ -135,11 +142,11 @@ class commonlangSPTest extends TestCase {
 		LogTC($tf,'language',$lang);
 		$lf = "$lang.lang.php";
 		copy ("$BASE_path/tests/$lf","$BASE_path/languages/$lf");
-		$this->assertInstanceOf('UILang',$this->UIL = new UILang($lang),
+		$this->assertInstanceOf('UILang',self::$UIL = new UILang($lang),
 			"Class for $lang not created."
 		);
 		unlink ("$BASE_path/languages/$lf");
-		$$tmp = $this->UIL;
+		$$tmp = self::$UIL;
 		$file = $$tmp->TDF;
 		LogTC($tf,'Spacing Test TD file:',$file);
 		$this->assertEquals(
@@ -155,11 +162,11 @@ class commonlangSPTest extends TestCase {
 		LogTC($tf,'language',$lang);
 		$lf = "$lang.lang.php";
 		copy ("$BASE_path/tests/$lf","$BASE_path/languages/$lf");
-		$this->assertInstanceOf('UILang',$this->UIL = new UILang($lang),
+		$this->assertInstanceOf('UILang',self::$UIL = new UILang($lang),
 			"Class for $lang not created."
 		);
 		unlink ("$BASE_path/languages/$lf");
-		$$tmp = $this->UIL;
+		$$tmp = self::$UIL;
 		$file = $$tmp->TDF;
 		LogTC($tf,'Spacing Test TD file:',$file);
 		$this->assertEquals(
@@ -174,10 +181,10 @@ class commonlangSPTest extends TestCase {
 		$tmp = "UI$lang";
 		LogTC($tf,'language',$lang);
 		$lf = "$lang.lang.php";
-		$this->assertInstanceOf('UILang',$this->UIL = new UILang($lang),
+		$this->assertInstanceOf('UILang',self::$UIL = new UILang($lang),
 			"Class for $lang not created."
 		);
-		$$tmp = $this->UIL;
+		$$tmp = self::$UIL;
 		$file = $$tmp->TDF;
 		LogTC($tf,'Spacing Test TD file:',$file);
 		$this->assertEquals(
@@ -194,11 +201,11 @@ class commonlangSPTest extends TestCase {
 		LogTC($tf,'language',$lang);
 		$lf = "$lang.lang.php";
 		copy ("$BASE_path/tests/$lf","$BASE_path/languages/$lf");
-		$this->assertInstanceOf('UILang',$this->UIL = new UILang($lang),
+		$this->assertInstanceOf('UILang',self::$UIL = new UILang($lang),
 			"Class for $lang not created."
 		);
 		unlink ("$BASE_path/languages/$lf");
-		$$tmp = $this->UIL;
+		$$tmp = self::$UIL;
 		$file = $$tmp->TDF;
 		LogTC($tf,'Invalid TDF:',$file);
 		$this->assertEquals(
@@ -214,11 +221,11 @@ class commonlangSPTest extends TestCase {
 		LogTC($tf,'language',$lang);
 		$lf = "$lang.lang.php";
 		copy ("$BASE_path/tests/$lf","$BASE_path/languages/$lf");
-		$this->assertInstanceOf('UILang',$this->UIL = new UILang($lang),
+		$this->assertInstanceOf('UILang',self::$UIL = new UILang($lang),
 			"Class for $lang not created."
 		);
 		unlink ("$BASE_path/languages/$lf");
-		$$tmp = $this->UIL;
+		$$tmp = self::$UIL;
 		$file = $$tmp->TDF;
 		LogTC($tf,'Spacing Test TD file:',$file);
 		$this->assertEquals(
@@ -234,11 +241,11 @@ class commonlangSPTest extends TestCase {
 		LogTC($tf,'language',$lang);
 		$lf = "$lang.lang.php";
 		copy ("$BASE_path/tests/$lf","$BASE_path/languages/$lf");
-		$this->assertInstanceOf('UILang',$this->UIL = new UILang($lang),
+		$this->assertInstanceOf('UILang',self::$UIL = new UILang($lang),
 			"Class for $lang not created."
 		);
 		unlink ("$BASE_path/languages/$lf");
-		$$tmp = $this->UIL;
+		$$tmp = self::$UIL;
 		$file = $$tmp->TDF;
 		LogTC($tf,'Spacing Test TD file:',$file);
 		$this->assertEquals(
@@ -253,10 +260,10 @@ class commonlangSPTest extends TestCase {
 		$tmp = "UI$lang";
 		LogTC($tf,'language',$lang);
 		$lf = "$lang.lang.php";
-		$this->assertInstanceOf('UILang',$this->UIL = new UILang($lang),
+		$this->assertInstanceOf('UILang',self::$UIL = new UILang($lang),
 			"Class for $lang not created."
 		);
-		$$tmp = $this->UIL;
+		$$tmp = self::$UIL;
 		$file = $$tmp->TDF;
 		LogTC($tf,'Spacing Test TD file:',$file);
 		$this->assertEquals(
@@ -268,14 +275,14 @@ class commonlangSPTest extends TestCase {
 	public function testAsDisabledADADefaultstoNULL() {
 		GLOBAL $BASE_path, $Use_Auth_System;
 		$Use_Auth_System = 0;
-		$lang = $this->langs;
+		$lang = self::$langs;
 		$tf = __FUNCTION__;
 		$tmp = "UI$lang";
 		LogTC($tf,'language',$lang);
-		$this->assertInstanceOf('UILang',$this->UIL = new UILang($lang),
+		$this->assertInstanceOf('UILang',self::$UIL = new UILang($lang),
 			"Class for $lang not created."
 		);
-		$$tmp = $this->UIL;
+		$$tmp = self::$UIL;
 		$file = $$tmp->TDF;
 		LogTC($tf,'TD file',$file);
 		if ($Use_Auth_System == 0) {

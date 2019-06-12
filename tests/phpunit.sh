@@ -9,9 +9,9 @@ fi
 
 pu=phpunit
 ph=php
-if [ "$SafeMode" == "1" ]; then
+if [ "$SafeMode" == "1" ] && [ "$Composer" == "1" ]; then
 	ph="$ph -dsafe_mode=0"
-	px="$pu -dsafe_mode=0"
+	px="$ph vendor/bin/$px"
 else
 	px=$pu
 fi
@@ -26,9 +26,13 @@ puv=`$px --version|sed -e "s/^PHPUnit\s//" -e "s/\sby.*$//"`
 pvM=`echo $puv|sed -r -e "s/\.[0-9]\.[0-9]+$//"`
 pvm=`echo $puv|sed -r -e "s/^[0-9]\.//" -e "s/\.[0-9]+$//"`
 pvr=`echo $puv|sed -r -e "s/^[0-9]\.[0-9]\.//"`
-echo "System PHPUnit Version: $puv"
+if [ "$TRAVIS" == "true" ] && [ "$SafeMode" == "1" ] && [ "$Composer" == "1" ]; then
+	echo "Composer PHPUnit Version: $puv"
+else
+	echo "  System PHPUnit Version: $puv"
+fi
 if [ "$TRAVIS" != "true" ]; then
-	echo "              Location: `which $pu`"
+	echo "                Location: `which $pu`"
 fi
 # Use Composer installed or System version?
 if [ "$pvM" == "4" ] && [ "$pvm" == "8" ] && [ "$pvr" \< "19" ]; then
@@ -37,7 +41,7 @@ if [ "$pvM" == "4" ] && [ "$pvm" == "8" ] && [ "$pvr" \< "19" ]; then
 	# when using expectOutputString in test code.
 	# This may be a Debian/Ubuntu specific Issue.
 	pi=Composer
-	px="vendor/bin/$px"
+	px="$ph vendor/bin/$px"
 else
 	pi=System
 	px=$pu
