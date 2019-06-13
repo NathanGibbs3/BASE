@@ -19,8 +19,43 @@
 ********************************************************************************
 */
 
-  include_once ("$BASE_path/base_graph_common.php"); 
-
+if (!isset($BASE_path)){ // Issue #5
+	$BASE_path = dirname(__FILE__);
+	include_once ("base_conf.php");
+	include_once ("$BASE_path/includes/base_constants.inc.php");
+	include ("$BASE_path/includes/base_include.inc.php");
+	include_once ("$BASE_path/base_db_common.php");
+	include_once ("$BASE_path/base_common.php");
+	$db = NewBASEDBConnection($DBlib_path, $DBtype);
+	$db->baseDBConnect(
+		$db_connect_method, $alert_dbname, $alert_host, $alert_port,
+		$alert_user, $alert_password
+	);
+	$data_source = '';
+	$chart_interval ='';
+	$chart_begin_hour = '';
+	$chart_begin_day = '';
+	$chart_begin_month = '';
+	$chart_begin_year = '';
+	$chart_end_hour = '';
+	$chart_end_day = '';
+	$chart_end_month = '';
+	$chart_end_year = '';
+	$user_chart_title = '';
+	$chart_type = 4; // CHARTTYPE_MONTH
+	// Deafaults from base_graph_main.php
+	$height            = 800;
+	$width             = 600;
+	$element_start     = 0;
+	$min_size          = 0;
+	$rotate_xaxis_lbl  = 0;
+	$xaxis_label_inc   = 1;
+	$xaxis_grid        = 0;
+	$yaxis_grid        = 1;
+	$yaxis_scale       = 0;
+	$chart_style       = "bar";
+}
+include_once ("$BASE_path/base_graph_common.php");
 
 
   echo '<FORM ACTION="base_graph_main.php" METHOD="post">';

@@ -12,6 +12,7 @@ $debug_time_mode = 1;
 $debug_mode = 0;
 $maintain_history = 0;
 $refresh_all_pages = 0;
+$event_cache_auto_update = 0;
 $TRAVIS = getenv('TRAVIS');
 if ($TRAVIS){ // Running on Travis CI.
 	$ADO = getenv('ADODBPATH');

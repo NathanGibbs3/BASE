@@ -64,10 +64,10 @@ if ( isset($_SESSION['xdata']) ){
 $width = ImportHTTPVar("width", VAR_DIGIT);
 $height = ImportHTTPVar("height", VAR_DIGIT);
 if ($width == ''){
-	$width = 1;
+	$width = 800;
 }
 if ($height == ''){
-	$height = 1;
+	$height = 600;
 }
   $pmargin0 = ImportHTTPVar("pmargin0", VAR_DIGIT);
   $pmargin1 = ImportHTTPVar("pmargin1", VAR_DIGIT);
