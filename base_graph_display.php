@@ -110,16 +110,14 @@ include_once ("$BASE_path/base_graph_common.php");
     // any more with PEAR::Image_Canvas-0.3.1 with logarithmic
     // y-axes. So factory-method is required.
     $Graph =& Image_Graph::factory('graph', array($width, $height));
-  }
-  else
-  { 
-    // Create the graph area, legends on bottom -- Alejandro
-    $Graph =& new Image_Graph(array('driver'=>'gd', 
-                                    'width'=>$width,
-                                    'height'=>$height));
-  }
-
-  
+	}else{
+		// Create the graph area, legends on bottom -- Alejandro
+		$Graph = new Image_Graph( array(
+			'driver'=>'gd',
+			'width'=>$width,
+			'height'=>$height
+		));
+	}
   if ($chart_type == CHARTTYPE_SRC_COUNTRY_ON_MAP || $chart_type == CHARTTYPE_DST_COUNTRY_ON_MAP)
   // then a worldmap is to be drawn.
   {
