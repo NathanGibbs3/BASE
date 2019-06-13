@@ -38,7 +38,7 @@ include_once ("$BASE_path/includes/base_state_common.inc.php");
 include_once ("$BASE_path/base_graph_common.php");
   require_once('Image/Graph.php');
   
-  
+$EMPfx = __FILE__ . ":"; // Error Message Prefix.
 
   // One more time: A workaround for the inability of PEAR::Image_Canvas-0.3.1
   // to deal with strings as x-axis labels in a proper way in the case
@@ -61,8 +61,14 @@ if ( isset($_SESSION['xdata']) ){
 }else{
 	$xdata = array();
 }
-  $width = ImportHTTPVar("width", VAR_DIGIT);
-  $height = ImportHTTPVar("height", VAR_DIGIT);
+$width = ImportHTTPVar("width", VAR_DIGIT);
+$height = ImportHTTPVar("height", VAR_DIGIT);
+if ($width == ''){
+	$width = 1;
+}
+if ($height == ''){
+	$height = 1;
+}
   $pmargin0 = ImportHTTPVar("pmargin0", VAR_DIGIT);
   $pmargin1 = ImportHTTPVar("pmargin1", VAR_DIGIT);
   $pmargin2 = ImportHTTPVar("pmargin2", VAR_DIGIT);
@@ -252,7 +258,9 @@ if ( isset($_SESSION['xdata']) ){
 }else{ // safe_mode
   $Font =& $Graph->addNew('Image_Graph_Font');
   $Font->setSize(8); // has no effect!
-  error_log(__FILE__ . ":" . __LINE__ . ": WARNING: safe_mode: Falling back to default font without the possibility to adjust any font sizes."); 
+	if ($debug_mode > 0){
+		error_log($EMPfx. __LINE__ . ": WARNING: safe_mode: Fall back to default font without ability to adjust font size.");
+	}
 }
 
 // Configure plotarea
