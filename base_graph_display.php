@@ -56,8 +56,11 @@ include_once ("$BASE_path/base_graph_common.php");
     return $str;
   }
 
-
-  $xdata = $_SESSION['xdata'];
+if ( isset($_SESSION['xdata']) ){
+	$xdata = $_SESSION['xdata'];
+}else{
+	$xdata = array();
+}
   $width = ImportHTTPVar("width", VAR_DIGIT);
   $height = ImportHTTPVar("height", VAR_DIGIT);
   $pmargin0 = ImportHTTPVar("pmargin0", VAR_DIGIT);
@@ -246,15 +249,11 @@ include_once ("$BASE_path/base_graph_common.php");
       $Font->setSize(8);
     }
     $Graph->setFont($Font);
-  }
-else
-// safe_mode
-{
+}else{ // safe_mode
   $Font =& $Graph->addNew('Image_Graph_Font');
   $Font->setSize(8); // has no effect!
   error_log(__FILE__ . ":" . __LINE__ . ": WARNING: safe_mode: Falling back to default font without the possibility to adjust any font sizes."); 
 }
-
 
 // Configure plotarea
 if (($chart_type == CHARTTYPE_SRC_COUNTRY_ON_MAP) || ($chart_type == CHARTTYPE_DST_COUNTRY_ON_MAP))
