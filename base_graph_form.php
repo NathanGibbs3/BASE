@@ -19,8 +19,17 @@
 ********************************************************************************
 */
 
-if (!isset($BASE_path)){ // Issue #5
-	$BASE_path = dirname(__FILE__);
+// Issue #5
+if (!isset($BASE_path)
+	|| ( getenv('TRAVIS') && version_compare(PHP_VERSION, "5.3.0", "<") )
+){
+	if ( !isset($BASE_path) ){
+		// Testing via php -f CLI on local system.
+		// Default $BASE_path.
+		$BASE_path = dirname(__FILE__);
+	}
+	// Code Coverage for PHP 5.2x on CI.
+	// Default a bunch of things to fix issue #5.
 	include_once ("base_conf.php");
 	include_once ("$BASE_path/includes/base_constants.inc.php");
 	include ("$BASE_path/includes/base_include.inc.php");
@@ -53,7 +62,7 @@ if (!isset($BASE_path)){ // Issue #5
 	$xaxis_grid        = 0;
 	$yaxis_grid        = 1;
 	$yaxis_scale       = 0;
-	$chart_style       = "bar";
+	$chart_style       = 'bar';
 }
 include_once ("$BASE_path/base_graph_common.php");
 
