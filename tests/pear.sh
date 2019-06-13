@@ -31,16 +31,19 @@ if [ "$TRAVIS" == "true" ]; then
 	if [ "$pvM" \> "5" ] || ( [ "$pvM" == "5" ] && [ "$pvm" \> "2" ]); then
 		# Pear Install
 		pear channel-update pear.php.net
-		pear install mail Mail_Mime Image_Graph-alpha Image_Canvas-alpha
+		pear install mail Mail_Mime Image_Graph-alpha Image_Canvas-alpha Image_Color
 	else
 		# Manual install
-		wget -nv http://download.pear.php.net/package/Mail-1.4.1.tgz -O build/Mail.tgz
-		wget -nv http://download.pear.php.net/package/Mail_Mime-1.10.2.tgz -O build/Mail_Mime.tgz
-		wget -nv http://download.pear.php.net/package/Image_Graph-0.8.0.tgz -O build/Image_Graph.tgz
-		wget -nv http://download.pear.php.net/package/Image_Canvas-0.3.5.tgz -O build/Image_Canvas.tgz
+		dl = "wget -nv http://download.pear.php.net/package"
+		$dl/Mail-1.4.1.tgz -O build/Mail.tgz
+		$dl/Mail_Mime-1.10.2.tgz -O build/Mail_Mime.tgz
+		$dl/Image_Graph-0.8.0.tgz -O build/Image_Graph.tgz
+		$dl/Image_Canvas-0.3.5.tgz -O build/Image_Canvas.tgz
+		$dl/Image_Color-1.0.4.tgz -O build/Image_Color.tgz
 		pear install build/Mail.tgz
 		pear install build/Mail_Mime.tgz
-		pear install build/Image_Graph.tgz
+		pear install build/Image_Color.tgz
 		pear install build/Image_Canvas.tgz
+		pear install build/Image_Graph.tgz
 	fi
 fi
