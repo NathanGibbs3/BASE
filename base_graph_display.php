@@ -80,7 +80,10 @@ if ($height == ''){
   $xaxis_grid = ImportHTTPVar("xaxis_grid", VAR_DIGIT);
   $yaxis_grid = ImportHTTPVar("yaxis_grid", VAR_DIGIT);
   $rotate_xaxis_lbl = ImportHTTPVar("rotate_xaxis_lbl", VAR_DIGIT);
-  $style = ImportHTTPVar("style", VAR_ALPHA);
+$style = ImportHTTPVar("style", VAR_ALPHA);
+if ($style == ''){
+	$style = 'pie';
+}
   $chart_type = ImportHTTPVar("chart_type", VAR_DIGIT);
   // Do not disturb the generation of the png by whaffling to the screen
   $old_display_error_type = ini_get('display_errors');
@@ -670,7 +673,11 @@ $Dataset =& Image_Graph::factory('dataset');
       // $error = 'Always throw this error (1)';
       // throw new Exception($error);
 
-      $rv =& $Graph->done();
+		if (!headers_sent()){
+			$rv =& $Graph->done();
+		}else{
+			$rv = false;
+		}
       if (PEAR::isError($rv)) 
       {
         error_log(__FILE__ . ":" . __LINE__ . ": ERROR: \$Graph->done() has failed.");

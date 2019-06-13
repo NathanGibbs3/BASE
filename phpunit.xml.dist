@@ -13,7 +13,7 @@
 	verbose="true"
 >
 	<filter>
-		<whitelist addUncoveredFilesFromWhitelist="true" processUncoveredFilesFromWhitelist="false">
+		<whitelist>
 			<directory suffix=".php">./</directory>
 			<exclude>
 				<directory>./build</directory>
