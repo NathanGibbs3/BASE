@@ -45,6 +45,9 @@ include_once("$BASE_path/includes/base_constants.inc.php");
   if ( $submit == "Create BASE AG" ) {
      $result = CreateBASEAG($db);
      echo '<HR><P>';
+  }else{
+	// Set a default on somthing unexpected.
+	$result = 0;
   }
 
   echo '
