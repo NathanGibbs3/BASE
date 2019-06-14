@@ -34,17 +34,25 @@ defined( '_BASE_INC' ) or die( 'Accessing this file directly is not allowed.' );
  * @param $value  default value
  *
  ************************************************************************/
-function InitArray(&$a, $dim1, $dim2, $value)
-{
-   $a = "";
-   /* determine the number of dimensions in the array */
-   if ( $dim2 == 0 )   /* 1-dim */
-      for ( $i = 0; $i < $dim1; $i++ ) 
-         $a[$i] = $value;
-   else                /* 2-dim */
-      for ( $i = 0; $i < $dim1; $i++ )
-         for ( $j = 0; $j < $dim2; $j++ )
-            $a[$i][$j] = $value;
+function InitArray(&$a, $dim1 = 1, $dim2 = 0, $value = NULL ){
+	if ( !is_int($dim1) || !is_int($dim2) ){
+		return false;
+	}else{
+		$a = array();
+		// Are we 2 dimensional?
+		if ( $dim2 == 0 ){ // No 1-dim
+			for ( $i = 0; $i < $dim1; $i++ ){
+				$a[$i] = $value;
+			}
+		}else{ // Yes 2-dim
+			for ( $i = 0; $i < $dim1; $i++ ){
+				for ( $j = 0; $j < $dim2; $j++ ){
+					$a[$i][$j] = $value;
+				}
+			}
+		}
+		return true;
+	}
 }
 
 /* ***********************************************************************
