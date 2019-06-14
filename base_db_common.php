@@ -81,7 +81,7 @@ function verify_php_build($DBtype){
             " "._ERRPHPERROR2."</FONT>";
   }
 
-	if ( $DBtype == "mysql" || $DBtype == "mysqlt" || $type == "maxsql" ){
+	if ( $DBtype == "mysql" || $DBtype == "mysqlt" || $DBtype == "maxsql" ){
 		// On PHP 5.5+, use mysqli ADODB driver & gracefully deprecate the
 		// mysql, mysqlt & maxsql drivers.
 		if ( $version[0] > 5 || ( $version[0] == 5 && $version[1] > 4) ){

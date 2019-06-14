@@ -34,19 +34,22 @@ include_once("$BASE_path/includes/base_constants.inc.php");
    // Check role out and redirect if needed -- Kevin
   $roleneeded = 10000;
   $BUser = new BaseUser();
-   if ($Use_Auth_System == 1)
-   {
-      if ($_POST['standalone'] == "yes")
-      {
+if ($Use_Auth_System == 1){
+	if ( in_array('standalone',array_keys($_POST) ){
+		$SaM = $_POST['standalone'];
+	}else{
+		$SaM = 'no';
+	}
+	if ($SaM == 'yes'){
          $usrrole = $BUser->AuthenticateNoCookie(filterSql($_POST['user']), filterSql($_POST['pwd']));
          if ($usrrole == "Failed")
             base_header('HTTP/1.0 401');
          if ($usrrole > $roleneeded)
             base_header('HTTP/1.0 403');
-      }
-      elseif (($BUser->hasRole($roleneeded) == 0))
-        base_header("Location: ". $BASE_urlpath . "/index.php");
-   }
+	}elseif (($BUser->hasRole($roleneeded) == 0)){
+		base_header("Location: ". $BASE_urlpath . "/index.php");
+	}
+}
 
   $page_title = _MAINTTITLE;
   PrintBASESubHeader($page_title, $page_title, $cs->GetBackLink(), $refresh_all_pages);
@@ -106,14 +109,23 @@ include_once("$BASE_path/includes/base_constants.inc.php");
   {
      ClearDataTables($db);
   }
-
+if ( in_array('HTTP_USER_AGENT',array_keys($_SERVER)) ){
+	$SW_Cli = $_SERVER['HTTP_USER_AGENT'];
+}else{
+	$SW_Cli = 'unknown';
+}
+if ( in_array('SERVER_SOFTWARE',array_keys($_SERVER)) ){
+	$SW_Svr = $_SERVER['SERVER_SOFTWARE']
+}else{
+	$SW_Svr = 'unknown';
+}
   echo '<TABLE WIDTH="100%" CELLSPACING=0 CELLPADDING=2 BORDER=0 BGCOLOR="#669999">
          <TR><TD> 
            <TABLE WIDTH="100%" CELLSPACING=0 CELLPADDING=2 BORDER=0 BGCOLOR="#FFFFFF">
               <TR><TD class="sectiontitle">'._MNTPHP.'</TD></TR>
               <TR><TD>
-         <B>'._MNTCLIENT.'</B> '.XSSPrintSafe($_SERVER['HTTP_USER_AGENT']).'<BR>
-         <B>'._MNTSERVER.'</B> '.XSSPrintSafe($_SERVER['SERVER_SOFTWARE']).'<BR> 
+         <B>'._MNTCLIENT.'</B> '.XSSPrintSafe($SW_Cli).'<BR>
+         <B>'._MNTSERVER.'</B> '.XSSPrintSafe($SW_Svr).'<BR>
          <B>'._MNTSERVERHW.'</B> '.php_uname().'<BR>
          <B>'._MNTPHPVER.'</B> '.phpversion().'<BR>
          <B>PHP API:</B> '.php_sapi_name().'<BR>';

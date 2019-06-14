@@ -6,6 +6,9 @@ $BASE_VERSION = '0.0.0 (Joette)';
 $BASE_installID = 'Test Runner';
 $BASE_path = dirname(__FILE__);
 $BASE_urlpath = '';
+$archive_dbname   = 'snort_archive';
+$avoid_counts = 0;
+$base_custom_footer = '';
 $base_style = 'base_style.css';
 $Use_Auth_System = 1;
 $db_connect_method = 1;
@@ -22,6 +25,7 @@ $last_num_uaddr = 15;
 $freq_num_alerts = 5;
 $freq_num_uaddr = 15;
 $freq_num_uports = 15;
+$main_page_detail = 1;
 $stat_page_refresh_time = 180;
 $TRAVIS = getenv('TRAVIS');
 if ($TRAVIS){ // Running on Travis CI.
