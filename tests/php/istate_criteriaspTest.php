@@ -12,6 +12,13 @@ use PHPUnit\Framework\TestCase;
 class state_criteriaTest extends TestCase {
 	public static function setUpBeforeClass() {
 		GLOBAL $maintain_history;
+		// Issue #36 Cutout.
+		// See: https://github.com/NathanGibbs3/BASE/issues/36
+		$PHPV = GetPHPV();
+		$PSM = getenv('SafeMode');
+		if (version_compare($PHPV, '5.4', '<') && $PSM == 1){
+			self::markTestSkipped();
+		}
 		if ( $maintain_history != 1 ){
 			$maintain_history = 1;
 		}
