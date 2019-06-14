@@ -1,7 +1,7 @@
 <?php
 use PHPUnit\Framework\TestCase;
 
-// Test fucntions in /includes/constants.inc.php
+// Test fucntions in /includes/base_constants.inc.php
 
 /**
   * @covers ::SetConst
