@@ -23,17 +23,13 @@
  **/
 defined( '_BASE_INC' ) or die( 'Accessing this file directly is not allowed.' );
 
-/* ***********************************************************************
- * Function: InitArray()
- *
- * @doc Defines an initializes a 1 or 2 dimensional PHP array.
- *
- * @param $a      (in/out) array to initialize
- * @param $dim1   number of elements of first dimension
- * @param $dim2   number of elements of second dimension
- * @param $value  default value
- *
- ************************************************************************/
+// Function: InitArray()
+// @doc Defines and initializes a 1 or 2 dimensional array.
+//
+// @param $a      (in/out) array to initialize
+// @param $dim1   number of elements of first dimension
+// @param $dim2   number of elements of second dimension
+// @param $value  default value
 function InitArray(&$a, $dim1 = 1, $dim2 = 0, $value = NULL ){
 	if ( !is_int($dim1) || !is_int($dim2) ){
 		return false;
@@ -54,7 +50,6 @@ function InitArray(&$a, $dim1 = 1, $dim2 = 0, $value = NULL ){
 		return true;
 	}
 }
-
 /* ***********************************************************************
  * Function: RegisterGlobalState()
  *
@@ -340,33 +335,25 @@ function filterSql ($item, $force_alert_db=0)
 
    /* cut off first and last character (quotes added by qmagic()) */
    $item = substr($item, 1, strlen($item)-2);
-
-   return $item;
-
+	return $item;
 }
-
-/* ***********************************************************************
- * Function: XSSPrintSafe()
- *
- * @doc Converts unsafe html special characters to printing safe
- *      equivalents so we can safetly print them.
- *
- ************************************************************************/
-function XSSPrintSafe($item)
-{
-
-   /* Determine whether a variable is set */        
-   if (!isset($item))
-      return $item;
-
-   /* Recursively convert array elements -- nikns */
-   if (is_array($item)) {
-      for ($i = 0; $i < count($item); $i++)
-          $item[$i] = XSSPrintSafe($item[$i]);
-      return $item;
-   }
-
-   return htmlspecialchars($item);
+// Function: XSSPrintSafe()
+// @doc Converts unsafe html special characters to print safe
+//      equivalents as an Anti XSS defense.
+function XSSPrintSafe($item){
+	if ( !isset($item) ){ // Unset Value.
+		return $item;
+	}else{
+		if ( is_array($item) ){ // Array.
+			// Recursively convert array elements.
+			// Works with both Keyed & NonKeyed arrays.
+			foreach ($item as $key => $value) {
+				$item[$key] = XSSPrintSafe($value);
+			}
+			return $item;
+		}else{ // Single Value.
+			return htmlspecialchars($item);
+		}
+	}
 }
-
 ?>
