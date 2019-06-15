@@ -50,13 +50,11 @@ if (isset($_POST['submit'])) {
     $pwd        = filterSql($_POST['password']);
 
     if (($BASEUSER->Authenticate($user, $pwd)) == 0) {
-        header("Location: base_main.php");
-	exit();
-    }
-
+		base_header("Location: base_main.php");
+	}
     $displayError = 1;
     $errorMsg     = _LOGINERROR;
-} 
+}
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <!-- <?php echo _TITLE . $BASE_VERSION; ?> -->

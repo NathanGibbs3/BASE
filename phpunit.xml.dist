@@ -46,6 +46,8 @@
 	<php>
 		<includePath>includes</includePath>
 		<ini name="error_reporting" value="E_ALL" />
+		<ini name="html_errors" value="on" />
+		<ini name="docref_root" value="http://www.php.net/manual/en/" />
 	</php>
 	<logging>
 		<log type="coverage-clover" target="build/logs/clover.xml"/>
