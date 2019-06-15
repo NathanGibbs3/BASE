@@ -571,7 +571,7 @@ function ProcessCriteria()
 	}
 	$tmp_meta = "";
 	// Sensor
-	if ( $sensor != "" && $sensor != " " ){
+	if ( isset($sensor) && $sensor != "" && $sensor != " " ){
      $tmp_meta = $tmp_meta." AND acid_event.sid='".$sensor."'";
 	}else{
 		if (is_object($cs)){ // Issue #5
@@ -579,7 +579,7 @@ function ProcessCriteria()
 		}
 	}
 	// Alert Group
-	if ( $ag != "" && $ag != " " ){
+	if ( isset($ag) && $ag != "" && $ag != " " ){
      $tmp_meta = $tmp_meta." AND ag_id =".$ag;
      $join_sql = $join_sql.$ag_join_sql;
 	}else{
@@ -669,12 +669,12 @@ function ProcessCriteria()
 		}
 	}
 	// Signature Classification
-  if ( $sig_class != " " && $sig_class != "" && $sig_class != "0")
-  {
+	if (
+		isset($sig_class) && $sig_class != " "
+		&& $sig_class != "" && $sig_class != "0"
+	){
      $tmp_meta = $tmp_meta." AND sig_class_id = '".$sig_class."'";
-  }
-  else if ($sig_class == "0")
-  {
+	}else if ($sig_class == "0"){
      $tmp_meta = $tmp_meta." AND (sig_class_id is null OR sig_class_id = '0')";
 	}else{
 		if (is_object($cs)){ // Issue #5
@@ -682,8 +682,10 @@ function ProcessCriteria()
 		}
 	}
 	// Signature Priority
-  if ( $sig_priority[1] != " " && $sig_priority[1] != "" && $sig_priority[1] != "0")
-  {
+	if (
+		isset($sig_priority[1]) && $sig_priority[1] != " "
+		&& $sig_priority[1] != "" && $sig_priority[1] != "0"
+	){
      if ($sig_priority[0] != "" && $sig_priority[0] != " ")
      {
        $tmp_meta = $tmp_meta." AND sig_priority ".$sig_priority[0]." '".$sig_priority[1]."'";
@@ -692,9 +694,7 @@ function ProcessCriteria()
      {
        $tmp_meta = $tmp_meta." AND sig_priority = '".$sig_priority[1]."'";
      }
-  }
-  else if ($sig_priority[1] == "0")
-  {
+	}else if (isset($sig_priority[1]) && $sig_priority[1] == "0"){
      $tmp_meta = $tmp_meta." AND (sig_priority is null OR sig_priority = '0')";
 	}else{
 		if (is_object($cs)){ // Issue #5
@@ -702,16 +702,18 @@ function ProcessCriteria()
 		}
 	}
 	// Date/Time
-	if ( DateTimeRows2sql($time, $time_cnt, $tmp_meta) == 0 ){
-		if (is_object($cs)){ // Issue #5
+	if ( isset($time) && isset($time_cnt) ){
+		if ( DateTimeRows2sql($time, $time_cnt, $tmp_meta) == 0 ){
+			if (is_object($cs)){ // Issue #5
      $cs->criteria['time']->SetFormItemCnt(0);
+			}
 		}
 	}
   $criteria_sql = $criteria_sql.$tmp_meta;
 	// IP Criteria
 		// IP Addresses
   $tmp2 = "";
-
+	if (isset($ip_addr_cnt)){
   for ( $i = 0; $i < $ip_addr_cnt; $i++ )
   {
      $tmp = "";
@@ -795,7 +797,7 @@ function ProcessCriteria()
      if ( ($i > 0 && $ip_addr[$i-1][9] == ' ' && $ip_addr[$i-1][3] != "") )
         ErrorMessage("<B>"._QCERRCRITWARN."</B> "._QCERRCRITIPIPBOOL." #$i and #".($i+1).".");
   }
-
+	}
 	if ( $tmp2 != "" ){
      $criteria_sql = $criteria_sql." AND ( ".$tmp2." )";  
 	}else{
@@ -804,12 +806,15 @@ function ProcessCriteria()
 		}
 	}
 		// IP Fields
-	if ( FieldRows2sql($ip_field, $ip_field_cnt, $criteria_sql) == 0 ){
-		if (is_object($cs)){ // Issue #5
+	if (isset($ip_field) && isset($ip_field_cnt)){
+		if ( FieldRows2sql($ip_field, $ip_field_cnt, $criteria_sql) == 0 ){
+			if (is_object($cs)){ // Issue #5
      $cs->criteria['ip_field']->SetFormItemCnt(0);
+			}
 		}
 	}
 	// Layer-4 encapsulation
+	if (isset($layer4)){
   if ( $layer4 == "TCP" )
      $criteria_sql = $criteria_sql." AND acid_event.ip_proto= '6'";  
   else if ( $layer4 == "UDP" )
@@ -819,24 +824,24 @@ function ProcessCriteria()
   else if ( $layer4 == "RawIP" )
      $criteria_sql = $criteria_sql." AND acid_event.ip_proto= '255'";
   else{
-		if (is_object($cs)){ // Issue #5
+			if (is_object($cs)){ // Issue #5
      $cs->criteria['layer4']->Set("");
+			}
 		}
-	}
 	// Join the iphdr table if necessary
-	if (is_object($cs)){ // Issue #5
+		if (is_object($cs)){ // Issue #5
   if ( !$cs->criteria['ip_field']->isEmpty() )
      $join_sql = $ip_join_sql.$join_sql;
-	}
+		}
 	// TCP Criteria
 if ( $layer4 == "TCP" ){
   $proto_tmp = "";
 		// TCP Ports
-	if ( FieldRows2sql($tcp_port, $tcp_port_cnt, $proto_tmp) == 0 ){
-		if (is_object($cs)){ // Issue #5
+		if ( FieldRows2sql($tcp_port, $tcp_port_cnt, $proto_tmp) == 0 ){
+			if (is_object($cs)){ // Issue #5
      $cs->criteria['tcp_port']->SetFormItemCnt(0);
+			}
 		}
-	}
   $criteria_sql = $criteria_sql.$proto_tmp;
   
   $proto_tmp = "";
@@ -856,10 +861,10 @@ if ( $layer4 == "TCP" ){
     }
   }
 		// TCP Fields
-	if (is_object($cs)){ // Issue #5
-		if ( FieldRows2sql($tcp_field, $tcp_field_cnt, $proto_tmp) == 0 ){
+		if (is_object($cs)){ // Issue #5
+			if ( FieldRows2sql($tcp_field, $tcp_field_cnt, $proto_tmp) == 0 ){
      $cs->criteria['tcp_field']->SetFormItemCnt(0);
-		}
+			}
 		// TCP Options - not implemented
   if ( !$cs->criteria['tcp_port']->isEmpty() || !$cs->criteria['tcp_flags']->isEmpty() || !$cs->criteria['tcp_field']->isEmpty() )
   {
@@ -867,52 +872,52 @@ if ( $layer4 == "TCP" ){
      if ( !$cs->criteria['tcp_flags']->isEmpty() || !$cs->criteria['tcp_field']->isEmpty() )
         $join_sql = $tcp_join_sql.$join_sql;
   }
-	}
+		}
 }
 	// UDP Criteria
 if ( $layer4 == "UDP" ){
   $proto_tmp = "";
 		// UDP Ports
-	if ( FieldRows2sql($udp_port, $udp_port_cnt, $proto_tmp) == 0 ){
-		if (is_object($cs)){ // Issue #5
+		if ( FieldRows2sql($udp_port, $udp_port_cnt, $proto_tmp) == 0 ){
+			if (is_object($cs)){ // Issue #5
      $cs->criteria['udp_port']->SetFormItemCnt(0);
+			}
 		}
-	}
   $criteria_sql = $criteria_sql.$proto_tmp;
   $proto_tmp = "";
 		// UDP Fields
-	if (is_object($cs)){ // Issue #5
-		if ( FieldRows2sql($udp_field, $udp_field_cnt, $proto_tmp) == 0 ){
+		if (is_object($cs)){ // Issue #5
+			if ( FieldRows2sql($udp_field, $udp_field_cnt, $proto_tmp) == 0 ){
      $cs->criteria['udp_field']->SetFormItemCnt(0);
-		}
+			}
   if ( !$cs->criteria['udp_port']->isEmpty() || !$cs->criteria['udp_field']->isEmpty() )
   {
      $criteria_sql = $criteria_sql.$proto_tmp;
      if ( !$cs->criteria['udp_field']->isEmpty() )
         $join_sql = $udp_join_sql.$join_sql;
   }
-	}
+		}
 }
 	// ICMP Criteria
 if ( $layer4 == "ICMP" ){
   $proto_tmp = "";
 		// ICMP Fields
-	if (is_object($cs)){ // Issue #5
-		if ( FieldRows2sql($icmp_field, $icmp_field_cnt, $proto_tmp) == 0 ){
+		if (is_object($cs)){ // Issue #5
+			if ( FieldRows2sql($icmp_field, $icmp_field_cnt, $proto_tmp) == 0 ){
      $cs->criteria['icmp_field']->SetFormItemCnt(0);
-		}
+			}
   if ( !$cs->criteria['icmp_field']->isEmpty() )
   {
      $criteria_sql = $criteria_sql.$proto_tmp;
      $join_sql = $icmp_join_sql.$join_sql;
   }
-	}
+		}
 }
 	// Packet Scan Criteria
 if ( $layer4 == "RawIP" ){
   $proto_tmp = "";
 		// RawIP Fields
-	if (is_object($cs)){ // Issue #5
+		if (is_object($cs)){ // Issue #5
   if ( FieldRows2sql($rawip_field, $rawip_field_cnt, $proto_tmp) == 0 )
      $cs->criteria['rawip_field']->SetFormItemCnt(0);
 
@@ -921,6 +926,7 @@ if ( $layer4 == "RawIP" ){
      $criteria_sql = $criteria_sql.$proto_tmp;
      $join_sql = $rawip_join_sql.$join_sql;
   }
+		}
 	}
 }
 	// Payload Criteria
