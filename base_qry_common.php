@@ -669,16 +669,15 @@ function ProcessCriteria()
 		}
 	}
 	// Signature Classification
-	if (
-		isset($sig_class) && $sig_class != " "
-		&& $sig_class != "" && $sig_class != "0"
-	){
+	if (isset($sig_class)){
+		if ( $sig_class != " " && $sig_class != "" && $sig_class != "0" ){
      $tmp_meta = $tmp_meta." AND sig_class_id = '".$sig_class."'";
-	}else if ($sig_class == "0"){
+		}else if ($sig_class == "0"){
      $tmp_meta = $tmp_meta." AND (sig_class_id is null OR sig_class_id = '0')";
-	}else{
-		if (is_object($cs)){ // Issue #5
+		}else{
+			if (is_object($cs)){ // Issue #5
      $cs->criteria['sig_class']->Set("");
+			}
 		}
 	}
 	// Signature Priority
