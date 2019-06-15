@@ -471,7 +471,7 @@ function PrintCriteria($caller)
      $save_criteria .= '<I> &nbsp;&nbsp; '._NONE.' </I></TD></TR>';
 		}
 	}
-  /* Payload ************** */
+	// Payload
   $save_criteria .= '<TR>
         <TD CLASS="payloadtitle">'._QCPAYCRIT.'</TD>
         <TD>';
@@ -702,7 +702,7 @@ function ProcessCriteria()
 		}
 	}
 	// Date/Time
-  if ( DateTimeRows2sql($time, $time_cnt, $tmp_meta) == 0 )
+	if ( DateTimeRows2sql($time, $time_cnt, $tmp_meta) == 0 ){
 		if (is_object($cs)){ // Issue #5
      $cs->criteria['time']->SetFormItemCnt(0);
 		}
@@ -836,7 +836,7 @@ if ( $layer4 == "TCP" ){
 		if (is_object($cs)){ // Issue #5
      $cs->criteria['tcp_port']->SetFormItemCnt(0);
 		}
-	{
+	}
   $criteria_sql = $criteria_sql.$proto_tmp;
   
   $proto_tmp = "";
