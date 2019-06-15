@@ -404,12 +404,14 @@ function PrintCriteria($caller)
   }
 
      $tmp_len = strlen($save_criteria);
-	$save_criteria .= $cs->criteria['sensor']->Description('');
-	$save_criteria .= $cs->criteria['sig']->Description('');
-	$save_criteria .= $cs->criteria['sig_class']->Description('');
-	$save_criteria .= $cs->criteria['sig_priority']->Description('');
-	$save_criteria .= $cs->criteria['ag']->Description('');
-	$save_criteria .= $cs->criteria['time']->Description('');
+	if (is_object($cs)){ // Issue #5
+		$save_criteria .= $cs->criteria['sensor']->Description('');
+		$save_criteria .= $cs->criteria['sig']->Description('');
+		$save_criteria .= $cs->criteria['sig_class']->Description('');
+		$save_criteria .= $cs->criteria['sig_priority']->Description('');
+		$save_criteria .= $cs->criteria['ag']->Description('');
+		$save_criteria .= $cs->criteria['time']->Description('');
+	}
     if ( $tmp_len == strlen($save_criteria) ) 
        $save_criteria .= '<I> &nbsp&nbsp '._ANY.' </I>';
 
@@ -418,20 +420,23 @@ function PrintCriteria($caller)
   $save_criteria .= '<TR>
         <TD CLASS="iptitle">'._QCIPCRIT.'</TD>
         <TD>';
+	if (is_object($cs)){ // Issue #5
 	if ( !$cs->criteria['ip_addr']->isEmpty() || !$cs->criteria['ip_field']->isEmpty() ) {
 		$save_criteria .= $cs->criteria['ip_addr']->Description('');
 		$save_criteria .= $cs->criteria['ip_field']->Description('');
 	}else{
 		$save_criteria .= '<I> &nbsp;&nbsp; '._ANY.' </I>';
 	}
+	}
   $save_criteria .= '&nbsp;&nbsp;</TD></TR>';
 
   $save_criteria .= '<TR><TD CLASS="layer4title">';
-	$save_criteria .= $cs->criteria['layer4']->Description('');
-  $save_criteria .= '</TD><TD>';
-
-  if ( $cs->criteria['layer4']->Get() == "TCP" )
-  {
+	if (is_object($cs)){ // Issue #5
+		$save_criteria .= $cs->criteria['layer4']->Description('');
+	}
+	$save_criteria .= '</td><td>';
+	if (is_object($cs)){ // Issue #5
+  if ( $cs->criteria['layer4']->Get() == "TCP" ){
 		if ( !$cs->criteria['tcp_port']->isEmpty() || !$cs->criteria['tcp_flags']->isEmpty() || !$cs->criteria['tcp_field']->isEmpty() ) {
 			$save_criteria .= $cs->criteria['tcp_port']->Description('');
 			$save_criteria .= $cs->criteria['tcp_flags']->Description('');
@@ -440,10 +445,7 @@ function PrintCriteria($caller)
 			$save_criteria .= '<I> &nbsp;&nbsp; '._ANY.' </I>';
 		}
      $save_criteria .= '&nbsp;&nbsp;</TD></TR>';
-  }
-
-  else if ( $cs->criteria['layer4']->Get() == "UDP" )
-  {
+  }else if ( $cs->criteria['layer4']->Get() == "UDP" ){
 		if ( !$cs->criteria['udp_port']->isEmpty() || !$cs->criteria['udp_field']->isEmpty() ) {
 			$save_criteria .= $cs->criteria['udp_port']->Description('');
 			$save_criteria .= $cs->criteria['udp_field']->Description('');
@@ -451,41 +453,34 @@ function PrintCriteria($caller)
 			$save_criteria .= '<I> &nbsp;&nbsp; '._ANY.' </I>';
 		}
      $save_criteria .= '&nbsp;&nbsp;</TD></TR>';
-  }
-
-  else if ( $cs->criteria['layer4']->Get() == "ICMP" )
-  {
+  }else if ( $cs->criteria['layer4']->Get() == "ICMP" ){
 		if ( !$cs->criteria['icmp_field']->isEmpty() ) {
 			$save_criteria .= $cs->criteria['icmp_field']->Description('');
 		}else{
 			$save_criteria .= '<I> &nbsp;&nbsp; '._ANY.' </I>';
 		}
      $save_criteria .= '&nbsp;&nbsp;</TD></TR>';
-   } 
-
-  else if ( $cs->criteria['layer4']->Get() == "RawIP" )
-   {
+   }else if ( $cs->criteria['layer4']->Get() == "RawIP" ){
 		if ( !$cs->criteria['rawip_field']->isEmpty() ) {
 			$save_criteria .= $cs->criteria['rawip_field']->Description('');
 		}else{
 			$save_criteria .= '<I> &nbsp&nbsp '._ANY.' </I>';
 		}
       $save_criteria .= '&nbsp;&nbsp;</TD></TR>';
-  }
-
-  else
-  {
+  }else{
      $save_criteria .= '<I> &nbsp;&nbsp; '._NONE.' </I></TD></TR>';
-  }
-
+		}
+	}
   /* Payload ************** */
   $save_criteria .= '<TR>
         <TD CLASS="payloadtitle">'._QCPAYCRIT.'</TD>
         <TD>';
+	if (is_object($cs)){ // Issue #5
 	if ( !$cs->criteria['data']->isEmpty() ) {
 		$save_criteria .= $cs->criteria['data']->Description('');
 	}else{
 		$save_criteria .= '<I> &nbsp;&nbsp; '._ANY.' </I>';
+	}
 	}
   $save_criteria .= '&nbsp;&nbsp;</TD></TR>';
 
@@ -508,8 +503,7 @@ function PrintCriteria($caller)
 
                    '</TD></TR>'.
                    '</TABLE>';
-
-  echo $save_criteria;
+	print $save_criteria;
 }
 
 /********************************************************************************************/
