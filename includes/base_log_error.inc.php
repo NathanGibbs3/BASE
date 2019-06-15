@@ -41,7 +41,11 @@ function returnErrorMessage ($message, $color = "#ff0000", $br = 0 ){
 
 // @codeCoverageIgnoreStart
 function FatalError ($message){
-	ErrorMessage('<B>'._ERRBASEFATAL.'</B> '.$message);
+	print returnErrorMessage('<b>'._ERRBASEFATAL.'</b>')."\n $message";
+//	trigger_error(
+//		strip_tags($message)."\n",
+//		E_USER_ERROR
+//	);
 	die();
 }
 // @codeCoverageIgnoreEnd

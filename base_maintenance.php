@@ -35,7 +35,7 @@ include_once("$BASE_path/includes/base_constants.inc.php");
   $roleneeded = 10000;
   $BUser = new BaseUser();
 if ($Use_Auth_System == 1){
-	if ( in_array('standalone',array_keys($_POST)) ){
+	if ( array_key_exists('standalone',$_POST) ){
 		$SaM = $_POST['standalone'];
 	}else{
 		$SaM = 'no';
@@ -109,12 +109,12 @@ if ($Use_Auth_System == 1){
   {
      ClearDataTables($db);
   }
-if ( in_array('HTTP_USER_AGENT',array_keys($_SERVER)) ){
+if ( array_key_exists('HTTP_USER_AGENT',$_SERVER) ){
 	$SW_Cli = $_SERVER['HTTP_USER_AGENT'];
 }else{
 	$SW_Cli = 'unknown';
 }
-if ( in_array('SERVER_SOFTWARE',array_keys($_SERVER)) ){
+if ( array_key_exists('SERVER_SOFTWARE',$_SERVER) ){
 	$SW_Svr = $_SERVER['SERVER_SOFTWARE'];
 }else{
 	$SW_Svr = 'unknown';

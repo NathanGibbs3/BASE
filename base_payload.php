@@ -33,10 +33,8 @@ include ("$BASE_path/includes/base_include.inc.php");
 // Check role out and redirect if needed -- Kevin
 $roleneeded = 10000;
 $BUser = new BaseUser();
-if (($BUser->hasRole($roleneeded) == 0) && ($Use_Auth_System == 1))
-{
-  base_header("Location: ". $BASE_urlpath . "/index.php");
-  exit();
+if (($BUser->hasRole($roleneeded) == 0) && ($Use_Auth_System == 1)){
+	base_header("Location: ". $BASE_urlpath . "/index.php");
 }
 
 $cid = ImportHTTPVar("cid", VAR_DIGIT);

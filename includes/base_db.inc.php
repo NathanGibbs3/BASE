@@ -675,8 +675,8 @@ function NewBASEDBConnection($path, $type){
 		|| ($type == "mssql")
 		|| ($type == "oci8")
 	)){
-		$msg = "<B>"._ERRSQLDBTYPE."</B>"."<P>:"._ERRSQLDBTYPEINFO1.
-		"<CODE>'".XSSPrintSafe($type)."'</CODE>. "._ERRSQLDBTYPEINFO2;
+		$msg = "<b>"._ERRSQLDBTYPE."</b>"."<p>:"._ERRSQLDBTYPEINFO1.
+		"<code>'".XSSPrintSafe($type)."'</code>. "._ERRSQLDBTYPEINFO2;
 		FatalError ($msg);
 	}
 	// Export ADODB_DIR for use by ADODB.
