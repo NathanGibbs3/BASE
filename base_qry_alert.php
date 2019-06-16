@@ -259,14 +259,17 @@ function PrintPacketLookupBrowseButtons($seq, $save_sql, $db, &$previous_button,
            cid = $cid<BR>
            seq = $seq<BR>\n".
           "===========================<BR>\n";
-
-  /* Verify that have extracted (sid, cid) correctly */
-  if ( !($sid > 0 && $cid > 0) )
-  {
-     ErrorMessage(_QAINVPAIR." (".$sid.",".$cid.")");
-     exit();
-  }
-
+	// Verify (sid, cid) are extracted correctly.
+	if ( (isset($sid) && isset($cid)) && !($sid > 0 && $cid > 0) ){
+		// Added isset checks as Issue #5 fix. The above call to
+		// GetQueryResultID() must succeed to get us here, if it fails, $sid &
+		// $cid will be defined but unset, which should only occur in the test
+		// conditions for Issue #5. This fix allows $seq, $sid, & $cid to pass
+		// through as NULLs without exiting the app while under test. Note if
+		// this breaks something in production.
+		// Comment at: https://github.com/NathanGibbs3/BASE/issues/5
+		FatalError(_QAINVPAIR." (".$sid.",".$cid.")");
+	}
   echo "<FORM METHOD=\"GET\" ACTION=\"base_qry_alert.php\">\n"; 
   PrintPacketLookupBrowseButtons($seq, $save_sql, $db, $previous, $next);
   echo "<CENTER>\n<B>"._ALERT." #".($seq)."</B><BR>\n$previous &nbsp&nbsp&nbsp\n$next\n</CENTER>\n";
