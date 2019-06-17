@@ -260,11 +260,27 @@ function PrintPacketLookupBrowseButtons($seq, $save_sql, $db, &$previous_button,
            seq = $seq<BR>\n".
           "===========================<BR>\n";
 	// Verify (sid, cid) are extracted correctly.
-	if ( (isset($sid) && isset($cid)) && !($sid > 0 && $cid > 0) ){
-		// Added isset checks as Issue #5 fix. The above call to
-		// GetQueryResultID() must succeed to get us here, if it fails, $sid &
-		// $cid will be defined but unset, which should only occur in the test
-		// conditions for Issue #5. This fix allows $seq, $sid, & $cid to pass
+	if ( isset($sid) && isset($cid) && !($sid > 0 && $cid > 0) ){
+		// Issue 5 smoke test for CI
+		// The isset checks appear to be returning true on PHP 5.2
+		print "$sid Type: ".gettype ( $sid )." isset ";
+		if (isset($sid)){
+			print "Value: '$sid' ";
+		}else{
+			print "No";
+		}
+		print "\n";
+		print "$cid Type: ".gettype ( $sid )." isset ";
+		if (isset($cid)){
+			print "Value: '$cid' ";
+		}else{
+			print "No";
+		}
+		print "\n";
+		// Added isset checks as Issue #5 fix. If the above call to
+		// GetQueryResultID() fails, $sid & $cid will be defined but unset,
+		// which makes them NULL, this should only occur in the test
+		// conditions for Issue #5. This fix allows $sid, & $cid to pass
 		// through as NULLs without exiting the app while under test. Note if
 		// this breaks something in production.
 		// Comment at: https://github.com/NathanGibbs3/BASE/issues/5
