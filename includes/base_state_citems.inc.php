@@ -455,7 +455,7 @@ class SignatureCriteria extends SingleElementCriteria {
       echo '</SELECT>';
 
       echo '<INPUT TYPE="text" NAME="sig[1]" SIZE=40 VALUE="'.htmlspecialchars(@$this->criteria[1]).'"><BR>';
-
+		if ( array_key_exists('use_sig_list',$GLOBALS) ){
       if ( $GLOBALS['use_sig_list'] > 0)
       {
          $temp_sql = "SELECT DISTINCT sig_name FROM signature";
@@ -479,6 +479,7 @@ class SignatureCriteria extends SingleElementCriteria {
          }
          echo '</SELECT><BR>';
       }
+		}
 	}
    function ToSQL()
    {
