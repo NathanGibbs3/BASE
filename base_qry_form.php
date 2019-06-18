@@ -275,12 +275,13 @@ function loopElements(el,level){
 						//Hide sublevels
 
 ';
-   if ($show_expanded_query == 1)
- echo ' 
+if (isset($show_expanded_query) && $show_expanded_query == 1){
+	print ' 
 						temp.style.display = ""  ';
-   else
- echo ' 
+}else{
+	print ' 
 						temp.style.display = "none"  ';
+}
  echo '
 						//Set class
 						temp.className= "zMenu"+level
