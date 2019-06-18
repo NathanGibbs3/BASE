@@ -26,7 +26,9 @@ $freq_num_alerts = 5;
 $freq_num_uaddr = 15;
 $freq_num_uports = 15;
 $main_page_detail = 1;
+$resolve_IP = 0;
 $stat_page_refresh_time = 180;
+$use_sig_list = 0;
 $TRAVIS = getenv('TRAVIS');
 if ($TRAVIS){ // Running on Travis CI.
 	$ADO = getenv('ADODBPATH');

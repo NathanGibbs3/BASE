@@ -260,29 +260,15 @@ function PrintPacketLookupBrowseButtons($seq, $save_sql, $db, &$previous_button,
            seq = $seq<BR>\n".
           "===========================<BR>\n";
 	// Verify (sid, cid) are extracted correctly.
-	if ( isset($sid) && isset($cid) && !($sid > 0 && $cid > 0) ){
-		// Issue 5 smoke test for CI
-		// The isset checks appear to be returning true on PHP 5.2
-		print "$sid Type: ".gettype ( $sid )." isset ";
-		if (isset($sid)){
-			print "Value: '$sid' ";
-		}else{
-			print "No";
-		}
-		print "\n";
-		print "$cid Type: ".gettype ( $sid )." isset ";
-		if (isset($cid)){
-			print "Value: '$cid' ";
-		}else{
-			print "No";
-		}
-		print "\n";
-		// Added isset checks as Issue #5 fix. If the above call to
+	if ( is_int($sid) && is_int($cid) && !($sid > 0 && $cid > 0) ){
+		// Added is_int checks as Issue #5 fix. If the above call to
 		// GetQueryResultID() fails, $sid & $cid will be defined but unset,
-		// which makes them NULL, this should only occur in the test
-		// conditions for Issue #5. This fix allows $sid, & $cid to pass
-		// through as NULLs without exiting the app while under test. Note if
-		// this breaks something in production.
+		// which makes them of type string on PHP 5.2x & of type NULL on PHP
+		// 5.3+ See: https://travis-ci.org/NathanGibbs3/BASE/jobs/546765554
+		// This should only occur in the test conditions for Issue #5. This
+		// fix allows $sid, & $cid of any type except int to pass through
+		// without exiting the app while under test.
+		// Note if this breaks something in production.
 		// Comment at: https://github.com/NathanGibbs3/BASE/issues/5
 		FatalError(_QAINVPAIR." (".$sid.",".$cid.")");
 	}
@@ -302,22 +288,42 @@ function PrintPacketLookupBrowseButtons($seq, $save_sql, $db, &$previous_button,
 	}
   $result2 = $db->baseExecute($sql2);
   $myrow2 = $result2->baseFetchRow();
-
-  if ( $myrow2[0] == "" )
-  {
-     echo '<CENTER><B>';
-     ErrorMessage(_QAALERTDELET);
-     echo '</CENTER></B>';
-  }
-
+	if ( is_array($myrow2) ){
+		if ( $myrow2[0] == "" ){
+			print '<center><b>'.returnErrorMessage(_QAALERTDELET).'</center></b>';
+		}
+		$Alert_Time = $myrow2[1];
+		$Alert_Sig = $myrow2[0];
+	}else{
+		$Alert_Time = 'Testing';
+		$Alert_Sig = 'Testing';
+	}
   /* Get sensor parameters: */
   $sql4 = "SELECT hostname, interface, filter, encoding, detail FROM sensor  WHERE sid='".filterSql($sid)."'";
   $result4 = $db->baseExecute($sql4);
   $myrow4 = $result4->baseFetchRow();
   $result4->baseFreeRows();
-  $encoding = $myrow4[3];
-  $detail = $myrow4[4];
-
+	if ( is_array($myrow4) ){
+		$Sensor_Name = $myrow4[0];
+		if ( $myrow4[1] == "" ){
+			$Sensor_Int = "&nbsp;<I>"._NONE."</I>&nbsp;";
+		}else{
+			$Sensor_Int = $myrow4[1];
+		}
+		if ( $myrow4[2] == "" ){
+			$Sensor_Filt = "&nbsp;<I>"._NONE."</I>&nbsp;";
+		}else{
+			$Sensor_Filt = $myrow4[2];
+		}
+		$encoding = $myrow4[3];
+		$detail = $myrow4[4];
+	}else{
+		$Sensor_Name = _NONE;
+		$Sensor_Int = _NONE;
+		$Sensor_Filt = _NONE;
+		$encoding = 2;
+		$detail = 1;
+	}
   echo '
        <BLOCKQUOTE>
        <TABLE BORDER=1 width="90%">
@@ -328,8 +334,8 @@ function PrintPacketLookupBrowseButtons($seq, $save_sql, $db, &$previous_button,
                         <TD CLASS="plfieldhdr">'._CHRTTIME.'</TD>
                         <TD CLASS="plfieldhdr">'._QATRIGGERSIG.'</TD></TR>
                     <TR><TD CLASS="plfield">'.($sid." - ".$cid).'</TD>
-                        <TD CLASS="plfield">'.htmlspecialchars($myrow2[1]).'</TD>
-                        <TD CLASS="plfield">'.(GetTagTriger(BuildSigByID($myrow2[0], $db), $db, $sid, $cid)).'</TD></TR>      
+                    <TD CLASS="plfield">'.htmlspecialchars($Alert_Time).'</TD>
+                        <TD CLASS="plfield">'.(GetTagTriger(BuildSigByID($Alert_Sig, $db), $db, $sid, $cid)).'</TD></TR>
                   </TABLE>
               </TD>
            </TR>';
@@ -342,11 +348,9 @@ function PrintPacketLookupBrowseButtons($seq, $save_sql, $db, &$previous_button,
                        <TD class="plfieldhdr">'._INTERFACE.'</TD>
                        <TD class="plfieldhdr">'._FILTER.'</TD>
                   </TR>
-                  <TR><TD class="plfield">'.htmlspecialchars($myrow4[0]).'</TD>
-                      <TD class="plfield">'.
-		      ( ($myrow4[1] == "") ? "&nbsp;<I>"._NONE."</I>&nbsp;" : $myrow4[1] ).'</TD>
-                      <TD class="plfield">'.
-                      ( ($myrow4[2] == "") ? "&nbsp;<I>"._NONE."</I>&nbsp;" : $myrow4[2] ).'</TD>
+                  <TR><TD class="plfield">'.htmlspecialchars($Sensor_Name).'</TD>
+                      <TD class="plfield">'.$Sensor_Int.'</TD>
+                      <TD class="plfield">'.$Sensor_Filt.'</TD>
                   </TR>
                  </TABLE>     
           </TR>';
@@ -421,8 +425,12 @@ function PrintPacketLookupBrowseButtons($seq, $save_sql, $db, &$previous_button,
   $myrow2 = $result2->baseFetchRow();
 
   $layer4_proto = -1;
-  if ( $myrow2[0] != "" )
-  {
+	if ( is_array($myrow2) ){
+		$IP_Src = $myrow2[0];
+	}else{
+		$IP_Src = '';
+	}
+	if ( $IP_Src != '' ){
   $sql3 = "SELECT * FROM opt  WHERE sid='".$sid."' AND cid='".$cid."' AND opt_proto='0'";
   $result3 = $db->baseExecute($sql3);
   $num_opt = $result3->baseRecordCount();
