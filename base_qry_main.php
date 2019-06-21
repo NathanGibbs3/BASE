@@ -123,7 +123,7 @@ include_once("$BASE_path/includes/base_constants.inc.php");
 	// Or Under Issue #5 Test conditions.
 	if (
 		( ($new == 1) && ($submit == "") )
-		|| ( getenv('TRAVIS') && version_compare(PHP_VERSION, "5.3.0", "<") )
+//		|| ( getenv('TRAVIS') && version_compare(PHP_VERSION, "5.3.0", "<") )
 	){
 		$cs->InitState();
 	}
