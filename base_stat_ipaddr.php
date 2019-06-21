@@ -49,22 +49,23 @@ include_once("$BASE_path/includes/base_constants.inc.php");
   if (($BUser->hasRole($roleneeded) == 0) && ($Use_Auth_System == 1))
     base_header("Location: ". $BASE_urlpath . "/index.php");
 
-  $page_title = $ip.'/'.$netmask;
-  PrintBASESubHeader($page_title, $page_title, $cs->GetBackLink(), 1);
-
-  if (!isset($ip))
-  {
-    ErrorMessage(__FILE__ . ":" . __LINE__ . ": \$ip has NOT been defined. Ignoring.");
-    $debug_str = "<BR><PRE>\n\n" . debug_print_backtrace() . "\n\n</PRE><BR>\n";
-    ErrorMessage($debug_str);
-  }
-  elseif (empty($ip))
-  {
-    ErrorMessage(__FILE__ . ":" . __LINE__ . ": \$ip has been defined, but it is empty. Ignoring."); 
-    $debug_str = "<BR><PRE>\n\n" . debug_print_backtrace() . "\n\n</PRE><BR>\n";
-    ErrorMessage($debug_str);
-  }
-
+if ( !isset($ip) || empty($ip) ){
+	$Epfx = __FILE__ . ":";
+	$page_title = 'ERROR';
+}else{
+	$Epfx = '';
+	$page_title = $ip.'/'.$netmask;
+}
+PrintBASESubHeader($page_title, $page_title, $cs->GetBackLink(), 1);
+if (!isset($ip)){
+	ErrorMessage($Epfx. __LINE__ . ": Ignoring \$ip - undefined.");
+}elseif (empty($ip)){
+	ErrorMessage($Epfx. __LINE__ . ": Ignoring \$ip - empty.");
+}
+if ( !empty($Epfx) && $debug_mode > 1 ){
+	$debug_str = "<BR><PRE>\n\n" . debug_print_backtrace() . "\n\n</PRE><BR>\n";
+	ErrorMessage($debug_str);
+}
 
 function PrintPortscanEvents($db, $ip)
 {
