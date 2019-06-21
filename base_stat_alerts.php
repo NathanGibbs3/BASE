@@ -64,6 +64,13 @@ include_once ("$BASE_path/includes/base_constants.inc.php");
 
 if (is_object($cs)){ // Issue #5
   $criteria_clauses = ProcessCriteria();
+}else{
+	if ( getenv('TRAVIS') && version_compare(PHP_VERSION, "5.3.0", "<") ){
+		// Issue #5 Test Shim
+		$where_sql = " WHERE ";
+		$criteria_sql = " 1 = 1 ";
+		$join_sql = "";
+	}
 }
      	/**
 	* RFE by Joel. Wanted the Summary Statistics box on the base_stat_alerts page

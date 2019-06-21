@@ -362,15 +362,21 @@ function PrintEventsByIP($db, $ip)
        <A HREF="http://www.db.ripe.net/whois?query='.$ip.'" target="_NEW">RIPE</A> |
        <A HREF="http://wq.apnic.net/apnic-bin/whois.pl?do_search=Search&amp;searchtext='.$ip.'" target="_NEW">APNIC</A> |
        <A HREF="http://lacnic.net/cgi-bin/lacnic/whois?lg=EN&amp;query='.$ip.'" target="_NEW">LACNIC</A><BR></FONT>';
-
- $octet=preg_split("/\./", $ip);
- $classc=sprintf("%03s.%03s.%03s",$octet[0],$octet[1],$octet[2]);
-
- echo '<FONT>'._PSEXTERNAL.': '.
-      '<A HREF="'.$external_dns_link.$ip.'" target="_NEW">DNS</A> | '.
-      '<A HREF="'.$external_whois_link.$ip.'" target="_NEW">whois</A> | '.
-      '<A HREF="'.$external_all_link.$ip.'" target="_NEW">Extended whois</A> | '.
-      '<A HREF="http://www.dshield.org/ipinfo.php?ip='.$ip.'&amp;Submit=Submit" target="_NEW">DShield.org IP Info</A> | '.
+	// Have no idea why this code is here.
+	// Commenting it out as it was ccontributing to Issue #5
+	// $octet=preg_split("/\./", $ip);
+	// $classc=sprintf("%03s.%03s.%03s",$octet[0],$octet[1],$octet[2]);
+	print '<FONT>'._PSEXTERNAL.': ';
+	if (isset($external_dns_link)){
+		print '<A HREF="'.$external_dns_link.$ip.'" target="_NEW">DNS</A>';
+	}
+	if (isset($external_whois_link)){
+		print ' | <A HREF="'.$external_whois_link.$ip.'" target="_NEW">whois</A>';
+	}
+	if (isset($external_all_link)){
+		print ' | <A HREF="'.$external_all_link.$ip.'" target="_NEW">Extended whois</A>';
+	}
+	print ' | <A HREF="http://www.dshield.org/ipinfo.php?ip='.$ip.'&amp;Submit=Submit" target="_NEW">DShield.org IP Info</A> | '.
       '<A HREF="http://www.trustedsource.org/query.php?q='.$ip.'" target="_NEW">TrustedSource.org IP Info</A> | '.
       '<A HREF="http://isc.sans.org/ipinfo.html?ip='.$ip.'" target="_NEW">ISC Source/Subnet Report</A><BR> </FONT>';
 

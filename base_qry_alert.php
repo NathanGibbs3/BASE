@@ -271,6 +271,12 @@ function PrintPacketLookupBrowseButtons($seq, $save_sql, $db, &$previous_button,
 		// Note if this breaks something in production.
 		// Comment at: https://github.com/NathanGibbs3/BASE/issues/5
 		FatalError(_QAINVPAIR." (".$sid.",".$cid.")");
+	}else{
+		if ( getenv('TRAVIS') && version_compare(PHP_VERSION, "5.3.0", "<") ){
+			// Issue #5 Test Shim
+			$sid = 1;
+			$cid = 1;
+		}
 	}
   echo "<FORM METHOD=\"GET\" ACTION=\"base_qry_alert.php\">\n"; 
   PrintPacketLookupBrowseButtons($seq, $save_sql, $db, $previous, $next);

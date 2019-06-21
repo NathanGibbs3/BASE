@@ -299,17 +299,25 @@ class baseCon {
 			return $rs;
 		}
 	}
-  function baseErrorMessage()
-  {
-     GLOBAL $debug_mode;
 
-     if ( $this->DB->ErrorMsg() &&
-          ($this->DB_type != 'mssql' || (!strstr($this->DB->ErrorMsg(), 'Changed database context to') &&
-                                         !strstr($this->DB->ErrorMsg(), 'Changed language setting to'))))
-        return '</TABLE></TABLE></TABLE>'.
-               '<FONT COLOR="#FF0000"><B>'._ERRSQLDB.'</B>'.($this->DB->ErrorMsg()).'</FONT>'.
-               '<P><CODE>'.( $debug_mode > 0 ? $this->lastSQL : "" ).'</CODE><P>';
-  }
+	function baseErrorMessage(){
+		GLOBAL $debug_mode;
+		if ( $this->DB->ErrorMsg() && (
+			$this->DB_type != 'mssql' || (
+				!strstr($this->DB->ErrorMsg(), 'Changed database context to')
+				&& !strstr($this->DB->ErrorMsg(), 'Changed language setting to')
+			)
+		)){
+			$msg = '</TABLE></TABLE></TABLE>'.
+			returnErrorMessage('<B>'._ERRSQLDB.'</B>'). $this->DB->ErrorMsg();
+			if ( $debug_mode > 0 ){
+				$msg .= '<p><code>'.$this->lastSQL.'</code><p>';
+			}
+		}else{
+			$msg = '';
+		}
+		return $msg;
+	}
 
   function baseTableExists($table)
   {

@@ -5,7 +5,7 @@ use PHPUnit\Framework\TestCase;
 
 /**
   * @covers ::BuildSigLookup
-  * @uses ::check_string
+  * @covers ::check_string
   */
 class signatureTest extends TestCase {
 
