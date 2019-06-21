@@ -190,14 +190,16 @@ class MultipleElementCriteria extends BaseCriteria {
 		$this->criteria_cnt = 0;
 		$this->valid_field_list = $field_list;
 	}
-   function Init()
-   {
-      InitArray($this->criteria, $GLOBALS['MAX_ROWS'], $this->element_cnt, "");
-      $this->criteria_cnt = 1; 
-
-      $_SESSION[$this->export_name."_cnt"] = &$this->criteria_cnt;
-   }
-
+	function Init(){
+		if ( array_key_exists('MAX_ROWS',$GLOBALS) ){
+			$tmp = $GLOBALS['MAX_ROWS'];
+		}else{
+			$tmp = 10;
+		}
+		InitArray($this->criteria, $tmp, $this->element_cnt, "");
+		$this->criteria_cnt = 1;
+		$_SESSION[$this->export_name."_cnt"] = &$this->criteria_cnt;
+	}
    function Import()
    {
       $this->criteria = SetSessionVar($this->export_name);
@@ -1049,17 +1051,20 @@ class IPAddressCriteria extends MultipleElementCriteria {
                     <OPTION VALUE="="  '.chk_select(@$this->criteria[$i][2],"="). '>=
                     <OPTION VALUE="!=" '.chk_select(@$this->criteria[$i][2],"!=").'>!=
                    </SELECT>';
-
-        if ( $GLOBALS['ip_address_input'] == 2 )
+		if ( array_key_exists('ip_address_input',$GLOBALS) ){
+			$tmp = $GLOBALS['ip_address_input'];
+		}else{
+			$tmp = 2;
+		}
+		if ( $tmp == 2 ){
            echo  '    <INPUT TYPE="text" NAME="ip_addr['.$i.'][3]" SIZE=16 VALUE="'.htmlspecialchars(@$this->criteria[$i][7]).'">';
-        else
-        {
+		}else{
            echo '    <INPUT TYPE="text" NAME="ip_addr['.$i.'][3]" SIZE=3 VALUE="'.htmlspecialchars(@$this->criteria[$i][3]).'"><B>.</B>';
            echo '    <INPUT TYPE="text" NAME="ip_addr['.$i.'][4]" SIZE=3 VALUE="'.htmlspecialchars(@$this->criteria[$i][4]).'"><B>.</B>';
            echo '    <INPUT TYPE="text" NAME="ip_addr['.$i.'][5]" SIZE=3 VALUE="'.htmlspecialchars(@$this->criteria[$i][5]).'"><B>.</B>';
            echo '    <INPUT TYPE="text" NAME="ip_addr['.$i.'][6]" SIZE=3 VALUE="'.htmlspecialchars(@$this->criteria[$i][6]).'"><!--<B>/</B>';
            echo '    <INPUT TYPE="text" NAME="ip_addr['.$i.'][7]" SIZE=3 VALUE="'.htmlspecialchars(@$this->criteria[$i][7]).'">-->'; 
-        }
+		}
         echo '    <SELECT NAME="ip_addr['.$i.'][8]"><OPTION VALUE=" " '.chk_select(@$this->criteria[$i][8]," ").'>__';
         echo '                                      <OPTION VALUE="(" '.chk_select(@$this->criteria[$i][8],"(").'>(';
         echo '                                      <OPTION VALUE=")" '.chk_select(@$this->criteria[$i][8],")").'>)</SELECT>';
@@ -1305,21 +1310,21 @@ class TCPFieldCriteria extends ProtocolFieldCriteria {
 	}
 };  /* TCPFieldCriteria */
 
-class TCPFlagsCriteria extends SingleElementCriteria
-{
-/*
- * $tcp_flags[7]: stores all other tcp flags parameters/operators row
- *  - [0] : is, contains                   [4] : 8     (RST)
- *  - [1] : 1   (FIN)                      [5] : 16    (ACK)
- *  - [2] : 2   (SYN)                      [6] : 32    (URG)
- *  - [3] : 4   (PUSH)
- */
+class TCPFlagsCriteria extends SingleElementCriteria{
+	// $tcp_flags[7]: stores all other tcp flags parameters/operators row
+	//  - [0] : is, contains                   [4] : 8     (RST)
+	//  - [1] : 1   (FIN)                      [5] : 16    (ACK)
+	//  - [2] : 2   (SYN)                      [6] : 32    (URG)
+	//  - [3] : 4   (PUSH)
 
-   function Init()
-   {
-      InitArray($this->criteria, $GLOBALS['MAX_ROWS'], TCPFLAGS_CFCNT, ""); 
-   }
-
+	function Init(){
+		if ( array_key_exists('MAX_ROWS',$GLOBALS) ){
+			$tmp = $GLOBALS['MAX_ROWS'];
+		}else{
+			$tmp = 10;
+		}
+		InitArray($this->criteria, $tmp, TCPFLAGS_CFCNT, ""); 
+	}
    function Clear()
    {
      /* clears the criteria */
