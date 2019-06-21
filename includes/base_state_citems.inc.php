@@ -259,7 +259,7 @@ class MultipleElementCriteria extends BaseCriteria {
          return false;
    }
 	function PrintForm($field_list, $blank_field_string, $add_button_string){
-		if ( in_array("criteria", array_keys(get_object_vars($this))) ){
+		if ( is_array($this->criteria) ){
 			for ( $i = 0; $i < $this->criteria_cnt; $i++ ){
 				if (!is_array($this->criteria[$i])){
 					$this->criteria = array();
@@ -989,7 +989,7 @@ class IPAddressCriteria extends MultipleElementCriteria {
 	}
 	function Import(){
 		parent::Import();
-		if ( in_array("criteria", array_keys(get_object_vars($this))) ){
+		if ( is_array($this->criteria) ){
 			// Expand IP into octets.
 			for ( $i = 0; $i < $this->criteria_cnt; $i++ ){
         if ( (isset ($this->criteria[$i][3])) &&
