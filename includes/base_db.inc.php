@@ -288,6 +288,11 @@ class baseCon {
         fflush($this->sql_trace);
      }
 		if ( (!$rs || $this->baseErrorMessage() != "") && $die_on_error ){
+			if (!$rs){
+				$msg = returnErrorMessage('NULL Recordset',0,1);
+			}else{
+				$msg = '';
+			}
 			$msg = $this->baseErrorMessage();
 			// We need to fix how we setup $limit_str and execute the queries
 			// above so that we can get rid of this if block.
@@ -311,12 +316,13 @@ class baseCon {
 			$msg = '</TABLE></TABLE></TABLE>'.
 			returnErrorMessage('<B>'._ERRSQLDB.'</B>'). $this->DB->ErrorMsg();
 			if ( $debug_mode > 0 ){
-				$msg .= '<p><code>'.$this->lastSQL.'</code><p>';
+				$msg .= '<p><code>'.$this->lastSQL.'</code></p>';
 			}
 			if ( getenv('TRAVIS') && version_compare(PHP_VERSION, "5.3.0", "<") ){
 				// Issue #5 Info Shim
-				$msg .= $this->DB_type.' DB: '.$this->DB_name.' @ '.
-				$this->DB_host.':'.$this->DB_port;
+				$msg .= '<p>'.$this->DB_type.' DB: '.$this->DB_name.' @ '.
+				$this->DB_host.':'.$this->DB_port.'</p>';
+				$msg .= '<p><code>'.$this->lastSQL.'</code></p>';
 			}
 		}else{
 			$msg = '';
