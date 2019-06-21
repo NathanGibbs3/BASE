@@ -316,7 +316,7 @@ class baseCon {
 			if ( getenv('TRAVIS') && version_compare(PHP_VERSION, "5.3.0", "<") ){
 				// Issue #5 Info Shim
 				$msg .= $this->DB_type.' DB: '.$this->DB_name.' @ '.
-				$this->DB_host.':'$this->DB_port;
+				$this->DB_host.':'.$this->DB_port;
 			}
 		}else{
 			$msg = '';
