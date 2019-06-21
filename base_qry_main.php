@@ -119,10 +119,14 @@ include_once("$BASE_path/includes/base_constants.inc.php");
 
   /* End 'interesting' browser code fixes */
 
-  /* Totally new Search */
-  if ( ($new == 1) && ($submit == "") ) {
-    $cs->InitState();
-  }
+	// Totally new Search
+	// Or Under Issue #5 Test conditions.
+	if (
+		( ($new == 1) && ($submit == "") )
+		|| ( getenv('TRAVIS') && version_compare(PHP_VERSION, "5.3.0", "<") )
+	){
+		$cs->InitState();
+	}
 
   /* is this a new query, invoked from the SEARCH screen ? */
   /* if the query string if very long (> 700) then this must be from the Search screen  */

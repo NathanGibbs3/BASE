@@ -313,6 +313,11 @@ class baseCon {
 			if ( $debug_mode > 0 ){
 				$msg .= '<p><code>'.$this->lastSQL.'</code><p>';
 			}
+			if ( getenv('TRAVIS') && version_compare(PHP_VERSION, "5.3.0", "<") ){
+				// Issue #5 Info Shim
+				$msg .= $this->DB_type.' DB: '.$this->DB_name.' @ '.
+				$this->DB_host.':'$this->DB_port;
+			}
 		}else{
 			$msg = '';
 		}
