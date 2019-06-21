@@ -258,13 +258,12 @@ class MultipleElementCriteria extends BaseCriteria {
       else
          return false;
    }
-
-   function PrintForm($field_list, $blank_field_string, $add_button_string)
-   {
-      for ( $i = 0; $i < $this->criteria_cnt; $i++ )
-      {
-		if (!is_array($this->criteria[$i]))
-			$this->criteria = array();
+	function PrintForm($field_list, $blank_field_string, $add_button_string){
+		if ( is_int($this->criteria_cnt) ){
+			for ( $i = 0; $i < $this->criteria_cnt; $i++ ){
+				if (!is_array($this->criteria[$i])){
+					$this->criteria = array();
+				}
 
          echo '    <SELECT NAME="'.htmlspecialchars($this->export_name).'['.$i.'][0]">';
          echo '      <OPTION VALUE=" " '.chk_select($this->criteria[$i][0]," ").'>__</OPTION>'; 
@@ -306,9 +305,9 @@ class MultipleElementCriteria extends BaseCriteria {
          if ( $i == $this->criteria_cnt-1 )
             echo '    <INPUT TYPE="submit" NAME="submit" VALUE="'.htmlspecialchars($add_button_string).'">';
          echo '<BR>';
-      }
-   }
-
+			}
+		}
+	}
    function Compact()
    {
       if ( $this->isEmpty() )
@@ -988,13 +987,11 @@ class IPAddressCriteria extends MultipleElementCriteria {
 			)
 		);
 	}
-   function Import()
-   {
-      parent::Import();      
-
-      /* expand IP into octets */
-      for ( $i = 0; $i < $this->criteria_cnt; $i++ )
-      {
+	function Import(){
+		parent::Import();
+		if ( is_int($this->criteria_cnt) ){
+			// Expand IP into octets.
+			for ( $i = 0; $i < $this->criteria_cnt; $i++ ){
         if ( (isset ($this->criteria[$i][3])) &&
 			(preg_match("/([0-9]*)\.([0-9]*)\.([0-9]*)\.([0-9]*)/", $this->criteria[$i][3])) )
         {
@@ -1005,12 +1002,11 @@ class IPAddressCriteria extends MultipleElementCriteria {
            $this->criteria[$i][6] = strtok("/");
            $this->criteria[$i][10] = strtok("");
         }
-      } 
-
+			}
+		}
       $_SESSION['ip_addr'] = &$this->criteria;
       $_SESSION['ip_addr_cnt'] = &$this->criteria_cnt;
-   }
-
+	}
    function Clear()
    {
      /* clears the criteria */
