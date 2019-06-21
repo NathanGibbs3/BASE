@@ -26,7 +26,7 @@ public static function setUpBeforeClass() {
 	);
 	$dubug_mode = 0;
 }
-public static function teardownAfterClass() {
+public static function tearDownAfterClass() {
 	GLOBAL $external_sig_link, $debug_mode;
 	unset($external_sig_link);
 	unset($debug_mode);

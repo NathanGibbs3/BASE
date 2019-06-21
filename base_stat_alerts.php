@@ -64,13 +64,6 @@ include_once ("$BASE_path/includes/base_constants.inc.php");
 
 if (is_object($cs)){ // Issue #5
   $criteria_clauses = ProcessCriteria();
-}else{
-	if ( getenv('TRAVIS') && version_compare(PHP_VERSION, "5.3.0", "<") ){
-		// Issue #5 Test Shim
-		$where_sql = " WHERE ";
-		$criteria_sql = " 1 = 1 ";
-		$join_sql = "";
-	}
 }
      	/**
 	* RFE by Joel. Wanted the Summary Statistics box on the base_stat_alerts page
@@ -86,6 +79,12 @@ if (is_object($cs)){ // Issue #5
       
 	PrintFramedBoxHeader(_QSCSUMM, "#669999", "#FFFFFF");
 if ( isset($show_summary_stats) ){ // Issue #5
+	if ( getenv('TRAVIS') && version_compare(PHP_VERSION, "5.3.0", "<") ){
+		// Issue #5 Test Shim
+		$where_sql = " WHERE ";
+		$criteria_sql = " 1 = 1 ";
+		$join_sql = "";
+	}
 	PrintGeneralStats(
 		$db, 1, $show_summary_stats, "$join_sql ", "$where_sql $criteria_sql"
 	);
