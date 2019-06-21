@@ -18,7 +18,7 @@
 ********************************************************************************
 */
 
-if ( isset($sort_order) ){ // Issue #5
+if ( isset($sort_order) && is_object($cs) ){ // Issue #5
 if ( $submit == "TCP" )        {  $cs->criteria['layer4']->Set("TCP");   }
 if ( $submit == "UDP" )        {  $cs->criteria['layer4']->Set("UDP");   }
 if ( $submit == "ICMP" )       {  $cs->criteria['layer4']->Set("ICMP");  }
