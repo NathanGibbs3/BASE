@@ -287,20 +287,18 @@ class baseCon {
         fputs($this->sql_trace, $sql."\n");
         fflush($this->sql_trace);
      }
-
-     if ( (!$rs || $this->baseErrorMessage() != "") && $die_on_error )
-     {
-        echo '</TABLE></TABLE></TABLE>
-               <FONT COLOR="#FF0000"><B>'._ERRSQLDB.'</B>'.($this->baseErrorMessage()).'</FONT>'.
-               '<P><PRE>'.( $debug_mode > 0 ? ($this->lastSQL).$limit_str : "" ).'</PRE><P>';
-        die();
-     }
-     else
-     {
-        return $rs;
-     }
-  }
-
+		if ( (!$rs || $this->baseErrorMessage() != "") && $die_on_error ){
+			$msg = $this->baseErrorMessage();
+			// We need to fix how we setup $limit_str and execute the queries
+			// above so that we can get rid of this if block.
+			if ( $debug_mode > 0 && $limit_str != ''){
+				$msg .= '<code>'.$limit_str.'</code>';
+			}
+			FatalError ($msg);
+		}else{
+			return $rs;
+		}
+	}
   function baseErrorMessage()
   {
      GLOBAL $debug_mode;

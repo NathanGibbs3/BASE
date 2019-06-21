@@ -359,38 +359,31 @@ function GetSignatureReference($sig_id, $db, $style)
    return $ref;
 }
 
-
-function check_string($str)
-{
-  if (
-       !isset($str) ||
-       empty($str) ||
-       !is_string($str)
-     )
-  {
-    $msg = __FILE__ . ":" . __LINE__ . ":" . __FUNCTION__ . ": ERROR: \$str has not been defined OR is empty OR is not a string.";
-    error_log($msg);
-
-    if ($debug_mode > 1)
-    {
-      SQLTraceLog(__FILE__ . ":" . __LINE__ . ":" . __FUNCTION__ . ": ERROR: \$msg == \"" . var_dump($str) . "\".");
-    }
-
-    return 0;
-  }
-  else
-  {
-    return 1;
-  }
+function check_string($str){
+	GLOBAL $debug_mode;
+	if ( !isset($str) || empty($str) || !is_string($str) ){
+		if ($debug_mode > 0){
+			$Epfx = __FILE__ . ":" . __FUNCTION__ . ": ERROR: ";
+			$msg = $Epfx . "\$str is not defined OR is empty OR is not a string.";
+			error_log($msg);
+			if ($debug_mode > 1){
+				SQLTraceLog( $Epfx . "\$msg == \"" . var_dump($str) . "\".");
+			}
+		}
+		return 0;
+	}else{
+		return 1;
+	}
 }
 
-
-
-function BuildSigLookup($signature, $style)
-/* - Paul Harrington <paul@pizza.org> : reference URL links
- * - Michael Bell <michael.bell@web.de> : links for IP address in spp_portscan alerts
- */
-{
+function BuildSigLookup($signature, $style = 1 ){
+// style : how should the signature be returned?
+//         - 1: (default) HTML
+//         - 2: text
+//
+// - Paul Harrington <paul@pizza.org> : reference URL links
+// - Michael Bell <michael.bell@web.de> : links for IP address in
+//   spp_portscan alerts
   GLOBAL $debug_mode;
 
   if (
@@ -413,28 +406,39 @@ function BuildSigLookup($signature, $style)
   if ($style == 2)
      return $signature;
 
-
-  /* create hyperlinks for references */
-  $pattern = "/(IDS)(\d+)/";
-  $replace = "<A HREF=\"http://www.whitehats.com/\\1/\\2\" TARGET=\"_ACID_ALERT_DESC\">\\1\\2</A>";
-  $tmp1 = preg_replace($pattern, $replace, $signature);
-  if (!check_string($tmp1))
-  {
-    print "<td bgcolor=\"white\">" . __FILE__ . ":" . __LINE__ . ": ERROR: \$tmp1 = " . var_dump($tmp1) . "</td>";
-    return $signature;
-  }
-
-
-  $pattern = "/(IDS)(0+)(\d+)/";
-  $replace = "<A HREF=\"http://www.whitehats.com/\\1/\\3\" TARGET=\"_ACID_ALERT_DESC\">\\1\\2\\3</A>";
-  $tmp2 = preg_replace($pattern, $replace, $tmp1);
+	// Create hyperlinks for references.
+	// Arachnids sig referneces. Supports mixed styles in same sig. The old
+	// code worked, but nested <A> tags, really, seriously. :-)
+	if(preg_match("/(IDS)(\d+)/",$signature,$matches)){
+		$replace = "<A HREF=\"http://www.whitehats.com/".$matches[1];
+		$target = " TARGET=\"_ACID_ALERT_DESC\">".$matches[1];
+		$ts = $signature;
+		preg_match_all("/IDS\d+/",$signature,$MC);
+		for ($i = 0; $i < count($MC[0]); $i++){
+			$pattern = '/'.$MC[0][$i].'/';
+			if(preg_match("/(0+)(\d+)/",$pattern,$hit)){
+				// Anarchnids Leading Zero Sig URL Shim
+				$tmp = $hit[2];
+				$tt = $target.$hit[0];
+			}else{
+				// Anarchnids Default Numeric URL
+				$tmp = $matches[2];
+				$tt = $target.$tmp;
+			}
+			$tr = $replace."/$tmp\"$tt</A>";
+			$ts = preg_replace($pattern, $tr, $ts);
+		}
+		$tmp2 = $ts;
+	}else{
+		$tmp2 = $signature;
+	}
   if (!check_string($tmp2))
   {
     print "<td bgcolor=\"white\">" . __FILE__ . ":" . __LINE__ . ": ERROR: \$tmp2 = " . var_dump($tmp2) . "</td>";
     return $tmp1;
   }
 
-
+	if ( array_key_exists('external_sig_link',$GLOBALS) ){ // Issue #27
   $pattern = "/BUGTRAQ ID (\d+)/";
   $replace = "<A HREF=\"".$GLOBALS['external_sig_link']['bugtraq'][0]."\\1\" TARGET=\"_ACID_ALERT_DESC\">BUGTRAQ ID \\1</A>";
   $tmp3 = preg_replace($pattern, $replace, $tmp2);
@@ -463,10 +467,10 @@ function BuildSigLookup($signature, $style)
     print "<td bgcolor=\"white\">ERROR: \$msg = " . var_dump($msg) . "</td>";
     return $tmp4;
   }
-
-
-
-  /* fixup portscan message strings */
+	}else{
+		$msg = $tmp2;
+	}
+	// fixup portscan message strings
   if ( stristr($msg, "spp_portscan") )
   {
     if ($debug_mode > 1)
@@ -491,8 +495,7 @@ function BuildSigLookup($signature, $style)
       SQLTraceLog(__FILE__ . ":" . __LINE__ . ":" . __FUNCTION__ . ": After fixup portscan message strings");
     }
   }
-
-  return $msg;
+	return $msg;
 }
 
 function BuildSigByID($sig_id, $db, $style = 1)
