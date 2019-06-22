@@ -294,10 +294,20 @@ class baseCon {
 				$msg = '';
 			}
 			$msg = $this->baseErrorMessage();
-			// We need to fix how we setup $limit_str and execute the queries
-			// above so that we can get rid of this if block.
+			// Fix how we setup $limit_str and execute the queries above so
+			// that we can get rid of this if block.
 			if ( $debug_mode > 0 && $limit_str != ''){
-				$msg .= '<code>'.$limit_str.'</code>';
+				$msg .= '<p>SQL QUERY: <code>'.$this->lastSQL.$limit_str.
+				'</code></p>';
+			}
+			if ( getenv('TRAVIS') && version_compare(PHP_VERSION, "5.3.0", "<") ){
+				// Issue #5 Info Shim
+				// Fatal error, so dump everything.
+				// Definitely don't wnat this in production.
+				$msg .= '<p>DB Engine:'.$this->DB_type.' DB: '.$this->DB_name.
+				' @ '.$this->DB_host.':'.$this->DB_port.'</p>';
+				$msg .= '<p>SQL QUERY: <code>'.$this->lastSQL.$limit_str.
+				'</code></p>';
 			}
 			FatalError ($msg);
 		}else{
@@ -314,14 +324,8 @@ class baseCon {
 			)
 		)){
 			$msg = '</TABLE></TABLE></TABLE>'.
-			returnErrorMessage('<B>'._ERRSQLDB.'</B>'). $this->DB->ErrorMsg();
+			returnErrorMessage('<B>'._ERRSQLDB.'</B> '). $this->DB->ErrorMsg();
 			if ( $debug_mode > 0 ){
-				$msg .= '<p><code>'.$this->lastSQL.'</code></p>';
-			}
-			if ( getenv('TRAVIS') && version_compare(PHP_VERSION, "5.3.0", "<") ){
-				// Issue #5 Info Shim
-				$msg .= '<p>'.$this->DB_type.' DB: '.$this->DB_name.' @ '.
-				$this->DB_host.':'.$this->DB_port.'</p>';
 				$msg .= '<p><code>'.$this->lastSQL.'</code></p>';
 			}
 		}else{
