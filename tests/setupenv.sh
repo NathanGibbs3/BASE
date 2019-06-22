@@ -66,6 +66,7 @@ if [ "$pvM" \< "5" ] || ( [ "$pvM" == "5" ] && [ "$pvm" \< "3" ]); then
 		cp ./tests/phpcommon/5.2-xdebug.ini ${HOME}/.phpenv/versions/$(phpenv version-name)/etc/conf.d/xdebug.ini
 		echo "Enabling PHP 5.2x Code Coverage fix."
 		cp ./tests/phpcommon/5.2-base_conf.php ./base_conf.php
+		cp ./tests/phpcommon/5.2-phpunit.xml.dist ./phpunit.xml.dist
 	fi
 else
 	echo "enabled."
