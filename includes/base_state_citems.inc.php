@@ -748,15 +748,6 @@ class SensorCriteria extends SingleElementCriteria
 
       // How many sensors do we have?
       $number_sensors = 0;
-if ( getenv('TRAVIS') && version_compare(PHP_VERSION, "5.3.0", "<") ){
-// Issue #5 Smoke Test Shim
-	if ( is_object($this->db) ){
-		$msg = 'OK DB Obj Class: '.get_class($this->db);
-	}else{
-		$msg = 'EC DB Var  Type: '.gettype($this->db);
-	}
-	trigger_error($msg, E_USER_NOTICE);
-}
       $number_sensors_lst = $this->db->baseExecute("SELECT count(*) FROM sensor");
       $number_sensors_array = $number_sensors_lst->baseFetchRow();
       $number_sensors_lst->baseFreeRows();

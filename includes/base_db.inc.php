@@ -243,6 +243,22 @@ class baseCon {
        }
      }
 
+	if (!$this->DB->isConnected()){
+		$tdt = $DB_type;
+		$tdn = $DB_name;
+		$tdh = $DB_host;
+		$tdp = $DB_port;
+		$tdu = $DB_username;
+		$msg = "BASE DB Disconnected: $tdt $tdn @ $tdh:$tdp";
+		if ( getenv('TRAVIS') && version_compare(PHP_VERSION, "5.3.0", "<") ){
+			// Issue #5 Smoke Test Shim
+			trigger_error($msg, E_USER_NOTICE);
+		}else{
+			// Fatal Error for now, add reconnect logic later.
+			FatalError ($msg);
+		}
+	}
+
      $this->lastSQL = $sql;
      $limit_str = "";
 
