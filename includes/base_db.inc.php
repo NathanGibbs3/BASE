@@ -244,11 +244,11 @@ class baseCon {
      }
 
 	if (!$this->DB->isConnected()){
-		$tdt = $DB_type;
-		$tdn = $DB_name;
-		$tdh = $DB_host;
-		$tdp = $DB_port;
-		$tdu = $DB_username;
+		$tdt = $this->DB_type;
+		$tdn = $this->DB_name;
+		$tdh = $this->DB_host;
+		$tdp = $this->DB_port;
+		$tdu = $this->DB_username;
 		$msg = "BASE DB Disconnected: $tdt $tdn @ $tdh:$tdp";
 		if ( getenv('TRAVIS') && version_compare(PHP_VERSION, "5.3.0", "<") ){
 			// Issue #5 Smoke Test Shim
