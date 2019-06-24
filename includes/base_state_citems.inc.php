@@ -144,6 +144,7 @@ class SingleElementCriteria extends BaseCriteria{
 		$cs =& $cs;
 		$this->BaseCriteria($tdb, $cs, $export_name);
 	}
+
    function Import()
    {
       $this->criteria = SetSessionVar($this->export_name);
@@ -567,31 +568,9 @@ class SignatureCriteria extends SingleElementCriteria {
 };  /* SignatureCriteria */
 
 
-class SignatureClassificationCriteria extends SingleElementCriteria{
-	function __construct(&$db, &$cs, $export_name) { // PHP 5+ constructor Shim.
-		// Class/Method agnostic shim code.
-		$SCname = get_class();
-		if ( method_exists($this, $SCname) ) {
-			$SCargs = func_get_args();
-			// Custom non agnostic shim line for pass by refs.
-			$SCargs = array(&$db, &$cs, $export_name);
-			call_user_func_array(array($this, $SCname), $SCargs);
-		}else{
-			// @codeCoverageIgnoreStart
-			// Should never execute.
-			trigger_error( // Will need to add this message to the TD.
-				"Class: $SCname No Legacy Constructor.\n",
-				E_USER_ERROR
-			);
-			// @codeCoverageIgnoreEnd
-		}
-	}
-	function SignatureClassificationCriteria(&$db, &$cs, $export_name){
-		// PHP 4x constructor.
-		$tdb =& $db;
-		$cs =& $cs;
-		parent::__construct($tdb, $cs, $export_name);
-	}
+
+class SignatureClassificationCriteria extends SingleElementCriteria
+{
    function Init()
    {
      $this->criteria = "";
@@ -650,32 +629,9 @@ class SignatureClassificationCriteria extends SingleElementCriteria{
 	}
 };  /* SignatureClassificationCriteria */
 
-class SignaturePriorityCriteria extends SingleElementCriteria{
-	var $criteria = array();
-	function __construct(&$db, &$cs, $export_name) { // PHP 5+ constructor Shim.
-		// Class/Method agnostic shim code.
-		$SCname = get_class();
-		if ( method_exists($this, $SCname) ) {
-			$SCargs = func_get_args();
-			// Custom non agnostic shim line for pass by refs.
-			$SCargs = array(&$db, &$cs, $export_name);
-			call_user_func_array(array($this, $SCname), $SCargs);
-		}else{
-			// @codeCoverageIgnoreStart
-			// Should never execute.
-			trigger_error( // Will need to add this message to the TD.
-				"Class: $SCname No Legacy Constructor.\n",
-				E_USER_ERROR
-			);
-			// @codeCoverageIgnoreEnd
-		}
-	}
-	function SignaturePriorityCriteria(&$db, &$cs, $export_name){
-		// PHP 4x constructor.
-		$tdb =& $db;
-		$cs =& $cs;
-		parent::__construct($tdb, $cs, $export_name);
-	}
+class SignaturePriorityCriteria extends SingleElementCriteria
+{
+   var $criteria = array();
    function Init()
    {
      $this->criteria = "";
@@ -751,31 +707,8 @@ class SignaturePriorityCriteria extends SingleElementCriteria{
 	}
 };  /* SignaturePriorityCriteria */
 
-class AlertGroupCriteria extends SingleElementCriteria{
-	function __construct(&$db, &$cs, $export_name) { // PHP 5+ constructor Shim.
-		// Class/Method agnostic shim code.
-		$SCname = get_class();
-		if ( method_exists($this, $SCname) ) {
-			$SCargs = func_get_args();
-			// Custom non agnostic shim line for pass by refs.
-			$SCargs = array(&$db, &$cs, $export_name);
-			call_user_func_array(array($this, $SCname), $SCargs);
-		}else{
-			// @codeCoverageIgnoreStart
-			// Should never execute.
-			trigger_error( // Will need to add this message to the TD.
-				"Class: $SCname No Legacy Constructor.\n",
-				E_USER_ERROR
-			);
-			// @codeCoverageIgnoreEnd
-		}
-	}
-	function AlertGroupCriteria(&$db, &$cs, $export_name){
-		// PHP 4x constructor.
-		$tdb =& $db;
-		$cs =& $cs;
-		parent::__construct($tdb, $cs, $export_name);
-	}
+class AlertGroupCriteria extends SingleElementCriteria
+{
    function Init()
    {
       $this->criteria = "";
@@ -819,31 +752,8 @@ class AlertGroupCriteria extends SingleElementCriteria{
 	}
 };  /* AlertGroupCriteria */
 
-class SensorCriteria extends SingleElementCriteria{
-	function __construct(&$db, &$cs, $export_name) { // PHP 5+ constructor Shim.
-		// Class/Method agnostic shim code.
-		$SCname = get_class();
-		if ( method_exists($this, $SCname) ) {
-			$SCargs = func_get_args();
-			// Custom non agnostic shim line for pass by refs.
-			$SCargs = array(&$db, &$cs, $export_name);
-			call_user_func_array(array($this, $SCname), $SCargs);
-		}else{
-			// @codeCoverageIgnoreStart
-			// Should never execute.
-			trigger_error( // Will need to add this message to the TD.
-				"Class: $SCname No Legacy Constructor.\n",
-				E_USER_ERROR
-			);
-			// @codeCoverageIgnoreEnd
-		}
-	}
-	function SensorCriteria(&$db, &$cs, $export_name){
-		// PHP 4x constructor.
-		$tdb =& $db;
-		$cs =& $cs;
-		parent::__construct($tdb, $cs, $export_name);
-	}
+class SensorCriteria extends SingleElementCriteria
+{
    function Init()
    {
      $this->criteria = "";
