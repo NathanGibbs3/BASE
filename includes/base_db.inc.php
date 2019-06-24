@@ -744,6 +744,7 @@ function NewBASEDBConnection($path, $type){
 	}
 	$version = explode( '.', phpversion() );
 	if (VerifyDBAbstractionLib($path."adodb.inc.php")){
+		SetConst('ADODB_ERROR_HANDLER_TYPE',E_USER_NOTICE);
 		SetConst('ADODB_ERROR_LOG_TYPE',0);
 		include_once($path.'adodb-errorhandler.inc.php');
 		include($path.'adodb.inc.php');
