@@ -22,7 +22,9 @@
 include("../includes/base_setup.inc.php");
 include("base_conf_contents.php");
 
-session_start();
+if ( session_id() != '' ){
+	session_start();
+}
     $language = $_SESSION['language'];
     $useauth = $_SESSION['useuserauth'];
     $adodb = $_SESSION['adodbpath'];

@@ -18,7 +18,9 @@
 **
 ********************************************************************************
 */
-session_start();
+if ( session_id() != '' ){
+	session_start();
+}
 
 include("../includes/base_setup.inc.php");
 

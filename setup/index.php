@@ -23,7 +23,9 @@
 
 include("../includes/base_setup.inc.php");
 
-session_start();
+if ( session_id() != '' ){
+	session_start();
+}
 unset( $_SESSION['language'] );
 unset( $_SESSION['adodbpath'] );
 unset( $_SESSION['dbtype'] );
