@@ -226,12 +226,40 @@ class baseCon {
 	){
 		GLOBAL $debug_mode, $sql_trace_mode, $db_connect_method,
 			$alert_password;
+		if ( array_key_exists('archive_dbname',$GLOBALS) ){
+			$archive_dbname = $GLOBALS['archive_dbname'];
+		}else{
+			$archive_dbname = '';
+		}
+		if ( array_key_exists('archive_host',$GLOBALS) ){
+			$archive_host = $GLOBALS['archive_host'];
+		}else{
+			$archive_host = '';
+		}
+		if ( array_key_exists('archive_port',$GLOBALS) ){
+			$archive_port = $GLOBALS['archive_port'];
+		}else{
+			$archive_port = '';
+		}
+		if ( array_key_exists('archive_password',$GLOBALS) ){
+			$archive_password = $GLOBALS['archive_password'];
+		}else{
+			$archive_password = '';
+		}
 		$EPfx = 'BASE DB ';
 		$tdt = $this->DB_type;
 		$tdn = $this->DB_name;
 		$DSN = $this->DB_host;
 		$tdp = $this->DB_port;
 		$tdu = $this->DB_username;
+		if (
+			$DSN == $archive_host && $tdp == $archive_port
+			&& $tdn == $archive_dbname
+		){
+			$tdpw = $archive_password;
+		}else{
+			$tdpw = $alert_password;
+		}
 		if ( $tdp != '') {
 			$DSN = "$DSN:$tdp";
 		}
@@ -256,9 +284,9 @@ class baseCon {
 			error_log($EPfx."Disconnected: $tdt $tdn @ $DSN");
 //			error_log($EPfx."Reconnecting: $tdt $tdn @ $DSN");
 //			if ( $db_connect_method == DB_CONNECT ){
-//				$db = $this->DB->Connect( $DSN, $tdu, $alert_password, $tdn);
+//				$db = $this->DB->Connect( $DSN, $tdu, $tdpw, $tdn);
 //			}else{
-//				$db = $this->DB->PConnect( $DSN, $tdu, $alert_password, $tdn);
+//				$db = $this->DB->PConnect( $DSN, $tdu, $tdpw, $tdn);
 //			}
 //			if (!$this->DB->isConnected()){
 //				FatalError("$EPfx Reconnect Failed", E_USER_NOTICE);
