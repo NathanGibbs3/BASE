@@ -281,18 +281,22 @@ class baseCon {
      }
 
 		if (!$this->DB->isConnected()){
+			// Check for connection before executing query.
+			// Try to reconnect of DB connection is down.
+			// Found via CI. Might be related to PHP 5.2x not supporting
+			// persistant DB connections.
 			error_log($EPfx."Disconnected: $tdt $tdn @ $DSN");
-//			error_log($EPfx."Reconnecting: $tdt $tdn @ $DSN");
-//			if ( $db_connect_method == DB_CONNECT ){
-//				$db = $this->DB->Connect( $DSN, $tdu, $tdpw, $tdn);
-//			}else{
-//				$db = $this->DB->PConnect( $DSN, $tdu, $tdpw, $tdn);
-//			}
-//			if (!$this->DB->isConnected()){
-//				FatalError("$EPfx Reconnect Failed", E_USER_NOTICE);
-//			}else{
-//				error_log("$EPfx Reconnected");
-//			}
+			error_log($EPfx."Reconnecting: $tdt $tdn @ $DSN");
+			if ( $db_connect_method == DB_CONNECT ){
+				$db = $this->DB->Connect( $DSN, $tdu, $tdpw, $tdn);
+			}else{
+				$db = $this->DB->PConnect( $DSN, $tdu, $tdpw, $tdn);
+			}
+			if (!$this->DB->isConnected()){
+				FatalError("$EPfx Reconnect Failed", E_USER_NOTICE);
+			}else{
+				error_log("$EPfx Reconnected");
+			}
 		}
 
      $this->lastSQL = $sql;
