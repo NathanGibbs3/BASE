@@ -221,11 +221,11 @@ class baseCon {
   {
      $this->DB->Close();
   }
-
-  function baseExecute($sql, $start_row=0, $num_rows=-1, $die_on_error=true )
-  {
-     GLOBAL $debug_mode, $sql_trace_mode;
-
+	function baseExecute(
+		$sql, $start_row=0, $num_rows=-1, $die_on_error=true
+	){
+		GLOBAL $debug_mode, $sql_trace_mode, $db_connect_method,
+			$alert_password;
      /* ** Begin DB specific SQL fix-up ** */
      if ($this->DB_type == "mssql")
      {
@@ -249,13 +249,29 @@ class baseCon {
 		$tdh = $this->DB_host;
 		$tdp = $this->DB_port;
 		$tdu = $this->DB_username;
-		$msg = "BASE DB Disconnected: $tdt $tdn @ $tdh:$tdp";
+		if ( $tdp == '') {
+			$DSN = $tdh;
+		}else{
+			$DSN = "$tdh:$tdp";
+		}
+		$msg = "BASE DB Disconnected: $tdt $tdn @ $DSN";
 		if ( getenv('TRAVIS') && version_compare(PHP_VERSION, "5.3.0", "<") ){
 			// Issue #5 Smoke Test Shim
 			trigger_error($msg, E_USER_NOTICE);
 		}else{
 			// Fatal Error for now, add reconnect logic later.
-			FatalError ($msg);
+			//FatalError ($msg);
+		}
+		error_log("BASE DB Reconnecting: $tdt $tdn @ $DSN");
+		if ( $db_connect_method == DB_CONNECT ){
+			$db = $this->DB->Connect( $DSN, $tdu, $alert_password, $tdn);
+		}else{
+			$db = $this->DB->PConnect( $DSN, $tdu, $alert_password, $tdn);
+		}
+		if (!$this->DB->isConnected()){
+			trigger_error("BASE DB Reconnect Failed: $msg", E_USER_NOTICE);
+		}else{
+			error_log('BASE DB Reconnected');
 		}
 	}
 
@@ -330,7 +346,6 @@ class baseCon {
 			return $rs;
 		}
 	}
-
 	function baseErrorMessage(){
 		GLOBAL $debug_mode;
 		if ( $this->DB->ErrorMsg() && (
@@ -349,7 +364,6 @@ class baseCon {
 		}
 		return $msg;
 	}
-
   function baseTableExists($table)
   {
      if ($this->DB_type == "oci8") $table=strtoupper($table);
@@ -667,7 +681,6 @@ class baseRS {
     }
   }
 }
-
 function VerifyDBAbstractionLib($path){
 	GLOBAL $debug_mode;
 	$version = explode('.', phpversion());
@@ -701,7 +714,6 @@ function VerifyDBAbstractionLib($path){
 		// @codeCoverageIgnoreEnd
 	}
 }
-
 function NewBASEDBConnection($path, $type){
 	GLOBAL $debug_mode;
 	if ( !(
@@ -742,7 +754,9 @@ function NewBASEDBConnection($path, $type){
 	}
 	$version = explode( '.', phpversion() );
 	if (VerifyDBAbstractionLib($path."adodb.inc.php")){
-		include($path."adodb.inc.php");
+		SetConst('ADODB_ERROR_LOG_TYPE',0);
+		include_once($path.'adodb-errorhandler.inc.php');
+		include($path.'adodb.inc.php');
 	}else{
 		$msg = _ERRSQLDBALLOAD1.'"'.XSSPrintSafe($path).'"'._ERRSQLDBALLOAD2;
 		if ( $version[0] > 5 || ( $version[0] == 5 && $version[1] > 2) ){
@@ -764,7 +778,6 @@ function NewBASEDBConnection($path, $type){
 	ADOLoadCode($tmptype);
 	return new baseCon($type);
 }
-
 function MssqlKludgeValue($text)
 {
    $mssql_kludge = "";

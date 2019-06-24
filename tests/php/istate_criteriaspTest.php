@@ -9,7 +9,7 @@ use PHPUnit\Framework\TestCase;
   * @runTestsInSeparateProcesses
   * @covers ::PrintBackButton
   */
-class state_criteriaTest extends TestCase {
+class state_criteriaSPTest extends TestCase {
 	public static function setUpBeforeClass() {
 		GLOBAL $maintain_history;
 		// Issue #36 Cutout.
