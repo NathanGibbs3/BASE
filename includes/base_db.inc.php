@@ -226,6 +226,15 @@ class baseCon {
 	){
 		GLOBAL $debug_mode, $sql_trace_mode, $db_connect_method,
 			$alert_password;
+		$EPfx = 'BASE DB ';
+		$tdt = $this->DB_type;
+		$tdn = $this->DB_name;
+		$DSN = $this->DB_host;
+		$tdp = $this->DB_port;
+		$tdu = $this->DB_username;
+		if ( $tdp != '') {
+			$DSN = "$DSN:$tdp";
+		}
      /* ** Begin DB specific SQL fix-up ** */
      if ($this->DB_type == "mssql")
      {
@@ -243,37 +252,20 @@ class baseCon {
        }
      }
 
-	if (!$this->DB->isConnected()){
-		$tdt = $this->DB_type;
-		$tdn = $this->DB_name;
-		$tdh = $this->DB_host;
-		$tdp = $this->DB_port;
-		$tdu = $this->DB_username;
-		if ( $tdp == '') {
-			$DSN = $tdh;
-		}else{
-			$DSN = "$tdh:$tdp";
-		}
-		$msg = "BASE DB Disconnected: $tdt $tdn @ $DSN";
-		if ( getenv('TRAVIS') && version_compare(PHP_VERSION, "5.3.0", "<") ){
-			// Issue #5 Smoke Test Shim
-			trigger_error($msg, E_USER_NOTICE);
-		}else{
-			// Fatal Error for now, add reconnect logic later.
-			//FatalError ($msg);
-		}
-		error_log("BASE DB Reconnecting: $tdt $tdn @ $DSN");
-		if ( $db_connect_method == DB_CONNECT ){
-			$db = $this->DB->Connect( $DSN, $tdu, $alert_password, $tdn);
-		}else{
-			$db = $this->DB->PConnect( $DSN, $tdu, $alert_password, $tdn);
-		}
 		if (!$this->DB->isConnected()){
-			trigger_error("BASE DB Reconnect Failed: $msg", E_USER_NOTICE);
-		}else{
-			error_log('BASE DB Reconnected');
+			error_log($EPfx."Disconnected: $tdt $tdn @ $DSN");
+//			error_log($EPfx."Reconnecting: $tdt $tdn @ $DSN");
+//			if ( $db_connect_method == DB_CONNECT ){
+//				$db = $this->DB->Connect( $DSN, $tdu, $alert_password, $tdn);
+//			}else{
+//				$db = $this->DB->PConnect( $DSN, $tdu, $alert_password, $tdn);
+//			}
+//			if (!$this->DB->isConnected()){
+//				FatalError("$EPfx Reconnect Failed", E_USER_NOTICE);
+//			}else{
+//				error_log("$EPfx Reconnected");
+//			}
 		}
-	}
 
      $this->lastSQL = $sql;
      $limit_str = "";
@@ -321,11 +313,11 @@ class baseCon {
      }
 		if ( (!$rs || $this->baseErrorMessage() != "") && $die_on_error ){
 			if (!$rs){
-				$msg = returnErrorMessage('NULL Recordset',0,1);
+				$msg = returnErrorMessage("$EPfx NULL Recordset",0,1);
 			}else{
 				$msg = '';
 			}
-			$msg = $this->baseErrorMessage();
+			$msg .= $this->baseErrorMessage();
 			// Fix how we setup $limit_str and execute the queries above so
 			// that we can get rid of this if block.
 			if ( $debug_mode > 0 && $limit_str != ''){
@@ -334,10 +326,7 @@ class baseCon {
 			}
 			if ( getenv('TRAVIS') && version_compare(PHP_VERSION, "5.3.0", "<") ){
 				// Issue #5 Info Shim
-				// Fatal error, so dump everything.
-				// Definitely don't wnat this in production.
-				$msg .= '<p>DB Engine:'.$this->DB_type.' DB: '.$this->DB_name.
-				' @ '.$this->DB_host.':'.$this->DB_port.'</p>';
+				$msg .= "<p>DB Engine: $tdt DB: $tdn @ $DSN</p>";
 				$msg .= '<p>SQL QUERY: <code>'.$this->lastSQL.$limit_str.
 				'</code></p>';
 			}
@@ -354,6 +343,7 @@ class baseCon {
 				&& !strstr($this->DB->ErrorMsg(), 'Changed language setting to')
 			)
 		)){
+			// Whats with the 3 table closures? Verify that we need them.
 			$msg = '</TABLE></TABLE></TABLE>'.
 			returnErrorMessage('<B>'._ERRSQLDB.'</B> '). $this->DB->ErrorMsg();
 			if ( $debug_mode > 0 ){
