@@ -19,6 +19,7 @@
 ********************************************************************************
 */
 
+define( "_BASE_INC", 1 );
 include("../includes/base_setup.inc.php");
 include("base_conf_contents.php");
 

@@ -21,6 +21,9 @@
 ********************************************************************************
 */
 
+// Ensure the conf file has been loaded.  Prevent direct access to this file.
+defined( '_BASE_INC' ) or die( 'Accessing this file directly is not allowed.' );
+
 // Definitions for capabilities -- Add here as needed.
 define('CAPA_MAIL', '1');
 define('CAPA_PMAIL', '2');
