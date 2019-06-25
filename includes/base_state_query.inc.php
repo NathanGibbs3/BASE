@@ -222,14 +222,19 @@ class QueryState {
         $this->show_rows_on_screen = $this->GetCurrentCannedQueryCnt();
         return $db->baseExecute($sql, 0, 
                                 $this->show_rows_on_screen);
-     }
-     else
-     {
-        $this->show_rows_on_screen = $show_rows;
-        return $db->baseExecute($sql, ($this->current_view * $show_rows), 
-                                $show_rows); 
-     }
-  }
+		}else{
+			if ( isset($show_rows) ){
+				$tmp = $show_rows;
+			}else{
+				// Issue #5
+				$tmp = 0;
+			}
+			$this->show_rows_on_screen = $tmp;
+			return $db->baseExecute(
+				$sql, ($this->current_view * $tmp), $tmp
+			);
+		}
+	}
 
   function PrintResultCnt()
   {
@@ -271,7 +276,12 @@ class QueryState {
             "<TABLE BORDER=1>\n".
             "   <TR><TD ALIGN=CENTER>"._QUERYRESULTS."<BR>&nbsp\n";
 
-     $tmp_num_views = ($this->num_result_rows / $show_rows);
+	if ( isset($show_rows) ){ // Issue #5
+		$tmp = $show_rows;
+	}else{
+		$tmp = 1;
+	}
+	$tmp_num_views = ($this->num_result_rows / $tmp);
      $tmp_top = $tmp_bottom = $max_scroll_buttons / 2;
 
      if ( ($this->current_view - ($max_scroll_buttons/2)) >= 0 )

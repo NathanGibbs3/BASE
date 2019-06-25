@@ -5,6 +5,7 @@ use PHPUnit\Framework\TestCase;
 
 /**
   * @covers BaseUser::returnRoleNamesDropDown
+  * @covers BaseUser::returnUser
   * @uses ::XSSPrintSafe
   * @uses baseCon
   * @uses baseRS
@@ -111,6 +112,27 @@ class authTest extends TestCase {
 		$this->assertRegExp(
 			'/'.$msg.'/',
 			$user->returnRoleNamesDropDown(50),
+			'Unexpected Return Value.'
+		);
+	}
+	/**
+	 * @backupGlobals disabled
+	 */
+	public function testreturnUserCookie(){
+		$user = self::$user;
+		$_COOKIE['BASERole'] = 'passwd|user|';
+		$this->assertEquals(
+			'user',
+			$user->returnUser(),
+			'Unexpected Return Value.'
+		);
+		unset ($_COOKIE['BASERole']);
+	}
+	public function testreturnUserNoCookie(){
+		$user = self::$user;
+		$this->assertEquals(
+			'',
+			$user->returnUser(),
 			'Unexpected Return Value.'
 		);
 	}

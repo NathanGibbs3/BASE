@@ -35,10 +35,10 @@
   include ("base_conf.php");
 include_once ("$BASE_path/includes/base_constants.inc.php");
 include_once ("$BASE_path/includes/base_state_common.inc.php");
-  include ("$BASE_path/base_graph_common.php");
+include_once ("$BASE_path/base_graph_common.php");
   require_once('Image/Graph.php');
   
-  
+$EMPfx = __FILE__ . ":"; // Error Message Prefix.
 
   // One more time: A workaround for the inability of PEAR::Image_Canvas-0.3.1
   // to deal with strings as x-axis labels in a proper way in the case
@@ -56,10 +56,19 @@ include_once ("$BASE_path/includes/base_state_common.inc.php");
     return $str;
   }
 
-
-  $xdata = $_SESSION['xdata'];
-  $width = ImportHTTPVar("width", VAR_DIGIT);
-  $height = ImportHTTPVar("height", VAR_DIGIT);
+if ( isset($_SESSION['xdata']) ){
+	$xdata = $_SESSION['xdata'];
+}else{
+	$xdata = array();
+}
+$width = ImportHTTPVar("width", VAR_DIGIT);
+$height = ImportHTTPVar("height", VAR_DIGIT);
+if ($width == ''){
+	$width = 800;
+}
+if ($height == ''){
+	$height = 600;
+}
   $pmargin0 = ImportHTTPVar("pmargin0", VAR_DIGIT);
   $pmargin1 = ImportHTTPVar("pmargin1", VAR_DIGIT);
   $pmargin2 = ImportHTTPVar("pmargin2", VAR_DIGIT);
@@ -71,7 +80,10 @@ include_once ("$BASE_path/includes/base_state_common.inc.php");
   $xaxis_grid = ImportHTTPVar("xaxis_grid", VAR_DIGIT);
   $yaxis_grid = ImportHTTPVar("yaxis_grid", VAR_DIGIT);
   $rotate_xaxis_lbl = ImportHTTPVar("rotate_xaxis_lbl", VAR_DIGIT);
-  $style = ImportHTTPVar("style", VAR_ALPHA);
+$style = ImportHTTPVar("style", VAR_ALPHA);
+if ($style == ''){
+	$style = 'pie';
+}
   $chart_type = ImportHTTPVar("chart_type", VAR_DIGIT);
   // Do not disturb the generation of the png by whaffling to the screen
   $old_display_error_type = ini_get('display_errors');
@@ -110,16 +122,14 @@ include_once ("$BASE_path/includes/base_state_common.inc.php");
     // any more with PEAR::Image_Canvas-0.3.1 with logarithmic
     // y-axes. So factory-method is required.
     $Graph =& Image_Graph::factory('graph', array($width, $height));
-  }
-  else
-  { 
-    // Create the graph area, legends on bottom -- Alejandro
-    $Graph =& new Image_Graph(array('driver'=>'gd', 
-                                    'width'=>$width,
-                                    'height'=>$height));
-  }
-
-  
+	}else{
+		// Create the graph area, legends on bottom -- Alejandro
+		$Graph = new Image_Graph( array(
+			'driver'=>'gd',
+			'width'=>$width,
+			'height'=>$height
+		));
+	}
   if ($chart_type == CHARTTYPE_SRC_COUNTRY_ON_MAP || $chart_type == CHARTTYPE_DST_COUNTRY_ON_MAP)
   // then a worldmap is to be drawn.
   {
@@ -248,15 +258,13 @@ include_once ("$BASE_path/includes/base_state_common.inc.php");
       $Font->setSize(8);
     }
     $Graph->setFont($Font);
-  }
-else
-// safe_mode
-{
+}else{ // safe_mode
   $Font =& $Graph->addNew('Image_Graph_Font');
   $Font->setSize(8); // has no effect!
-  error_log(__FILE__ . ":" . __LINE__ . ": WARNING: safe_mode: Falling back to default font without the possibility to adjust any font sizes."); 
+	if ($debug_mode > 0){
+		error_log($EMPfx. __LINE__ . ": WARNING: safe_mode: Fall back to default font without ability to adjust font size.");
+	}
 }
-
 
 // Configure plotarea
 if (($chart_type == CHARTTYPE_SRC_COUNTRY_ON_MAP) || ($chart_type == CHARTTYPE_DST_COUNTRY_ON_MAP))
@@ -665,7 +673,11 @@ $Dataset =& Image_Graph::factory('dataset');
       // $error = 'Always throw this error (1)';
       // throw new Exception($error);
 
-      $rv =& $Graph->done();
+		if (!headers_sent()){
+			$rv =& $Graph->done();
+		}else{
+			$rv = false;
+		}
       if (PEAR::isError($rv)) 
       {
         error_log(__FILE__ . ":" . __LINE__ . ": ERROR: \$Graph->done() has failed.");

@@ -18,6 +18,7 @@
 ********************************************************************************
 */
 
+if ( isset($join_sql) ){ // Issue #5
 global $colored_alerts, $debug_mode;
   /* **************** Run the Query ************************************************** */
 
@@ -295,12 +296,5 @@ global $colored_alerts, $debug_mode;
 
   $qs->PrintBrowseButtons();
   $qs->PrintAlertActionButtons();
+}
 ?>
-
-
-
-
-
-
-
-

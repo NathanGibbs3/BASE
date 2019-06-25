@@ -71,7 +71,7 @@ Path to the graphing library <br>
 <br><a name="dbtype"><b>Database Type:</b><br>
 Please select the type of Database that Snort is logging its alerts too.
 <br><a name="usearchive"><b>Use an Archive Database:</b><br>
-If you would like the ability to archive alerts from your active database, sleect this box.
+If you would like the ability to archive alerts from your active database, select this box.
 If so, you must also answer the questions below.
 <br><a name="useauth"><b>Use the User Authentication System:</b><br>
 This check box enables you to set up a user authentication system for BASE.

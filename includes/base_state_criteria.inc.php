@@ -166,8 +166,9 @@ class CriteriaState {
  * @see PushHistory PrintBackButton
  *
  ************************************************************************/
-function PopHistory()
-{
+function PopHistory(){
+	if ( session_id() != '' ){
+		// We have a session, so proceed.
    if ( $_SESSION['back_list_cnt'] >= 0 )
    {
       /* Remove the state of the page from which the back button was
@@ -200,7 +201,8 @@ function PopHistory()
 
       $_SESSION['back_list'] = $save_back_list;
       $_SESSION['back_list_cnt'] = $save_back_list_cnt;
-   }
+		}
+	}
 }
 
 /* ***********************************************************************
@@ -212,8 +214,9 @@ function PopHistory()
  * @see PopHistory PrintBackButton
  *
  ************************************************************************/
-function PushHistory()
-{
+function PushHistory(){
+	if ( session_id() != '' ){
+		// We have a session, so proceed.
    if ( $GLOBALS['debug_mode'] > 1 )
    {
       ErrorMessage("Saving state (into ".$_SESSION['back_list_cnt'].")");
@@ -248,14 +251,17 @@ function PushHistory()
    $_SESSION['back_list'] = $tmp_back_list;
    $_SESSION['back_list_cnt'] = $tmp_back_list_cnt;
 
-   $query_string = CleanVariable($_SERVER["QUERY_STRING"], VAR_PERIOD | VAR_DIGIT | VAR_PUNC | VAR_LETTER);
-   if ( isset($_POST['caller']) ) $query_string .= "&amp;caller=".$_POST['caller'];
-   if ( isset($_POST['num_result_rows']) ) $query_string .= "&amp;num_result_rows=".$_POST['num_result_rows'];
-   if ( isset($_POST['sort_order']) ) $query_string .= "&amp;sort_order=".$_POST['sort_order'];
-   if ( isset($_POST['current_view']) ) $query_string .= "&amp;current_view=".$_POST['current_view'];
-   if ( isset($_POST['submit']) ) $query_string .= "&amp;submit=".$_POST['submit'];
-
-	$query_string = preg_replace("/back=1&/", "", CleanVariable($query_string, VAR_PERIOD | VAR_DIGIT | VAR_PUNC | VAR_LETTER));
+	if ( isset($_SERVER["QUERY_STRING"]) ){
+		$query_string = CleanVariable($_SERVER["QUERY_STRING"], VAR_PERIOD | VAR_DIGIT | VAR_PUNC | VAR_LETTER);
+		if ( isset($_POST['caller']) ) $query_string .= "&amp;caller=".$_POST['caller'];
+		if ( isset($_POST['num_result_rows']) ) $query_string .= "&amp;num_result_rows=".$_POST['num_result_rows'];
+		if ( isset($_POST['sort_order']) ) $query_string .= "&amp;sort_order=".$_POST['sort_order'];
+		if ( isset($_POST['current_view']) ) $query_string .= "&amp;current_view=".$_POST['current_view'];
+		if ( isset($_POST['submit']) ) $query_string .= "&amp;submit=".$_POST['submit'];
+		$query_string = preg_replace("/back=1&/", "", CleanVariable($query_string, VAR_PERIOD | VAR_DIGIT | VAR_PUNC | VAR_LETTER));
+	}else{
+		$query_string = '';
+	}
 
    ++$_SESSION['back_list_cnt'];
    $_SESSION['back_list'][$_SESSION['back_list_cnt']] =  
@@ -270,7 +276,8 @@ function PushHistory()
       echo "Back List (Cnt = ".$_SESSION['back_list_cnt'].") <PRE>";
       print_r($_SESSION['back_list']);
       echo "</PRE>";
-  }
+		}
+	}
 }
 
 /* ***********************************************************************
@@ -284,18 +291,21 @@ function PushHistory()
  * @see PushHistory PopHistory
  *
  ************************************************************************/
-function PrintBackButton()
-{
-   if ( $GLOBALS['maintain_history'] == 0 )
-      return "&nbsp;";
-
-   $criteria_num = $_SESSION['back_list_cnt'] - 1;
-
-   if ( isset($_SESSION['back_list'][$criteria_num]["SCRIPT_NAME"]) )
-     return "[&nbsp;<FONT><A HREF=\"".$_SESSION['back_list'][$criteria_num]["SCRIPT_NAME"].
-            "?back=1&".
-            $_SESSION['back_list'][$criteria_num]["QUERY_STRING"]."\">"._BACK."</A></FONT>&nbsp;]";
-   else
-     return "&nbsp;";
+function PrintBackButton(){
+	if ( $GLOBALS['maintain_history'] == 1 && session_id() != '' ){
+		// We have a session, so proceed.
+		$criteria_num = $_SESSION['back_list_cnt'] - 1;
+		if ( isset($_SESSION['back_list'][$criteria_num]["SCRIPT_NAME"]) ){
+			return "\n\t\t\t\t\t[&nbsp;<a href=\"".
+			$_SESSION['back_list'][$criteria_num]["SCRIPT_NAME"].
+			"?back=1&".
+			$_SESSION['back_list'][$criteria_num]["QUERY_STRING"].
+			"\">"._BACK."</a>&nbsp;]\n";
+		}else{
+			return '';
+		}
+	}else{
+		return '';
+	}
 }
 ?>

@@ -18,8 +18,11 @@
 **
 ********************************************************************************
 */
-include("../base_conf.php");
-
+if (!isset($BASE_path)){ // Issue #5
+	$BASE_path = dirname(__FILE__);
+	$BASE_path = preg_replace("/\/help.*/", "", $BASE_path);
+}
+include("$BASE_path/base_conf.php");
 ?>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
@@ -38,13 +41,13 @@ include("../base_conf.php");
 <TR>
   <TD class="mainheader">
      <?php
-       include("../base_hdr1.php");
+       include("$BASE_path/base_hdr1.php");
      ?>
   </TD>
   <TD class="mainheadertitle">Local FAQ</TD>
   <TD class="mainheader" ALIGN=RIGHT>
      <?php
-       include("../base_hdr2.php");
+       include("$BASE_path/base_hdr2.php");
      ?>
   </TD>
 
@@ -88,7 +91,7 @@ The quick answer to this question is no.  BASE is at the mercy of the underlying
 <TR>
   <TD class="mainheader">
      <?php
-       include("../base_footer.php");
+       include("$BASE_path/base_footer.php");
      ?>
   </TD>
 </TR>

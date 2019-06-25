@@ -247,16 +247,17 @@ class BaseUser {
         
         return _PWDDONE;
     }
-    
-    function returnUser()
-    {
-        // returns user login from role cookie
-        $cookievalue = $_COOKIE['BASERole'];
-        $cookiearr = explode('|', $cookievalue);
-        $user = $cookiearr[1];
-        return $user;
-    }
-
+	function returnUser(){
+		// returns user login from role cookie
+		if ( array_key_exists('BASERole',$_COOKIE) ){
+			$cookievalue = $_COOKIE['BASERole'];
+			$cookiearr = explode('|', $cookievalue);
+			$user = $cookiearr[1];
+		}else{
+			$user = '';
+		}
+		return $user;
+	}
     function returnUserID($login)
     {
         $db = $this->db;

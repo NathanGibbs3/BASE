@@ -28,9 +28,17 @@ function ErrorMessage ($message, $color = "#ff0000", $br = 0 ){
 }
 
 function returnErrorMessage ($message, $color = "#ff0000", $br = 0 ){
-	if ( !preg_match("/^#[0-9A-F]{6}$/i", $color) ){
-		// Default to Red if we are passed something odd.
-		$color = "#ff0000";
+	$color = strtolower($color);
+	$wsc = array(
+		'black', 'silver', 'gray', 'white', 'maroon', 'red', 'pruple',
+		'fuchsia', 'green', 'lime', 'olive', 'yellow', 'navy', 'blue', 'teal',
+		'aqua'
+	);
+	if ( !in_array($color, $wsc) ){
+		if ( !preg_match("/^#[0-9A-F]{6}$/i", $color) ){
+			// Default to Red if we are passed something odd.
+			$color = "#ff0000";
+		}
 	}
 	$error = '<font color="'.$color.'">'.$message.'</font>';
 	if ($br != 0){
@@ -41,8 +49,12 @@ function returnErrorMessage ($message, $color = "#ff0000", $br = 0 ){
 
 // @codeCoverageIgnoreStart
 function FatalError ($message){
-	ErrorMessage('<B>'._ERRBASEFATAL.'</B> '.$message);
-	die();
+	print returnErrorMessage('<b>'._ERRBASEFATAL.'</b>',0,1)."\n $message";
+	$message = preg_replace("/\//", '', $message);
+	$message = preg_replace("/<br>/i", ' ', $message);
+	$message = strip_tags($message)."\n";
+	error_log($message);
+	trigger_error($message, E_USER_ERROR);
 }
 // @codeCoverageIgnoreEnd
 
