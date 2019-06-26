@@ -31,12 +31,22 @@ if [ "$TRAVIS" == "true" ]; then
 	if [ "$pvM" \> "5" ] || ( [ "$pvM" == "5" ] && [ "$pvm" \> "2" ]); then
 		# Pear Install
 		pear channel-update pear.php.net
-		pear install mail Mail_Mime
+		pear install mail Mail_Mime Image_Graph-alpha Image_Canvas-alpha Image_Color
 	else
 		# Manual install
-		wget -nv http://download.pear.php.net/package/Mail-1.4.1.tgz -O build/Mail.tgz
-		wget -nv http://download.pear.php.net/package/Mail_Mime-1.10.2.tgz -O build/Mail_Mime.tgz
-		pear install build/Mail.tgz
-		pear install build/Mail_Mime.tgz
+		dc="wget -nv http://download.pear.php.net/package"
+		ic="pear install "
+		dl=build
+		de=.tgz
+		$dc/Mail-1.4.1$de -O $dl/Mail$de
+		$dc/Mail_Mime-1.10.2$de -O $dl/Mail_Mime$de
+		$dc/Image_Graph-0.8.0$de -O $dl/Image_Graph$de
+		$dc/Image_Canvas-0.3.5$de -O $dl/Image_Canvas$de
+		$dc/Image_Color-1.0.4$de -O $dl/Image_Color$de
+		$ic$dl/Mail$de
+		$ic$dl/Mail_Mime$de
+		$ic$dl/Image_Color$de
+		$ic$dl/Image_Canvas$de
+		$ic$dl/Image_Graph$de
 	fi
 fi

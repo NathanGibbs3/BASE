@@ -65,8 +65,9 @@ $CPSig = $UIL->CPA['Sig'];
 
   if ( $event_cache_auto_update == 1 )  UpdateAlertCache($db);
 
+if (is_object($cs)){ // Issue #5
   $criteria_clauses = ProcessCriteria();
-
+}
      	/**
 	* RFE by Joel. Wanted the Summary Statistics box on the base_stat_alerts page
 	*/
@@ -80,19 +81,30 @@ $CPSig = $UIL->CPA['Sig'];
            <TD WIDTH="40%" VALIGN="top">';
       
 	PrintFramedBoxHeader(_QSCSUMM, "#669999", "#FFFFFF");
-	PrintGeneralStats($db, 1, $show_summary_stats, 
-                       "$join_sql ", "$where_sql $criteria_sql"); 
+if ( isset($show_summary_stats) ){ // Issue #5
+	if ( getenv('TRAVIS') && version_compare(PHP_VERSION, "5.3.0", "<") ){
+		// Issue #5 Test Shim
+		$where_sql = " WHERE ";
+		$criteria_sql = " 1 = 1 ";
+		$join_sql = "";
+	}
+	PrintGeneralStats(
+		$db, 1, $show_summary_stats, "$join_sql ", "$where_sql $criteria_sql"
+	);
+}
 	echo('<BR><LI><A HREF="base_stat_time.php">'._QSCTIMEPROF.'</A> '._QSCOFALERTS . "</LI>");
 	PrintFramedBoxFooter();
 
 	echo ' </TD>
            </TR>
 	</table>';
-
-
+if (is_object($cs)){ // Issue #5
   $from = " FROM acid_event ".$criteria_clauses[0];
   $where = ($criteria_clauses[1] != "") ? " WHERE ".$criteria_clauses[1] : " ";
-
+}else{
+	$from = " FROM acid_event ";
+	$where = " ";
+}
   $qs->AddValidAction("ag_by_id");
   $qs->AddValidAction("ag_by_name");
   $qs->AddValidAction("add_new_ag");
@@ -163,9 +175,9 @@ $qro->AddTitle("$CPSensor&nbsp;#");
                 "first_d", ", min(timestamp) AS first_timestamp ",
                            " ORDER BY first_timestamp DESC");
 
-  if ( $show_previous_alert == 1 )
-     $qro->AddTitle("Previous");
-
+if ( isset($show_previous_alert) && $show_previous_alert == 1 ){
+	$qro->AddTitle("Previous");
+}
   $qro->AddTitle(_LAST, 
                 "last_a", ", max(timestamp) AS last_timestamp ",
                            " ORDER BY last_timestamp ASC",
@@ -219,8 +231,10 @@ $qro->AddTitle("$CPSensor&nbsp;#");
      $start_time = $myrow[2];
      $stop_time = $myrow[3];
 
-     /* mstone 20050406 only do this if we're going to provide links to the first/last or if we're going to show the previous event time */
-     if ($show_first_last_links == 1 || $show_previous_alert == 1) {
+		// mstone 20050406 only do this if we're going to provide links to the
+		// first/last or if we're going to show the previous event time
+		if ( isset($show_first_last_links) && isset($show_previous_alert) ){
+			if ( $show_first_last_links == 1 || $show_previous_alert == 1 ){
        $temp = "SELECT timestamp, acid_event.sid, acid_event.cid ".$from.$where.$and.
                "signature='".$sig_id."'
                ORDER BY timestamp DESC";
@@ -267,12 +281,16 @@ $qro->AddTitle("$CPSensor&nbsp;#");
        $result2->baseFreeRows();
      }
 
-     /* Print out (Colored Version) -- Alejandro */ 
-      qroPrintEntryHeader( (($colored_alerts == 1) ?
-                GetSignaturePriority($sig_id, $db) : $i),
-                $colored_alerts);
-
-
+		}
+		// Print out (Colored Version) -- Alejandro
+		if ( isset($colored_alerts) && $colored_alerts == 1 ){
+			$tmp = GetSignaturePriority($sig_id, $db);
+			$tmp2 = $colored_alerts;
+		}else{
+			$tmp = $i;
+			$tmp2 = 0;
+		}
+		qroPrintEntryHeader($tmp, $tmp2);
      $tmp_rowid = rawurlencode($sig_id);
      echo '  <TD>&nbsp;&nbsp;
                  <INPUT TYPE="checkbox" NAME="action_chk_lst['.$i.']" VALUE="'.$tmp_rowid.'">
@@ -304,7 +322,7 @@ $qro->AddTitle("$CPSensor&nbsp;#");
      qroPrintEntry('<FONT>'.BuildUniqueAddressLink(1, $addr_link).$num_src_ip.'</A></FONT>');
      qroPrintEntry('<FONT>'.BuildUniqueAddressLink(2, $addr_link).$num_dst_ip.'</A></FONT>');
 
-     if ( $show_first_last_links == 1 ) {
+		if ( isset($show_first_last_links) && $show_first_last_links == 1 ){
        qroPrintEntry('<FONT>'.
 	             '<A HREF="base_qry_alert.php?'.
                      'submit=%23'.$first_num.'-%28'.$first[1].'-'.$first[2].'%29">'.

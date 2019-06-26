@@ -18,7 +18,7 @@ class log_errorTest extends TestCase {
 	public function testreturnErrorMessageInvalidColor() {
 		$this->assertEquals(
 			'<font color="#ff0000">message</font>',
-			returnErrorMessage('message','Blue'),
+			returnErrorMessage('message','Invalid'),
 			'Unexpected Return Value.'
 		);
 	}
@@ -59,7 +59,7 @@ class log_errorTest extends TestCase {
 	public function testErrorMessageInvalidColor() {
 		$this->expectOutputString(
 			'<font color="#ff0000">message</font>',
-			ErrorMessage('message','Blue'),
+			ErrorMessage('message','Invalid'),
 			'Unexpected Return Value.'
 		);
 	}

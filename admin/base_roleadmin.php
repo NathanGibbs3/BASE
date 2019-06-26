@@ -15,8 +15,10 @@
 //          Author(s): Nathan Gibbs
 //                     Kevin Johnson
 
-$BASE_path = dirname(__FILE__);
-$BASE_path = preg_replace("/\/admin.*/", "", $BASE_path);
+if (!isset($BASE_path)){ // Issue #5
+	$BASE_path = dirname(__FILE__);
+	$BASE_path = preg_replace("/\/admin.*/", "", $BASE_path);
+}
 include("$BASE_path/base_conf.php");
 include_once("$BASE_path/includes/base_constants.inc.php");
 include("$BASE_path/includes/base_include.inc.php");
@@ -25,8 +27,11 @@ include_once("$BASE_path/base_common.php");
 include_once("$BASE_path/base_stat_common.php");
 
 $et = new EventTiming($debug_time_mode);
-$Action = filterSql($_GET['action']);
-
+if ( isset($_GET['action']) ){
+	$Action = filterSql($_GET['action']);
+}else{
+	$Action = 'Invalid';
+}
 if ($Use_Auth_System == 1) {
 	// Check role out and redirect if needed -- Kevin
 	$roleneeded = 1;
@@ -44,7 +49,8 @@ if ($Use_Auth_System == 1) {
 		$Fct = " Method='POST'>"; // Form tag end.
 		$Hrst = "<a href='$Umca"; // Href tag start.
 		$Trc = "\n".str_repeat("\t",5).'</tr><tr>'; // Table row continue.
-		// I would like to clean this up later into a display class or set of functions -- Kevin
+		// I would like to clean this up later into a display class or set of
+		// functions -- Kevin
 		if ( preg_match("/(delete|edit)role/", $Action) ){
 			$roleid = filterSql($_GET['roleid']);
 		}
@@ -89,7 +95,7 @@ if ($Use_Auth_System == 1) {
 				$form .= "\n".str_repeat("\t",3).'</form>';
 				$pagebody = $form;
 				break;
-			case "add"; // Actually Role to DB.
+			case "add"; // Actually add Role to DB.
 				$rolename = filterSql($_POST['rolename']);
 				$desc = filterSql($_POST['desc']);
 				$added = $BRole->addRole($roleid, $rolename, $desc);
@@ -106,7 +112,6 @@ if ($Use_Auth_System == 1) {
 				$rid = htmlspecialchars($roleinfo[0]);
 				$ron = htmlspecialchars($roleinfo[1]);
 				$rod = htmlspecialchars($roleinfo[2]);
-
 				$tdc = "<td width='25%' align='right'>";
 				$tdal = "<td align='left'>";
 				$form = "\n".str_repeat("\t",3).$Fst."updaterole'".$Fct;
@@ -191,6 +196,8 @@ if ($Use_Auth_System == 1) {
 				$tmpHTML .= "\n".str_repeat("\t",1)."</td></tr></table>";
 				$pagebody = $tmpHTML;
 				break;
+			default:
+				$pagebody = returnErrorMessage('Invalid Action!');
 		}
 		// Generate Page.
 		PrintBASESubHeader($page_title, $page_title, $cs->GetBackLink(), $refresh_all_pages);

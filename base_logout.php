@@ -20,6 +20,8 @@
 */
 include("base_conf.php");
 include_once("$BASE_path/base_common.php");
-setcookie('BASERole', "", time()-600000);
-base_header("Location: ". $BASE_urlpath . "/index.php");
+if (!headers_sent()) {
+	setcookie('BASERole', "", time()-600000);
+	base_header("Location: ". $BASE_urlpath . "/index.php");
+}
 ?>

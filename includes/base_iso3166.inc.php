@@ -6,6 +6,9 @@ for i in $(cut -d ":" -f 1 /var/www/html/ips-ascii.txt | sort -u | uniq); do if 
 
 */
 
+// Ensure the conf file has been loaded.  Prevent direct access to this file.
+defined( '_BASE_INC' ) or die( 'Accessing this file directly is not allowed.' );
+
 // The first entries here are not part of ISO 3166. Nevertheless they
 // exist as top level domains.
 $iso_3166 = array(

@@ -50,22 +50,23 @@ $UIL = new UILang($BASE_Language); // Create UI Language Abstraction Object.
   if (($BUser->hasRole($roleneeded) == 0) && ($Use_Auth_System == 1))
     base_header("Location: ". $BASE_urlpath . "/index.php");
 
-  $page_title = $ip.'/'.$netmask;
-  PrintBASESubHeader($page_title, $page_title, $cs->GetBackLink(), 1);
-
-  if (!isset($ip))
-  {
-    ErrorMessage(__FILE__ . ":" . __LINE__ . ": \$ip has NOT been defined. Ignoring.");
-    $debug_str = "<BR><PRE>\n\n" . debug_print_backtrace() . "\n\n</PRE><BR>\n";
-    ErrorMessage($debug_str);
-  }
-  elseif (empty($ip))
-  {
-    ErrorMessage(__FILE__ . ":" . __LINE__ . ": \$ip has been defined, but it is empty. Ignoring."); 
-    $debug_str = "<BR><PRE>\n\n" . debug_print_backtrace() . "\n\n</PRE><BR>\n";
-    ErrorMessage($debug_str);
-  }
-
+if ( !isset($ip) || empty($ip) ){
+	$Epfx = __FILE__ . ":";
+	$page_title = 'ERROR';
+}else{
+	$Epfx = '';
+	$page_title = $ip.'/'.$netmask;
+}
+PrintBASESubHeader($page_title, $page_title, $cs->GetBackLink(), 1);
+if (!isset($ip)){
+	ErrorMessage($Epfx. __LINE__ . ": Ignoring \$ip - undefined.");
+}elseif (empty($ip)){
+	ErrorMessage($Epfx. __LINE__ . ": Ignoring \$ip - empty.");
+}
+if ( !empty($Epfx) && $debug_mode > 1 ){
+	$debug_str = "<BR><PRE>\n\n" . debug_print_backtrace() . "\n\n</PRE><BR>\n";
+	ErrorMessage($debug_str);
+}
 
 function PrintPortscanEvents($db, $ip)
 {
@@ -361,15 +362,21 @@ function PrintEventsByIP($db, $ip)
        <A HREF="http://www.db.ripe.net/whois?query='.$ip.'" target="_NEW">RIPE</A> |
        <A HREF="http://wq.apnic.net/apnic-bin/whois.pl?do_search=Search&amp;searchtext='.$ip.'" target="_NEW">APNIC</A> |
        <A HREF="http://lacnic.net/cgi-bin/lacnic/whois?lg=EN&amp;query='.$ip.'" target="_NEW">LACNIC</A><BR></FONT>';
-
- $octet=preg_split("/\./", $ip);
- $classc=sprintf("%03s.%03s.%03s",$octet[0],$octet[1],$octet[2]);
-
- echo '<FONT>'._PSEXTERNAL.': '.
-      '<A HREF="'.$external_dns_link.$ip.'" target="_NEW">DNS</A> | '.
-      '<A HREF="'.$external_whois_link.$ip.'" target="_NEW">whois</A> | '.
-      '<A HREF="'.$external_all_link.$ip.'" target="_NEW">Extended whois</A> | '.
-      '<A HREF="http://www.dshield.org/ipinfo.php?ip='.$ip.'&amp;Submit=Submit" target="_NEW">DShield.org IP Info</A> | '.
+	// Have no idea why this code is here.
+	// Commenting it out as it was ccontributing to Issue #5
+	// $octet=preg_split("/\./", $ip);
+	// $classc=sprintf("%03s.%03s.%03s",$octet[0],$octet[1],$octet[2]);
+	print '<FONT>'._PSEXTERNAL.': ';
+	if (isset($external_dns_link)){
+		print '<A HREF="'.$external_dns_link.$ip.'" target="_NEW">DNS</A>';
+	}
+	if (isset($external_whois_link)){
+		print ' | <A HREF="'.$external_whois_link.$ip.'" target="_NEW">whois</A>';
+	}
+	if (isset($external_all_link)){
+		print ' | <A HREF="'.$external_all_link.$ip.'" target="_NEW">Extended whois</A>';
+	}
+	print ' | <A HREF="http://www.dshield.org/ipinfo.php?ip='.$ip.'&amp;Submit=Submit" target="_NEW">DShield.org IP Info</A> | '.
       '<A HREF="http://www.trustedsource.org/query.php?q='.$ip.'" target="_NEW">TrustedSource.org IP Info</A> | '.
       '<A HREF="http://isc.sans.org/ipinfo.html?ip='.$ip.'" target="_NEW">ISC Source/Subnet Report</A><BR> </FONT>';
 

@@ -43,6 +43,11 @@ function PageStart ($refresh = 0, $page_title = '') {
 	}
 	if ( $refresh == 1 ) {
 		if ( $refresh_stat_page ) {
+			if (isset($_SERVER["REQUEST_URI"])){
+				$URI = $_SERVER["REQUEST_URI"];
+			}else{
+				$URI = '/';
+			}
 			NLIO($MHE.'refresh" content="'.$stat_page_refresh_time.'; URL='.
 			htmlspecialchars(CleanVariable($_SERVER["REQUEST_URI"], VAR_FSLASH | VAR_PERIOD | VAR_DIGIT | VAR_PUNC | VAR_LETTER), ENT_QUOTES).'">', 2);
 		}

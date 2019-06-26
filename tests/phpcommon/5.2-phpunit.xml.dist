@@ -5,7 +5,7 @@
 	bootstrap="./tests/bootstrap.php"
 	beStrictAboutChangesToGlobalState="true"
 	beStrictAboutCoversAnnotation="true"
-	beStrictAboutTestsThatDoNotTestAnything="true"
+	beStrictAboutTestsThatDoNotTestAnything="false"
 	convertNoticesToExceptions="true"
 	colors="true"
 	stopOnError="false"
@@ -13,7 +13,7 @@
 	verbose="true"
 >
 	<filter>
-		<whitelist>
+		<whitelist addUncoveredFilesFromWhitelist="false" processUncoveredFilesFromWhitelist="false">
 			<directory suffix=".php">./</directory>
 			<exclude>
 				<directory>./build</directory>

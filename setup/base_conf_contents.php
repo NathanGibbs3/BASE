@@ -18,6 +18,9 @@
 ********************************************************************************
 */
 
+// Ensure the conf file has been loaded.  Prevent direct access to this file.
+defined( '_BASE_INC' ) or die( 'Accessing this file directly is not allowed.' );
+
 function returnContents()
 {
     GLOBAL $language, $useauth, $adodb, $chartlib, $uri, $dbtype, $dbhost,

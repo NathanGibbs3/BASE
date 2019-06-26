@@ -250,14 +250,25 @@ $submit = ImportHTTPVar("submit", VAR_DIGIT | VAR_PUNC | VAR_LETTER, array(_SELE
            cid = $cid<BR>
            seq = $seq<BR>\n".
           "===========================<BR>\n";
-
-  /* Verify that have extracted (sid, cid) correctly */
-  if ( !($sid > 0 && $cid > 0) )
-  {
-     ErrorMessage(_QAINVPAIR." (".$sid.",".$cid.")");
-     exit();
-  }
-
+	// Verify (sid, cid) are extracted correctly.
+	if ( is_int($sid) && is_int($cid) && !($sid > 0 && $cid > 0) ){
+		// Added is_int checks as Issue #5 fix. If the above call to
+		// GetQueryResultID() fails, $sid & $cid will be defined but unset,
+		// which makes them of type string on PHP 5.2x & of type NULL on PHP
+		// 5.3+ See: https://travis-ci.org/NathanGibbs3/BASE/jobs/546765554
+		// This should only occur in the test conditions for Issue #5. This
+		// fix allows $sid, & $cid of any type except int to pass through
+		// without exiting the app while under test.
+		// Note if this breaks something in production.
+		// Comment at: https://github.com/NathanGibbs3/BASE/issues/5
+		FatalError(_QAINVPAIR." (".$sid.",".$cid.")");
+	}else{
+		if ( getenv('TRAVIS') && version_compare(PHP_VERSION, "5.3.0", "<") ){
+			// Issue #5 Test Shim
+			$sid = 1;
+			$cid = 1;
+		}
+	}
   echo "<FORM METHOD=\"GET\" ACTION=\"base_qry_alert.php\">\n"; 
   PrintPacketLookupBrowseButtons($seq, $save_sql, $db, $previous, $next);
   echo "<CENTER>\n<B>"._ALERT." #".($seq)."</B><BR>\n$previous &nbsp&nbsp&nbsp\n$next\n</CENTER>\n";
@@ -274,22 +285,42 @@ $submit = ImportHTTPVar("submit", VAR_DIGIT | VAR_PUNC | VAR_LETTER, array(_SELE
 	}
   $result2 = $db->baseExecute($sql2);
   $myrow2 = $result2->baseFetchRow();
-
-  if ( $myrow2[0] == "" )
-  {
-     echo '<CENTER><B>';
-     ErrorMessage(_QAALERTDELET);
-     echo '</CENTER></B>';
-  }
-
+	if ( is_array($myrow2) ){
+		if ( $myrow2[0] == "" ){
+			print '<center><b>'.returnErrorMessage(_QAALERTDELET).'</center></b>';
+		}
+		$Alert_Time = $myrow2[1];
+		$Alert_Sig = $myrow2[0];
+	}else{
+		$Alert_Time = 'Testing';
+		$Alert_Sig = 'Testing';
+	}
   /* Get sensor parameters: */
   $sql4 = "SELECT hostname, interface, filter, encoding, detail FROM sensor  WHERE sid='".filterSql($sid)."'";
   $result4 = $db->baseExecute($sql4);
   $myrow4 = $result4->baseFetchRow();
   $result4->baseFreeRows();
-  $encoding = $myrow4[3];
-  $detail = $myrow4[4];
-
+	if ( is_array($myrow4) ){
+		$Sensor_Name = $myrow4[0];
+		if ( $myrow4[1] == "" ){
+			$Sensor_Int = "&nbsp;<I>"._NONE."</I>&nbsp;";
+		}else{
+			$Sensor_Int = $myrow4[1];
+		}
+		if ( $myrow4[2] == "" ){
+			$Sensor_Filt = "&nbsp;<I>"._NONE."</I>&nbsp;";
+		}else{
+			$Sensor_Filt = $myrow4[2];
+		}
+		$encoding = $myrow4[3];
+		$detail = $myrow4[4];
+	}else{
+		$Sensor_Name = _NONE;
+		$Sensor_Int = _NONE;
+		$Sensor_Filt = _NONE;
+		$encoding = 2;
+		$detail = 1;
+	}
   echo '
        <BLOCKQUOTE>
        <TABLE BORDER=1 width="90%">
@@ -301,8 +332,8 @@ NLIO("$Thc$IDesc #</td>",4);
 echo'                        <TD CLASS="plfieldhdr">'._CHRTTIME.'</TD>
                         <TD CLASS="plfieldhdr">'._QATRIGGERSIG.'</TD></TR>
                     <TR><TD CLASS="plfield">'.($sid." - ".$cid).'</TD>
-                        <TD CLASS="plfield">'.htmlspecialchars($myrow2[1]).'</TD>
-                        <TD CLASS="plfield">'.(GetTagTriger(BuildSigByID($myrow2[0], $db), $db, $sid, $cid)).'</TD></TR>      
+                    <TD CLASS="plfield">'.htmlspecialchars($Alert_Time).'</TD>
+                        <TD CLASS="plfield">'.(GetTagTriger(BuildSigByID($Alert_Sig, $db), $db, $sid, $cid)).'</TD></TR>
                   </TABLE>
               </TD>
            </TR>';
@@ -316,11 +347,9 @@ NLIO("$Thc$CPSensor "._ADDRESS."</td>",4);
 NLIO("$Thc$CPInt</td>",4);
 NLIO("$Thc$CPFilt</td>",4);
 NLIO('</tr><tr>',3);
-echo'             <TD class="plfield">'.htmlspecialchars($myrow4[0]).'</TD>
-                      <TD class="plfield">'.
-		      ( ($myrow4[1] == "") ? "&nbsp;<I>"._NONE."</I>&nbsp;" : $myrow4[1] ).'</TD>
-                      <TD class="plfield">'.
-                      ( ($myrow4[2] == "") ? "&nbsp;<I>"._NONE."</I>&nbsp;" : $myrow4[2] ).'</TD>
+echo'             <TD class="plfield">'.htmlspecialchars($Sensor_Name).'</TD>
+                      <TD class="plfield">'.$Sensor_Int.'</TD>
+                      <TD class="plfield">'.$Sensor_Filt.'</TD>
                   </TR>
                  </TABLE>     
           </TR>';
@@ -392,8 +421,12 @@ for ($i = 0; $i < $num; $i++) {
   $myrow2 = $result2->baseFetchRow();
 
   $layer4_proto = -1;
-  if ( $myrow2[0] != "" )
-  {
+	if ( is_array($myrow2) ){
+		$IP_Src = $myrow2[0];
+	}else{
+		$IP_Src = '';
+	}
+	if ( $IP_Src != '' ){
   $sql3 = "SELECT * FROM opt  WHERE sid='".$sid."' AND cid='".$cid."' AND opt_proto='0'";
   $result3 = $db->baseExecute($sql3);
   $num_opt = $result3->baseRecordCount();

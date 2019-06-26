@@ -16,15 +16,15 @@
 ********************************************************************************
 ** Authors:
 ********************************************************************************
-** Chris Shepherd <chsh@cogeco.ca> 
+** Chris Shepherd <chsh@cogeco.ca>
 **
 ********************************************************************************
-** Usage: 
-** Inside the template, use the {} braces to denote either variable or special 
-** function insertion. It will be placed as page friendly (strip trailing 
-** newlines, etc) as possible. The name of the variable inside the braces should
-** be passed into the array as an argument to the Template::get function. It 
-** should directly correspond to the array key. 
+** Usage:
+** Inside the template, use the {} braces to denote either variable or special
+** function insertion. It will be placed as page friendly (strip trailing
+** newlines, etc) as possible. The name of the variable inside the braces
+** should be passed into the array as an argument to the Template::get
+** function. It should directly correspond to the array key.
 ** Example:
 **  In the template:
 **    <A HREF="{LINKURL}>{LINKTEXT}</A>
@@ -43,10 +43,10 @@
 **    Source for this: 
 **    {tl:Template::getRaw("link.htm");}
 **
-** When paired with the PHP example above, it will display the source of link.htm
-** after parsing it. This can be used for any defined function, and is intended
-** for situations where we are doing output inside a loop (based on database 
-** queries, for example).
+** When paired with the PHP example above, it will display the source of
+** link.htm after parsing it. This can be used for any defined function, and
+** is intended for situations where we are doing output inside a loop
+** (based on database queries, for example).
 */
 
 //  Define template class constants.
@@ -85,10 +85,9 @@ if (! function_exists('file_get_contents'))
   }
 }
 
-if (is_null($template)) 
-{
-  $template = TL_DEFAULT;
-}  
+if ( !isset($template) ){
+	$template = TL_DEFAULT;
+}
 $TPATH = TL_BASEPATH."/".$template;
 // Detect if the directory exists;
 if (!is_dir($TPATH)) {

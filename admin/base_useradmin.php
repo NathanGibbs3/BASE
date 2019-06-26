@@ -15,8 +15,10 @@
 //          Author(s): Nathan Gibbs
 //                     Kevin Johnson
 
-$BASE_path = dirname(__FILE__);
-$BASE_path = preg_replace("/\/admin.*/", "", $BASE_path);
+if (!isset($BASE_path)){ // Issue #5
+	$BASE_path = dirname(__FILE__);
+	$BASE_path = preg_replace("/\/admin.*/", "", $BASE_path);
+}
 include("$BASE_path/base_conf.php");
 include_once("$BASE_path/includes/base_constants.inc.php");
 include("$BASE_path/includes/base_include.inc.php");
@@ -25,8 +27,11 @@ include_once("$BASE_path/base_common.php");
 include_once("$BASE_path/base_stat_common.php");
 
 $et = new EventTiming($debug_time_mode);
-$Action = filterSql($_GET['action']);
-
+if ( isset($_GET['action']) ){
+	$Action = filterSql($_GET['action']);
+}else{
+	$Action = 'Invalid';
+}
 if ( preg_match("/(create|add)/", $Action) || $Use_Auth_System == 1 ){
 	$BAStmp = $Use_Auth_System;
 	if ($Use_Auth_System == 0) {
@@ -49,7 +54,8 @@ if ( preg_match("/(create|add)/", $Action) || $Use_Auth_System == 1 ){
 		$Fct = " Method='POST'>"; // Form tag end.
 		$Hrst = "<a href='$Umca"; // Href tag start.
 		$Trc = NLI('</tr><tr>',5); // Table row continue.
-		// I would like to clean this up later into a display class or set of functions -- Kevin
+		// I would like to clean this up later into a display class or set of
+		// functions -- Kevin
 		if ( preg_match("/((delet|(dis|en)abl)e|edit)user/", $Action) ){
 			$userid = filterSql($_GET['userid']);
 		}
@@ -114,7 +120,6 @@ if ( preg_match("/(create|add)/", $Action) || $Use_Auth_System == 1 ){
 				$usn = $userinfo[1];
 				$rid = $userinfo[2];
 				$ufn = $userinfo[3];
-
 				$tdc = "<td width='25%' align='right'>";
 				$tdal = "<td align='left'>";
 				$form = NLI($Fst."updateuser'".$Fct,3);
@@ -209,7 +214,6 @@ if ( preg_match("/(create|add)/", $Action) || $Use_Auth_System == 1 ){
 						$usn = htmlspecialchars($tmpRow[1]);
 						$rolename = htmlspecialchars($user->roleName($tmpRow[2]));
 						$ufn = htmlspecialchars($tmpRow[3]);
-
 						$tmpHTML .= NLI('<tr>',3);
 						$tmpHTML .= NLI($tduma."edit$uuid'>",4);
 						$tmpHTML .= $imgc."button_edit.png' alt='button_$AcEdit'/>";
@@ -236,6 +240,8 @@ if ( preg_match("/(create|add)/", $Action) || $Use_Auth_System == 1 ){
 				$tmpHTML .= NLI("</td></tr></table>",1);
 				$pagebody = $tmpHTML;
 				break;
+			default:
+				$pagebody = returnErrorMessage('Invalid Action!');
 		}
 		// Generate Page.
 		PrintBASESubHeader($page_title, $page_title, $cs->GetBackLink(), $refresh_all_pages);

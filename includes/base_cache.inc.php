@@ -791,15 +791,13 @@ function UpdateAlertCache($db)
   } // for ($n = 0; $n < $number_sensors; $n++)
   
   $sensor_lst->baseFreeRows();
-
-
-  if ( $updated_cache_cnt != 0 )
-  {
-    if ( preg_match("/base_main.php/", $_SERVER['SCRIPT_NAME']) )
-         ErrorMessage(_ADDED.$updated_cache_cnt._ALERTSCACHE, "yellow");
-    else
-         ErrorMessage(_ADDED.$updated_cache_cnt._ALERTSCACHE);
-  }
+	if ( $updated_cache_cnt != 0 ){
+		if ( preg_match("/base_main.php/", $_SERVER['SCRIPT_NAME']) ){
+			ErrorMessage(_ADDED.$updated_cache_cnt._ALERTSCACHE, "yellow", 1);
+		}else{
+			ErrorMessage(_ADDED.$updated_cache_cnt._ALERTSCACHE);
+		}
+	}
 }
 
 function DropAlertCache($db)

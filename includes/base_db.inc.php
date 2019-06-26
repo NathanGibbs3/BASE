@@ -221,11 +221,48 @@ class baseCon {
   {
      $this->DB->Close();
   }
-
-  function baseExecute($sql, $start_row=0, $num_rows=-1, $die_on_error=true )
-  {
-     GLOBAL $debug_mode, $sql_trace_mode;
-
+	function baseExecute(
+		$sql, $start_row=0, $num_rows=-1, $die_on_error=true
+	){
+		GLOBAL $debug_mode, $sql_trace_mode, $db_connect_method,
+			$alert_password;
+		if ( array_key_exists('archive_dbname',$GLOBALS) ){
+			$archive_dbname = $GLOBALS['archive_dbname'];
+		}else{
+			$archive_dbname = '';
+		}
+		if ( array_key_exists('archive_host',$GLOBALS) ){
+			$archive_host = $GLOBALS['archive_host'];
+		}else{
+			$archive_host = '';
+		}
+		if ( array_key_exists('archive_port',$GLOBALS) ){
+			$archive_port = $GLOBALS['archive_port'];
+		}else{
+			$archive_port = '';
+		}
+		if ( array_key_exists('archive_password',$GLOBALS) ){
+			$archive_password = $GLOBALS['archive_password'];
+		}else{
+			$archive_password = '';
+		}
+		$EPfx = 'BASE DB ';
+		$tdt = $this->DB_type;
+		$tdn = $this->DB_name;
+		$DSN = $this->DB_host;
+		$tdp = $this->DB_port;
+		$tdu = $this->DB_username;
+		if (
+			$DSN == $archive_host && $tdp == $archive_port
+			&& $tdn == $archive_dbname
+		){
+			$tdpw = $archive_password;
+		}else{
+			$tdpw = $alert_password;
+		}
+		if ( $tdp != '') {
+			$DSN = "$DSN:$tdp";
+		}
      /* ** Begin DB specific SQL fix-up ** */
      if ($this->DB_type == "mssql")
      {
@@ -242,6 +279,25 @@ class baseCon {
          }
        }
      }
+
+		if (!$this->DB->isConnected()){
+			// Check for connection before executing query.
+			// Try to reconnect of DB connection is down.
+			// Found via CI. Might be related to PHP 5.2x not supporting
+			// persistant DB connections.
+			error_log($EPfx."Disconnected: $tdt $tdn @ $DSN");
+			error_log($EPfx."Reconnecting: $tdt $tdn @ $DSN");
+			if ( $db_connect_method == DB_CONNECT ){
+				$db = $this->DB->Connect( $DSN, $tdu, $tdpw, $tdn);
+			}else{
+				$db = $this->DB->PConnect( $DSN, $tdu, $tdpw, $tdn);
+			}
+			if (!$this->DB->isConnected()){
+				FatalError("$EPfx Reconnect Failed", E_USER_NOTICE);
+			}else{
+				error_log("$EPfx Reconnected");
+			}
+		}
 
      $this->lastSQL = $sql;
      $limit_str = "";
@@ -287,32 +343,49 @@ class baseCon {
         fputs($this->sql_trace, $sql."\n");
         fflush($this->sql_trace);
      }
-
-     if ( (!$rs || $this->baseErrorMessage() != "") && $die_on_error )
-     {
-        echo '</TABLE></TABLE></TABLE>
-               <FONT COLOR="#FF0000"><B>'._ERRSQLDB.'</B>'.($this->baseErrorMessage()).'</FONT>'.
-               '<P><PRE>'.( $debug_mode > 0 ? ($this->lastSQL).$limit_str : "" ).'</PRE><P>';
-        die();
-     }
-     else
-     {
-        return $rs;
-     }
-  }
-
-  function baseErrorMessage()
-  {
-     GLOBAL $debug_mode;
-
-     if ( $this->DB->ErrorMsg() &&
-          ($this->DB_type != 'mssql' || (!strstr($this->DB->ErrorMsg(), 'Changed database context to') &&
-                                         !strstr($this->DB->ErrorMsg(), 'Changed language setting to'))))
-        return '</TABLE></TABLE></TABLE>'.
-               '<FONT COLOR="#FF0000"><B>'._ERRSQLDB.'</B>'.($this->DB->ErrorMsg()).'</FONT>'.
-               '<P><CODE>'.( $debug_mode > 0 ? $this->lastSQL : "" ).'</CODE><P>';
-  }
-
+		if ( (!$rs || $this->baseErrorMessage() != "") && $die_on_error ){
+			if (!$rs){
+				$msg = returnErrorMessage("$EPfx NULL Recordset",0,1);
+			}else{
+				$msg = '';
+			}
+			$msg .= $this->baseErrorMessage();
+			// Fix how we setup $limit_str and execute the queries above so
+			// that we can get rid of this if block.
+			if ( $debug_mode > 0 && $limit_str != ''){
+				$msg .= '<p>SQL QUERY: <code>'.$this->lastSQL.$limit_str.
+				'</code></p>';
+			}
+			if ( getenv('TRAVIS') && version_compare(PHP_VERSION, "5.3.0", "<") ){
+				// Issue #5 Info Shim
+				$msg .= "<p>DB Engine: $tdt DB: $tdn @ $DSN</p>";
+				$msg .= '<p>SQL QUERY: <code>'.$this->lastSQL.$limit_str.
+				'</code></p>';
+			}
+			FatalError ($msg);
+		}else{
+			return $rs;
+		}
+	}
+	function baseErrorMessage(){
+		GLOBAL $debug_mode;
+		if ( $this->DB->ErrorMsg() && (
+			$this->DB_type != 'mssql' || (
+				!strstr($this->DB->ErrorMsg(), 'Changed database context to')
+				&& !strstr($this->DB->ErrorMsg(), 'Changed language setting to')
+			)
+		)){
+			// Whats with the 3 table closures? Verify that we need them.
+			$msg = '</TABLE></TABLE></TABLE>'.
+			returnErrorMessage('<B>'._ERRSQLDB.'</B> '). $this->DB->ErrorMsg();
+			if ( $debug_mode > 0 ){
+				$msg .= '<p><code>'.$this->lastSQL.'</code></p>';
+			}
+		}else{
+			$msg = '';
+		}
+		return $msg;
+	}
   function baseTableExists($table)
   {
      if ($this->DB_type == "oci8") $table=strtoupper($table);
@@ -630,7 +703,6 @@ class baseRS {
     }
   }
 }
-
 function VerifyDBAbstractionLib($path){
 	GLOBAL $debug_mode;
 	$version = explode('.', phpversion());
@@ -664,7 +736,6 @@ function VerifyDBAbstractionLib($path){
 		// @codeCoverageIgnoreEnd
 	}
 }
-
 function NewBASEDBConnection($path, $type){
 	GLOBAL $debug_mode;
 	if ( !(
@@ -675,8 +746,8 @@ function NewBASEDBConnection($path, $type){
 		|| ($type == "mssql")
 		|| ($type == "oci8")
 	)){
-		$msg = "<B>"._ERRSQLDBTYPE."</B>"."<P>:"._ERRSQLDBTYPEINFO1.
-		"<CODE>'".XSSPrintSafe($type)."'</CODE>. "._ERRSQLDBTYPEINFO2;
+		$msg = "<b>"._ERRSQLDBTYPE."</b>"."<p>:"._ERRSQLDBTYPEINFO1.
+		"<code>'".XSSPrintSafe($type)."'</code>. "._ERRSQLDBTYPEINFO2;
 		FatalError ($msg);
 	}
 	// Export ADODB_DIR for use by ADODB.
@@ -705,7 +776,10 @@ function NewBASEDBConnection($path, $type){
 	}
 	$version = explode( '.', phpversion() );
 	if (VerifyDBAbstractionLib($path."adodb.inc.php")){
-		include($path."adodb.inc.php");
+		SetConst('ADODB_ERROR_HANDLER_TYPE',E_USER_NOTICE);
+		SetConst('ADODB_ERROR_LOG_TYPE',0);
+		include_once($path.'adodb-errorhandler.inc.php');
+		include($path.'adodb.inc.php');
 	}else{
 		$msg = _ERRSQLDBALLOAD1.'"'.XSSPrintSafe($path).'"'._ERRSQLDBALLOAD2;
 		if ( $version[0] > 5 || ( $version[0] == 5 && $version[1] > 2) ){
@@ -727,7 +801,6 @@ function NewBASEDBConnection($path, $type){
 	ADOLoadCode($tmptype);
 	return new baseCon($type);
 }
-
 function MssqlKludgeValue($text)
 {
    $mssql_kludge = "";
