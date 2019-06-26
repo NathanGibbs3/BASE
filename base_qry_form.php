@@ -18,6 +18,7 @@
 ********************************************************************************
 */
 
+if ( isset($sort_order) ){ // Issue #5
 if ( $submit == "TCP" )        {  $cs->criteria['layer4']->Set("TCP");   }
 if ( $submit == "UDP" )        {  $cs->criteria['layer4']->Set("UDP");   }
 if ( $submit == "ICMP" )       {  $cs->criteria['layer4']->Set("ICMP");  }
@@ -272,14 +273,12 @@ function loopElements(el,level){
 						temp.onclick=showHide;
 					}else if(temp.tagName.toLowerCase() == "ul"){
 						//Hide sublevels
-
-';
-   if ($show_expanded_query == 1)
- echo ' 
-						temp.style.display = ""  ';
-   else
- echo ' 
-						temp.style.display = "none"  ';
+						temp.style.display = "';
+if (isset($show_expanded_query) && $show_expanded_query == 1){
+	print '"';
+}else{
+	print 'none"';
+}
  echo '
 						//Set class
 						temp.className= "zMenu"+level
@@ -316,6 +315,5 @@ function showHide(){
 // ]]>
 </script>
 ';
+}
 ?>
-
-

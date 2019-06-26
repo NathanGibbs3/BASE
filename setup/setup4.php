@@ -19,14 +19,16 @@
 **
 ********************************************************************************
 */
-   session_start();
+if ( session_id() != '' ){
+	session_start();
+}
 
    $BASE_path = "..";  // Set this since we don't have a base_conf.php
    define( "_BASE_INC", 1 );
    $BASE_InstallID = 1;
    
   include("../languages/english.lang.php");
-  include("../includes/base_constants.inc.php");
+include_once("../includes/base_constants.inc.php");
   include("../includes/base_include.inc.php");
   include_once("../base_db_common.php");
   include_once("../base_common.php");

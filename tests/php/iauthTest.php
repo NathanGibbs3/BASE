@@ -5,6 +5,7 @@ use PHPUnit\Framework\TestCase;
 
 /**
   * @covers BaseUser::returnRoleNamesDropDown
+  * @covers BaseUser::returnUser
   * @uses ::XSSPrintSafe
   * @uses baseCon
   * @uses baseRS
@@ -41,17 +42,28 @@ class authTest extends TestCase {
 			}else{
 				self::markTestSkipped("CI Support unavialable for DB: $DB.");
 			}
-			if (!isset($DBtype)){
-				self::markTestIncomplete("Unable to Set DB: $DB.");
+		}
+		if (!isset($DBtype)){
+			self::markTestIncomplete("Unable to Set DB: $DB.");
+		}else{
+			$alert_dbname='snort';
+			// Setup DB Connection
+			$db = NewBASEDBConnection($DBlib_path, $DBtype);
+			// Check ADODB Sanity.
+			// See: https://github.com/NathanGibbs3/BASE/issues/35
+			if (ADODB_DIR != $DBlib_path ){
+				self::markTestIncomplete(
+					"Expected ADODB in location: $DBlib_path\n".
+					"   Found ADODB in location: ".ADODB_DIR
+				);
+			}else{
+				$db->baseDBConnect(
+					$db_connect_method, $alert_dbname, $alert_host,
+					$alert_port, $alert_user, $alert_password
+				);
+				self::$user = new BaseUser();
 			}
 		}
-		$alert_dbname='snort';
-		$db = NewBASEDBConnection($DBlib_path, $DBtype); // Setup DB Connection
-		$db->baseDBConnect(
-			$db_connect_method, $alert_dbname, $alert_host, $alert_port,
-			$alert_user, $alert_password
-		);
-		self::$user = new BaseUser();
 	}
 	public static function tearDownAfterClass() {
 		self::$user = null;
@@ -59,8 +71,6 @@ class authTest extends TestCase {
 
 	// Tests go here.
 	public function testreturnRoleNamesDropDownNone() {
-		GLOBAL $DBlib_path, $DBtype, $alert_dbname, $alert_host,
-		$alert_user, $alert_password, $alert_port, $db_connect_method, $db;
 		$user = self::$user;
 		$msg = 'selected';
 		$this->assertNotRegExp(
@@ -70,8 +80,6 @@ class authTest extends TestCase {
 		);
 	}
 	public function testreturnRoleNamesDropDownAdmin() {
-		GLOBAL $DBlib_path, $DBtype, $alert_dbname, $alert_host,
-		$alert_user, $alert_password, $alert_port, $db_connect_method, $db;
 		$user = self::$user;
 		$msg = '<option value=\'1\' selected>Admin<\/option>';
 		$this->assertRegExp(
@@ -81,8 +89,6 @@ class authTest extends TestCase {
 		);
 	}
 	public function testreturnRoleNamesDropDownUser() {
-		GLOBAL $DBlib_path, $DBtype, $alert_dbname, $alert_host,
-		$alert_user, $alert_password, $alert_port, $db_connect_method, $db;
 		$user = self::$user;
 		$msg = '<option value=\'10\' selected>user<\/option>';
 		$this->assertRegExp(
@@ -92,8 +98,6 @@ class authTest extends TestCase {
 		);
 	}
 	public function testreturnRoleNamesDropDownAnonymous() {
-		GLOBAL $DBlib_path, $DBtype, $alert_dbname, $alert_host,
-		$alert_user, $alert_password, $alert_port, $db_connect_method, $db;
 		$user = self::$user;
 		$msg = '<option value=\'10000\' selected>anonymous<\/option>';
 		$this->assertRegExp(
@@ -103,13 +107,32 @@ class authTest extends TestCase {
 		);
 	}
 	public function testreturnRoleNamesDropDownAGEditor() {
-		GLOBAL $DBlib_path, $DBtype, $alert_dbname, $alert_host,
-		$alert_user, $alert_password, $alert_port, $db_connect_method, $db;
 		$user = self::$user;
 		$msg = '<option value=\'50\' selected>ag_editor<\/option>';
 		$this->assertRegExp(
 			'/'.$msg.'/',
 			$user->returnRoleNamesDropDown(50),
+			'Unexpected Return Value.'
+		);
+	}
+	/**
+	 * @backupGlobals disabled
+	 */
+	public function testreturnUserCookie(){
+		$user = self::$user;
+		$_COOKIE['BASERole'] = 'passwd|user|';
+		$this->assertEquals(
+			'user',
+			$user->returnUser(),
+			'Unexpected Return Value.'
+		);
+		unset ($_COOKIE['BASERole']);
+	}
+	public function testreturnUserNoCookie(){
+		$user = self::$user;
+		$this->assertEquals(
+			'',
+			$user->returnUser(),
 			'Unexpected Return Value.'
 		);
 	}

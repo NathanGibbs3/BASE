@@ -18,7 +18,9 @@
 **
 ********************************************************************************
 */
-session_start();
+if ( session_id() != '' ){
+	session_start();
+}
 
 define( "_BASE_INC", 1 );
 include("../includes/base_setup.inc.php");
@@ -45,8 +47,8 @@ else if (!is_readable($ado_inc_php))
   exit();
 }
 include($ado_inc_php);
-include("../includes/base_state_common.inc.php");
-include("../includes/base_constants.inc.php");
+include_once("../includes/base_state_common.inc.php");
+include_once("../includes/base_constants.inc.php");
 
 if (file_exists('../base_conf.php'))
 	die ("If you wish to re-run the setup routine, please either move OR delete your previous base_conf file first.");

@@ -1,4 +1,4 @@
-<?PHP
+<?php
 /*******************************************************************************
 ** Basic Analysis and Security Engine (BASE)
 ** Copyright (C) 2004 BASE Project Team
@@ -21,11 +21,14 @@
 ********************************************************************************
 */
 
+// Ensure the conf file has been loaded.  Prevent direct access to this file.
+defined( '_BASE_INC' ) or die( 'Accessing this file directly is not allowed.' );
+
 // Definitions for capabilities -- Add here as needed.
-define(CAPA_MAIL, 1);
-define(CAPA_PMAIL, 2);
-define(CAPA_PEARDB, 3);
-define(CAPA_PGRAPH, 4);
+define('CAPA_MAIL', '1');
+define('CAPA_PMAIL', '2');
+define('CAPA_PEARDB', '3');
+define('CAPA_PGRAPH', '4');
 
 // Capabilities Registry class definition
 

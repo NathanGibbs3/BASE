@@ -8,9 +8,15 @@ include_once ("$BASE_path/includes/base_include.inc.php");
 
 $rv = false;
 
-
-// $dir = @$_GET['dir'];
-$dir = $GLOBALS['external_sig_link']['local_rules_dir'][0];
+if ( array_key_exists('external_sig_link',$GLOBALS) ){
+	if (is_array($GLOBALS['external_sig_link']) ){
+		$dir = $GLOBALS['external_sig_link']['local_rules_dir'][0];
+	}else{
+		$dir = 'rules/';
+	}
+}else{
+	$dir = 'rules/';
+}
 $sid = @$_GET['sid'];
 
 if ($debug_mode > 0)
@@ -223,15 +229,9 @@ if (file_exists($dir))
 	{
 		echo "ERROR: Directory \"" . htmlspecialchars($dir) . "\" can not be searched. It must be executable (required by the web server).\n<BR>";
 	}
-}
-else
-{
+}else{
 	echo "ERROR: Directory \"" . htmlspecialchars($dir) . "\" does not exist.\n<BR>";
 }
-
-
 echo "</BODY>";
 echo "</HTML>";
-
-
 ?>

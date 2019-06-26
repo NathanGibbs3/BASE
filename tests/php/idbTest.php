@@ -7,6 +7,19 @@ use PHPUnit\Framework\TestCase;
   * @covers ::VerifyDBAbstractionLib
   */
 class dbTest extends TestCase {
+	// Pre Test Setup.
+	public static function setUpBeforeClass() {
+		GLOBAL $DBlib_path;
+		// Check ADODB Sanity.
+		// See: https://github.com/NathanGibbs3/BASE/issues/35
+		if (ADODB_DIR != $DBlib_path ){
+			self::markTestIncomplete(
+				"Expected ADODB in location: $DBlib_path\n".
+				"   Found ADODB in location: ".ADODB_DIR
+			);
+		}
+	}
+
 	// Tests go here.
 	public function testreturnVerifyDBAbstractionLibValid() {
 		$TRAVIS = getenv('TRAVIS');
@@ -28,12 +41,24 @@ class dbTest extends TestCase {
 	}
 	public function testreturnVerifyDBAbstractionLibInValid() {
 		$DBlib_path = "invalid";
-		$this->assertNotTrue(
+		$this->assertFalse(
 			VerifyDBAbstractionLib($DBlib_path),
 			'Unexpected return VerifyDBAbstractionLib().'
 		);
 	}
-
+	public function testreturnVerifyDBAbstractionLibSafeModeCutout() {
+		$PHPV = GetPHPV();
+		$DBlib_path = "invalid";
+		if (version_compare($PHPV, '5.1.4', '>')){
+			$this->assertTrue(true,'Passing Test.');
+		}else{
+			$this->assertTrue(ini_get("safe_mode"),'PHP SafeMode: Off');
+			$this->assertTrue(
+				VerifyDBAbstractionLib($DBlib_path),
+				'Unexpected return VerifyDBAbstractionLib().'
+			);
+		}
+	}
 	// Add code to a function if needed.
 	// Stop here and mark test incomplete.
 	//$this->markTestIncomplete('Incomplete Test.');

@@ -87,9 +87,15 @@ function PrintFramedBoxFooter()
 
 function PrintFreshPage($refresh_stat_page, $stat_page_refresh_time)
 {
-   if ( $refresh_stat_page )
+   if ( $refresh_stat_page ){
+		if (isset($_SERVER["REQUEST_URI"])){
+			$URI = $_SERVER["REQUEST_URI"];
+		}else{
+			$URI = '/';
+		}
       echo '<META HTTP-EQUIV="REFRESH" CONTENT="'.$stat_page_refresh_time.'; URL='.
-            htmlspecialchars(CleanVariable($_SERVER["REQUEST_URI"], VAR_FSLASH | VAR_PERIOD | VAR_DIGIT | VAR_PUNC | VAR_LETTER), ENT_QUOTES).'">'."\n";
+            htmlspecialchars(CleanVariable($URI, VAR_FSLASH | VAR_PERIOD | VAR_DIGIT | VAR_PUNC | VAR_LETTER), ENT_QUOTES).'">'."\n";
+	}
 }
 
 function chk_select($stored_value, $current_value)

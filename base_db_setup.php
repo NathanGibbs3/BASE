@@ -20,7 +20,7 @@
 */
 
   include("base_conf.php");
-  include("$BASE_path/includes/base_constants.inc.php");
+include_once("$BASE_path/includes/base_constants.inc.php");
   include("$BASE_path/includes/base_include.inc.php");
   include_once("$BASE_path/base_db_common.php");
   include_once("$BASE_path/base_common.php");
@@ -45,6 +45,9 @@
   if ( $submit == "Create BASE AG" ) {
      $result = CreateBASEAG($db);
      echo '<HR><P>';
+  }else{
+	// Set a default on somthing unexpected.
+	$result = 0;
   }
 
   echo '

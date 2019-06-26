@@ -780,25 +780,27 @@ function PrintPacketPayload($data, $encode_type, $output_type)
      return $payload;
 }
 
-function GetQueryResultID($submit, &$seq, &$sid, &$cid)
-{
-  /* extract the sid and cid from the $submit variable of the form
-     #XX-(XX-XX) 
-      |   |  |
-      |   |  |--- cid
-      |   |------ sid
-      |---------- sequence number of DB lookup
-  */
+function GetQueryResultID($submit, &$seq, &$sid, &$cid){
+	// Extract the sid and cid from the $submit variable of the form
+	// #XX-(XX-XX)
+	//  |   |  |
+	//  |   |  |--- cid
+	//  |   |------ sid
+	//  |---------- sequence number of DB lookup
 
-  $submit = strstr($submit, "#");
-  $submit = str_replace("#", "", $submit);
-  $submit = str_replace("(", "", $submit);
-  $submit = str_replace(")", "", $submit);
-  $tmp = explode("-", $submit);
-  /* Since the submit variable is not cleaned do so here: */
-  $seq = CleanVariable($tmp[0], VAR_DIGIT);
-  $sid = CleanVariable($tmp[1], VAR_DIGIT);
-  $cid = CleanVariable($tmp[2], VAR_DIGIT);
+	if (preg_match('/#[0-9]+-\([0-9]+-[0-9]+\)$/', $submit)){
+		$submit = strstr($submit, '#');
+		$find = array('#','(',')');
+		$submit = str_replace($find, '', $submit);
+		// Since the submit variable is not cleaned do so here:
+		$tmp = CleanVariable(explode("-", $submit), VAR_DIGIT);
+		$seq = $tmp[0];
+		$sid = $tmp[1];
+		$cid = $tmp[2];
+		return true;
+	}else{
+		return false;
+	}
 }
 
 function ExportPacket($sid, $cid, $db)
@@ -1072,10 +1074,11 @@ function ExportPacket_summary($sid, $cid, $db, $export_type = 0)
 }
 
 function base_header($url) {
-    header($url);
-    exit;
+	if (!headers_sent()) {
+		header($url);
+		exit;
+	}
 }
-
 
 function base_microtime()
 {

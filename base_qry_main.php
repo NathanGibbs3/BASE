@@ -67,7 +67,7 @@
  */
 
   include("base_conf.php");
-  include("$BASE_path/includes/base_constants.inc.php");
+include_once("$BASE_path/includes/base_constants.inc.php");
   include("$BASE_path/includes/base_include.inc.php");
 
   include_once("$BASE_path/includes/base_action.inc.php");
@@ -85,15 +85,22 @@
   if (($BUser->hasRole($roleneeded) == 0) && ($Use_Auth_System == 1))
     base_header("Location: ". $BASE_urlpath . "/index.php");
 
-  $new = ImportHTTPVar("new", VAR_DIGIT);
-
-  /* This call can include many values. */
-  $submit = ImportHTTPVar("submit", VAR_DIGIT | VAR_PUNC | VAR_LETTER,
-                           array(_SELECTED, _ALLONSCREEN, _ENTIREQUERY,
-                                 _QUERYDB, _ADDTIME, _ADDADDRESS, _ADDIPFIELD,
-                                 _ADDTCPPORT, _ADDTCPFIELD, _ADDUDPPORT,
-                                 _ADDUDPFIELD, _ADDICMPFIELD));
-
+if ( getenv('TRAVIS') && version_compare(PHP_VERSION, "5.3.0", "<") ){
+	// Issue #5 Test Shim
+	$new = 1;
+	$submit = '';
+}else{
+	$new = ImportHTTPVar("new", VAR_DIGIT);
+	// This call can include many values.
+	$submit = ImportHTTPVar(
+		"submit", VAR_DIGIT | VAR_PUNC | VAR_LETTER,
+		array(
+			_SELECTED, _ALLONSCREEN, _ENTIREQUERY, _QUERYDB, _ADDTIME,
+			_ADDADDRESS, _ADDIPFIELD, _ADDTCPPORT, _ADDTCPFIELD, _ADDUDPPORT,
+			_ADDUDPFIELD, _ADDICMPFIELD
+		)
+	);
+}
   // Set the sort order to the new sort order if one has been selected
   $sort_order = ImportHTTPVar("sort_order", VAR_LETTER | VAR_USCORE);
   if ($sort_order == "" || !isset($sort_order)) 
@@ -118,12 +125,10 @@
     $submit = _QUERYDB;
 
   /* End 'interesting' browser code fixes */
-
-  /* Totally new Search */
-  if ( ($new == 1) && ($submit == "") ) {
-    $cs->InitState();
-  }
-
+	// Totally new Search
+	if ( ($new == 1) && ($submit == "") ){
+		$cs->InitState();
+	}
   /* is this a new query, invoked from the SEARCH screen ? */
   /* if the query string if very long (> 700) then this must be from the Search screen  */
   $back = ImportHTTPVar("back", VAR_DIGIT);
