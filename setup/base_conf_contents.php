@@ -427,7 +427,7 @@ $lacnic_ip = "200.3.14.10";
     
     /* Signature references */
     $external_sig_link = array(\'bugtraq\'   => array(\'http://www.securityfocus.com/bid/\', \'\'),
-                               \'snort\'     => array(\'http://www.snort.org/search/sid/\', \'\'),
+                               \'snort\'     => array(\'https://snort.org/rule_docs/\', \'\'),
                                \'cve\'       => array(\'http://cve.mitre.org/cgi-bin/cvename.cgi?name=\', \'\'),
                                \'arachnids\' => array(\'http://www.whitehats.com/info/ids\', \'\'),
                                \'mcafee\'    => array(\'http://vil.nai.com/vil/content/v_\', \'.htm\'),
