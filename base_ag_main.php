@@ -36,9 +36,9 @@ include_once("$BASE_path/includes/base_constants.inc.php");
 $UIL = new UILang($BASE_Language); // Create UI Language Object.
 $AcEdit = $UIL->UAA['Edit'];
 $AcDelete = $UIL->UAA['Delete'];
-$AgiDesc = $UIL->CPA['Id'];
-$AgnDesc = $UIL->CPA['Name'];
-$AgdDesc = $UIL->CPA['Desc'];
+$AgiDesc = $UIL->CWA['Id'];
+$AgnDesc = $UIL->CWA['Name'];
+$AgdDesc = $UIL->CWA['Desc'];
 // Html Templates
 $Umca = "base_ag_main.php?ag_action="; // Role Managemnt Common Action.
 $Fct = " Method='POST'>"; // Form tag end.

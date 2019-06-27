@@ -485,7 +485,7 @@ class SignatureCriteria extends SingleElementCriteria {
 	}
 	function Description($value) {
 		GLOBAL $UIL;
-		$CPSig = $UIL->CPA['Sig'];
+		$CPSig = $UIL->CWA['Sig'];
 		$tmp = $tmp_human = "";
 		if ( isset($this->criteria[0]) && $this->criteria[0] != " " ){
 			// Common code for both scenarios.
@@ -806,7 +806,7 @@ class SensorCriteria extends SingleElementCriteria
    }
 	function Description($value) {
 		GLOBAL $UIL;
-		$CPSensor = $UIL->CPA['Sensor'];
+		$CPSensor = $UIL->CWA['Sensor'];
 		$tmp = "";
      if ( $this->criteria != " " && $this->criteria != "" )
         $tmp .= "$CPSensor = [".htmlentities($this->criteria).'] '.
@@ -978,8 +978,8 @@ class IPAddressCriteria extends MultipleElementCriteria {
 		parent::MultipleElementCriteria(
 			$tdb, $cs, $export_name, $element_cnt,
 			array (
-				"ip_src" => $UIL->CPA['SrcDesc'],
-				"ip_dst" => $UIL->CPA['DstDesc'],
+				"ip_src" => $UIL->CWA['Src'],
+				"ip_dst" => $UIL->CWA['Dst'],
 				"ip_both" => $UIL->CPA['SrcDst']
 			)
 		);
@@ -1073,8 +1073,8 @@ class IPAddressCriteria extends MultipleElementCriteria {
 	}
 	function Description($value) {
 		GLOBAL $UIL;
-		$human_fields["ip_src"] = $UIL->CPA['SrcDesc'];
-		$human_fields["ip_dst"] = $UIL->CPA['DstDesc'];
+		$human_fields["ip_src"] = $UIL->CWA['Src'];
+		$human_fields["ip_dst"] = $UIL->CWA['Dst'];
 		$human_fields["ip_both"] = $UIL->CPA['SrcDst'];
 		$human_fields[""] = "";
 		$human_fields["LIKE"] = _CONTAINS;

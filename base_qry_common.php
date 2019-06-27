@@ -25,7 +25,7 @@ function PrintCriteriaState() {
 	$current_view, $caller, $action, $action_arg, $sort_order, $UIL;
 
 	if ( $GLOBALS['debug_mode'] >= 2 ){
-		$CPSensor = $UIL->CPA['Sensor'];
+		$CPSensor = $UIL->CWA['Sensor'];
 		NLIO("<PRE>");
 		echo "<B>$CPSensor:</B> ".$_SESSION['sensor']."<BR>\n".
            "<B>AG:</B> ".$_SESSION['ag']."<BR>\n".

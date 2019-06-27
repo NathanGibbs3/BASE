@@ -13,6 +13,12 @@ use PHPUnit\Framework\TestCase;
 
 /**
   * @covers UILang::BlankProps
+  * @covers UILang::SetUIADItem
+  * @covers UILang::SetUICWItem
+  * @covers UILang::SetUICPItem
+  * @covers UILang::SetUIUAItem
+  * @covers UILang::Phrase
+  * @uses ::XSSPrintSafe
   */
 class commonlangTest extends TestCase {
 	// Pre Test Setup.
@@ -195,9 +201,6 @@ class commonlangTest extends TestCase {
 			'BlankProps Unexpected Return Value.'
 		);
 	}
-	/**
-	  * @covers UILang::SetUIADItem
-	  */
 	public function testADASetItemInvalidThrowsError() {
 		GLOBAL $Use_Auth_System;
 		$lang = self::$langs;
@@ -232,9 +235,6 @@ class commonlangTest extends TestCase {
 			);
 		}
 	}
-	/**
-	  * @covers UILang::SetUICWItem
-	  */
 	public function testCWASetItemInvalidThrowsError() {
 		$lang = self::$langs;
 		$tf = __FUNCTION__;
@@ -262,9 +262,6 @@ class commonlangTest extends TestCase {
 		}
 		$$tmp->SetUICWItem($key,$kD);
 	}
-	/**
-	  * @covers UILang::SetUICPItem
-	  */
 	public function testCPASetItemInvalidThrowsError() {
 		$lang = self::$langs;
 		$tf = __FUNCTION__;
@@ -292,9 +289,6 @@ class commonlangTest extends TestCase {
 		}
 		$$tmp->SetUICPItem($key,$kD);
 	}
-	/**
-	  * @covers UILang::SetUIUAItem
-	  */
 	public function testUAASetItemInvalidThrowsError() {
 		$lang = self::$langs;
 		$tf = __FUNCTION__;
@@ -416,12 +410,9 @@ class commonlangTest extends TestCase {
 		LogTC($tf,'TD file:',$file);
 		$this->assertEquals(
 			1, $$tmp->Caps,
-			'Class did not set Spacing to 1.'
+			'Class did not set Capitalization to 1.'
 		);
 	}
-	/**
-	 * @covers UILang::Phrase
-	 */
 	public function testPhraseInvalidInt() {
 		$lang = self::$langs;
 		$tf = __FUNCTION__;
@@ -436,9 +427,6 @@ class commonlangTest extends TestCase {
 			'Phrase Unexpected Return Value.'
 		);
 	}
-	/**
-	 * @covers UILang::Phrase
-	 */
 	public function testPhraseInvalidfloat() {
 		$lang = self::$langs;
 		$tf = __FUNCTION__;
@@ -453,9 +441,6 @@ class commonlangTest extends TestCase {
 			'Phrase Unexpected Return Value.'
 		);
 	}
-	/**
-	 * @covers UILang::Phrase
-	 */
 	public function testPhraseInvalidstring() {
 		$lang = self::$langs;
 		$tf = __FUNCTION__;
@@ -470,9 +455,6 @@ class commonlangTest extends TestCase {
 			'Phrase Unexpected Return Value.'
 		);
 	}
-	/**
-	 * @covers UILang::Phrase
-	 */
 	public function testPhraseSpacingOff() {
 		$lang = self::$langs;
 		$tf = __FUNCTION__;
@@ -488,9 +470,6 @@ class commonlangTest extends TestCase {
 			'Phrase Unexpected Return Value.'
 		);
 	}
-	/**
-	 * @covers UILang::Phrase
-	 */
 	public function testPhraseSpacingOn() {
 		$lang = self::$langs;
 		$tf = __FUNCTION__;
@@ -503,6 +482,21 @@ class commonlangTest extends TestCase {
 		$this->assertEquals(
 			'1 0',
 			$$tmp->Phrase(array(1,0)),
+			'Phrase Unexpected Return Value.'
+		);
+	}
+	public function testPhraseSpacingOnNonBreaking() {
+		$lang = self::$langs;
+		$tf = __FUNCTION__;
+		$tmp = "UI$lang";
+		LogTC($tf,'language',$lang);
+		$$tmp = self::$UIL;
+		$file = $$tmp->TDF;
+		LogTC($tf,'TD file:',$file);
+		$$tmp->Spacing = 1;
+		$this->assertEquals(
+			'1&nbsp;0',
+			$$tmp->Phrase(array(1,0),1),
 			'Phrase Unexpected Return Value.'
 		);
 	}

@@ -48,17 +48,18 @@ $UI_CW_Sig = 'シグネチャ';
 $UI_CW_Role = 'Role';
 $UI_CW_Pw = 'パスワード';
 $UI_CW_Ts = 'タイムスタンプ';
+$UI_CW_Addr = 'アドレス';
 // Common Phrases.
 $UI_CP_SrcName = array($UI_CW_Src,$UI_CW_Name);
 $UI_CP_DstName = array($UI_CW_Dst,$UI_CW_Name);
 $UI_CP_SrcDst = array($UI_CW_Src,'or',$UI_CW_Dst);
+$UI_CP_SrcAddr = array($UI_CW_Src,$UI_CW_Addr);
 // Authentication Data.
 $UI_AD_UND = 'ログイン';
 $UI_AD_RID = array($UI_CW_Role,$UI_CW_Id);
 $UI_AD_ASD = '有効';
 
 //common phrases
-DEFINE('_NBSOURCEADDR','発信元&nbsp;アドレス');
 DEFINE('_NBDESTADDR','発信先&nbsp;アドレス');
 DEFINE('_NBLAYER4','レイヤー&nbsp;4&nbsp;Proto');
 DEFINE('_PRIORITY','優先度');
@@ -610,7 +611,7 @@ DEFINE('_SCDSTPORTS','送信先ポート: ');
 DEFINE('_SCSENSORS','センサー');
 DEFINE('_SCCLASS','classifications');
 DEFINE('_SCUNIADDRESS','アドレス別: ');
-DEFINE('_SCSOURCE','発信元');
+DEFINE('_SCSOURCE',$UI_CW_Src);
 DEFINE('_SCDEST','送信先');
 DEFINE('_SCPORT','ポート');
 

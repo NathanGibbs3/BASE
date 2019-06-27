@@ -522,8 +522,7 @@ class legacylangTest extends TestCase {
 		LogTC($tf,'TD file',$file);
 		$this->CWAHas($$tmp,'Role','Role');
 	}
-	// Test Commonm Phrase Items.
-	public function testCPASetItemSrcDesc() {
+	public function testCWASetItemAddr() {
 		$lang = self::$langs;
 		$tf = __FUNCTION__;
 		$tmp = "UI$lang";
@@ -531,8 +530,119 @@ class legacylangTest extends TestCase {
 		$$tmp = self::$UIL;
 		$file = $$tmp->TDF;
 		LogTC($tf,'TD file',$file);
-		$this->CPAHas($$tmp,'SrcDesc','Source');
+		$this->CWAHas($$tmp,'Addr','Address');
 	}
+	public function testCWASetItemSrc() {
+		$lang = self::$langs;
+		$tf = __FUNCTION__;
+		$tmp = "UI$lang";
+		LogTC($tf,'language',$lang);
+		$$tmp = self::$UIL;
+		$file = $$tmp->TDF;
+		LogTC($tf,'TD file',$file);
+		$this->CWAHas($$tmp,'Src','Source');
+	}
+	public function testCWASetItemDst() {
+		$lang = self::$langs;
+		$tf = __FUNCTION__;
+		$tmp = "UI$lang";
+		LogTC($tf,'language',$lang);
+		$$tmp = self::$UIL;
+		$file = $$tmp->TDF;
+		LogTC($tf,'TD file',$file);
+		$this->CWAHas($$tmp,'Dst','Destination');
+	}
+	public function testCWASetItemId() {
+		$lang = self::$langs;
+		$tf = __FUNCTION__;
+		$tmp = "UI$lang";
+		LogTC($tf,'language',$lang);
+		$$tmp = self::$UIL;
+		$file = $$tmp->TDF;
+		LogTC($tf,'TD file',$file);
+		$this->CWAHas($$tmp,'Id','ID');
+	}
+	public function testCWASetItemName() {
+		$lang = self::$langs;
+		$tf = __FUNCTION__;
+		$tmp = "UI$lang";
+		LogTC($tf,'language',$lang);
+		$$tmp = self::$UIL;
+		$file = $$tmp->TDF;
+		LogTC($tf,'TD file',$file);
+		$this->CWAHas($$tmp,'Name','Name');
+	}
+	public function testCWASetItemInt() {
+		$lang = self::$langs;
+		$tf = __FUNCTION__;
+		$tmp = "UI$lang";
+		LogTC($tf,'language',$lang);
+		$$tmp = self::$UIL;
+		$file = $$tmp->TDF;
+		LogTC($tf,'TD file',$file);
+		$this->CWAHas($$tmp,'Int','Interface');
+	}
+	public function testCWASetItemFilter() {
+		$lang = self::$langs;
+		$tf = __FUNCTION__;
+		$tmp = "UI$lang";
+		LogTC($tf,'language',$lang);
+		$$tmp = self::$UIL;
+		$file = $$tmp->TDF;
+		LogTC($tf,'TD file',$file);
+		$this->CWAHas($$tmp,'Filter','Filter');
+	}
+	public function testCWASetItemDesc() {
+		$lang = self::$langs;
+		$tf = __FUNCTION__;
+		$tmp = "UI$lang";
+		LogTC($tf,'language',$lang);
+		$$tmp = self::$UIL;
+		$file = $$tmp->TDF;
+		LogTC($tf,'TD file',$file);
+		$this->CWAHas($$tmp,'Desc','Description');
+	}
+	public function testCWASetItemSucDesc() {
+		$lang = self::$langs;
+		$tf = __FUNCTION__;
+		$tmp = "UI$lang";
+		LogTC($tf,'language',$lang);
+		$$tmp = self::$UIL;
+		$file = $$tmp->TDF;
+		LogTC($tf,'TD file',$file);
+		$this->CWAHas($$tmp,'SucDesc','Successful');
+	}
+	public function testCWASetItemSensor() {
+		$lang = self::$langs;
+		$tf = __FUNCTION__;
+		$tmp = "UI$lang";
+		LogTC($tf,'language',$lang);
+		$$tmp = self::$UIL;
+		$file = $$tmp->TDF;
+		LogTC($tf,'TD file',$file);
+		$this->CWAHas($$tmp,'Sensor','Sensor');
+	}
+	public function testCWASetItemSig() {
+		$lang = self::$langs;
+		$tf = __FUNCTION__;
+		$tmp = "UI$lang";
+		LogTC($tf,'language',$lang);
+		$$tmp = self::$UIL;
+		$file = $$tmp->TDF;
+		LogTC($tf,'TD file',$file);
+		$this->CWAHas($$tmp,'Sig','Signature');
+	}
+	public function testCWASetItemTs() {
+		$lang = self::$langs;
+		$tf = __FUNCTION__;
+		$tmp = "UI$lang";
+		LogTC($tf,'language',$lang);
+		$$tmp = self::$UIL;
+		$file = $$tmp->TDF;
+		LogTC($tf,'TD file',$file);
+		$this->CWAHas($$tmp,'Ts','Timestamp');
+	}
+	// Test Commonm Phrase Items.
 	public function testCPASetItemSrcName() {
 		$lang = self::$langs;
 		$tf = __FUNCTION__;
@@ -542,16 +652,6 @@ class legacylangTest extends TestCase {
 		$file = $$tmp->TDF;
 		LogTC($tf,'TD file',$file);
 		$this->CPAHas($$tmp,'SrcName','Source Name');
-	}
-	public function testCPASetItemDstDesc() {
-		$lang = self::$langs;
-		$tf = __FUNCTION__;
-		$tmp = "UI$lang";
-		LogTC($tf,'language',$lang);
-		$$tmp = self::$UIL;
-		$file = $$tmp->TDF;
-		LogTC($tf,'TD file',$file);
-		$this->CPAHas($$tmp,'DstDesc','Destination');
 	}
 	public function testCPASetItemDstName() {
 		$lang = self::$langs;
@@ -573,7 +673,8 @@ class legacylangTest extends TestCase {
 		LogTC($tf,'TD file',$file);
 		$this->CPAHas($$tmp,'SrcDst','Src or Dest');
 	}
-	public function testCPASetItemId() {
+
+	public function testCPASetItemSrcAddr() {
 		$lang = self::$langs;
 		$tf = __FUNCTION__;
 		$tmp = "UI$lang";
@@ -581,87 +682,7 @@ class legacylangTest extends TestCase {
 		$$tmp = self::$UIL;
 		$file = $$tmp->TDF;
 		LogTC($tf,'TD file',$file);
-		$this->CPAHas($$tmp,'Id','ID');
-	}
-	public function testCPASetItemName() {
-		$lang = self::$langs;
-		$tf = __FUNCTION__;
-		$tmp = "UI$lang";
-		LogTC($tf,'language',$lang);
-		$$tmp = self::$UIL;
-		$file = $$tmp->TDF;
-		LogTC($tf,'TD file',$file);
-		$this->CPAHas($$tmp,'Name','Name');
-	}
-	public function testCPASetItemInt() {
-		$lang = self::$langs;
-		$tf = __FUNCTION__;
-		$tmp = "UI$lang";
-		LogTC($tf,'language',$lang);
-		$$tmp = self::$UIL;
-		$file = $$tmp->TDF;
-		LogTC($tf,'TD file',$file);
-		$this->CPAHas($$tmp,'Int','Interface');
-	}
-	public function testCPASetItemFilter() {
-		$lang = self::$langs;
-		$tf = __FUNCTION__;
-		$tmp = "UI$lang";
-		LogTC($tf,'language',$lang);
-		$$tmp = self::$UIL;
-		$file = $$tmp->TDF;
-		LogTC($tf,'TD file',$file);
-		$this->CPAHas($$tmp,'Filter','Filter');
-	}
-	public function testCPASetItemDesc() {
-		$lang = self::$langs;
-		$tf = __FUNCTION__;
-		$tmp = "UI$lang";
-		LogTC($tf,'language',$lang);
-		$$tmp = self::$UIL;
-		$file = $$tmp->TDF;
-		LogTC($tf,'TD file',$file);
-		$this->CPAHas($$tmp,'Desc','Description');
-	}
-	public function testCPASetItemSucDesc() {
-		$lang = self::$langs;
-		$tf = __FUNCTION__;
-		$tmp = "UI$lang";
-		LogTC($tf,'language',$lang);
-		$$tmp = self::$UIL;
-		$file = $$tmp->TDF;
-		LogTC($tf,'TD file',$file);
-		$this->CPAHas($$tmp,'SucDesc','Successful');
-	}
-	public function testCPASetItemSensor() {
-		$lang = self::$langs;
-		$tf = __FUNCTION__;
-		$tmp = "UI$lang";
-		LogTC($tf,'language',$lang);
-		$$tmp = self::$UIL;
-		$file = $$tmp->TDF;
-		LogTC($tf,'TD file',$file);
-		$this->CPAHas($$tmp,'Sensor','Sensor');
-	}
-	public function testCPASetItemSig() {
-		$lang = self::$langs;
-		$tf = __FUNCTION__;
-		$tmp = "UI$lang";
-		LogTC($tf,'language',$lang);
-		$$tmp = self::$UIL;
-		$file = $$tmp->TDF;
-		LogTC($tf,'TD file',$file);
-		$this->CPAHas($$tmp,'Sig','Signature');
-	}
-	public function testCPASetItemTs() {
-		$lang = self::$langs;
-		$tf = __FUNCTION__;
-		$tmp = "UI$lang";
-		LogTC($tf,'language',$lang);
-		$$tmp = self::$UIL;
-		$file = $$tmp->TDF;
-		LogTC($tf,'TD file',$file);
-		$this->CPAHas($$tmp,'Ts','Timestamp');
+		$this->CPAHas($$tmp,'SrcAddr','Source Address');
 	}
 	// Test Universal Action Items.
 	public function testUAASetItemEdit() {

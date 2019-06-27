@@ -152,12 +152,13 @@ function PrintPacketLookupBrowseButtons($seq, $save_sql, $db, &$previous_button,
 $UIL = new UILang($BASE_Language); // Create UI Language Object.
 $SrcName = $UIL->CPA['SrcName'];
 $DstName = $UIL->CPA['DstName'];
-$IDesc = $UIL->CPA['Id'];
-$CPName = $UIL->CPA['Name'];
-$CPInt = $UIL->CPA['Int'];
-$CPFilt = $UIL->CPA['Filter'];
-$CPDesc = $UIL->CPA['Desc'];
-$CPSensor = $UIL->CPA['Sensor'];
+$IDesc = $UIL->CWA['Id'];
+$CPName = $UIL->CWA['Name'];
+$CPInt = $UIL->CWA['Int'];
+$CPFilt = $UIL->CWA['Filter'];
+$CPDesc = $UIL->CWA['Desc'];
+$CPSensor = $UIL->CWA['Sensor'];
+$CPSrcAddr = $UIL->CPA['SrcAddr'];
 // Html Templates.
 $Thc = "<td class='plfieldhdr'>"; // Table header Class.
 $Tdc = "<td class='plfield'>"; // Table data Class.
@@ -436,8 +437,9 @@ for ($i = 0; $i < $num; $i++) {
           <TR><TD CLASS="iptitle" WIDTH=50 ROWSPAN=3 ALIGN=CENTER>IP';
   echo '      <TD>';
   echo '         <TABLE BORDER=1 CELLPADDING=2>';
-  echo '            <TR><TD class="plfieldhdr">'._NBSOURCEADDR.'</TD>
-                        <TD class="plfieldhdr">&nbsp;'._NBDESTADDR.'&nbsp</TD>
+NLIO('<tr>',3);
+NLIO("$Thc$CPSrcAddr</td>",4);
+echo '                        <TD class="plfieldhdr">&nbsp;'._NBDESTADDR.'&nbsp</TD>
                         <TD class="plfieldhdr">Ver</TD>
                         <TD class="plfieldhdr">Hdr Len</TD>
                         <TD class="plfieldhdr">TOS</TD>
@@ -470,7 +472,7 @@ echo '                  <TD class="plfieldhdr">fragment</TD>
   echo '                 <TD class="plfield">'.htmlspecialchars($myrow2[10]).'<BR>= 0x'.dechex($myrow2[10]).'</TD></TR>';
   echo '         </TABLE>';
 
-if ( $resolve_IP == 1 ) {
+if ( $resolve_IP == 1 ){
 	NLIO('<tr><td>',3);
 	NLIO("<table border='1' cellpadding='4'>",4);
 	NLIO('<tr>',5);
@@ -611,8 +613,9 @@ echo'                  <TD class="plfield">'.
                 <TR><TD CLASS="iptitle" WIDTH=50 ROWSPAN=3 ALIGN=CENTER>MAC';
         echo '      <TD>';
         echo '         <TABLE BORDER=1 CELLPADDING=2>';
-        echo '            <TR><TD class="plfieldhdr">'._NBSOURCEADDR.'</TD>
-                              <TD class="plfieldhdr">&nbsp;'._NBDESTADDR.'&nbsp</TD></TR>
+NLIO('<tr>',3);
+NLIO("$Thc$CPSrcAddr</td>",4);
+	echo '                              <TD class="plfieldhdr">&nbsp;'._NBDESTADDR.'&nbsp</TD></TR>
                           <TR><TD>'. $src_mac .'</TD>
                               <TD>'. $dst_mac .'</TD></TR>
                           <TR><TD>'. GetVendor($src_mac) .'</TD>

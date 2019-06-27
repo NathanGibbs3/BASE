@@ -59,7 +59,7 @@ if ($Use_Auth_System == 1) {
 		}
 		if ( preg_match("/(create|list|(edit|update)role)/", $Action) ){
 			$role = new BaseRole();
-			$hrdesc = $UIL->CPA['Desc']; // Description Header Item.
+			$hrdesc = $UIL->CWA['Desc']; // Description Header Item.
 			if ( preg_match("/(create|editrole)/", $Action) ){
 				$RIDesc = $UIL->ADA['DescRI'];
 			}
@@ -150,8 +150,8 @@ if ($Use_Auth_System == 1) {
 			case "list"; // Generate HTML Role Table.
 				$AcEdit = $UIL->UAA['Edit'];
 				$AcDelete = $UIL->UAA['Delete'];
-				$ridesc = $UIL->CPA['Id'];
-				$rname = $UIL->CPA['Name'];
+				$ridesc = $UIL->CWA['Id'];
+				$rname = $UIL->CWA['Name'];
 				$roles = $role->returnRoles();
 				$thc = "<td class='plfieldhdr'";
 				$thcw5 = "$thc width='5%'>";

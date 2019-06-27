@@ -38,7 +38,7 @@ include_once("$BASE_path/includes/base_constants.inc.php");
  include_once("$BASE_path/base_qry_common.php");
 
 $UIL = new UILang($BASE_Language); // Create UI Language Object.
-$CPSensor = $UIL->CPA['Sensor'];
+$CPSensor = $UIL->CWA['Sensor'];
 
  $addr_type = ImportHTTPVar("addr_type", VAR_DIGIT);
  $submit = ImportHTTPVar("submit", VAR_ALPHA | VAR_SPACE, array(_SELECTED, _ALLONSCREEN, _ENTIREQUERY));

@@ -333,7 +333,7 @@ $UIL = new UILang($BASE_Language); // Create UI Language Abstraction Object.
          }
 		case CHARTTYPE_SENSOR:  // Sensor vs. Num Alerts
 			$chart_title = _CHRTSENSORNUMBER;
-			$xaxis_label = $UIL->CPA['Sensor'];
+			$xaxis_label = $UIL->CWA['Sensor'];
 			$yaxis_label = _CHRTALERTOCCUR;
 			$data_pnt_cnt = GetSensorDataSet(
 				$xdata, $chart_type, $data_source, $min_size, $criteria

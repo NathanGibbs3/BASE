@@ -271,26 +271,236 @@ class nulllangTest extends TestCase {
 			"Uninitialized: $TItem ."
 		);
 	}
-	// Test Commonm Phrase Items.
-	public function testCPASetItemSrcDesc() {
+	// Uncomment when we migrate _ADDRESS in TD
+//	public function testCWASetItemAddr() {
+//		$lang = self::$langs;
+//		$tf = __FUNCTION__;
+//		$tmp = "UI$lang";
+//		LogTC($tf,'language',$lang);
+//		$$tmp = self::$UIL;
+//		$file = $$tmp->TDF;
+//		$key = 'Addr';
+//		$KA = 'CWA';
+//		$TItem = $KA."[$key]";
+//		$EEM = self::$EEM."$TItem.\n";
+//		LogTC($tf,'TD file',$file);
+//		$this->CWAHas($$tmp, $key, $TItem);
+//		$this->assertEquals(
+//			$EEM,
+//			$$tmp->{$KA}[$key],
+//			"Uninitialized: $TItem ."
+//		);
+//	}
+	public function testCWASetItemSrc() {
 		$lang = self::$langs;
 		$tf = __FUNCTION__;
 		$tmp = "UI$lang";
 		LogTC($tf,'language',$lang);
 		$$tmp = self::$UIL;
 		$file = $$tmp->TDF;
-		$key = 'SrcDesc';
-		$KA = 'CPA';
+		$key = 'Src';
+		$KA = 'CWA';
 		$TItem = $KA."[$key]";
 		$EEM = self::$EEM."$TItem.\n";
 		LogTC($tf,'TD file',$file);
-		$this->CPAHas($$tmp, $key, $TItem);
+		$this->CWAHas($$tmp, $key, $TItem);
 		$this->assertEquals(
 			$EEM,
 			$$tmp->{$KA}[$key],
 			"Uninitialized: $TItem ."
 		);
 	}
+	public function testCWASetItemDst() {
+		$lang = self::$langs;
+		$tf = __FUNCTION__;
+		$tmp = "UI$lang";
+		LogTC($tf,'language',$lang);
+		$$tmp = self::$UIL;
+		$file = $$tmp->TDF;
+		$key = 'Dst';
+		$KA = 'CWA';
+		$TItem = $KA."[$key]";
+		$EEM = self::$EEM."$TItem.\n";
+		LogTC($tf,'TD file',$file);
+		$this->CWAHas($$tmp, $key, $TItem);
+		$this->assertEquals(
+			$EEM,
+			$$tmp->{$KA}[$key],
+			"Uninitialized: $TItem ."
+		);
+	}
+	public function testCWASetItemId() {
+		$lang = self::$langs;
+		$tf = __FUNCTION__;
+		$tmp = "UI$lang";
+		LogTC($tf,'language',$lang);
+		$$tmp = self::$UIL;
+		$file = $$tmp->TDF;
+		$key = 'Id';
+		$KA = 'CWA';
+		$TItem = $KA."[$key]";
+		$EEM = self::$EEM."$TItem.\n";
+		LogTC($tf,'TD file',$file);
+		$this->CWAHas($$tmp, $key, $TItem);
+		$this->assertEquals(
+			$EEM,
+			$$tmp->{$KA}[$key],
+			"Uninitialized: $TItem ."
+		);
+	}
+	public function testCWASetItemName() {
+		$lang = self::$langs;
+		$tf = __FUNCTION__;
+		$tmp = "UI$lang";
+		LogTC($tf,'language',$lang);
+		$$tmp = self::$UIL;
+		$file = $$tmp->TDF;
+		$key = 'Name';
+		$KA = 'CWA';
+		$TItem = $KA."[$key]";
+		$EEM = self::$EEM."$TItem.\n";
+		LogTC($tf,'TD file',$file);
+		$this->CWAHas($$tmp, $key, $TItem);
+		$this->assertEquals(
+			$EEM,
+			$$tmp->{$KA}[$key],
+			"Uninitialized: $TItem ."
+		);
+	}
+	public function testCWASetItemInt() {
+		$lang = self::$langs;
+		$tf = __FUNCTION__;
+		$tmp = "UI$lang";
+		LogTC($tf,'language',$lang);
+		$$tmp = self::$UIL;
+		$file = $$tmp->TDF;
+		$key = 'Int';
+		$KA = 'CWA';
+		$TItem = $KA."[$key]";
+		$EEM = self::$EEM."$TItem.\n";
+		LogTC($tf,'TD file',$file);
+		$this->CWAHas($$tmp, $key, $TItem);
+		$this->assertEquals(
+			$EEM,
+			$$tmp->{$KA}[$key],
+			"Uninitialized: $TItem ."
+		);
+	}
+	public function testCWASetItemFilter() {
+		$lang = self::$langs;
+		$tf = __FUNCTION__;
+		$tmp = "UI$lang";
+		LogTC($tf,'language',$lang);
+		$$tmp = self::$UIL;
+		$file = $$tmp->TDF;
+		$key = 'Filter';
+		$KA = 'CWA';
+		$TItem = $KA."[$key]";
+		$EEM = self::$EEM."$TItem.\n";
+		LogTC($tf,'TD file',$file);
+		$this->CWAHas($$tmp, $key, $TItem);
+		$this->assertEquals(
+			$EEM,
+			$$tmp->{$KA}[$key],
+			"Uninitialized: $TItem ."
+		);
+	}
+	public function testCWASetItemDesc() {
+		$lang = self::$langs;
+		$tf = __FUNCTION__;
+		$tmp = "UI$lang";
+		LogTC($tf,'language',$lang);
+		$$tmp = self::$UIL;
+		$file = $$tmp->TDF;
+		$key = 'Desc';
+		$KA = 'CWA';
+		$TItem = $KA."[$key]";
+		$EEM = self::$EEM."$TItem.\n";
+		LogTC($tf,'TD file',$file);
+		$this->CWAHas($$tmp, $key, $TItem);
+		$this->assertEquals(
+			$EEM,
+			$$tmp->{$KA}[$key],
+			"Uninitialized: $TItem ."
+		);
+	}
+	public function testCWASetItemSucDesc() {
+		$lang = self::$langs;
+		$tf = __FUNCTION__;
+		$tmp = "UI$lang";
+		LogTC($tf,'language',$lang);
+		$$tmp = self::$UIL;
+		$file = $$tmp->TDF;
+		$key = 'SucDesc';
+		$KA = 'CWA';
+		$TItem = $KA."[$key]";
+		$EEM = self::$EEM."$TItem.\n";
+		LogTC($tf,'TD file',$file);
+		$this->CWAHas($$tmp, $key, $TItem);
+		$this->assertEquals(
+			$EEM,
+			$$tmp->{$KA}[$key],
+			"Uninitialized: $TItem ."
+		);
+	}
+	public function testCWASetItemSensor() {
+		$lang = self::$langs;
+		$tf = __FUNCTION__;
+		$tmp = "UI$lang";
+		LogTC($tf,'language',$lang);
+		$$tmp = self::$UIL;
+		$file = $$tmp->TDF;
+		$key = 'Sensor';
+		$KA = 'CWA';
+		$TItem = $KA."[$key]";
+		$EEM = self::$EEM."$TItem.\n";
+		LogTC($tf,'TD file',$file);
+		$this->CWAHas($$tmp, $key, $TItem);
+		$this->assertEquals(
+			$EEM,
+			$$tmp->{$KA}[$key],
+			"Uninitialized: $TItem ."
+		);
+	}
+	public function testCWASetItemSig() {
+		$lang = self::$langs;
+		$tf = __FUNCTION__;
+		$tmp = "UI$lang";
+		LogTC($tf,'language',$lang);
+		$$tmp = self::$UIL;
+		$file = $$tmp->TDF;
+		$key = 'Sig';
+		$KA = 'CWA';
+		$TItem = $KA."[$key]";
+		$EEM = self::$EEM."$TItem.\n";
+		LogTC($tf,'TD file',$file);
+		$this->CWAHas($$tmp, $key, $TItem);
+		$this->assertEquals(
+			$EEM,
+			$$tmp->{$KA}[$key],
+			"Uninitialized: $TItem ."
+		);
+	}
+	public function testCWASetItemTs() {
+		$lang = self::$langs;
+		$tf = __FUNCTION__;
+		$tmp = "UI$lang";
+		LogTC($tf,'language',$lang);
+		$$tmp = self::$UIL;
+		$file = $$tmp->TDF;
+		$key = 'Ts';
+		$KA = 'CWA';
+		$TItem = $KA."[$key]";
+		$EEM = self::$EEM."$TItem.\n";
+		LogTC($tf,'TD file',$file);
+		$this->CWAHas($$tmp, $key, $TItem);
+		$this->assertEquals(
+			$EEM,
+			$$tmp->{$KA}[$key],
+			"Uninitialized: $TItem ."
+		);
+	}
+	// Test Commonm Phrase Items.
 	public function testCPASetItemSrcName() {
 		$lang = self::$langs;
 		$tf = __FUNCTION__;
@@ -299,25 +509,6 @@ class nulllangTest extends TestCase {
 		$$tmp = self::$UIL;
 		$file = $$tmp->TDF;
 		$key = 'SrcName';
-		$KA = 'CPA';
-		$TItem = $KA."[$key]";
-		$EEM = self::$EEM."$TItem.\n";
-		LogTC($tf,'TD file',$file);
-		$this->CPAHas($$tmp, $key, $TItem);
-		$this->assertEquals(
-			$EEM,
-			$$tmp->{$KA}[$key],
-			"Uninitialized: $TItem ."
-		);
-	}
-	public function testCPASetItemDstDesc() {
-		$lang = self::$langs;
-		$tf = __FUNCTION__;
-		$tmp = "UI$lang";
-		LogTC($tf,'language',$lang);
-		$$tmp = self::$UIL;
-		$file = $$tmp->TDF;
-		$key = 'DstDesc';
 		$KA = 'CPA';
 		$TItem = $KA."[$key]";
 		$EEM = self::$EEM."$TItem.\n";
@@ -367,166 +558,15 @@ class nulllangTest extends TestCase {
 			"Uninitialized: $TItem ."
 		);
 	}
-	public function testCPASetItemId() {
+
+	public function testCPASetItemSrcAddr() {
 		$lang = self::$langs;
 		$tf = __FUNCTION__;
 		$tmp = "UI$lang";
 		LogTC($tf,'language',$lang);
 		$$tmp = self::$UIL;
 		$file = $$tmp->TDF;
-		$key = 'Id';
-		$KA = 'CPA';
-		$TItem = $KA."[$key]";
-		$EEM = self::$EEM."$TItem.\n";
-		LogTC($tf,'TD file',$file);
-		$this->CPAHas($$tmp, $key, $TItem);
-		$this->assertEquals(
-			$EEM,
-			$$tmp->{$KA}[$key],
-			"Uninitialized: $TItem ."
-		);
-	}
-	public function testCPASetItemName() {
-		$lang = self::$langs;
-		$tf = __FUNCTION__;
-		$tmp = "UI$lang";
-		LogTC($tf,'language',$lang);
-		$$tmp = self::$UIL;
-		$file = $$tmp->TDF;
-		$key = 'Name';
-		$KA = 'CPA';
-		$TItem = $KA."[$key]";
-		$EEM = self::$EEM."$TItem.\n";
-		LogTC($tf,'TD file',$file);
-		$this->CPAHas($$tmp, $key, $TItem);
-		$this->assertEquals(
-			$EEM,
-			$$tmp->{$KA}[$key],
-			"Uninitialized: $TItem ."
-		);
-	}
-	public function testCPASetItemInt() {
-		$lang = self::$langs;
-		$tf = __FUNCTION__;
-		$tmp = "UI$lang";
-		LogTC($tf,'language',$lang);
-		$$tmp = self::$UIL;
-		$file = $$tmp->TDF;
-		$key = 'Int';
-		$KA = 'CPA';
-		$TItem = $KA."[$key]";
-		$EEM = self::$EEM."$TItem.\n";
-		LogTC($tf,'TD file',$file);
-		$this->CPAHas($$tmp, $key, $TItem);
-		$this->assertEquals(
-			$EEM,
-			$$tmp->{$KA}[$key],
-			"Uninitialized: $TItem ."
-		);
-	}
-	public function testCPASetItemFilter() {
-		$lang = self::$langs;
-		$tf = __FUNCTION__;
-		$tmp = "UI$lang";
-		LogTC($tf,'language',$lang);
-		$$tmp = self::$UIL;
-		$file = $$tmp->TDF;
-		$key = 'Filter';
-		$KA = 'CPA';
-		$TItem = $KA."[$key]";
-		$EEM = self::$EEM."$TItem.\n";
-		LogTC($tf,'TD file',$file);
-		$this->CPAHas($$tmp, $key, $TItem);
-		$this->assertEquals(
-			$EEM,
-			$$tmp->{$KA}[$key],
-			"Uninitialized: $TItem ."
-		);
-	}
-	public function testCPASetItemDesc() {
-		$lang = self::$langs;
-		$tf = __FUNCTION__;
-		$tmp = "UI$lang";
-		LogTC($tf,'language',$lang);
-		$$tmp = self::$UIL;
-		$file = $$tmp->TDF;
-		$key = 'Desc';
-		$KA = 'CPA';
-		$TItem = $KA."[$key]";
-		$EEM = self::$EEM."$TItem.\n";
-		LogTC($tf,'TD file',$file);
-		$this->CPAHas($$tmp, $key, $TItem);
-		$this->assertEquals(
-			$EEM,
-			$$tmp->{$KA}[$key],
-			"Uninitialized: $TItem ."
-		);
-	}
-	public function testCPASetItemSucDesc() {
-		$lang = self::$langs;
-		$tf = __FUNCTION__;
-		$tmp = "UI$lang";
-		LogTC($tf,'language',$lang);
-		$$tmp = self::$UIL;
-		$file = $$tmp->TDF;
-		$key = 'SucDesc';
-		$KA = 'CPA';
-		$TItem = $KA."[$key]";
-		$EEM = self::$EEM."$TItem.\n";
-		LogTC($tf,'TD file',$file);
-		$this->CPAHas($$tmp, $key, $TItem);
-		$this->assertEquals(
-			$EEM,
-			$$tmp->{$KA}[$key],
-			"Uninitialized: $TItem ."
-		);
-	}
-	public function testCPASetItemSensor() {
-		$lang = self::$langs;
-		$tf = __FUNCTION__;
-		$tmp = "UI$lang";
-		LogTC($tf,'language',$lang);
-		$$tmp = self::$UIL;
-		$file = $$tmp->TDF;
-		$key = 'Sensor';
-		$KA = 'CPA';
-		$TItem = $KA."[$key]";
-		$EEM = self::$EEM."$TItem.\n";
-		LogTC($tf,'TD file',$file);
-		$this->CPAHas($$tmp, $key, $TItem);
-		$this->assertEquals(
-			$EEM,
-			$$tmp->{$KA}[$key],
-			"Uninitialized: $TItem ."
-		);
-	}
-	public function testCPASetItemSig() {
-		$lang = self::$langs;
-		$tf = __FUNCTION__;
-		$tmp = "UI$lang";
-		LogTC($tf,'language',$lang);
-		$$tmp = self::$UIL;
-		$file = $$tmp->TDF;
-		$key = 'Sig';
-		$KA = 'CPA';
-		$TItem = $KA."[$key]";
-		$EEM = self::$EEM."$TItem.\n";
-		LogTC($tf,'TD file',$file);
-		$this->CPAHas($$tmp, $key, $TItem);
-		$this->assertEquals(
-			$EEM,
-			$$tmp->{$KA}[$key],
-			"Uninitialized: $TItem ."
-		);
-	}
-	public function testCPASetItemTs() {
-		$lang = self::$langs;
-		$tf = __FUNCTION__;
-		$tmp = "UI$lang";
-		LogTC($tf,'language',$lang);
-		$$tmp = self::$UIL;
-		$file = $$tmp->TDF;
-		$key = 'Ts';
+		$key = 'SrcAddr';
 		$KA = 'CPA';
 		$TItem = $KA."[$key]";
 		$EEM = self::$EEM."$TItem.\n";

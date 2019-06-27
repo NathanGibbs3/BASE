@@ -34,8 +34,8 @@ include_once ("$BASE_path/includes/base_constants.inc.php");
 
   $et = new EventTiming($debug_time_mode);
 $UIL = new UILang($BASE_Language); // Create UI Language Object.
-$CPName = $UIL->CPA['Name'];
-$CPSensor = $UIL->CPA['Sensor'];
+$CPName = $UIL->CWA['Name'];
+$CPSensor = $UIL->CWA['Sensor'];
   $cs = new CriteriaState("base_stat_sensor.php");
   $cs->ReadState();
 

@@ -47,7 +47,7 @@ include_once("$BASE_path/includes/base_constants.inc.php");
   $db->baseDBConnect($db_connect_method,
                      $alert_dbname, $alert_host, $alert_port, $alert_user, $alert_password);
 $UIL = new UILang($BASE_Language); // Create UI Language Object.
-$CPSensor = $UIL->CPA['Sensor'];
+$CPSensor = $UIL->CWA['Sensor'];
   $cs = new CriteriaState("base_stat_ports.php");
   $cs->ReadState();
 

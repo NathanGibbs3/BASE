@@ -284,7 +284,7 @@ function ProcessSelectedAlerts (
 	$action_cnt = 0;
 	$dup_cnt = 0;
 	$action_desc = "";
-	$Success = $UIL->CPA['SucDesc'];
+	$Success = $UIL->CWA['SucDesc'];
 	$ctx_nia = array(
 		PAGE_STAT_ALERTS, PAGE_STAT_SENSOR, PAGE_STAT_CLASS, PAGE_STAT_IPLINK,
 		PAGE_STAT_UADDR, PAGE_STAT_PORTS

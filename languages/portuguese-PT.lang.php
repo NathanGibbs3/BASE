@@ -56,17 +56,18 @@ $UI_CW_Sig = 'Assinatura';
 $UI_CW_Role = 'perfil';
 $UI_CW_Pw = 'Senha';
 $UI_CW_Ts = 'Data';
+$UI_CW_Addr = 'Endereço';
 // Common Phrases.
 $UI_CP_SrcName = array($UI_CW_Name,'da',$UI_CW_Src);
 $UI_CP_DstName = array($UI_CW_Name,'do',$UI_CW_Dst);
 $UI_CP_SrcDst = array($UI_CW_Src,'ou',$UI_CW_Dst);
+$UI_CP_SrcAddr = array($UI_CW_Addr,'de',$UI_CW_Src);
 // Authentication Data.
 $UI_AD_UND = $UI_CW_Name;
 $UI_AD_RID = array($UI_CW_Id,'do',$UI_CW_Role);
 $UI_AD_ASD = 'Habilitado';
 
 //common phrases
-DEFINE('_NBSOURCEADDR','End.&nbsp;de&nbsp;Origem');
 DEFINE('_NBDESTADDR','End.&nbsp;de&nbsp;Destino');
 DEFINE('_NBLAYER4','Proto.&nbsp;Camada&nbsp;4');
 DEFINE('_PRIORITY','Prioridade');

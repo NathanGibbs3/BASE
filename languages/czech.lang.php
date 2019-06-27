@@ -48,22 +48,23 @@ $UI_CW_Sensor = 'Senzor';
 $UI_CW_Sig = 'Podpis';
 $UI_CW_Role = 'role';
 $UI_CW_Pw = 'Heslo';
-$UI_CW_Ts = 'Èasová znaèka';
+$UI_CW_Ts = 'ÈasovÃ¡ znaèka';
+$UI_CW_Addr = 'adresa';
 // Common Phrases.
 $UI_CP_SrcName = array($UI_CW_Name,$UI_CW_Src);
 $UI_CP_DstName = array($UI_CW_Name,$UI_CW_Dst);
 $UI_CP_SrcDst = array($UI_CW_Src,'n.',$UI_CW_Dst);
+$UI_CP_SrcAddr = array($UI_CW_Src,$UI_CW_Addr);
 // Authentication Data.
 $UI_AD_UND = 'Login';
 $UI_AD_RID = array($UI_CW_Id,$UI_CW_Role);
 $UI_AD_ASD = 'Enabled';
 
 //common phrases
-DEFINE('_NBSOURCEADDR','Zdrojová&nbsp;adresa');
-DEFINE('_NBDESTADDR','CÃ­lová&nbsp;adresa');
+DEFINE('_NBDESTADDR','CÃ­lovÃ¡&nbsp;adresa');
 DEFINE('_NBLAYER4','Protokol 4. vrstvy');
 DEFINE('_PRIORITY','Priorita');
-DEFINE('_EVENTTYPE','typ události');
+DEFINE('_EVENTTYPE','typ udÃ¡losti');
 DEFINE('_JANUARY','Leden');
 DEFINE('_FEBRUARY','Únor');
 DEFINE('_MARCH','Bøezen');
@@ -72,7 +73,7 @@ DEFINE('_MAY','Kvìten');
 DEFINE('_JUNE','Èerven');
 DEFINE('_JULY','Èervenec');
 DEFINE('_AUGUST','Srpen');
-DEFINE('_SEPTEMBER','ZáøÃ­');
+DEFINE('_SEPTEMBER','ZÃ¡øÃ­');
 DEFINE('_OCTOBER','ØÃ­jen');
 DEFINE('_NOVEMBER','Listopad');
 DEFINE('_DECEMBER','Prosinec');
@@ -81,7 +82,7 @@ DEFINE('_FIRST','First'); //NEW
 DEFINE('_TOTAL','Total'); //NEW
 DEFINE('_ALERT','Alarm');
 DEFINE('_ADDRESS','Adresa');
-DEFINE('_UNKNOWN','neznámý');
+DEFINE('_UNKNOWN','neznÃ¡mý');
 DEFINE('_AND','AND'); //NEW
 DEFINE('_OR','OR'); //NEW
 DEFINE('_IS','is'); //NEW
@@ -144,16 +145,16 @@ DEFINE('_PREVIOUS','Previous'); //NEW
 //Menu items
 DEFINE('_HOME','Domù');
 DEFINE('_SEARCH','Hledat');
-DEFINE('_AGMAINT','Správa skupin alarmù');
+DEFINE('_AGMAINT','SprÃ¡va skupin alarmù');
 DEFINE('_USERPREF','U¾ivatelské volby');
 DEFINE('_CACHE','Ke¹ a stav');
 DEFINE('_ADMIN','Administrace');
 DEFINE('_GALERTD','Vytvoøit graf alarmù');
 DEFINE('_GALERTDT','Vytvoøit graf èasu detekce alarmù');
-DEFINE('_USERMAN','Správa u¾ivatelù');
+DEFINE('_USERMAN','SprÃ¡va u¾ivatelù');
 DEFINE('_LISTU','Seznam u¾ivatelù');
 DEFINE('_CREATEU','Vytvoøit u¾ivatele');
-DEFINE('_ROLEMAN','Správa rolÃ­');
+DEFINE('_ROLEMAN','SprÃ¡va rolÃ­');
 DEFINE('_LISTR','Seznam rolÃ­');
 DEFINE('_CREATER','Vytvoøit roli');
 DEFINE('_LISTALL','Vypsat v¹e');
@@ -181,32 +182,32 @@ DEFINE('_MOSTFREQUENT','Nejèastìj¹Ã­ch ');
 DEFINE('_ALERTS',' alarmù:');
 DEFINE('_ADDRESSES',' adres:');
 DEFINE('_ANYPROTO','jakýkoliv<br>protokol');
-DEFINE('_UNI','unikátnÃ­');
+DEFINE('_UNI','unikÃ¡tnÃ­');
 DEFINE('_LISTING','výpis');
 DEFINE('_TALERTS','Dne¹nÃ­ alarmy: ');
 DEFINE('_SOURCEIP','Source IP'); //NEW
 DEFINE('_DESTIP','Destination IP'); //NEW
 DEFINE('_L24ALERTS','Alarmy za poslednÃ­ch 24 hodin: ');
 DEFINE('_L72ALERTS','Alarmy za poslednÃ­ch 72 hodin: ');
-DEFINE('_UNIALERTS','unikátnÃ­ch alarmù');
+DEFINE('_UNIALERTS','unikÃ¡tnÃ­ch alarmù');
 DEFINE('_LSOURCEPORTS','PoslednÃ­ zdrojové porty: ');
-DEFINE('_LDESTPORTS','PoslednÃ­ cílové porty: ');
+DEFINE('_LDESTPORTS','PoslednÃ­ cÃ­lové porty: ');
 DEFINE('_FREGSOURCEP','Nejèastìj¹Ã­ zdrojové porty: ');
-DEFINE('_FREGDESTP','Nejèastìj¹Ã­ cílové porty: ');
-DEFINE('_QUERIED','Dotázáno ');
-DEFINE('_DATABASE','Databáze:');
+DEFINE('_FREGDESTP','Nejèastìj¹Ã­ cÃ­lové porty: ');
+DEFINE('_QUERIED','DotÃ¡zÃ¡no ');
+DEFINE('_DATABASE','DatabÃ¡ze:');
 DEFINE('_SCHEMAV','Verze schématu:');
 DEFINE('_TIMEWIN','Èasové rozmezÃ­:');
-DEFINE('_NOALERTSDETECT','®ádné alarmy dezji¹tìny');
+DEFINE('_NOALERTSDETECT','®Ã¡dné alarmy dezji¹tìny');
 DEFINE('_USEALERTDB','Use Alert Database'); //NEW
 DEFINE('_USEARCHIDB','Use Archive Database'); //NEW
 DEFINE('_TRAFFICPROBPRO','Traffic Profile by Protocol'); //NEW
 
 //base_auth.inc.php
-DEFINE('_ADDEDSF','Úspì¹nì pøidán');
+DEFINE('_ADDEDSF','Úspì¹nì pøidÃ¡n');
 DEFINE('_NOPWDCHANGE','Nelze zmìnit '.strtolower($UI_CW_Pw).': ');
 DEFINE('_NOUSER','U¾ivatel neexistuje!');
-DEFINE('_OLDPWD','AktuálnÃ­ '.strtolower($UI_CW_Pw).' není správné!');
+DEFINE('_OLDPWD','AktuÃ¡lnÃ­ '.strtolower($UI_CW_Pw).' nenÃ­ sprÃ¡vné!');
 DEFINE('_PWDCANT','Nelze zmìnit '.strtolower($UI_CW_Pw).': ');
 DEFINE('_PWDDONE',"$UI_CW_Pw bylo zmìnìno.");
 DEFINE('_ROLEEXIST',"$UI_CW_Role existuje");
@@ -217,15 +218,15 @@ if ($UI_Spacing == 1){
 	$glue = '';
 }
 DEFINE('_ROLEIDEXIST',implode($glue, $UI_AD_RID)." existuje");
-DEFINE('_ROLEADDED',"$UI_CW_Role pøidána úspì¹nì");
+DEFINE('_ROLEADDED',"$UI_CW_Role pøidÃ¡na úspì¹nì");
 
 //base_roleadmin.php
-DEFINE('_ROLEADMIN','Správa rolÃ­ BASE');
+DEFINE('_ROLEADMIN','SprÃ¡va rolÃ­ BASE');
 DEFINE('_FRMROLENAME',"Jméno $UI_CW_Role:");
 DEFINE('_UPDATEROLE',"Update $UI_CW_Role"); //NEW
 
 //base_useradmin.php
-DEFINE('_USERADMIN','Správa u¾ivatelù BASE');
+DEFINE('_USERADMIN','SprÃ¡va u¾ivatelù BASE');
 DEFINE('_FRMFULLNAME','Celé jméno:');
 DEFINE('_FRMUID','ID u¾ivatele:');
 DEFINE('_SUBMITQUERY','Submit Query'); //NEW
@@ -236,10 +237,10 @@ DEFINE('_BASEADMIN','Administrace BASE');
 DEFINE('_BASEADMINTEXT','Zvolte prosÃ­m operaci nalevo.');
 
 //base_action.inc.php
-DEFINE('_NOACTION','Nebyla specifikována operace');
-DEFINE('_INVALIDACT',' je neplatná operace');
-DEFINE('_ERRNOAG','Nemohu pøidat alarmy; nebyla specifikována skupina');
-DEFINE('_ERRNOEMAIL','Nemohu zaslat alarmy po¹tou; nebyla specifikována emailová adresa');
+DEFINE('_NOACTION','Nebyla specifikovÃ¡na operace');
+DEFINE('_INVALIDACT',' je neplatnÃ¡ operace');
+DEFINE('_ERRNOAG','Nemohu pøidat alarmy; nebyla specifikovÃ¡na skupina');
+DEFINE('_ERRNOEMAIL','Nemohu zaslat alarmy po¹tou; nebyla specifikovÃ¡na emailovÃ¡ adresa');
 DEFINE('_ACTION','Operace');
 DEFINE('_CONTEXT','kontext');
 DEFINE('_ADDAGID','Pøidat do skupiny (podle ID)');
@@ -253,51 +254,51 @@ DEFINE('_EMAILALERTSSUMM','Zaslat emailem (shrnutÃ­)');
 DEFINE('_EMAILALERTSCSV','Zaslat emailem (csv)');
 DEFINE('_ARCHIVEALERTSCOPY','Archivovat (vytvoøit kopii)');
 DEFINE('_ARCHIVEALERTSMOVE','Archivovat (pøesunout)');
-DEFINE('_IGNORED','Ignorováno');
+DEFINE('_IGNORED','IgnorovÃ¡no');
 DEFINE('_DUPALERTS',' duplicitnÃ­ alarm(y)');
 DEFINE('_ALERTSPARA',' alarm(y)');
-DEFINE('_NOALERTSSELECT','®ádné alarmy nebyly vybrány nebo');
-DEFINE('_NOTSUCCESSFUL','nebyla úspì¹ná');
-DEFINE('_ERRUNKAGID','Zadáno neznámé ID skupiny (skupina pravdìpodobnì neexistuje)');
+DEFINE('_NOALERTSSELECT','®Ã¡dné alarmy nebyly vybrÃ¡ny nebo');
+DEFINE('_NOTSUCCESSFUL','nebyla úspì¹nÃ¡');
+DEFINE('_ERRUNKAGID','ZadÃ¡no neznÃ¡mé ID skupiny (skupina pravdìpodobnì neexistuje)');
 DEFINE('_ERRREMOVEFAIL','Selhalo odstranìnÃ­ nové skupiny');
 DEFINE('_GENBASE','Vytvoøeno BASE');
-DEFINE('_ERRNOEMAILEXP','Chyba pøi exportovánÃ­: Nemohu poslat alarmy');
+DEFINE('_ERRNOEMAILEXP','Chyba pøi exportovÃ¡nÃ­: Nemohu poslat alarmy');
 DEFINE('_ERRNOEMAILPHP','Zkontrolujte konfiguraci emailu PHP.');
-DEFINE('_ERRDELALERT','Chyba pøi mazánÃ­ alarmu');
+DEFINE('_ERRDELALERT','Chyba pøi mazÃ¡nÃ­ alarmu');
 DEFINE('_ERRARCHIVE','Chyba pøi archivaci:');
-DEFINE('_ERRMAILNORECP','Chyba pøi zasÃ­lání emailem: Nebyl zadán pøíjemce');
+DEFINE('_ERRMAILNORECP','Chyba pøi zasÃ­lÃ¡nÃ­ emailem: Nebyl zadÃ¡n pøÃ­jemce');
 
 //base_cache.inc.php
-DEFINE('_ADDED','Pøidáno ');
-DEFINE('_HOSTNAMESDNS',' jmen do IP DNS vyrovnávacÃ­ pamìti');
-DEFINE('_HOSTNAMESWHOIS',' jmen do Whois vyrovnávacÃ­ pamìti');
-DEFINE('_ERRCACHENULL','Chyba pøi aktualizaci vyrovnávacÃ­ pamìti: nalezena NULL øádka event?');
-DEFINE('_ERRCACHEERROR','Chyba pøi aktualizaci vyrovnávacÃ­ pamìti:');
-DEFINE('_ERRCACHEUPDATE','Nemohu aktualizovat vyrovnávacÃ­ pamì»');
-DEFINE('_ALERTSCACHE',' alarmù do vyrovnávacÃ­ pamìti');
+DEFINE('_ADDED','PøidÃ¡no ');
+DEFINE('_HOSTNAMESDNS',' jmen do IP DNS vyrovnÃ¡vacÃ­ pamìti');
+DEFINE('_HOSTNAMESWHOIS',' jmen do Whois vyrovnÃ¡vacÃ­ pamìti');
+DEFINE('_ERRCACHENULL','Chyba pøi aktualizaci vyrovnÃ¡vacÃ­ pamìti: nalezena NULL øÃ¡dka event?');
+DEFINE('_ERRCACHEERROR','Chyba pøi aktualizaci vyrovnÃ¡vacÃ­ pamìti:');
+DEFINE('_ERRCACHEUPDATE','Nemohu aktualizovat vyrovnÃ¡vacÃ­ pamì»');
+DEFINE('_ALERTSCACHE',' alarmù do vyrovnÃ¡vacÃ­ pamìti');
 
 //base_db.inc.php
-DEFINE('_ERRSQLTRACE','Nemohu otevøÃ­t soubor pro trasování SQL');
-DEFINE('_ERRSQLCONNECT','Chyba pøi pøipojovánÃ­ databáze:');
-DEFINE('_ERRSQLCONNECTINFO','<P>Zkontrolujte promìnné pro pøipojovánÃ­ se do databáze v souboru <I>base_conf.php</I> 
+DEFINE('_ERRSQLTRACE','Nemohu otevøÃ­t soubor pro trasovÃ¡nÃ­ SQL');
+DEFINE('_ERRSQLCONNECT','Chyba pøi pøipojovÃ¡nÃ­ databÃ¡ze:');
+DEFINE('_ERRSQLCONNECTINFO','<P>Zkontrolujte promìnné pro pøipojovÃ¡nÃ­ se do databÃ¡ze v souboru <I>base_conf.php</I> 
               <PRE>
-               = $alert_dbname   : jméno databáze 
+               = $alert_dbname   : jméno databÃ¡ze 
                = $alert_host     : hostitel
                = $alert_port     : port
                = $alert_user     : u¾ivatelské jméno
                = $alert_password : '.strtolower($UI_CW_Pw).'
               </PRE>
               <P>');
-DEFINE('_ERRSQLPCONNECT','Chyba pøi pøipojovánÃ­ databáze:');
-DEFINE('_ERRSQLDB','Databázová chyba:');
-DEFINE('_DBALCHECK','Kontraoluje knihovnu pro práci s databázÃ­ v');
-DEFINE('_ERRSQLDBALLOAD1','<P><B>Chyba pøi naèÃ­tání knihovny pro práci s databází: </B> od ');
-DEFINE('_ERRSQLDBALLOAD2','<P>Zkontrolujte promìnnou pro urèenÃ­ cesty ke knihovnì pro práci s databází <CODE>$DBlib_path</CODE> v souboru <CODE>base_conf.php</CODE>
-            <P>Knihovnu pro práci s databázÃ­ ADODB stáhnìte z
+DEFINE('_ERRSQLPCONNECT','Chyba pøi pøipojovÃ¡nÃ­ databÃ¡ze:');
+DEFINE('_ERRSQLDB','DatabÃ¡zovÃ¡ chyba:');
+DEFINE('_DBALCHECK','Kontraoluje knihovnu pro prÃ¡ci s databÃ¡zÃ­ v');
+DEFINE('_ERRSQLDBALLOAD1','<P><B>Chyba pøi naèÃ­tÃ¡nÃ­ knihovny pro prÃ¡ci s databÃ¡zÃ­: </B> od ');
+DEFINE('_ERRSQLDBALLOAD2','<P>Zkontrolujte promìnnou pro urèenÃ­ cesty ke knihovnì pro prÃ¡ci s databÃ¡zÃ­ <CODE>$DBlib_path</CODE> v souboru <CODE>base_conf.php</CODE>
+            <P>Knihovnu pro prÃ¡ci s databÃ¡zÃ­ ADODB stÃ¡hnìte z
             ');
-DEFINE('_ERRSQLDBTYPE','Specifikován neplatný typ databáze');
-DEFINE('_ERRSQLDBTYPEINFO1','Promìnná <CODE>\$DBtype</CODE> v souboru <CODE>base_conf.php</CODE> byla ¹patnì nastavena na ');
-DEFINE('_ERRSQLDBTYPEINFO2','Podporovány jsou pouze následujÃ­cí databázové systémy: <PRE>
+DEFINE('_ERRSQLDBTYPE','SpecifikovÃ¡n neplatný typ databÃ¡ze');
+DEFINE('_ERRSQLDBTYPEINFO1','PromìnnÃ¡ <CODE>\$DBtype</CODE> v souboru <CODE>base_conf.php</CODE> byla ¹patnì nastavena na ');
+DEFINE('_ERRSQLDBTYPEINFO2','PodporovÃ¡ny jsou pouze nÃ¡sledujÃ­cÃ­ databÃ¡zové systémy: <PRE>
                 MySQL         : \'mysql\'
                 PostgreSQL    : \'postgres\'
                 MS SQL Server : \'mssql\'
@@ -306,7 +307,7 @@ DEFINE('_ERRSQLDBTYPEINFO2','Podporovány jsou pouze následujÃ­cí databázové syst
              </PRE>');
 
 //base_log_error.inc.php
-DEFINE('_ERRBASEFATAL','Kritická chyba BASE:');
+DEFINE('_ERRBASEFATAL','KritickÃ¡ chyba BASE:');
 
 //base_log_timing.inc.php
 DEFINE('_LOADEDIN','Naèteno za');
@@ -316,16 +317,16 @@ DEFINE('_SECONDS','vteøin');
 DEFINE('_ERRRESOLVEADDRESS','Nemohu pøelo¾it adresu');
 
 //base_output_query.inc.php
-DEFINE('_QUERYRESULTSHEADER','ZáhlavÃ­ výsledkù dotazu'); //not used
+DEFINE('_QUERYRESULTSHEADER','ZÃ¡hlavÃ­ výsledkù dotazu'); //not used
 
 //base_signature.inc.php
-DEFINE('_ERRSIGNAMEUNK','neznámé SigName');
-DEFINE('_ERRSIGPROIRITYUNK','neznámé SigPriority');
+DEFINE('_ERRSIGNAMEUNK','neznÃ¡mé SigName');
+DEFINE('_ERRSIGPROIRITYUNK','neznÃ¡mé SigPriority');
 DEFINE('_UNCLASS','nezaøazeno');
 
 //base_state_citems.inc.php
-DEFINE('_DENCODED','data zakódóvána jako');
-DEFINE('_NODENCODED','(¾ádná konverze dat, pøedpokládám po¾adavek ve výchozÃ­m formátu databáze)');
+DEFINE('_DENCODED','data zakódóvÃ¡na jako');
+DEFINE('_NODENCODED','(¾Ã¡dnÃ¡ konverze dat, pøedpoklÃ¡dÃ¡m po¾adavek ve výchozÃ­m formÃ¡tu databÃ¡ze)');
 DEFINE('_SHORTJAN','Jan'); //NEW
 DEFINE('_SHORTFEB','Feb'); //NEW
 DEFINE('_SHORTMAR','Mar'); //NEW
@@ -365,7 +366,7 @@ DEFINE('_CONVERT2WS','Convert To (when searching)'); //NEW
 DEFINE('_PHPERRORCSESSION','PHP ERROR: A custom (user) PHP session have been detected. However, BASE has not been set to explicitly use this custom handler. Set <CODE>use_user_session=1</CODE> in <CODE>base_conf.php</CODE>');
 DEFINE('_PHPERRORCSESSIONCODE','PHP ERROR: A custom (user) PHP session hander has been configured, but the supplied hander code specified in <CODE>user_session_path</CODE> is invalid.');
 DEFINE('_PHPERRORCSESSIONVAR','PHP ERROR: A custom (user) PHP session handler has been configured, but the implementation of this handler has not been specified in BASE.  If a custom session handler is desired, set the <CODE>user_session_path</CODE> variable in <CODE>base_conf.php</CODE>.');
-DEFINE('_PHPSESSREG','SezenÃ­ zaregistrováno');
+DEFINE('_PHPSESSREG','SezenÃ­ zaregistrovÃ¡no');
 
 //base_state_criteria.inc.php
 DEFINE('_REMOVE','Odstranit');
@@ -373,31 +374,31 @@ DEFINE('_FROMCRIT','z kritériÃ­');
 DEFINE('_ERRCRITELEM','Neplatný elemt kritéria');
 
 //base_state_query.inc.php
-DEFINE('_VALIDCANNED','Platný základnÃ­ dotaz');
+DEFINE('_VALIDCANNED','Platný zÃ¡kladnÃ­ dotaz');
 DEFINE('_DISPLAYING','Zobrazuji');
 DEFINE('_DISPLAYINGTOTAL','Zobrazuji alarmy %d-%d z %d celkem');
-DEFINE('_NOALERTS','®ádné alarmy nenalezeny.');
+DEFINE('_NOALERTS','®Ã¡dné alarmy nenalezeny.');
 DEFINE('_QUERYRESULTS','Výsledky dotazu');
 DEFINE('_QUERYSTATE','Stav dotazu');
 DEFINE('_DISPACTION','{ action }'); //NEW
 
 //base_ag_common.php
 DEFINE('_ERRAGNAMESEARCH','Jmenovanou skupinu nelze nalézt. Zkuste to znovu.');
-DEFINE('_ERRAGNAMEEXIST','Zadaná skupina neexistuje.');
+DEFINE('_ERRAGNAMEEXIST','ZadanÃ¡ skupina neexistuje.');
 DEFINE('_ERRAGIDSEARCH','Skupinu urèenou ID nelze nalézt. Zkuste to znovu.');
-DEFINE('_ERRAGLOOKUP','Chyba pøi vyhledávánÃ­ skupiny dle ID');
-DEFINE('_ERRAGINSERT','Chyba pøi vkládánÃ­ nové skupiny');
+DEFINE('_ERRAGLOOKUP','Chyba pøi vyhledÃ¡vÃ¡nÃ­ skupiny dle ID');
+DEFINE('_ERRAGINSERT','Chyba pøi vklÃ¡dÃ¡nÃ­ nové skupiny');
 
 //base_ag_main.php
-DEFINE('_AGMAINTTITLE','Správa skupin');
+DEFINE('_AGMAINTTITLE','SprÃ¡va skupin');
 DEFINE('_ERRAGUPDATE','Chyba pøi aktualizaci skupiny');
-DEFINE('_ERRAGPACKETLIST','Chyba pøi mazánÃ­ obsahu skupiny:');
-DEFINE('_ERRAGDELETE','Chyba pøi mazánÃ­ skupiny');
-DEFINE('_AGDELETE','smazána úspì¹nì');
-DEFINE('_AGDELETEINFO','informace smazána');
-DEFINE('_ERRAGSEARCHINV','Zadané vyhledávacÃ­ kritérium je neplatné. Zkuste to znovu.');
-DEFINE('_ERRAGSEARCHNOTFOUND','®ádná skupiny s tÃ­mto kritériem nenalezena.');
-DEFINE('_NOALERTGOUPS','Nejsou definovány ¾ádné skupiny');
+DEFINE('_ERRAGPACKETLIST','Chyba pøi mazÃ¡nÃ­ obsahu skupiny:');
+DEFINE('_ERRAGDELETE','Chyba pøi mazÃ¡nÃ­ skupiny');
+DEFINE('_AGDELETE','smazÃ¡na úspì¹nì');
+DEFINE('_AGDELETEINFO','informace smazÃ¡na');
+DEFINE('_ERRAGSEARCHINV','Zadané vyhledÃ¡vacÃ­ kritérium je neplatné. Zkuste to znovu.');
+DEFINE('_ERRAGSEARCHNOTFOUND','®Ã¡dnÃ¡ skupiny s tÃ­mto kritériem nenalezena.');
+DEFINE('_NOALERTGOUPS','Nejsou definovÃ¡ny ¾Ã¡dné skupiny');
 DEFINE('_NUMALERTS','poèet alarmù');
 DEFINE('_ACTIONS','Akce');
 DEFINE('_NOTASSIGN','je¹tì nepøiøazeno');
@@ -406,31 +407,31 @@ DEFINE('_CONFIRMDELETE','Confirm Delete'); //NEW
 DEFINE('_CONFIRMCLEAR','Confirm Clear'); //NEW
 
 //base_common.php
-DEFINE('_PORTSCAN','Provoz skenovánÃ­ portù');
+DEFINE('_PORTSCAN','Provoz skenovÃ¡nÃ­ portù');
 
 //base_db_common.php
 DEFINE('_ERRDBINDEXCREATE','Nemohu vytvoøit index pro');
 DEFINE('_DBINDEXCREATE','Úspì¹nì vytvoøen index pro');
-DEFINE('_ERRSNORTVER','Mù¾e se jednat o star¹Ã­ verzi. Podporovány jsou pouze databáze vytvoøené Snort 1.7-beta0 nebo novìj¹ím');
-DEFINE('_ERRSNORTVER1','ZákladnÃ­ databáze');
-DEFINE('_ERRSNORTVER2','se zdá nekompletnÃ­ nebo neplatná');
-DEFINE('_ERRDBSTRUCT1','Verze databáze je správná, ale neobsahuje');
-DEFINE('_ERRDBSTRUCT2','BASE tabulky. Pou¾ijte <A HREF="base_db_setup.php">InicializaènÃ­ stránku</A> pro nastavení a optimalizaci databáze.');
+DEFINE('_ERRSNORTVER','Mù¾e se jednat o star¹Ã­ verzi. PodporovÃ¡ny jsou pouze databÃ¡ze vytvoøené Snort 1.7-beta0 nebo novìj¹Ã­m');
+DEFINE('_ERRSNORTVER1','ZÃ¡kladnÃ­ databÃ¡ze');
+DEFINE('_ERRSNORTVER2','se zdÃ¡ nekompletnÃ­ nebo neplatnÃ¡');
+DEFINE('_ERRDBSTRUCT1','Verze databÃ¡ze je sprÃ¡vnÃ¡, ale neobsahuje');
+DEFINE('_ERRDBSTRUCT2','BASE tabulky. Pou¾ijte <A HREF="base_db_setup.php">InicializaènÃ­ strÃ¡nku</A> pro nastavenÃ­ a optimalizaci databÃ¡ze.');
 DEFINE('_ERRPHPERROR','Chyba PHP');
 DEFINE('_ERRPHPERROR1','NekompatibilnÃ­ verze');
 DEFINE('_ERRVERSION','Verze');
-DEFINE('_ERRPHPERROR2','PHP je pøÃ­li¹ stará. Proveïte prosím aktualizaci na verzi 4.0.4 nebo pozdìj¹í');
-DEFINE('_ERRPHPMYSQLSUP','<B>PHP podpora nenÃ­ kompletní</B>: <FONT>podpora pro práci s MySQL 
-               databázÃ­ není souèástí instalace.
+DEFINE('_ERRPHPERROR2','PHP je pøÃ­li¹ starÃ¡. Proveïte prosÃ­m aktualizaci na verzi 4.0.4 nebo pozdìj¹Ã­');
+DEFINE('_ERRPHPMYSQLSUP','<B>PHP podpora nenÃ­ kompletnÃ­</B>: <FONT>podpora pro prÃ¡ci s MySQL 
+               databÃ¡zÃ­ nenÃ­ souèÃ¡stÃ­ instalace.
                ProsÃ­m pøeinstalujte PHP s potøebnou knihovnou (<CODE>--with-mysql</CODE>)</FONT>');
-DEFINE('_ERRPHPPOSTGRESSUP','<B>PHP podpora nenÃ­ kompletní</B>: <FONT>podpora pro práci s PostgreSQL
-               databázÃ­ není souèástí instalace.
+DEFINE('_ERRPHPPOSTGRESSUP','<B>PHP podpora nenÃ­ kompletnÃ­</B>: <FONT>podpora pro prÃ¡ci s PostgreSQL
+               databÃ¡zÃ­ nenÃ­ souèÃ¡stÃ­ instalace.
                ProsÃ­m pøeinstalujte PHP s potøebnou knihovnou (<CODE>--with-pgsql</CODE>)</FONT>');
-DEFINE('_ERRPHPMSSQLSUP','<B>PHP podpora nenÃ­ kompletní</B>: <FONT>podpora pro práci s MS SQL
-               databázÃ­ není souèástí instalace.
+DEFINE('_ERRPHPMSSQLSUP','<B>PHP podpora nenÃ­ kompletnÃ­</B>: <FONT>podpora pro prÃ¡ci s MS SQL
+               databÃ¡zÃ­ nenÃ­ souèÃ¡stÃ­ instalace.
                ProsÃ­m pøeinstalujte PHP s potøebnou knihovnou (<CODE>--enable-mssql</CODE>)</FONT>');
-DEFINE('_ERRPHPORACLESUP','<B>PHP podpora nenÃ­ kompletní</B>: <FONT>podpora pro práci s Oracle
-               databázÃ­ není souèástí instalace.
+DEFINE('_ERRPHPORACLESUP','<B>PHP podpora nenÃ­ kompletnÃ­</B>: <FONT>podpora pro prÃ¡ci s Oracle
+               databÃ¡zÃ­ nenÃ­ souèÃ¡stÃ­ instalace.
                ProsÃ­m pøeinstalujte PHP s potøebnou knihovnou (<CODE>--with-oci8</CODE>)</FONT>');
 
 //base_graph_form.php
@@ -458,39 +459,39 @@ DEFINE('_CHRTTYPEDAY','Èas (dny) proti poètu alarmù');
 DEFINE('_CHRTTYPEWEEK','Èas (týdny) proti poètu alarmù');
 DEFINE('_CHRTTYPEMONTH','Èas (mìsÃ­ce) proti poètu alarmù');
 DEFINE('_CHRTTYPEYEAR','Èas (roky) proti poètu alarmù');
-DEFINE('_CHRTTYPESRCIP','Zdrojová IP adresa proti poètu alarmù');
-DEFINE('_CHRTTYPEDSTIP','CÃ­lová IP adresa proti poètu alarmù');
+DEFINE('_CHRTTYPESRCIP','ZdrojovÃ¡ IP adresa proti poètu alarmù');
+DEFINE('_CHRTTYPEDSTIP','CÃ­lovÃ¡ IP adresa proti poètu alarmù');
 DEFINE('_CHRTTYPEDSTUDP','CÃ­lový UDP port proti poètu alarmù');
 DEFINE('_CHRTTYPESRCUDP','Zdrojový UDP port proti poètu alarmù');
 DEFINE('_CHRTTYPEDSTPORT','CÃ­lový TCP port proti poètu alarmù');
 DEFINE('_CHRTTYPESRCPORT','Zdrojový TCP port proti poètu alarmù');
 DEFINE('_CHRTTYPESIG','Klasifikace podpisù proti poètu alarmù');
 DEFINE('_CHRTTYPESENSOR','Senzor proti poètu alarmù');
-DEFINE('_CHRTBEGIN','Zaèátek grafu:');
+DEFINE('_CHRTBEGIN','ZaèÃ¡tek grafu:');
 DEFINE('_CHRTEND','Konec grafu:');
 DEFINE('_CHRTDS','Zdroj dat:');
 DEFINE('_CHRTX','Osa X');
 DEFINE('_CHRTY','Osa Y');
-DEFINE('_CHRTMINTRESH','MinimálnÃ­ hodnota');
+DEFINE('_CHRTMINTRESH','MinimÃ¡lnÃ­ hodnota');
 DEFINE('_CHRTROTAXISLABEL','Otoèit popisky os o 90 stupòù');
 DEFINE('_CHRTSHOWX','Zobraz rastr pro osu X');
 DEFINE('_CHRTDISPLABELX','Zobraz popis osy X ka¾dých');
 DEFINE('_CHRTDATAPOINTS','vzorkù dat');
-DEFINE('_CHRTYLOG','Osa Y logaritmická');
+DEFINE('_CHRTYLOG','Osa Y logaritmickÃ¡');
 DEFINE('_CHRTYGRID','Zobraz rastr pro osu Y');
 
 //base_graph_main.php
 DEFINE('_CHRTTITLE','Graf BASE');
 DEFINE('_ERRCHRTNOTYPE','Nebyl urèen typ grafu');
-DEFINE('_ERRNOAGSPEC','Nebyla urèena skupiny. Pou¾Ã­vám v¹echny alarmy.');
-DEFINE('_CHRTDATAIMPORT','ZaèÃ­nám naèítat data'); 
+DEFINE('_ERRNOAGSPEC','Nebyla urèena skupiny. Pou¾Ã­vÃ¡m v¹echny alarmy.');
+DEFINE('_CHRTDATAIMPORT','ZaèÃ­nÃ¡m naèÃ­tat data'); 
 DEFINE('_CHRTTIMEVNUMBER','Èas port proti poètu alarmù');
 DEFINE('_CHRTTIME','Èas');
 DEFINE('_CHRTALERTOCCUR','Výskyty alarmù');
-DEFINE('_CHRTSIPNUMBER','Zdrojová IP adresa proti poètu alarmù');
-DEFINE('_CHRTSIP','Zdrojová IP adresa');
-DEFINE('_CHRTDIPALERTS','CÃ­lová IP adresa proti poètu alarmù');
-DEFINE('_CHRTDIP','CÃ­lová IP adresa');
+DEFINE('_CHRTSIPNUMBER','ZdrojovÃ¡ IP adresa proti poètu alarmù');
+DEFINE('_CHRTSIP','ZdrojovÃ¡ IP adresa');
+DEFINE('_CHRTDIPALERTS','CÃ­lovÃ¡ IP adresa proti poètu alarmù');
+DEFINE('_CHRTDIP','CÃ­lovÃ¡ IP adresa');
 DEFINE('_CHRTUDPPORTNUMBER','UDP port (cÃ­l) port proti poètu alarmù');
 DEFINE('_CHRTDUDPPORT','CÃ­lový UDP port');
 DEFINE('_CHRTSUDPPORTNUMBER','UDP port (zdroj) port proti poètu alarmù');
@@ -505,7 +506,7 @@ DEFINE('_CHRTSENSORNUMBER','Senzor port proti poètu alarmù');
 DEFINE('_CHRTHANDLEPERIOD','Rozhodné obdobÃ­ (pokud je tøeba)');
 DEFINE('_CHRTDUMP','Vypisuji data ... (zobrazuji jen ka¾dé');
 DEFINE('_CHRTDRAW','KreslÃ­m graf');
-DEFINE('_ERRCHRTNODATAPOINTS','Pro vykreslenÃ­ nejsou k dispozici ¾ádná data');
+DEFINE('_ERRCHRTNODATAPOINTS','Pro vykreslenÃ­ nejsou k dispozici ¾Ã¡dnÃ¡ data');
 DEFINE('_GRAPHALERTDATA','Graph Alert Data'); //NEW
 
 //base_maintenance.php
@@ -516,24 +517,24 @@ DEFINE('_MNTSERVER','SERVER:');
 DEFINE('_MNTSERVERHW','SERVER HW:');
 DEFINE('_MNTPHPVER','PHP VERZE:');
 DEFINE('_MNTPHPAPI','PHP API:');
-DEFINE('_MNTPHPLOGLVL','Úroveò hlá¹enÃ­ PHP:');
+DEFINE('_MNTPHPLOGLVL','Úroveò hlÃ¡¹enÃ­ PHP:');
 DEFINE('_MNTPHPMODS','Nahrané moduly:');
-DEFINE('_MNTDBTYPE','Typ databáze:');
-DEFINE('_MNTDBALV','Verze podpùrné databázové knihovny:');
-DEFINE('_MNTDBALERTNAME','Jméno ALERT databáze:');
-DEFINE('_MNTDBARCHNAME','Jméno ARCHIVE databáze:');
-DEFINE('_MNTAIC','VyrovnávacÃ­ pamì» alarmù:');
-DEFINE('_MNTAICTE','Celkový poèet událostÃ­:');
-DEFINE('_MNTAICCE','Události ve vyrovnávacÃ­ pamìti:');
-DEFINE('_MNTIPAC','VyrovnávacÃ­ pamì» IP address');
-DEFINE('_MNTIPACUSIP','UnikátnÃ­ zdrojové IP:');
-DEFINE('_MNTIPACDNSC','DNS ve vyrovnávacÃ­ pamìti:');
-DEFINE('_MNTIPACWC','Whois ve vyrovnávacÃ­ pamìti:');
-DEFINE('_MNTIPACUDIP','UnikátnÃ­ cílové IP:');
+DEFINE('_MNTDBTYPE','Typ databÃ¡ze:');
+DEFINE('_MNTDBALV','Verze podpùrné databÃ¡zové knihovny:');
+DEFINE('_MNTDBALERTNAME','Jméno ALERT databÃ¡ze:');
+DEFINE('_MNTDBARCHNAME','Jméno ARCHIVE databÃ¡ze:');
+DEFINE('_MNTAIC','VyrovnÃ¡vacÃ­ pamì» alarmù:');
+DEFINE('_MNTAICTE','Celkový poèet udÃ¡lostÃ­:');
+DEFINE('_MNTAICCE','UdÃ¡losti ve vyrovnÃ¡vacÃ­ pamìti:');
+DEFINE('_MNTIPAC','VyrovnÃ¡vacÃ­ pamì» IP address');
+DEFINE('_MNTIPACUSIP','UnikÃ¡tnÃ­ zdrojové IP:');
+DEFINE('_MNTIPACDNSC','DNS ve vyrovnÃ¡vacÃ­ pamìti:');
+DEFINE('_MNTIPACWC','Whois ve vyrovnÃ¡vacÃ­ pamìti:');
+DEFINE('_MNTIPACUDIP','UnikÃ¡tnÃ­ cÃ­lové IP:');
 
 //base_qry_alert.php
-DEFINE('_QAINVPAIR','Neplatný pár (sid,cid)');
-DEFINE('_QAALERTDELET','Alarm smazán');
+DEFINE('_QAINVPAIR','Neplatný pÃ¡r (sid,cid)');
+DEFINE('_QAALERTDELET','Alarm smazÃ¡n');
 DEFINE('_QATRIGGERSIG','Detekovaný podpis alarmu');
 DEFINE('_QANORMALD','Normal Display'); //NEW
 DEFINE('_QAPLAIND','Plain Display'); //NEW
@@ -550,46 +551,46 @@ DEFINE('_QCUDPPORTS','UDP porty');
 DEFINE('_QCUDPFIELDS','UDP pole');
 DEFINE('_QCICMPFIELDS','ICMP poel');
 DEFINE('_QCDATA','Data');
-DEFINE('_QCERRCRITWARN','VarovánÃ­ vyhledávacích kritérií:');
+DEFINE('_QCERRCRITWARN','VarovÃ¡nÃ­ vyhledÃ¡vacÃ­ch kritériÃ­:');
 DEFINE('_QCERRVALUE','Hodnota');
 DEFINE('_QCERRFIELD','Pole');
-DEFINE('_QCERROPER','Operátor');
+DEFINE('_QCERROPER','OperÃ¡tor');
 DEFINE('_QCERRDATETIME','Hodnota datum/èas');
 DEFINE('_QCERRPAYLOAD','Hodnota obsahu');
 DEFINE('_QCERRIP','IP adresa');
 DEFINE('_QCERRIPTYPE','IP adresa typu');
-DEFINE('_QCERRSPECFIELD','bylo zadáno pole protokolu, ale nebyla urèena hodnota.');
-DEFINE('_QCERRSPECVALUE','bylo vybráno, ale nebyla urèena hodnota.');
-DEFINE('_QCERRBOOLEAN','VÃ­ce polí pro urèení protokolu bylo zadáno, ale nebyl mezi nimi zadán logický operátor (AND, OR).');
-DEFINE('_QCERRDATEVALUE','bylo zvoleno, ¾e se má vyhledávat podle data/èasu, ale nebyla urèena hodnota.');
-DEFINE('_QCERRINVHOUR','(Neplatná hodina) ®ádné kritérium pro urèenÃ­ data/èasu neodpovídá urèenému èasu.');
-DEFINE('_QCERRDATECRIT','bylo zvoleno, ¾e se má vyhledávat podle data/èasu, ale nebyla urèena hodnota.');
-DEFINE('_QCERROPERSELECT','bylo vlo¾eno, ale nebyl zvolen ¾ádný operátor.');
-DEFINE('_QCERRDATEBOOL','VÃ­ce kritérií datum/èas bylo zadáno bez urèení logického operátoru (AND, OR) mezi nimi.');
-DEFINE('_QCERRPAYCRITOPER','byl urèen obsah, který se má vyhledávat, ale nebylo zvoleno, zda má být obsa¾en nebo ne.');
-DEFINE('_QCERRPAYCRITVALUE','bylo urèeno, ¾e se má vyhledávat podle obsahu, ale nebyla urèena hodnota.');
-DEFINE('_QCERRPAYBOOL','VÃ­ce kritérií obsahu bylo zadáno bez urèenít logického operátoru (AND, OR) mezi nimi.');
-DEFINE('_QCMETACRIT','Meta kritária');
+DEFINE('_QCERRSPECFIELD','bylo zadÃ¡no pole protokolu, ale nebyla urèena hodnota.');
+DEFINE('_QCERRSPECVALUE','bylo vybrÃ¡no, ale nebyla urèena hodnota.');
+DEFINE('_QCERRBOOLEAN','VÃ­ce polÃ­ pro urèenÃ­ protokolu bylo zadÃ¡no, ale nebyl mezi nimi zadÃ¡n logický operÃ¡tor (AND, OR).');
+DEFINE('_QCERRDATEVALUE','bylo zvoleno, ¾e se mÃ¡ vyhledÃ¡vat podle data/èasu, ale nebyla urèena hodnota.');
+DEFINE('_QCERRINVHOUR','(NeplatnÃ¡ hodina) ®Ã¡dné kritérium pro urèenÃ­ data/èasu neodpovÃ­dÃ¡ urèenému èasu.');
+DEFINE('_QCERRDATECRIT','bylo zvoleno, ¾e se mÃ¡ vyhledÃ¡vat podle data/èasu, ale nebyla urèena hodnota.');
+DEFINE('_QCERROPERSELECT','bylo vlo¾eno, ale nebyl zvolen ¾Ã¡dný operÃ¡tor.');
+DEFINE('_QCERRDATEBOOL','VÃ­ce kritériÃ­ datum/èas bylo zadÃ¡no bez urèenÃ­ logického operÃ¡toru (AND, OR) mezi nimi.');
+DEFINE('_QCERRPAYCRITOPER','byl urèen obsah, který se mÃ¡ vyhledÃ¡vat, ale nebylo zvoleno, zda mÃ¡ být obsa¾en nebo ne.');
+DEFINE('_QCERRPAYCRITVALUE','bylo urèeno, ¾e se mÃ¡ vyhledÃ¡vat podle obsahu, ale nebyla urèena hodnota.');
+DEFINE('_QCERRPAYBOOL','VÃ­ce kritériÃ­ obsahu bylo zadÃ¡no bez urèenÃ­t logického operÃ¡toru (AND, OR) mezi nimi.');
+DEFINE('_QCMETACRIT','Meta kritÃ¡ria');
 DEFINE('_QCIPCRIT','IP kritéria');
-DEFINE('_QCPAYCRIT','Obsahová kritéria');
+DEFINE('_QCPAYCRIT','ObsahovÃ¡ kritéria');
 DEFINE('_QCTCPCRIT','TCP kritéria');
 DEFINE('_QCUDPCRIT','UDP kritéria');
 DEFINE('_QCICMPCRIT','ICMP kritéria');
 DEFINE('_QCLAYER4CRIT','Layer 4 Criteria'); //NEW
 DEFINE('_QCERRINVIPCRIT','Neplatné kritérium IP adresy');
-DEFINE('_QCERRCRITADDRESSTYPE','byla zvolena jako kritérium, ale nebylo urèeno, zda se jedná o zdrojovou nebo cÃ­lovou adresu.');
-DEFINE('_QCERRCRITIPADDRESSNONE','ukazujÃ­c, ¾e IP adresa má být kritériem, ale nebyla urèena hodnota.');
-DEFINE('_QCERRCRITIPADDRESSNONE1','bylo vybráno (v #');
-DEFINE('_QCERRCRITIPIPBOOL','VÃ­ce kritérií pro IP adresy bylo zadáno bez urèení logického operátoru (AND, OR) mezi nimi.');
+DEFINE('_QCERRCRITADDRESSTYPE','byla zvolena jako kritérium, ale nebylo urèeno, zda se jednÃ¡ o zdrojovou nebo cÃ­lovou adresu.');
+DEFINE('_QCERRCRITIPADDRESSNONE','ukazujÃ­c, ¾e IP adresa mÃ¡ být kritériem, ale nebyla urèena hodnota.');
+DEFINE('_QCERRCRITIPADDRESSNONE1','bylo vybrÃ¡no (v #');
+DEFINE('_QCERRCRITIPIPBOOL','VÃ­ce kritériÃ­ pro IP adresy bylo zadÃ¡no bez urèenÃ­ logického operÃ¡toru (AND, OR) mezi nimi.');
 
 //base_qry_form.php
-DEFINE('_QFRMSORTORDER','Smìr tøÃ­dìní');
+DEFINE('_QFRMSORTORDER','Smìr tøÃ­dìnÃ­');
 DEFINE('_QFRMSORTNONE','none'); //NEW
 DEFINE('_QFRMTIMEA','èas (vzestupnì)');
 DEFINE('_QFRMTIMED','èas (sestupnì)');
 DEFINE('_QFRMSIG','podpis');
-DEFINE('_QFRMSIP','zdrojová IP adresa');
-DEFINE('_QFRMDIP','cÃ­lová IP adresa');
+DEFINE('_QFRMSIP','zdrojovÃ¡ IP adresa');
+DEFINE('_QFRMDIP','cÃ­lovÃ¡ IP adresa');
 
 //base_qry_sqlcalls.php
 DEFINE('_QSCSUMM','Souhrné statistiky');
@@ -605,12 +606,12 @@ DEFINE('_SCSENSORTOTAL','Senzory/Celkem:');
 DEFINE('_SCTOTALNUMALERTS','Celkový poèet alarmù:');
 DEFINE('_SCSRCIP','Zdrojových IP adres:');
 DEFINE('_SCDSTIP','CÃ­lových IP adres:');
-DEFINE('_SCUNILINKS','UnikátnÃ­ch IP spojù');
+DEFINE('_SCUNILINKS','UnikÃ¡tnÃ­ch IP spojù');
 DEFINE('_SCSRCPORTS','Zdrojových portù: ');
 DEFINE('_SCDSTPORTS','CÃ­lových portù: ');
 DEFINE('_SCSENSORS','Senzorù');
 DEFINE('_SCCLASS','Klasifikace');
-DEFINE('_SCUNIADDRESS','UnikátnÃ­ch adres: ');
+DEFINE('_SCUNIADDRESS','UnikÃ¡tnÃ­ch adres: ');
 DEFINE('_SCSOURCE','Zdroj');
 DEFINE('_SCDEST',$UI_CW_Dst);
 DEFINE('_SCPORT','Port');
@@ -649,12 +650,12 @@ DEFINE('_SIPLSOURCEFGDN','Zdrojové FQDN');
 DEFINE('_SIPLDESTFGDN','CÃ­lové FQDN');
 DEFINE('_SIPLDIRECTION','Smìr');
 DEFINE('_SIPLPROTO','Protokol');
-DEFINE('_SIPLUNIDSTPORTS','UnikátnÃ­ch cílových portù');
-DEFINE('_SIPLUNIEVENTS','UnikátnÃ­ch alarmù');
+DEFINE('_SIPLUNIDSTPORTS','UnikÃ¡tnÃ­ch cÃ­lových portù');
+DEFINE('_SIPLUNIEVENTS','UnikÃ¡tnÃ­ch alarmù');
 DEFINE('_SIPLTOTALEVENTS','Celkem alarmù');
 
 //base_stat_ports.php
-DEFINE('_UNIQ','UnikátnÃ­');
+DEFINE('_UNIQ','UnikÃ¡tnÃ­');
 DEFINE('_DSTPS','cÃ­lové porty');
 DEFINE('_SRCPS','zdrojové porty');
 DEFINE('_OCCURRENCES','Occurrences'); //NEW
@@ -676,21 +677,21 @@ DEFINE('_TIMEBETWEEN','between'); //NEW
 DEFINE('_PROFILEALERT','Profile Alert'); //NEW
 
 //base_stat_uaddr.php
-DEFINE('_UNISADD','UnikátnÃ­ zdrojové IP adresy');
-DEFINE('_SUASRCIP','Zdrojová IP adresa');
-DEFINE('_SUAERRCRITADDUNK','chyba v kritériu: neznámý typ adresy -- pøedpokládám cÃ­lovou');
-DEFINE('_UNIDADD','UnikátnÃ­ cílové IP adresy');
-DEFINE('_SUADSTIP','CÃ­lová IP adresa');
-DEFINE('_SUAUNIALERTS','UnikátnÃ­ch alarmù');
+DEFINE('_UNISADD','UnikÃ¡tnÃ­ zdrojové IP adresy');
+DEFINE('_SUASRCIP','ZdrojovÃ¡ IP adresa');
+DEFINE('_SUAERRCRITADDUNK','chyba v kritériu: neznÃ¡mý typ adresy -- pøedpoklÃ¡dÃ¡m cÃ­lovou');
+DEFINE('_UNIDADD','UnikÃ¡tnÃ­ cÃ­lové IP adresy');
+DEFINE('_SUADSTIP','CÃ­lovÃ¡ IP adresa');
+DEFINE('_SUAUNIALERTS','UnikÃ¡tnÃ­ch alarmù');
 DEFINE('_SUASRCADD','Zdrojových adres');
 DEFINE('_SUADSTADD','CÃ­lových adres');
 
 //base_user.php
 DEFINE('_BASEUSERTITLE','U¾ivatelské pøedvolby BASE');
-DEFINE('_BASEUSERERRPWD',"$UI_CW_Pw nesmÃ­ být prázné nebo ".strtolower($UI_CW_Pw).' nesouhlasí!');
+DEFINE('_BASEUSERERRPWD',"$UI_CW_Pw nesmÃ­ být prÃ¡zné nebo ".strtolower($UI_CW_Pw).' nesouhlasÃ­!');
 DEFINE('_BASEUSEROLDPWD','Staré '.strtolower($UI_CW_Pw).':');
 DEFINE('_BASEUSERNEWPWD','Nové '.strtolower($UI_CW_Pw).':');
 DEFINE('_BASEUSERNEWPWDAGAIN','Nové '.strtolower($UI_CW_Pw).' znovu:');
 
-DEFINE('_LOGOUT','Odhlásit');
+DEFINE('_LOGOUT','OdhlÃ¡sit');
 ?>

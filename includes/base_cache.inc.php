@@ -202,7 +202,7 @@ function CacheAlert($sid, $cid, $db)
 function CacheSensor($sid, $cid, $db) {
 	// Caches all alerts for sensor $sid newer than the event $cid.
 	GLOBAL $UIL, $debug_mode;
-	$CPSensor = $UIL->CPA['Sensor'];
+	$CPSensor = $UIL->CWA['Sensor'];
   $schema_specific = array(2);
 
   $schema_specific[0] = "";

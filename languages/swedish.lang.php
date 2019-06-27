@@ -48,17 +48,18 @@ $UI_CW_Sig = 'Signatur';
 $UI_CW_Role = 'Roll';
 $UI_CW_Pw = 'LÃ¶senord';
 $UI_CW_Ts = 'Tid stämpel';
+$UI_CW_Addr = 'Adress';
 // Common Phrases.
 $UI_CP_SrcName = array($UI_CW_Src,$UI_CW_Name);
 $UI_CP_DstName = array('Dest.',$UI_CW_Name);
 $UI_CP_SrcDst = array('Src','or','Dest');
+$UI_CP_SrcAddr = array($UI_CW_Src,$UI_CW_Addr);
 // Authentication Data.
 $UI_AD_UND = 'Logga in';
 $UI_AD_RID = array($UI_CW_Role,$UI_CW_Id);
 $UI_AD_ASD = 'MÃ¶jliggjord';
 
 //common phrases
-DEFINE('_NBSOURCEADDR','Källa&nbsp;Adress');
 DEFINE('_NBDESTADDR','Dest.&nbsp;Adress');
 DEFINE('_NBLAYER4','Layer&nbsp;4&nbsp;Proto');
 DEFINE('_PRIORITY','Prioritet');
@@ -173,7 +174,7 @@ DEFINE('_DISPLAYU','Se användare');
 DEFINE('_FOOTER','( av <A class="largemenuitem" href="mailto:base@secureideas.net">Kevin Johnson</A> och <A class="largemenuitem" href="http://sourceforge.net/project/memberlist.php?group_id=103348">BASE Project Team</A><BR>Built on ACID by Roman Danyliw )'); //----
 
 //index.php --Log in Page
-DEFINE('_LOGINERROR','Användare finns inte kontrollera användarnamn och '.strtolower($UI_CW_Pw).'!<br>Var vänlig försök igen');
+DEFINE('_LOGINERROR','Användare finns inte kontrollera användarnamn och '.strtolower($UI_CW_Pw).'!<br>Var vänlig fÃ¶rsÃ¶k igen');
 
 // base_main.php
 DEFINE('_MOSTRECENT','De senaste ');
@@ -277,7 +278,7 @@ DEFINE('_ERRCACHEUPDATE','Kunde inte uppdatera händelse cachen');
 DEFINE('_ALERTSCACHE',' Varning(ar) till varnings cachen');
 
 //base_db.inc.php
-DEFINE('_ERRSQLTRACE','FÃ¶rhindrad till att öppna SQL spår filen');
+DEFINE('_ERRSQLTRACE','FÃ¶rhindrad till att Ã¶ppna SQL spår filen');
 DEFINE('_ERRSQLCONNECT','Fel vid anslutande till DB :');
 DEFINE('_ERRSQLCONNECTINFO','<P>Kontrollera DB anslutnings variabler i  <I>base_conf.php</I>
               <PRE>
@@ -285,7 +286,7 @@ DEFINE('_ERRSQLCONNECTINFO','<P>Kontrollera DB anslutnings variabler i  <I>base_
                = $alert_host     : värd där databasen är sparad
                = $alert_port     : Port till databasen
                = $alert_user     : användarnamn till databasen
-               = $alert_password : '.strtolower($UI_CW_Pw).' för användarnamn
+               = $alert_password : '.strtolower($UI_CW_Pw).' fÃ¶r användarnamn
               </PRE>
               <P>');
 DEFINE('_ERRSQLPCONNECT','Fel (p)Kopplar till DB :');
@@ -667,7 +668,7 @@ DEFINE('SPSENSORLIST','Lista Sensorer ');
 DEFINE('_BSTTITLE','Tid Profil av Varningar');
 DEFINE('_BSTTIMECRIT','Time Criteria'); //Ingen profilering kriterium var specifierad
 DEFINE('_BSTERRPROFILECRIT','<FONT><B>Ingen profilering kriterium var specifierad</B>  Klicka på "timme", "dag", eller "månad" att välja kornighet av total statistik.</FONT>');
-DEFINE('_BSTERRTIMETYPE','<FONT><B>Arten av tid parameter vilken kommer att vara passerade var inte specifierad!</B>  .</FONT>'); //Välj antingen "på", fÃ¶r att specifiera ett  datum, eller "mellan" för att specifiera en intervall.
+DEFINE('_BSTERRTIMETYPE','<FONT><B>Arten av tid parameter vilken kommer att vara passerade var inte specifierad!</B>  .</FONT>'); //Välj antingen "på", fÃ¶r att specifiera ett  datum, eller "mellan" fÃ¶r att specifiera en intervall.
 DEFINE('_BSTERRNOYEAR','<FONT><B>Ingen År parameter var specifierad!</B></FONT>');
 DEFINE('_BSTERRNOMONTH','<FONT><B>Ingen Månad parameter var specifierad!</B></FONT>');
 DEFINE('_BSTPROFILEBY','Profil'); //NEW
@@ -688,7 +689,7 @@ DEFINE('_SUADSTADD','Dest.&nbsp;Addr.');
 
 //base_user.php
 DEFINE('_BASEUSERTITLE','BASE Användar inställningar');
-DEFINE('_BASEUSERERRPWD','Ditt '.strtolower($UI_CW_Pw).' kan inte vara blankt eller så var lösenorden inte lika!');
+DEFINE('_BASEUSERERRPWD','Ditt '.strtolower($UI_CW_Pw).' kan inte vara blankt eller så var lÃ¶senorden inte lika!');
 DEFINE('_BASEUSEROLDPWD','Gammalt '.strtolower($UI_CW_Pw).':');
 DEFINE('_BASEUSERNEWPWD','Nytt '.strtolower($UI_CW_Pw).':');
 DEFINE('_BASEUSERNEWPWDAGAIN','Nytt '.strtolower($UI_CW_Pw).' igen:');

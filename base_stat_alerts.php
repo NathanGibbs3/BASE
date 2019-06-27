@@ -32,8 +32,9 @@ include_once ("$BASE_path/includes/base_constants.inc.php");
 
   ($debug_time_mode >= 1) ? $et = new EventTiming($debug_time_mode) : '';
 $UIL = new UILang($BASE_Language); // Create UI Language Object.
-$CPSensor = $UIL->CPA['Sensor'];
-$CPSig = $UIL->CPA['Sig'];
+$CPSensor = $UIL->CWA['Sensor'];
+$CPSig = $UIL->CWA['Sig'];
+$CPSA = $UIL->CPA['SrcAddr'];
   $cs = new CriteriaState("base_stat_alerts.php");
   $submit = ImportHTTPVar("submit", VAR_ALPHA | VAR_SPACE, array(_SELECTED, _ALLONSCREEN, _ENTIREQUERY));
 
@@ -137,11 +138,9 @@ if (is_object($cs)){ // Issue #5
   $qs->GetNumResultRows($cnt_sql, $db);
   ($debug_time_mode >= 1) ? $et->Mark("Counting Result size") : '';
 
-  /* Setup the Query Results Table */
-  $qro = new QueryResultsOutput("base_stat_alerts.php?caller=".$caller);
-
-  $qro->AddTitle(" ");
-
+// Setup the Query Results Table.
+$qro = new QueryResultsOutput("base_stat_alerts.php?caller=".$caller);
+$qro->AddTitle(" ");
 $qro->AddTitle($CPSig,
 	"sig_a", " ", " ORDER BY sig_name ASC",
 	"sig_d", " ", " ORDER BY sig_name DESC"
@@ -159,11 +158,12 @@ $qro->AddTitle($CPSig,
                 "occur_d", " ",
                            " ORDER BY sig_cnt DESC");
 $qro->AddTitle("$CPSensor&nbsp;#");
-  $qro->AddTitle(_NBSOURCEADDR, 
-                "saddr_a", ", count(DISTINCT ip_src) AS saddr_cnt ",
-                           " ORDER BY saddr_cnt ASC",
-                "saddr_d", ", count(DISTINCT ip_src) AS saddr_cnt ",
-                           " ORDER BY saddr_cnt DESC");
+$qro->AddTitle($CPSA,
+	"saddr_a", ", count(DISTINCT ip_src) AS saddr_cnt ",
+	" ORDER BY saddr_cnt ASC",
+	"saddr_d", ", count(DISTINCT ip_src) AS saddr_cnt ",
+	" ORDER BY saddr_cnt DESC"
+);
   $qro->AddTitle(_NBDESTADDR, 
                 "daddr_a", ", count(DISTINCT ip_dst) AS daddr_cnt ",
                            " ORDER BY daddr_cnt ASC",

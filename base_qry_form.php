@@ -43,8 +43,8 @@ if ( $submit == _ADDICMPFIELD && $cs->criteria['icmp_field']->GetFormItemCnt() <
 if ( $submit == _ADDPAYLOAD && $cs->criteria['data']->GetFormItemCnt() < $MAX_ROWS)
    $cs->criteria['data']->AddFormItem($submit, $cs->criteria['layer4']->Get());
 
-$CPSensor = $UIL->CPA['Sensor'];
-$CPSig = $UIL->CPA['Sig'];
+$CPSensor = $UIL->CWA['Sensor'];
+$CPSig = $UIL->CWA['Sig'];
 NLIO('<!-- ************ Meta Criteria ******************** -->');
 NLIO("<table width='100%' border='0'>");
 NLIO('<tr>',1);

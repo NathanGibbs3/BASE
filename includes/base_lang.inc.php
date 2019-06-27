@@ -136,27 +136,97 @@ class UILang{
 		}else{
 			$this->SetUICWItem('Role');
 		}
-		// Init Common Phrases
-		if ( isset($UI_CW_Src) ) { // Var New TDF
-			$this->SetUICPItem('SrcDesc',$UI_CW_Src);
-		}elseif (defined('_SOURCE')) { // Const Legacy TDF
-			$this->SetUICPItem('SrcDesc',_SOURCE);
+		if ( isset($UI_CW_Addr) ) { // Var New TDF
+			$this->SetUICWItem('Addr',$UI_CW_Addr);
+		}elseif (defined('_ADDRESS')) { // Const Legacy TDF
+			$this->SetUICWItem('Addr',_ADDRESS);
 		}else{
-			$this->SetUICPItem('SrcDesc');
+			$this->SetUICWItem('Addr');
 		}
+		if ( isset($UI_CW_Src) ) { // Var New TDF
+			$this->SetUICWItem('Src',$UI_CW_Src);
+		}elseif (defined('_SOURCE')) { // Const Legacy TDF
+			$this->SetUICWItem('Src',_SOURCE);
+		}else{
+			$this->SetUICWItem('Src');
+		}
+		if ( isset($UI_CW_Dst) ) { // Var New TDF
+			$this->SetUICWItem('Dst',$UI_CW_Dst);
+		}elseif (defined('_DEST')) { // Const Legacy TDF
+			$this->SetUICWItem('Dst',_DEST);
+		}else{
+			$this->SetUICWItem('Dst');
+		}
+		if ( isset($UI_CW_Id) ) { // Var New TDF
+			$this->SetUICWItem('Id',$UI_CW_Id);
+		}elseif (defined('_ID')) { // Const Legacy TDF
+			$this->SetUICWItem('Id',_ID);
+		}else{
+			$this->SetUICWItem('Id');
+		}
+		if ( isset($UI_CW_Name) ) { // Var New TDF
+			$this->SetUICWItem('Name',$UI_CW_Name);
+		}elseif (defined('_NAME')) { // Const Legacy TDF
+			$this->SetUICWItem('Name',_NAME);
+		}else{
+			$this->SetUICWItem('Name');
+		}
+		if ( isset($UI_CW_Int) ) { // Var New TDF
+			$this->SetUICWItem('Int',$UI_CW_Int);
+		}elseif (defined('_INTERFACE')) { // Const Legacy TDF
+			$this->SetUICWItem('Int',_INTERFACE);
+		}else{
+			$this->SetUICWItem('Int');
+		}
+		if ( isset($UI_CW_Filter) ) { // Var New TDF
+			$this->SetUICWItem('Filter',$UI_CW_Filter);
+		}elseif (defined('_FILTER')) { // Const Legacy TDF
+			$this->SetUICWItem('Filter',_FILTER);
+		}else{
+			$this->SetUICWItem('Filter');
+		}
+		if ( isset($UI_CW_Desc) ) { // Var New TDF
+			$this->SetUICWItem('Desc',$UI_CW_Desc);
+		}elseif (defined('_DESC')) { // Const Legacy TDF
+			$this->SetUICWItem('Desc',_DESC);
+		}else{
+			$this->SetUICWItem('Desc');
+		}
+		if ( isset($UI_CW_SucDesc) ) { // Var New TDF
+			$this->SetUICWItem('SucDesc',$UI_CW_SucDesc);
+		}elseif (defined('_SUCCESS')) { // Const Legacy TDF
+			$this->SetUICWItem('SucDesc',_SUCCESS);
+		}else{
+			$this->SetUICWItem('SucDesc');
+		}
+		if ( isset($UI_CW_Sensor) ) { // Var New TDF
+			$this->SetUICWItem('Sensor',$UI_CW_Sensor);
+		}elseif (defined('_SUCCESS')) { // Const Legacy TDF
+			$this->SetUICWItem('Sensor',_SENSOR);
+		}else{
+			$this->SetUICWItem('Sensor');
+		}
+		if ( isset($UI_CW_Sig) ) { // Var New TDF
+			$this->SetUICWItem('Sig',$UI_CW_Sig);
+		}elseif (defined('_SIGNATURE')) { // Const Legacy TDF
+			$this->SetUICWItem('Sig',_SIGNATURE);
+		}else{
+			$this->SetUICWItem('Sig');
+		}
+		if ( isset($UI_CW_Ts) ) { // Var New TDF
+			$this->SetUICWItem('Ts',$UI_CW_Ts);
+		}elseif (defined('_TIMESTAMP')) { // Const Legacy TDF
+			$this->SetUICWItem('Ts',_TIMESTAMP);
+		}else{
+			$this->SetUICWItem('Ts');
+		}
+		// Init Common Phrases
 		if ( isset($UI_CP_SrcName) ) { // Var New TDF
 			$this->SetUICPItem('SrcName',$this->Phrase($UI_CP_SrcName));
 		}elseif (defined('_SOURCENAME')) { // Const Legacy TDF
 			$this->SetUICPItem('SrcName',_SOURCENAME);
 		}else{
 			$this->SetUICPItem('SrcName');
-		}
-		if ( isset($UI_CW_Dst) ) { // Var New TDF
-			$this->SetUICPItem('DstDesc',$UI_CW_Dst);
-		}elseif (defined('_DEST')) { // Const Legacy TDF
-			$this->SetUICPItem('DstDesc',_DEST);
-		}else{
-			$this->SetUICPItem('DstDesc');
 		}
 		if ( isset($UI_CP_DstName) ) { // Var New TDF
 			$this->SetUICPItem('DstName',$this->Phrase($UI_CP_DstName));
@@ -172,68 +242,12 @@ class UILang{
 		}else{
 			$this->SetUICPItem('SrcDst');
 		}
-		if ( isset($UI_CW_Id) ) { // Var New TDF
-			$this->SetUICPItem('Id',$UI_CW_Id);
-		}elseif (defined('_ID')) { // Const Legacy TDF
-			$this->SetUICPItem('Id',_ID);
+		if ( isset($UI_CP_SrcAddr) ) { // Var New TDF
+			$this->SetUICPItem('SrcAddr',$this->Phrase($UI_CP_SrcAddr,1));
+		}elseif (defined('_NBSOURCEADDR')) { // Const Legacy TDF
+			$this->SetUICPItem('SrcAddr',_NBSOURCEADDR);
 		}else{
-			$this->SetUICPItem('Id');
-		}
-		if ( isset($UI_CW_Name) ) { // Var New TDF
-			$this->SetUICPItem('Name',$UI_CW_Name);
-		}elseif (defined('_NAME')) { // Const Legacy TDF
-			$this->SetUICPItem('Name',_NAME);
-		}else{
-			$this->SetUICPItem('Name');
-		}
-		if ( isset($UI_CW_Int) ) { // Var New TDF
-			$this->SetUICPItem('Int',$UI_CW_Int);
-		}elseif (defined('_INTERFACE')) { // Const Legacy TDF
-			$this->SetUICPItem('Int',_INTERFACE);
-		}else{
-			$this->SetUICPItem('Int');
-		}
-		if ( isset($UI_CW_Filter) ) { // Var New TDF
-			$this->SetUICPItem('Filter',$UI_CW_Filter);
-		}elseif (defined('_FILTER')) { // Const Legacy TDF
-			$this->SetUICPItem('Filter',_FILTER);
-		}else{
-			$this->SetUICPItem('Filter');
-		}
-		if ( isset($UI_CW_Desc) ) { // Var New TDF
-			$this->SetUICPItem('Desc',$UI_CW_Desc);
-		}elseif (defined('_DESC')) { // Const Legacy TDF
-			$this->SetUICPItem('Desc',_DESC);
-		}else{
-			$this->SetUICPItem('Desc');
-		}
-		if ( isset($UI_CW_SucDesc) ) { // Var New TDF
-			$this->SetUICPItem('SucDesc',$UI_CW_SucDesc);
-		}elseif (defined('_SUCCESS')) { // Const Legacy TDF
-			$this->SetUICPItem('SucDesc',_SUCCESS);
-		}else{
-			$this->SetUICPItem('SucDesc');
-		}
-		if ( isset($UI_CW_Sensor) ) { // Var New TDF
-			$this->SetUICPItem('Sensor',$UI_CW_Sensor);
-		}elseif (defined('_SUCCESS')) { // Const Legacy TDF
-			$this->SetUICPItem('Sensor',_SENSOR);
-		}else{
-			$this->SetUICPItem('Sensor');
-		}
-		if ( isset($UI_CW_Sig) ) { // Var New TDF
-			$this->SetUICPItem('Sig',$UI_CW_Sig);
-		}elseif (defined('_SIGNATURE')) { // Const Legacy TDF
-			$this->SetUICPItem('Sig',_SIGNATURE);
-		}else{
-			$this->SetUICPItem('Sig');
-		}
-		if ( isset($UI_CW_Ts) ) { // Var New TDF
-			$this->SetUICPItem('Ts',$UI_CW_Ts);
-		}elseif (defined('_TIMESTAMP')) { // Const Legacy TDF
-			$this->SetUICPItem('Ts',_TIMESTAMP);
-		}else{
-			$this->SetUICPItem('Ts');
+			$this->SetUICPItem('SrcAddr');
 		}
 		// Init Authentication Data if Auth Sys is enabled.
 		if ($Use_Auth_System == 1) {
@@ -285,7 +299,7 @@ class UILang{
 		$this->Title = XSSPrintSafe($this->Title);
 		$this->ADA = XSSPrintSafe($this->ADA);
 		$this->CWA = XSSPrintSafe($this->CWA);
-		$this->CPA = XSSPrintSafe($this->CPA);
+		// $this->CPA = XSSPrintSafe($this->CPA);
 		$this->UAA = XSSPrintSafe($this->UAA);
 	}
 	// Notify about & Init unset/NULL TD Items.
@@ -352,7 +366,10 @@ class UILang{
 	}
 	// Sets Common Word Item from translation data.
 	function SetUICWItem($Item,$Value = NULL) {
-		$Items = array ( 'Role' );
+		$Items = array (
+			'Src', 'Dst', 'Id', 'Name', 'Int', 'Filter', 'Desc', 'SucDesc',
+			'Sensor', 'Sig', 'Ts', 'Role', 'Addr'
+		);
 		if (in_array($Item, $Items)) {
 			$this->CWA[$Item] = $Value;
 		}else{
@@ -362,10 +379,7 @@ class UILang{
 	}
 	// Sets Common Phrase Item from translation data.
 	function SetUICPItem($Item,$Value = NULL) {
-		$Items = array (
-			'SrcDesc', 'SrcName', 'DstDesc', 'DstName', 'SrcDst', 'Id', 'Name',
-			'Int', 'Filter', 'Desc', 'SucDesc', 'Sensor', 'Sig', 'Ts'
-		);
+		$Items = array ( 'SrcName', 'DstName', 'SrcDst', 'SrcAddr' );
 		if (in_array($Item, $Items)) {
 			$this->CPA[$Item] = $Value;
 		}else{
@@ -383,12 +397,18 @@ class UILang{
 			trigger_error("Invalid UA Set Request for: $Item.\n");
 		}
 	}
-	function Phrase($Words = array() ) {
+	function Phrase($Words = array(), $Nbs = 0 ) {
 		if ( !is_array($Words) ) {
 			$Words = array($Words);
 		}
+		// Anti XSS the Data.
+		$Words = XSSPrintSafe($Words);
 		if ($this->Spacing == 1){
-			$glue = ' ';
+			if ($Nbs == 1){
+				$glue = '&nbsp;';
+			}else{
+				$glue = ' ';
+			}
 		}else{
 			$glue = '';
 		}

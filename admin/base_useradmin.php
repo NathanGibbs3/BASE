@@ -170,8 +170,8 @@ if ( preg_match("/(create|add)/", $Action) || $Use_Auth_System == 1 ){
 				$asdesc = $UIL->ADA['DescAS'];
 				$AcEdit = $UIL->UAA['Edit'];
 				$AcDelete = $UIL->UAA['Delete'];
-				$uidesc = $UIL->CPA['Id'];
-				$ufndesc = $UIL->CPA['Name'];
+				$uidesc = $UIL->CWA['Id'];
+				$ufndesc = $UIL->CWA['Name'];
 				$users = $user->returnUsers();
 				$thc = "<td class='plfieldhdr'";
 				$thcw5 = "$thc width='5%'>";

@@ -160,8 +160,8 @@ $tmp_today_unique  = 'base_stat_alerts.php?time_cnt=1'.$today;
 $tmp_sip           = 'base_stat_uaddr.php?addr_type=1&amp;sort_order=occur_d&amp;time_cnt=1'.$today;
 $tmp_dip           = 'base_stat_uaddr.php?addr_type=2&amp;sort_order=occur_d&amp;time_cnt=1'.$today;
 
-$tmp_Source = $UIL->CPA['SrcDesc'];
-$tmp_Dest = $UIL->CPA['DstDesc'];
+$tmp_Source = $UIL->CWA['Src'];
+$tmp_Dest = $UIL->CWA['Dst'];
 $tmp_DSO = '&amp;sort_order=occur_d';
 
 echo '

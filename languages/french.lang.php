@@ -48,18 +48,18 @@ $UI_CW_Sig = 'Signature';
 $UI_CW_Role = 'RÃ´le';
 $UI_CW_Pw = 'Mot de passe';
 $UI_CW_Ts = 'Horodatage';
+$UI_CW_Addr = 'Adresse';
 // Common Phrases.
 $UI_CP_SrcName = array($UI_CW_Name,'de la',$UI_CW_Src);
 $UI_CP_DstName = array($UI_CW_Name,'de la',$UI_CW_Dst);
 $UI_CP_SrcDst = array('Src','ou','Dest');
+$UI_CP_SrcAddr = array($UI_CW_Addr,$UI_CW_Src);
 // Authentication Data.
 $UI_AD_UND = 'Identifiant';
 $UI_AD_RID = array($UI_CW_Id,'de',$UI_CW_Role);
 $UI_AD_ASD = 'Activé';
 
 //common phrases
-DEFINE('_NBSOURCEADDR','Adresse&nbsp;Source');
-// Source&nbsp;Address
 DEFINE('_NBDESTADDR','Adresse&nbsp;Dest.');
 // Dest.&nbsp;Address
 DEFINE('_NBLAYER4','Protocole&nbsp;de&nbsp;niveau&nbsp;4');

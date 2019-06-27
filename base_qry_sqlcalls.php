@@ -41,8 +41,9 @@ global $colored_alerts, $debug_mode;
   }
 
 // UI Language Vars
-$CPSig = $UIL->CPA['Sig'];
-$CPTs = $UIL->CPA['Ts'];
+$CPSig = $UIL->CWA['Sig'];
+$CPTs = $UIL->CWA['Ts'];
+$CPSA = $UIL->CPA['SrcAddr'];
 
   /* Run the query to determine the number of rows (No LIMIT)*/
   $qs->GetNumResultRows($cnt_sql, $db);
@@ -61,9 +62,10 @@ $qro->AddTitle($CPTs,
 	"time_a", " ", " ORDER BY timestamp ASC ",
 	"time_d", " ", " ORDER BY timestamp DESC "
 );
-  $qro->AddTitle(_NBSOURCEADDR, 
-                 "sip_a", " ", " ORDER BY ip_src ASC",
-                 "sip_d", " ", " ORDER BY ip_src DESC");
+$qro->AddTitle($CPSA,
+	"sip_a", " ", " ORDER BY ip_src ASC",
+	"sip_d", " ", " ORDER BY ip_src DESC"
+);
   $qro->AddTitle(_NBDESTADDR, 
                  "dip_a", " ", " ORDER BY ip_dst ASC",
                  "dip_d", " ", " ORDER BY ip_dst DESC");

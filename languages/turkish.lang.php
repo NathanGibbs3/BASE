@@ -48,17 +48,18 @@ $UI_CW_Sig = 'Ýmza';
 $UI_CW_Role = 'Rol';
 $UI_CW_Pw = 'Parola';
 $UI_CW_Ts = 'Zaman Damgasý';
+$UI_CW_Addr = 'Adresi';
 // Common Phrases.
 $UI_CP_SrcName = array($UI_CW_Src,$UI_CW_Name);
 $UI_CP_DstName = array($UI_CW_Dst,$UI_CW_Name);
 $UI_CP_SrcDst = array($UI_CW_Src,'veya',$UI_CW_Dst);
+$UI_CP_SrcAddr = array($UI_CW_Src,$UI_CW_Addr);
 // Authentication Data.
 $UI_AD_UND = 'Oturum Aç';
 $UI_AD_RID = array($UI_CW_Role,$UI_CW_Id);
 $UI_AD_ASD = 'Seçilir Kýlýnmýþ';
 
 //common phrases
-DEFINE('_NBSOURCEADDR','Kaynak Adresi');
 DEFINE('_NBDESTADDR','Varýþ Adresi');
 DEFINE('_NBLAYER4','4. Katman Protokolü');
 DEFINE('_PRIORITY','Öncelik');
@@ -248,7 +249,7 @@ DEFINE('_CREATEAG','UG Yarat (Ad yoluyla)');
 DEFINE('_CLEARAG','UG\'dan Temizle');
 DEFINE('_DELETEALERT','Uyarý(larý) sil');
 DEFINE('_EMAILALERTSFULL','Uyarý(larý) Email\'e gÃ¶nder (tüm)');
-DEFINE('_EMAILALERTSSUMM','Uyarý(larý) Email\'e gÃ¶nder (özet)');
+DEFINE('_EMAILALERTSSUMM','Uyarý(larý) Email\'e gÃ¶nder (Ã¶zet)');
 DEFINE('_EMAILALERTSCSV','Uyarý(larý) Email\'e gÃ¶nder (csv)');
 DEFINE('_ARCHIVEALERTSCOPY','Uyarý(larý) arþivle (kopyala)');
 DEFINE('_ARCHIVEALERTSMOVE','Uyarý(larý) arþivle (taþý)');
@@ -324,7 +325,7 @@ DEFINE('_UNCLASS','sýnýflandýrýlmamýþ');
 
 //base_state_citems.inc.php
 DEFINE('_DENCODED','veri þifrelenmiþ');
-DEFINE('_NODENCODED','(veri dÃ¶nüþtürme yok, DB yerel þifrelemedeki ölçüt sanýlýyor)');
+DEFINE('_NODENCODED','(veri dÃ¶nüþtürme yok, DB yerel þifrelemedeki Ã¶lçüt sanýlýyor)');
 DEFINE('_SHORTJAN','Oca');
 DEFINE('_SHORTFEB','Þub');
 DEFINE('_SHORTMAR','Mar');
@@ -369,7 +370,7 @@ DEFINE('_PHPSESSREG','Oturum Kaydedildi');
 //base_state_criteria.inc.php
 DEFINE('_REMOVE','Kaldýrýlýyor');
 DEFINE('_FROMCRIT','Ã¶lçütten');
-DEFINE('_ERRCRITELEM','Geçersiz Ã¶lçüt öðesi');
+DEFINE('_ERRCRITELEM','Geçersiz Ã¶lçüt Ã¶ðesi');
 
 //base_state_query.inc.php
 DEFINE('_VALIDCANNED','Geçerli Konservelenmiþ Sorgu Listesi');
@@ -395,7 +396,7 @@ DEFINE('_ERRAGDELETE','UG silme Hatasý');
 DEFINE('_AGDELETE','Baþarýlý biçimde SÝLÝNDÝ');
 DEFINE('_AGDELETEINFO','bilgi silindi');
 DEFINE('_ERRAGSEARCHINV','Girilen arama Ã¶lçütü geçersiz.  Tekrar deneyin!');
-DEFINE('_ERRAGSEARCHNOTFOUND','Bu Ã¶lçüte göre UG bulunamadý.');
+DEFINE('_ERRAGSEARCHNOTFOUND','Bu Ã¶lçüte gÃ¶re UG bulunamadý.');
 DEFINE('_NOALERTGOUPS','Hiç Uyarý Grubu yok');
 DEFINE('_NUMALERTS','# Uyarýlar');
 DEFINE('_ACTIONS','Eylemler');
@@ -558,16 +559,16 @@ DEFINE('_QCERRPAYLOAD','payload deðeri');
 DEFINE('_QCERRIP','IP adresi');
 DEFINE('_QCERRIPTYPE','Tipin IP adresi');
 DEFINE('_QCERRSPECFIELD',' bir protokol alaný için girildi, fakat Ã¶zel alan belirlenmemiþ.');
-DEFINE('_QCERRSPECVALUE','onun bir Ã¶lçüt olmasý gerektiðini göstermek üzere seçilmiþ, fakat hangisiyle eþleþeceðini gösteren hiçbir deðer belirlenmemiþ.');
-DEFINE('_QCERRBOOLEAN','Aralarýnda bir boolen iþleci olmadan (Ã¶rneðin; VE, YA DA) Çoklu Protokol Alan ölçütü girildi.');
-DEFINE('_QCERRDATEVALUE','bazý tarih/zaman Ã¶lçütünün eþleþmesi gerektiðini göstermek üzere seçilmiþ, fakat hiçbir deðer belirlenmemiþ.');
+DEFINE('_QCERRSPECVALUE','onun bir Ã¶lçüt olmasý gerektiðini gÃ¶stermek üzere seçilmiþ, fakat hangisiyle eþleþeceðini gÃ¶steren hiçbir deðer belirlenmemiþ.');
+DEFINE('_QCERRBOOLEAN','Aralarýnda bir boolen iþleci olmadan (Ã¶rneðin; VE, YA DA) Çoklu Protokol Alan Ã¶lçütü girildi.');
+DEFINE('_QCERRDATEVALUE','bazý tarih/zaman Ã¶lçütünün eþleþmesi gerektiðini gÃ¶stermek üzere seçilmiþ, fakat hiçbir deðer belirlenmemiþ.');
 DEFINE('_QCERRINVHOUR','(Geçersiz Saat) Belirtilen zamana uygun hiçbir tarih girilmemiþ.');
-DEFINE('_QCERRDATECRIT','bazý tarih/zaman Ã¶lçütünün eþleþmesi gerektiðini göstermek üzere seçilmiþ, fakat hiçbir deðer belirlenmemiþ.');
+DEFINE('_QCERRDATECRIT','bazý tarih/zaman Ã¶lçütünün eþleþmesi gerektiðini gÃ¶stermek üzere seçilmiþ, fakat hiçbir deðer belirlenmemiþ.');
 DEFINE('_QCERROPERSELECT','girilmiþ fakat hiçbir iþletici seçilmemiþ.');
-DEFINE('_QCERRDATEBOOL','Aralarýnda bir boolen iþleci olmadan (Ã¶rneðin; VE, YA DA) Çoklu Tarih/Zaman ölçütü girildi.');
-DEFINE('_QCERRPAYCRITOPER','bir payload Ã¶lçüt alaný için girilmiþ, fakat bir iþletici (örneðin; sahip, sahip deðil) belirtilmemiþ.');
-DEFINE('_QCERRPAYCRITVALUE','payload\'ýn bir Ã¶lçüt olmasý gerektiðini göstermek üzere seçilmiþ, fakat hangisiyle eþleþeceðini gösteren hiçbir deðer belirlenmemiþ.');
-DEFINE('_QCERRPAYBOOL','Aralarýnda bir boolen iþleci olmadan (Ã¶rneðin; VE, YA DA) Çoklu Veri payload ölçütü girildi.');
+DEFINE('_QCERRDATEBOOL','Aralarýnda bir boolen iþleci olmadan (Ã¶rneðin; VE, YA DA) Çoklu Tarih/Zaman Ã¶lçütü girildi.');
+DEFINE('_QCERRPAYCRITOPER','bir payload Ã¶lçüt alaný için girilmiþ, fakat bir iþletici (Ã¶rneðin; sahip, sahip deðil) belirtilmemiþ.');
+DEFINE('_QCERRPAYCRITVALUE','payload\'ýn bir Ã¶lçüt olmasý gerektiðini gÃ¶stermek üzere seçilmiþ, fakat hangisiyle eþleþeceðini gÃ¶steren hiçbir deðer belirlenmemiþ.');
+DEFINE('_QCERRPAYBOOL','Aralarýnda bir boolen iþleci olmadan (Ã¶rneðin; VE, YA DA) Çoklu Veri payload Ã¶lçütü girildi.');
 DEFINE('_QCMETACRIT','Meta Ölçütü');
 DEFINE('_QCIPCRIT','IP Ölçütü');
 DEFINE('_QCPAYCRIT','Payload Ölçütü');
@@ -576,10 +577,10 @@ DEFINE('_QCUDPCRIT','UDP Ölçütü');
 DEFINE('_QCICMPCRIT','ICMP Ölçütü');
 DEFINE('_QCLAYER4CRIT','4. Katman Ölçütü');
 DEFINE('_QCERRINVIPCRIT','Geçersiz IP adres Ã¶lçütü');
-DEFINE('_QCERRCRITADDRESSTYPE','bir Ã¶lçüt deðeri olmasý için girilmiþ, fakat adresin tipi (örneðin; kaynak, varýþ) belirlenmemiþ.');
-DEFINE('_QCERRCRITIPADDRESSNONE','bir IP adresinin bir Ã¶lçüt olmasý gerektiðini gösteriyor, fakat hangisiyle eþleþeceðini gösteren hiçbir adres belirlenmemiþ.');
+DEFINE('_QCERRCRITADDRESSTYPE','bir Ã¶lçüt deðeri olmasý için girilmiþ, fakat adresin tipi (Ã¶rneðin; kaynak, varýþ) belirlenmemiþ.');
+DEFINE('_QCERRCRITIPADDRESSNONE','bir IP adresinin bir Ã¶lçüt olmasý gerektiðini gÃ¶steriyor, fakat hangisiyle eþleþeceðini gÃ¶steren hiçbir adres belirlenmemiþ.');
 DEFINE('_QCERRCRITIPADDRESSNONE1','seçilmiþ (#');
-DEFINE('_QCERRCRITIPIPBOOL','IP Ölçütü arasýnda bir boolen iþleci olmadan (Ã¶rneðin; VE, YA DA) Çoklu IP adres ölçütü girildi');
+DEFINE('_QCERRCRITIPIPBOOL','IP Ölçütü arasýnda bir boolen iþleci olmadan (Ã¶rneðin; VE, YA DA) Çoklu IP adres Ã¶lçütü girildi');
 
 //base_qry_form.php
 DEFINE('_QFRMSORTORDER','Sýralama düzeni');
