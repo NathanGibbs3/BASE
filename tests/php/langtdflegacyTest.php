@@ -511,7 +511,7 @@ class legacylangTest extends TestCase {
 			);
 		}
 	}
-	// Test Commonm Word Items.
+	// Test Common Word Items.
 	public function testCWASetItemRole() {
 		$lang = self::$langs;
 		$tf = __FUNCTION__;
@@ -642,7 +642,7 @@ class legacylangTest extends TestCase {
 		LogTC($tf,'TD file',$file);
 		$this->CWAHas($$tmp,'Ts','Timestamp');
 	}
-	// Test Commonm Phrase Items.
+	// Test Common Phrase Items.
 	public function testCPASetItemSrcName() {
 		$lang = self::$langs;
 		$tf = __FUNCTION__;
@@ -673,7 +673,6 @@ class legacylangTest extends TestCase {
 		LogTC($tf,'TD file',$file);
 		$this->CPAHas($$tmp,'SrcDst','Src or Dest');
 	}
-
 	public function testCPASetItemSrcAddr() {
 		$lang = self::$langs;
 		$tf = __FUNCTION__;
@@ -683,6 +682,16 @@ class legacylangTest extends TestCase {
 		$file = $$tmp->TDF;
 		LogTC($tf,'TD file',$file);
 		$this->CPAHas($$tmp,'SrcAddr','Source Address');
+	}
+	public function testCPASetItemDstAddr() {
+		$lang = self::$langs;
+		$tf = __FUNCTION__;
+		$tmp = "UI$lang";
+		LogTC($tf,'language',$lang);
+		$$tmp = self::$UIL;
+		$file = $$tmp->TDF;
+		LogTC($tf,'TD file',$file);
+		$this->CPAHas($$tmp,'DstAddr','Destination Address');
 	}
 	// Test Universal Action Items.
 	public function testUAASetItemEdit() {

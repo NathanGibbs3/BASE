@@ -54,13 +54,13 @@ $UI_CP_SrcName = array($UI_CW_Name,$UI_CW_Src);
 $UI_CP_DstName = array($UI_CW_Name,$UI_CW_Dst);
 $UI_CP_SrcDst = array($UI_CW_Src,'atau',$UI_CW_Dst);
 $UI_CP_SrcAddr = array($UI_CW_Addr,$UI_CW_Src);
+$UI_CP_DstAddr = array($UI_CW_Addr,$UI_CW_Dst);
 // Authentication Data.
 $UI_AD_UND = 'Login';
 $UI_AD_RID = array($UI_CW_Id,$UI_CW_Role);
 $UI_AD_ASD = 'Aktif';
 
 //common phrases
-DEFINE('_NBDESTADDR','Alamat Sasaran');
 DEFINE('_NBLAYER4','Protokol Lapisan&nbsp;4&nbsp;');
 DEFINE('_PRIORITY','Prioritas');
 DEFINE('_EVENTTYPE','jenis peristiwa');

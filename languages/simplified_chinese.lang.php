@@ -36,7 +36,7 @@ $UI_Title = '基本安全分析引擎';
 $UI_CW_Edit = '编辑';
 $UI_CW_Delete = '删除';
 $UI_CW_Src = '来源';
-$UI_CW_Dst = '目的';
+$UI_CW_Dst = '目的地';
 $UI_CW_Id = 'ID';
 $UI_CW_Name = '名称';
 $UI_CW_Int = '界面';
@@ -54,13 +54,13 @@ $UI_CP_SrcName = array($UI_CW_Src,$UI_CW_Name);
 $UI_CP_DstName = array($UI_CW_Dst,$UI_CW_Name);
 $UI_CP_SrcDst = array($UI_CW_Src,'或',$UI_CW_Dst);
 $UI_CP_SrcAddr = array($UI_CW_Src,$UI_CW_Addr);
+$UI_CP_DstAddr = array($UI_CW_Dst,$UI_CW_Addr);
 // Authentication Data.
 $UI_AD_UND = '用户登录';
 $UI_AD_RID = array($UI_CW_Role,$UI_CW_Id);
 $UI_AD_ASD = '启用';
 
 //common phrases
-DEFINE('_NBDESTADDR','目标&nbsp;地址');
 DEFINE('_NBLAYER4','第&nbsp;4&nbsp;层协议');
 DEFINE('_PRIORITY','优先级');
 DEFINE('_EVENTTYPE','事件类型');
@@ -80,7 +80,7 @@ DEFINE('_LAST','最后');
 DEFINE('_FIRST','First'); //NEW
 DEFINE('_TOTAL','Total'); //NEW
 DEFINE('_ALERT','警告数');
-DEFINE('_ADDRESS','地址');
+DEFINE('_ADDRESS',$UI_CW_Addr);
 DEFINE('_UNKNOWN','未知');
 DEFINE('_AND','AND'); //NEW
 DEFINE('_OR','OR'); //NEW
@@ -183,7 +183,7 @@ DEFINE('_LOGINERROR',"用户不存在或者您输入的$UI_CW_Pw".'错误<br>请
 DEFINE('_MOSTRECENT','最近 ');
 DEFINE('_MOSTFREQUENT','最常出现 ');
 DEFINE('_ALERTS',' 警告数:');
-DEFINE('_ADDRESSES',' 地址');
+DEFINE('_ADDRESSES'," $UI_CW_Addr");
 DEFINE('_SOURCEIP','Source IP'); //NEW
 DEFINE('_DESTIP','Destination IP'); //NEW
 DEFINE('_ANYPROTO','任何协议');
@@ -193,10 +193,10 @@ DEFINE('_TALERTS','今日警告数: ');
 DEFINE('_L24ALERTS','最近24小时警告数: ');
 DEFINE('_L72ALERTS','最近72小时警告数: ');
 DEFINE('_UNIALERTS',' 单项警告数');
-DEFINE('_LSOURCEPORTS','最后来源端口: ');
-DEFINE('_LDESTPORTS','最后目标端口: ');
+DEFINE('_LSOURCEPORTS','最后'.$UI_CW_Src.'端口: ');
+DEFINE('_LDESTPORTS','最后'.$UI_CW_Dst.'端口: ');
 DEFINE('_FREGSOURCEP','出现频率最高源端口: ');
-DEFINE('_FREGDESTP','出现频率最高目的端口: ');
+DEFINE('_FREGDESTP','出现频率最高'.$UI_CW_Dst.'端口: ');
 DEFINE('_QUERIED','查询自');
 DEFINE('_USEALERTDB','Use Alert Database'); //NEW
 DEFINE('_USEARCHIDB','Use Archive Database'); //NEW
@@ -242,8 +242,7 @@ DEFINE('_BASEADMINTEXT','请从左边选择一个选项.');
 DEFINE('_NOACTION','没有指定对警告的动作');
 DEFINE('_INVALIDACT',' 是一个不合法的动作');
 DEFINE('_ERRNOAG','当没有指定 AG 时不能增加警告');
-DEFINE('_ERRNOEMAIL','由于没有指定 email 
-地址而无法通过邮件发送警告');
+DEFINE('_ERRNOEMAIL','由于没有指定 email '.$UI_CW_Addr.'而无法通过邮件发送警告');
 DEFINE('_ACTION','动作');
 DEFINE('_CONTEXT','上下文');
 DEFINE('_ADDAGID','添加到 AG(通过 ID)');
@@ -321,7 +320,7 @@ DEFINE('_LOADEDIN','执行耗时');
 DEFINE('_SECONDS','秒');
 
 //base_net.inc.php
-DEFINE('_ERRRESOLVEADDRESS','无法解析地址');
+DEFINE('_ERRRESOLVEADDRESS','无法解析'.$UI_CW_Addr);
 
 //base_output_query.inc.php
 DEFINE('_SHORTJAN','Jan'); //NEW
@@ -484,11 +483,11 @@ DEFINE('_CHRTTYPEDAY','时间 (天) vs. 警告的数量');
 DEFINE('_CHRTTYPEWEEK','时间 (周) vs. 警告的数量');
 DEFINE('_CHRTTYPEMONTH','时间 (月) vs. 警告的数量');
 DEFINE('_CHRTTYPEYEAR','时间 (年) vs. 警告的数量');
-DEFINE('_CHRTTYPESRCIP','源 IP 地址 vs. 警告的数量');
-DEFINE('_CHRTTYPEDSTIP','目的 IP 地址 vs. 警告的数量');
-DEFINE('_CHRTTYPEDSTUDP','目的 UDP 端口 vs. 警告的数量');
+DEFINE('_CHRTTYPESRCIP','源 IP '.$UI_CW_Addr.' vs. 警告的数量');
+DEFINE('_CHRTTYPEDSTIP',$UI_CW_Dst.' IP '.$UI_CW_Addr.' vs. 警告的数量');
+DEFINE('_CHRTTYPEDSTUDP',$UI_CW_Dst.' UDP 端口 vs. 警告的数量');
 DEFINE('_CHRTTYPESRCUDP','源 UDP 端口 vs. 警告的数量');
-DEFINE('_CHRTTYPEDSTPORT','目的 TCP 端口 vs. 警告的数量');
+DEFINE('_CHRTTYPEDSTPORT',$UI_CW_Dst.' TCP 端口 vs. 警告的数量');
 DEFINE('_CHRTTYPESRCPORT','源 TCP 端口 vs. 警告的数量');
 DEFINE('_CHRTTYPESIG','Sig. 分类 vs. 警告的数量');
 DEFINE('_CHRTTYPESENSOR','监测器 vs. 警告的数量');
@@ -515,15 +514,15 @@ DEFINE('_CHRTTIMEVNUMBER','时间 vs. 警告的数量');
 DEFINE('_CHRTTIME','时间');
 DEFINE('_CHRTALERTOCCUR','警告事件');
 DEFINE('_CHRTSIPNUMBER','源 IP vs. 警告的数量');
-DEFINE('_CHRTSIP','源 IP 地址');
-DEFINE('_CHRTDIPALERTS','目的 IP vs. 警告的数量');
-DEFINE('_CHRTDIP','目的 IP 地址');
-DEFINE('_CHRTUDPPORTNUMBER','UDP 端口 (目的) vs. 警告的数量');
-DEFINE('_CHRTDUDPPORT','目的 UDP 端口');
+DEFINE('_CHRTSIP','源 IP '.$UI_CW_Addr);
+DEFINE('_CHRTDIPALERTS',$UI_CW_Dst.' IP vs. 警告的数量');
+DEFINE('_CHRTDIP',$UI_CW_Dst.' IP '.$UI_CW_Addr);
+DEFINE('_CHRTUDPPORTNUMBER','UDP 端口 ('.$UI_CW_Dst.') vs. 警告的数量');
+DEFINE('_CHRTDUDPPORT',$UI_CW_Dst.' UDP 端口');
 DEFINE('_CHRTSUDPPORTNUMBER','UDP 端口 (源) vs. 警告的数量');
 DEFINE('_CHRTSUDPPORT','源 UDP 端口');
-DEFINE('_CHRTPORTDESTNUMBER','TCP 端口 (目的) vs. 警告的数量');
-DEFINE('_CHRTPORTDEST','目的 TCP 端口');
+DEFINE('_CHRTPORTDESTNUMBER','TCP 端口 ('.$UI_CW_Dst.') vs. 警告的数量');
+DEFINE('_CHRTPORTDEST',$UI_CW_Dst.' TCP 端口');
 DEFINE('_CHRTPORTSRCNUMBER','TCP 端口 (源) vs. 警告的数量');
 DEFINE('_CHRTPORTSRC','源 TCP 端口');
 DEFINE('_CHRTSIGNUMBER',$UI_CW_Sig.'分类 vs. 警告的数量');
@@ -551,11 +550,11 @@ DEFINE('_MNTDBARCHNAME','存档数据库名:');
 DEFINE('_MNTAIC','警告信息缓存:');
 DEFINE('_MNTAICTE','全部的事件:');
 DEFINE('_MNTAICCE','缓存的事件:');
-DEFINE('_MNTIPAC','IP 地址缓存');
+DEFINE('_MNTIPAC','IP '.$UI_CW_Addr.'缓存');
 DEFINE('_MNTIPACUSIP','单项源 IP:');
 DEFINE('_MNTIPACDNSC','DNS 缓存:');
 DEFINE('_MNTIPACWC','Whois 缓存:');
-DEFINE('_MNTIPACUDIP','单项目的 IP:');
+DEFINE('_MNTIPACUDIP','单项'.$UI_CW_Dst.' IP:');
 
 //base_qry_alert.php
 DEFINE('_QAINVPAIR','不可用 (sid,cid) 对');
@@ -567,7 +566,7 @@ DEFINE('_QANOPAYLOAD','Fast logging used so payload was discarded'); //NEW
 
 //base_qry_common.php
 DEFINE('_QCSIG',$UI_CW_Sig);
-DEFINE('_QCIPADDR','IP 地址');
+DEFINE('_QCIPADDR','IP '.$UI_CW_Addr);
 DEFINE('_QCIPFIELDS','IP 字段');
 DEFINE('_QCTCPPORTS','TCP 端口');
 DEFINE('_QCTCPFLAGS','TCP 标志');
@@ -584,8 +583,8 @@ DEFINE('_QCERROPER','一个操作为');
 DEFINE('_QCERRDATETIME','一个日期/时间值为');
 DEFINE('_QFRMSORTNONE','none'); //NEW
 DEFINE('_QCERRPAYLOAD','一个封包内容为');
-DEFINE('_QCERRIP','一个 IP 地址为');
-DEFINE('_QCERRIPTYPE','一个 IP 地址类型为');
+DEFINE('_QCERRIP','一个 IP '.$UI_CW_Addr.'为');
+DEFINE('_QCERRIPTYPE','一个 IP '.$UI_CW_Addr.'类型为');
 DEFINE('_QCERRSPECFIELD',' 
 已作为协议字段输入，但是没有指定特殊字段。');
 DEFINE('_QCERRSPECVALUE','已选择表明应该是一个准则，但是没有指定匹配什么值。');
@@ -613,14 +612,11 @@ DEFINE('_QCPAYCRIT','Payload 准则');
 DEFINE('_QCTCPCRIT','TCP 准则');
 DEFINE('_QCUDPCRIT','UDP 准则');
 DEFINE('_QCICMPCRIT','ICMP 准则');
-DEFINE('_QCERRINVIPCRIT','无效的 IP 地址准则');
-DEFINE('_QCERRCRITADDRESSTYPE','作为一个准则的值而输入，但是地址的类型 
-(例如： 源, 目的) 没有被指定。');
-DEFINE('_QCERRCRITIPADDRESSNONE','表示一个 IP 
-地址应该是一个准则，但是没有指定应该匹配的地址。');
+DEFINE('_QCERRINVIPCRIT','无效的 IP '.$UI_CW_Addr.'准则');
+DEFINE('_QCERRCRITADDRESSTYPE','作为一个准则的值而输入，但是'.$UI_CW_Addr.'的类型 (例如： 源, '.$UI_CW_Dst.') 没有被指定。');
+DEFINE('_QCERRCRITIPADDRESSNONE','表示一个 IP '.$UI_CW_Addr.'应该是一个准则，但是没有指定应该匹配的'.$UI_CW_Addr.'。');
 DEFINE('_QCERRCRITIPADDRESSNONE1','被选择 (at #');
-DEFINE('_QCERRCRITIPIPBOOL','输入的多 IP 地址准则在IP 
-地址之间没有布尔操作符 (e.g. AND, OR) ');
+DEFINE('_QCERRCRITIPIPBOOL','输入的多 IP '.$UI_CW_Addr.'准则在IP '.$UI_CW_Addr.'之间没有布尔操作符 (e.g. AND, OR) ');
 
 //base_qry_form.php
 DEFINE('_QFRMSORTORDER','排列顺序');
@@ -628,7 +624,7 @@ DEFINE('_QFRMTIMEA',$UI_CW_Ts.' (递增)');
 DEFINE('_QFRMTIMED',$UI_CW_Ts.' (递减)');
 DEFINE('_QFRMSIG',$UI_CW_Sig);
 DEFINE('_QFRMSIP','源 IP');
-DEFINE('_QFRMDIP','目标 IP');
+DEFINE('_QFRMDIP',$UI_CW_Dst.' IP');
 
 //base_qry_sqlcalls.php
 DEFINE('_QSCSUMM','摘要统计');
@@ -647,17 +643,17 @@ DEFINE('_ALERTTITLE','警告列表');
 DEFINE('_SCCATEGORIES','分类:');
 DEFINE('_SCSENSORTOTAL','监测器/总共:');
 DEFINE('_SCTOTALNUMALERTS','警告总数量:');
-DEFINE('_SCSRCIP','源 IP 地址:');
-DEFINE('_SCDSTIP','目标 IP 地址:');
+DEFINE('_SCSRCIP','源 IP '.$UI_CW_Addr.':');
+DEFINE('_SCDSTIP',$UI_CW_Dst.' IP '.$UI_CW_Addr.':');
 DEFINE('_SCUNILINKS','单项 IP 连接');
 DEFINE('_SCSRCPORTS','源端口: ');
-DEFINE('_SCDSTPORTS','目标端口: ');
+DEFINE('_SCDSTPORTS',$UI_CW_Dst.'端口: ');
 DEFINE('_SCSENSORS','探测器');
 DEFINE('_SCCLASS','分类');
-DEFINE('_SCUNIADDRESS','单项地址: ');
+DEFINE('_SCUNIADDRESS','单项'.$UI_CW_Addr.': ');
 DEFINE('_OCCURRENCES','Occurrences'); //NEW
 DEFINE('_SCSOURCE','源');
-DEFINE('_SCDEST','目标');
+DEFINE('_SCDEST',$UI_CW_Dst);
 DEFINE('_SCPORT','端口');
 
 //base_stat_ipaddr.php
@@ -667,13 +663,13 @@ DEFINE('_PSEVENTERRNOFILE','没有在 $portscan_file
 DEFINE('_PSEVENTERROPENFILE','无法打开端口扫描事件文件');
 DEFINE('_PSDATETIME','日期/时间');
 DEFINE('_PSSRCIP','源 IP');
-DEFINE('_PSDSTIP','目的 IP');
+DEFINE('_PSDSTIP',"$UI_CW_Dst IP");
 DEFINE('_BSTPROFILEBY','Profile by'); //NEW
 DEFINE('_TIMEON','on'); //NEW
 DEFINE('_TIMEBETWEEN','between'); //NEW
 DEFINE('_PROFILEALERT','Profile Alert'); //NEW
 DEFINE('_PSSRCPORT','源 端口');
-DEFINE('_PSDSTPORT','目的 端口');
+DEFINE('_PSDSTPORT',$UI_CW_Dst.' 端口');
 DEFINE('_PSTCPFLAGS','TCP 标志');
 DEFINE('_PSTOTALOCC','总共<BR> 发生');
 DEFINE('_PSNUMSENSORS','监测器数量');
@@ -685,22 +681,22 @@ DEFINE('_PSREGWHOIS','注册查询 (whois) 在');
 DEFINE('_PSNODNS','没有 DNS 解析企图');
 DEFINE('_PSNUMSENSORSBR','多少个 <BR>监测器');
 DEFINE('_PSOCCASSRC','发生频率 <BR>按源统计');
-DEFINE('_PSOCCASDST','发生频率 <BR>按目的统计');
+DEFINE('_PSOCCASDST','发生频率 <BR>按'.$UI_CW_Dst.'统计');
 DEFINE('_PSWHOISINFO','Whois 信息');
 
 //base_stat_iplink.php
 DEFINE('_SIPLTITLE','IP 连接数');
 DEFINE('_SIPLSOURCEFGDN','源域名');
-DEFINE('_SIPLDESTFGDN','目标域名');
+DEFINE('_SIPLDESTFGDN',$UI_CW_Dst.'域名');
 DEFINE('_SIPLDIRECTION','方向');
 DEFINE('_SIPLPROTO','协议');
-DEFINE('_SIPLUNIDSTPORTS','单项目标端口');
+DEFINE('_SIPLUNIDSTPORTS','单项'.$UI_CW_Dst.'端口');
 DEFINE('_SIPLUNIEVENTS','单项事件');
 DEFINE('_SIPLTOTALEVENTS','总事件');
 
 //base_stat_ports.php
 DEFINE('_UNIQ','单项');
-DEFINE('_DSTPS','目标端口');
+DEFINE('_DSTPS',$UI_CW_Dst.'端口');
 DEFINE('_SRCPS','源端口');
 
 //base_stat_sensor.php
@@ -720,15 +716,14 @@ DEFINE('_BSTERRNOMONTH','<FONT><B>没有设置"月"参数!</B></FONT>');
 DEFINE('_BSTERRNODAY','<FONT><B>没有设置"日"参数!</B></FONT>');
 
 //base_stat_uaddr.php
-DEFINE('_UNISADD','单项源地址');
-DEFINE('_SUASRCIP','源 IP 地址');
-DEFINE('_SUAERRCRITADDUNK','准则错误: 位置地址类型 -- 
-假定目标地址');
-DEFINE('_UNIDADD','单词目标地址');
-DEFINE('_SUADSTIP','目标 IP 地址');
+DEFINE('_UNISADD','单项源'.$UI_CW_Addr);
+DEFINE('_SUASRCIP','源 IP '.$UI_CW_Addr);
+DEFINE('_SUAERRCRITADDUNK','准则错误: 位置'.$UI_CW_Addr.'类型 -- 假定'.$UI_CW_Dst.$UI_CW_Addr);
+DEFINE('_UNIDADD','单词'.$UI_CW_Dst.$UI_CW_Addr);
+DEFINE('_SUADSTIP',$UI_CW_Dst.' IP '.$UI_CW_Addr);
 DEFINE('_SUAUNIALERTS','单项&nbsp;警告');
-DEFINE('_SUASRCADD','源&nbsp;地址');
-DEFINE('_SUADSTADD','目标&nbsp;地址');
+DEFINE('_SUASRCADD','源&nbsp;'.$UI_CW_Addr);
+DEFINE('_SUADSTADD',$UI_CW_Dst.'&nbsp;'.$UI_CW_Addr);
 
 //base_user.php
 DEFINE('_BASEUSERTITLE','BASE 用户参数设置');

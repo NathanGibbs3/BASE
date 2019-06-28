@@ -249,6 +249,13 @@ class UILang{
 		}else{
 			$this->SetUICPItem('SrcAddr');
 		}
+		if ( isset($UI_CP_DstAddr) ) { // Var New TDF
+			$this->SetUICPItem('DstAddr',$this->Phrase($UI_CP_DstAddr,1));
+		}elseif (defined('_NBDESTADDR')) { // Const Legacy TDF
+			$this->SetUICPItem('DstAddr',_NBDESTADDR);
+		}else{
+			$this->SetUICPItem('DstAddr');
+		}
 		// Init Authentication Data if Auth Sys is enabled.
 		if ($Use_Auth_System == 1) {
 			if ( isset($UI_AD_UND) ) { // Var New TDF
@@ -299,7 +306,8 @@ class UILang{
 		$this->Title = XSSPrintSafe($this->Title);
 		$this->ADA = XSSPrintSafe($this->ADA);
 		$this->CWA = XSSPrintSafe($this->CWA);
-		// $this->CPA = XSSPrintSafe($this->CPA);
+		// $this->CPA Anti XXSed via Phrase() during construction.
+		// Necessary for &nbsp; support.
 		$this->UAA = XSSPrintSafe($this->UAA);
 	}
 	// Notify about & Init unset/NULL TD Items.
@@ -379,7 +387,9 @@ class UILang{
 	}
 	// Sets Common Phrase Item from translation data.
 	function SetUICPItem($Item,$Value = NULL) {
-		$Items = array ( 'SrcName', 'DstName', 'SrcDst', 'SrcAddr' );
+		$Items = array (
+			'SrcName', 'DstName', 'SrcDst', 'SrcAddr', 'DstAddr'
+		);
 		if (in_array($Item, $Items)) {
 			$this->CPA[$Item] = $Value;
 		}else{
@@ -397,6 +407,7 @@ class UILang{
 			trigger_error("Invalid UA Set Request for: $Item.\n");
 		}
 	}
+	// Phrase Construction.
 	function Phrase($Words = array(), $Nbs = 0 ) {
 		if ( !is_array($Words) ) {
 			$Words = array($Words);

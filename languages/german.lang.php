@@ -36,8 +36,8 @@ $UI_Title = 'Basic Analysis and Security Engine';
 // Common Words.
 $UI_CW_Edit = 'Bearbeiten';
 $UI_CW_Delete = 'Entfernen';
-$UI_CW_Src = 'Quellen';
-$UI_CW_Dst = 'Ziele';
+$UI_CW_Src = 'Quelle';
+$UI_CW_Dst = 'Bestimmungsort';
 $UI_CW_Id = 'ID';
 $UI_CW_Name = 'Name';
 $UI_CW_Int = 'Schnittstelle';
@@ -51,17 +51,17 @@ $UI_CW_Pw = 'Passwort';
 $UI_CW_Ts = 'Zeitstempel';
 $UI_CW_Addr = 'adresse';
 // Common Phrases.
-$UI_CP_SrcName = 'Quellname';
-$UI_CP_DstName = 'Zielname';
-$UI_CP_SrcDst = array('Quelle','oder','Ziel');
+$UI_CP_SrcName = array($UI_CW_Src,$UI_CW_Name);
+$UI_CP_DstName = array($UI_CW_Dst,$UI_CW_Name);
+$UI_CP_SrcDst = array($UI_CW_Src,'oder',$UI_CW_Dst);
 $UI_CP_SrcAddr = array($UI_CW_Src,$UI_CW_Addr);
+$UI_CP_DstAddr = array($UI_CW_Dst,$UI_CW_Addr);
 // Authentication Data.
 $UI_AD_UND = 'Login';
 $UI_AD_RID = array($UI_CW_Role,$UI_CW_Id);
 $UI_AD_ASD = 'Aktiv';
 
 //common phrases
-DEFINE('_NBDESTADDR','Zieladresse');
 DEFINE('_NBLAYER4','Schicht&nbsp;4&nbsp;Protokoll');
 DEFINE('_PRIORITY','Priorit&auml;t');
 DEFINE('_EVENTTYPE','Ereignistyp');

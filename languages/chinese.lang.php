@@ -54,13 +54,13 @@ $UI_CP_SrcName = array($UI_CW_Src,$UI_CW_Name);
 $UI_CP_DstName = array($UI_CW_Dst,$UI_CW_Name);
 $UI_CP_SrcDst = array($UI_CW_Src,'或',$UI_CW_Dst);
 $UI_CP_SrcAddr = array($UI_CW_Src,$UI_CW_Addr);
+$UI_CP_DstAddr = array($UI_CW_Dst,$UI_CW_Addr);
 // Authentication Data.
 $UI_AD_UND = '使用者登入';
 $UI_AD_RID = array($UI_CW_Role,$UI_CW_Id);
 $UI_AD_ASD = '啟用';
 
 //common phrases
-DEFINE('_NBDESTADDR','目地&nbsp;'.$UI_CW_Addr);
 DEFINE('_NBLAYER4','通訊&nbsp;4&nbsp;層級');
 DEFINE('_PRIORITY','優先等級');
 DEFINE('_EVENTTYPE','事件型態');
@@ -98,7 +98,7 @@ DEFINE('_ALERTTIME','警告時間'); //NEW
 DEFINE('_CONTAINS','包含'); //NEW
 DEFINE('_DOESNTCONTAIN','不包含'); //NEW
 DEFINE('_SOURCEPORT',$UI_CW_Src.'通訊埠'); //NEW
-DEFINE('_DESTPORT','目地通訊埠'); //NEW
+DEFINE('_DESTPORT',$UI_CW_Dst.'通訊埠'); //NEW
 DEFINE('_HAS','有'); //NEW
 DEFINE('_HASNOT','不具有'); //NEW
 DEFINE('_PORT','通訊埠'); //NEW
@@ -185,14 +185,14 @@ DEFINE('_UNI','單一');
 DEFINE('_LISTING','列表');
 DEFINE('_TALERTS','今天的警告數: ');
 DEFINE('_SOURCEIP',$UI_CW_Src.' IP'); //NEW
-DEFINE('_DESTIP','目地 IP'); //NEW
+DEFINE('_DESTIP',$UI_CW_Dst.' IP'); //NEW
 DEFINE('_L24ALERTS','最近 24 小時警告數: ');
 DEFINE('_L72ALERTS','最近 72 小時警告數: ');
 DEFINE('_UNIALERTS',' 單項警告數');
 DEFINE('_LSOURCEPORTS','最近'.$UI_CW_Src.'通訊埠數: ');
-DEFINE('_LDESTPORTS','最近目地通訊埠數: ');
+DEFINE('_LDESTPORTS','最近'.$UI_CW_Dst.'通訊埠數: ');
 DEFINE('_FREGSOURCEP','最常出現'.$UI_CW_Src.'通訊埠數: ');
-DEFINE('_FREGDESTP','最常出現目地通訊埠數: ');
+DEFINE('_FREGDESTP','最常出現'.$UI_CW_Dst.'通訊埠數: ');
 DEFINE('_QUERIED','查詢自');
 DEFINE('_DATABASE','資料庫:');
 DEFINE('_SCHEMAV','Schema 版本:');
@@ -459,10 +459,10 @@ DEFINE('_CHRTTYPEWEEK','時間 (週) vs. 警告數');
 DEFINE('_CHRTTYPEMONTH','時間 (月) vs. 警告數');
 DEFINE('_CHRTTYPEYEAR','時間 (年) vs. 警告數');
 DEFINE('_CHRTTYPESRCIP',$UI_CW_Src.'. IP '.$UI_CW_Addr.' vs. 警告數');
-DEFINE('_CHRTTYPEDSTIP','目地. IP '.$UI_CW_Addr.' vs. 警告數');
-DEFINE('_CHRTTYPEDSTUDP','目地. UDP 通訊埠 vs. 警告數');
+DEFINE('_CHRTTYPEDSTIP',$UI_CW_Dst.'. IP '.$UI_CW_Addr.' vs. 警告數');
+DEFINE('_CHRTTYPEDSTUDP',$UI_CW_Dst.'. UDP 通訊埠 vs. 警告數');
 DEFINE('_CHRTTYPESRCUDP',$UI_CW_Src.'. UDP 通訊埠 vs. 警告數');
-DEFINE('_CHRTTYPEDSTPORT','目地. TCP 通訊埠 vs. 警告數');
+DEFINE('_CHRTTYPEDSTPORT',$UI_CW_Dst.'. TCP 通訊埠 vs. 警告數');
 DEFINE('_CHRTTYPESRCPORT',$UI_CW_Src.'. TCP 通訊埠 vs. 警告數');
 DEFINE('_CHRTTYPESIG',$UI_CW_Sig.'. 分類 vs. 警告數');
 DEFINE('_CHRTTYPESENSOR','偵測器 vs. 警告數');
@@ -489,13 +489,13 @@ DEFINE('_CHRTTIME','時間');
 DEFINE('_CHRTALERTOCCUR','警告事件');
 DEFINE('_CHRTSIPNUMBER',$UI_CW_Src.' IP vs. N警告數s');
 DEFINE('_CHRTSIP',$UI_CW_Src.' IP '.$UI_CW_Addr);
-DEFINE('_CHRTDIPALERTS','目地 IP vs. 警告數');
-DEFINE('_CHRTDIP','目地 IP '.$UI_CW_Addr);
-DEFINE('_CHRTUDPPORTNUMBER','UDP 通訊埠 (目地) vs. 警告數');
+DEFINE('_CHRTDIPALERTS',$UI_CW_Dst.' IP vs. 警告數');
+DEFINE('_CHRTDIP',$UI_CW_Dst.' IP '.$UI_CW_Addr);
+DEFINE('_CHRTUDPPORTNUMBER','UDP 通訊埠 ('.$UI_CW_Dst.') vs. 警告數');
 DEFINE('_CHRTDUDPPORT','Dst. UDP 通訊埠');
 DEFINE('_CHRTSUDPPORTNUMBER','UDP 通訊埠 ('.$UI_CW_Src.') vs. 警告數');
 DEFINE('_CHRTSUDPPORT','Src. UDP 通訊埠');
-DEFINE('_CHRTPORTDESTNUMBER','TCP 通訊埠 (目地) vs. 警告數');
+DEFINE('_CHRTPORTDESTNUMBER','TCP 通訊埠 ('.$UI_CW_Dst.') vs. 警告數');
 DEFINE('_CHRTPORTDEST','Dst. TCP 通訊埠');
 DEFINE('_CHRTPORTSRCNUMBER','TCP 通訊埠 ('.$UI_CW_Src.') vs. 警告數');
 DEFINE('_CHRTPORTSRC','Src. TCP 通訊埠');
@@ -529,7 +529,7 @@ DEFINE('_MNTIPAC','IP '.$UI_CW_Addr.'快取');
 DEFINE('_MNTIPACUSIP','單一'.$UI_CW_Src.' IP:');
 DEFINE('_MNTIPACDNSC','DNS 快取:');
 DEFINE('_MNTIPACWC','Whois 快取:');
-DEFINE('_MNTIPACUDIP','單一目地 IP:');
+DEFINE('_MNTIPACUDIP','單一'.$UI_CW_Dst.' IP:');
 
 //base_qry_alert.php
 DEFINE('_QAINVPAIR','不合法 (sid,cid) 配對');
@@ -577,7 +577,7 @@ DEFINE('_QCUDPCRIT','UDP 標準');
 DEFINE('_QCICMPCRIT','ICMP 標準');
 DEFINE('_QCLAYER4CRIT','第四層規則'); //NEW
 DEFINE('_QCERRINVIPCRIT','不合法 IP '.$UI_CW_Addr.'標準');
-DEFINE('_QCERRCRITADDRESSTYPE','已經被輸入做為標準值, 但是'.$UI_CW_Addr.'型態 (例. '.$UI_CW_Src.', 目地) 沒有被指定.');
+DEFINE('_QCERRCRITADDRESSTYPE','已經被輸入做為標準值, 但是'.$UI_CW_Addr.'型態 (例. '.$UI_CW_Src.', '.$UI_CW_Dst.') 沒有被指定.');
 DEFINE('_QCERRCRITIPADDRESSNONE','指出一個 IP '.$UI_CW_Addr.'必需當做標準, 但是沒有'.$UI_CW_Addr.'可以與指定的相符合.');
 DEFINE('_QCERRCRITIPADDRESSNONE1','已經選擇 (於 #');
 DEFINE('_QCERRCRITIPIPBOOL','多個 IP '.$UI_CW_Addr.'標準輸入但是沒有一個邏輯運算子 (例. AND, OR) 介於兩個 IP 標準間');
@@ -589,7 +589,7 @@ DEFINE('_QFRMTIMEA',"$UI_CW_Ts (ascend)");
 DEFINE('_QFRMTIMED',"$UI_CW_Ts (descend)");
 DEFINE('_QFRMSIG',$UI_CW_Sig);
 DEFINE('_QFRMSIP',$UI_CW_Src.' IP');
-DEFINE('_QFRMDIP','目地 IP');
+DEFINE('_QFRMDIP',$UI_CW_Dst.' IP');
 
 //base_qry_sqlcalls.php
 DEFINE('_QSCSUMM','摘要狀態');
@@ -604,15 +604,15 @@ DEFINE('_SCCATEGORIES','目錄:');
 DEFINE('_SCSENSORTOTAL','偵測器/全部:');
 DEFINE('_SCTOTALNUMALERTS','全部警告數:');
 DEFINE('_SCSRCIP',$UI_CW_Src.' IP '.$UI_CW_Addr.':');
-DEFINE('_SCDSTIP','目地 IP '.$UI_CW_Addr.':');
+DEFINE('_SCDSTIP',$UI_CW_Dst.' IP '.$UI_CW_Addr.':');
 DEFINE('_SCUNILINKS','單一 IP 連結數');
 DEFINE('_SCSRCPORTS',$UI_CW_Src.' 通訊埠數: ');
-DEFINE('_SCDSTPORTS','目地 通訊埠數: ');
+DEFINE('_SCDSTPORTS',$UI_CW_Dst.' 通訊埠數: ');
 DEFINE('_SCSENSORS','偵測器');
 DEFINE('_SCCLASS','分類');
 DEFINE('_SCUNIADDRESS','單一'.$UI_CW_Addr.': ');
 DEFINE('_SCSOURCE',$UI_CW_Src);
-DEFINE('_SCDEST','目地');
+DEFINE('_SCDEST',$UI_CW_Dst);
 DEFINE('_SCPORT','通訊埠');
 
 //base_stat_ipaddr.php
@@ -621,9 +621,9 @@ DEFINE('_PSEVENTERRNOFILE','沒有檔案被指定在 $portscan_file 變數.');
 DEFINE('_PSEVENTERROPENFILE','無法開啟 通訊埠掃描 事件檔');
 DEFINE('_PSDATETIME','日期/時間');
 DEFINE('_PSSRCIP',$UI_CW_Src.' IP');
-DEFINE('_PSDSTIP','目地 IP');
+DEFINE('_PSDSTIP',$UI_CW_Dst.' IP');
 DEFINE('_PSSRCPORT',$UI_CW_Src.'通訊埠');
-DEFINE('_PSDSTPORT','目地通訊埠');
+DEFINE('_PSDSTPORT',$UI_CW_Dst.'通訊埠');
 DEFINE('_PSTCPFLAGS','TCP 旗標');
 DEFINE('_PSTOTALOCC','全部<BR> 事件');
 DEFINE('_PSNUMSENSORS','偵測器數目');
@@ -635,7 +635,7 @@ DEFINE('_PSREGWHOIS','登入查詢 (whois) 於');
 DEFINE('_PSNODNS','沒有 DNS 解析企圖');
 DEFINE('_PSNUMSENSORSBR','偵測器 <BR>數目');
 DEFINE('_PSOCCASSRC','發生 <BR>做為'.$UI_CW_Src);
-DEFINE('_PSOCCASDST','發生 <BR>做為目地');
+DEFINE('_PSOCCASDST','發生 <BR>做為'.$UI_CW_Dst);
 DEFINE('_PSWHOISINFO','Whois 資訊');
 DEFINE('_PSTOTALHOSTS','全部掃描到主機'); //NEW
 DEFINE('_PSDETECTAMONG','%d 單項偵測到警告在 %d 之中為 %s'); //NEW
@@ -646,16 +646,16 @@ DEFINE('_PSEXTERNAL','外部'); //NEW
 //base_stat_iplink.php
 DEFINE('_SIPLTITLE','IP 連結數');
 DEFINE('_SIPLSOURCEFGDN',$UI_CW_Src.' FQDN');
-DEFINE('_SIPLDESTFGDN','目地 FQDN');
+DEFINE('_SIPLDESTFGDN',$UI_CW_Dst.' FQDN');
 DEFINE('_SIPLDIRECTION','方向');
 DEFINE('_SIPLPROTO','通訊協定');
-DEFINE('_SIPLUNIDSTPORTS','單一目地通訊埠');
+DEFINE('_SIPLUNIDSTPORTS','單一'.$UI_CW_Dst.'通訊埠');
 DEFINE('_SIPLUNIEVENTS','單一事件');
 DEFINE('_SIPLTOTALEVENTS','全部事件');
 
 //base_stat_ports.php
 DEFINE('_UNIQ','單一');
-DEFINE('_DSTPS','目地通訊埠數');
+DEFINE('_DSTPS',$UI_CW_Dst.'通訊埠數');
 DEFINE('_SRCPS',$UI_CW_Src.'通訊埠數');
 DEFINE('_OCCURRENCES','Occurrences'); //NEW
 
@@ -676,14 +676,14 @@ DEFINE('_TIMEBETWEEN','之間'); //NEW
 DEFINE('_PROFILEALERT',' 曲線圖表 警告資料'); //NEW
 
 //base_stat_uaddr.php
-DEFINE('_UNISADD','單一'.$UI_CW_Src.$UI_CW_Addr.'數)');
+DEFINE('_UNISADD','單一'.$UI_CW_Src.$UI_CW_Addr.'數');
 DEFINE('_SUASRCIP',"$UI_CW_Src IP $UI_CW_Addr");
-DEFINE('_SUAERRCRITADDUNK','標準錯誤: 未知'.$UI_CW_Addr.'型態 -- 表示目地'.$UI_CW_Addr);
-DEFINE('_UNIDADD','單一目地'.$UI_CW_Addr.'數');
-DEFINE('_SUADSTIP','目地 IP '.$UI_CW_Addr);
+DEFINE('_SUAERRCRITADDUNK','標準錯誤: 未知'.$UI_CW_Addr.'型態 -- 表示'.$UI_CW_Dst.$UI_CW_Addr);
+DEFINE('_UNIDADD','單一'.$UI_CW_Dst.$UI_CW_Addr.'數');
+DEFINE('_SUADSTIP',"$UI_CW_Dst IP $UI_CW_Addr");
 DEFINE('_SUAUNIALERTS','單一&nbsp;警告數');
 DEFINE('_SUASRCADD',$UI_CW_Src.'&nbsp;'.$UI_CW_Addr);
-DEFINE('_SUADSTADD','目地&nbsp;'.$UI_CW_Addr);
+DEFINE('_SUADSTADD',$UI_CW_Dst.'&nbsp;'.$UI_CW_Addr);
 
 //base_user.php
 DEFINE('_BASEUSERTITLE','BASE 使用者參數');

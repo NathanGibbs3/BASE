@@ -56,13 +56,13 @@ $UI_CP_SrcName = array($UI_CW_Name,$UI_CW_Src);
 $UI_CP_DstName = array($UI_CW_Name,$UI_CW_Dst);
 $UI_CP_SrcDst = array($UI_CW_Src,'или',$UI_CW_Dst);
 $UI_CP_SrcAddr = array($UI_CW_Addr,$UI_CW_Src);
+$UI_CP_DstAddr = array($UI_CW_Addr,'назначения');
 // Authentication Data.
 $UI_AD_UND = 'Логин';
 $UI_AD_RID = array($UI_CW_Id,$UI_CW_Role);
 $UI_AD_ASD = 'Включено';
 
 // основные фразы
-DEFINE('_NBDESTADDR','Адрес&nbsp;назначения');
 DEFINE('_NBLAYER4','Слой&nbsp;для&nbsp;прото');
 DEFINE('_PRIORITY','Приоритет');
 DEFINE('_EVENTTYPE','тип события');

@@ -54,13 +54,13 @@ $UI_CP_SrcName = array($UI_CW_Src,$UI_CW_Name);
 $UI_CP_DstName = array($UI_CW_Dst,$UI_CW_Name);
 $UI_CP_SrcDst = array($UI_CW_Src,'or',$UI_CW_Dst);
 $UI_CP_SrcAddr = array($UI_CW_Src,$UI_CW_Addr);
+$UI_CP_DstAddr = array($UI_CW_Dst,$UI_CW_Addr);
 // Authentication Data.
 $UI_AD_UND = 'ログイン';
 $UI_AD_RID = array($UI_CW_Role,$UI_CW_Id);
 $UI_AD_ASD = '有効';
 
 //common phrases
-DEFINE('_NBDESTADDR','発信先&nbsp;アドレス');
 DEFINE('_NBLAYER4','レイヤー&nbsp;4&nbsp;Proto');
 DEFINE('_PRIORITY','優先度');
 DEFINE('_EVENTTYPE','イベントタイプ');
@@ -80,7 +80,7 @@ DEFINE('_LAST','最新の');
 DEFINE('_FIRST','First'); //NEW
 DEFINE('_TOTAL','Total'); //NEW
 DEFINE('_ALERT','アラート');
-DEFINE('_ADDRESS','アドレス');
+DEFINE('_ADDRESS',$UI_CW_Addr);
 DEFINE('_UNKNOWN','不明');
 DEFINE('_AND','AND'); //NEW
 DEFINE('_OR','OR'); //NEW
@@ -179,7 +179,7 @@ DEFINE('_LOGINERROR','ユーザーが存在しないか、'.$UI_CW_Pw.'が間違
 DEFINE('_MOSTRECENT','最近');
 DEFINE('_MOSTFREQUENT','上位');
 DEFINE('_ALERTS',' アラート:');
-DEFINE('_ADDRESSES',' アドレス:');
+DEFINE('_ADDRESSES',' '.$UI_CW_Addr.':');
 DEFINE('_ANYPROTO','すべて');
 DEFINE('_UNI','種類別');
 DEFINE('_LISTING','リスト');
@@ -189,9 +189,9 @@ DEFINE('_DESTIP','Destination IP'); //NEW
 DEFINE('_L24ALERTS','過去24時間のアラート: ');
 DEFINE('_L72ALERTS','過去72時間のアラート: ');
 DEFINE('_UNIALERTS','件のユニークアラート');
-DEFINE('_LSOURCEPORTS','最近の発信元ポート: ');
+DEFINE('_LSOURCEPORTS','最近の'.$UI_CW_Src.'ポート: ');
 DEFINE('_LDESTPORTS','最近の送信先ポート: ');
-DEFINE('_FREGSOURCEP','発信元ポートランキング: ');
+DEFINE('_FREGSOURCEP',$UI_CW_Src.'ポートランキング: ');
 DEFINE('_FREGDESTP','送信先ポートランキング: ');
 DEFINE('_QUERIED','クエリ発行');
 DEFINE('_DATABASE','データベース:');
@@ -239,7 +239,7 @@ DEFINE('_BASEADMINTEXT','左のオプションから選択して下さい。');
 DEFINE('_NOACTION','このアラートで設定されているアクションはありません。');
 DEFINE('_INVALIDACT',' 無効なアクションです。');
 DEFINE('_ERRNOAG','AG を指定してからアラートを追加してください。');
-DEFINE('_ERRNOEMAIL','メールアドレスが指定されていないため、メールは送信されませんでした。');
+DEFINE('_ERRNOEMAIL','メール'.$UI_CW_Addr.'が指定されていないため、メールは送信されませんでした。');
 DEFINE('_ACTION','アクション');
 DEFINE('_CONTEXT','コンテキスト');
 DEFINE('_ADDAGID','アラートグループに追加 (IDで指定)');
@@ -458,12 +458,12 @@ DEFINE('_CHRTTYPEDAY','日 vs. アラート数');
 DEFINE('_CHRTTYPEWEEK','週 vs. アラート数');
 DEFINE('_CHRTTYPEMONTH','月 vs. アラート数');
 DEFINE('_CHRTTYPEYEAR','年 vs. アラート数');
-DEFINE('_CHRTTYPESRCIP','発信元 IP vs. アラート数');
+DEFINE('_CHRTTYPESRCIP',$UI_CW_Src.' IP vs. アラート数');
 DEFINE('_CHRTTYPEDSTIP','送信先 IP address vs. アラート数');
 DEFINE('_CHRTTYPEDSTUDP','送信先 UDP Port vs. アラート数');
-DEFINE('_CHRTTYPESRCUDP','発信元 UDP Port vs. アラート数');
+DEFINE('_CHRTTYPESRCUDP',$UI_CW_Src.' UDP Port vs. アラート数');
 DEFINE('_CHRTTYPEDSTPORT','送信先 TCP Port vs. アラート数');
-DEFINE('_CHRTTYPESRCPORT','発信元 TCP Port vs. アラート数');
+DEFINE('_CHRTTYPESRCPORT',$UI_CW_Src.' TCP Port vs. アラート数');
 DEFINE('_CHRTTYPESIG','Sig. Classification vs. アラート数');
 DEFINE('_CHRTTYPESENSOR','センサー vs. アラート数');
 DEFINE('_CHRTBEGIN','Chart Begin:');
@@ -487,17 +487,17 @@ DEFINE('_CHRTDATAIMPORT','データインポート開始');
 DEFINE('_CHRTTIMEVNUMBER','時間　ｘ　アラート数');
 DEFINE('_CHRTTIME','時間');
 DEFINE('_CHRTALERTOCCUR','アラート発生数');
-DEFINE('_CHRTSIPNUMBER','発信元IP　ｘ　アラート数');
-DEFINE('_CHRTSIP','発信元IPアドレス');
-DEFINE('_CHRTDIPALERTS','送信先IPアドレス　ｘ　アラート数');
-DEFINE('_CHRTDIP','送信先IPアドレス');
+DEFINE('_CHRTSIPNUMBER',$UI_CW_Src.'IP　ｘ　アラート数');
+DEFINE('_CHRTSIP',$UI_CW_Src.'IP'.$UI_CW_Addr);
+DEFINE('_CHRTDIPALERTS','送信先IP'.$UI_CW_Addr.'　ｘ　アラート数');
+DEFINE('_CHRTDIP','送信先IP'.$UI_CW_Addr);
 DEFINE('_CHRTUDPPORTNUMBER','UDPポート (送信先)　ｘ　アラート数');
 DEFINE('_CHRTDUDPPORT','Dst. UDP Port');
-DEFINE('_CHRTSUDPPORTNUMBER','UDP Port (発信元)　ｘ　アラート数');
+DEFINE('_CHRTSUDPPORTNUMBER','UDP Port ('.$UI_CW_Src.')　ｘ　アラート数');
 DEFINE('_CHRTSUDPPORT','Src. UDP Port');
 DEFINE('_CHRTPORTDESTNUMBER','TCP Port (送信先)　ｘ　アラート数');
 DEFINE('_CHRTPORTDEST','Dst. TCP Port');
-DEFINE('_CHRTPORTSRCNUMBER','TCP Port (発信元)　ｘ　アラート数');
+DEFINE('_CHRTPORTSRCNUMBER','TCP Port ('.$UI_CW_Src.')　ｘ　アラート数');
 DEFINE('_CHRTPORTSRC','Src. TCP Port');
 DEFINE('_CHRTSIGNUMBER',$UI_CW_Sig.'クラス　ｘ　アラート数');
 DEFINE('_CHRTCLASS','クラス');
@@ -525,8 +525,8 @@ DEFINE('_MNTDBARCHNAME','アーカイブデータベース名:');
 DEFINE('_MNTAIC','アラート情報キャッシュ:');
 DEFINE('_MNTAICTE','イベント総数:');
 DEFINE('_MNTAICCE','キャッシュされたイベント:');
-DEFINE('_MNTIPAC','キャッシュされたIPアドレス');
-DEFINE('_MNTIPACUSIP','ユニーク発信元IP:');
+DEFINE('_MNTIPAC','キャッシュされたIP'.$UI_CW_Addr);
+DEFINE('_MNTIPACUSIP','ユニーク'.$UI_CW_Src.'IP:');
 DEFINE('_MNTIPACDNSC','キャッシュされたDNS:');
 DEFINE('_MNTIPACWC','キャッシュされたWhois:');
 DEFINE('_MNTIPACUDIP','ユニーク送信先IP:');
@@ -541,7 +541,7 @@ DEFINE('_QANOPAYLOAD','Fast logging used so payload was discarded'); //NEW
 
 //base_qry_common.php
 DEFINE('_QCSIG',$UI_CW_Sig);
-DEFINE('_QCIPADDR','IPアドレス');
+DEFINE('_QCIPADDR','IP'.$UI_CW_Addr);
 DEFINE('_QCIPFIELDS','IPフィールド');
 DEFINE('_QCTCPPORTS','TCPポート');
 DEFINE('_QCTCPFLAGS','TCPフラグ');
@@ -588,7 +588,7 @@ DEFINE('_QFRMSORTNONE','none'); //NEW
 DEFINE('_QFRMTIMEA',$UI_CW_Ts.'(降順)');
 DEFINE('_QFRMTIMED',$UI_CW_Ts.'(昇順)');
 DEFINE('_QFRMSIG',$UI_CW_Sig);
-DEFINE('_QFRMSIP','発信元IP');
+DEFINE('_QFRMSIP',$UI_CW_Src.'IP');
 DEFINE('_QFRMDIP','送信先IP');
 
 //base_qry_sqlcalls.php
@@ -603,14 +603,14 @@ DEFINE('_ALERTTITLE','アラートのリスト');
 DEFINE('_SCCATEGORIES','カテゴリー:');
 DEFINE('_SCSENSORTOTAL','センサー/トータル:');
 DEFINE('_SCTOTALNUMALERTS','アラート総数:');
-DEFINE('_SCSRCIP','発信元IPの数:');
+DEFINE('_SCSRCIP',$UI_CW_Src.'IPの数:');
 DEFINE('_SCDSTIP','送信先IPの数:');
-DEFINE('_SCUNILINKS','発信元ー送信先の組み合わせ一覧');
-DEFINE('_SCSRCPORTS','発信元ポート: ');
+DEFINE('_SCUNILINKS',$UI_CW_Src.'ー送信先の組み合わせ一覧');
+DEFINE('_SCSRCPORTS',$UI_CW_Src.'ポート: ');
 DEFINE('_SCDSTPORTS','送信先ポート: ');
 DEFINE('_SCSENSORS','センサー');
 DEFINE('_SCCLASS','classifications');
-DEFINE('_SCUNIADDRESS','アドレス別: ');
+DEFINE('_SCUNIADDRESS',$UI_CW_Addr.'別: ');
 DEFINE('_SCSOURCE',$UI_CW_Src);
 DEFINE('_SCDEST','送信先');
 DEFINE('_SCPORT','ポート');
@@ -620,9 +620,9 @@ DEFINE('_PSEVENTERR','ポートスキャンイベントエラー: ');
 DEFINE('_PSEVENTERRNOFILE','No file was specified in the $portscan_file variable.');
 DEFINE('_PSEVENTERROPENFILE','ポートスキャンイベントファイルが開けません');
 DEFINE('_PSDATETIME','日付/時刻');
-DEFINE('_PSSRCIP','発信元 IP');
+DEFINE('_PSSRCIP',$UI_CW_Src.' IP');
 DEFINE('_PSDSTIP','送信先 IP');
-DEFINE('_PSSRCPORT','発信元 Port');
+DEFINE('_PSSRCPORT',"$UI_CW_Src Port");
 DEFINE('_PSDSTPORT','送信先 Port');
 DEFINE('_PSTCPFLAGS','TCPフラグ');
 DEFINE('_PSTOTALOCC','発生<BR>総数');
@@ -634,7 +634,7 @@ DEFINE('_PSPORTSCANEVE','ポートスキャン数');
 DEFINE('_PSREGWHOIS','Registry lookup (whois) in');
 DEFINE('_PSNODNS','no DNS resolution attempted');
 DEFINE('_PSNUMSENSORSBR','センサー<BR>総数');
-DEFINE('_PSOCCASSRC','発信元<BR>発生回数');
+DEFINE('_PSOCCASSRC',$UI_CW_Src.'<BR>発生回数');
 DEFINE('_PSOCCASDST','送信先<BR>発生回数');
 DEFINE('_PSWHOISINFO','Whois情報');
 DEFINE('_PSTOTALHOSTS','Total Hosts Scanned'); //NEW
@@ -644,8 +644,8 @@ DEFINE('_PSSHOW','show'); //NEW
 DEFINE('_PSEXTERNAL','external'); //NEW
 
 //base_stat_iplink.php
-DEFINE('_SIPLTITLE','発信元ー送信先の組み合わせ');
-DEFINE('_SIPLSOURCEFGDN','発信元 FQDN');
+DEFINE('_SIPLTITLE',$UI_CW_Src.'ー送信先の組み合わせ');
+DEFINE('_SIPLSOURCEFGDN',"$UI_CW_Src FQDN");
 DEFINE('_SIPLDESTFGDN','送信先 FQDN');
 DEFINE('_SIPLDIRECTION','方向');
 DEFINE('_SIPLPROTO','プロトコル');
@@ -656,7 +656,7 @@ DEFINE('_SIPLTOTALEVENTS','イベント総数');
 //base_stat_ports.php
 DEFINE('_UNIQ','ユニーク');
 DEFINE('_DSTPS','送信先 ポート');
-DEFINE('_SRCPS','発信元 ポート');
+DEFINE('_SRCPS',$UI_CW_Src.' ポート');
 DEFINE('_OCCURRENCES','Occurrences'); //NEW
 
 //base_stat_sensor.php
@@ -676,14 +676,14 @@ DEFINE('_TIMEBETWEEN','between'); //NEW
 DEFINE('_PROFILEALERT','Profile Alert'); //NEW
 
 //base_stat_uaddr.php
-DEFINE('_UNISADD','ユニーク発信元アドレス');
-DEFINE('_SUASRCIP','発信元IPアドレス');
+DEFINE('_UNISADD','ユニーク'.$UI_CW_Src.$UI_CW_Addr);
+DEFINE('_SUASRCIP',$UI_CW_Src.'IP'.$UI_CW_Addr);
 DEFINE('_SUAERRCRITADDUNK','CRITERIA ERROR: unknown address type -- assuming Dst address');
-DEFINE('_UNIDADD','送信先IPアドレス（ユニーク）');
-DEFINE('_SUADSTIP','送信先IPアドレス');
+DEFINE('_UNIDADD','送信先IP'.$UI_CW_Addr.'（ユニーク）');
+DEFINE('_SUADSTIP','送信先IP'.$UI_CW_Addr);
 DEFINE('_SUAUNIALERTS','ユニーク&nbsp;アラート');
-DEFINE('_SUASRCADD','発信元&nbsp;アドレス');
-DEFINE('_SUADSTADD','送信先&nbsp;アドレス');
+DEFINE('_SUASRCADD',$UI_CW_Src.'&nbsp;'.$UI_CW_Addr);
+DEFINE('_SUADSTADD','送信先&nbsp;'.$UI_CW_Addr);
 
 //base_user.php
 DEFINE('_BASEUSERTITLE','BASEユーザー設定');

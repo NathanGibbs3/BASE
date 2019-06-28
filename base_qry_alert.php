@@ -159,6 +159,7 @@ $CPFilt = $UIL->CWA['Filter'];
 $CPDesc = $UIL->CWA['Desc'];
 $CPSensor = $UIL->CWA['Sensor'];
 $CPSrcAddr = $UIL->CPA['SrcAddr'];
+$CPDstAddr = $UIL->CPA['DstAddr'];
 // Html Templates.
 $Thc = "<td class='plfieldhdr'>"; // Table header Class.
 $Tdc = "<td class='plfield'>"; // Table data Class.
@@ -439,17 +440,18 @@ for ($i = 0; $i < $num; $i++) {
   echo '         <TABLE BORDER=1 CELLPADDING=2>';
 NLIO('<tr>',3);
 NLIO("$Thc$CPSrcAddr</td>",4);
-echo '                        <TD class="plfieldhdr">&nbsp;'._NBDESTADDR.'&nbsp</TD>
-                        <TD class="plfieldhdr">Ver</TD>
-                        <TD class="plfieldhdr">Hdr Len</TD>
-                        <TD class="plfieldhdr">TOS</TD>
-                        <TD class="plfieldhdr">'._LENGTH.'</TD>';
+NLIO("$Thc$CPDstAddr</td>",4);
+NLIO($Thc.'Ver</td>',4);
+NLIO($Thc.'Hdr Len</td>',4);
+NLIO($Thc.'TOS</td>',4);
+echo '                        <TD class="plfieldhdr">'._LENGTH.'</TD>';
 NLIO("$Thc$IDesc</td>",4);
-echo '                  <TD class="plfieldhdr">fragment</TD>
-                        <TD class="plfieldhdr">offset</TD>
-                        <TD class="plfieldhdr">TTL</TD>
-                        <TD class="plfieldhdr">chksum</TD></TR>';
-  echo '             <TR><TD class="plfield">
+NLIO($Thc.'fragment</td>',4);
+NLIO($Thc.'offset</td>',4);
+NLIO($Thc.'TTL</td>',4);
+NLIO($Thc.'chksum</td>',4);
+NLIO('</tr><tr>',3);
+  echo '             <TD class="plfield">
                        <A HREF="base_stat_ipaddr.php?ip='.baseLong2IP($myrow2[0]).'&amp;netmask=32">'.
                             baseLong2IP($myrow2[0]).'</A></TD>';
   echo '                 <TD class="plfield">
@@ -489,8 +491,7 @@ echo'                  <TD class="plfield">'.
                   </TR>
                  </TABLE>
             </TR>';
-  }
-
+}
   echo '  <TR>';
   echo '      <TD>';
   echo '         <TABLE BORDER=1 CELLPADDING=4>';
@@ -608,35 +609,35 @@ echo'                  <TD class="plfield">'.
         $dst_mac = $t[0].$t[1].':'.$t[2].$t[3].':'.$t[4].$t[5].':'.$t[6].$t[7].':'.$t[8].$t[9].':'.$t[10].$t[11];
         $src_mac = $t[12].$t[13].':'.$t[14].$t[15].':'.$t[16].$t[17].':'.$t[18].$t[19].':'.$t[20].$t[21].':'.$t[22].$t[23];
 
-        echo '
-             <TABLE BORDER=1 WIDTH="90%">
-                <TR><TD CLASS="iptitle" WIDTH=50 ROWSPAN=3 ALIGN=CENTER>MAC';
-        echo '      <TD>';
-        echo '         <TABLE BORDER=1 CELLPADDING=2>';
-NLIO('<tr>',3);
-NLIO("$Thc$CPSrcAddr</td>",4);
-	echo '                              <TD class="plfieldhdr">&nbsp;'._NBDESTADDR.'&nbsp</TD></TR>
-                          <TR><TD>'. $src_mac .'</TD>
-                              <TD>'. $dst_mac .'</TD></TR>
-                          <TR><TD>'. GetVendor($src_mac) .'</TD>
-                              <TD>'. GetVendor($dst_mac) .'</TD></TR>';
-        echo '         </TABLE>';
-        echo '</TABLE></TD></TR>';
-      }
-      else
-      {
-        /* "MACDAD" indicates that this is an sfportscan packet.  This means
-           the database does NOT contain a real packet.  Therefore 
-           building a pcap file won't be possible. */
-        $sf_portscan_flag = 1;
-      }
-    }
-  }
-
-
-  /* TCP */
-  if ( $layer4_proto == "6" )  
-  {
+				NLIO('<table border="1" width="90%">',2);
+				NLIO('<tr>',3);
+				NLIO('<td class="iptitle" width="50" rowspan="3" align="center">',4);
+				NLIO('MAC',5);
+				NLIO('</td><td>',4);
+				NLIO('<table border="1" cellpadding="2">',5);
+				NLIO('<tr>',6);
+				NLIO("$Thc$CPSrcAddr</td>",7);
+				NLIO("$Thc$CPDstAddr</td>",7);
+				NLIO('</tr><tr>',6);
+				NLIO("$Thc$src_mac</td>",7);
+				NLIO("$Thc$dst_mac</td>",7);
+				NLIO('</tr><tr>',6);
+				NLIO($Thc.GetVendor($src_mac).'</td>',7);
+				NLIO($Thc.GetVendor($dst_mac).'</td>',7);
+				NLIO('</tr>',6);
+				NLIO('</table>',5);
+				NLIO('</td>',4);
+				NLIO('</tr>',3);
+				NLIO('</table>',2);
+			}else{
+				// A value of "MACDAD" flags an sfportscan packet, which means
+				// the DB contains no real packet data. So building a pcap
+				// file is not possible.
+				$sf_portscan_flag = 1;
+			}
+		}
+	}
+	if ( $layer4_proto == "6" ){ // TCP
      $sql2 = "SELECT tcp_sport, tcp_dport, tcp_seq, tcp_ack, tcp_off, tcp_res, tcp_flags, tcp_win, ".
              "       tcp_csum, tcp_urp FROM tcphdr  WHERE sid='".$sid."' AND cid='".$cid."'";
      $result2 = $db->baseExecute($sql2);

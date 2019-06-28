@@ -251,7 +251,7 @@ class nulllangTest extends TestCase {
 			);
 		}
 	}
-	// Test Commonm Word Items.
+	// Test Common Word Items.
 	public function testCWASetItemRole() {
 		$lang = self::$langs;
 		$tf = __FUNCTION__;
@@ -500,7 +500,7 @@ class nulllangTest extends TestCase {
 			"Uninitialized: $TItem ."
 		);
 	}
-	// Test Commonm Phrase Items.
+	// Test Common Phrase Items.
 	public function testCPASetItemSrcName() {
 		$lang = self::$langs;
 		$tf = __FUNCTION__;
@@ -558,7 +558,6 @@ class nulllangTest extends TestCase {
 			"Uninitialized: $TItem ."
 		);
 	}
-
 	public function testCPASetItemSrcAddr() {
 		$lang = self::$langs;
 		$tf = __FUNCTION__;
@@ -567,6 +566,25 @@ class nulllangTest extends TestCase {
 		$$tmp = self::$UIL;
 		$file = $$tmp->TDF;
 		$key = 'SrcAddr';
+		$KA = 'CPA';
+		$TItem = $KA."[$key]";
+		$EEM = self::$EEM."$TItem.\n";
+		LogTC($tf,'TD file',$file);
+		$this->CPAHas($$tmp, $key, $TItem);
+		$this->assertEquals(
+			$EEM,
+			$$tmp->{$KA}[$key],
+			"Uninitialized: $TItem ."
+		);
+	}
+	public function testCPASetItemDstAddr() {
+		$lang = self::$langs;
+		$tf = __FUNCTION__;
+		$tmp = "UI$lang";
+		LogTC($tf,'language',$lang);
+		$$tmp = self::$UIL;
+		$file = $$tmp->TDF;
+		$key = 'DstAddr';
 		$KA = 'CPA';
 		$TItem = $KA."[$key]";
 		$EEM = self::$EEM."$TItem.\n";

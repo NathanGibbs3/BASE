@@ -54,14 +54,13 @@ $UI_CP_SrcName = array($UI_CW_Name,'de la',$UI_CW_Src);
 $UI_CP_DstName = array($UI_CW_Name,'de la',$UI_CW_Dst);
 $UI_CP_SrcDst = array('Src','ou','Dest');
 $UI_CP_SrcAddr = array($UI_CW_Addr,$UI_CW_Src);
+$UI_CP_DstAddr = array($UI_CW_Addr,$UI_CW_Dst);
 // Authentication Data.
 $UI_AD_UND = 'Identifiant';
 $UI_AD_RID = array($UI_CW_Id,'de',$UI_CW_Role);
 $UI_AD_ASD = 'Activé';
 
 //common phrases
-DEFINE('_NBDESTADDR','Adresse&nbsp;Dest.');
-// Dest.&nbsp;Address
 DEFINE('_NBLAYER4','Protocole&nbsp;de&nbsp;niveau&nbsp;4');
 // Layer&nbsp;4&nbsp;Proto
 DEFINE('_PRIORITY','Priorité');

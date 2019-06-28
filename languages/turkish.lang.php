@@ -36,31 +36,31 @@ $UI_Title = 'Basic Analysis and Security Engine';
 $UI_CW_Edit = 'Düzenle';
 $UI_CW_Delete = 'Sil';
 $UI_CW_Src = 'Kaynak';
-$UI_CW_Dst = 'Varýþ';
+$UI_CW_Dst = 'VarÃ½Ã¾';
 $UI_CW_Id = 'ID';
 $UI_CW_Name = 'Ad';
 $UI_CW_Int = 'Arabirim';
 $UI_CW_Filter = 'Süzgeç';
 $UI_CW_Desc = 'Betimleme';
-$UI_CW_SucDesc = 'Baþarýlý';
-$UI_CW_Sensor = 'Algýlayýcý';
+$UI_CW_SucDesc = 'BaÃ¾arÃ½lÃ½';
+$UI_CW_Sensor = 'AlgÃ½layÃ½cÃ½';
 $UI_CW_Sig = 'Ýmza';
 $UI_CW_Role = 'Rol';
 $UI_CW_Pw = 'Parola';
-$UI_CW_Ts = 'Zaman Damgasý';
+$UI_CW_Ts = 'Zaman DamgasÃ½';
 $UI_CW_Addr = 'Adresi';
 // Common Phrases.
 $UI_CP_SrcName = array($UI_CW_Src,$UI_CW_Name);
 $UI_CP_DstName = array($UI_CW_Dst,$UI_CW_Name);
 $UI_CP_SrcDst = array($UI_CW_Src,'veya',$UI_CW_Dst);
 $UI_CP_SrcAddr = array($UI_CW_Src,$UI_CW_Addr);
+$UI_CP_DstAddr = array($UI_CW_Dst,$UI_CW_Addr);
 // Authentication Data.
 $UI_AD_UND = 'Oturum Aç';
 $UI_AD_RID = array($UI_CW_Role,$UI_CW_Id);
-$UI_AD_ASD = 'Seçilir Kýlýnmýþ';
+$UI_AD_ASD = 'Seçilir KÃ½lÃ½nmÃ½Ã¾';
 
 //common phrases
-DEFINE('_NBDESTADDR','Varýþ Adresi');
 DEFINE('_NBLAYER4','4. Katman Protokolü');
 DEFINE('_PRIORITY','Öncelik');
 DEFINE('_EVENTTYPE','olay türü');
@@ -68,18 +68,18 @@ DEFINE('_JANUARY','Ocak');
 DEFINE('_FEBRUARY','Þubat');
 DEFINE('_MARCH','Mart');
 DEFINE('_APRIL','Nisan');
-DEFINE('_MAY','Mayýs');
+DEFINE('_MAY','MayÃ½s');
 DEFINE('_JUNE','Haziran');
 DEFINE('_JULY','Temmuz');
 DEFINE('_AUGUST','Aðustos');
 DEFINE('_SEPTEMBER','Eylül');
 DEFINE('_OCTOBER','Ekim');
-DEFINE('_NOVEMBER','Kasým');
-DEFINE('_DECEMBER','Aralýk');
+DEFINE('_NOVEMBER','KasÃ½m');
+DEFINE('_DECEMBER','AralÃ½k');
 DEFINE('_LAST','Son');
 DEFINE('_FIRST','Ýlk');
 DEFINE('_TOTAL','Toplam');
-DEFINE('_ALERT','Uyarý');
+DEFINE('_ALERT','UyarÃ½');
 DEFINE('_ADDRESS','Adres');
 DEFINE('_UNKNOWN','bilinmeyen');
 DEFINE('_AND','VE');
@@ -92,45 +92,45 @@ DEFINE('_NONE','hiçbiri');
 DEFINE('_HOUR','Saat');
 DEFINE('_DAY','Gün');
 DEFINE('_MONTH','Ay');
-DEFINE('_YEAR','Yýl');
-DEFINE('_ALERTGROUP','Uyarý Grubu');
-DEFINE('_ALERTTIME','Uyarý Zamaný');
+DEFINE('_YEAR','YÃ½l');
+DEFINE('_ALERTGROUP','UyarÃ½ Grubu');
+DEFINE('_ALERTTIME','UyarÃ½ ZamanÃ½');
 DEFINE('_CONTAINS','kapsar');
 DEFINE('_DOESNTCONTAIN','kapsamaz');
 DEFINE('_SOURCEPORT','kaynak portu');
-DEFINE('_DESTPORT','varýþ portu');
+DEFINE('_DESTPORT','varÃ½Ã¾ portu');
 DEFINE('_HAS','sahip');
 DEFINE('_HASNOT','sahip deðil');
 DEFINE('_PORT','Port');
 DEFINE('_FLAGS','Bayraklar');
 DEFINE('_MISC','Misc');
 DEFINE('_BACK','Geri');
-DEFINE('_DISPYEAR','{ yýl }');
+DEFINE('_DISPYEAR','{ yÃ½l }');
 DEFINE('_DISPMONTH','{ ay }');
 DEFINE('_DISPHOUR','{ saat }');
 DEFINE('_DISPDAY','{ gün }');
 DEFINE('_DISPTIME','{ zaman }');
 DEFINE('_ADDADDRESS','Adres EKLE');
-DEFINE('_ADDIPFIELD','IP Alaný EKLE');
+DEFINE('_ADDIPFIELD','IP AlanÃ½ EKLE');
 DEFINE('_ADDTIME','ZAMAN EKLE');
 DEFINE('_ADDTCPPORT','TCP Portu EKLE');
-DEFINE('_ADDTCPFIELD','TCP Alaný EKLE');
+DEFINE('_ADDTCPFIELD','TCP AlanÃ½ EKLE');
 DEFINE('_ADDUDPPORT','UDP Portu EKLE');
-DEFINE('_ADDUDPFIELD','UDP Alaný EKLE');
-DEFINE('_ADDICMPFIELD','ICMP Alaný EKLE');
+DEFINE('_ADDUDPFIELD','UDP AlanÃ½ EKLE');
+DEFINE('_ADDICMPFIELD','ICMP AlanÃ½ EKLE');
 DEFINE('_ADDPAYLOAD','Payload EKLE');
-DEFINE('_MOSTFREQALERTS','En Sýk Uyarýlar');
-DEFINE('_MOSTFREQPORTS','En Sýk Portlar');
-DEFINE('_MOSTFREQADDRS','En Sýk IP adresleri');
-DEFINE('_LASTALERTS','Son Uyarýlar');
+DEFINE('_MOSTFREQALERTS','En SÃ½k UyarÃ½lar');
+DEFINE('_MOSTFREQPORTS','En SÃ½k Portlar');
+DEFINE('_MOSTFREQADDRS','En SÃ½k IP adresleri');
+DEFINE('_LASTALERTS','Son UyarÃ½lar');
 DEFINE('_LASTPORTS','Son Portlar');
-DEFINE('_LASTTCP','Son TCP Uyarýlarý');
-DEFINE('_LASTUDP','Son UDP Uyarýlarý');
-DEFINE('_LASTICMP','Son ICMP Uyarýlarý');
+DEFINE('_LASTTCP','Son TCP UyarÃ½larÃ½');
+DEFINE('_LASTUDP','Son UDP UyarÃ½larÃ½');
+DEFINE('_LASTICMP','Son ICMP UyarÃ½larÃ½');
 DEFINE('_QUERYDB','Sorgu DB');
-DEFINE('_QUERYDBP','Sorgu+DB'); //_QUERYDB 'ye eþit, boþluklar '+' lardýr. 
-                                //Bunun gibi bir þey olmasý gerekli: DEFINE('_QUERYDBP',str_replace(" ", "+", _QUERYDB));
-DEFINE('_SELECTED','Seçilmiþ');
+DEFINE('_QUERYDBP','Sorgu+DB'); //_QUERYDB 'ye eÃ¾it, boÃ¾luklar '+' lardÃ½r. 
+                                //Bunun gibi bir Ã¾ey olmasÃ½ gerekli: DEFINE('_QUERYDBP',str_replace(" ", "+", _QUERYDB));
+DEFINE('_SELECTED','SeçilmiÃ¾');
 DEFINE('_ALLONSCREEN','HEPSÝ Ekranda');
 DEFINE('_ENTIREQUERY','Bütün Sorgu');
 DEFINE('_OPTIONS','Seçenekler');
@@ -144,15 +144,15 @@ DEFINE('_PREVIOUS','Önceki');
 //Menu items
 DEFINE('_HOME','Ev');
 DEFINE('_SEARCH','Ara');
-DEFINE('_AGMAINT','Uyarý Grubu Bakýmý');
-DEFINE('_USERPREF','Kullanýcý Yeðlenenleri');
+DEFINE('_AGMAINT','UyarÃ½ Grubu BakÃ½mÃ½');
+DEFINE('_USERPREF','KullanÃ½cÃ½ Yeðlenenleri');
 DEFINE('_CACHE','Önbellek & Durum');
 DEFINE('_ADMIN','YÃ¶netim');
-DEFINE('_GALERTD','Çizge Uyarý Verisi');
-DEFINE('_GALERTDT','Çizge Uyarýsý Algýlama Zamaný');
-DEFINE('_USERMAN','Kullanýcý YÃ¶netimi');
-DEFINE('_LISTU','Kullanýcýlarý Listele');
-DEFINE('_CREATEU','Bir Kullanýcý Yarat');
+DEFINE('_GALERTD','Çizge UyarÃ½ Verisi');
+DEFINE('_GALERTDT','Çizge UyarÃ½sÃ½ AlgÃ½lama ZamanÃ½');
+DEFINE('_USERMAN','KullanÃ½cÃ½ YÃ¶netimi');
+DEFINE('_LISTU','KullanÃ½cÃ½larÃ½ Listele');
+DEFINE('_CREATEU','Bir KullanÃ½cÃ½ Yarat');
 DEFINE('_ROLEMAN',"$UI_CW_Role YÃ¶netimi");
 DEFINE('_LISTR',$UI_CW_Role.'leri Listele');
 DEFINE('_CREATER',"Bir $UI_CW_Role Yarat");
@@ -160,55 +160,55 @@ DEFINE('_LISTALL','Hepsini Listele');
 DEFINE('_CREATE','Yarat');
 DEFINE('_VIEW','GÃ¶rünüm');
 DEFINE('_CLEAR','Temizle');
-DEFINE('_LISTGROUPS','Gruplarý Listele');
+DEFINE('_LISTGROUPS','GruplarÃ½ Listele');
 DEFINE('_CREATEGROUPS','Grup Yarat');
 DEFINE('_VIEWGROUPS','Grup GÃ¶rüntüle');
 DEFINE('_EDITGROUPS','Grup Düzenle');
 DEFINE('_DELETEGROUPS','Grup Sil');
 DEFINE('_CLEARGROUPS','Grup Temizle');
-DEFINE('_CHNGPWD',"$UI_CW_Pw Deðiþtir");
-DEFINE('_DISPLAYU','Kullanýcý GÃ¶rüntüle');
+DEFINE('_CHNGPWD',"$UI_CW_Pw DeðiÃ¾tir");
+DEFINE('_DISPLAYU','KullanÃ½cÃ½ GÃ¶rüntüle');
 
 //base_footer.php
 DEFINE('_FOOTER',' (by <A class="largemenuitem" href="mailto:base@secureideas.net">Kevin Johnson</A> and the <A class="largemenuitem" href="http://sourceforge.net/project/memberlist.php?group_id=103348">BASE Project Team</A><BR>Built on ACID by Roman Danyliw )');
 
 //index.php --Log in Page
-DEFINE('_LOGINERROR','Kullanýcý geçerli deðil ya da '.strtolower($UI_CW_Pw).'nýz yanlýþ!<br>Lütfen tekrar deneyin');
+DEFINE('_LOGINERROR','KullanÃ½cÃ½ geçerli deðil ya da '.strtolower($UI_CW_Pw).'nÃ½z yanlÃ½Ã¾!<br>Lütfen tekrar deneyin');
 
 // base_main.php
 DEFINE('_MOSTRECENT','En sondaki ');
-DEFINE('_MOSTFREQUENT','En sýk ');
-DEFINE('_ALERTS',' Uyarýlar:');
+DEFINE('_MOSTFREQUENT','En sÃ½k ');
+DEFINE('_ALERTS',' UyarÃ½lar:');
 DEFINE('_ADDRESSES',' Adresler');
 DEFINE('_ANYPROTO','herhangibir protokol');
 DEFINE('_UNI','benzersiz');
 DEFINE('_LISTING','listeleme');
-DEFINE('_TALERTS','Bugün\'ün uyarýlarý: ');
+DEFINE('_TALERTS','Bugün\'ün uyarÃ½larÃ½: ');
 DEFINE('_SOURCEIP','Kaynak IP');
-DEFINE('_DESTIP','Varýþ IP');
-DEFINE('_L24ALERTS','Son 24 Saatin uyarýlarý: ');
-DEFINE('_L72ALERTS','Son 72 Saatin uyarýlarý: ');
-DEFINE('_UNIALERTS',' Benzersiz Uyarýlar');
-DEFINE('_LSOURCEPORTS','Son Kaynak Portlarý: ');
-DEFINE('_LDESTPORTS','Son Varýþ Portlarý: ');
-DEFINE('_FREGSOURCEP','En Sýk Kaynak Portlarý: ');
-DEFINE('_FREGDESTP','En Sýk Varýþ Portlarý: ');
-DEFINE('_QUERIED','Sorgulandý');
-DEFINE('_DATABASE','Veritabaný:');
+DEFINE('_DESTIP','VarÃ½Ã¾ IP');
+DEFINE('_L24ALERTS','Son 24 Saatin uyarÃ½larÃ½: ');
+DEFINE('_L72ALERTS','Son 72 Saatin uyarÃ½larÃ½: ');
+DEFINE('_UNIALERTS',' Benzersiz UyarÃ½lar');
+DEFINE('_LSOURCEPORTS','Son Kaynak PortlarÃ½: ');
+DEFINE('_LDESTPORTS','Son VarÃ½Ã¾ PortlarÃ½: ');
+DEFINE('_FREGSOURCEP','En SÃ½k Kaynak PortlarÃ½: ');
+DEFINE('_FREGDESTP','En SÃ½k VarÃ½Ã¾ PortlarÃ½: ');
+DEFINE('_QUERIED','SorgulandÃ½');
+DEFINE('_DATABASE','VeritabanÃ½:');
 DEFINE('_SCHEMAV','Þema Sürümü:');
 DEFINE('_TIMEWIN','Zaman Penceresi:');
-DEFINE('_NOALERTSDETECT','hiçbir uyarý algýlanmadý');
-DEFINE('_USEALERTDB','Uyarý Veritabanýný Kullan');
-DEFINE('_USEARCHIDB','Arþiv Veritabanýný Kullan');
+DEFINE('_NOALERTSDETECT','hiçbir uyarÃ½ algÃ½lanmadÃ½');
+DEFINE('_USEALERTDB','UyarÃ½ VeritabanÃ½nÃ½ Kullan');
+DEFINE('_USEARCHIDB','ArÃ¾iv VeritabanÃ½nÃ½ Kullan');
 DEFINE('_TRAFFICPROBPRO','Protokole GÃ¶re Trafik Profili');
 
 //base_auth.inc.php
-DEFINE('_ADDEDSF','Baþarýlý Biçimde Eklendi');
-DEFINE('_NOPWDCHANGE',$UI_CW_Pw.'nýzý deðiþtirmek olanaksýz: ');
-DEFINE('_NOUSER','Kullanýcý geçerli deðil!');
-DEFINE('_OLDPWD','Girilen Eski '.strtolower($UI_CW_Pw).' kayýtlarýmýzla eþleþmiyor!');
-DEFINE('_PWDCANT',$UI_CW_Pw.'nýzý deðiþtirmek olanaksýz: ');
-DEFINE('_PWDDONE',$UI_CW_Pw.'nýz deðiþtirildi!');
+DEFINE('_ADDEDSF','BaÃ¾arÃ½lÃ½ Biçimde Eklendi');
+DEFINE('_NOPWDCHANGE',$UI_CW_Pw.'nÃ½zÃ½ deðiÃ¾tirmek olanaksÃ½z: ');
+DEFINE('_NOUSER','KullanÃ½cÃ½ geçerli deðil!');
+DEFINE('_OLDPWD','Girilen Eski '.strtolower($UI_CW_Pw).' kayÃ½tlarÃ½mÃ½zla eÃ¾leÃ¾miyor!');
+DEFINE('_PWDCANT',$UI_CW_Pw.'nÃ½zÃ½ deðiÃ¾tirmek olanaksÃ½z: ');
+DEFINE('_PWDDONE',$UI_CW_Pw.'nÃ½z deðiÃ¾tirildi!');
 DEFINE('_ROLEEXIST',"$UI_CW_Role Zaten Var");
 // TD Migration Hack
 if ($UI_Spacing == 1){
@@ -217,29 +217,29 @@ if ($UI_Spacing == 1){
 	$glue = '';
 }
 DEFINE('_ROLEIDEXIST',implode($glue, $UI_AD_RID)." Zaten Var");
-DEFINE('_ROLEADDED',"$UI_CW_Role Baþarýlý Biçimde Eklendi");
+DEFINE('_ROLEADDED',"$UI_CW_Role BaÃ¾arÃ½lÃ½ Biçimde Eklendi");
 
 //base_roleadmin.php
 DEFINE('_ROLEADMIN',"BASE $UI_CW_Role YÃ¶netimi");
-DEFINE('_FRMROLENAME',"$UI_CW_Role Adý:");
+DEFINE('_FRMROLENAME',"$UI_CW_Role AdÃ½:");
 DEFINE('_UPDATEROLE','Rolü Güncelle');
 
 //base_useradmin.php
-DEFINE('_USERADMIN','BASE Kullanýcý YÃ¶netimi');
+DEFINE('_USERADMIN','BASE KullanÃ½cÃ½ YÃ¶netimi');
 DEFINE('_FRMFULLNAME','Tüm Ad:');
-DEFINE('_FRMUID','Kullanýcý ID:');
+DEFINE('_FRMUID','KullanÃ½cÃ½ ID:');
 DEFINE('_SUBMITQUERY','Sorguyu Sun');
-DEFINE('_UPDATEUSER','Kullanýcýyý Güncelle');
+DEFINE('_UPDATEUSER','KullanÃ½cÃ½yÃ½ Güncelle');
 
 //admin/index.php
 DEFINE('_BASEADMIN','BASE YÃ¶netimi');
 DEFINE('_BASEADMINTEXT','Lütfen soldan bir seçenek seçiniz.');
 
 //base_action.inc.php
-DEFINE('_NOACTION','Uyarýlarda hiçbir eylem belirlenmemiþ');
+DEFINE('_NOACTION','UyarÃ½larda hiçbir eylem belirlenmemiÃ¾');
 DEFINE('_INVALIDACT',' geçersiz bir eylemdir');
-DEFINE('_ERRNOAG','Hiçbir UG belirlenmediði için uyarýlarý ekleyemedi');
-DEFINE('_ERRNOEMAIL','Email adresi belirlenmediði için uyarýlarý gÃ¶nderemedi');
+DEFINE('_ERRNOAG','Hiçbir UG belirlenmediði için uyarÃ½larÃ½ ekleyemedi');
+DEFINE('_ERRNOEMAIL','Email adresi belirlenmediði için uyarÃ½larÃ½ gÃ¶nderemedi');
 DEFINE('_ACTION','EYLEM');
 DEFINE('_CONTEXT','baðlam');
 DEFINE('_ADDAGID','UG\'na EKLE (ID yoluyla)');
@@ -247,58 +247,58 @@ DEFINE('_ADDAG','Yeni-UG-EKLE');
 DEFINE('_ADDAGNAME','UG\'na EKLE (Ad yoluyla)');
 DEFINE('_CREATEAG','UG Yarat (Ad yoluyla)');
 DEFINE('_CLEARAG','UG\'dan Temizle');
-DEFINE('_DELETEALERT','Uyarý(larý) sil');
-DEFINE('_EMAILALERTSFULL','Uyarý(larý) Email\'e gÃ¶nder (tüm)');
-DEFINE('_EMAILALERTSSUMM','Uyarý(larý) Email\'e gÃ¶nder (Ã¶zet)');
-DEFINE('_EMAILALERTSCSV','Uyarý(larý) Email\'e gÃ¶nder (csv)');
-DEFINE('_ARCHIVEALERTSCOPY','Uyarý(larý) arþivle (kopyala)');
-DEFINE('_ARCHIVEALERTSMOVE','Uyarý(larý) arþivle (taþý)');
-DEFINE('_IGNORED','Yoksayýldý ');
-DEFINE('_DUPALERTS',' uyarý(larý) çoðalt');
-DEFINE('_ALERTSPARA',' uyarý(lar)');
-DEFINE('_NOALERTSSELECT','Hiçbir uyarý seçilmemiþ ya da');
-DEFINE('_NOTSUCCESSFUL','baþarýlý deðildi');
-DEFINE('_ERRUNKAGID','Bilinmeyen UG ID belirlenmiþ (UG muhtemelen geçerli deðil)');
-DEFINE('_ERRREMOVEFAIL','Yeni UG\'nu çýkarmak baþarýsýz oldu');
-DEFINE('_GENBASE','BASE tarafýndan Üretildi');
-DEFINE('_ERRNOEMAILEXP','DIÞARI AKTARIM HATASI: Dýþarý aktarýlmýþ uyarýlarý gÃ¶nderemedi');
-DEFINE('_ERRNOEMAILPHP','PHP\'deki mail yapýlandýrmasýný kontrol et.');
-DEFINE('_ERRDELALERT','Uyarý Silme Hatasý');
-DEFINE('_ERRARCHIVE','Arþiv hatasý:');
-DEFINE('_ERRMAILNORECP','MAIL HATASI: Alýcý Belirlenmemiþ');
+DEFINE('_DELETEALERT','UyarÃ½(larÃ½) sil');
+DEFINE('_EMAILALERTSFULL','UyarÃ½(larÃ½) Email\'e gÃ¶nder (tüm)');
+DEFINE('_EMAILALERTSSUMM','UyarÃ½(larÃ½) Email\'e gÃ¶nder (Ã¶zet)');
+DEFINE('_EMAILALERTSCSV','UyarÃ½(larÃ½) Email\'e gÃ¶nder (csv)');
+DEFINE('_ARCHIVEALERTSCOPY','UyarÃ½(larÃ½) arÃ¾ivle (kopyala)');
+DEFINE('_ARCHIVEALERTSMOVE','UyarÃ½(larÃ½) arÃ¾ivle (taÃ¾Ã½)');
+DEFINE('_IGNORED','YoksayÃ½ldÃ½ ');
+DEFINE('_DUPALERTS',' uyarÃ½(larÃ½) çoðalt');
+DEFINE('_ALERTSPARA',' uyarÃ½(lar)');
+DEFINE('_NOALERTSSELECT','Hiçbir uyarÃ½ seçilmemiÃ¾ ya da');
+DEFINE('_NOTSUCCESSFUL','baÃ¾arÃ½lÃ½ deðildi');
+DEFINE('_ERRUNKAGID','Bilinmeyen UG ID belirlenmiÃ¾ (UG muhtemelen geçerli deðil)');
+DEFINE('_ERRREMOVEFAIL','Yeni UG\'nu çÃ½karmak baÃ¾arÃ½sÃ½z oldu');
+DEFINE('_GENBASE','BASE tarafÃ½ndan Üretildi');
+DEFINE('_ERRNOEMAILEXP','DIÞARI AKTARIM HATASI: DÃ½Ã¾arÃ½ aktarÃ½lmÃ½Ã¾ uyarÃ½larÃ½ gÃ¶nderemedi');
+DEFINE('_ERRNOEMAILPHP','PHP\'deki mail yapÃ½landÃ½rmasÃ½nÃ½ kontrol et.');
+DEFINE('_ERRDELALERT','UyarÃ½ Silme HatasÃ½');
+DEFINE('_ERRARCHIVE','ArÃ¾iv hatasÃ½:');
+DEFINE('_ERRMAILNORECP','MAIL HATASI: AlÃ½cÃ½ BelirlenmemiÃ¾');
 
 //base_cache.inc.php
 DEFINE('_ADDED','Ekledi ');
 DEFINE('_HOSTNAMESDNS',' host isimlerini IP DNS Ã¶nbelleðine');
 DEFINE('_HOSTNAMESWHOIS',' host isimlerini Whois Ã¶nbelleðine');
-DEFINE('_ERRCACHENULL','Önbelleðe Alma HATASI: NULL olay sýrasý bulundu?');
+DEFINE('_ERRCACHENULL','Önbelleðe Alma HATASI: NULL olay sÃ½rasÃ½ bulundu?');
 DEFINE('_ERRCACHEERROR','OLAYI ÖNBELLEÐE ALMA HATASI:');
 DEFINE('_ERRCACHEUPDATE','Olay Ã¶nbelleðini güncelleyemedi');
-DEFINE('_ALERTSCACHE',' uyarý(larý) Uyarý Ã¶nbelleðine');
+DEFINE('_ALERTSCACHE',' uyarÃ½(larÃ½) UyarÃ½ Ã¶nbelleðine');
 
 //base_db.inc.php
-DEFINE('_ERRSQLTRACE','SQL iz dosyasýný açmak olanaksýz');
-DEFINE('_ERRSQLCONNECT','DB baðlantý hatasý :');
-DEFINE('_ERRSQLCONNECTINFO','<P><I>base_conf.php</I> dosyasýndaki DB baðlantý deðiþkenlerini kontrol edin.  
+DEFINE('_ERRSQLTRACE','SQL iz dosyasÃ½nÃ½ açmak olanaksÃ½z');
+DEFINE('_ERRSQLCONNECT','DB baðlantÃ½ hatasÃ½ :');
+DEFINE('_ERRSQLCONNECTINFO','<P><I>base_conf.php</I> dosyasÃ½ndaki DB baðlantÃ½ deðiÃ¾kenlerini kontrol edin.  
               <PRE>
-               = $alert_dbname   : uyarýlarýn depolandýðý MySQL veritabaný adý 
-               = $alert_host     : veritabanýnýn depolandýðý host
-               = $alert_port     : veritabanýnýn depolandýðý port
-               = $alert_user     : veritabaný içindeki kullanýcýadý
-               = $alert_password : kullanýcýadý için '.strtolower($UI_CW_Pw).'
+               = $alert_dbname   : uyarÃ½larÃ½n depolandÃ½ðÃ½ MySQL veritabanÃ½ adÃ½ 
+               = $alert_host     : veritabanÃ½nÃ½n depolandÃ½ðÃ½ host
+               = $alert_port     : veritabanÃ½nÃ½n depolandÃ½ðÃ½ port
+               = $alert_user     : veritabanÃ½ içindeki kullanÃ½cÃ½adÃ½
+               = $alert_password : kullanÃ½cÃ½adÃ½ için '.strtolower($UI_CW_Pw).'
               </PRE>
               <P>');
-DEFINE('_ERRSQLPCONNECT','DB (p)baðlantý hatasý :');
-DEFINE('_ERRSQLDB','Veritabaný HATASI:');
-DEFINE('_DBALCHECK','DB soyutlama kitaplýðý kontrol ediliyor');
-DEFINE('_ERRSQLDBALLOAD1','<P><B>DB soyutlama kitaplýðý yükleme hatasý: </B> from ');
-DEFINE('_ERRSQLDBALLOAD2','<P><CODE>base_conf.php</CODE> dosyasýndaki <CODE>$DBlib_path</CODE> DB soyutlama kitaplýðý deðiþkenini kontrol edin 
+DEFINE('_ERRSQLPCONNECT','DB (p)baðlantÃ½ hatasÃ½ :');
+DEFINE('_ERRSQLDB','VeritabanÃ½ HATASI:');
+DEFINE('_DBALCHECK','DB soyutlama kitaplÃ½ðÃ½ kontrol ediliyor');
+DEFINE('_ERRSQLDBALLOAD1','<P><B>DB soyutlama kitaplÃ½ðÃ½ yükleme hatasÃ½: </B> from ');
+DEFINE('_ERRSQLDBALLOAD2','<P><CODE>base_conf.php</CODE> dosyasÃ½ndaki <CODE>$DBlib_path</CODE> DB soyutlama kitaplÃ½ðÃ½ deðiÃ¾kenini kontrol edin 
             <P>
-            Yürürlükte kullanýlan temel veritabaný kitaplýðý ADODB\'dir ten indirilebilir
+            Yürürlükte kullanÃ½lan temel veritabanÃ½ kitaplÃ½ðÃ½ ADODB\'dir ten indirilebilir
             ');
-DEFINE('_ERRSQLDBTYPE','Geçersiz Veritabaný Tipi Belirlenmiþ');
-DEFINE('_ERRSQLDBTYPEINFO1','<CODE>base_conf.php</CODE> dosyasýndaki <CODE>\$DBtype</CODE> deðiþkeni tanýmlanmamýþ veritabaný tipinde ayarlanmýþ ');
-DEFINE('_ERRSQLDBTYPEINFO2','Yalnýzca aþaðýdaki veritabanlarý desteklenmektedir: <PRE>
+DEFINE('_ERRSQLDBTYPE','Geçersiz VeritabanÃ½ Tipi BelirlenmiÃ¾');
+DEFINE('_ERRSQLDBTYPEINFO1','<CODE>base_conf.php</CODE> dosyasÃ½ndaki <CODE>\$DBtype</CODE> deðiÃ¾keni tanÃ½mlanmamÃ½Ã¾ veritabanÃ½ tipinde ayarlanmÃ½Ã¾ ');
+DEFINE('_ERRSQLDBTYPEINFO2','YalnÃ½zca aÃ¾aðÃ½daki veritabanlarÃ½ desteklenmektedir: <PRE>
                 MySQL         : \'mysql\'
                 PostgreSQL    : \'postgres\'
                 MS SQL Server : \'mssql\'
@@ -313,19 +313,19 @@ DEFINE('_LOADEDIN','Yüklendi');
 DEFINE('_SECONDS','saniyede');
 
 //base_net.inc.php
-DEFINE('_ERRRESOLVEADDRESS','Adresi çÃ¶zmek olanaksýz');
+DEFINE('_ERRRESOLVEADDRESS','Adresi çÃ¶zmek olanaksÃ½z');
 
 //base_output_query.inc.php
-DEFINE('_QUERYRESULTSHEADER','Sorgu Sonuçlarý Sayfa Baþlýðý Çýkýþý');
+DEFINE('_QUERYRESULTSHEADER','Sorgu SonuçlarÃ½ Sayfa BaÃ¾lÃ½ðÃ½ ÇÃ½kÃ½Ã¾Ã½');
 
 //base_signature.inc.php
 DEFINE('_ERRSIGNAMEUNK','Bilinmeyen ÝmzaÝsmi');
 DEFINE('_ERRSIGPROIRITYUNK','Bilinmeyen ÝmzaÖnceliði');
-DEFINE('_UNCLASS','sýnýflandýrýlmamýþ');
+DEFINE('_UNCLASS','sÃ½nÃ½flandÃ½rÃ½lmamÃ½Ã¾');
 
 //base_state_citems.inc.php
-DEFINE('_DENCODED','veri þifrelenmiþ');
-DEFINE('_NODENCODED','(veri dÃ¶nüþtürme yok, DB yerel þifrelemedeki Ã¶lçüt sanýlýyor)');
+DEFINE('_DENCODED','veri Ã¾ifrelenmiÃ¾');
+DEFINE('_NODENCODED','(veri dÃ¶nüÃ¾türme yok, DB yerel Ã¾ifrelemedeki Ã¶lçüt sanÃ½lÃ½yor)');
 DEFINE('_SHORTJAN','Oca');
 DEFINE('_SHORTFEB','Þub');
 DEFINE('_SHORTMAR','Mar');
@@ -339,69 +339,69 @@ DEFINE('_SHORTOCT','Eki');
 DEFINE('_SHORTNOV','Kas');
 DEFINE('_SHORTDEC','Ara');
 DEFINE('_DISPSIG','{ imza }');
-DEFINE('_DISPANYCLASS','{ herhangibir Sýnýflandýrma }');
+DEFINE('_DISPANYCLASS','{ herhangibir SÃ½nÃ½flandÃ½rma }');
 DEFINE('_DISPANYPRIO','{ herhangibir Öncelik }');
 DEFINE('_DISPANYSENSOR','{ herhangibir Sensor }');
 DEFINE('_DISPADDRESS','{ adres }');
 DEFINE('_DISPFIELD','{ alan }');
 DEFINE('_DISPPORT','{ port }');
-DEFINE('_DISPENCODING','{ þifreleme }');
-DEFINE('_DISPCONVERT2','{ DÃ¶nüþtür }');
-DEFINE('_DISPANYAG','{ herhangibir Uyarý Grubu }');
+DEFINE('_DISPENCODING','{ Ã¾ifreleme }');
+DEFINE('_DISPCONVERT2','{ DÃ¶nüÃ¾tür }');
+DEFINE('_DISPANYAG','{ herhangibir UyarÃ½ Grubu }');
 DEFINE('_DISPPAYLOAD','{ payload }');
 DEFINE('_DISPFLAGS','{ bayraklar }');
 DEFINE('_SIGEXACTLY','tam olarak');
-DEFINE('_SIGROUGHLY','yaklaþýk olarak');
-DEFINE('_SIGCLASS','Ýmza Sýnýflandýrma');
+DEFINE('_SIGROUGHLY','yaklaÃ¾Ã½k olarak');
+DEFINE('_SIGCLASS','Ýmza SÃ½nÃ½flandÃ½rma');
 DEFINE('_SIGPRIO','Ýmza Önceliði');
 DEFINE('_SHORTSOURCE','Kaynak');
-DEFINE('_SHORTDEST','Varýþ');
-DEFINE('_SHORTSOURCEORDEST','Kaynak ya da Varýþ');
+DEFINE('_SHORTDEST','VarÃ½Ã¾');
+DEFINE('_SHORTSOURCEORDEST','Kaynak ya da VarÃ½Ã¾');
 DEFINE('_NOLAYER4','4.katman yok');
 DEFINE('_INPUTCRTENC','Girdi Ölçütü Þifreleme Tipi');
-DEFINE('_CONVERT2WS','DÃ¶nüþtür (ararken)');
+DEFINE('_CONVERT2WS','DÃ¶nüÃ¾tür (ararken)');
 
 //base_state_common.inc.php
-DEFINE('_PHPERRORCSESSION','PHP HATASI: Özel (kullanýcý) bir PHP oturumu saptandý. Ancak, BASE açýkça bu Ã¶zel iþleyiciyi kullanmak üzere ayarlanmamýþ. <CODE>base_conf.php</CODE> dosyasýnda <CODE>use_user_session=1</CODE> olarak ayarlayýn');
-DEFINE('_PHPERRORCSESSIONCODE','PHP HATASI: Özel (kullanýcý) bir PHP oturum iþleyicisi yapýlandýrýlmýþ, fakat <CODE>user_session_path</CODE> \'teki belirlenmiþ iþleyici kodu geçersiz.');
-DEFINE('_PHPERRORCSESSIONVAR','PHP HATASI: Özel (kullanýcý) bir PHP oturum iþleyicisi yapýlandýrýlmýþ, fakat bu iþleyicinin gerçekleþtirilmesi BASE\'de belirlenmemiþ. Eðer Ã¶zel bir oturum iþleyici isteniyorsa, <CODE>base_conf.php</CODE> dosyasýndaki <CODE>user_session_path</CODE> deðiþkenini ayarlayýn.');
+DEFINE('_PHPERRORCSESSION','PHP HATASI: Özel (kullanÃ½cÃ½) bir PHP oturumu saptandÃ½. Ancak, BASE açÃ½kça bu Ã¶zel iÃ¾leyiciyi kullanmak üzere ayarlanmamÃ½Ã¾. <CODE>base_conf.php</CODE> dosyasÃ½nda <CODE>use_user_session=1</CODE> olarak ayarlayÃ½n');
+DEFINE('_PHPERRORCSESSIONCODE','PHP HATASI: Özel (kullanÃ½cÃ½) bir PHP oturum iÃ¾leyicisi yapÃ½landÃ½rÃ½lmÃ½Ã¾, fakat <CODE>user_session_path</CODE> \'teki belirlenmiÃ¾ iÃ¾leyici kodu geçersiz.');
+DEFINE('_PHPERRORCSESSIONVAR','PHP HATASI: Özel (kullanÃ½cÃ½) bir PHP oturum iÃ¾leyicisi yapÃ½landÃ½rÃ½lmÃ½Ã¾, fakat bu iÃ¾leyicinin gerçekleÃ¾tirilmesi BASE\'de belirlenmemiÃ¾. Eðer Ã¶zel bir oturum iÃ¾leyici isteniyorsa, <CODE>base_conf.php</CODE> dosyasÃ½ndaki <CODE>user_session_path</CODE> deðiÃ¾kenini ayarlayÃ½n.');
 DEFINE('_PHPSESSREG','Oturum Kaydedildi');
 
 //base_state_criteria.inc.php
-DEFINE('_REMOVE','Kaldýrýlýyor');
+DEFINE('_REMOVE','KaldÃ½rÃ½lÃ½yor');
 DEFINE('_FROMCRIT','Ã¶lçütten');
 DEFINE('_ERRCRITELEM','Geçersiz Ã¶lçüt Ã¶ðesi');
 
 //base_state_query.inc.php
-DEFINE('_VALIDCANNED','Geçerli Konservelenmiþ Sorgu Listesi');
+DEFINE('_VALIDCANNED','Geçerli KonservelenmiÃ¾ Sorgu Listesi');
 DEFINE('_DISPLAYING','GÃ¶rüntüleniyor');
-DEFINE('_DISPLAYINGTOTAL','%d-%d uyarýlarý gÃ¶rüntüleniyor, %d toplamda');
-DEFINE('_NOALERTS','Hiçbir Uyarý bulunamadý.');
-DEFINE('_QUERYRESULTS','Sorgu Sonuçlarý');
+DEFINE('_DISPLAYINGTOTAL','%d-%d uyarÃ½larÃ½ gÃ¶rüntüleniyor, %d toplamda');
+DEFINE('_NOALERTS','Hiçbir UyarÃ½ bulunamadÃ½.');
+DEFINE('_QUERYRESULTS','Sorgu SonuçlarÃ½');
 DEFINE('_QUERYSTATE','Sorgu Durumu');
 DEFINE('_DISPACTION','{ eylem }');
 
 //base_ag_common.php
-DEFINE('_ERRAGNAMESEARCH','Belirtilen UG ad aramasý geçersiz.  Tekrar deneyin!');
+DEFINE('_ERRAGNAMESEARCH','Belirtilen UG ad aramasÃ½ geçersiz.  Tekrar deneyin!');
 DEFINE('_ERRAGNAMEEXIST','Belirtilen UG yok.');
-DEFINE('_ERRAGIDSEARCH','Belirtilen UG ID aramasý geçersiz.  Tekrar deneyin!');
-DEFINE('_ERRAGLOOKUP','UG ID arama Hatasý');
-DEFINE('_ERRAGINSERT','Yeni UG Ekleme Hatasý');
+DEFINE('_ERRAGIDSEARCH','Belirtilen UG ID aramasÃ½ geçersiz.  Tekrar deneyin!');
+DEFINE('_ERRAGLOOKUP','UG ID arama HatasÃ½');
+DEFINE('_ERRAGINSERT','Yeni UG Ekleme HatasÃ½');
 
 //base_ag_main.php
-DEFINE('_AGMAINTTITLE','Uyarý Grubu (UG) Bakýmý');
-DEFINE('_ERRAGUPDATE','UG güncelleme Hatasý');
-DEFINE('_ERRAGPACKETLIST','UG için paket listesi silme Hatasý:');
-DEFINE('_ERRAGDELETE','UG silme Hatasý');
-DEFINE('_AGDELETE','Baþarýlý biçimde SÝLÝNDÝ');
+DEFINE('_AGMAINTTITLE','UyarÃ½ Grubu (UG) BakÃ½mÃ½');
+DEFINE('_ERRAGUPDATE','UG güncelleme HatasÃ½');
+DEFINE('_ERRAGPACKETLIST','UG için paket listesi silme HatasÃ½:');
+DEFINE('_ERRAGDELETE','UG silme HatasÃ½');
+DEFINE('_AGDELETE','BaÃ¾arÃ½lÃ½ biçimde SÝLÝNDÝ');
 DEFINE('_AGDELETEINFO','bilgi silindi');
 DEFINE('_ERRAGSEARCHINV','Girilen arama Ã¶lçütü geçersiz.  Tekrar deneyin!');
-DEFINE('_ERRAGSEARCHNOTFOUND','Bu Ã¶lçüte gÃ¶re UG bulunamadý.');
-DEFINE('_NOALERTGOUPS','Hiç Uyarý Grubu yok');
-DEFINE('_NUMALERTS','# Uyarýlar');
+DEFINE('_ERRAGSEARCHNOTFOUND','Bu Ã¶lçüte gÃ¶re UG bulunamadÃ½.');
+DEFINE('_NOALERTGOUPS','Hiç UyarÃ½ Grubu yok');
+DEFINE('_NUMALERTS','# UyarÃ½lar');
 DEFINE('_ACTIONS','Eylemler');
-DEFINE('_NOTASSIGN','henüz atanmamýþ');
-DEFINE('_SAVECHANGES','Deðiþiklikleri Kaydet');
+DEFINE('_NOTASSIGN','henüz atanmamÃ½Ã¾');
+DEFINE('_SAVECHANGES','DeðiÃ¾iklikleri Kaydet');
 DEFINE('_CONFIRMDELETE','Silmeyi Onayla');
 DEFINE('_CONFIRMCLEAR','Temizlemeyi Onayla');
 
@@ -409,32 +409,32 @@ DEFINE('_CONFIRMCLEAR','Temizlemeyi Onayla');
 DEFINE('_PORTSCAN','Portscan Trafiði');
 
 //base_db_common.php
-DEFINE('_ERRDBINDEXCREATE','INDEX YARATMAK Olanaksýz');
-DEFINE('_DBINDEXCREATE','Baþarýlý biçimde INDEX yaratýldý');
-DEFINE('_ERRSNORTVER','Eski bir sürüm olabilir.  Sadece Snort 1.7-beta0 ve sonraki sürümler tarafýndan yaratýlan uyarý veritabanlarý desteklenmektedir');
-DEFINE('_ERRSNORTVER1','temel veritabaný');
+DEFINE('_ERRDBINDEXCREATE','INDEX YARATMAK OlanaksÃ½z');
+DEFINE('_DBINDEXCREATE','BaÃ¾arÃ½lÃ½ biçimde INDEX yaratÃ½ldÃ½');
+DEFINE('_ERRSNORTVER','Eski bir sürüm olabilir.  Sadece Snort 1.7-beta0 ve sonraki sürümler tarafÃ½ndan yaratÃ½lan uyarÃ½ veritabanlarÃ½ desteklenmektedir');
+DEFINE('_ERRSNORTVER1','temel veritabanÃ½');
 DEFINE('_ERRSNORTVER2','eksik/geçersiz gÃ¶rünmektedir');
-DEFINE('_ERRDBSTRUCT1','veritabaný sürümü geçerli, fakat BASE DB yapýsý');
-DEFINE('_ERRDBSTRUCT2','sunulu deðil. <A HREF="base_db_setup.php">Setup sayfasýný</A> kullanarak DB\'i yapýlandýrýn ve optimize edin.');
+DEFINE('_ERRDBSTRUCT1','veritabanÃ½ sürümü geçerli, fakat BASE DB yapÃ½sÃ½');
+DEFINE('_ERRDBSTRUCT2','sunulu deðil. <A HREF="base_db_setup.php">Setup sayfasÃ½nÃ½</A> kullanarak DB\'i yapÃ½landÃ½rÃ½n ve optimize edin.');
 DEFINE('_ERRPHPERROR','PHP HATASI');
 DEFINE('_ERRPHPERROR1','Uyumsuz sürüm');
 DEFINE('_ERRVERSION','Sürümü');
 DEFINE('_ERRPHPERROR2',' PHP\'nin çok eski.  Lütfen 4.0.4 veya sonraki bir sürüme yükseltin');
-DEFINE('_ERRPHPMYSQLSUP','<B>PHP inþasý eksik</B>: <FONT>uyarý veritabanýný okumak için gerekli 
-               Ã¶nkoþul Mysql desteði PHP içine inþa edilmemiþ.  
-               Lütfen gerekli kitaplýk ile birlikte PHP\'yi yeniden derleyin (<CODE>--with-mysql</CODE>)</FONT>');
-DEFINE('_ERRPHPPOSTGRESSUP','<B>PHP inþasý eksik</B>: <FONT>uyarý veritabanýný okumak için gerekli 
-               Ã¶nkoþul PostgreSQL desteði PHP içine inþa edilmemiþ.  
-               Lütfen gerekli kitaplýk ile birlikte PHP\'yi yeniden derleyin (<CODE>--with-pgsql</CODE>)</FONT>');
-DEFINE('_ERRPHPMSSQLSUP','<B>PHP inþasý eksik</B>: <FONT>uyarý veritabanýný okumak için gerekli 
-                   Ã¶nkoþul MS SQL Server desteði PHP içine inþa edilmemiþ.  
-                   Lütfen gerekli kitaplýk ile birlikte PHP\'yi yeniden derleyin (<CODE>--enable-mssql</CODE>)</FONT>');
-DEFINE('_ERRPHPORACLESUP','<B>PHP inþasý eksik</B>: <FONT>uyarý veritabanýný okumak için gerekli 
-                   Ã¶nkoþul Oracle desteði PHP içine inþa edilmemiþ.  
-                   Lütfen gerekli kitaplýk ile birlikte PHP\'yi yeniden derleyin (<CODE>--with-oci8</CODE>)</FONT>');
+DEFINE('_ERRPHPMYSQLSUP','<B>PHP inÃ¾asÃ½ eksik</B>: <FONT>uyarÃ½ veritabanÃ½nÃ½ okumak için gerekli 
+               Ã¶nkoÃ¾ul Mysql desteði PHP içine inÃ¾a edilmemiÃ¾.  
+               Lütfen gerekli kitaplÃ½k ile birlikte PHP\'yi yeniden derleyin (<CODE>--with-mysql</CODE>)</FONT>');
+DEFINE('_ERRPHPPOSTGRESSUP','<B>PHP inÃ¾asÃ½ eksik</B>: <FONT>uyarÃ½ veritabanÃ½nÃ½ okumak için gerekli 
+               Ã¶nkoÃ¾ul PostgreSQL desteði PHP içine inÃ¾a edilmemiÃ¾.  
+               Lütfen gerekli kitaplÃ½k ile birlikte PHP\'yi yeniden derleyin (<CODE>--with-pgsql</CODE>)</FONT>');
+DEFINE('_ERRPHPMSSQLSUP','<B>PHP inÃ¾asÃ½ eksik</B>: <FONT>uyarÃ½ veritabanÃ½nÃ½ okumak için gerekli 
+                   Ã¶nkoÃ¾ul MS SQL Server desteði PHP içine inÃ¾a edilmemiÃ¾.  
+                   Lütfen gerekli kitaplÃ½k ile birlikte PHP\'yi yeniden derleyin (<CODE>--enable-mssql</CODE>)</FONT>');
+DEFINE('_ERRPHPORACLESUP','<B>PHP inÃ¾asÃ½ eksik</B>: <FONT>uyarÃ½ veritabanÃ½nÃ½ okumak için gerekli 
+                   Ã¶nkoÃ¾ul Oracle desteði PHP içine inÃ¾a edilmemiÃ¾.  
+                   Lütfen gerekli kitaplÃ½k ile birlikte PHP\'yi yeniden derleyin (<CODE>--with-oci8</CODE>)</FONT>');
 
 //base_graph_form.php
-DEFINE('_CHARTTITLE','Grafik Baþlýðý:');
+DEFINE('_CHARTTITLE','Grafik BaÃ¾lÃ½ðÃ½:');
 DEFINE('_CHARTTYPE','Grafik Tipi:');
 DEFINE('_CHARTTYPES','{ grafik tipi }');
 DEFINE('_CHARTPERIOD','Grafik DÃ¶nemi:');
@@ -443,7 +443,7 @@ DEFINE('_PERIODWEEK','7 (bir hafta)');
 DEFINE('_PERIODDAY','24 (bütün gün)');
 DEFINE('_PERIOD168','168 (24x7)');
 DEFINE('_CHARTSIZE','Boyut: (en x yükseklik)');
-DEFINE('_PLOTMARGINS','Çizim Boþluklarý: (sol x sað x üst x alt)');
+DEFINE('_PLOTMARGINS','Çizim BoÃ¾luklarÃ½: (sol x sað x üst x alt)');
 DEFINE('_PLOTTYPE','Çizim tipi:');
 DEFINE('_TYPEBAR','çubuk');
 DEFINE('_TYPELINE','çizgi');
@@ -451,66 +451,66 @@ DEFINE('_TYPEPIE','pasta');
 DEFINE('_CHARTHOUR','{sat}');
 DEFINE('_CHARTDAY','{gün}');
 DEFINE('_CHARTMONTH','{ay}');
-DEFINE('_GRAPHALERTS','Çizge Uyarýlarý');
+DEFINE('_GRAPHALERTS','Çizge UyarÃ½larÃ½');
 DEFINE('_AXISCONTROLS','X / Y EKSEN KONTROLLERÝ');
-DEFINE('_CHRTTYPEHOUR','Zaman (saat) vs. Uyarý Sayýsý');
-DEFINE('_CHRTTYPEDAY','Zaman (gün) vs. Uyarý Sayýsý');
-DEFINE('_CHRTTYPEWEEK','Zaman (hafta) vs. Uyarý Sayýsý');
-DEFINE('_CHRTTYPEMONTH','Zaman (ay) vs. Uyarý Sayýsý');
-DEFINE('_CHRTTYPEYEAR','Zaman (yýl) vs. Uyarý Sayýsý');
-DEFINE('_CHRTTYPESRCIP','Kaynak IP adresi vs. Uyarý Sayýsý');
-DEFINE('_CHRTTYPEDSTIP','Varýþ IP adresi vs. Uyarý Sayýsý');
-DEFINE('_CHRTTYPEDSTUDP','Varýþ UDP Portu vs. Uyarý Sayýsý');
-DEFINE('_CHRTTYPESRCUDP','Kynak UDP Portu vs. Uyarý Sayýsý');
-DEFINE('_CHRTTYPEDSTPORT','Varýþ TCP Portu vs. Uyarý Sayýsý');
-DEFINE('_CHRTTYPESRCPORT','Kaynak TCP Portu vs. Uyarý Sayýsý');
-DEFINE('_CHRTTYPESIG','Ýmza Sýnýflamasý vs. Uyarý Sayýsý');
-DEFINE('_CHRTTYPESENSOR','Sensor vs. Uyarý Sayýsý');
-DEFINE('_CHRTBEGIN','Grafik Baþlangýcý:');
+DEFINE('_CHRTTYPEHOUR','Zaman (saat) vs. UyarÃ½ SayÃ½sÃ½');
+DEFINE('_CHRTTYPEDAY','Zaman (gün) vs. UyarÃ½ SayÃ½sÃ½');
+DEFINE('_CHRTTYPEWEEK','Zaman (hafta) vs. UyarÃ½ SayÃ½sÃ½');
+DEFINE('_CHRTTYPEMONTH','Zaman (ay) vs. UyarÃ½ SayÃ½sÃ½');
+DEFINE('_CHRTTYPEYEAR','Zaman (yÃ½l) vs. UyarÃ½ SayÃ½sÃ½');
+DEFINE('_CHRTTYPESRCIP','Kaynak IP adresi vs. UyarÃ½ SayÃ½sÃ½');
+DEFINE('_CHRTTYPEDSTIP','VarÃ½Ã¾ IP adresi vs. UyarÃ½ SayÃ½sÃ½');
+DEFINE('_CHRTTYPEDSTUDP','VarÃ½Ã¾ UDP Portu vs. UyarÃ½ SayÃ½sÃ½');
+DEFINE('_CHRTTYPESRCUDP','Kynak UDP Portu vs. UyarÃ½ SayÃ½sÃ½');
+DEFINE('_CHRTTYPEDSTPORT','VarÃ½Ã¾ TCP Portu vs. UyarÃ½ SayÃ½sÃ½');
+DEFINE('_CHRTTYPESRCPORT','Kaynak TCP Portu vs. UyarÃ½ SayÃ½sÃ½');
+DEFINE('_CHRTTYPESIG','Ýmza SÃ½nÃ½flamasÃ½ vs. UyarÃ½ SayÃ½sÃ½');
+DEFINE('_CHRTTYPESENSOR','Sensor vs. UyarÃ½ SayÃ½sÃ½');
+DEFINE('_CHRTBEGIN','Grafik BaÃ¾langÃ½cÃ½:');
 DEFINE('_CHRTEND','Grafik Sonu:');
-DEFINE('_CHRTDS','Veri Kaynaðý:');
+DEFINE('_CHRTDS','Veri KaynaðÃ½:');
 DEFINE('_CHRTX','X Ekseni');
 DEFINE('_CHRTY','Y Ekseni');
-DEFINE('_CHRTMINTRESH','En Düþük Eþik Deðeri');
+DEFINE('_CHRTMINTRESH','En DüÃ¾ük EÃ¾ik Deðeri');
 DEFINE('_CHRTROTAXISLABEL','Eksen Etiketlerini DÃ¶ndür (90 derece)');
-DEFINE('_CHRTSHOWX','X-ekseni ýzgara-çizgilerini gÃ¶ster');
+DEFINE('_CHRTSHOWX','X-ekseni Ã½zgara-çizgilerini gÃ¶ster');
 DEFINE('_CHRTDISPLABELX','Her bir X-ekseni etiketini gÃ¶rüntüle');
 DEFINE('_CHRTDATAPOINTS','veri gÃ¶stergeleri');
 DEFINE('_CHRTYLOG','Logaritmik Y-ekseni');
-DEFINE('_CHRTYGRID','Y-ekseni ýzgara-çizgilerini gÃ¶ster');
+DEFINE('_CHRTYGRID','Y-ekseni Ã½zgara-çizgilerini gÃ¶ster');
 
 //base_graph_main.php
 DEFINE('_CHRTTITLE','BASE Grafik');
-DEFINE('_ERRCHRTNOTYPE','Hiçbir grafik tipi belirtilmemiþ');
-DEFINE('_ERRNOAGSPEC','Hiçbir UG belirtilmemiþ.  Tüm uyarýlarý kullanýyor.');
-DEFINE('_CHRTDATAIMPORT','Veri aktarýmýný baþlatýyor');
-DEFINE('_CHRTTIMEVNUMBER','Zaman vs. Uyarý Sayýsý');
+DEFINE('_ERRCHRTNOTYPE','Hiçbir grafik tipi belirtilmemiÃ¾');
+DEFINE('_ERRNOAGSPEC','Hiçbir UG belirtilmemiÃ¾.  Tüm uyarÃ½larÃ½ kullanÃ½yor.');
+DEFINE('_CHRTDATAIMPORT','Veri aktarÃ½mÃ½nÃ½ baÃ¾latÃ½yor');
+DEFINE('_CHRTTIMEVNUMBER','Zaman vs. UyarÃ½ SayÃ½sÃ½');
 DEFINE('_CHRTTIME','Zaman');
-DEFINE('_CHRTALERTOCCUR','Uyarý Meydana Geliyor');
-DEFINE('_CHRTSIPNUMBER','Kaynak IP vs. Uyarý Sayýsý');
+DEFINE('_CHRTALERTOCCUR','UyarÃ½ Meydana Geliyor');
+DEFINE('_CHRTSIPNUMBER','Kaynak IP vs. UyarÃ½ SayÃ½sÃ½');
 DEFINE('_CHRTSIP','Kaynak IP Adresi');
-DEFINE('_CHRTDIPALERTS','Varýþ IP vs. Uyarý Sayýsý');
-DEFINE('_CHRTDIP','Varýþ IP Adresi');
-DEFINE('_CHRTUDPPORTNUMBER','UDP Portu (Varýþ) vs. Uyarý Sayýsý');
-DEFINE('_CHRTDUDPPORT','Varýþ UDP Portu');
-DEFINE('_CHRTSUDPPORTNUMBER','UDP Portu (Kaynak) vs. Uyarý Sayýsý');
+DEFINE('_CHRTDIPALERTS','VarÃ½Ã¾ IP vs. UyarÃ½ SayÃ½sÃ½');
+DEFINE('_CHRTDIP','VarÃ½Ã¾ IP Adresi');
+DEFINE('_CHRTUDPPORTNUMBER','UDP Portu (VarÃ½Ã¾) vs. UyarÃ½ SayÃ½sÃ½');
+DEFINE('_CHRTDUDPPORT','VarÃ½Ã¾ UDP Portu');
+DEFINE('_CHRTSUDPPORTNUMBER','UDP Portu (Kaynak) vs. UyarÃ½ SayÃ½sÃ½');
 DEFINE('_CHRTSUDPPORT','Kaynak UDP Portu');
-DEFINE('_CHRTPORTDESTNUMBER','TCP Portu (Varýþ) vs. Uyarý Sayýsý');
-DEFINE('_CHRTPORTDEST','Varýþ TCP Portu');
-DEFINE('_CHRTPORTSRCNUMBER','TCP Portu (Kaynak) vs. Uyarý Sayýsý');
+DEFINE('_CHRTPORTDESTNUMBER','TCP Portu (VarÃ½Ã¾) vs. UyarÃ½ SayÃ½sÃ½');
+DEFINE('_CHRTPORTDEST','VarÃ½Ã¾ TCP Portu');
+DEFINE('_CHRTPORTSRCNUMBER','TCP Portu (Kaynak) vs. UyarÃ½ SayÃ½sÃ½');
 DEFINE('_CHRTPORTSRC','Kaynak TCP Portu');
-DEFINE('_CHRTSIGNUMBER','Ýmza Sýnýflamasý vs. Uyarý Sayýsý');
-DEFINE('_CHRTCLASS','Sýnýflama');
-DEFINE('_CHRTSENSORNUMBER','Sensor vs. Uyarý Sayýsý');
-DEFINE('_CHRTHANDLEPERIOD','Ýþleme DÃ¶nemi, eðer gerekliyse');
-DEFINE('_CHRTDUMP','Veriyi boþaltýyor ... (her birini yazýyor');
+DEFINE('_CHRTSIGNUMBER','Ýmza SÃ½nÃ½flamasÃ½ vs. UyarÃ½ SayÃ½sÃ½');
+DEFINE('_CHRTCLASS','SÃ½nÃ½flama');
+DEFINE('_CHRTSENSORNUMBER','Sensor vs. UyarÃ½ SayÃ½sÃ½');
+DEFINE('_CHRTHANDLEPERIOD','ÝÃ¾leme DÃ¶nemi, eðer gerekliyse');
+DEFINE('_CHRTDUMP','Veriyi boÃ¾altÃ½yor ... (her birini yazÃ½yor');
 DEFINE('_CHRTDRAW','Grafiði çiziyor');
 DEFINE('_ERRCHRTNODATAPOINTS','Çizecek hiç veri gÃ¶stergesi yok');
-DEFINE('_GRAPHALERTDATA','Grafik Uyarý Verisi');
+DEFINE('_GRAPHALERTDATA','Grafik UyarÃ½ Verisi');
 
 //base_maintenance.php
-DEFINE('_MAINTTITLE','Bakým');
-DEFINE('_MNTPHP','PHP Ýnþasý:');
+DEFINE('_MAINTTITLE','BakÃ½m');
+DEFINE('_MNTPHP','PHP ÝnÃ¾asÃ½:');
 DEFINE('_MNTCLIENT','ÝSTEMCÝ:');
 DEFINE('_MNTSERVER','SUNUCU:');
 DEFINE('_MNTSERVERHW','SUNUCU HW:');
@@ -520,55 +520,55 @@ DEFINE('_MNTPHPLOGLVL','PHP Günlükleme düzeyi:');
 DEFINE('_MNTPHPMODS','Yüklü Modüller:');
 DEFINE('_MNTDBTYPE','DB Tipi:');
 DEFINE('_MNTDBALV','DB Soyutlama Sürümü:');
-DEFINE('_MNTDBALERTNAME','UYARI DB Adý:');
-DEFINE('_MNTDBARCHNAME','ARÞÝV DB Adý:');
-DEFINE('_MNTAIC','Uyarý Bilgi Önbelleði:');
+DEFINE('_MNTDBALERTNAME','UYARI DB AdÃ½:');
+DEFINE('_MNTDBARCHNAME','ARÞÝV DB AdÃ½:');
+DEFINE('_MNTAIC','UyarÃ½ Bilgi Önbelleði:');
 DEFINE('_MNTAICTE','Toplam Olaylar:');
 DEFINE('_MNTAICCE','Önbellekteki Olaylar:');
 DEFINE('_MNTIPAC','IP Adres Önbelleði');
 DEFINE('_MNTIPACUSIP','Benzersiz Kaynak IP:');
-DEFINE('_MNTIPACDNSC','DNS Önbelleðe alýndý:');
-DEFINE('_MNTIPACWC','Whois Önbelleðe alýndý:');
-DEFINE('_MNTIPACUDIP','Benzersiz Varýþ IP:');
+DEFINE('_MNTIPACDNSC','DNS Önbelleðe alÃ½ndÃ½:');
+DEFINE('_MNTIPACWC','Whois Önbelleðe alÃ½ndÃ½:');
+DEFINE('_MNTIPACUDIP','Benzersiz VarÃ½Ã¾ IP:');
 
 //base_qry_alert.php
 DEFINE('_QAINVPAIR','Geçersiz (sid,cid) çift');
-DEFINE('_QAALERTDELET','Uyarý SÝLÝNDÝ');
-DEFINE('_QATRIGGERSIG','Tetiklenmiþ Ýmza');
+DEFINE('_QAALERTDELET','UyarÃ½ SÝLÝNDÝ');
+DEFINE('_QATRIGGERSIG','TetiklenmiÃ¾ Ýmza');
 DEFINE('_QANORMALD','Normal GÃ¶rüntü');
 DEFINE('_QAPLAIND','Düz GÃ¶rüntü');
-DEFINE('_QANOPAYLOAD','Hýzlý günlükleme kullanýldý bu yüzden payload atýldý');
+DEFINE('_QANOPAYLOAD','HÃ½zlÃ½ günlükleme kullanÃ½ldÃ½ bu yüzden payload atÃ½ldÃ½');
 
 //base_qry_common.php
 DEFINE('_QCSIG','imza');
 DEFINE('_QCIPADDR','IP adresleri');
-DEFINE('_QCIPFIELDS','IP alanlarý');
-DEFINE('_QCTCPPORTS','TCP portlarý');
-DEFINE('_QCTCPFLAGS','TCP bayraklarý');
-DEFINE('_QCTCPFIELD','TCP alanlarý');
-DEFINE('_QCUDPPORTS','UDP portlarý');
-DEFINE('_QCUDPFIELDS','UDP alanlarý');
-DEFINE('_QCICMPFIELDS','ICMP alanlarý');
+DEFINE('_QCIPFIELDS','IP alanlarÃ½');
+DEFINE('_QCTCPPORTS','TCP portlarÃ½');
+DEFINE('_QCTCPFLAGS','TCP bayraklarÃ½');
+DEFINE('_QCTCPFIELD','TCP alanlarÃ½');
+DEFINE('_QCUDPPORTS','UDP portlarÃ½');
+DEFINE('_QCUDPFIELDS','UDP alanlarÃ½');
+DEFINE('_QCICMPFIELDS','ICMP alanlarÃ½');
 DEFINE('_QCDATA','Veri');
-DEFINE('_QCERRCRITWARN','Ölçüt uyarýsý:');
+DEFINE('_QCERRCRITWARN','Ölçüt uyarÃ½sÃ½:');
 DEFINE('_QCERRVALUE','deðeri');
-DEFINE('_QCERRFIELD','alaný');
-DEFINE('_QCERROPER','iþletmeni');
+DEFINE('_QCERRFIELD','alanÃ½');
+DEFINE('_QCERROPER','iÃ¾letmeni');
 DEFINE('_QCERRDATETIME','tarih/zaman deðeri');
 DEFINE('_QCERRPAYLOAD','payload deðeri');
 DEFINE('_QCERRIP','IP adresi');
 DEFINE('_QCERRIPTYPE','Tipin IP adresi');
-DEFINE('_QCERRSPECFIELD',' bir protokol alaný için girildi, fakat Ã¶zel alan belirlenmemiþ.');
-DEFINE('_QCERRSPECVALUE','onun bir Ã¶lçüt olmasý gerektiðini gÃ¶stermek üzere seçilmiþ, fakat hangisiyle eþleþeceðini gÃ¶steren hiçbir deðer belirlenmemiþ.');
-DEFINE('_QCERRBOOLEAN','Aralarýnda bir boolen iþleci olmadan (Ã¶rneðin; VE, YA DA) Çoklu Protokol Alan Ã¶lçütü girildi.');
-DEFINE('_QCERRDATEVALUE','bazý tarih/zaman Ã¶lçütünün eþleþmesi gerektiðini gÃ¶stermek üzere seçilmiþ, fakat hiçbir deðer belirlenmemiþ.');
-DEFINE('_QCERRINVHOUR','(Geçersiz Saat) Belirtilen zamana uygun hiçbir tarih girilmemiþ.');
-DEFINE('_QCERRDATECRIT','bazý tarih/zaman Ã¶lçütünün eþleþmesi gerektiðini gÃ¶stermek üzere seçilmiþ, fakat hiçbir deðer belirlenmemiþ.');
-DEFINE('_QCERROPERSELECT','girilmiþ fakat hiçbir iþletici seçilmemiþ.');
-DEFINE('_QCERRDATEBOOL','Aralarýnda bir boolen iþleci olmadan (Ã¶rneðin; VE, YA DA) Çoklu Tarih/Zaman Ã¶lçütü girildi.');
-DEFINE('_QCERRPAYCRITOPER','bir payload Ã¶lçüt alaný için girilmiþ, fakat bir iþletici (Ã¶rneðin; sahip, sahip deðil) belirtilmemiþ.');
-DEFINE('_QCERRPAYCRITVALUE','payload\'ýn bir Ã¶lçüt olmasý gerektiðini gÃ¶stermek üzere seçilmiþ, fakat hangisiyle eþleþeceðini gÃ¶steren hiçbir deðer belirlenmemiþ.');
-DEFINE('_QCERRPAYBOOL','Aralarýnda bir boolen iþleci olmadan (Ã¶rneðin; VE, YA DA) Çoklu Veri payload Ã¶lçütü girildi.');
+DEFINE('_QCERRSPECFIELD',' bir protokol alanÃ½ için girildi, fakat Ã¶zel alan belirlenmemiÃ¾.');
+DEFINE('_QCERRSPECVALUE','onun bir Ã¶lçüt olmasÃ½ gerektiðini gÃ¶stermek üzere seçilmiÃ¾, fakat hangisiyle eÃ¾leÃ¾eceðini gÃ¶steren hiçbir deðer belirlenmemiÃ¾.');
+DEFINE('_QCERRBOOLEAN','AralarÃ½nda bir boolen iÃ¾leci olmadan (Ã¶rneðin; VE, YA DA) Çoklu Protokol Alan Ã¶lçütü girildi.');
+DEFINE('_QCERRDATEVALUE','bazÃ½ tarih/zaman Ã¶lçütünün eÃ¾leÃ¾mesi gerektiðini gÃ¶stermek üzere seçilmiÃ¾, fakat hiçbir deðer belirlenmemiÃ¾.');
+DEFINE('_QCERRINVHOUR','(Geçersiz Saat) Belirtilen zamana uygun hiçbir tarih girilmemiÃ¾.');
+DEFINE('_QCERRDATECRIT','bazÃ½ tarih/zaman Ã¶lçütünün eÃ¾leÃ¾mesi gerektiðini gÃ¶stermek üzere seçilmiÃ¾, fakat hiçbir deðer belirlenmemiÃ¾.');
+DEFINE('_QCERROPERSELECT','girilmiÃ¾ fakat hiçbir iÃ¾letici seçilmemiÃ¾.');
+DEFINE('_QCERRDATEBOOL','AralarÃ½nda bir boolen iÃ¾leci olmadan (Ã¶rneðin; VE, YA DA) Çoklu Tarih/Zaman Ã¶lçütü girildi.');
+DEFINE('_QCERRPAYCRITOPER','bir payload Ã¶lçüt alanÃ½ için girilmiÃ¾, fakat bir iÃ¾letici (Ã¶rneðin; sahip, sahip deðil) belirtilmemiÃ¾.');
+DEFINE('_QCERRPAYCRITVALUE','payload\'Ã½n bir Ã¶lçüt olmasÃ½ gerektiðini gÃ¶stermek üzere seçilmiÃ¾, fakat hangisiyle eÃ¾leÃ¾eceðini gÃ¶steren hiçbir deðer belirlenmemiÃ¾.');
+DEFINE('_QCERRPAYBOOL','AralarÃ½nda bir boolen iÃ¾leci olmadan (Ã¶rneðin; VE, YA DA) Çoklu Veri payload Ã¶lçütü girildi.');
 DEFINE('_QCMETACRIT','Meta Ölçütü');
 DEFINE('_QCIPCRIT','IP Ölçütü');
 DEFINE('_QCPAYCRIT','Payload Ölçütü');
@@ -577,117 +577,117 @@ DEFINE('_QCUDPCRIT','UDP Ölçütü');
 DEFINE('_QCICMPCRIT','ICMP Ölçütü');
 DEFINE('_QCLAYER4CRIT','4. Katman Ölçütü');
 DEFINE('_QCERRINVIPCRIT','Geçersiz IP adres Ã¶lçütü');
-DEFINE('_QCERRCRITADDRESSTYPE','bir Ã¶lçüt deðeri olmasý için girilmiþ, fakat adresin tipi (Ã¶rneðin; kaynak, varýþ) belirlenmemiþ.');
-DEFINE('_QCERRCRITIPADDRESSNONE','bir IP adresinin bir Ã¶lçüt olmasý gerektiðini gÃ¶steriyor, fakat hangisiyle eþleþeceðini gÃ¶steren hiçbir adres belirlenmemiþ.');
-DEFINE('_QCERRCRITIPADDRESSNONE1','seçilmiþ (#');
-DEFINE('_QCERRCRITIPIPBOOL','IP Ölçütü arasýnda bir boolen iþleci olmadan (Ã¶rneðin; VE, YA DA) Çoklu IP adres Ã¶lçütü girildi');
+DEFINE('_QCERRCRITADDRESSTYPE','bir Ã¶lçüt deðeri olmasÃ½ için girilmiÃ¾, fakat adresin tipi (Ã¶rneðin; kaynak, varÃ½Ã¾) belirlenmemiÃ¾.');
+DEFINE('_QCERRCRITIPADDRESSNONE','bir IP adresinin bir Ã¶lçüt olmasÃ½ gerektiðini gÃ¶steriyor, fakat hangisiyle eÃ¾leÃ¾eceðini gÃ¶steren hiçbir adres belirlenmemiÃ¾.');
+DEFINE('_QCERRCRITIPADDRESSNONE1','seçilmiÃ¾ (#');
+DEFINE('_QCERRCRITIPIPBOOL','IP Ölçütü arasÃ½nda bir boolen iÃ¾leci olmadan (Ã¶rneðin; VE, YA DA) Çoklu IP adres Ã¶lçütü girildi');
 
 //base_qry_form.php
-DEFINE('_QFRMSORTORDER','Sýralama düzeni');
+DEFINE('_QFRMSORTORDER','SÃ½ralama düzeni');
 DEFINE('_QFRMSORTNONE','hiçbiri');
-DEFINE('_QFRMTIMEA','zaman damgasý (artan)');
-DEFINE('_QFRMTIMED','zaman damgasý (azalan)');
+DEFINE('_QFRMTIMEA','zaman damgasÃ½ (artan)');
+DEFINE('_QFRMTIMED','zaman damgasÃ½ (azalan)');
 DEFINE('_QFRMSIG','imza');
 DEFINE('_QFRMSIP','kaynak IP');
-DEFINE('_QFRMDIP','varýþ IP');
+DEFINE('_QFRMDIP','varÃ½Ã¾ IP');
 
 //base_qry_sqlcalls.php
 DEFINE('_QSCSUMM','Ýstatistik Özeti');
 DEFINE('_QSCTIMEPROF','Zaman profili');
-DEFINE('_QSCOFALERTS','uyarýlarýn');
+DEFINE('_QSCOFALERTS','uyarÃ½larÃ½n');
 
 //base_stat_alerts.php
-DEFINE('_ALERTTITLE','Uyarý Listeleme');
+DEFINE('_ALERTTITLE','UyarÃ½ Listeleme');
 
 //base_stat_common.php
 DEFINE('_SCCATEGORIES','Kategoriler:');
 DEFINE('_SCSENSORTOTAL','Sensorler/Toplam:');
-DEFINE('_SCTOTALNUMALERTS','Toplam Uyarý Sayýsý:');
+DEFINE('_SCTOTALNUMALERTS','Toplam UyarÃ½ SayÃ½sÃ½:');
 DEFINE('_SCSRCIP','Kaynak IP adresi:');
-DEFINE('_SCDSTIP','Varýþ IP adresi:');
-DEFINE('_SCUNILINKS','Benzersiz IP baðlantýlarý');
-DEFINE('_SCSRCPORTS','Kaynak Portlarý: ');
-DEFINE('_SCDSTPORTS','Varýþ Portlarý: ');
+DEFINE('_SCDSTIP','VarÃ½Ã¾ IP adresi:');
+DEFINE('_SCUNILINKS','Benzersiz IP baðlantÃ½larÃ½');
+DEFINE('_SCSRCPORTS','Kaynak PortlarÃ½: ');
+DEFINE('_SCDSTPORTS','VarÃ½Ã¾ PortlarÃ½: ');
 DEFINE('_SCSENSORS','Sensorler');
-DEFINE('_SCCLASS','sýnýflamalar');
+DEFINE('_SCCLASS','sÃ½nÃ½flamalar');
 DEFINE('_SCUNIADDRESS','Benzersiz adresler: ');
 DEFINE('_SCSOURCE','Kaynak');
-DEFINE('_SCDEST','Varýþ');
+DEFINE('_SCDEST','VarÃ½Ã¾');
 DEFINE('_SCPORT','Port');
 
 //base_stat_ipaddr.php
 DEFINE('_PSEVENTERR','PORTSCAN OLAY HATASI: ');
-DEFINE('_PSEVENTERRNOFILE','$portscan_file deðiþkeninde hiçbir dosya belirtilmemiþ');
-DEFINE('_PSEVENTERROPENFILE','Portscan olay dosyasýný açmak olanaksýz');
+DEFINE('_PSEVENTERRNOFILE','$portscan_file deðiÃ¾keninde hiçbir dosya belirtilmemiÃ¾');
+DEFINE('_PSEVENTERROPENFILE','Portscan olay dosyasÃ½nÃ½ açmak olanaksÃ½z');
 DEFINE('_PSDATETIME','Tarih/Zaman');
 DEFINE('_PSSRCIP','Kaynak IP');
-DEFINE('_PSDSTIP','Varýþ IP');
+DEFINE('_PSDSTIP','VarÃ½Ã¾ IP');
 DEFINE('_PSSRCPORT','Kaynak Portu');
-DEFINE('_PSDSTPORT','Varýþ Portu');
-DEFINE('_PSTCPFLAGS','TCP Bayraklarý');
+DEFINE('_PSDSTPORT','VarÃ½Ã¾ Portu');
+DEFINE('_PSTCPFLAGS','TCP BayraklarÃ½');
 DEFINE('_PSTOTALOCC','Toplam<BR> Olaylar');
-DEFINE('_PSNUMSENSORS','Sensor Sayýsý');
-DEFINE('_PSFIRSTOCC','Ýlk<BR> Gerçekleþen Olay');
-DEFINE('_PSLASTOCC','Son<BR> Gerçekleþen Olay');
-DEFINE('_PSUNIALERTS','Benzersiz Uyarýlar');
-DEFINE('_PSPORTSCANEVE','Portscan Olaylarý');
-DEFINE('_PSREGWHOIS','Kayýt bakýþý (whois)');
+DEFINE('_PSNUMSENSORS','Sensor SayÃ½sÃ½');
+DEFINE('_PSFIRSTOCC','Ýlk<BR> GerçekleÃ¾en Olay');
+DEFINE('_PSLASTOCC','Son<BR> GerçekleÃ¾en Olay');
+DEFINE('_PSUNIALERTS','Benzersiz UyarÃ½lar');
+DEFINE('_PSPORTSCANEVE','Portscan OlaylarÃ½');
+DEFINE('_PSREGWHOIS','KayÃ½t bakÃ½Ã¾Ã½ (whois)');
 DEFINE('_PSNODNS','hiç DNS çÃ¶zünürlüðü denenmedi');
-DEFINE('_PSNUMSENSORSBR','Sensor <BR>Sayýsý');
-DEFINE('_PSOCCASSRC','Kaynak olarak <BR>Ortaya Çýkanlar');
-DEFINE('_PSOCCASDST','Varýþ olarak <BR>Ortaya Çýkanlar');
+DEFINE('_PSNUMSENSORSBR','Sensor <BR>SayÃ½sÃ½');
+DEFINE('_PSOCCASSRC','Kaynak olarak <BR>Ortaya ÇÃ½kanlar');
+DEFINE('_PSOCCASDST','VarÃ½Ã¾ olarak <BR>Ortaya ÇÃ½kanlar');
 DEFINE('_PSWHOISINFO','Whois Bilgisi');
 DEFINE('_PSTOTALHOSTS','Toplam Taranan Hostlar');
-DEFINE('_PSDETECTAMONG','%d benzersiz uyarý saptandý, %d uyarý arasýnda, %s \'de');
-DEFINE('_PSALLALERTSAS','tüm uyarýlarla birlikte %s/%s olarak');
+DEFINE('_PSDETECTAMONG','%d benzersiz uyarÃ½ saptandÃ½, %d uyarÃ½ arasÃ½nda, %s \'de');
+DEFINE('_PSALLALERTSAS','tüm uyarÃ½larla birlikte %s/%s olarak');
 DEFINE('_PSSHOW','gÃ¶ster');
-DEFINE('_PSEXTERNAL','dýþ');
+DEFINE('_PSEXTERNAL','dÃ½Ã¾');
 
 //base_stat_iplink.php
-DEFINE('_SIPLTITLE','IP Baðlantýlarý');
+DEFINE('_SIPLTITLE','IP BaðlantÃ½larÃ½');
 DEFINE('_SIPLSOURCEFGDN','Kaynak FQDN');
-DEFINE('_SIPLDESTFGDN','Varýþ FQDN');
+DEFINE('_SIPLDESTFGDN','VarÃ½Ã¾ FQDN');
 DEFINE('_SIPLDIRECTION','YÃ¶n');
 DEFINE('_SIPLPROTO','Protokol');
-DEFINE('_SIPLUNIDSTPORTS','Benzersiz Varýþ Portlarý');
+DEFINE('_SIPLUNIDSTPORTS','Benzersiz VarÃ½Ã¾ PortlarÃ½');
 DEFINE('_SIPLUNIEVENTS','Benzersiz Olaylar');
 DEFINE('_SIPLTOTALEVENTS','Toplam Olaylar');
 
 //base_stat_ports.php
 DEFINE('_UNIQ','Benzersiz');
-DEFINE('_DSTPS','Varýþ Port(larý)');
-DEFINE('_SRCPS','Kaynak Port(larý)');
+DEFINE('_DSTPS','VarÃ½Ã¾ Port(larÃ½)');
+DEFINE('_SRCPS','Kaynak Port(larÃ½)');
 DEFINE('_OCCURRENCES','Meydana Geliyor');
 
 //base_stat_sensor.php
 DEFINE('SPSENSORLIST','Sensor Listeleme');
 
 //base_stat_time.php
-DEFINE('_BSTTITLE','Uyarýlarýn Zaman Profili');
+DEFINE('_BSTTITLE','UyarÃ½larÃ½n Zaman Profili');
 DEFINE('_BSTTIMECRIT','Zaman Ölçütü');
-DEFINE('_BSTERRPROFILECRIT','<FONT><B>Hiçbir profilleme Ã¶lçütü belirlenmemeiþ!</B>  "saat", "gün", ya da "ay" üzerine týklayarak kümelenmiþ istatistiklerden taneli olaný seçin.</FONT>');
-DEFINE('_BSTERRTIMETYPE','<FONT><B>Geçecek olan zaman parametresi tipi belirlenmemeiþ!</B>  Tek bir zaman belirtmek için "üzerinde", ya da bir aralýk belirtmek için "arasýnda" \'dan herhangi birini seçin.</FONT>');
-DEFINE('_BSTERRNOYEAR','<FONT><B>Hiçbir Yýl parametresi belirtilmemiþ!</B></FONT>');
-DEFINE('_BSTERRNOMONTH','<FONT><B>Hiçbir Ay parametresi belirtilmemiþ!</B></FONT>');
-DEFINE('_BSTERRNODAY','<FONT><B>Hiçbir Gün parametresi belirtilmemiþ!</B></FONT>');
-DEFINE('_BSTPROFILEBY','Profil tarafýndan');
+DEFINE('_BSTERRPROFILECRIT','<FONT><B>Hiçbir profilleme Ã¶lçütü belirlenmemeiÃ¾!</B>  "saat", "gün", ya da "ay" üzerine tÃ½klayarak kümelenmiÃ¾ istatistiklerden taneli olanÃ½ seçin.</FONT>');
+DEFINE('_BSTERRTIMETYPE','<FONT><B>Geçecek olan zaman parametresi tipi belirlenmemeiÃ¾!</B>  Tek bir zaman belirtmek için "üzerinde", ya da bir aralÃ½k belirtmek için "arasÃ½nda" \'dan herhangi birini seçin.</FONT>');
+DEFINE('_BSTERRNOYEAR','<FONT><B>Hiçbir YÃ½l parametresi belirtilmemiÃ¾!</B></FONT>');
+DEFINE('_BSTERRNOMONTH','<FONT><B>Hiçbir Ay parametresi belirtilmemiÃ¾!</B></FONT>');
+DEFINE('_BSTERRNODAY','<FONT><B>Hiçbir Gün parametresi belirtilmemiÃ¾!</B></FONT>');
+DEFINE('_BSTPROFILEBY','Profil tarafÃ½ndan');
 DEFINE('_TIMEON','üzerinde');
-DEFINE('_TIMEBETWEEN','arasýnda');
-DEFINE('_PROFILEALERT','Profil Uyarýsý');
+DEFINE('_TIMEBETWEEN','arasÃ½nda');
+DEFINE('_PROFILEALERT','Profil UyarÃ½sÃ½');
 
 //base_stat_uaddr.php
 DEFINE('_UNISADD','Benzersiz Kaynak Adres(leri)');
 DEFINE('_SUASRCIP','Kaynak IP adresi');
-DEFINE('_SUAERRCRITADDUNK','ÖLÇÜT HATASI: bilinmeyen adres tipi -- Varýþ adresi olduðu sanýlýyor');
-DEFINE('_UNIDADD','Benzersiz Varýþ Adres(leri)');
-DEFINE('_SUADSTIP','Varýþ IP adresi');
-DEFINE('_SUAUNIALERTS','Benzersiz Uyarýlar');
+DEFINE('_SUAERRCRITADDUNK','ÖLÇÜT HATASI: bilinmeyen adres tipi -- VarÃ½Ã¾ adresi olduðu sanÃ½lÃ½yor');
+DEFINE('_UNIDADD','Benzersiz VarÃ½Ã¾ Adres(leri)');
+DEFINE('_SUADSTIP','VarÃ½Ã¾ IP adresi');
+DEFINE('_SUAUNIALERTS','Benzersiz UyarÃ½lar');
 DEFINE('_SUASRCADD','Kaynak Adresi');
-DEFINE('_SUADSTADD','Varýþ Adresi');
+DEFINE('_SUADSTADD','VarÃ½Ã¾ Adresi');
 
 //base_user.php
-DEFINE('_BASEUSERTITLE','BASE Kullanýcý Yeðlenenleri');
-DEFINE('_BASEUSERERRPWD',$UI_CW_Pw.'nýz boþ olamaz ya da iki '.strtolower($UI_CW_Pw).' eþleþmedi!');
+DEFINE('_BASEUSERTITLE','BASE KullanÃ½cÃ½ Yeðlenenleri');
+DEFINE('_BASEUSERERRPWD',$UI_CW_Pw.'nÃ½z boÃ¾ olamaz ya da iki '.strtolower($UI_CW_Pw).' eÃ¾leÃ¾medi!');
 DEFINE('_BASEUSEROLDPWD',"Eski $UI_CW_Pw".':');
 DEFINE('_BASEUSERNEWPWD',"Yeni $UI_CW_Pw".':');
 DEFINE('_BASEUSERNEWPWDAGAIN',"Yeni $UI_CW_Pw Tekrar:");

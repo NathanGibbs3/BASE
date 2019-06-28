@@ -35,6 +35,7 @@ $UIL = new UILang($BASE_Language); // Create UI Language Object.
 $CPSensor = $UIL->CWA['Sensor'];
 $CPSig = $UIL->CWA['Sig'];
 $CPSA = $UIL->CPA['SrcAddr'];
+$CPDA = $UIL->CPA['DstAddr'];
   $cs = new CriteriaState("base_stat_alerts.php");
   $submit = ImportHTTPVar("submit", VAR_ALPHA | VAR_SPACE, array(_SELECTED, _ALLONSCREEN, _ENTIREQUERY));
 
@@ -164,11 +165,12 @@ $qro->AddTitle($CPSA,
 	"saddr_d", ", count(DISTINCT ip_src) AS saddr_cnt ",
 	" ORDER BY saddr_cnt DESC"
 );
-  $qro->AddTitle(_NBDESTADDR, 
-                "daddr_a", ", count(DISTINCT ip_dst) AS daddr_cnt ",
-                           " ORDER BY daddr_cnt ASC",
-                "daddr_d", ", count(DISTINCT ip_dst) AS daddr_cnt ",
-                           " ORDER BY daddr_cnt DESC");
+$qro->AddTitle($CPDA,
+	"daddr_a", ", count(DISTINCT ip_dst) AS daddr_cnt ",
+	" ORDER BY daddr_cnt ASC",
+	"daddr_d", ", count(DISTINCT ip_dst) AS daddr_cnt ",
+	" ORDER BY daddr_cnt DESC"
+);
   $qro->AddTitle(_FIRST, 
                 "first_a", ", min(timestamp) AS first_timestamp ",
                            " ORDER BY first_timestamp ASC",

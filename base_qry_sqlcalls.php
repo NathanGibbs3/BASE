@@ -44,6 +44,7 @@ global $colored_alerts, $debug_mode;
 $CPSig = $UIL->CWA['Sig'];
 $CPTs = $UIL->CWA['Ts'];
 $CPSA = $UIL->CPA['SrcAddr'];
+$CPDA = $UIL->CPA['DstAddr'];
 
   /* Run the query to determine the number of rows (No LIMIT)*/
   $qs->GetNumResultRows($cnt_sql, $db);
@@ -66,9 +67,10 @@ $qro->AddTitle($CPSA,
 	"sip_a", " ", " ORDER BY ip_src ASC",
 	"sip_d", " ", " ORDER BY ip_src DESC"
 );
-  $qro->AddTitle(_NBDESTADDR, 
-                 "dip_a", " ", " ORDER BY ip_dst ASC",
-                 "dip_d", " ", " ORDER BY ip_dst DESC");
+$qro->AddTitle($CPDA,
+	"dip_a", " ", " ORDER BY ip_dst ASC",
+	"dip_d", " ", " ORDER BY ip_dst DESC"
+);
   $qro->AddTitle(_NBLAYER4, 
                  "proto_a", " ", " ORDER BY ip_proto ASC",
                  "proto_d", " ", " ORDER BY ip_proto DESC");

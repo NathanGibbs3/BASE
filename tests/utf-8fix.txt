@@ -11,3 +11,12 @@ sed 's/\xED/\xC3\xAD/g'
 
 á
 sed 's/\xE1/\xC3\xA1/g'
+
+ä
+sed 's/\xE4/\xC3\xA4/g'
+
+ý
+sed 's/\xFD/\xC3\xBD/g'
+
+þ
+sed 's/\xFE/\xC3\xBE/g'

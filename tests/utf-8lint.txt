@@ -1,6 +1,5 @@
 languages/czech.lang.php
 languages/danish.lang.php
-languages/finnish.lang.php
 languages/french.lang.php
 languages/italian.lang.php
 languages/norwegian.lang.php

@@ -35,11 +35,11 @@ $UI_Title = 'Basic Analysis and Security Engine';
 // Common Words.
 $UI_CW_Edit = 'Edit';
 $UI_CW_Delete = 'Radera';
-$UI_CW_Src = 'K‰lla';
+$UI_CW_Src = 'K√§lla';
 $UI_CW_Dst = 'Destination';
 $UI_CW_Id = 'ID';
 $UI_CW_Name = 'Namn';
-$UI_CW_Int = 'Gr‰nssnitt';
+$UI_CW_Int = 'Gr√§nssnitt';
 $UI_CW_Filter = 'Filter';
 $UI_CW_Desc = 'Beskrivning';
 $UI_CW_SucDesc = 'Utf√∂rt';
@@ -47,23 +47,23 @@ $UI_CW_Sensor = 'Sensor';
 $UI_CW_Sig = 'Signatur';
 $UI_CW_Role = 'Roll';
 $UI_CW_Pw = 'L√∂senord';
-$UI_CW_Ts = 'Tid st‰mpel';
+$UI_CW_Ts = 'Tid st√§mpel';
 $UI_CW_Addr = 'Adress';
 // Common Phrases.
 $UI_CP_SrcName = array($UI_CW_Src,$UI_CW_Name);
 $UI_CP_DstName = array('Dest.',$UI_CW_Name);
 $UI_CP_SrcDst = array('Src','or','Dest');
 $UI_CP_SrcAddr = array($UI_CW_Src,$UI_CW_Addr);
+$UI_CP_DstAddr = array($UI_CW_Dst,$UI_CW_Addr);
 // Authentication Data.
 $UI_AD_UND = 'Logga in';
 $UI_AD_RID = array($UI_CW_Role,$UI_CW_Id);
 $UI_AD_ASD = 'M√∂jliggjord';
 
 //common phrases
-DEFINE('_NBDESTADDR','Dest.&nbsp;Adress');
 DEFINE('_NBLAYER4','Layer&nbsp;4&nbsp;Proto');
 DEFINE('_PRIORITY','Prioritet');
-DEFINE('_EVENTTYPE','H‰ndelse typ');
+DEFINE('_EVENTTYPE','H√§ndelse typ');
 DEFINE('_JANUARY','Januari');
 DEFINE('_FEBRUARY','Februari');
 DEFINE('_MARCH','Mars');
@@ -81,7 +81,7 @@ DEFINE('_FIRST','F√∂regÂende'); //NEW
 DEFINE('_TOTAL','Total'); //NEW
 DEFINE('_ALERT','Varningar');
 DEFINE('_ADDRESS','Adress');
-DEFINE('_UNKNOWN','Ok‰nd');
+DEFINE('_UNKNOWN','Ok√§nd');
 DEFINE('_AND','OCH'); //NEW
 DEFINE('_OR','ELLER'); //NEW
 DEFINE('_IS','LIKA MED'); //NEW
@@ -97,7 +97,7 @@ DEFINE('_ALERTGROUP','Varnings Grupp'); //NEW
 DEFINE('_ALERTTIME','Varnings Tid'); //NEW
 DEFINE('_CONTAINS','innehÂller'); //NEW
 DEFINE('_DOESNTCONTAIN','innehÂller inte'); //NEW
-DEFINE('_SOURCEPORT','K‰ll port'); //NEW
+DEFINE('_SOURCEPORT','K√§ll port'); //NEW
 DEFINE('_DESTPORT','dest. port'); //NEW
 DEFINE('_HAS','har'); //NEW
 DEFINE('_HASNOT','har inte'); //NEW
@@ -110,15 +110,15 @@ DEFINE('_DISPMONTH','{ mÂnad }'); //NEW
 DEFINE('_DISPHOUR','{ timme }'); //NEW
 DEFINE('_DISPDAY','{ dag }'); //NEW
 DEFINE('_DISPTIME','{ tid }'); //NEW
-DEFINE('_ADDADDRESS','L‰gg till Address'); //NEW
-DEFINE('_ADDIPFIELD','L‰gg till IP f‰lt'); //NEW
-DEFINE('_ADDTIME','L‰gg till Tid'); //NEW
-DEFINE('_ADDTCPPORT','L‰gg till TCP port'); //NEW
-DEFINE('_ADDTCPFIELD','L‰gg till TCP f‰lt'); //NEW
-DEFINE('_ADDUDPPORT','L‰gg till UDP port'); //NEW
-DEFINE('_ADDUDPFIELD','L‰gg till UDP f‰lt'); //NEW
-DEFINE('_ADDICMPFIELD','L‰gg till ICMP f‰lt'); //NEW
-DEFINE('_ADDPAYLOAD','L‰gg till Payload'); //NEW
+DEFINE('_ADDADDRESS','L√§gg till Address'); //NEW
+DEFINE('_ADDIPFIELD','L√§gg till IP f√§lt'); //NEW
+DEFINE('_ADDTIME','L√§gg till Tid'); //NEW
+DEFINE('_ADDTCPPORT','L√§gg till TCP port'); //NEW
+DEFINE('_ADDTCPFIELD','L√§gg till TCP f√§lt'); //NEW
+DEFINE('_ADDUDPPORT','L√§gg till UDP port'); //NEW
+DEFINE('_ADDUDPFIELD','L√§gg till UDP f√§lt'); //NEW
+DEFINE('_ADDICMPFIELD','L√§gg till ICMP f√§lt'); //NEW
+DEFINE('_ADDPAYLOAD','L√§gg till Payload'); //NEW
 DEFINE('_MOSTFREQALERTS','Mest frekventa Varningar'); //NEW
 DEFINE('_MOSTFREQPORTS','Mest frekventa Portar'); //NEW
 DEFINE('_MOSTFREQADDRS','Mest frekventa IP adresser'); //NEW
@@ -131,28 +131,28 @@ DEFINE('_QUERYDB','Query DB'); //NEW
 DEFINE('_QUERYDBP','Query+DB'); //NEW - Equals to _QUERYDB where spaces are '+'s. 
                                 //Should be something like: DEFINE('_QUERYDBP',str_replace(" ", "+", _QUERYDB));
 DEFINE('_SELECTED','Valda'); //NEW
-DEFINE('_ALLONSCREEN','ALLA pÂ sk‰rmen'); //NEW
+DEFINE('_ALLONSCREEN','ALLA pÂ sk√§rmen'); //NEW
 DEFINE('_ENTIREQUERY','Hela f√∂rfrÂgan'); //NEW
 DEFINE('_OPTIONS','Options'); //NEW
-DEFINE('_LENGTH','l‰ngd'); //NEW
+DEFINE('_LENGTH','l√§ngd'); //NEW
 DEFINE('_CODE','kod'); //NEW
 DEFINE('_DATA','data'); //NEW
 DEFINE('_TYPE','type'); //NEW
-DEFINE('_NEXT','N‰sta'); //NEW
+DEFINE('_NEXT','N√§sta'); //NEW
 DEFINE('_PREVIOUS','F√∂regÂende'); //NEW
 
 //Menu items
 DEFINE('_HOME','Hem');
 DEFINE('_SEARCH','S√∂k');
 DEFINE('_AGMAINT','Varnings grupp Sk√∂tsel');
-DEFINE('_USERPREF','Anv‰ndar inst‰llningar');
+DEFINE('_USERPREF','Anv√§ndar inst√§llningar');
 DEFINE('_CACHE','Cache & Status');
 DEFINE('_ADMIN','Administration');
 DEFINE('_GALERTD','Graf varnings Data');
-DEFINE('_GALERTDT','Graf varning avk‰nning tid');
-DEFINE('_USERMAN','Anv‰ndar Hantering');
-DEFINE('_LISTU','Lista anv‰ndare');
-DEFINE('_CREATEU','Skapa en anv‰ndare');
+DEFINE('_GALERTDT','Graf varning avk√§nning tid');
+DEFINE('_USERMAN','Anv√§ndar Hantering');
+DEFINE('_LISTU','Lista anv√§ndare');
+DEFINE('_CREATEU','Skapa en anv√§ndare');
 DEFINE('_ROLEMAN',"$UI_CW_Role hantering");
 DEFINE('_LISTR',"Lista $UI_CW_Role".'er');
 DEFINE('_LOGOUT','Logout');
@@ -168,13 +168,13 @@ DEFINE('_EDITGROUPS','Redigera Grupp');
 DEFINE('_DELETEGROUPS','Ta bort grupp');
 DEFINE('_CLEARGROUPS','Rensa Grupp');
 DEFINE('_CHNGPWD','Byta '.strtolower($UI_CW_Pw));
-DEFINE('_DISPLAYU','Se anv‰ndare');
+DEFINE('_DISPLAYU','Se anv√§ndare');
 
 //base_footer.php
 DEFINE('_FOOTER','( av <A class="largemenuitem" href="mailto:base@secureideas.net">Kevin Johnson</A> och <A class="largemenuitem" href="http://sourceforge.net/project/memberlist.php?group_id=103348">BASE Project Team</A><BR>Built on ACID by Roman Danyliw )'); //----
 
 //index.php --Log in Page
-DEFINE('_LOGINERROR','Anv‰ndare finns inte kontrollera anv‰ndarnamn och '.strtolower($UI_CW_Pw).'!<br>Var v‰nlig f√∂rs√∂k igen');
+DEFINE('_LOGINERROR','Anv√§ndare finns inte kontrollera anv√§ndarnamn och '.strtolower($UI_CW_Pw).'!<br>Var v√§nlig f√∂rs√∂k igen');
 
 // base_main.php
 DEFINE('_MOSTRECENT','De senaste ');
@@ -185,31 +185,31 @@ DEFINE('_ANYPROTO','Protokoll');
 DEFINE('_UNI','Unik');
 DEFINE('_LISTING','Lista');
 DEFINE('_TALERTS','Dagens varningar: ');
-DEFINE('_SOURCEIP','K‰ll IP'); //NEW
+DEFINE('_SOURCEIP','K√§ll IP'); //NEW
 DEFINE('_DESTIP','Destinations IP'); //NEW
 DEFINE('_L24ALERTS','Varningar dom senaste 24 timmarna  : ');
 DEFINE('_L72ALERTS','Varningar dom senaste 72 timmarna: ');
 DEFINE('_UNIALERTS',' Unika varningar');
-DEFINE('_LSOURCEPORTS','Senaste k‰ll Port(ar): ');
+DEFINE('_LSOURCEPORTS','Senaste k√§ll Port(ar): ');
 DEFINE('_LDESTPORTS','Senaste Destination Port(ar): ');
-DEFINE('_FREGSOURCEP','Mest f√∂rekommande k‰ll Portar: ');
+DEFINE('_FREGSOURCEP','Mest f√∂rekommande k√§ll Portar: ');
 DEFINE('_FREGDESTP','Mest f√∂rkommande Destinations Portar: ');
 DEFINE('_QUERIED','Queried on'); //---------------------------------------------- 
 DEFINE('_DATABASE','Databas:');
 DEFINE('_SCHEMAV','Diagram Version:');
 DEFINE('_TIMEWIN','Tid F√∂nster:');
 DEFINE('_NOALERTSDETECT','Inga varningar hittades');
-DEFINE('_USEALERTDB','V‰lj Alert Databasen'); //NEW
-DEFINE('_USEARCHIDB','V‰lj Archive Databasen'); //NEW
+DEFINE('_USEALERTDB','V√§lj Alert Databasen'); //NEW
+DEFINE('_USEARCHIDB','V√§lj Archive Databasen'); //NEW
 DEFINE('_TRAFFICPROBPRO','Traffic Profile by Protocol'); //NEW
 
 //base_auth.inc.php
-DEFINE('_ADDEDSF','≈tg‰rden lyckades');
-DEFINE('_NOPWDCHANGE','Kunde inte ‰ndra ditt '.strtolower($UI_CW_Pw).'!: ');
-DEFINE('_NOUSER','Anv‰ndare existerar inte!');
+DEFINE('_ADDEDSF','≈tg√§rden lyckades');
+DEFINE('_NOPWDCHANGE','Kunde inte √§ndra ditt '.strtolower($UI_CW_Pw).'!: ');
+DEFINE('_NOUSER','Anv√§ndare existerar inte!');
 DEFINE('_OLDPWD','Det gamla '.strtolower($UI_CW_Pw).'et matcha inte vÂra uppgifter!');
-DEFINE('_PWDCANT','Det gick inte ‰ndra ditt '.strtolower($UI_CW_Pw).': ');
-DEFINE('_PWDDONE','Ditt '.strtolower($UI_CW_Pw).' har ‰ndrats');
+DEFINE('_PWDCANT','Det gick inte √§ndra ditt '.strtolower($UI_CW_Pw).': ');
+DEFINE('_PWDDONE','Ditt '.strtolower($UI_CW_Pw).' har √§ndrats');
 DEFINE('_ROLEEXIST',$UI_CW_Role.'en existerar redan!');
 // TD Migration Hack
 if ($UI_Spacing == 1){
@@ -226,26 +226,26 @@ DEFINE('_FRMROLENAME',"$UI_CW_Role Namn:");
 DEFINE('_UPDATEROLE',"Uppdatera $UI_CW_Role"); //NEW
 
 //base_useradmin.php
-DEFINE('_USERADMIN','BASE Anv‰ndar Administration');
+DEFINE('_USERADMIN','BASE Anv√§ndar Administration');
 DEFINE('_FRMFULLNAME','Hela Namnet:');
-DEFINE('_FRMUID','Anv‰ndar ID:');
+DEFINE('_FRMUID','Anv√§ndar ID:');
 DEFINE('_SUBMITQUERY','Exekvera'); //NEW
-DEFINE('_UPDATEUSER','Uppdatera Anv‰ndare'); //NEW
+DEFINE('_UPDATEUSER','Uppdatera Anv√§ndare'); //NEW
 
 //admin/index.php
 DEFINE('_BASEADMIN','BASE Administration');
-DEFINE('_BASEADMINTEXT','V‰nligen v‰lj en valm√∂jlighet frÂn v‰nster.');
+DEFINE('_BASEADMINTEXT','V√§nligen v√§lj en valm√∂jlighet frÂn v√§nster.');
 
 //base_action.inc.php 
 DEFINE('_NOACTION','Inget agerande var specifierat pÂ varningar');
-DEFINE('_INVALIDACT',' ‰r ett felaktigt agerande');
-DEFINE('_ERRNOAG','Kunde inte l‰gga til varningar dÂ ingen AG var specifierad');
+DEFINE('_INVALIDACT',' √§r ett felaktigt agerande');
+DEFINE('_ERRNOAG','Kunde inte l√§gga til varningar dÂ ingen AG var specifierad');
 DEFINE('_ERRNOEMAIL','Kan inte e maila varningar dÂ ingen email adress har specifierats');
 DEFINE('_ACTION','Handling');
 DEFINE('_CONTEXT','InnehÂl');
-DEFINE('_ADDAGID','L‰gga till till AG (Genom ID)');
-DEFINE('_ADDAG','L‰gg-till-ny-AG');
-DEFINE('_ADDAGNAME','L‰gga till till AG (genom Namn)');
+DEFINE('_ADDAGID','L√§gga till till AG (Genom ID)');
+DEFINE('_ADDAG','L√§gg-till-ny-AG');
+DEFINE('_ADDAGNAME','L√§gga till till AG (genom Namn)');
 DEFINE('_CREATEAG','Skapa AG (Genom namn)');
 DEFINE('_CLEARAG','Rensa frÂn AG');
 DEFINE('_DELETEALERT','Radera Varing(ar)');
@@ -259,22 +259,22 @@ DEFINE('_DUPALERTS',' Dubblet Varning(ar)');
 DEFINE('_ALERTSPARA',' Varning(ar)');
 DEFINE('_NOALERTSSELECT','Inga varningar var valda till');
 DEFINE('_NOTSUCCESSFUL','Gick inte utf√∂ra');
-DEFINE('_ERRUNKAGID','Ok‰nd AG ID specifierad (AG finns f√∂rmodligen inte)');
+DEFINE('_ERRUNKAGID','Ok√§nd AG ID specifierad (AG finns f√∂rmodligen inte)');
 DEFINE('_ERRREMOVEFAIL','Kunde inte ta bort nya AG');
 DEFINE('_GENBASE','Genererad av BASE');
 DEFINE('_ERRNOEMAILEXP','EXPORT ERROR: Kunde inte skicka exporterade varningar till');
-DEFINE('_ERRNOEMAILPHP','Kolla mail inst‰llningar PHP.');
+DEFINE('_ERRNOEMAILPHP','Kolla mail inst√§llningar PHP.');
 DEFINE('_ERRDELALERT','Fel vid radering av varning');
 DEFINE('_ERRARCHIVE','Arkiv fel:');
 DEFINE('_ERRMAILNORECP','POST FEL: Ingen mottagare har Specifierats');
 
 //base_cache.inc.php
 DEFINE('_ADDED','Added ');
-DEFINE('_HOSTNAMESDNS',' V‰rdnamn till IP DNS cachen');
-DEFINE('_HOSTNAMESWHOIS',' V‰rdnamn till Whois cachen');
-DEFINE('_ERRCACHENULL','Caching FEL: V‰rdel√∂s h‰ndelse rad funnen?');
-DEFINE('_ERRCACHEERROR','H‰ndelse CACHE fel:');
-DEFINE('_ERRCACHEUPDATE','Kunde inte uppdatera h‰ndelse cachen');
+DEFINE('_HOSTNAMESDNS',' V√§rdnamn till IP DNS cachen');
+DEFINE('_HOSTNAMESWHOIS',' V√§rdnamn till Whois cachen');
+DEFINE('_ERRCACHENULL','Caching FEL: V√§rdel√∂s h√§ndelse rad funnen?');
+DEFINE('_ERRCACHEERROR','H√§ndelse CACHE fel:');
+DEFINE('_ERRCACHEUPDATE','Kunde inte uppdatera h√§ndelse cachen');
 DEFINE('_ALERTSCACHE',' Varning(ar) till varnings cachen');
 
 //base_db.inc.php
@@ -282,11 +282,11 @@ DEFINE('_ERRSQLTRACE','F√∂rhindrad till att √∂ppna SQL spÂr filen');
 DEFINE('_ERRSQLCONNECT','Fel vid anslutande till DB :');
 DEFINE('_ERRSQLCONNECTINFO','<P>Kontrollera DB anslutnings variabler i  <I>base_conf.php</I>
               <PRE>
-               = $alert_dbname   : MySQL databas namn d‰r varningar ‰r sparade
-               = $alert_host     : v‰rd d‰r databasen ‰r sparad
+               = $alert_dbname   : MySQL databas namn d√§r varningar √§r sparade
+               = $alert_host     : v√§rd d√§r databasen √§r sparad
                = $alert_port     : Port till databasen
-               = $alert_user     : anv‰ndarnamn till databasen
-               = $alert_password : '.strtolower($UI_CW_Pw).' f√∂r anv‰ndarnamn
+               = $alert_user     : anv√§ndarnamn till databasen
+               = $alert_password : '.strtolower($UI_CW_Pw).' f√∂r anv√§ndarnamn
               </PRE>
               <P>');
 DEFINE('_ERRSQLPCONNECT','Fel (p)Kopplar till DB :');
@@ -295,11 +295,11 @@ DEFINE('_DBALCHECK','Kontroll f√∂r DB abstraktion lib i');
 DEFINE('_ERRSQLDBALLOAD1','<P><B>Fel vid laddning av DB Abstraktion biblioteket </B> frÂn ');
 DEFINE('_ERRSQLDBALLOAD2','<P>Kontrollera DB abstraktion bibliotek variabel <CODE>$DBlib_path</CODE> i <CODE>base_conf.php</CODE>
             <P>
-            Bakomliggande databas bibliotek som anv‰nds f√∂r n‰rvarande ‰r ADODB, som kan laddas ner
+            Bakomliggande databas bibliotek som anv√§nds f√∂r n√§rvarande √§r ADODB, som kan laddas ner
             frÂn ');
 DEFINE('_ERRSQLDBTYPE','Ogiltig Databas typ Specifierad');
 DEFINE('_ERRSQLDBTYPEINFO1','variabel <CODE>\$DBtype</CODE> i <CODE>base_conf.php</CODE> var satt till anonym databas typ av ');
-DEFINE('_ERRSQLDBTYPEINFO2','Endast f√∂ljande databaser ‰r giltiga: <PRE>
+DEFINE('_ERRSQLDBTYPEINFO2','Endast f√∂ljande databaser √§r giltiga: <PRE>
                 MySQL         : \'mysql\'
                 PostgreSQL    : \'postgres\'
                 MS SQL Server : \'mssql\'
@@ -344,7 +344,7 @@ DEFINE('_DISPANYCLASS','{ Klassifikation }'); //NEW
 DEFINE('_DISPANYPRIO','{ Prioritet }'); //NEW
 DEFINE('_DISPANYSENSOR','{ Sensor }'); //NEW
 DEFINE('_DISPADDRESS','{ adress }'); //NEW
-DEFINE('_DISPFIELD','{ f‰lt }'); //NEW
+DEFINE('_DISPFIELD','{ f√§lt }'); //NEW
 DEFINE('_DISPPORT','{ port }'); //NEW
 DEFINE('_DISPENCODING','{ kodning }'); //NEW
 DEFINE('_DISPCONVERT2','{ Konvertera Till }'); //NEW
@@ -352,12 +352,12 @@ DEFINE('_DISPANYAG','{ Vilken grupp som helst }'); //NEW
 DEFINE('_DISPPAYLOAD','{ payload }'); //NEW
 DEFINE('_DISPFLAGS','{ flaggor }'); //NEW
 DEFINE('_SIGEXACTLY','exakt'); //NEW
-DEFINE('_SIGROUGHLY','ungef‰r'); //NEW
+DEFINE('_SIGROUGHLY','ungef√§r'); //NEW
 DEFINE('_SIGCLASS',"$UI_CW_Sig Klassifikation"); //NEW
 DEFINE('_SIGPRIO',"$UI_CW_Sig Prioritet"); //NEW
-DEFINE('_SHORTSOURCE','K‰lla'); //NEW
+DEFINE('_SHORTSOURCE','K√§lla'); //NEW
 DEFINE('_SHORTDEST','MÂl'); //NEW
-DEFINE('_SHORTSOURCEORDEST','K‰lla eller Dest.'); //NEW
+DEFINE('_SHORTSOURCEORDEST','K√§lla eller Dest.'); //NEW
 DEFINE('_NOLAYER4','ingen layer4'); //NEW
 DEFINE('_INPUTCRTENC','Kodnings Typ'); //NEW
 DEFINE('_CONVERT2WS','Konventera Till (under s√∂kning)'); //NEW
@@ -384,7 +384,7 @@ DEFINE('_DISPACTION','{ att g√∂ra }'); //NEW
 DEFINE('_QUERYSTATE','Query State'); //--------------------
 
 //base_ag_common.php
-DEFINE('_ERRAGNAMESEARCH','Det Specifierade AG namnet du s√∂kte efter ‰r ogiltig.  Prova igen!');
+DEFINE('_ERRAGNAMESEARCH','Det Specifierade AG namnet du s√∂kte efter √§r ogiltig.  Prova igen!');
 DEFINE('_ERRAGNAMEEXIST','Den specifierade AG existerar.');
 DEFINE('_ERRAGIDSEARCH','The specified AG ID search is invalid.  Try again!');
 DEFINE('_ERRAGLOOKUP','Error looking up an AG ID');
@@ -403,8 +403,8 @@ DEFINE('_NOALERTGOUPS','Det finns inga varnings grupper');
 DEFINE('_NUMALERTS','# Varningar');
 DEFINE('_ACTIONS','Handlingar');
 DEFINE('_SAVECHANGES','Spara ƒndringarna'); //NEW
-DEFINE('_CONFIRMDELETE','Bekr‰fta Delete'); //NEW
-DEFINE('_CONFIRMCLEAR','Bekr‰fta Rensning'); //NEW
+DEFINE('_CONFIRMDELETE','Bekr√§fta Delete'); //NEW
+DEFINE('_CONFIRMCLEAR','Bekr√§fta Rensning'); //NEW
 DEFINE('_NOTASSIGN','not assigned yet');
 
 //base_common.php
@@ -421,7 +421,7 @@ DEFINE('_ERRDBSTRUCT2','is not present. Use the <A HREF="base_db_setup.php">Setu
 DEFINE('_ERRPHPERROR','PHP ERROR');
 DEFINE('_ERRPHPERROR1','Incompatible version');
 DEFINE('_ERRVERSION','Version');
-DEFINE('_ERRPHPERROR2','Din verison av PHP ‰r f√∂r gammal!.  Var v‰nlig och uppgradera till version 4.0.4 eller nyare!');
+DEFINE('_ERRPHPERROR2','Din verison av PHP √§r f√∂r gammal!.  Var v√§nlig och uppgradera till version 4.0.4 eller nyare!');
 DEFINE('_ERRPHPMYSQLSUP','<B>PHP build incomplete</B>: <FONT>the prerequisite MySQL support required to 
                read the alert database was not built into PHP.  
                Please recompile PHP with the necessary library (<CODE>--with-mysql</CODE>)</FONT>');
@@ -444,7 +444,7 @@ DEFINE('_PERIODWEEK','7 (en vecka)'); //NEW
 DEFINE('_PERIODDAY','24 (hel dag)'); //NEW
 DEFINE('_PERIOD168','168 (24x7)'); //NEW
 DEFINE('_CHARTSIZE','Size: (bredd x h√∂jd)'); //NEW
-DEFINE('_PLOTMARGINS','Graf Marginaler: (v‰nster x h√∂ger x uppe x nere)'); //NEW
+DEFINE('_PLOTMARGINS','Graf Marginaler: (v√§nster x h√∂ger x uppe x nere)'); //NEW
 DEFINE('_PLOTTYPE','Graf typ:'); //NEW
 DEFINE('_TYPEBAR','Stapel'); //NEW
 DEFINE('_TYPELINE','linje'); //NEW
@@ -526,9 +526,9 @@ DEFINE('_MNTDBALERTNAME','Varna DB Namn:');
 DEFINE('_MNTDBARCHNAME','Arkiv DB Namn:');
 DEFINE('_MNTAIC','Varnings information Cache:');
 DEFINE('_MNTAICTE','Total Events:');
-DEFINE('_MNTAICCE','Cached h‰ndelser:');
+DEFINE('_MNTAICCE','Cached h√§ndelser:');
 DEFINE('_MNTIPAC','IP Address Cache');
-DEFINE('_MNTIPACUSIP','Unik k‰ll IP:');
+DEFINE('_MNTIPACUSIP','Unik k√§ll IP:');
 DEFINE('_MNTIPACDNSC','DNS Cachad:');
 DEFINE('_MNTIPACWC','Whois Cachad:');
 DEFINE('_MNTIPACUDIP','Unik Dst IP:');
@@ -590,7 +590,7 @@ DEFINE('_QFRMSORTORDER','Sort order');
 DEFINE('_QFRMTIMEA','timestamp (ascend)');
 DEFINE('_QFRMTIMED','timestamp (descend)');
 DEFINE('_QFRMSIG','signatur');
-DEFINE('_QFRMSIP','K‰ll IP');
+DEFINE('_QFRMSIP','K√§ll IP');
 DEFINE('_QFRMDIP','dest. IP');
 
 //base_qry_sqlcalls.php
@@ -622,9 +622,9 @@ DEFINE('_PSEVENTERR','PORTSCAN EVENT ERROR: ');
 DEFINE('_PSEVENTERRNOFILE','No file was specified in the $portscan_file variable.');
 DEFINE('_PSEVENTERROPENFILE','Unable to open Portscan event file');
 DEFINE('_PSDATETIME','Datum/Tid');
-DEFINE('_PSSRCIP','K‰ll IP');
+DEFINE('_PSSRCIP','K√§ll IP');
 DEFINE('_PSDSTIP','Destination IP');
-DEFINE('_PSSRCPORT','K‰ll Port');
+DEFINE('_PSSRCPORT','K√§ll Port');
 DEFINE('_PSDSTPORT','Destination Port');
 DEFINE('_PSTCPFLAGS','TCP Flags');
 DEFINE('_PSTOTALOCC','Total<BR> Occurrences');
@@ -646,20 +646,20 @@ DEFINE('_PSEXTERNAL','extern'); //NEW
 DEFINE('_PSWHOISINFO','Whois Information');
 
 //base_stat_iplink.php-------------------------------------------------------------------------------------------------------
-DEFINE('_SIPLTITLE','IP L‰nkar');
-DEFINE('_SIPLSOURCEFGDN','K‰ll FQDN');
+DEFINE('_SIPLTITLE','IP L√§nkar');
+DEFINE('_SIPLSOURCEFGDN','K√§ll FQDN');
 DEFINE('_SIPLDESTFGDN','Destination FQDN');
 DEFINE('_SIPLDIRECTION','Direction');
 DEFINE('_SIPLPROTO','Protokol');
 DEFINE('_SIPLUNIDSTPORTS','Unika Dst Portar');
-DEFINE('_SIPLUNIEVENTS','Unika h‰ndelser');
-DEFINE('_SIPLTOTALEVENTS','Alla h‰ndelser');
+DEFINE('_SIPLUNIEVENTS','Unika h√§ndelser');
+DEFINE('_SIPLTOTALEVENTS','Alla h√§ndelser');
 
 //base_stat_ports.php
 DEFINE('_UNIQ','Unik');
 DEFINE('_DSTPS','Destination Port(s)');
 DEFINE('_OCCURRENCES','F√∂rekommande'); //NEW
-DEFINE('_SRCPS','K‰ll Port(ar)');
+DEFINE('_SRCPS','K√§ll Port(ar)');
 
 //base_stat_sensor.php
 DEFINE('SPSENSORLIST','Lista Sensorer ');
@@ -667,8 +667,8 @@ DEFINE('SPSENSORLIST','Lista Sensorer ');
 //base_stat_time.php
 DEFINE('_BSTTITLE','Tid Profil av Varningar');
 DEFINE('_BSTTIMECRIT','Time Criteria'); //Ingen profilering kriterium var specifierad
-DEFINE('_BSTERRPROFILECRIT','<FONT><B>Ingen profilering kriterium var specifierad</B>  Klicka pÂ "timme", "dag", eller "mÂnad" att v‰lja kornighet av total statistik.</FONT>');
-DEFINE('_BSTERRTIMETYPE','<FONT><B>Arten av tid parameter vilken kommer att vara passerade var inte specifierad!</B>  .</FONT>'); //V‰lj antingen "pÂ", f√∂r att specifiera ett  datum, eller "mellan" f√∂r att specifiera en intervall.
+DEFINE('_BSTERRPROFILECRIT','<FONT><B>Ingen profilering kriterium var specifierad</B>  Klicka pÂ "timme", "dag", eller "mÂnad" att v√§lja kornighet av total statistik.</FONT>');
+DEFINE('_BSTERRTIMETYPE','<FONT><B>Arten av tid parameter vilken kommer att vara passerade var inte specifierad!</B>  .</FONT>'); //V√§lj antingen "pÂ", f√∂r att specifiera ett  datum, eller "mellan" f√∂r att specifiera en intervall.
 DEFINE('_BSTERRNOYEAR','<FONT><B>Ingen ≈r parameter var specifierad!</B></FONT>');
 DEFINE('_BSTERRNOMONTH','<FONT><B>Ingen MÂnad parameter var specifierad!</B></FONT>');
 DEFINE('_BSTPROFILEBY','Profil'); //NEW
@@ -678,8 +678,8 @@ DEFINE('_PROFILEALERT','Profil Alert'); //NEW
 DEFINE('_BSTERRNODAY','<FONT><B>Ingen dag parameter var specifierad!</B></FONT>');
 
 //base_stat_uaddr.php
-DEFINE('_UNISADD','Unika k‰ll adress(er)');
-DEFINE('_SUASRCIP','K‰ll IP address');
+DEFINE('_UNISADD','Unika k√§ll adress(er)');
+DEFINE('_SUASRCIP','K√§ll IP address');
 DEFINE('_SUAERRCRITADDUNK','CRITERIA ERROR: unknown address type -- assuming Dst address');
 DEFINE('_UNIDADD','Unik(a) Destination Adress(er)');
 DEFINE('_SUADSTIP','Dst IP adress');
@@ -688,7 +688,7 @@ DEFINE('_SUASRCADD','Src.&nbsp;Addr.');
 DEFINE('_SUADSTADD','Dest.&nbsp;Addr.');
 
 //base_user.php
-DEFINE('_BASEUSERTITLE','BASE Anv‰ndar inst‰llningar');
+DEFINE('_BASEUSERTITLE','BASE Anv√§ndar inst√§llningar');
 DEFINE('_BASEUSERERRPWD','Ditt '.strtolower($UI_CW_Pw).' kan inte vara blankt eller sÂ var l√∂senorden inte lika!');
 DEFINE('_BASEUSEROLDPWD','Gammalt '.strtolower($UI_CW_Pw).':');
 DEFINE('_BASEUSERNEWPWD','Nytt '.strtolower($UI_CW_Pw).':');

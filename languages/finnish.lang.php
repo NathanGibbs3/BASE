@@ -24,7 +24,7 @@
 ** Kevin Johnson <kjohnson@secureideas.net>
 ** Joel Esler <joelesler@users.sourceforge.net>
 ** Translators:
-** Elmo M‰ntynen <elmo13@jippii.fi>
+** Elmo M√§ntynen <elmo13@jippii.fi>
 ********************************************************************************
 */
 
@@ -40,11 +40,11 @@ $UI_Title = 'Basic Analysis and Security Engine';
 // Common Words.
 $UI_CW_Edit = 'Muokkaa';
 $UI_CW_Delete = 'Poista';
-$UI_CW_Src = 'L‰hde';
+$UI_CW_Src = 'L√§hde';
 $UI_CW_Dst = 'Kohde';
 $UI_CW_Id = 'ID';
 $UI_CW_Name = 'Nimi';
-$UI_CW_Int = 'K‰ytt√∂liittym‰';
+$UI_CW_Int = 'K√§ytt√∂liittym√§';
 $UI_CW_Filter = 'Suodatin';
 $UI_CW_Desc = 'Kuvaus';
 $UI_CW_SucDesc = 'Onnistunut';
@@ -55,27 +55,27 @@ $UI_CW_Pw = 'Salasana';
 $UI_CW_Ts = 'Aikaleima';
 $UI_CW_Addr = 'Osoite';
 // Common Phrases.
-$UI_CP_SrcName = array('L‰hteen',$UI_CW_Name);
+$UI_CP_SrcName = array('L√§hteen',$UI_CW_Name);
 $UI_CP_DstName = array('Kohteen',$UI_CW_Name);
-$UI_CP_SrcDst = array('L‰hteen','nimi');
+$UI_CP_SrcDst = array('L√§hteen','nimi');
 $UI_CP_SrcAddr = array($UI_CW_Src,$UI_CW_Addr);
+$UI_CP_DstAddr = array($UI_CW_Dst,$UI_CW_Addr);
 // Authentication Data.
 $UI_AD_UND = 'Login';
 $UI_AD_RID = array($UI_CW_Role,$UI_CW_Id);
 $UI_AD_ASD = 'Toiminnassa';
 
 //common phrases
-DEFINE('_NBDESTADDR','Kohde&nbsp;Osoite');
 DEFINE('_NBLAYER4','Layer&nbsp;4&nbsp;Proto');//#
-DEFINE('_PRIORITY','T‰rkeysj‰rjetys');
+DEFINE('_PRIORITY','T√§rkeysj√§rjetys');
 DEFINE('_EVENTTYPE','tapahtumatyyppi');
 DEFINE('_JANUARY','tammikuu');
 DEFINE('_FEBRUARY','helmikuu');
 DEFINE('_MARCH','maaliskuu');
 DEFINE('_APRIL','huhtikuu');
 DEFINE('_MAY','toukokuu');
-DEFINE('_JUNE','kes‰kuu');
-DEFINE('_JULY','hein‰kuu');
+DEFINE('_JUNE','kes√§kuu');
+DEFINE('_JULY','hein√§kuu');
 DEFINE('_AUGUST','elokuu');
 DEFINE('_SEPTEMBER','syyskuu');
 DEFINE('_OCTOBER','lokakuu');
@@ -84,7 +84,7 @@ DEFINE('_DECEMBER','joulukuu');
 DEFINE('_LAST','Viimeinen');
 DEFINE('_FIRST','First'); //NEW
 DEFINE('_TOTAL','Total'); //NEW
-DEFINE('_ALERT','H‰lytykset');
+DEFINE('_ALERT','H√§lytykset');
 DEFINE('_ADDRESS','Osoite');
 DEFINE('_UNKNOWN','tuntematon');
 DEFINE('_AND','AND'); //NEW
@@ -149,68 +149,68 @@ DEFINE('_PREVIOUS','Previous'); //NEW
 //Menu items
 DEFINE('_HOME','Koti');
 DEFINE('_SEARCH','Etsi');
-DEFINE('_AGMAINT','H‰lytys-ryhm‰:n Yll‰pito');
-DEFINE('_USERPREF','K‰ytt‰j‰n asetukset');
-DEFINE('_CACHE','V‰limuisti & Status');
+DEFINE('_AGMAINT','H√§lytys-ryhm√§:n Yll√§pito');
+DEFINE('_USERPREF','K√§ytt√§j√§n asetukset');
+DEFINE('_CACHE','V√§limuisti & Status');
 DEFINE('_ADMIN','Hallinta');
-DEFINE('_GALERTD','Graph H‰lytys Data');//#
-DEFINE('_GALERTDT','Graph H‰lytys Detection Aika');//#
-DEFINE('_USERMAN','K‰ytt‰jien Hallinta');
-DEFINE('_LISTU','Listaa k‰ytt‰j‰t');
-DEFINE('_CREATEU','Luo k‰ytt‰j‰t');
+DEFINE('_GALERTD','Graph H√§lytys Data');//#
+DEFINE('_GALERTDT','Graph H√§lytys Detection Aika');//#
+DEFINE('_USERMAN','K√§ytt√§jien Hallinta');
+DEFINE('_LISTU','Listaa k√§ytt√§j√§t');
+DEFINE('_CREATEU','Luo k√§ytt√§j√§t');
 DEFINE('_ROLEMAN',"$UI_CW_Role Hallinta");//#
 DEFINE('_LISTR','Listaa roles');//#
 DEFINE('_CREATER',"Luo $UI_CW_Role");//#
 DEFINE('_LISTALL','Listaa Kaikki');
 DEFINE('_CREATE','Luo');
 DEFINE('_VIEW','Katsele');
-DEFINE('_CLEAR','Tyhj‰‰');
-DEFINE('_LISTGROUPS','Listaa Ryhm‰t');
-DEFINE('_CREATEGROUPS','Luo Ryhm‰t');
-DEFINE('_VIEWGROUPS','N‰yt‰ Ryhm‰t');
-DEFINE('_EDITGROUPS','Muuta Ryhm‰t');
-DEFINE('_DELETEGROUPS','Poista Ryhm‰t');
-DEFINE('_CLEARGROUPS','Clear Ryhm‰t');//#
+DEFINE('_CLEAR','Tyhj√§√§');
+DEFINE('_LISTGROUPS','Listaa Ryhm√§t');
+DEFINE('_CREATEGROUPS','Luo Ryhm√§t');
+DEFINE('_VIEWGROUPS','N√§yt√§ Ryhm√§t');
+DEFINE('_EDITGROUPS','Muuta Ryhm√§t');
+DEFINE('_DELETEGROUPS','Poista Ryhm√§t');
+DEFINE('_CLEARGROUPS','Clear Ryhm√§t');//#
 DEFINE('_CHNGPWD','Vaihda '.strtolower($UI_CW_Pw));
-DEFINE('_DISPLAYU','N‰yt‰ K‰ytt‰j‰');
+DEFINE('_DISPLAYU','N√§yt√§ K√§ytt√§j√§');
 
 //base_footer.php
-DEFINE('_FOOTER','( <A class="largemenuitem" href="mailto:base@secureideas.net">Kevin Johnsonilta</A> ja <A class="largemenuitem" href="http://sourceforge.net/project/memberlist.php?group_id=103348">BASE Projektin Tiimilt‰</A><BR>Rakennettu ACID:n(Roman Danyliw) p‰‰lle )');//#
+DEFINE('_FOOTER','( <A class="largemenuitem" href="mailto:base@secureideas.net">Kevin Johnsonilta</A> ja <A class="largemenuitem" href="http://sourceforge.net/project/memberlist.php?group_id=103348">BASE Projektin Tiimilt√§</A><BR>Rakennettu ACID:n(Roman Danyliw) p√§√§lle )');//#
 
 //index.php --Log in Page
-DEFINE('_LOGINERROR','K‰ytt‰j‰‰ ei ole tai antamasi '.strtolower($UI_CW_Pw).' on v‰‰r‰!<br>Yrit‰ uudelleen');
+DEFINE('_LOGINERROR','K√§ytt√§j√§√§ ei ole tai antamasi '.strtolower($UI_CW_Pw).' on v√§√§r√§!<br>Yrit√§ uudelleen');
 
 // base_main.php
 DEFINE('_MOSTRECENT','Uusin ');
-DEFINE('_MOSTFREQUENT','Tiheiten Esiintyv‰ ');
-DEFINE('_ALERTS',' H‰lytykset:');
+DEFINE('_MOSTFREQUENT','Tiheiten Esiintyv√§ ');
+DEFINE('_ALERTS',' H√§lytykset:');
 DEFINE('_ADDRESSES',' Osoitteet');
-DEFINE('_ANYPROTO','mik‰ tahansa protokolla');
+DEFINE('_ANYPROTO','mik√§ tahansa protokolla');
 DEFINE('_UNI','uniikki');
 DEFINE('_LISTING','listaus');
-DEFINE('_TALERTS','T‰m‰np‰iv‰iset h‰lytykset: ');
+DEFINE('_TALERTS','T√§m√§np√§iv√§iset h√§lytykset: ');
 DEFINE('_SOURCEIP','Source IP'); //NEW
 DEFINE('_DESTIP','Destination IP'); //NEW
-DEFINE('_L24ALERTS','Viimeisen 24 Tunnin h‰lytykset: ');
-DEFINE('_L72ALERTS','Viimeisen 72 Tunnin h‰lytykset: ');
-DEFINE('_UNIALERTS',' Uniikit h‰lytykset');
-DEFINE('_LSOURCEPORTS','Viimeisimm‰t L‰hde-Portit: ');
-DEFINE('_LDESTPORTS','Viimeisimm‰t Kohde-Portit: ');
-DEFINE('_FREGSOURCEP','Tiheiten Esiintyv‰t L‰hde-Portit: ');
-DEFINE('_FREGDESTP','Tiheiten Esiintyv‰t Kohde-Portit: ');
+DEFINE('_L24ALERTS','Viimeisen 24 Tunnin h√§lytykset: ');
+DEFINE('_L72ALERTS','Viimeisen 72 Tunnin h√§lytykset: ');
+DEFINE('_UNIALERTS',' Uniikit h√§lytykset');
+DEFINE('_LSOURCEPORTS','Viimeisimm√§t L√§hde-Portit: ');
+DEFINE('_LDESTPORTS','Viimeisimm√§t Kohde-Portit: ');
+DEFINE('_FREGSOURCEP','Tiheiten Esiintyv√§t L√§hde-Portit: ');
+DEFINE('_FREGDESTP','Tiheiten Esiintyv√§t Kohde-Portit: ');
 DEFINE('_QUERIED','Queried on');//#
 DEFINE('_DATABASE','Tietokanta:');
 DEFINE('_SCHEMAV','Scheman Versio:');//#
 DEFINE('_TIMEWIN','Aika-ikkuna:');
-DEFINE('_NOALERTSDETECT','h‰lytyksi‰ ole havaittu');
+DEFINE('_NOALERTSDETECT','h√§lytyksi√§ ole havaittu');
 DEFINE('_USEALERTDB','Use Alert Database'); //NEW
 DEFINE('_USEARCHIDB','Use Archive Database'); //NEW
 DEFINE('_TRAFFICPROBPRO','Traffic Profile by Protocol'); //NEW
 
 //base_auth.inc.php
-DEFINE('_ADDEDSF','Lis‰tty Onnistuneesti');
+DEFINE('_ADDEDSF','Lis√§tty Onnistuneesti');
 DEFINE('_NOPWDCHANGE',$UI_CW_Pw.'nasi vaihtaminen ei onnistu: ');
-DEFINE('_NOUSER','K‰ytt‰j‰‰ ei ole!');
+DEFINE('_NOUSER','K√§ytt√§j√§√§ ei ole!');
 DEFINE('_OLDPWD','Annettua vanhaa '.strtolower($UI_CW_Pw).'a ei tunnisteta!');
 DEFINE('_PWDCANT',$UI_CW_Pw.'si vaihtaminen ei onnistu: ');
 DEFINE('_PWDDONE',$UI_CW_Pw.'si on vaihdettu!');
@@ -222,7 +222,7 @@ if ($UI_Spacing == 1){
 	$glue = '';
 }
 DEFINE('_ROLEIDEXIST',implode($glue, $UI_AD_RID)." On Jo Olemassa");
-DEFINE('_ROLEADDED',"$UI_CW_Role lis‰tty");//#
+DEFINE('_ROLEADDED',"$UI_CW_Role lis√§tty");//#
 
 //base_roleadmin.php
 DEFINE('_ROLEADMIN',"BASE $UI_CW_Role Administration");//#
@@ -230,9 +230,9 @@ DEFINE('_FRMROLENAME',"$UI_CW_Role Nimi:");//#
 DEFINE('_UPDATEROLE',"Update $UI_CW_Role"); //NEW
 
 //base_useradmin.php
-DEFINE('_USERADMIN','BASE K‰ytt‰j‰ Hallinta');
+DEFINE('_USERADMIN','BASE K√§ytt√§j√§ Hallinta');
 DEFINE('_FRMFULLNAME','Koko nimi:');
-DEFINE('_FRMUID',"K‰ytt‰j‰ $UI_CW_Id:");//#
+DEFINE('_FRMUID',"K√§ytt√§j√§ $UI_CW_Id:");//#
 DEFINE('_SUBMITQUERY','Submit Query'); //NEW
 DEFINE('_UPDATEUSER','Update User'); //NEW
 
@@ -241,67 +241,67 @@ DEFINE('_BASEADMIN','BASE Hallinta');
 DEFINE('_BASEADMINTEXT','Valitse yksi vaihtoehto vasemmalta.');
 
 //base_action.inc.php
-DEFINE('_NOACTION','Yht‰‰n action ei m‰‰ritelty on the alerts');//#
+DEFINE('_NOACTION','Yht√§√§n action ei m√§√§ritelty on the alerts');//#
 DEFINE('_INVALIDACT',' on laiton(invalid) action');//#
-DEFINE('_ERRNOAG','H‰lytyksen lis‰‰minen ei onnistunut koska AG:a ei m‰‰ritelty ');
-DEFINE('_ERRNOEMAIL','H‰lytysten mailaaminen ei onnistunut koska email-osoitetta ei ole m‰‰ritelty');
+DEFINE('_ERRNOAG','H√§lytyksen lis√§√§minen ei onnistunut koska AG:a ei m√§√§ritelty ');
+DEFINE('_ERRNOEMAIL','H√§lytysten mailaaminen ei onnistunut koska email-osoitetta ei ole m√§√§ritelty');
 DEFINE('_ACTION','ACTION');//#
 DEFINE('_CONTEXT','konteksti');
-DEFINE('_ADDAGID',"Lis‰‰ AG:iin ( $UI_CW_Id:ll‰");//#
-DEFINE('_ADDAG','Lis‰‰ uusi AG');//#
-DEFINE('_ADDAGNAME','Lis‰‰ AG:iin (Nimell‰');
-DEFINE('_CREATEAG','Luo AG (Nimell‰');
+DEFINE('_ADDAGID',"Lis√§√§ AG:iin ( $UI_CW_Id:ll√§");//#
+DEFINE('_ADDAG','Lis√§√§ uusi AG');//#
+DEFINE('_ADDAGNAME','Lis√§√§ AG:iin (Nimell√§');
+DEFINE('_CREATEAG','Luo AG (Nimell√§');
 DEFINE('_CLEARAG','Posta AG:sta');
-DEFINE('_DELETEALERT','Poista h‰lytykset');
-DEFINE('_EMAILALERTSFULL','Email h‰lytykset (t‰ysi)');
-DEFINE('_EMAILALERTSSUMM','Email h‰lytykset (yhteenveto)');
-DEFINE('_EMAILALERTSCSV','Email h‰lytykset (csv)');//#
-DEFINE('_ARCHIVEALERTSCOPY','Arkistoi h‰lytykset (kopioi)');
-DEFINE('_ARCHIVEALERTSMOVE','Arkistoi h‰lytykset (siirrÔøΩ');
-DEFINE('_IGNORED','J‰tetty Huomiotta ');
-DEFINE('_DUPALERTS',' useasti esiintyv‰t h‰lytykset');
-DEFINE('_ALERTSPARA',' h‰lytykset');
-DEFINE('_NOALERTSSELECT','Yht‰‰n h‰lytyst‰ valittu tai');
+DEFINE('_DELETEALERT','Poista h√§lytykset');
+DEFINE('_EMAILALERTSFULL','Email h√§lytykset (t√§ysi)');
+DEFINE('_EMAILALERTSSUMM','Email h√§lytykset (yhteenveto)');
+DEFINE('_EMAILALERTSCSV','Email h√§lytykset (csv)');//#
+DEFINE('_ARCHIVEALERTSCOPY','Arkistoi h√§lytykset (kopioi)');
+DEFINE('_ARCHIVEALERTSMOVE','Arkistoi h√§lytykset (siirrÔøΩ');
+DEFINE('_IGNORED','J√§tetty Huomiotta ');
+DEFINE('_DUPALERTS',' useasti esiintyv√§t h√§lytykset');
+DEFINE('_ALERTSPARA',' h√§lytykset');
+DEFINE('_NOALERTSSELECT','Yht√§√§n h√§lytyst√§ valittu tai');
 DEFINE('_NOTSUCCESSFUL','ei onnistunut');
 DEFINE('_ERRUNKAGID',"Tuntematon AG $UI_CW_Id annettu (AG:a ei luultavasti ole olemassa)");//#
 DEFINE('_ERRREMOVEFAIL','Uuden AG:n poistaminen ei onnistunut');
 DEFINE('_GENBASE','BASE:n generoima');
-DEFINE('_ERRNOEMAILEXP','EXPORT ERROR: Exported h‰lytykset l‰hett‰minen to');//#
-DEFINE('_ERRNOEMAILPHP','Tarkista PHP:n s‰hk√∂postiasetukset.');
-DEFINE('_ERRDELALERT','Error Poistettaessa H‰lytyst‰');//#
+DEFINE('_ERRNOEMAILEXP','EXPORT ERROR: Exported h√§lytykset l√§hett√§minen to');//#
+DEFINE('_ERRNOEMAILPHP','Tarkista PHP:n s√§hk√∂postiasetukset.');
+DEFINE('_ERRDELALERT','Error Poistettaessa H√§lytyst√§');//#
 DEFINE('_ERRARCHIVE','Arkisto error:');//#
-DEFINE('_ERRMAILNORECP','MAIL ERROR: Vastaanottajaa ei m‰‰ritelty');//#
+DEFINE('_ERRMAILNORECP','MAIL ERROR: Vastaanottajaa ei m√§√§ritelty');//#
 
 //base_cache.inc.php
-DEFINE('_ADDED','Lis‰tty ');
-DEFINE('_HOSTNAMESDNS',' hostnames to the IP-DNS-v‰limuistiin');//#
+DEFINE('_ADDED','Lis√§tty ');
+DEFINE('_HOSTNAMESDNS',' hostnames to the IP-DNS-v√§limuistiin');//#
 DEFINE('_HOSTNAMESWHOIS',' hostnames to the Whois cache');//#
 DEFINE('_ERRCACHENULL','Caching ERROR: NULL event row found?');//#
 DEFINE('_ERRCACHEERROR','EVENT CACHING ERROR:');//#
-DEFINE('_ERRCACHEUPDATE','Tapahtumav‰limuistin p‰ivitt‰minen ei onnistunut');
-DEFINE('_ALERTSCACHE',' h‰lytykset H‰lytysv‰limuistiin');
+DEFINE('_ERRCACHEUPDATE','Tapahtumav√§limuistin p√§ivitt√§minen ei onnistunut');
+DEFINE('_ALERTSCACHE',' h√§lytykset H√§lytysv√§limuistiin');
 
 //base_db.inc.php
 DEFINE('_ERRSQLTRACE','SQL trace tidoston avaminen ei onnistu');//#
-DEFINE('_ERRSQLCONNECT','Virhe yhdistettaess‰ tietokantaan :');
+DEFINE('_ERRSQLCONNECT','Virhe yhdistettaess√§ tietokantaan :');
 DEFINE('_ERRSQLCONNECTINFO','<P>Tarkista DB connection variables(tietokantayhteyden muuttujat) tiedostosta <I>base_conf.php</I> 
               <PRE>
-               = $alert_dbname   : MySQL tietokannan nimi johon h‰lytykset on tallennettu 
-               = $alert_host     : is‰nt‰ johon tietokanta on tallennettu
+               = $alert_dbname   : MySQL tietokannan nimi johon h√§lytykset on tallennettu 
+               = $alert_host     : is√§nt√§ johon tietokanta on tallennettu
                = $alert_port     : portti johon tietokanta on tallennettu
-               = $alert_user     : k‰ytt‰j‰nimi tietokantaan
-               = $alert_password : '.strtolower($UI_CW_Pw).' k‰ytt‰j‰nimelle
+               = $alert_user     : k√§ytt√§j√§nimi tietokantaan
+               = $alert_password : '.strtolower($UI_CW_Pw).' k√§ytt√§j√§nimelle
               </PRE>
               <P>');
-DEFINE('_ERRSQLPCONNECT','Error ?(p)? yhditett‰ess‰ tietokantaan :');//#
+DEFINE('_ERRSQLPCONNECT','Error ?(p)? yhditett√§ess√§ tietokantaan :');//#
 DEFINE('_ERRSQLDB','Tietokanta ERROR:');//#
 DEFINE('_DBALCHECK','Tarkastaa tietokannan-abstraktio-kirjastoa in');
 DEFINE('_ERRSQLDBALLOAD1','<P><B>Virhe Ladattaessa tietokannan-abstraktio-kirjastoa : </B> from ');
 DEFINE('_ERRSQLDBALLOAD2','<P>Tarkista tietokannan-abstraktio-kirjasto muuttuja <CODE>$DBlib_path</CODE> tiedostossa <CODE>base_conf.php</CODE>
             <P>
-             T‰ll‰ hetkell‰ k‰yt√∂ssa oleva tietokanta-kirjasto on nimelt‰‰n ADODB, jonka voi ladata osoitteesta
+             T√§ll√§ hetkell√§ k√§yt√∂ssa oleva tietokanta-kirjasto on nimelt√§√§n ADODB, jonka voi ladata osoitteesta
              ');
-DEFINE('_ERRSQLDBTYPE','M‰‰ritelty tietokannan tyyppi on virheellinen');
+DEFINE('_ERRSQLDBTYPE','M√§√§ritelty tietokannan tyyppi on virheellinen');
 DEFINE('_ERRSQLDBTYPEINFO1','Muuttuja <CODE>\$DBtype</CODE> tiedostossa <CODE>base_conf.php</CODE> oli asetettu mainittuun virheelliseen tietokannan tyyppiin ');
 DEFINE('_ERRSQLDBTYPEINFO2','Vain seuraavat tietokannat ovat tuettuja: <PRE>
                 MySQL         : \'mysql\'
@@ -367,9 +367,9 @@ DEFINE('_INPUTCRTENC','Input Criteria Encoding Type'); //NEW
 DEFINE('_CONVERT2WS','Convert To (when searching)'); //NEW
 
 //base_state_common.inc.php
-DEFINE('_PHPERRORCSESSION','PHP ERROR: A custom (user) PHP session on havaittu. Kuitenkaan, BASE:‰ ei ole asetettu to explicitly use this custom handler. Aseta <CODE>use_user_session=1</CODE> tiedostossa <CODE>base_conf.php</CODE>');
-DEFINE('_PHPERRORCSESSIONCODE','PHP ERROR: A custom (user) PHP session handler on konfiguroitu, mutta annettu handler m‰‰ritelty tiedotossa <CODE>user_session_path</CODE> on laiton(invalid).');//#
-DEFINE('_PHPERRORCSESSIONVAR','PHP ERROR: A custom (user) PHP session handler on konfiguroitu, mutta the implementation of this handler ei ole m‰‰ritelty BASE:ss‰.  If a custom session handler on toivottavaa, aseta <CODE>user_session_path</CODE> muuttuja tiedostossa <CODE>base_conf.php</CODE>.');//#
+DEFINE('_PHPERRORCSESSION','PHP ERROR: A custom (user) PHP session on havaittu. Kuitenkaan, BASE:√§ ei ole asetettu to explicitly use this custom handler. Aseta <CODE>use_user_session=1</CODE> tiedostossa <CODE>base_conf.php</CODE>');
+DEFINE('_PHPERRORCSESSIONCODE','PHP ERROR: A custom (user) PHP session handler on konfiguroitu, mutta annettu handler m√§√§ritelty tiedotossa <CODE>user_session_path</CODE> on laiton(invalid).');//#
+DEFINE('_PHPERRORCSESSIONVAR','PHP ERROR: A custom (user) PHP session handler on konfiguroitu, mutta the implementation of this handler ei ole m√§√§ritelty BASE:ss√§.  If a custom session handler on toivottavaa, aseta <CODE>user_session_path</CODE> muuttuja tiedostossa <CODE>base_conf.php</CODE>.');//#
 DEFINE('_PHPSESSREG','Session Registered');//#
 
 //base_state_criteria.inc.php
@@ -381,29 +381,29 @@ DEFINE('_ERRCRITELEM','Invalid criteria element');//#
 DEFINE('_VALIDCANNED','Valid Canned Query List');//#
 DEFINE('_DISPLAYING','Displaying');//#
 DEFINE('_DISPLAYINGTOTAL','Displaying alerts %d-%d of %d total');//#
-DEFINE('_NOALERTS','Ei havaittuja h‰lytyksi‰.');
+DEFINE('_NOALERTS','Ei havaittuja h√§lytyksi√§.');
 DEFINE('_QUERYRESULTS','Query Results');//#
 DEFINE('_QUERYSTATE','Query State');//#
 DEFINE('_DISPACTION','{ action }'); //NEW
 
 //base_ag_common.php
-DEFINE('_ERRAGNAMESEARCH','Annettu AG nimi-etsint‰ on laiton(invalid).  Yrit‰ uudelleen!');
+DEFINE('_ERRAGNAMESEARCH','Annettu AG nimi-etsint√§ on laiton(invalid).  Yrit√§ uudelleen!');
 DEFINE('_ERRAGNAMEEXIST','Annettu AG:a ei ole olemassa.');
-DEFINE('_ERRAGIDSEARCH',"Annettu AG $UI_CW_Id etsint‰ on laiton(invalid).  Yrit‰ uudelleen!");
+DEFINE('_ERRAGIDSEARCH',"Annettu AG $UI_CW_Id etsint√§ on laiton(invalid).  Yrit√§ uudelleen!");
 DEFINE('_ERRAGLOOKUP','Error looking up an AG $UI_CW_Id:ta');//#
 DEFINE('_ERRAGINSERT','Error Asetettaessa uutta AG:a');//#
 
 //base_ag_main.php
-DEFINE('_AGMAINTTITLE','H‰lytys-ryhm‰ (Alert Group - AG) Yll‰pito');//#
-DEFINE('_ERRAGUPDATE','Error p‰ivitett‰ess‰ AG:a');//#
+DEFINE('_AGMAINTTITLE','H√§lytys-ryhm√§ (Alert Group - AG) Yll√§pito');//#
+DEFINE('_ERRAGUPDATE','Error p√§ivitett√§ess√§ AG:a');//#
 DEFINE('_ERRAGPACKETLIST','Error poistettaessa AG:n paketti-listaa:');//#
 DEFINE('_ERRAGDELETE','Error poistettaessa AG:a');//#
 DEFINE('_AGDELETE','POISTETTU Onnistuneesti');
 DEFINE('_AGDELETEINFO','tieto poistettu');
-DEFINE('_ERRAGSEARCHINV','Annetty hakukriteeri ei ole laillinen(valid).  Yrit‰ uudelleen!');
-DEFINE('_ERRAGSEARCHNOTFOUND','Yht‰‰n AG:a ei l√∂ydetty tuolla kriteerill‰.');
-DEFINE('_NOALERTGOUPS','Yht‰‰n AG:a ei l√∂ydy');
-DEFINE('_NUMALERTS','# H‰lytykset');
+DEFINE('_ERRAGSEARCHINV','Annetty hakukriteeri ei ole laillinen(valid).  Yrit√§ uudelleen!');
+DEFINE('_ERRAGSEARCHNOTFOUND','Yht√§√§n AG:a ei l√∂ydetty tuolla kriteerill√§.');
+DEFINE('_NOALERTGOUPS','Yht√§√§n AG:a ei l√∂ydy');
+DEFINE('_NUMALERTS','# H√§lytykset');
 DEFINE('_ACTIONS','Actions');//#
 DEFINE('_NOTASSIGN','not assigned yet');//#
 DEFINE('_SAVECHANGES','Save Changes'); //NEW
@@ -417,29 +417,29 @@ DEFINE('_PORTSCAN','Portscan Traffic');//#
 DEFINE('_ERRDBINDEXCREATE','Indexin luominen ei onnistu for');//#
 DEFINE('_DBINDEXCREATE','Onnistuneesti luotu INDEXI for');//#
 DEFINE('_ERRSNORTVER','Se saattaa olla vanhempaa versiota. Vain Snort 1.7-beta:lla tai uudemalla luodut tietokannat ovat tuettuja ');
-DEFINE('_ERRSNORTVER1','K‰yt√∂ss‰ oleva tietokanta');
-DEFINE('_ERRSNORTVER2','n‰ytt‰‰ olevan ep‰t‰ydellinen/laiton(invalid)');
-DEFINE('_ERRDBSTRUCT1','Tietokannan versio on k‰yp‰, mutta BASE-tietokannan rakenne');
-DEFINE('_ERRDBSTRUCT2','ei ole saatavilla. K‰yt‰ <A HREF="base_db_setup.php">Asetus Sivua</A> konfiguroidaksesi ja optimoidaksesi tietokannan.');
+DEFINE('_ERRSNORTVER1','K√§yt√∂ss√§ oleva tietokanta');
+DEFINE('_ERRSNORTVER2','n√§ytt√§√§ olevan ep√§t√§ydellinen/laiton(invalid)');
+DEFINE('_ERRDBSTRUCT1','Tietokannan versio on k√§yp√§, mutta BASE-tietokannan rakenne');
+DEFINE('_ERRDBSTRUCT2','ei ole saatavilla. K√§yt√§ <A HREF="base_db_setup.php">Asetus Sivua</A> konfiguroidaksesi ja optimoidaksesi tietokannan.');
 DEFINE('_ERRPHPERROR','PHP ERROR');//#
 DEFINE('_ERRPHPERROR1','Yhteensopimaton versio');
 DEFINE('_ERRVERSION','Versio');
-DEFINE('_ERRPHPERROR2','(PHP) on liian vanha. P‰ivit‰ PHP:n versioon 4.0.4 tai uudempaan');
-DEFINE('_ERRPHPMYSQLSUP','<B>PHP k‰‰nn√∂s(build) ep‰t‰ydellinen</B>: <FONT>the prerequisite MySQL:n tuki joka vaaditaan h‰lytystietokannan lukemiseen ei ole k‰‰nnetty PHP:n sis‰‰n.
-                   K‰‰nn‰ PHP uudelleen tarvittavien kirjastojen kanssa (<CODE>--with-mysql</CODE>)</FONT>');//#
-DEFINE('_ERRPHPPOSTGRESSUP','<B>PHP k‰‰nn√∂s(build) ep‰t‰ydellinen</B>: <FONT>the prerequisite PostgreSQL:n tuki joka vaaditaan h‰lytystietokannan lukemiseen ei ole k‰‰nnetty PHP:n sis‰‰n.
-                   K‰‰nn‰ PHP uudelleen tarvittavien kirjastojen kanssa (<CODE>--with-pgsql</CODE>)</FONT>');//#
-DEFINE('_ERRPHPMSSQLSUP','<B>PHP k‰‰nn√∂s(build) ep‰t‰ydellinen</B>: <FONT>the prerequisite MS SQL Serverin tuki joka vaaditaan h‰lytystietokannan lukemiseen ei ole k‰‰nnetty PHP:n sis‰‰n.
-                   K‰‰nn‰ PHP uudelleen tarvittavien kirjastojen kanssa (<CODE>--enable-mssql</CODE>)</FONT>');//#
+DEFINE('_ERRPHPERROR2','(PHP) on liian vanha. P√§ivit√§ PHP:n versioon 4.0.4 tai uudempaan');
+DEFINE('_ERRPHPMYSQLSUP','<B>PHP k√§√§nn√∂s(build) ep√§t√§ydellinen</B>: <FONT>the prerequisite MySQL:n tuki joka vaaditaan h√§lytystietokannan lukemiseen ei ole k√§√§nnetty PHP:n sis√§√§n.
+                   K√§√§nn√§ PHP uudelleen tarvittavien kirjastojen kanssa (<CODE>--with-mysql</CODE>)</FONT>');//#
+DEFINE('_ERRPHPPOSTGRESSUP','<B>PHP k√§√§nn√∂s(build) ep√§t√§ydellinen</B>: <FONT>the prerequisite PostgreSQL:n tuki joka vaaditaan h√§lytystietokannan lukemiseen ei ole k√§√§nnetty PHP:n sis√§√§n.
+                   K√§√§nn√§ PHP uudelleen tarvittavien kirjastojen kanssa (<CODE>--with-pgsql</CODE>)</FONT>');//#
+DEFINE('_ERRPHPMSSQLSUP','<B>PHP k√§√§nn√∂s(build) ep√§t√§ydellinen</B>: <FONT>the prerequisite MS SQL Serverin tuki joka vaaditaan h√§lytystietokannan lukemiseen ei ole k√§√§nnetty PHP:n sis√§√§n.
+                   K√§√§nn√§ PHP uudelleen tarvittavien kirjastojen kanssa (<CODE>--enable-mssql</CODE>)</FONT>');//#
 DEFINE('_ERRPHPORACLESUP','<B>PHP build incomplete</B>: <FONT>the prerequisite Oracle support required to 
                    read the alert database was not built into PHP.  
                    Please recompile PHP with the necessary library (<CODE>--with-oci8</CODE>)</FONT>');
 
 //base_graph_form.php
 DEFINE('_CHARTTITLE','Kuvaajan Otsikko:');
-DEFINE('_CHRTTYPEHOUR','Aika (tunti) vs. H‰lytysten M‰‰r‰');
-DEFINE('_CHRTTYPEDAY','Aika (p‰iv‰) vs. H‰lytysten M‰‰r‰');
-DEFINE('_CHRTTYPEWEEK','Aika (viikko) vs. H‰lytysten M‰‰r‰');
+DEFINE('_CHRTTYPEHOUR','Aika (tunti) vs. H√§lytysten M√§√§r√§');
+DEFINE('_CHRTTYPEDAY','Aika (p√§iv√§) vs. H√§lytysten M√§√§r√§');
+DEFINE('_CHRTTYPEWEEK','Aika (viikko) vs. H√§lytysten M√§√§r√§');
 DEFINE('_CHARTTYPE','Chart Type:'); //NEW
 DEFINE('_CHARTTYPES','{ chart type }'); //NEW
 DEFINE('_CHARTPERIOD','Chart Period:'); //NEW
@@ -458,61 +458,61 @@ DEFINE('_CHARTDAY','{dia}'); //NEW
 DEFINE('_CHARTMONTH','{m√™s}'); //NEW
 DEFINE('_GRAPHALERTS','Graph Alerts'); //NEW
 DEFINE('_AXISCONTROLS','X / Y AXIS CONTROLS'); //NEW
-DEFINE('_CHRTTYPEMONTH','Aika (kuukausi) vs. H‰lytysten M‰‰r‰');
-DEFINE('_CHRTTYPEYEAR','Aika (vuosi) vs. H‰lytysten M‰‰r‰');
-DEFINE('_CHRTTYPESRCIP','L‰hde IP osoite vs. H‰lytysten M‰‰r‰');
-DEFINE('_CHRTTYPEDSTIP','Kohde IP osoite vs. H‰lytysten M‰‰r‰');
-DEFINE('_CHRTTYPEDSTUDP','Kohde UDP Portti vs. H‰lytysten M‰‰r‰');
-DEFINE('_CHRTTYPESRCUDP','L‰hde UDP Portti vs. H‰lytysten M‰‰r‰');
-DEFINE('_CHRTTYPEDSTPORT','Kohde TCP Portti vs. H‰lytysten M‰‰r‰');
-DEFINE('_CHRTTYPESRCPORT','L‰hde TCP Portti vs. H‰lytysten M‰‰r‰');
-DEFINE('_CHRTTYPESIG','Sig. Classification vs. H‰lytysten M‰‰r‰');//#
-DEFINE('_CHRTTYPESENSOR','Sensori vs. H‰lytysten M‰‰r‰');
+DEFINE('_CHRTTYPEMONTH','Aika (kuukausi) vs. H√§lytysten M√§√§r√§');
+DEFINE('_CHRTTYPEYEAR','Aika (vuosi) vs. H√§lytysten M√§√§r√§');
+DEFINE('_CHRTTYPESRCIP','L√§hde IP osoite vs. H√§lytysten M√§√§r√§');
+DEFINE('_CHRTTYPEDSTIP','Kohde IP osoite vs. H√§lytysten M√§√§r√§');
+DEFINE('_CHRTTYPEDSTUDP','Kohde UDP Portti vs. H√§lytysten M√§√§r√§');
+DEFINE('_CHRTTYPESRCUDP','L√§hde UDP Portti vs. H√§lytysten M√§√§r√§');
+DEFINE('_CHRTTYPEDSTPORT','Kohde TCP Portti vs. H√§lytysten M√§√§r√§');
+DEFINE('_CHRTTYPESRCPORT','L√§hde TCP Portti vs. H√§lytysten M√§√§r√§');
+DEFINE('_CHRTTYPESIG','Sig. Classification vs. H√§lytysten M√§√§r√§');//#
+DEFINE('_CHRTTYPESENSOR','Sensori vs. H√§lytysten M√§√§r√§');
 DEFINE('_CHRTBEGIN','Kuvaaja Alkaa(Chart Begi):');
 DEFINE('_CHRTEND','Kuvaaja Loppuu(Chart End):');
-DEFINE('_CHRTDS','Data L‰hde:');
+DEFINE('_CHRTDS','Data L√§hde:');
 DEFINE('_CHRTX','X-akseli');
 DEFINE('_CHRTY','Y-akseli');
 DEFINE('_CHRTMINTRESH','Minimum Threshold Value');//#
-DEFINE('_CHRTROTAXISLABEL','Py√∂rit‰ Akseli Labels (90 astetta)');//#
-DEFINE('_CHRTSHOWX','N‰yt‰ X-akseli grid-lines');//#
+DEFINE('_CHRTROTAXISLABEL','Py√∂rit√§ Akseli Labels (90 astetta)');//#
+DEFINE('_CHRTSHOWX','N√§yt√§ X-akseli grid-lines');//#
 DEFINE('_CHRTDISPLABELX','Display X-akseli label every');//#
 DEFINE('_CHRTDATAPOINTS','data points');//#
 DEFINE('_CHRTYLOG','Y-akseli logarithmic');//#
-DEFINE('_CHRTYGRID','N‰yt‰ Y-akseli grid-lines');//#
+DEFINE('_CHRTYGRID','N√§yt√§ Y-akseli grid-lines');//#
 
 //base_graph_main.php
 DEFINE('_CHRTTITLE','BASE Kuvaaja');
-DEFINE('_ERRCHRTNOTYPE','Kuvaajan tyyppi‰ ei ole m‰‰ritelty');
-DEFINE('_ERRNOAGSPEC','Yht‰‰n AG:a ei m‰‰ritelty. K‰ytet‰‰n kaikkia h‰lytyksi‰.');
+DEFINE('_ERRCHRTNOTYPE','Kuvaajan tyyppi√§ ei ole m√§√§ritelty');
+DEFINE('_ERRNOAGSPEC','Yht√§√§n AG:a ei m√§√§ritelty. K√§ytet√§√§n kaikkia h√§lytyksi√§.');
 DEFINE('_CHRTDATAIMPORT','Starting data import');//#
-DEFINE('_CHRTTIMEVNUMBER','Aika vs. H‰lytysten M‰‰r‰');
+DEFINE('_CHRTTIMEVNUMBER','Aika vs. H√§lytysten M√§√§r√§');
 DEFINE('_CHRTTIME','Aika');
-DEFINE('_CHRTALERTOCCUR','H‰lytysten Esiintym‰t');
-DEFINE('_CHRTSIPNUMBER','L‰hde IP vs. H‰lytysten M‰‰r‰');
-DEFINE('_CHRTSIP','L‰hde IP Osoite');
-DEFINE('_CHRTDIPALERTS','Kohde IP vs. H‰lytysten M‰‰r‰');
+DEFINE('_CHRTALERTOCCUR','H√§lytysten Esiintym√§t');
+DEFINE('_CHRTSIPNUMBER','L√§hde IP vs. H√§lytysten M√§√§r√§');
+DEFINE('_CHRTSIP','L√§hde IP Osoite');
+DEFINE('_CHRTDIPALERTS','Kohde IP vs. H√§lytysten M√§√§r√§');
 DEFINE('_CHRTDIP','Kohde IP Osoite');
-DEFINE('_CHRTUDPPORTNUMBER','UDP Portti (Kohde) vs. H‰lytysten M‰‰r‰');
+DEFINE('_CHRTUDPPORTNUMBER','UDP Portti (Kohde) vs. H√§lytysten M√§√§r√§');
 DEFINE('_CHRTDUDPPORT','Kohde UDP Portti');
-DEFINE('_CHRTSUDPPORTNUMBER','UDP Portti (L‰hde) vs. H‰lytysten M‰‰r‰');
-DEFINE('_CHRTSUDPPORT','L‰hde UDP Portti');
-DEFINE('_CHRTPORTDESTNUMBER','TCP Portti (Kohde) vs. H‰lytysten M‰‰r‰');
+DEFINE('_CHRTSUDPPORTNUMBER','UDP Portti (L√§hde) vs. H√§lytysten M√§√§r√§');
+DEFINE('_CHRTSUDPPORT','L√§hde UDP Portti');
+DEFINE('_CHRTPORTDESTNUMBER','TCP Portti (Kohde) vs. H√§lytysten M√§√§r√§');
 DEFINE('_CHRTPORTDEST','Kohde TCP Portti');
-DEFINE('_CHRTPORTSRCNUMBER','TCP Portti (L‰hde) vs. H‰lytysten M‰‰r‰');
-DEFINE('_CHRTPORTSRC','L‰hde TCP Portti');
-DEFINE('_CHRTSIGNUMBER',"$UI_CW_Sig Classification vs. H‰lytysten M‰‰r‰");//#
+DEFINE('_CHRTPORTSRCNUMBER','TCP Portti (L√§hde) vs. H√§lytysten M√§√§r√§');
+DEFINE('_CHRTPORTSRC','L√§hde TCP Portti');
+DEFINE('_CHRTSIGNUMBER',"$UI_CW_Sig Classification vs. H√§lytysten M√§√§r√§");//#
 DEFINE('_CHRTCLASS','Classification');//#
-DEFINE('_CHRTSENSORNUMBER','Sensori vs. H‰lytysten M‰‰r‰');
-DEFINE('_CHRTHANDLEPERIOD','K‰sittelyaika jos tarpeellista ');
+DEFINE('_CHRTSENSORNUMBER','Sensori vs. H√§lytysten M√§√§r√§');
+DEFINE('_CHRTHANDLEPERIOD','K√§sittelyaika jos tarpeellista ');
 DEFINE('_CHRTDUMP','Dumping data ... (writing only every');//#
-DEFINE('_CHRTDRAW','Piirt‰m‰ss‰ graafia');
+DEFINE('_CHRTDRAW','Piirt√§m√§ss√§ graafia');
 DEFINE('_ERRCHRTNODATAPOINTS','No data points to plot');//#
 
 //base_maintenance.php
-DEFINE('_MAINTTITLE','Yll‰ito');
+DEFINE('_MAINTTITLE','Yll√§ito');
 DEFINE('_GRAPHALERTDATA','Graph Alert Data'); //NEW
-DEFINE('_MNTPHP','PHP k‰‰nn√∂s(build)versio:');
+DEFINE('_MNTPHP','PHP k√§√§nn√∂s(build)versio:');
 DEFINE('_MNTCLIENT','ASIAKAS:');
 DEFINE('_MNTSERVER','SERVERI:');
 DEFINE('_MNTSERVERHW','SERVER HW:');//#
@@ -524,18 +524,18 @@ DEFINE('_MNTDBTYPE','Tietokannan Tyyppi:');
 DEFINE('_MNTDBALV','Tietokannan-abstrtaktio-versio:');
 DEFINE('_MNTDBALERTNAME','ALERT DB Name:');//#
 DEFINE('_MNTDBARCHNAME','ARCHIVE DB Name:');//#
-DEFINE('_MNTAIC','H‰lytystietojen V‰limuisti:');
-DEFINE('_MNTAICTE','Tapahtumia Yhteens‰:');
+DEFINE('_MNTAIC','H√§lytystietojen V√§limuisti:');
+DEFINE('_MNTAICTE','Tapahtumia Yhteens√§:');
 DEFINE('_MNTAICCE','Cached Events:');//#
-DEFINE('_MNTIPAC','IP Osoitteiden v‰limuisti');
-DEFINE('_MNTIPACUSIP','Uniikki L‰hde IP:');
+DEFINE('_MNTIPAC','IP Osoitteiden v√§limuisti');
+DEFINE('_MNTIPACUSIP','Uniikki L√§hde IP:');
 DEFINE('_MNTIPACDNSC','DNS Cached:');//#
 DEFINE('_MNTIPACWC','Whois Cached:');//#
 DEFINE('_MNTIPACUDIP','Uniikki Kohde IP:');
 
 //base_qry_alert.php
 DEFINE('_QAINVPAIR','Invalid (sid,cid) pair');//#
-DEFINE('_QAALERTDELET','H‰lytys POISTETTU');
+DEFINE('_QAALERTDELET','H√§lytys POISTETTU');
 DEFINE('_QATRIGGERSIG',"Triggered $UI_CW_Sig");//#
 DEFINE('_QANORMALD','Normal Display'); //NEW
 DEFINE('_QAPLAIND','Plain Display'); //NEW
@@ -544,13 +544,13 @@ DEFINE('_QANOPAYLOAD','Fast logging used so payload was discarded'); //NEW
 //base_qry_common.php
 DEFINE('_QCSIG','signature');//#
 DEFINE('_QCIPADDR','IP osoitteet');
-DEFINE('_QCIPFIELDS','IP kent‰t');
+DEFINE('_QCIPFIELDS','IP kent√§t');
 DEFINE('_QCTCPPORTS','TCP portit');
 DEFINE('_QCTCPFLAGS','TCP flags');//#
-DEFINE('_QCTCPFIELD','TCP kent‰t');
+DEFINE('_QCTCPFIELD','TCP kent√§t');
 DEFINE('_QCUDPPORTS','UDP portit');
-DEFINE('_QCUDPFIELDS','UDP kent‰t');
-DEFINE('_QCICMPFIELDS','ICMP kent‰t');
+DEFINE('_QCUDPFIELDS','UDP kent√§t');
+DEFINE('_QCICMPFIELDS','ICMP kent√§t');
 DEFINE('_QCDATA','Data');
 DEFINE('_QCERRCRITWARN','Criteria varoitus:');//#
 DEFINE('_QCERRVALUE','A value of');//#
@@ -559,15 +559,15 @@ DEFINE('_QCERROPER','An operator of');//#
 DEFINE('_QCERRDATETIME','A date/time value of');//#
 DEFINE('_QCERRPAYLOAD','A payload value of');//#
 DEFINE('_QCERRIP','An IP osoite of');//#
-DEFINE('_QCERRIPTYPE','IP-osoite tyypilt‰‰n');
-DEFINE('_QCERRSPECFIELD',' annettiin protkolla-kentt‰‰ varten, mutta kyseist‰ kentt‰‰ ei m‰‰ritelty.');//#
+DEFINE('_QCERRIPTYPE','IP-osoite tyypilt√§√§n');
+DEFINE('_QCERRSPECFIELD',' annettiin protkolla-kentt√§√§ varten, mutta kyseist√§ kentt√§√§ ei m√§√§ritelty.');//#
 DEFINE('_QCERRSPECVALUE','was selected indicating that it should be a criteria, but no value was specified on which to match.');//#
 DEFINE('_QCERRBOOLEAN','Multiple protocol field criteria entered without a boolean operator (e.g. AND, OR) between them.');//#
 DEFINE('_QCERRDATEVALUE','was selected indicating that some date/time criteria should be matched, but no value was specified.');//#
 DEFINE('_QCERRINVHOUR','(Invalid Hour) No date criteria were entered with the specified time.');//#
 DEFINE('_QCERRDATECRIT','was selected indicating that some date/time criteria should be matched, but no value was specified.');//#
-DEFINE('_QCERROPERSELECT','annettiin mutta yht‰‰n operaattoria ei valittu.');
-DEFINE('_QCERRDATEBOOL','Usea Pvm./Aika kriteeri annettu ilman boolean-operaattoreita(esim. AND, OR) niiden v‰liss‰.');
+DEFINE('_QCERROPERSELECT','annettiin mutta yht√§√§n operaattoria ei valittu.');
+DEFINE('_QCERRDATEBOOL','Usea Pvm./Aika kriteeri annettu ilman boolean-operaattoreita(esim. AND, OR) niiden v√§liss√§.');
 DEFINE('_QCERRPAYCRITOPER','was entered for a payload criteria field, but an operator (e.g. has, has not) was not specified.');//#
 DEFINE('_QCERRPAYCRITVALUE','was selected indicating that payload should be a criteria, but no value on which to match was specified.');//#
 DEFINE('_QCERRPAYBOOL','Multiple Data payload criteria entered without a boolean operator (e.g. AND, OR) between them.');//#
@@ -590,54 +590,54 @@ DEFINE('_QFRMTIMEA','aikaleima (nouseva)');
 DEFINE('_QFRMTIMED','aikaleima (laskeva)');
 DEFINE('_QFRMSIG','signature');//#
 DEFINE('_QFRMSORTNONE','none'); //NEW
-DEFINE('_QFRMSIP','l‰hde IP');
+DEFINE('_QFRMSIP','l√§hde IP');
 DEFINE('_QFRMDIP','kohde IP');
 
 //base_qry_sqlcalls.php
 DEFINE('_QSCSUMM','Summary Statistics');//#
 DEFINE('_QSCTIMEPROF','Aika profiili');
-DEFINE('_QSCOFALERTS','h‰lytyksist‰');
+DEFINE('_QSCOFALERTS','h√§lytyksist√§');
 
 //base_stat_alerts.php
-DEFINE('_ALERTTITLE','H‰lytyslistaus');
+DEFINE('_ALERTTITLE','H√§lytyslistaus');
 
 //base_stat_common.php
 DEFINE('_SCCATEGORIES','Categories:');//#
 DEFINE('_SCSENSORTOTAL','Sensorit/YhteensÔøΩ');
-DEFINE('_SCTOTALNUMALERTS','H‰lytysten kokonaism‰‰r‰');
-DEFINE('_SCSRCIP','L‰hde IP osoite:');
+DEFINE('_SCTOTALNUMALERTS','H√§lytysten kokonaism√§√§r√§');
+DEFINE('_SCSRCIP','L√§hde IP osoite:');
 DEFINE('_SCDSTIP','Kohde IP osoite:');
 DEFINE('_SCUNILINKS','Unikiit IP linkit');
-DEFINE('_SCSRCPORTS','L‰hde Portit: ');
+DEFINE('_SCSRCPORTS','L√§hde Portit: ');
 DEFINE('_SCDSTPORTS','Kohde Portit: ');
 DEFINE('_SCSENSORS','Sensorit');
 DEFINE('_SCCLASS','luokittelut');
 DEFINE('_SCUNIADDRESS','Uniikit osoitteet: ');
-DEFINE('_SCSOURCE','L‰hde');
+DEFINE('_SCSOURCE','L√§hde');
 DEFINE('_SCDEST','Kohde');
 DEFINE('_SCPORT','Portti');
 
 //base_stat_ipaddr.php
 DEFINE('_PSEVENTERR','PORTSCAN EVENT ERROR: ');//#
-DEFINE('_PSEVENTERRNOFILE','Yht‰‰n tiedostoa ei ole asetettu $portscan_file muuttujaan.');
+DEFINE('_PSEVENTERRNOFILE','Yht√§√§n tiedostoa ei ole asetettu $portscan_file muuttujaan.');
 DEFINE('_PSEVENTERROPENFILE','Porttiskannaus-tapahtuma-tiedoston(portscan event file) avaaminen ei onnistu');
 DEFINE('_PSDATETIME','Pvm./Aika');
-DEFINE('_PSSRCIP','L‰hde IP');
+DEFINE('_PSSRCIP','L√§hde IP');
 DEFINE('_PSDSTIP','Kohde IP');
-DEFINE('_PSSRCPORT','L‰hde Portti');
+DEFINE('_PSSRCPORT','L√§hde Portti');
 DEFINE('_PSDSTPORT','Kohde Portti');
 DEFINE('_PSTCPFLAGS','TCP Flags');//#
-DEFINE('_PSTOTALOCC','Esiintymi‰<BR> Yhteens‰');
-DEFINE('_PSNUMSENSORS','Sensorien M‰‰r‰');
-DEFINE('_PSFIRSTOCC','Ensimm‰inen<BR> Esiintym‰');
-DEFINE('_PSLASTOCC','Viimeinen<BR> Esiintym‰');
-DEFINE('_PSUNIALERTS','Uniikit H‰lytykset');
+DEFINE('_PSTOTALOCC','Esiintymi√§<BR> Yhteens√§');
+DEFINE('_PSNUMSENSORS','Sensorien M√§√§r√§');
+DEFINE('_PSFIRSTOCC','Ensimm√§inen<BR> Esiintym√§');
+DEFINE('_PSLASTOCC','Viimeinen<BR> Esiintym√§');
+DEFINE('_PSUNIALERTS','Uniikit H√§lytykset');
 DEFINE('_PSPORTSCANEVE','Porttiskannaukset');
 DEFINE('_PSREGWHOIS','Registry lookup (whois) in');//#
-DEFINE('_PSNODNS','yht‰‰n DNS resolution ei yritetty');//#
-DEFINE('_PSNUMSENSORSBR','Sensorien <BR>M‰‰r‰');
-DEFINE('_PSOCCASSRC','Ilmentym‰t <BR>as L‰hde');//#
-DEFINE('_PSOCCASDST','Ilmentym‰t <BR>as Kohde');//#
+DEFINE('_PSNODNS','yht√§√§n DNS resolution ei yritetty');//#
+DEFINE('_PSNUMSENSORSBR','Sensorien <BR>M√§√§r√§');
+DEFINE('_PSOCCASSRC','Ilmentym√§t <BR>as L√§hde');//#
+DEFINE('_PSOCCASDST','Ilmentym√§t <BR>as Kohde');//#
 DEFINE('_PSWHOISINFO','Whois Information');//#
 
 //base_stat_iplink.php
@@ -647,7 +647,7 @@ DEFINE('_PSDETECTAMONG','%d unique alerts detected among %d alerts on %s'); //NE
 DEFINE('_PSALLALERTSAS','all alerts with %s/%s as'); //NEW
 DEFINE('_PSSHOW','show'); //NEW
 DEFINE('_PSEXTERNAL','external'); //NEW
-DEFINE('_SIPLSOURCEFGDN','L‰hde FQDN');//#
+DEFINE('_SIPLSOURCEFGDN','L√§hde FQDN');//#
 DEFINE('_SIPLDESTFGDN','Kohde FQDN');//#
 DEFINE('_SIPLDIRECTION','Suunta');
 DEFINE('_SIPLPROTO','Protokolla');
@@ -658,38 +658,38 @@ DEFINE('_SIPLTOTALEVENTS','Kaikki Tapahtumat');
 //base_stat_ports.php
 DEFINE('_UNIQ','Uniikki');
 DEFINE('_DSTPS','Kohde Portit');
-DEFINE('_SRCPS','L‰hde Portit');
+DEFINE('_SRCPS','L√§hde Portit');
 
 //base_stat_sensor.php
 DEFINE('SPSENSORLIST','Sensori Listaus');
 DEFINE('_OCCURRENCES','Occurrences'); //NEW
 
 //base_stat_time.php
-DEFINE('_BSTTITLE','H‰lytysten Aikaprofiili');
+DEFINE('_BSTTITLE','H√§lytysten Aikaprofiili');
 DEFINE('_BSTTIMECRIT','Aika Kriteeri');
-DEFINE('_BSTERRPROFILECRIT','<FONT><B>Yht‰‰n profilointikriteeri‰ ei annettu!</B>  klikkaa "tunti(hour)", "p‰iv‰(day)" tai "kuukausi(month)" valitaksesi the granularity of the aggregate statistics.</FONT>');//#
-DEFINE('_BSTERRTIMETYPE','<FONT><B>The type of time parameter which will be passed was not specified!</B>  Valitse joko "on", valitaksesi yksitt‰isen p‰iv‰n, tai "between" valitaksesi tietyn aik‰v‰lin.</FONT>');//#
-DEFINE('_BSTERRNOYEAR','<FONT><B>Yht‰‰n "vuosi(year)"-parametria ei annettu!</B></FONT>');
-DEFINE('_BSTERRNOMONTH','<FONT><B>Yht‰‰n "kuukausi(month)"-parametria ei annettu!</B></FONT>');
-DEFINE('_BSTERRNODAY','<FONT><B>Yht‰‰n "p‰iv‰(day)"-parametria ei annettu!</B></FONT>');
+DEFINE('_BSTERRPROFILECRIT','<FONT><B>Yht√§√§n profilointikriteeri√§ ei annettu!</B>  klikkaa "tunti(hour)", "p√§iv√§(day)" tai "kuukausi(month)" valitaksesi the granularity of the aggregate statistics.</FONT>');//#
+DEFINE('_BSTERRTIMETYPE','<FONT><B>The type of time parameter which will be passed was not specified!</B>  Valitse joko "on", valitaksesi yksitt√§isen p√§iv√§n, tai "between" valitaksesi tietyn aik√§v√§lin.</FONT>');//#
+DEFINE('_BSTERRNOYEAR','<FONT><B>Yht√§√§n "vuosi(year)"-parametria ei annettu!</B></FONT>');
+DEFINE('_BSTERRNOMONTH','<FONT><B>Yht√§√§n "kuukausi(month)"-parametria ei annettu!</B></FONT>');
+DEFINE('_BSTERRNODAY','<FONT><B>Yht√§√§n "p√§iv√§(day)"-parametria ei annettu!</B></FONT>');
 
 //base_stat_uaddr.php
-DEFINE('_UNISADD','Uniikit L‰hde-IP-osoitteet');
+DEFINE('_UNISADD','Uniikit L√§hde-IP-osoitteet');
 DEFINE('_BSTPROFILEBY','Profile by'); //NEW
 DEFINE('_TIMEON','on'); //NEW
 DEFINE('_TIMEBETWEEN','between'); //NEW
 DEFINE('_PROFILEALERT','Profile Alert'); //NEW
-DEFINE('_SUASRCIP','L‰hde-IP-osoitteet');
+DEFINE('_SUASRCIP','L√§hde-IP-osoitteet');
 DEFINE('_SUAERRCRITADDUNK','CRITERIA ERROR: tuntematon osoitteen tyyppi -- assuming Kohde osoite');//#
 DEFINE('_UNIDADD','Uniikit Kohde-IP-osoitteet');
 DEFINE('_SUADSTIP','Kohde-IP-osoitteet');
-DEFINE('_SUAUNIALERTS','Uniikite&nbsp;H‰lytykset');
-DEFINE('_SUASRCADD','L‰hde&nbsp;Osoite');
+DEFINE('_SUAUNIALERTS','Uniikite&nbsp;H√§lytykset');
+DEFINE('_SUASRCADD','L√§hde&nbsp;Osoite');
 DEFINE('_SUADSTADD','Kohde&nbsp;Osoite');
 
 //base_user.php
-DEFINE('_BASEUSERTITLE','BASE K‰ytt‰j‰n asetukset');
-DEFINE('_BASEUSERERRPWD',"$UI_CW_Pw ei voi olla tyhj‰ tai ".strtolower($UI_CW_Pw).'t eiv‰t t‰sm‰‰!');
+DEFINE('_BASEUSERTITLE','BASE K√§ytt√§j√§n asetukset');
+DEFINE('_BASEUSERERRPWD',"$UI_CW_Pw ei voi olla tyhj√§ tai ".strtolower($UI_CW_Pw).'t eiv√§t t√§sm√§√§!');
 DEFINE('_BASEUSEROLDPWD','Vanha '.$UI_CW_Pw.':');
 DEFINE('_BASEUSERNEWPWD','Uusi '.$UI_CW_Pw.':');
 DEFINE('_BASEUSERNEWPWDAGAIN',"Uusi $UI_CW_Pw Uudestaan:");
