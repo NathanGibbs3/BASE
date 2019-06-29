@@ -1,90 +1,75 @@
 <?php
-/*******************************************************************************
-** Basic Analysis and Security Engine (BASE)
-** Copyright (C) 2004 BASE Project Team
-** Copyright (C) 2000 Carnegie Mellon University
-**
-** (see the file 'base_main.php' for license details)
-**
-** Project Leads: Kevin Johnson <kjohnson@secureideas.net>
-** Built upon work by Roman Danyliw <rdd@cert.org>, <roman@danyliw.com>
-**
-** Purpose: executes and prints the query results
-********************************************************************************
-** Authors:
-********************************************************************************
-** Kevin Johnson <kjohnson@secureideas.net
-**
-********************************************************************************
-*/
+// Basic Analysis and Security Engine (BASE)
+// Copyright (C) 2019 Nathan Gibbs
+// Copyright (C) 2004 BASE Project Team
+// Copyright (C) 2000 Carnegie Mellon University
+//
+//   For license info: See the file 'base_main.php'
+//
+//       Project Lead: Nathan Gibbs
+// Built upon work by: Kevin Johnson & the BASE Project Team
+//                     Roman Danyliw <rdd@cert.org>, <roman@danyliw.com>
+//
+//            Purpose: Executes and prints the query results.
+//
+//          Author(s): Nathan Gibbs
+//                     Kevin Johnson
 
 if ( isset($join_sql) ){ // Issue #5
-global $colored_alerts, $debug_mode;
-  /* **************** Run the Query ************************************************** */
-
-  /* base_ag_main.php will include this file 
-   *  - imported variables: $sql, $cnt_sql
-   */
-
-  if ( $printing_ag )
-  {
-     ProcessCriteria();
-     $page = "base_ag_main.php";
-     $tmp_page_get = "&amp;ag_action=view&amp;ag_id=$ag_id&amp;submit=x";
-     $sql = $save_sql;
-  }
-  else
-  {
-     $page = "base_qry_main.php";
-     $cnt_sql = "SELECT COUNT(acid_event.cid) FROM acid_event ".$join_sql.$where_sql.$criteria_sql;
-     $tmp_page_get = "";
-  }
-
-// UI Language Vars
-$CPSig = $UIL->CWA['Sig'];
-$CPTs = $UIL->CWA['Ts'];
-$CPSA = $UIL->CPA['SrcAddr'];
-$CPDA = $UIL->CPA['DstAddr'];
-
-  /* Run the query to determine the number of rows (No LIMIT)*/
-  $qs->GetNumResultRows($cnt_sql, $db);
-  $et->Mark("Counting Result size");
-  /* Setup the Query Results Table */
-  $qro = new QueryResultsOutput("$page".$qs->SaveStateGET().$tmp_page_get);
-
-  $qro->AddTitle(qroReturnSelectALLCheck());  
-  $qro->AddTitle("ID");
-
-$qro->AddTitle($CPSig,
-	"sig_a", " ", " ORDER BY sig_name ASC",
-	"sig_d", " ", " ORDER BY sig_name DESC"
-);
-$qro->AddTitle($CPTs,
-	"time_a", " ", " ORDER BY timestamp ASC ",
-	"time_d", " ", " ORDER BY timestamp DESC "
-);
-$qro->AddTitle($CPSA,
-	"sip_a", " ", " ORDER BY ip_src ASC",
-	"sip_d", " ", " ORDER BY ip_src DESC"
-);
-$qro->AddTitle($CPDA,
-	"dip_a", " ", " ORDER BY ip_dst ASC",
-	"dip_d", " ", " ORDER BY ip_dst DESC"
-);
-  $qro->AddTitle(_NBLAYER4, 
-                 "proto_a", " ", " ORDER BY ip_proto ASC",
-                 "proto_d", " ", " ORDER BY ip_proto DESC");
-
-
-
-  if ( !$printing_ag )
-     $sql = $sql.$join_sql.$where_sql.$criteria_sql;
-
-  /* Apply sort criteria */
-  if ( $qs->isCannedQuery() )
-     $sql = $sql." ORDER BY timestamp DESC ";
-  else
-  {
+	GLOBAL $colored_alerts, $debug_mode;
+	// Run the Query.
+	// base_ag_main.php will include this file
+	// - imported variables: $sql, $cnt_sql
+	if ( $printing_ag ){
+		ProcessCriteria();
+		$page = "base_ag_main.php";
+		$tmp_page_get = "&amp;ag_action=view&amp;ag_id=$ag_id&amp;submit=x";
+		$sql = $save_sql;
+	}else{
+		$page = "base_qry_main.php";
+		$cnt_sql = "SELECT COUNT(acid_event.cid) FROM acid_event ".$join_sql.$where_sql.$criteria_sql;
+		$tmp_page_get = "";
+	}
+	// UI Language Vars
+	$CPSig = $UIL->CWA['Sig'];
+	$CPTs = $UIL->CWA['Ts'];
+	$CPSA = $UIL->CPA['SrcAddr'];
+	$CPDA = $UIL->CPA['DstAddr'];
+	$CPL4P = $UIL->CPA['L4P'];
+	// Run the query to determine the number of rows (No LIMIT).
+	$qs->GetNumResultRows($cnt_sql, $db);
+	$et->Mark("Counting Result size");
+	// Setup the Query Results Table.
+	$qro = new QueryResultsOutput("$page".$qs->SaveStateGET().$tmp_page_get);
+	$qro->AddTitle(qroReturnSelectALLCheck());
+	$qro->AddTitle("ID");
+	$qro->AddTitle($CPSig,
+		"sig_a", " ", " ORDER BY sig_name ASC",
+		"sig_d", " ", " ORDER BY sig_name DESC"
+	);
+	$qro->AddTitle($CPTs,
+		"time_a", " ", " ORDER BY timestamp ASC ",
+		"time_d", " ", " ORDER BY timestamp DESC "
+	);
+	$qro->AddTitle($CPSA,
+		"sip_a", " ", " ORDER BY ip_src ASC",
+		"sip_d", " ", " ORDER BY ip_src DESC"
+	);
+	$qro->AddTitle($CPDA,
+		"dip_a", " ", " ORDER BY ip_dst ASC",
+		"dip_d", " ", " ORDER BY ip_dst DESC"
+	);
+	$qro->AddTitle($CPL4P,
+		"proto_a", " ", " ORDER BY ip_proto ASC",
+		"proto_d", " ", " ORDER BY ip_proto DESC"
+	);
+	if ( !$printing_ag ){
+		$sql = $sql.$join_sql.$where_sql.$criteria_sql;
+	}
+	// Apply sort criteria.
+	if ( $qs->isCannedQuery() ){
+		$sql = $sql." ORDER BY timestamp DESC ";
+	}else{
      $sort_sql = $qro->GetSortSQL($qs->GetCurrentSort(), $qs->GetCurrentCannedQuerySort());
      //  3/23/05 BDB   mods to make sort by work for Searches
      $sort_sql = "";

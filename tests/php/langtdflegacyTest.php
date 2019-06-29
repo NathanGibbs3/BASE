@@ -522,16 +522,6 @@ class legacylangTest extends TestCase {
 		LogTC($tf,'TD file',$file);
 		$this->CWAHas($$tmp,'Role','Role');
 	}
-	public function testCWASetItemAddr() {
-		$lang = self::$langs;
-		$tf = __FUNCTION__;
-		$tmp = "UI$lang";
-		LogTC($tf,'language',$lang);
-		$$tmp = self::$UIL;
-		$file = $$tmp->TDF;
-		LogTC($tf,'TD file',$file);
-		$this->CWAHas($$tmp,'Addr','Address');
-	}
 	public function testCWASetItemSrc() {
 		$lang = self::$langs;
 		$tf = __FUNCTION__;
@@ -642,6 +632,26 @@ class legacylangTest extends TestCase {
 		LogTC($tf,'TD file',$file);
 		$this->CWAHas($$tmp,'Ts','Timestamp');
 	}
+	public function testCWASetItemAddr() {
+		$lang = self::$langs;
+		$tf = __FUNCTION__;
+		$tmp = "UI$lang";
+		LogTC($tf,'language',$lang);
+		$$tmp = self::$UIL;
+		$file = $$tmp->TDF;
+		LogTC($tf,'TD file',$file);
+		$this->CWAHas($$tmp,'Addr','Address');
+	}
+	public function testCWASetItemProto() {
+		$lang = self::$langs;
+		$tf = __FUNCTION__;
+		$tmp = "UI$lang";
+		LogTC($tf,'language',$lang);
+		$$tmp = self::$UIL;
+		$file = $$tmp->TDF;
+		LogTC($tf,'TD file',$file);
+		$this->CWAHas($$tmp,'Proto','Protocol');
+	}
 	// Test Common Phrase Items.
 	public function testCPASetItemSrcName() {
 		$lang = self::$langs;
@@ -692,6 +702,16 @@ class legacylangTest extends TestCase {
 		$file = $$tmp->TDF;
 		LogTC($tf,'TD file',$file);
 		$this->CPAHas($$tmp,'DstAddr','Destination Address');
+	}
+	public function testCPASetItemLayer4Protocol() {
+		$lang = self::$langs;
+		$tf = __FUNCTION__;
+		$tmp = "UI$lang";
+		LogTC($tf,'language',$lang);
+		$$tmp = self::$UIL;
+		$file = $$tmp->TDF;
+		LogTC($tf,'TD file',$file);
+		$this->CPAHas($$tmp,'L4P','Layer 4 Protocol');
 	}
 	// Test Universal Action Items.
 	public function testUAASetItemEdit() {

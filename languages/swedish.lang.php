@@ -49,19 +49,21 @@ $UI_CW_Role = 'Roll';
 $UI_CW_Pw = 'Lösenord';
 $UI_CW_Ts = 'Tid stämpel';
 $UI_CW_Addr = 'Adress';
+$UI_CW_Layer = 'Layer';
+$UI_CW_Proto = 'Protocol';
 // Common Phrases.
 $UI_CP_SrcName = array($UI_CW_Src,$UI_CW_Name);
 $UI_CP_DstName = array('Dest.',$UI_CW_Name);
 $UI_CP_SrcDst = array('Src','or','Dest');
 $UI_CP_SrcAddr = array($UI_CW_Src,$UI_CW_Addr);
 $UI_CP_DstAddr = array($UI_CW_Dst,$UI_CW_Addr);
+$UI_CP_L4P = array($UI_CW_Layer,'4',$UI_CW_Proto);
 // Authentication Data.
 $UI_AD_UND = 'Logga in';
 $UI_AD_RID = array($UI_CW_Role,$UI_CW_Id);
 $UI_AD_ASD = 'Möjliggjord';
 
 //common phrases
-DEFINE('_NBLAYER4','Layer&nbsp;4&nbsp;Proto');
 DEFINE('_PRIORITY','Prioritet');
 DEFINE('_EVENTTYPE','Händelse typ');
 DEFINE('_JANUARY','Januari');

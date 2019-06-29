@@ -48,19 +48,21 @@ $UI_CW_Role = 'Rolle';
 $UI_CW_Pw = 'Passord';
 $UI_CW_Ts = 'Tidsmerke';
 $UI_CW_Addr = 'Adresse';
+$UI_CW_Layer = 'Lag';
+$UI_CW_Proto = 'Protokoll';
 // Common Phrases.
 $UI_CP_SrcName = array($UI_CW_Src,$UI_CW_Name);
 $UI_CP_DstName = array('Dest.',$UI_CW_Name);
 $UI_CP_SrcDst = array($UI_CW_Src,'eller','Dest.');
 $UI_CP_SrcAddr = array($UI_CW_Src,$UI_CW_Addr);
 $UI_CP_DstAddr = array($UI_CW_Dst,$UI_CW_Addr);
+$UI_CP_L4P = array($UI_CW_Layer,'4',$UI_CW_Proto);
 // Authentication Data.
 $UI_AD_UND = 'Brukernavn';
 $UI_AD_RID = array($UI_CW_Role,$UI_CW_Id);
 $UI_AD_ASD = 'Aktivert';
 
 //common phrases
-DEFINE('_NBLAYER4','Lag&nbsp;4&nbsp;Protokoll');
 DEFINE('_PRIORITY','Prioritet');
 DEFINE('_EVENTTYPE','hendelsetype');
 DEFINE('_JANUARY','Januar');

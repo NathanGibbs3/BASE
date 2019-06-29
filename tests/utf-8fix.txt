@@ -20,3 +20,9 @@ sed 's/\xFD/\xC3\xBD/g'
 
 þ
 sed 's/\xFE/\xC3\xBE/g'
+
+é
+sed 's/\xE9/\xC3\xA9/g'
+
+ü
+sed 's/\xFC/\xC3\xBC/g'

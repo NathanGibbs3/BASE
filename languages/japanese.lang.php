@@ -49,19 +49,21 @@ $UI_CW_Role = 'Role';
 $UI_CW_Pw = 'パスワード';
 $UI_CW_Ts = 'タイムスタンプ';
 $UI_CW_Addr = 'アドレス';
+$UI_CW_Layer = 'レイヤー';
+$UI_CW_Proto = 'Protocol';
 // Common Phrases.
 $UI_CP_SrcName = array($UI_CW_Src,$UI_CW_Name);
 $UI_CP_DstName = array($UI_CW_Dst,$UI_CW_Name);
 $UI_CP_SrcDst = array($UI_CW_Src,'or',$UI_CW_Dst);
 $UI_CP_SrcAddr = array($UI_CW_Src,$UI_CW_Addr);
 $UI_CP_DstAddr = array($UI_CW_Dst,$UI_CW_Addr);
+$UI_CP_L4P = array($UI_CW_Layer,'4',$UI_CW_Proto);
 // Authentication Data.
 $UI_AD_UND = 'ログイン';
 $UI_AD_RID = array($UI_CW_Role,$UI_CW_Id);
 $UI_AD_ASD = '有効';
 
 //common phrases
-DEFINE('_NBLAYER4','レイヤー&nbsp;4&nbsp;Proto');
 DEFINE('_PRIORITY','優先度');
 DEFINE('_EVENTTYPE','イベントタイプ');
 DEFINE('_JANUARY','１月');

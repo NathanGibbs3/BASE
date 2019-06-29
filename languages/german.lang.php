@@ -50,19 +50,21 @@ $UI_CW_Role = 'Benutzertyp';
 $UI_CW_Pw = 'Passwort';
 $UI_CW_Ts = 'Zeitstempel';
 $UI_CW_Addr = 'adresse';
+$UI_CW_Layer = 'Schicht';
+$UI_CW_Proto = 'Protokoll';
 // Common Phrases.
 $UI_CP_SrcName = array($UI_CW_Src,$UI_CW_Name);
 $UI_CP_DstName = array($UI_CW_Dst,$UI_CW_Name);
 $UI_CP_SrcDst = array($UI_CW_Src,'oder',$UI_CW_Dst);
 $UI_CP_SrcAddr = array($UI_CW_Src,$UI_CW_Addr);
 $UI_CP_DstAddr = array($UI_CW_Dst,$UI_CW_Addr);
+$UI_CP_L4P = array($UI_CW_Layer,'4',$UI_CW_Proto);
 // Authentication Data.
 $UI_AD_UND = 'Login';
 $UI_AD_RID = array($UI_CW_Role,$UI_CW_Id);
 $UI_AD_ASD = 'Aktiv';
 
 //common phrases
-DEFINE('_NBLAYER4','Schicht&nbsp;4&nbsp;Protokoll');
 DEFINE('_PRIORITY','Priorit&auml;t');
 DEFINE('_EVENTTYPE','Ereignistyp');
 DEFINE('_JANUARY','Januar');

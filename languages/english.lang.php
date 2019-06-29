@@ -48,19 +48,21 @@ $UI_CW_Role = 'Role';
 $UI_CW_Pw = 'Password';
 $UI_CW_Ts = 'Timestamp';
 $UI_CW_Addr = 'Address';
+$UI_CW_Layer = 'Layer';
+$UI_CW_Proto = 'Protocol';
 // Common Phrases.
 $UI_CP_SrcName = array($UI_CW_Src,$UI_CW_Name);
 $UI_CP_DstName = array('Dest.',$UI_CW_Name);
 $UI_CP_SrcDst = array('Src','or','Dest');
 $UI_CP_SrcAddr = array($UI_CW_Src,$UI_CW_Addr);
 $UI_CP_DstAddr = array($UI_CW_Dst,$UI_CW_Addr);
+$UI_CP_L4P = array($UI_CW_Layer,'4',$UI_CW_Proto);
 // Authentication Data.
 $UI_AD_UND = 'Login';
 $UI_AD_RID = array($UI_CW_Role,$UI_CW_Id);
 $UI_AD_ASD = 'Enabled';
 
 //common phrases
-DEFINE('_NBLAYER4','Layer&nbsp;4&nbsp;Proto');
 DEFINE('_PRIORITY','Priority');
 DEFINE('_EVENTTYPE','event type');
 DEFINE('_JANUARY','January');

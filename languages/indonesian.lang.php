@@ -49,19 +49,21 @@ $UI_CW_Role = 'Peran';
 $UI_CW_Pw = 'Kata Sandi';
 $UI_CW_Ts = 'Waktu';
 $UI_CW_Addr = 'Alamat';
+$UI_CW_Layer = 'Lapisan';
+$UI_CW_Proto = 'Protokol';
 // Common Phrases.
 $UI_CP_SrcName = array($UI_CW_Name,$UI_CW_Src);
 $UI_CP_DstName = array($UI_CW_Name,$UI_CW_Dst);
 $UI_CP_SrcDst = array($UI_CW_Src,'atau',$UI_CW_Dst);
 $UI_CP_SrcAddr = array($UI_CW_Addr,$UI_CW_Src);
 $UI_CP_DstAddr = array($UI_CW_Addr,$UI_CW_Dst);
+$UI_CP_L4P = array($UI_CW_Proto,$UI_CW_Layer,'4');
 // Authentication Data.
 $UI_AD_UND = 'Login';
 $UI_AD_RID = array($UI_CW_Id,$UI_CW_Role);
 $UI_AD_ASD = 'Aktif';
 
 //common phrases
-DEFINE('_NBLAYER4','Protokol Lapisan&nbsp;4&nbsp;');
 DEFINE('_PRIORITY','Prioritas');
 DEFINE('_EVENTTYPE','jenis peristiwa');
 DEFINE('_JANUARY','Januari');

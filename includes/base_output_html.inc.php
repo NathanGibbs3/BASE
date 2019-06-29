@@ -48,8 +48,15 @@ function PageStart ($refresh = 0, $page_title = '') {
 			}else{
 				$URI = '/';
 			}
-			NLIO($MHE.'refresh" content="'.$stat_page_refresh_time.'; URL='.
-			htmlspecialchars(CleanVariable($_SERVER["REQUEST_URI"], VAR_FSLASH | VAR_PERIOD | VAR_DIGIT | VAR_PUNC | VAR_LETTER), ENT_QUOTES).'">', 2);
+			$tmp = CleanVariable(
+				$URI,
+				VAR_FSLASH | VAR_PERIOD | VAR_DIGIT | VAR_PUNC | VAR_LETTER
+			);
+			$tmp = htmlspecialchars($tmp,ENT_QUOTES);
+			NLIO(
+				$MHE.'refresh" content="'.$stat_page_refresh_time.'; URL='.
+				$tmp.'">', 2
+			);
 		}
 	}
 	NLIO("<title>$title</title>",2);

@@ -500,6 +500,46 @@ class nulllangTest extends TestCase {
 			"Uninitialized: $TItem ."
 		);
 	}
+	public function testCWASetItemLayer() {
+		$lang = self::$langs;
+		$tf = __FUNCTION__;
+		$tmp = "UI$lang";
+		LogTC($tf,'language',$lang);
+		$$tmp = self::$UIL;
+		$file = $$tmp->TDF;
+		$key = 'Layer';
+		$KA = 'CWA';
+		$TItem = $KA."[$key]";
+		$EEM = self::$EEM."$TItem.\n";
+		LogTC($tf,'TD file',$file);
+		$this->CWAHas($$tmp, $key, $TItem);
+		$this->assertEquals(
+			'',
+			$$tmp->{$KA}[$key],
+			"Uninitialized: $TItem ."
+		);
+	}
+	// Uncomment when we migrate _SIPLPROTO in TD
+//	public function testCWASetItemProto() {
+//		$lang = self::$langs;
+//		$tf = __FUNCTION__;
+//		$tmp = "UI$lang";
+//		LogTC($tf,'language',$lang);
+//		$$tmp = self::$UIL;
+//		$file = $$tmp->TDF;
+//		$key = 'Proto';
+//		$KA = 'CWA';
+//		$TItem = $KA."[$key]";
+//		$EEM = self::$EEM."$TItem.\n";
+//		LogTC($tf,'TD file',$file);
+//		$this->CWAHas($$tmp, $key, $TItem);
+//		$this->assertEquals(
+//			$EEM,
+//			$$tmp->{$KA}[$key],
+//			"Uninitialized: $TItem ."
+//		);
+//	}
+
 	// Test Common Phrase Items.
 	public function testCPASetItemSrcName() {
 		$lang = self::$langs;
@@ -585,6 +625,25 @@ class nulllangTest extends TestCase {
 		$$tmp = self::$UIL;
 		$file = $$tmp->TDF;
 		$key = 'DstAddr';
+		$KA = 'CPA';
+		$TItem = $KA."[$key]";
+		$EEM = self::$EEM."$TItem.\n";
+		LogTC($tf,'TD file',$file);
+		$this->CPAHas($$tmp, $key, $TItem);
+		$this->assertEquals(
+			$EEM,
+			$$tmp->{$KA}[$key],
+			"Uninitialized: $TItem ."
+		);
+	}
+	public function testCPASetItemDstLayer4Protocol() {
+		$lang = self::$langs;
+		$tf = __FUNCTION__;
+		$tmp = "UI$lang";
+		LogTC($tf,'language',$lang);
+		$$tmp = self::$UIL;
+		$file = $$tmp->TDF;
+		$key = 'L4P';
 		$KA = 'CPA';
 		$TItem = $KA."[$key]";
 		$EEM = self::$EEM."$TItem.\n";

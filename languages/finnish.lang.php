@@ -54,19 +54,21 @@ $UI_CW_Role = 'Role';
 $UI_CW_Pw = 'Salasana';
 $UI_CW_Ts = 'Aikaleima';
 $UI_CW_Addr = 'Osoite';
+$UI_CW_Layer = 'Layer';
+$UI_CW_Proto = 'Protocol';
 // Common Phrases.
 $UI_CP_SrcName = array('Lähteen',$UI_CW_Name);
 $UI_CP_DstName = array('Kohteen',$UI_CW_Name);
 $UI_CP_SrcDst = array('Lähteen','nimi');
 $UI_CP_SrcAddr = array($UI_CW_Src,$UI_CW_Addr);
 $UI_CP_DstAddr = array($UI_CW_Dst,$UI_CW_Addr);
+$UI_CP_L4P = array($UI_CW_Layer,'4',$UI_CW_Proto);
 // Authentication Data.
 $UI_AD_UND = 'Login';
 $UI_AD_RID = array($UI_CW_Role,$UI_CW_Id);
 $UI_AD_ASD = 'Toiminnassa';
 
 //common phrases
-DEFINE('_NBLAYER4','Layer&nbsp;4&nbsp;Proto');//#
 DEFINE('_PRIORITY','Tärkeysjärjetys');
 DEFINE('_EVENTTYPE','tapahtumatyyppi');
 DEFINE('_JANUARY','tammikuu');

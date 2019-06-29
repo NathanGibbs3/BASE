@@ -136,13 +136,6 @@ class UILang{
 		}else{
 			$this->SetUICWItem('Role');
 		}
-		if ( isset($UI_CW_Addr) ) { // Var New TDF
-			$this->SetUICWItem('Addr',$UI_CW_Addr);
-		}elseif (defined('_ADDRESS')) { // Const Legacy TDF
-			$this->SetUICWItem('Addr',_ADDRESS);
-		}else{
-			$this->SetUICWItem('Addr');
-		}
 		if ( isset($UI_CW_Src) ) { // Var New TDF
 			$this->SetUICWItem('Src',$UI_CW_Src);
 		}elseif (defined('_SOURCE')) { // Const Legacy TDF
@@ -220,6 +213,25 @@ class UILang{
 		}else{
 			$this->SetUICWItem('Ts');
 		}
+		if ( isset($UI_CW_Addr) ) { // Var New TDF
+			$this->SetUICWItem('Addr',$UI_CW_Addr);
+		}elseif (defined('_ADDRESS')) { // Const Legacy TDF
+			$this->SetUICWItem('Addr',_ADDRESS);
+		}else{
+			$this->SetUICWItem('Addr');
+		}
+		if ( isset($UI_CW_Layer) ) { // Var New TDF
+			$this->SetUICWItem('Layer',$UI_CW_Layer);
+		}else{ // No Legacy TD Equivalent
+			$this->SetUICWItem('Layer','');
+		}
+		if ( isset($UI_CW_Proto) ) { // Var New TDF
+			$this->SetUICWItem('Proto',$UI_CW_Proto);
+		}elseif (defined('_SIPLPROTO')) { // Const Legacy TDF
+			$this->SetUICWItem('Proto',_SIPLPROTO);
+		}else{
+			$this->SetUICWItem('Proto');
+		}
 		// Init Common Phrases
 		if ( isset($UI_CP_SrcName) ) { // Var New TDF
 			$this->SetUICPItem('SrcName',$this->Phrase($UI_CP_SrcName));
@@ -255,6 +267,13 @@ class UILang{
 			$this->SetUICPItem('DstAddr',_NBDESTADDR);
 		}else{
 			$this->SetUICPItem('DstAddr');
+		}
+		if ( isset($UI_CP_L4P) ) { // Var New TDF
+			$this->SetUICPItem('L4P',$this->Phrase($UI_CP_L4P,1));
+		}elseif (defined('_NBLAYER4')) { // Const Legacy TDF
+			$this->SetUICPItem('L4P',_NBLAYER4);
+		}else{
+			$this->SetUICPItem('L4P');
 		}
 		// Init Authentication Data if Auth Sys is enabled.
 		if ($Use_Auth_System == 1) {
@@ -376,7 +395,7 @@ class UILang{
 	function SetUICWItem($Item,$Value = NULL) {
 		$Items = array (
 			'Src', 'Dst', 'Id', 'Name', 'Int', 'Filter', 'Desc', 'SucDesc',
-			'Sensor', 'Sig', 'Ts', 'Role', 'Addr'
+			'Sensor', 'Sig', 'Ts', 'Role', 'Addr', 'Layer', 'Proto'
 		);
 		if (in_array($Item, $Items)) {
 			$this->CWA[$Item] = $Value;
@@ -388,7 +407,7 @@ class UILang{
 	// Sets Common Phrase Item from translation data.
 	function SetUICPItem($Item,$Value = NULL) {
 		$Items = array (
-			'SrcName', 'DstName', 'SrcDst', 'SrcAddr', 'DstAddr'
+			'SrcName', 'DstName', 'SrcDst', 'SrcAddr', 'DstAddr', 'L4P'
 		);
 		if (in_array($Item, $Items)) {
 			$this->CPA[$Item] = $Value;

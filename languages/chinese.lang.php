@@ -49,19 +49,21 @@ $UI_CW_Role = '角色';
 $UI_CW_Pw = '密碼';
 $UI_CW_Ts = '時間戳記';
 $UI_CW_Addr = '位址';
+$UI_CW_Layer = '層';
+$UI_CW_Proto = '協議';
 // Common Phrases.
 $UI_CP_SrcName = array($UI_CW_Src,$UI_CW_Name);
 $UI_CP_DstName = array($UI_CW_Dst,$UI_CW_Name);
 $UI_CP_SrcDst = array($UI_CW_Src,'或',$UI_CW_Dst);
 $UI_CP_SrcAddr = array($UI_CW_Src,$UI_CW_Addr);
 $UI_CP_DstAddr = array($UI_CW_Dst,$UI_CW_Addr);
+$UI_CP_L4P = array($UI_CW_Layer,'4',$UI_CW_Proto);
 // Authentication Data.
 $UI_AD_UND = '使用者登入';
 $UI_AD_RID = array($UI_CW_Role,$UI_CW_Id);
 $UI_AD_ASD = '啟用';
 
 //common phrases
-DEFINE('_NBLAYER4','通訊&nbsp;4&nbsp;層級');
 DEFINE('_PRIORITY','優先等級');
 DEFINE('_EVENTTYPE','事件型態');
 DEFINE('_JANUARY','一月');

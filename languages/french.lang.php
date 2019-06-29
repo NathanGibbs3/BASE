@@ -49,27 +49,28 @@ $UI_CW_Role = 'RÃ´le';
 $UI_CW_Pw = 'Mot de passe';
 $UI_CW_Ts = 'Horodatage';
 $UI_CW_Addr = 'Adresse';
+$UI_CW_Layer = 'Couche';
+$UI_CW_Proto = 'Protocole';
 // Common Phrases.
 $UI_CP_SrcName = array($UI_CW_Name,'de la',$UI_CW_Src);
 $UI_CP_DstName = array($UI_CW_Name,'de la',$UI_CW_Dst);
 $UI_CP_SrcDst = array('Src','ou','Dest');
 $UI_CP_SrcAddr = array($UI_CW_Addr,$UI_CW_Src);
 $UI_CP_DstAddr = array($UI_CW_Addr,$UI_CW_Dst);
+$UI_CP_L4P = array($UI_CW_Proto,'de',$UI_CW_Layer,'4');
 // Authentication Data.
 $UI_AD_UND = 'Identifiant';
 $UI_AD_RID = array($UI_CW_Id,'de',$UI_CW_Role);
-$UI_AD_ASD = 'Activé';
+$UI_AD_ASD = 'ActivÃ©';
 
 //common phrases
-DEFINE('_NBLAYER4','Protocole&nbsp;de&nbsp;niveau&nbsp;4');
-// Layer&nbsp;4&nbsp;Proto
-DEFINE('_PRIORITY','Priorité');
+DEFINE('_PRIORITY','PrioritÃ©');
 // Priority
-DEFINE('_EVENTTYPE','type d\'événement');
+DEFINE('_EVENTTYPE','type d\'Ã©vÃ©nement');
 // event type
 DEFINE('_JANUARY','janvier');
 // January
-DEFINE('_FEBRUARY','février');
+DEFINE('_FEBRUARY','fÃ©vrier');
 // February
 DEFINE('_MARCH','mars');
 // March
@@ -89,7 +90,7 @@ DEFINE('_OCTOBER','octobre');
 // October
 DEFINE('_NOVEMBER','novembre');
 // November
-DEFINE('_DECEMBER','décembre');
+DEFINE('_DECEMBER','dÃ©cembre');
 // December
 DEFINE('_LAST','Derni(er|ère)');
 // Last
@@ -107,21 +108,21 @@ DEFINE('_SEARCH','Rechercher');
 // Search
 DEFINE('_AGMAINT','Maintenance des Groupes d\'Alertes'); 
 // Alert Group Maintenance
-DEFINE('_USERPREF','Préférences Utilisateur'); 
+DEFINE('_USERPREF','PrÃ©fÃ©rences Utilisateur'); 
 // User Preferences
 DEFINE('_CACHE','Cache et Statut'); 
 // Cache & Status
 DEFINE('_ADMIN','Administration'); 
 // Administration
-DEFINE('_GALERTD','Créer des graphiques');
+DEFINE('_GALERTD','CrÃ©er des graphiques');
 // Graph Alert Data
-DEFINE('_GALERTDT','Répartition temporelle des alertes');
+DEFINE('_GALERTDT','RÃ©partition temporelle des alertes');
 // Graph Alert Detection Time
 DEFINE('_USERMAN','Gestion des Utilisateurs');
 // User Management
 DEFINE('_LISTU','Liste des utilisateurs');
 // List users
-DEFINE('_CREATEU','Créer un utilisateur');
+DEFINE('_CREATEU','CrÃ©er un utilisateur');
 // Create a user
 DEFINE('_ROLEMAN','Gestion des RÃ´les');
 // Role Management
@@ -129,11 +130,11 @@ DEFINE('_LISTR','Liste des RÃ´les');
 // List Roles
 DEFINE('_LOGOUT','Logout');
 // Logout
-DEFINE('_CREATER',"Créer un $UI_CW_Role");
+DEFINE('_CREATER',"CrÃ©er un $UI_CW_Role");
 // Create a Role
 DEFINE('_LISTALL','Tout Lister');
 // List All
-DEFINE('_CREATE','Créer'); 
+DEFINE('_CREATE','CrÃ©er'); 
 // Create
 DEFINE('_VIEW','Afficher'); 
 // View
@@ -141,7 +142,7 @@ DEFINE('_CLEAR','Effacer');
 // Clear
 DEFINE('_LISTGROUPS','Liste des Groupes');
 // List Groups
-DEFINE('_CREATEGROUPS','Créer un Groupe');
+DEFINE('_CREATEGROUPS','CrÃ©er un Groupe');
 // Create Group
 DEFINE('_VIEWGROUPS','Afficher le Groupe');
 // View Group
@@ -155,7 +156,7 @@ DEFINE('_CHNGPWD','Modifier le '.strtolower($UI_CW_Pw)); // Change password
 DEFINE('_DISPLAYU','Afficher l\'utilisateur');
 // Display user
 //base_footer.php
-DEFINE('_FOOTER','( de <A class="largemenuitem" href="mailto:base@secureideas.net">Kevin Johnson</A> et <A class="largemenuitem" href="http://sourceforge.net/project/memberlist.php?group_id=103348">l\'équipe du projet BASE </A><BR>Bâtis sur ACID de Roman Danyliw )');
+DEFINE('_FOOTER','( de <A class="largemenuitem" href="mailto:base@secureideas.net">Kevin Johnson</A> et <A class="largemenuitem" href="http://sourceforge.net/project/memberlist.php?group_id=103348">l\'Ã©quipe du projet BASE </A><BR>Bâtis sur ACID de Roman Danyliw )');
 
 /*( by <A class="largemenuitem" href="mailto:kjohnson@secureideas.net">Kevin Johnson</A> and the BASE Project Team<BR>Built on ACID by Roman Danyliw )
 */
@@ -165,9 +166,9 @@ DEFINE('_LOGINERROR','Utilisateur inconnu ou '.strtolower($UI_CW_Pw).' incorrect
 // User does not exist or your password was incorrect!<br>Please try again
 
 // base_main.php
-DEFINE('_MOSTRECENT','Alertes les plus récentes - ');
+DEFINE('_MOSTRECENT','Alertes les plus rÃ©centes - ');
 // Most recent 
-DEFINE('_MOSTFREQUENT','Alertes les plus fréquentes - ');
+DEFINE('_MOSTFREQUENT','Alertes les plus frÃ©quentes - ');
 // Most frequent 
 DEFINE('_ALERTS',' alertes ');
 //  Alerts:
@@ -192,11 +193,11 @@ DEFINE('_LSOURCEPORTS','Derniers Port Source:');
 // Last Source Ports: 
 DEFINE('_LDESTPORTS','Derniers Port de Destination:');
 // Last Destination Ports: 
-DEFINE('_FREGSOURCEP','Ports Source les plus fréquents:');
+DEFINE('_FREGSOURCEP','Ports Source les plus frÃ©quents:');
 // Most Frequent Source Ports: 
-DEFINE('_FREGDESTP','Ports de Destination les plus fréquents:');
+DEFINE('_FREGDESTP','Ports de Destination les plus frÃ©quents:');
 // Most Frequent Destination Ports: 
-DEFINE('_QUERIED','Interrogé le');
+DEFINE('_QUERIED','InterrogÃ© le');
 // Queried on
 DEFINE('_DATABASE','DB : ');
 // Database:
@@ -204,11 +205,11 @@ DEFINE('_SCHEMAV','Version du Schema:');
 // Schema Version:
 DEFINE('_TIMEWIN','Fenêtre temporelle');
 // Time Window:
-DEFINE('_NOALERTSDETECT','aucune alerte detectée');
+DEFINE('_NOALERTSDETECT','aucune alerte detectÃ©e');
 // no alerts detected
 
 //base_auth.inc.php
-DEFINE('_ADDEDSF','Ajout réussi');
+DEFINE('_ADDEDSF','Ajout rÃ©ussi');
 // Added Successfully
 DEFINE('_NOPWDCHANGE','Impossible de modifier votre '.strtolower($UI_CW_Pw).': ');
 // Unable to change your password: 
@@ -218,9 +219,9 @@ DEFINE('_OLDPWD','Ancien '.strtolower($UI_CW_Pw).' invalide');
 // Old password entered doesn\'t match our records!
 DEFINE('_PWDCANT','Impossible de modifier votre '.strtolower($UI_CW_Pw));
 // Unable to change your password: 
-DEFINE('_PWDDONE','Votre '.strtolower($UI_CW_Pw).' a été modifié');
+DEFINE('_PWDDONE','Votre '.strtolower($UI_CW_Pw).' a Ã©tÃ© modifiÃ©');
 // Your password has been changed!
-DEFINE('_ROLEEXIST',"$UI_CW_Role existe déjà");
+DEFINE('_ROLEEXIST',"$UI_CW_Role existe dÃ©jà");
 // Role Already Exists
 // TD Migration Hack
 if ($UI_Spacing == 1){
@@ -228,9 +229,9 @@ if ($UI_Spacing == 1){
 }else{
 	$glue = '';
 }
-DEFINE('_ROLEIDEXIST',implode($glue, $UI_AD_RID)." existe déjà");
+DEFINE('_ROLEIDEXIST',implode($glue, $UI_AD_RID)." existe dÃ©jà");
 // Role ID Already Exists
-DEFINE('_ROLEADDED',"Ajout de $UI_CW_Role réussi");
+DEFINE('_ROLEADDED',"Ajout de $UI_CW_Role rÃ©ussi");
 // Role Added Successfully
 
 //base_roleadmin.php
@@ -242,7 +243,7 @@ DEFINE('_FRMROLENAME',"Nom du $UI_CW_Role");
 //base_useradmin.php
 DEFINE('_USERADMIN','Administration des Utilisateurs BASE');
 // BASE User Administration
-DEFINE('_FRMFULLNAME','Nom complét (Prénom Nom):');
+DEFINE('_FRMFULLNAME','Nom complÃ©t (PrÃ©nom Nom):');
 // Full Name:
 DEFINE('_FRMUID','Identifiant Utilisateur:');
 // User ID:
@@ -250,17 +251,17 @@ DEFINE('_FRMUID','Identifiant Utilisateur:');
 //admin/index.php
 DEFINE('_BASEADMIN','Administration BASE');
 // BASE Administration
-DEFINE('_BASEADMINTEXT','Séléctionner une option dans la liste à gauche SVP');
+DEFINE('_BASEADMINTEXT','SÃ©lÃ©ctionner une option dans la liste à gauche SVP');
 // Please select an option from the left.
 
 //base_action.inc.php
-DEFINE('_NOACTION','Aucune action n\'est précisée !');
+DEFINE('_NOACTION','Aucune action n\'est prÃ©cisÃ©e !');
 // No action was specified on the alerts
-DEFINE('_INVALIDACT',' est une action inadaptée');
+DEFINE('_INVALIDACT',' est une action inadaptÃ©e');
 //  is an invalid action
-DEFINE('_ERRNOAG','Impossible d\'ajouter les alertes car aucun Groupe d\'Alertes n\'est précisé');
+DEFINE('_ERRNOAG','Impossible d\'ajouter les alertes car aucun Groupe d\'Alertes n\'est prÃ©cisÃ©');
 // Could not add alerts since no AG was specified
-DEFINE('_ERRNOEMAIL','Impossible d\'envoyer les alertes car aucune adresse n\'est précisée');
+DEFINE('_ERRNOEMAIL','Impossible d\'envoyer les alertes car aucune adresse n\'est prÃ©cisÃ©e');
 // Could not email alerts since no email address was specified
 DEFINE('_ACTION','ACTION');
 // ACTION
@@ -272,61 +273,61 @@ DEFINE('_ADDAG','Ajouter un nouveau Groupe d\'Alertes');
 // ADD-New-AG
 DEFINE('_ADDAGNAME','Ajouter au Groupe d\'Alertes (par Nom)');
 // ADD to AG (by Name)
-DEFINE('_CREATEAG','Créer un Groupe d\'Alertes (par Nom)');
+DEFINE('_CREATEAG','CrÃ©er un Groupe d\'Alertes (par Nom)');
 // Create AG (by Name)
 DEFINE('_CLEARAG','Effacer du Groupe d\'Alertes');
 // Clear from AG
 DEFINE('_DELETEALERT','Supprimer les Alertes');
 // Delete alert(s)
-DEFINE('_EMAILALERTSFULL','Envoyer par Email (détail)');
+DEFINE('_EMAILALERTSFULL','Envoyer par Email (dÃ©tail)');
 // Email alert(s) (full)
-DEFINE('_EMAILALERTSSUMM','Envoyer par Email (resumé)');
+DEFINE('_EMAILALERTSSUMM','Envoyer par Email (resumÃ©)');
 // Email alert(s) (summary)
 DEFINE('_EMAILALERTSCSV','Envoyer par Email (csv)');
 // Email alert(s) (csv)
 DEFINE('_ARCHIVEALERTSCOPY','Archiver (copier)');
 // Archive alert(s) (copy)
-DEFINE('_ARCHIVEALERTSMOVE','Archiver (déplacer)');
+DEFINE('_ARCHIVEALERTSMOVE','Archiver (dÃ©placer)');
 // Archive alert(s) (move)
-DEFINE('_IGNORED','Ignoré ');
+DEFINE('_IGNORED','IgnorÃ© ');
 // Ignored 
 DEFINE('_DUPALERTS',' alerte(s) en double');
 //  duplicate alert(s)
 DEFINE('_ALERTSPARA',' alerte(s)');
 //  alert(s)
-DEFINE('_NOALERTSSELECT','Aucune alerte sélectionnée ou \'');
+DEFINE('_NOALERTSSELECT','Aucune alerte sÃ©lectionnÃ©e ou \'');
 // No alerts were selected or the
-DEFINE('_NOTSUCCESSFUL','\' a échoué.');
+DEFINE('_NOTSUCCESSFUL','\' a Ã©chouÃ©.');
 // was not successful
 DEFINE('_ERRUNKAGID','Identifiant de Groupe inconnu (Celui-ci n\'existe probablement pas)');
 // Unknown AG ID specified (AG probably does not exist)
 DEFINE('_ERRREMOVEFAIL','Impossible d\'effacer le nouveau Groupe');
 // Failed to remove new AG
-DEFINE('_GENBASE','Généré par BASE');
+DEFINE('_GENBASE','GÃ©nÃ©rÃ© par BASE');
 // Generated by BASE
-DEFINE('_ERRNOEMAILEXP','ERREUR D\'EXPORTATION: Impossible d\'envoyer les alertes exportées vers');
+DEFINE('_ERRNOEMAILEXP','ERREUR D\'EXPORTATION: Impossible d\'envoyer les alertes exportÃ©es vers');
 // EXPORT ERROR: Could not send exported alerts to
-DEFINE('_ERRNOEMAILPHP','Vérifier la configuration mail dans PHP.');
+DEFINE('_ERRNOEMAILPHP','VÃ©rifier la configuration mail dans PHP.');
 // Check the mail configuration in PHP.
 DEFINE('_ERRDELALERT','Erreur en supprimant Alerte');
 // Error Deleting Alert
 DEFINE('_ERRARCHIVE','Erreur d\'Archivage:');
 // Archive error:
-DEFINE('_ERRMAILNORECP','ERREUR MAIL: Aucun destinataire précisé');
+DEFINE('_ERRMAILNORECP','ERREUR MAIL: Aucun destinataire prÃ©cisÃ©');
 // MAIL ERROR: No recipient Specified
 
 //base_cache.inc.php
-DEFINE('_ADDED','Ajouté ');
+DEFINE('_ADDED','AjoutÃ© ');
 // Added 
 DEFINE('_HOSTNAMESDNS','noms d\'hôtes au cache IP DNS');
 //  hostnames to the IP DNS cache
 DEFINE('_HOSTNAMESWHOIS','noms d\'hôtes au cache Whois');
 //  hostnames to the Whois cache
-DEFINE('_ERRCACHENULL','ERREUR DE MISE EN CACHE: événemement null?');
+DEFINE('_ERRCACHENULL','ERREUR DE MISE EN CACHE: Ã©vÃ©nemement null?');
 // Caching ERROR: NULL event row found?
 DEFINE('_ERRCACHEERROR','ERREUR DE MISE EN CACHE D\'EVENEMENT:');
 // EVENT CACHING ERROR:
-DEFINE('_ERRCACHEUPDATE','Impossible de mettre à jour le cache d\'événements');
+DEFINE('_ERRCACHEUPDATE','Impossible de mettre à jour le cache d\'Ã©vÃ©nements');
 // Could not update event cache
 DEFINE('_ALERTSCACHE',' alerte(s) au cache d\'Alertes');
 //  alert(s) to the Alert cache
@@ -334,14 +335,14 @@ DEFINE('_ALERTSCACHE',' alerte(s) au cache d\'Alertes');
 //base_db.inc.php
 DEFINE('_ERRSQLTRACE','Impossible d\'ouvrir le fichier trace SQL');
 // Unable to open SQL trace file
-DEFINE('_ERRSQLCONNECT','Erreur de connexion à la base de données :');
+DEFINE('_ERRSQLCONNECT','Erreur de connexion à la base de donnÃ©es :');
 // Error connecting to DB :
 DEFINE('_ERRSQLCONNECTINFO','<P>Contrôler les variables de connexion à la base dans <I>base_conf.php</I> 
               <PRE>
-               = $alert_dbname   : nom de la base de données où les alertes sont stockées 
-               = $alert_host     : adresse de la machine où la base de données est localisée
-               = $alert_port     : port où la base de données est localisée
-               = $alert_user     : compte (username) pour accéder à la base de données
+               = $alert_dbname   : nom de la base de donnÃ©es où les alertes sont stockÃ©es 
+               = $alert_host     : adresse de la machine où la base de donnÃ©es est localisÃ©e
+               = $alert_port     : port où la base de donnÃ©es est localisÃ©e
+               = $alert_user     : compte (username) pour accÃ©der à la base de donnÃ©es
                = $alert_password : '.strtolower($UI_CW_Pw).' pour ce compte
               </PRE>
               <P> ');
@@ -357,15 +358,15 @@ DEFINE('_ERRSQLCONNECTINFO','<P>Contrôler les variables de connexion à la base d
 */
 DEFINE('_ERRSQLPCONNECT','Erreur de connexion à la base (p)connect :');
 // Error (p)connecting to DB :
-DEFINE('_ERRSQLDB','ERREUR de la base de données');
+DEFINE('_ERRSQLDB','ERREUR de la base de donnÃ©es');
 // Database ERROR:
 DEFINE('_DBALCHECK','Recherche de la bibliothèque d\'abstraction de DB dans ');
 // Checking for DB abstraction lib in
-DEFINE('_ERRSQLDBALLOAD1','<P><B>Erreur lors du chargement de la bibliothèque d\'abstraction base de données : </B> à partir de ');
+DEFINE('_ERRSQLDBALLOAD1','<P><B>Erreur lors du chargement de la bibliothèque d\'abstraction base de donnÃ©es : </B> à partir de ');
 // <P><B>Error loading the DB Abstraction library: </B> from 
-DEFINE('_ERRSQLDBALLOAD2','<P> Vérifier la variable <CODE>$DBlib_path</CODE> dans <CODE>base_conf.php</CODE></P>
+DEFINE('_ERRSQLDBALLOAD2','<P> VÃ©rifier la variable <CODE>$DBlib_path</CODE> dans <CODE>base_conf.php</CODE></P>
 		<P>
-		La bibliotèque sousjacente actuellement utilisée est ADODB, téléchargeable
+		La bibliotèque sousjacente actuellement utilisÃ©e est ADODB, tÃ©lÃ©chargeable
 		 à ');
 /*
 <P>Check the DB abstraction library variable <CODE>$DBlib_path</CODE> in <CODE>base_conf.php</CODE>
@@ -374,13 +375,13 @@ DEFINE('_ERRSQLDBALLOAD2','<P> Vérifier la variable <CODE>$DBlib_path</CODE> dan
             at <A HREF="http://adodb.sourceforge.net/">http://adodb.sourceforge.net/</A>
 */
 
-DEFINE('_ERRSQLDBTYPE','Type de base de données incorrect');
+DEFINE('_ERRSQLDBTYPE','Type de base de donnÃ©es incorrect');
 // Invalid Database Type Specified
-DEFINE('_ERRSQLDBTYPEINFO1','La variable <CODE>\$DBtype</CODE> dans <CODE>base_conf.php</CODE> spécifie un type non reconnu : ');
+DEFINE('_ERRSQLDBTYPEINFO1','La variable <CODE>\$DBtype</CODE> dans <CODE>base_conf.php</CODE> spÃ©cifie un type non reconnu : ');
 /*
 	'The variable <CODE>\$DBtype</CODE> in <CODE>base_conf.php</CODE> was set to the unrecognized 	database type of 
 */
-DEFINE('_ERRSQLDBTYPEINFO2','Seuls les types de base de données suivants sont supportés : <PRE>
+DEFINE('_ERRSQLDBTYPEINFO2','Seuls les types de base de donnÃ©es suivants sont supportÃ©s : <PRE>
                 MySQL         : \'mysql\'
                 PostgreSQL    : \'postgres\'
                 MS SQL Server : \'mssql\'
@@ -397,17 +398,17 @@ DEFINE('_ERRBASEFATAL','ERREUR FATALE DE LA BASE');
 // BASE FATAL ERROR:
 
 //base_log_timing.inc.php
-DEFINE('_LOADEDIN','Chargé en');
+DEFINE('_LOADEDIN','ChargÃ© en');
 // Loaded in
 DEFINE('_SECONDS','seconde(s)');
 // seconds
 
 //base_net.inc.php
-DEFINE('_ERRRESOLVEADDRESS','Impossible de résoudre l\'adresse');
+DEFINE('_ERRRESOLVEADDRESS','Impossible de rÃ©soudre l\'adresse');
 // Unable to resolve address
 
 //base_output_query.inc.php
-DEFINE('_QUERYRESULTSHEADER','Entête des r ésultats de la requête');
+DEFINE('_QUERYRESULTSHEADER','Entête des r Ã©sultats de la requête');
 // Query Results Output Header
 
 //base_signature.inc.php
@@ -415,30 +416,30 @@ DEFINE('_ERRSIGNAMEUNK','SigName inconnu');
 // SigName unknown
 DEFINE('_ERRSIGPROIRITYUNK','SigPriority inconnue');
 // SigPriority unknown
-DEFINE('_UNCLASS','non classé');
+DEFINE('_UNCLASS','non classÃ©');
 // unclassified
 
 //base_state_citems.inc.php
-DEFINE('_DENCODED','données encodées en ');
+DEFINE('_DENCODED','donnÃ©es encodÃ©es en ');
 // data encoded as
-DEFINE('_NODENCODED','aucune conversion des données, présomption d\'encodage des critères compatible avec la base de données');
+DEFINE('_NODENCODED','aucune conversion des donnÃ©es, prÃ©somption d\'encodage des critères compatible avec la base de donnÃ©es');
 // (no data conversion, assuming criteria in DB native encoding)
 
 //base_state_common.inc.php
-DEFINE('_PHPERRORCSESSION','ERREUR PHP: Une session PHP custom (user) a été détectée. 
-Cependant, BASE n\'a pas été explicitement configuré pour utiliser ce custom handler.  Fixer <CODE>use_user_session=1</CODE> dans <CODE>base_conf.php</CODE>');
+DEFINE('_PHPERRORCSESSION','ERREUR PHP: Une session PHP custom (user) a Ã©tÃ© dÃ©tectÃ©e. 
+Cependant, BASE n\'a pas Ã©tÃ© explicitement configurÃ© pour utiliser ce custom handler.  Fixer <CODE>use_user_session=1</CODE> dans <CODE>base_conf.php</CODE>');
 /*
 'PHP ERROR: A custom (user) PHP session have been detected. However, BASE has not been set to explicitly use this custom handler.  Set <CODE>use_user_session=1</CODE> in <CODE>base_conf.php</CODE>
 */
-DEFINE('_PHPERRORCSESSIONCODE','ERREUR PHP: Une session PHP custom (user) a été configurée, mais le code handler fourni dans <CODE>user_session_path</CODE> n\'est pas valable.');
+DEFINE('_PHPERRORCSESSIONCODE','ERREUR PHP: Une session PHP custom (user) a Ã©tÃ© configurÃ©e, mais le code handler fourni dans <CODE>user_session_path</CODE> n\'est pas valable.');
 /*'PHP ERROR: A custom (user) PHP session hander has been configured, but the supplied hander code specified in <CODE>user_session_path</CODE> is invalid.
 */
-DEFINE('_PHPERRORCSESSIONVAR','ERREUR PHP: Une session PHP custom (user) a été configurée, mais l\'implementation de ce handler n\'a pas été précisé dans BASE. Si un custom session handler est souhaité, fixer la variable <CODE>user_session_path</CODE> dans <CODE>base_conf.php</CODE>.');
+DEFINE('_PHPERRORCSESSIONVAR','ERREUR PHP: Une session PHP custom (user) a Ã©tÃ© configurÃ©e, mais l\'implementation de ce handler n\'a pas Ã©tÃ© prÃ©cisÃ© dans BASE. Si un custom session handler est souhaitÃ©, fixer la variable <CODE>user_session_path</CODE> dans <CODE>base_conf.php</CODE>.');
 /*
 'PHP ERROR: A custom (user) PHP session handler has been configured, but the implementation of this handler has not been specified in BASE.  If a custom session handler is desired, set the <CODE>user_session_path</CODE> variable in <CODE>base_conf.php</CODE>.
 */
 
-DEFINE('_PHPSESSREG','Session Enregistrée');
+DEFINE('_PHPSESSREG','Session EnregistrÃ©e');
 // Session Registered
 
 //base_state_criteria.inc.php
@@ -446,19 +447,19 @@ DEFINE('_REMOVE','Suppression');
 // Removing
 DEFINE('_FROMCRIT','des critères');
 // from criteria
-DEFINE('_ERRCRITELEM','Elément de critère non valide');
+DEFINE('_ERRCRITELEM','ElÃ©ment de critère non valide');
 // Invalid criteria element
 
 //base_state_query.inc.php
-DEFINE('_VALIDCANNED','Liste des requêtes prédéfinies valides');
+DEFINE('_VALIDCANNED','Liste des requêtes prÃ©dÃ©finies valides');
 // Valid Canned Query List
 DEFINE('_DISPLAYING','Affichage');
 // Displaying
 DEFINE('_DISPLAYINGTOTAL','Affichage des alertes %d-%d sur %d au total');
 // Displaying alerts %d-%d of %d total
-DEFINE('_NOALERTS','Aucune Alerte trouvée.');
+DEFINE('_NOALERTS','Aucune Alerte trouvÃ©e.');
 // No Alerts were found.
-DEFINE('_QUERYRESULTS','Résultats de la requête');
+DEFINE('_QUERYRESULTS','RÃ©sultats de la requête');
 // Query Results
 DEFINE('_QUERYSTATE','Etat de la requête');
 // Query State
@@ -466,9 +467,9 @@ DEFINE('_QUERYSTATE','Etat de la requête');
 //base_ag_common.php
 DEFINE('_ERRAGNAMESEARCH','La recherche par nom de Groupe d\'Alertes n\'est pas valide.  Essayez à nouveau!');
 // The specified AG name search is invalid.  Try again!
-DEFINE('_ERRAGNAMEEXIST','Le Groupe d\'Alertes spécifié n\'existe pas.');
+DEFINE('_ERRAGNAMEEXIST','Le Groupe d\'Alertes spÃ©cifiÃ© n\'existe pas.');
 // The specified AG does not exist.
-DEFINE('_ERRAGIDSEARCH','La recherche par numéro de Groupe d\'Alerte n\'est pas valide.  Essayez à nouveau!');
+DEFINE('_ERRAGIDSEARCH','La recherche par numÃ©ro de Groupe d\'Alerte n\'est pas valide.  Essayez à nouveau!');
 // The specified AG ID search is invalid.  Try again!
 DEFINE('_ERRAGLOOKUP','Erreur lors de la recherche de l\'identifiant (ID) d\'un Groupe d\'Alertes');
 // Error looking up an AG ID
@@ -484,13 +485,13 @@ DEFINE('_ERRAGPACKETLIST','Erreur lors de la suppression de la liste des paquets
 // Error deleting packet list for the AG:
 DEFINE('_ERRAGDELETE','Erreur lors de la suppression du Groupe d\'Alertes');
 // Error deleting the AG
-DEFINE('_AGDELETE','Suppression réussie');
+DEFINE('_AGDELETE','Suppression rÃ©ussie');
 // DELETED successfully
-DEFINE('_AGDELETEINFO','information supprimée');
+DEFINE('_AGDELETEINFO','information supprimÃ©e');
 // information deleted
 DEFINE('_ERRAGSEARCHINV','Le critère de recherche n\'est pas valide. Essayez à nouveau!');
 // The entered search criteria is invalid.  Try again!
-DEFINE('_ERRAGSEARCHNOTFOUND','Aucun Groupe d\'Alertes correspondant à ce critère n\'a été trouvé');
+DEFINE('_ERRAGSEARCHNOTFOUND','Aucun Groupe d\'Alertes correspondant à ce critère n\'a Ã©tÃ© trouvÃ©');
 // No AG found with that criteria.
 DEFINE('_NOALERTGOUPS','Il n\'y a pas de Groupes d\'Alertes');
 // There are no Alert Groups
@@ -498,7 +499,7 @@ DEFINE('_NUMALERTS','# Alertes');
 // # Alerts
 DEFINE('_ACTIONS','Actions');
 // Actions
-DEFINE('_NOTASSIGN','non affecté ');
+DEFINE('_NOTASSIGN','non affectÃ© ');
 // not assigned yet
 
 //base_common.php
@@ -506,20 +507,20 @@ DEFINE('_PORTSCAN','Scans de Port');
 // Portscan Traffic
 
 //base_db_common.php
-DEFINE('_ERRDBINDEXCREATE','Echec de création d\'index pour');
+DEFINE('_ERRDBINDEXCREATE','Echec de crÃ©ation d\'index pour');
 // Unable to CREATE INDEX for
-DEFINE('_DBINDEXCREATE','Création d\'index réussie pour');
+DEFINE('_DBINDEXCREATE','CrÃ©ation d\'index rÃ©ussie pour');
 // Successfully created INDEX for
-DEFINE('_ERRSNORTVER','Il s\'agit peut être d\'une version plus ancienne. Seules les bases d\'alertes créées par Snort 1.7-beta0 ou ultèrieur sont supportées');
+DEFINE('_ERRSNORTVER','Il s\'agit peut être d\'une version plus ancienne. Seules les bases d\'alertes crÃ©Ã©es par Snort 1.7-beta0 ou ultèrieur sont supportÃ©es');
 // It might be an older version.  Only alert databases created by Snort 1.7-beta0 or later are supported
-DEFINE('_ERRSNORTVER1','La base de données sousjacente');
+DEFINE('_ERRSNORTVER1','La base de donnÃ©es sousjacente');
 // The underlying database
 DEFINE('_ERRSNORTVER2','semble être incomplète/invalide');
 // appears to be incomplete/invalid
-DEFINE('_ERRDBSTRUCT1','La version de la base de données est valide, mais la structure db de BASE ');
+DEFINE('_ERRDBSTRUCT1','La version de la base de donnÃ©es est valide, mais la structure db de BASE ');
 // The database version is valid, but the BASE DB structure
 
-DEFINE('_ERRDBSTRUCT2','n\'est pas présente. Utilisez la <A HREF="base_db_setup.php">Setup page</A> pour configurer et optimiser la DB.');
+DEFINE('_ERRDBSTRUCT2','n\'est pas prÃ©sente. Utilisez la <A HREF="base_db_setup.php">Setup page</A> pour configurer et optimiser la DB.');
 /*
 'is not present. Use the <A HREF="base_db_setup.php">Setup page</A> to configure and optimize the DB. 
 */
@@ -529,16 +530,16 @@ DEFINE('_ERRPHPERROR1','Version incompatible');
 // Incompatible version
 DEFINE('_ERRVERSION','Version');
 // Version
-DEFINE('_ERRPHPERROR2','de PHP est trop ancienne. Utiliser la version 4.0.4 ou ultérieure');
+DEFINE('_ERRPHPERROR2','de PHP est trop ancienne. Utiliser la version 4.0.4 ou ultÃ©rieure');
 // of PHP is too old.  Please upgrade to version 4.0.4 or later
-DEFINE('_ERRPHPMYSQLSUP','<B>PHP build incomplet</B>: <FONT>le support MySQL requis pour accèder à la base de données des alertes est absent de PHP.  
+DEFINE('_ERRPHPMYSQLSUP','<B>PHP build incomplet</B>: <FONT>le support MySQL requis pour accèder à la base de donnÃ©es des alertes est absent de PHP.  
                Recompiler PHP avec la bibliothèque requise (<CODE>--with-mysql</CODE>) SVP</FONT> ');
 /*
 '<B>PHP build incomplete</B>: <FONT>the prerequisite MySQL support required to 
                read the alert database was not built into PHP.  
                Please recompile PHP with the necessary library (<CODE>--with-mysql</CODE>)</FONT>
 */
-DEFINE('_ERRPHPPOSTGRESSUP','<B>PHP build incomplet</B>: <FONT>le support PostgreSQL requis pour accèder à la base de données des alertes est absent de PHP.  
+DEFINE('_ERRPHPPOSTGRESSUP','<B>PHP build incomplet</B>: <FONT>le support PostgreSQL requis pour accèder à la base de donnÃ©es des alertes est absent de PHP.  
                Recompiler PHP avec la bibliothèque requise (<CODE>--with-pgsql</CODE>) SVP</FONT> ');
 /*
 '<B>PHP build incomplete</B>: <FONT>the prerequisite PostgreSQL support required to 
@@ -546,7 +547,7 @@ DEFINE('_ERRPHPPOSTGRESSUP','<B>PHP build incomplet</B>: <FONT>le support Postgr
                Please recompile PHP with the necessary library (<CODE>--with-pgsql</CODE>)</FONT>
 */
 
-DEFINE('_ERRPHPMSSQLSUP','<B>PHP build incomplet</B>: <FONT>le support MS SQL Server requis pour accèder à la base de données des alertes est absent de PHP.  
+DEFINE('_ERRPHPMSSQLSUP','<B>PHP build incomplet</B>: <FONT>le support MS SQL Server requis pour accèder à la base de donnÃ©es des alertes est absent de PHP.  
                Recompiler PHP avec la bibliothèque requise (<CODE>--enable-mssql</CODE>) SVP</FONT>');
 /*
 '<B>PHP build incomplete</B>: <FONT>the prerequisite MS SQL Server support required to 
@@ -568,7 +569,7 @@ DEFINE('_CHRTTYPEWEEK','Date (semaine) vs. Nombre d\'Alertes');
 // Time (week) vs. Number of Alerts
 DEFINE('_CHRTTYPEMONTH','Date (mois) vs. Nombre d\'Alertes');
 // Time (month) vs. Number of Alerts
-DEFINE('_CHRTTYPEYEAR','Date (année) vs. Nombre d\'Alertes');
+DEFINE('_CHRTTYPEYEAR','Date (annÃ©e) vs. Nombre d\'Alertes');
 // Time (year) vs. Number of Alerts
 DEFINE('_CHRTTYPESRCIP','Adresse IP Src. vs. Nombre d\'Alertes');
 // Src. IP address vs. Number of Alerts
@@ -586,27 +587,27 @@ DEFINE('_CHRTTYPESIG','Classif. Signif. vs. Nombre d\'Alertes');
 // Sig. Classification vs. Number of Alerts
 DEFINE('_CHRTTYPESENSOR','Sonde vs. Nombre d\'Alertes');
 // Sensor vs. Number of Alerts
-DEFINE('_CHRTBEGIN','Début du graphique :');
+DEFINE('_CHRTBEGIN','DÃ©but du graphique :');
 // Chart Begin:
 DEFINE('_CHRTEND','Fin du graphique :');
 // Chart End:
-DEFINE('_CHRTDS','Source des données :');
+DEFINE('_CHRTDS','Source des donnÃ©es :');
 // Data Source:
 DEFINE('_CHRTX','Abscisse (Axe X)');
 // X Axis
-DEFINE('_CHRTY','Ordonnée (Axe Y)');
+DEFINE('_CHRTY','OrdonnÃ©e (Axe Y)');
 // Y Axis
 DEFINE('_CHRTMINTRESH','Seuil minimal');
 // Minimum Threshold Value
-DEFINE('_CHRTROTAXISLABEL','Rotation des libellés (90 degrés)');
+DEFINE('_CHRTROTAXISLABEL','Rotation des libellÃ©s (90 degrÃ©s)');
 // Rotate Axis Labels (90 degrees)
 DEFINE('_CHRTSHOWX','Affichage du quadrillage vertical');
 // Show X-axis grid-lines
-DEFINE('_CHRTDISPLABELX','Afficher le libellé d\'abscisse toutes les ');
+DEFINE('_CHRTDISPLABELX','Afficher le libellÃ© d\'abscisse toutes les ');
 // Display X-axis label every
-DEFINE('_CHRTDATAPOINTS','unités');
+DEFINE('_CHRTDATAPOINTS','unitÃ©s');
 // data points
-DEFINE('_CHRTYLOG','Utiliser une échelle logarithmique en ordonnée');
+DEFINE('_CHRTYLOG','Utiliser une Ã©chelle logarithmique en ordonnÃ©e');
 // Y-axis logarithmic
 DEFINE('_CHRTYGRID',' Affichage le quadrillage horizontal');
 // Show Y-axis grid-lines
@@ -614,11 +615,11 @@ DEFINE('_CHRTYGRID',' Affichage le quadrillage horizontal');
 //base_graph_main.php
 DEFINE('_CHRTTITLE','Graphique BASE');
 // BASE Chart
-DEFINE('_ERRCHRTNOTYPE','Aucun type de graphique séléctionné');
+DEFINE('_ERRCHRTNOTYPE','Aucun type de graphique sÃ©lÃ©ctionnÃ©');
 // No chart type was specified
-DEFINE('_ERRNOAGSPEC','Aucun Groupe d\'Alertes précisé. Toutes les alertes sont prises en compte.');
+DEFINE('_ERRNOAGSPEC','Aucun Groupe d\'Alertes prÃ©cisÃ©. Toutes les alertes sont prises en compte.');
 // No AG was specified.  Using all alerts.
-DEFINE('_CHRTDATAIMPORT','Début de l\'importation des données');
+DEFINE('_CHRTDATAIMPORT','DÃ©but de l\'importation des donnÃ©es');
 // Starting data import
 DEFINE('_CHRTTIMEVNUMBER','Date vs. Nombre d\'Alertes');
 // Time vs. Number of Alerts
@@ -656,13 +657,13 @@ DEFINE('_CHRTCLASS','Classification');
 // Classification
 DEFINE('_CHRTSENSORNUMBER','Sonde vs. Nombre d Alertes');
 // Sensor vs. Number of Alerts
-DEFINE('_CHRTHANDLEPERIOD','Traitement de la période si nécessaire');
+DEFINE('_CHRTHANDLEPERIOD','Traitement de la pÃ©riode si nÃ©cessaire');
 // Handling Period if necessary
-DEFINE('_CHRTDUMP','Exportation des données ... (Ecriture seulement toutes les ');
+DEFINE('_CHRTDUMP','Exportation des donnÃ©es ... (Ecriture seulement toutes les ');
 // Dumping data ... (writing only every
-DEFINE('_CHRTDRAW','Création du graphique en cours');
+DEFINE('_CHRTDRAW','CrÃ©ation du graphique en cours');
 // Drawing graph
-DEFINE('_ERRCHRTNODATAPOINTS','Pas de données à afficher');
+DEFINE('_ERRCHRTNODATAPOINTS','Pas de donnÃ©es à afficher');
 // No data points to plot
 
 //base_maintenance.php
@@ -682,11 +683,11 @@ DEFINE('_MNTPHPAPI','API PHP :');
 // PHP API:
 DEFINE('_MNTPHPLOGLVL','PHP Logging level :');
 // PHP Logging level:
-DEFINE('_MNTPHPMODS','Modules chargés :');
+DEFINE('_MNTPHPMODS','Modules chargÃ©s :');
 // Loaded Modules:
-DEFINE('_MNTDBTYPE','Type de base de données :');
+DEFINE('_MNTDBTYPE','Type de base de donnÃ©es :');
 // DB Type:
-DEFINE('_MNTDBALV','Version d\'Abstraction Base de Données :');
+DEFINE('_MNTDBALV','Version d\'Abstraction Base de DonnÃ©es :');
 // DB Abstraction Version:
 DEFINE('_MNTDBALERTNAME','Nom de la base ALERTES :');
 // ALERT DB Name:
@@ -694,9 +695,9 @@ DEFINE('_MNTDBARCHNAME','Nom de la base ARCHIVE :');
 // ARCHIVE DB Name:
 DEFINE('_MNTAIC','Cache des informations Alertes :');
 // Alert Information Cache:
-DEFINE('_MNTAICTE','Nombre total d\'Evénements :');
+DEFINE('_MNTAICTE','Nombre total d\'EvÃ©nements :');
 // Total Events:
-DEFINE('_MNTAICCE','Nombre d\'Evénements en cache :');
+DEFINE('_MNTAICCE','Nombre d\'EvÃ©nements en cache :');
 // Cached Events:
 DEFINE('_MNTIPAC','Cache d\'Adresses IP');
 // IP Address Cache
@@ -714,7 +715,7 @@ DEFINE('_QAINVPAIR','Paire (sid,cid) non valide');
 // Invalid (sid,cid) pair
 DEFINE('_QAALERTDELET','Alerte SUPPRIMEE ');
 // Alert DELETED
-DEFINE('_QATRIGGERSIG',"$UI_CW_Sig Déclenchée");
+DEFINE('_QATRIGGERSIG',"$UI_CW_Sig DÃ©clenchÃ©e");
 // Triggered Signature
 
 //base_qry_common.php
@@ -736,7 +737,7 @@ DEFINE('_QCUDPFIELDS','champs UDP');
 // UDP fields
 DEFINE('_QCICMPFIELDS','champs ICMP');
 // ICMP fields
-DEFINE('_QCDATA','Données');
+DEFINE('_QCDATA','DonnÃ©es');
 // Data
 DEFINE('_QCERRCRITWARN','Avertissement concernant les critères :');
 // Criteria warning:
@@ -744,7 +745,7 @@ DEFINE('_QCERRVALUE','La valeur');
 // A value of
 DEFINE('_QCERRFIELD','Le champ');
 // A field of
-DEFINE('_QCERROPER','L\'opérateur');
+DEFINE('_QCERROPER','L\'opÃ©rateur');
 // An operator of
 DEFINE('_QCERRDATETIME','La date ou l\'heure');
 // A date/time value of
@@ -754,27 +755,27 @@ DEFINE('_QCERRIP','L\'adresse IP');
 // An IP address of
 DEFINE('_QCERRIPTYPE','Une adresse IP de type');
 // An IP address of type
-DEFINE('_QCERRSPECFIELD','était saisi pour un champ de protocole, mais le champ précis n\'est pas spécifié.');
+DEFINE('_QCERRSPECFIELD','Ã©tait saisi pour un champ de protocole, mais le champ prÃ©cis n\'est pas spÃ©cifiÃ©.');
 //  was entered for a protocol field, but the particular field was not specified.
-DEFINE('_QCERRSPECVALUE','était choisi comme critère, mais aucune valeur n\'est spécifiée.');
+DEFINE('_QCERRSPECVALUE','Ã©tait choisi comme critère, mais aucune valeur n\'est spÃ©cifiÃ©e.');
 // was selected indicating that it should be a criteria, but no value was specified on which to match.
-DEFINE('_QCERRBOOLEAN','Critères multiples de protocole saisis sans opérateur(s) logiques (AND, OR) entre eux.');
+DEFINE('_QCERRBOOLEAN','Critères multiples de protocole saisis sans opÃ©rateur(s) logiques (AND, OR) entre eux.');
 // Multiple protocol field criteria entered without a boolean operator (e.g. AND, OR) between them.
-DEFINE('_QCERRDATEVALUE','était séléctionné ce qui indique que des critères date/heure doivent s\'appliquer, mais aucune valeur n\'était précisée.');
+DEFINE('_QCERRDATEVALUE','Ã©tait sÃ©lÃ©ctionnÃ© ce qui indique que des critères date/heure doivent s\'appliquer, mais aucune valeur n\'Ã©tait prÃ©cisÃ©e.');
 // was selected indicating that some date/time criteria should be matched, but no value was specified.
-DEFINE('_QCERRINVHOUR','(Heure non valide) Aucun critère date saisi avec l\'heure specifiée.');
+DEFINE('_QCERRINVHOUR','(Heure non valide) Aucun critère date saisi avec l\'heure specifiÃ©e.');
 // (Invalid Hour) No date criteria were entered with the specified time.
-DEFINE('_QCERRDATECRIT','était séléctionné ce qui indique que des critères date/heure doivent s\'appliquer, mais aucune valeur n\'était précisée.');
+DEFINE('_QCERRDATECRIT','Ã©tait sÃ©lÃ©ctionnÃ© ce qui indique que des critères date/heure doivent s\'appliquer, mais aucune valeur n\'Ã©tait prÃ©cisÃ©e.');
 // was selected indicating that some date/time criteria should be matched, but no value was specified.
-DEFINE('_QCERROPERSELECT','était saisi mais aucun opérateur n\'a été choisi.');
+DEFINE('_QCERROPERSELECT','Ã©tait saisi mais aucun opÃ©rateur n\'a Ã©tÃ© choisi.');
 // was entered but no operator was selected.
-DEFINE('_QCERRDATEBOOL','Critères Date/Heure multiples sans opérateur(s) logiques (AND, OR) entre eux ');
+DEFINE('_QCERRDATEBOOL','Critères Date/Heure multiples sans opÃ©rateur(s) logiques (AND, OR) entre eux ');
 // Multiple Date/Time criteria entered without a boolean operator (e.g. AND, OR) between them.
-DEFINE('_QCERRPAYCRITOPER','était saisi comme filtre sur le contenu, mais un opérateur tel "has","has not" n\' pas été précisé.');
+DEFINE('_QCERRPAYCRITOPER','Ã©tait saisi comme filtre sur le contenu, mais un opÃ©rateur tel "has","has not" n\' pas Ã©tÃ© prÃ©cisÃ©.');
 // was entered for a payload criteria field, but an operator (e.g. has, has not) was not specified.
-DEFINE('_QCERRPAYCRITVALUE','était séléctionné ce qui indique que des critères doivent s\'appliquer au contenu (payload), mais aucune valeur n\'était précisée.  ');
+DEFINE('_QCERRPAYCRITVALUE','Ã©tait sÃ©lÃ©ctionnÃ© ce qui indique que des critères doivent s\'appliquer au contenu (payload), mais aucune valeur n\'Ã©tait prÃ©cisÃ©e.  ');
 // was selected indicating that payload should be a criteria, but no value on which to match was specified.
-DEFINE('_QCERRPAYBOOL','De multiples critères de contenu (payload) saisis sans opérateur logique (AND, OR) entre eux.');
+DEFINE('_QCERRPAYBOOL','De multiples critères de contenu (payload) saisis sans opÃ©rateur logique (AND, OR) entre eux.');
 // Multiple Data payload criteria entered without a boolean operator (e.g. AND, OR) between them.
 DEFINE('_QCMETACRIT','Meta critères');
 // Meta Criteria
@@ -790,13 +791,13 @@ DEFINE('_QCICMPCRIT','Critères ICMP');
 // ICMP Criteria
 DEFINE('_QCERRINVIPCRIT','Critère d\'adresse IP non valide');
 // Invalid IP address criteria
-DEFINE('_QCERRCRITADDRESSTYPE','a été saisi en tant que valeur de critère, mais le type d\'adresse (source, destination) n\'était pas précisé.');
+DEFINE('_QCERRCRITADDRESSTYPE','a Ã©tÃ© saisi en tant que valeur de critère, mais le type d\'adresse (source, destination) n\'Ã©tait pas prÃ©cisÃ©.');
 // was entered for as a criteria value, but the type of address (e.g. source, destination) was not specified.
 DEFINE('_QCERRCRITIPADDRESSNONE','ce qui suppose un critère sur l\'adresse IP, mais aucune adresse IP à   ');
 // indicating that an IP address should be a criteria, but no address on which to match was specified.
-DEFINE('_QCERRCRITIPADDRESSNONE1','était séléctionné (à #');
+DEFINE('_QCERRCRITIPADDRESSNONE1','Ã©tait sÃ©lÃ©ctionnÃ© (à #');
 // was selected (at #
-DEFINE('_QCERRCRITIPIPBOOL','Multiples critères d\'adresse IP saisis sans opérateur logique (AND, OR) entre eux.');
+DEFINE('_QCERRCRITIPIPBOOL','Multiples critères d\'adresse IP saisis sans opÃ©rateur logique (AND, OR) entre eux.');
 // Multiple IP address criteria entered without a boolean operator (e.g. AND, OR) between IP Criteria
 
 //base_qry_form.php
@@ -816,7 +817,7 @@ DEFINE('_QFRMDIP','IP de destination');
 //base_qry_sqlcalls.php
 DEFINE('_QSCSUMM','Statistiques');
 // Summary Statistics
-DEFINE('_QSCTIMEPROF','Répartition temporelle');
+DEFINE('_QSCTIMEPROF','RÃ©partition temporelle');
 // Time profile
 DEFINE('_QSCOFALERTS','des alertes');
 // of alerts
@@ -826,7 +827,7 @@ DEFINE('_ALERTTITLE','Liste des Alertes');
 // Alert Listing
 
 //base_stat_common.php
-DEFINE('_SCCATEGORIES','Catégories : ');
+DEFINE('_SCCATEGORIES','CatÃ©gories : ');
 // Categories:
 DEFINE('_SCSENSORTOTAL','Sondes / Total : ');
 // Sensors/Total:
@@ -858,9 +859,9 @@ DEFINE('_SCPORT','Port');
 //base_stat_ipaddr.php
 DEFINE('_PSEVENTERR','ERREUR D\'EVENEMENT PORTSCAN');
 // PORTSCAN EVENT ERROR: 
-DEFINE('_PSEVENTERRNOFILE','Aucun fichier précisé dans la variable $portscan_file.');
+DEFINE('_PSEVENTERRNOFILE','Aucun fichier prÃ©cisÃ© dans la variable $portscan_file.');
 // No file was specified in the $portscan_file variable.
-DEFINE('_PSEVENTERROPENFILE','Impossible d\ouvrir le fichier des événements Portscan.');
+DEFINE('_PSEVENTERROPENFILE','Impossible d\ouvrir le fichier des Ã©vÃ©nements Portscan.');
 // Unable to open Portscan event file
 DEFINE('_PSDATETIME','Date/Heure');
 // Date/Time
@@ -884,11 +885,11 @@ DEFINE('_PSLASTOCC','Dernière<br>occurrence');
 // Last<BR> Occurrence
 DEFINE('_PSUNIALERTS','Alertes uniques');
 // Unique Alerts
-DEFINE('_PSPORTSCANEVE','Evénements portscan');
+DEFINE('_PSPORTSCANEVE','EvÃ©nements portscan');
 // Portscan Events
 DEFINE('_PSREGWHOIS','Recherche d\inscription (whois) dans');
 // Registry lookup (whois) in
-DEFINE('_PSNODNS','aucune résolution DNS tentée');
+DEFINE('_PSNODNS','aucune rÃ©solution DNS tentÃ©e');
 // no DNS resolution attempted
 DEFINE('_PSNUMSENSORSBR','Nombre de <br>sondes');
 // Num of <BR>Sensors
@@ -912,9 +913,9 @@ DEFINE('_SIPLPROTO','Protocole');
 // Protocol
 DEFINE('_SIPLUNIDSTPORTS','Ports Dst Uniques');
 // Unique Dst Ports
-DEFINE('_SIPLUNIEVENTS','Evénements uniques');
+DEFINE('_SIPLUNIEVENTS','EvÃ©nements uniques');
 // Unique Events
-DEFINE('_SIPLTOTALEVENTS','Nombre total d\'evénements');
+DEFINE('_SIPLTOTALEVENTS','Nombre total d\'evÃ©nements');
 // Total Events
 
 //base_stat_ports.php
@@ -934,17 +935,17 @@ DEFINE('_BSTTITLE','Profile temporel des Alertes');
 // Time Profile of Alerts
 DEFINE('_BSTTIMECRIT','Critère temporel');
 // Time Criteria
-DEFINE('_BSTERRPROFILECRIT','<font><b>Critères manquants!</b> Choisir "heure", "jour", ou "mois" pour définir la granularité des statistiques consolidées</font>');
+DEFINE('_BSTERRPROFILECRIT','<font><b>Critères manquants!</b> Choisir "heure", "jour", ou "mois" pour dÃ©finir la granularitÃ© des statistiques consolidÃ©es</font>');
 /*'<FONT><B>No profiling criteria was specified!</B>  Click on "hour", "day", or "month" to choose the granularity of the aggregate statistics.</FONT>
 */
-DEFINE('_BSTERRTIMETYPE','<font><b>Le type de paramètre temporel à appliquer n\'était pas spécifié!</b> Choisir soit "on", pour une seule date, soit "between" pour spécifier un intervalle. ');
+DEFINE('_BSTERRTIMETYPE','<font><b>Le type de paramètre temporel à appliquer n\'Ã©tait pas spÃ©cifiÃ©!</b> Choisir soit "on", pour une seule date, soit "between" pour spÃ©cifier un intervalle. ');
 /*'<FONT><B>The type of time parameter which will be passed was not specified!</B>  Choose either "on", to specify a single date, or "between" to specify an interval.</FONT>
 */
-DEFINE('_BSTERRNOYEAR','Aucun paramètre d\'Année précisé!');
+DEFINE('_BSTERRNOYEAR','Aucun paramètre d\'AnnÃ©e prÃ©cisÃ©!');
 // <FONT><B>No Year parameter was specified!</B></FONT>
-DEFINE('_BSTERRNOMONTH','Aucun paramètre de Mois précisé!');
+DEFINE('_BSTERRNOMONTH','Aucun paramètre de Mois prÃ©cisÃ©!');
 // <FONT><B>No Month parameter was specified!</B></FONT>
-DEFINE('_BSTERRNODAY','Aucun paramètre de Jour précisé! ');
+DEFINE('_BSTERRNODAY','Aucun paramètre de Jour prÃ©cisÃ©! ');
 // <FONT><B>No Day parameter was specified!</B></FONT>
 
 //base_stat_uaddr.php
@@ -966,9 +967,9 @@ DEFINE('_SUADSTADD','Adresse&nbsp;Dest.');
 // Dest.&nbsp;Addr.
 
 //base_user.php
-DEFINE('_BASEUSERTITLE','Préférence Utilisateur BASE ');
+DEFINE('_BASEUSERTITLE','PrÃ©fÃ©rence Utilisateur BASE ');
 // BASE User preferences
-DEFINE('_BASEUSERERRPWD','Votre '.strtolower($UI_CW_Pw).' ne peut pas être nul ou les deux mots de passe n\'était pas identiques!');
+DEFINE('_BASEUSERERRPWD','Votre '.strtolower($UI_CW_Pw).' ne peut pas être nul ou les deux mots de passe n\'Ã©tait pas identiques!');
 // Your password can not be blank or the two passwords did not match!
 DEFINE('_BASEUSEROLDPWD','Ancien '.strtolower($UI_CW_Pw).' :');
 // Old Password:

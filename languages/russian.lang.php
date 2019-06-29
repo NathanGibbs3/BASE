@@ -51,19 +51,21 @@ $UI_CW_Role = 'роли';
 $UI_CW_Pw = 'Пароль';
 $UI_CW_Ts = 'Время';
 $UI_CW_Addr = 'Адрес';
+$UI_CW_Layer = '';
+$UI_CW_Proto = '';
 // Common Phrases.
 $UI_CP_SrcName = array($UI_CW_Name,$UI_CW_Src);
 $UI_CP_DstName = array($UI_CW_Name,$UI_CW_Dst);
 $UI_CP_SrcDst = array($UI_CW_Src,'или',$UI_CW_Dst);
 $UI_CP_SrcAddr = array($UI_CW_Addr,$UI_CW_Src);
 $UI_CP_DstAddr = array($UI_CW_Addr,'назначения');
+$UI_CP_L4P = array('Слой','для','прото');
 // Authentication Data.
 $UI_AD_UND = 'Логин';
 $UI_AD_RID = array($UI_CW_Id,$UI_CW_Role);
 $UI_AD_ASD = 'Включено';
 
 // основные фразы
-DEFINE('_NBLAYER4','Слой&nbsp;для&nbsp;прото');
 DEFINE('_PRIORITY','Приоритет');
 DEFINE('_EVENTTYPE','тип события');
 DEFINE('_JANUARY','Январь');
