@@ -421,8 +421,7 @@ $lacnic_ip = "200.3.14.10";
     $external_all_link = \'http://www.whois.sc/\';
     
     /* TCP/UDP port database */
-    $external_port_link = array(\'sans\'     => \'http://isc.sans.org/port.html?port=\',                             
-                                \'tantalo\'  => \'http://ports.tantalo.net/?q=\',
+    $external_port_link = array(\'sans\'     => \'https://isc.sans.org/port.html?port=\',
                                 \'sstats\'   => \'http://www.securitystats.com/tools/portsearch.php?type=port&amp;select=any&amp;Submit=Submit&amp;input=\');
     
     /* Signature references */
