@@ -51,6 +51,7 @@ $UI_CW_Ts = 'Horodatage';
 $UI_CW_Addr = 'Adresse';
 $UI_CW_Layer = 'Couche';
 $UI_CW_Proto = 'Protocole';
+$UI_CW_Pri = 'Priorité';
 // Common Phrases.
 $UI_CP_SrcName = array($UI_CW_Name,'de la',$UI_CW_Src);
 $UI_CP_DstName = array($UI_CW_Name,'de la',$UI_CW_Dst);
@@ -64,8 +65,6 @@ $UI_AD_RID = array($UI_CW_Id,'de',$UI_CW_Role);
 $UI_AD_ASD = 'Activé';
 
 //common phrases
-DEFINE('_PRIORITY','Priorité');
-// Priority
 DEFINE('_EVENTTYPE','type d\'événement');
 // event type
 DEFINE('_JANUARY','janvier');
@@ -162,7 +161,7 @@ DEFINE('_FOOTER','( de <A class="largemenuitem" href="mailto:base@secureideas.ne
 */
 
 //index.php --Log in Page
-DEFINE('_LOGINERROR','Utilisateur inconnu ou '.strtolower($UI_CW_Pw).' incorrect !<br> Veuillez essayer � nouveau');
+DEFINE('_LOGINERROR','Utilisateur inconnu ou '.strtolower($UI_CW_Pw).' incorrect !<br> Veuillez essayer à nouveau');
 // User does not exist or your password was incorrect!<br>Please try again
 
 // base_main.php
@@ -221,7 +220,7 @@ DEFINE('_PWDCANT','Impossible de modifier votre '.strtolower($UI_CW_Pw));
 // Unable to change your password: 
 DEFINE('_PWDDONE','Votre '.strtolower($UI_CW_Pw).' a été modifié');
 // Your password has been changed!
-DEFINE('_ROLEEXIST',"$UI_CW_Role existe déj�");
+DEFINE('_ROLEEXIST',"$UI_CW_Role existe déjà");
 // Role Already Exists
 // TD Migration Hack
 if ($UI_Spacing == 1){
@@ -229,7 +228,7 @@ if ($UI_Spacing == 1){
 }else{
 	$glue = '';
 }
-DEFINE('_ROLEIDEXIST',implode($glue, $UI_AD_RID)." existe déj�");
+DEFINE('_ROLEIDEXIST',implode($glue, $UI_AD_RID)." existe déjà");
 // Role ID Already Exists
 DEFINE('_ROLEADDED',"Ajout de $UI_CW_Role réussi");
 // Role Added Successfully
@@ -251,7 +250,7 @@ DEFINE('_FRMUID','Identifiant Utilisateur:');
 //admin/index.php
 DEFINE('_BASEADMIN','Administration BASE');
 // BASE Administration
-DEFINE('_BASEADMINTEXT','Séléctionner une option dans la liste � gauche SVP');
+DEFINE('_BASEADMINTEXT','Séléctionner une option dans la liste à gauche SVP');
 // Please select an option from the left.
 
 //base_action.inc.php
@@ -327,7 +326,7 @@ DEFINE('_ERRCACHENULL','ERREUR DE MISE EN CACHE: événemement null?');
 // Caching ERROR: NULL event row found?
 DEFINE('_ERRCACHEERROR','ERREUR DE MISE EN CACHE D\'EVENEMENT:');
 // EVENT CACHING ERROR:
-DEFINE('_ERRCACHEUPDATE','Impossible de mettre � jour le cache d\'événements');
+DEFINE('_ERRCACHEUPDATE','Impossible de mettre à jour le cache d\'événements');
 // Could not update event cache
 DEFINE('_ALERTSCACHE',' alerte(s) au cache d\'Alertes');
 //  alert(s) to the Alert cache
@@ -335,14 +334,14 @@ DEFINE('_ALERTSCACHE',' alerte(s) au cache d\'Alertes');
 //base_db.inc.php
 DEFINE('_ERRSQLTRACE','Impossible d\'ouvrir le fichier trace SQL');
 // Unable to open SQL trace file
-DEFINE('_ERRSQLCONNECT','Erreur de connexion � la base de données :');
+DEFINE('_ERRSQLCONNECT','Erreur de connexion à la base de données :');
 // Error connecting to DB :
-DEFINE('_ERRSQLCONNECTINFO','<P>Contr�ler les variables de connexion � la base dans <I>base_conf.php</I> 
+DEFINE('_ERRSQLCONNECTINFO','<P>Contr�ler les variables de connexion à la base dans <I>base_conf.php</I> 
               <PRE>
                = $alert_dbname   : nom de la base de données o� les alertes sont stockées 
                = $alert_host     : adresse de la machine o� la base de données est localisée
                = $alert_port     : port o� la base de données est localisée
-               = $alert_user     : compte (username) pour accéder � la base de données
+               = $alert_user     : compte (username) pour accéder à la base de données
                = $alert_password : '.strtolower($UI_CW_Pw).' pour ce compte
               </PRE>
               <P> ');
@@ -356,18 +355,18 @@ DEFINE('_ERRSQLCONNECTINFO','<P>Contr�ler les variables de connexion � la base d
               </PRE>
               <P>
 */
-DEFINE('_ERRSQLPCONNECT','Erreur de connexion � la base (p)connect :');
+DEFINE('_ERRSQLPCONNECT','Erreur de connexion à la base (p)connect :');
 // Error (p)connecting to DB :
 DEFINE('_ERRSQLDB','ERREUR de la base de données');
 // Database ERROR:
 DEFINE('_DBALCHECK','Recherche de la biblioth�que d\'abstraction de DB dans ');
 // Checking for DB abstraction lib in
-DEFINE('_ERRSQLDBALLOAD1','<P><B>Erreur lors du chargement de la biblioth�que d\'abstraction base de données : </B> � partir de ');
+DEFINE('_ERRSQLDBALLOAD1','<P><B>Erreur lors du chargement de la biblioth�que d\'abstraction base de données : </B> à partir de ');
 // <P><B>Error loading the DB Abstraction library: </B> from 
 DEFINE('_ERRSQLDBALLOAD2','<P> Vérifier la variable <CODE>$DBlib_path</CODE> dans <CODE>base_conf.php</CODE></P>
 		<P>
 		La bibliot�que sousjacente actuellement utilisée est ADODB, téléchargeable
-		 � ');
+		 à ');
 /*
 <P>Check the DB abstraction library variable <CODE>$DBlib_path</CODE> in <CODE>base_conf.php</CODE>
             <P>
@@ -465,11 +464,11 @@ DEFINE('_QUERYSTATE','Etat de la requ�te');
 // Query State
 
 //base_ag_common.php
-DEFINE('_ERRAGNAMESEARCH','La recherche par nom de Groupe d\'Alertes n\'est pas valide.  Essayez � nouveau!');
+DEFINE('_ERRAGNAMESEARCH','La recherche par nom de Groupe d\'Alertes n\'est pas valide.  Essayez à nouveau!');
 // The specified AG name search is invalid.  Try again!
 DEFINE('_ERRAGNAMEEXIST','Le Groupe d\'Alertes spécifié n\'existe pas.');
 // The specified AG does not exist.
-DEFINE('_ERRAGIDSEARCH','La recherche par numéro de Groupe d\'Alerte n\'est pas valide.  Essayez � nouveau!');
+DEFINE('_ERRAGIDSEARCH','La recherche par numéro de Groupe d\'Alerte n\'est pas valide.  Essayez à nouveau!');
 // The specified AG ID search is invalid.  Try again!
 DEFINE('_ERRAGLOOKUP','Erreur lors de la recherche de l\'identifiant (ID) d\'un Groupe d\'Alertes');
 // Error looking up an AG ID
@@ -479,7 +478,7 @@ DEFINE('_ERRAGINSERT','Erreur lors de d\'insertion du nouveau Groupe d\'Alertes'
 //base_ag_main.php
 DEFINE('_AGMAINTTITLE','Maintenance des Groupes d\'Alertes');
 // Alert Group (AG) Maintenance
-DEFINE('_ERRAGUPDATE','Erreur de mise � jour du Groupe d\'Alertes');
+DEFINE('_ERRAGUPDATE','Erreur de mise à jour du Groupe d\'Alertes');
 // Error updating the AG
 DEFINE('_ERRAGPACKETLIST','Erreur lors de la suppression de la liste des paquets du Groupe d\'Alertes :');
 // Error deleting packet list for the AG:
@@ -489,9 +488,9 @@ DEFINE('_AGDELETE','Suppression réussie');
 // DELETED successfully
 DEFINE('_AGDELETEINFO','information supprimée');
 // information deleted
-DEFINE('_ERRAGSEARCHINV','Le crit�re de recherche n\'est pas valide. Essayez � nouveau!');
+DEFINE('_ERRAGSEARCHINV','Le crit�re de recherche n\'est pas valide. Essayez à nouveau!');
 // The entered search criteria is invalid.  Try again!
-DEFINE('_ERRAGSEARCHNOTFOUND','Aucun Groupe d\'Alertes correspondant � ce crit�re n\'a été trouvé');
+DEFINE('_ERRAGSEARCHNOTFOUND','Aucun Groupe d\'Alertes correspondant à ce crit�re n\'a été trouvé');
 // No AG found with that criteria.
 DEFINE('_NOALERTGOUPS','Il n\'y a pas de Groupes d\'Alertes');
 // There are no Alert Groups
@@ -532,14 +531,14 @@ DEFINE('_ERRVERSION','Version');
 // Version
 DEFINE('_ERRPHPERROR2','de PHP est trop ancienne. Utiliser la version 4.0.4 ou ultérieure');
 // of PHP is too old.  Please upgrade to version 4.0.4 or later
-DEFINE('_ERRPHPMYSQLSUP','<B>PHP build incomplet</B>: <FONT>le support MySQL requis pour acc�der � la base de données des alertes est absent de PHP.  
+DEFINE('_ERRPHPMYSQLSUP','<B>PHP build incomplet</B>: <FONT>le support MySQL requis pour acc�der à la base de données des alertes est absent de PHP.  
                Recompiler PHP avec la biblioth�que requise (<CODE>--with-mysql</CODE>) SVP</FONT> ');
 /*
 '<B>PHP build incomplete</B>: <FONT>the prerequisite MySQL support required to 
                read the alert database was not built into PHP.  
                Please recompile PHP with the necessary library (<CODE>--with-mysql</CODE>)</FONT>
 */
-DEFINE('_ERRPHPPOSTGRESSUP','<B>PHP build incomplet</B>: <FONT>le support PostgreSQL requis pour acc�der � la base de données des alertes est absent de PHP.  
+DEFINE('_ERRPHPPOSTGRESSUP','<B>PHP build incomplet</B>: <FONT>le support PostgreSQL requis pour acc�der à la base de données des alertes est absent de PHP.  
                Recompiler PHP avec la biblioth�que requise (<CODE>--with-pgsql</CODE>) SVP</FONT> ');
 /*
 '<B>PHP build incomplete</B>: <FONT>the prerequisite PostgreSQL support required to 
@@ -547,7 +546,7 @@ DEFINE('_ERRPHPPOSTGRESSUP','<B>PHP build incomplet</B>: <FONT>le support Postgr
                Please recompile PHP with the necessary library (<CODE>--with-pgsql</CODE>)</FONT>
 */
 
-DEFINE('_ERRPHPMSSQLSUP','<B>PHP build incomplet</B>: <FONT>le support MS SQL Server requis pour acc�der � la base de données des alertes est absent de PHP.  
+DEFINE('_ERRPHPMSSQLSUP','<B>PHP build incomplet</B>: <FONT>le support MS SQL Server requis pour acc�der à la base de données des alertes est absent de PHP.  
                Recompiler PHP avec la biblioth�que requise (<CODE>--enable-mssql</CODE>) SVP</FONT>');
 /*
 '<B>PHP build incomplete</B>: <FONT>the prerequisite MS SQL Server support required to 
@@ -663,7 +662,7 @@ DEFINE('_CHRTDUMP','Exportation des données ... (Ecriture seulement toutes les 
 // Dumping data ... (writing only every
 DEFINE('_CHRTDRAW','Création du graphique en cours');
 // Drawing graph
-DEFINE('_ERRCHRTNODATAPOINTS','Pas de données � afficher');
+DEFINE('_ERRCHRTNODATAPOINTS','Pas de données à afficher');
 // No data points to plot
 
 //base_maintenance.php
@@ -793,9 +792,9 @@ DEFINE('_QCERRINVIPCRIT','Crit�re d\'adresse IP non valide');
 // Invalid IP address criteria
 DEFINE('_QCERRCRITADDRESSTYPE','a été saisi en tant que valeur de crit�re, mais le type d\'adresse (source, destination) n\'était pas précisé.');
 // was entered for as a criteria value, but the type of address (e.g. source, destination) was not specified.
-DEFINE('_QCERRCRITIPADDRESSNONE','ce qui suppose un crit�re sur l\'adresse IP, mais aucune adresse IP �   ');
+DEFINE('_QCERRCRITIPADDRESSNONE','ce qui suppose un crit�re sur l\'adresse IP, mais aucune adresse IP à   ');
 // indicating that an IP address should be a criteria, but no address on which to match was specified.
-DEFINE('_QCERRCRITIPADDRESSNONE1','était séléctionné (� #');
+DEFINE('_QCERRCRITIPADDRESSNONE1','était séléctionné (à #');
 // was selected (at #
 DEFINE('_QCERRCRITIPIPBOOL','Multiples crit�res d\'adresse IP saisis sans opérateur logique (AND, OR) entre eux.');
 // Multiple IP address criteria entered without a boolean operator (e.g. AND, OR) between IP Criteria
@@ -938,7 +937,7 @@ DEFINE('_BSTTIMECRIT','Crit�re temporel');
 DEFINE('_BSTERRPROFILECRIT','<font><b>Crit�res manquants!</b> Choisir "heure", "jour", ou "mois" pour définir la granularité des statistiques consolidées</font>');
 /*'<FONT><B>No profiling criteria was specified!</B>  Click on "hour", "day", or "month" to choose the granularity of the aggregate statistics.</FONT>
 */
-DEFINE('_BSTERRTIMETYPE','<font><b>Le type de param�tre temporel � appliquer n\'était pas spécifié!</b> Choisir soit "on", pour une seule date, soit "between" pour spécifier un intervalle. ');
+DEFINE('_BSTERRTIMETYPE','<font><b>Le type de param�tre temporel à appliquer n\'était pas spécifié!</b> Choisir soit "on", pour une seule date, soit "between" pour spécifier un intervalle. ');
 /*'<FONT><B>The type of time parameter which will be passed was not specified!</B>  Choose either "on", to specify a single date, or "between" to specify an interval.</FONT>
 */
 DEFINE('_BSTERRNOYEAR','Aucun param�tre d\'Année précisé!');

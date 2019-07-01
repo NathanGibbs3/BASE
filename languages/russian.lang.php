@@ -53,6 +53,7 @@ $UI_CW_Ts = 'Время';
 $UI_CW_Addr = 'Адрес';
 $UI_CW_Layer = '';
 $UI_CW_Proto = '';
+$UI_CW_Pri = 'Приоритет';
 // Common Phrases.
 $UI_CP_SrcName = array($UI_CW_Name,$UI_CW_Src);
 $UI_CP_DstName = array($UI_CW_Name,$UI_CW_Dst);
@@ -66,7 +67,6 @@ $UI_AD_RID = array($UI_CW_Id,$UI_CW_Role);
 $UI_AD_ASD = 'Включено';
 
 // основные фразы
-DEFINE('_PRIORITY','Приоритет');
 DEFINE('_EVENTTYPE','тип события');
 DEFINE('_JANUARY','Январь');
 DEFINE('_FEBRUARY','Февраль');

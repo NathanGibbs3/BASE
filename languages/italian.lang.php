@@ -51,6 +51,7 @@ $UI_CW_Ts = 'Orario';
 $UI_CW_Addr = 'Indirizzo';
 $UI_CW_Layer = 'Layer';
 $UI_CW_Proto = 'Protocol';
+$UI_CW_Pri = 'Priorit√†';
 // Common Phrases.
 $UI_CP_SrcName = array($UI_CW_Name,$UI_CW_Src);
 $UI_CP_DstName = array($UI_CW_Name,'Dest.');
@@ -64,7 +65,6 @@ $UI_AD_RID = array($UI_CW_Id,$UI_CW_Role);
 $UI_AD_ASD = 'Abilitato';
 
 //common phrases
-DEFINE('_PRIORITY','Priorit‡');
 DEFINE('_EVENTTYPE','tipo evento');
 DEFINE('_JANUARY','Gennaio');
 DEFINE('_FEBRUARY','Febbraio');
@@ -212,14 +212,14 @@ DEFINE('_NOUSER','L\'utente non esiste!');
 DEFINE('_OLDPWD','La vecchia '.strtolower($UI_CW_Pw).' inserita non Ë corretta!');
 DEFINE('_PWDCANT','Impossibile cambiare la '.strtolower($UI_CW_Pw).': ');
 DEFINE('_PWDDONE',"$UI_CW_Pw cambiata!");
-DEFINE('_ROLEEXIST',"$UI_CW_Role gi‡ esistente");
+DEFINE('_ROLEEXIST',"$UI_CW_Role gi√† esistente");
 // TD Migration Hack
 if ($UI_Spacing == 1){
 	$glue = ' ';
 }else{
 	$glue = '';
 }
-DEFINE('_ROLEIDEXIST',implode($glue, $UI_AD_RID)." gi‡ esistente");
+DEFINE('_ROLEIDEXIST',implode($glue, $UI_AD_RID)." gi√† esistente");
 DEFINE('_ROLEADDED',"$UI_CW_Role aggiunto con successo");
 
 //base_roleadmin.php
@@ -366,8 +366,8 @@ DEFINE('_CONVERT2WS','Convert To (when searching)'); //NEW
 
 //base_state_common.inc.php
 DEFINE('_PHPERRORCSESSION','ERRORE PHP: rilevata sessione utente PHP. BASE non Ë impostato per questo tipo di gestione.  Impostare <CODE>use_user_session=1</CODE> in <CODE>base_conf.php</CODE>');
-DEFINE('_PHPERRORCSESSIONCODE','ERRORE PHP: un gestore sessione utente Ë gi‡ configurato, ma il codice handle specificato in <CODE>user_session_path</CODE> non Ë valido.');
-DEFINE('_PHPERRORCSESSIONVAR','ERRORE PHP: un gestore sessione utente Ë gi‡ configurato, ma la sua implementazione non Ë specificata in BASE. Se si vuole utilizzare un gestore di sessioni utente, impostare <CODE>user_session_path</CODE> in <CODE>base_conf.php</CODE>.');
+DEFINE('_PHPERRORCSESSIONCODE','ERRORE PHP: un gestore sessione utente Ë gi√† configurato, ma il codice handle specificato in <CODE>user_session_path</CODE> non Ë valido.');
+DEFINE('_PHPERRORCSESSIONVAR','ERRORE PHP: un gestore sessione utente Ë gi√† configurato, ma la sua implementazione non Ë specificata in BASE. Se si vuole utilizzare un gestore di sessioni utente, impostare <CODE>user_session_path</CODE> in <CODE>base_conf.php</CODE>.');
 DEFINE('_PHPSESSREG','Sessione Registrata');
 
 //base_state_criteria.inc.php
@@ -669,7 +669,7 @@ DEFINE('SPSENSORLIST','Lista Sensori');
 DEFINE('_BSTTITLE','Orario Profilo di Avvertimenti');
 DEFINE('_BSTTIMECRIT','Criteri Tempo');
 DEFINE('_BSTERRPROFILECRIT','<FONT><B>Nessun criterio di profilo specificato!</B>  Cliccare su "ora", "giorno", o "mese" per scegliere come raggruppare le statistiche.</FONT>');
-DEFINE('_BSTERRTIMETYPE','<FONT><B>il tipo di parametro che verr‡ passato non Ë specificato!</B>  Scegliere "il" per specificare una singola data, o "tra" per un intervallo.</FONT>');
+DEFINE('_BSTERRTIMETYPE','<FONT><B>il tipo di parametro che verr√† passato non Ë specificato!</B>  Scegliere "il" per specificare una singola data, o "tra" per un intervallo.</FONT>');
 DEFINE('_BSTERRNOYEAR','<FONT><B>Nessun parametro anno specificato!</B></FONT>');
 DEFINE('_BSTERRNOMONTH','<FONT><B>Nessun parametro mese specificato!</B></FONT>');
 DEFINE('_BSTERRNODAY','<FONT><B>Nessun parametro giorno specificato!</B></FONT>');

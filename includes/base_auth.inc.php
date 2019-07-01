@@ -322,22 +322,20 @@ class BaseUser {
 		$db = $this->db;
 		$sql = "SELECT role_id, role_name FROM base_roles;";
 		$result = $db->baseExecute($sql);
-		$tmpHTML = "<select name='roleID'>";
+		$tmpHTML = NLI("<select name='roleID'>",7);
 		$i = 0;
 		while (
 			($myrow = $result->baseFetchRow())
 			&& ($i < $result->baseRecordCount())
 		){
-			$selected = "<option value='".$myrow[0]."'";
-			if ( $roleid == $myrow[0] ){
-				$selected .= ' selected';
-			}
-			$tmp = XSSPrintSafe($myrow[1]);
-			$tmpHTML .= $selected .">$tmp</option>";
+			$tmp = '<option value="'.$myrow[0].'"';
+			$tmp .= chk_select($roleid,$myrow[0]);
+			$tmp .= '>'.XSSPrintSafe($myrow[1]).'</option>';
+			$tmpHTML .= NLI($tmp,8);
 			++$i;
 		}
 		$result->baseFreeRows();
-		$tmpHTML .= "</select>";
+		$tmpHTML .= NLI('</select>',7);
 		return $tmpHTML;
 	}
     function setRoleCookie($passwd, $user)

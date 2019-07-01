@@ -51,6 +51,7 @@ $UI_CW_Ts = 'Zaman Damgasý';
 $UI_CW_Addr = 'Adresi';
 $UI_CW_Layer = 'Katman';
 $UI_CW_Proto = 'Protokolü';
+$UI_CW_Pri = 'Öncelik';
 // Common Phrases.
 $UI_CP_SrcName = array($UI_CW_Src,$UI_CW_Name);
 $UI_CP_DstName = array($UI_CW_Dst,$UI_CW_Name);
@@ -64,7 +65,6 @@ $UI_AD_RID = array($UI_CW_Role,$UI_CW_Id);
 $UI_AD_ASD = 'Se�ilir Kýlýnmýþ';
 
 //common phrases
-DEFINE('_PRIORITY','�ncelik');
 DEFINE('_EVENTTYPE','olay türü');
 DEFINE('_JANUARY','Ocak');
 DEFINE('_FEBRUARY','�ubat');
@@ -141,14 +141,14 @@ DEFINE('_CODE','kod');
 DEFINE('_DATA','veri');
 DEFINE('_TYPE','tür');
 DEFINE('_NEXT','Sonraki');
-DEFINE('_PREVIOUS','�nceki');
+DEFINE('_PREVIOUS','Önceki');
 
 //Menu items
 DEFINE('_HOME','Ev');
 DEFINE('_SEARCH','Ara');
 DEFINE('_AGMAINT','Uyarý Grubu Bakýmý');
 DEFINE('_USERPREF','Kullanýcý Ye�lenenleri');
-DEFINE('_CACHE','�nbellek & Durum');
+DEFINE('_CACHE','Önbellek & Durum');
 DEFINE('_ADMIN','Yönetim');
 DEFINE('_GALERTD','�izge Uyarý Verisi');
 DEFINE('_GALERTDT','�izge Uyarýsý Algýlama Zamaný');
@@ -273,8 +273,8 @@ DEFINE('_ERRMAILNORECP','MAIL HATASI: Alýcý Belirlenmemiþ');
 DEFINE('_ADDED','Ekledi ');
 DEFINE('_HOSTNAMESDNS',' host isimlerini IP DNS önbelle�ine');
 DEFINE('_HOSTNAMESWHOIS',' host isimlerini Whois önbelle�ine');
-DEFINE('_ERRCACHENULL','�nbelle�e Alma HATASI: NULL olay sýrasý bulundu?');
-DEFINE('_ERRCACHEERROR','OLAYI �NBELLE�E ALMA HATASI:');
+DEFINE('_ERRCACHENULL','Önbelle�e Alma HATASI: NULL olay sýrasý bulundu?');
+DEFINE('_ERRCACHEERROR','OLAYI ÖNBELLE�E ALMA HATASI:');
 DEFINE('_ERRCACHEUPDATE','Olay önbelle�ini güncelleyemedi');
 DEFINE('_ALERTSCACHE',' uyarý(larý) Uyarý önbelle�ine');
 
@@ -322,7 +322,7 @@ DEFINE('_QUERYRESULTSHEADER','Sorgu Sonu�larý Sayfa Baþlý�ý �ýkýþý');
 
 //base_signature.inc.php
 DEFINE('_ERRSIGNAMEUNK','Bilinmeyen �mza�smi');
-DEFINE('_ERRSIGPROIRITYUNK','Bilinmeyen �mza�nceli�i');
+DEFINE('_ERRSIGPROIRITYUNK','Bilinmeyen �mzaÖnceli�i');
 DEFINE('_UNCLASS','sýnýflandýrýlmamýþ');
 
 //base_state_citems.inc.php
@@ -342,7 +342,7 @@ DEFINE('_SHORTNOV','Kas');
 DEFINE('_SHORTDEC','Ara');
 DEFINE('_DISPSIG','{ imza }');
 DEFINE('_DISPANYCLASS','{ herhangibir Sýnýflandýrma }');
-DEFINE('_DISPANYPRIO','{ herhangibir �ncelik }');
+DEFINE('_DISPANYPRIO','{ herhangibir Öncelik }');
 DEFINE('_DISPANYSENSOR','{ herhangibir Sensor }');
 DEFINE('_DISPADDRESS','{ adres }');
 DEFINE('_DISPFIELD','{ alan }');
@@ -355,18 +355,18 @@ DEFINE('_DISPFLAGS','{ bayraklar }');
 DEFINE('_SIGEXACTLY','tam olarak');
 DEFINE('_SIGROUGHLY','yaklaþýk olarak');
 DEFINE('_SIGCLASS','�mza Sýnýflandýrma');
-DEFINE('_SIGPRIO','�mza �nceli�i');
+DEFINE('_SIGPRIO','�mza Önceli�i');
 DEFINE('_SHORTSOURCE','Kaynak');
 DEFINE('_SHORTDEST','Varýþ');
 DEFINE('_SHORTSOURCEORDEST','Kaynak ya da Varýþ');
 DEFINE('_NOLAYER4','4.katman yok');
-DEFINE('_INPUTCRTENC','Girdi �l�ütü �ifreleme Tipi');
+DEFINE('_INPUTCRTENC','Girdi Öl�ütü �ifreleme Tipi');
 DEFINE('_CONVERT2WS','Dönüþtür (ararken)');
 
 //base_state_common.inc.php
-DEFINE('_PHPERRORCSESSION','PHP HATASI: �zel (kullanýcý) bir PHP oturumu saptandý. Ancak, BASE a�ýk�a bu özel iþleyiciyi kullanmak üzere ayarlanmamýþ. <CODE>base_conf.php</CODE> dosyasýnda <CODE>use_user_session=1</CODE> olarak ayarlayýn');
-DEFINE('_PHPERRORCSESSIONCODE','PHP HATASI: �zel (kullanýcý) bir PHP oturum iþleyicisi yapýlandýrýlmýþ, fakat <CODE>user_session_path</CODE> \'teki belirlenmiþ iþleyici kodu ge�ersiz.');
-DEFINE('_PHPERRORCSESSIONVAR','PHP HATASI: �zel (kullanýcý) bir PHP oturum iþleyicisi yapýlandýrýlmýþ, fakat bu iþleyicinin ger�ekleþtirilmesi BASE\'de belirlenmemiþ. E�er özel bir oturum iþleyici isteniyorsa, <CODE>base_conf.php</CODE> dosyasýndaki <CODE>user_session_path</CODE> de�iþkenini ayarlayýn.');
+DEFINE('_PHPERRORCSESSION','PHP HATASI: Özel (kullanýcý) bir PHP oturumu saptandý. Ancak, BASE a�ýk�a bu özel iþleyiciyi kullanmak üzere ayarlanmamýþ. <CODE>base_conf.php</CODE> dosyasýnda <CODE>use_user_session=1</CODE> olarak ayarlayýn');
+DEFINE('_PHPERRORCSESSIONCODE','PHP HATASI: Özel (kullanýcý) bir PHP oturum iþleyicisi yapýlandýrýlmýþ, fakat <CODE>user_session_path</CODE> \'teki belirlenmiþ iþleyici kodu ge�ersiz.');
+DEFINE('_PHPERRORCSESSIONVAR','PHP HATASI: Özel (kullanýcý) bir PHP oturum iþleyicisi yapýlandýrýlmýþ, fakat bu iþleyicinin ger�ekleþtirilmesi BASE\'de belirlenmemiþ. E�er özel bir oturum iþleyici isteniyorsa, <CODE>base_conf.php</CODE> dosyasýndaki <CODE>user_session_path</CODE> de�iþkenini ayarlayýn.');
 DEFINE('_PHPSESSREG','Oturum Kaydedildi');
 
 //base_state_criteria.inc.php
@@ -524,13 +524,13 @@ DEFINE('_MNTDBTYPE','DB Tipi:');
 DEFINE('_MNTDBALV','DB Soyutlama Sürümü:');
 DEFINE('_MNTDBALERTNAME','UYARI DB Adý:');
 DEFINE('_MNTDBARCHNAME','AR��V DB Adý:');
-DEFINE('_MNTAIC','Uyarý Bilgi �nbelle�i:');
+DEFINE('_MNTAIC','Uyarý Bilgi Önbelle�i:');
 DEFINE('_MNTAICTE','Toplam Olaylar:');
-DEFINE('_MNTAICCE','�nbellekteki Olaylar:');
-DEFINE('_MNTIPAC','IP Adres �nbelle�i');
+DEFINE('_MNTAICCE','Önbellekteki Olaylar:');
+DEFINE('_MNTIPAC','IP Adres Önbelle�i');
 DEFINE('_MNTIPACUSIP','Benzersiz Kaynak IP:');
-DEFINE('_MNTIPACDNSC','DNS �nbelle�e alýndý:');
-DEFINE('_MNTIPACWC','Whois �nbelle�e alýndý:');
+DEFINE('_MNTIPACDNSC','DNS Önbelle�e alýndý:');
+DEFINE('_MNTIPACWC','Whois Önbelle�e alýndý:');
 DEFINE('_MNTIPACUDIP','Benzersiz Varýþ IP:');
 
 //base_qry_alert.php
@@ -552,7 +552,7 @@ DEFINE('_QCUDPPORTS','UDP portlarý');
 DEFINE('_QCUDPFIELDS','UDP alanlarý');
 DEFINE('_QCICMPFIELDS','ICMP alanlarý');
 DEFINE('_QCDATA','Veri');
-DEFINE('_QCERRCRITWARN','�l�üt uyarýsý:');
+DEFINE('_QCERRCRITWARN','Öl�üt uyarýsý:');
 DEFINE('_QCERRVALUE','de�eri');
 DEFINE('_QCERRFIELD','alaný');
 DEFINE('_QCERROPER','iþletmeni');
@@ -571,18 +571,18 @@ DEFINE('_QCERRDATEBOOL','Aralarýnda bir boolen iþleci olmadan (örne�in; VE, Y
 DEFINE('_QCERRPAYCRITOPER','bir payload öl�üt alaný i�in girilmiþ, fakat bir iþletici (örne�in; sahip, sahip de�il) belirtilmemiþ.');
 DEFINE('_QCERRPAYCRITVALUE','payload\'ýn bir öl�üt olmasý gerekti�ini göstermek üzere se�ilmiþ, fakat hangisiyle eþleþece�ini gösteren hi�bir de�er belirlenmemiþ.');
 DEFINE('_QCERRPAYBOOL','Aralarýnda bir boolen iþleci olmadan (örne�in; VE, YA DA) �oklu Veri payload öl�ütü girildi.');
-DEFINE('_QCMETACRIT','Meta �l�ütü');
-DEFINE('_QCIPCRIT','IP �l�ütü');
-DEFINE('_QCPAYCRIT','Payload �l�ütü');
-DEFINE('_QCTCPCRIT','TCP �l�ütü');
-DEFINE('_QCUDPCRIT','UDP �l�ütü');
-DEFINE('_QCICMPCRIT','ICMP �l�ütü');
-DEFINE('_QCLAYER4CRIT','4. Katman �l�ütü');
+DEFINE('_QCMETACRIT','Meta Öl�ütü');
+DEFINE('_QCIPCRIT','IP Öl�ütü');
+DEFINE('_QCPAYCRIT','Payload Öl�ütü');
+DEFINE('_QCTCPCRIT','TCP Öl�ütü');
+DEFINE('_QCUDPCRIT','UDP Öl�ütü');
+DEFINE('_QCICMPCRIT','ICMP Öl�ütü');
+DEFINE('_QCLAYER4CRIT','4. Katman Öl�ütü');
 DEFINE('_QCERRINVIPCRIT','Ge�ersiz IP adres öl�ütü');
 DEFINE('_QCERRCRITADDRESSTYPE','bir öl�üt de�eri olmasý i�in girilmiþ, fakat adresin tipi (örne�in; kaynak, varýþ) belirlenmemiþ.');
 DEFINE('_QCERRCRITIPADDRESSNONE','bir IP adresinin bir öl�üt olmasý gerekti�ini gösteriyor, fakat hangisiyle eþleþece�ini gösteren hi�bir adres belirlenmemiþ.');
 DEFINE('_QCERRCRITIPADDRESSNONE1','se�ilmiþ (#');
-DEFINE('_QCERRCRITIPIPBOOL','IP �l�ütü arasýnda bir boolen iþleci olmadan (örne�in; VE, YA DA) �oklu IP adres öl�ütü girildi');
+DEFINE('_QCERRCRITIPIPBOOL','IP Öl�ütü arasýnda bir boolen iþleci olmadan (örne�in; VE, YA DA) �oklu IP adres öl�ütü girildi');
 
 //base_qry_form.php
 DEFINE('_QFRMSORTORDER','Sýralama düzeni');
@@ -594,7 +594,7 @@ DEFINE('_QFRMSIP','kaynak IP');
 DEFINE('_QFRMDIP','varýþ IP');
 
 //base_qry_sqlcalls.php
-DEFINE('_QSCSUMM','�statistik �zeti');
+DEFINE('_QSCSUMM','�statistik Özeti');
 DEFINE('_QSCTIMEPROF','Zaman profili');
 DEFINE('_QSCOFALERTS','uyarýlarýn');
 
@@ -666,7 +666,7 @@ DEFINE('SPSENSORLIST','Sensor Listeleme');
 
 //base_stat_time.php
 DEFINE('_BSTTITLE','Uyarýlarýn Zaman Profili');
-DEFINE('_BSTTIMECRIT','Zaman �l�ütü');
+DEFINE('_BSTTIMECRIT','Zaman Öl�ütü');
 DEFINE('_BSTERRPROFILECRIT','<FONT><B>Hi�bir profilleme öl�ütü belirlenmemeiþ!</B>  "saat", "gün", ya da "ay" üzerine týklayarak kümelenmiþ istatistiklerden taneli olaný se�in.</FONT>');
 DEFINE('_BSTERRTIMETYPE','<FONT><B>Ge�ecek olan zaman parametresi tipi belirlenmemeiþ!</B>  Tek bir zaman belirtmek i�in "üzerinde", ya da bir aralýk belirtmek i�in "arasýnda" \'dan herhangi birini se�in.</FONT>');
 DEFINE('_BSTERRNOYEAR','<FONT><B>Hi�bir Yýl parametresi belirtilmemiþ!</B></FONT>');
@@ -680,7 +680,7 @@ DEFINE('_PROFILEALERT','Profil Uyarýsý');
 //base_stat_uaddr.php
 DEFINE('_UNISADD','Benzersiz Kaynak Adres(leri)');
 DEFINE('_SUASRCIP','Kaynak IP adresi');
-DEFINE('_SUAERRCRITADDUNK','�L��T HATASI: bilinmeyen adres tipi -- Varýþ adresi oldu�u sanýlýyor');
+DEFINE('_SUAERRCRITADDUNK','ÖL��T HATASI: bilinmeyen adres tipi -- Varýþ adresi oldu�u sanýlýyor');
 DEFINE('_UNIDADD','Benzersiz Varýþ Adres(leri)');
 DEFINE('_SUADSTIP','Varýþ IP adresi');
 DEFINE('_SUAUNIALERTS','Benzersiz Uyarýlar');

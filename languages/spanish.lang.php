@@ -51,6 +51,7 @@ $UI_CW_Ts = 'Marca de tiempo';
 $UI_CW_Addr = 'Direcci&oacute;n';
 $UI_CW_Layer = 'Capa';
 $UI_CW_Proto = 'Protocolo';
+$UI_CW_Pri = 'Prioridad';
 // Common Phrases.
 $UI_CP_SrcName = array($UI_CW_Name,'del','origen');
 $UI_CP_DstName = array($UI_CW_Name,'del','dest.');
@@ -64,7 +65,6 @@ $UI_AD_RID = array($UI_CW_Id,$UI_CW_Role);
 $UI_AD_ASD = 'Activado';
 
 //common phrases
-DEFINE('_PRIORITY','Prioridad');
 DEFINE('_EVENTTYPE','tipo de evento');
 DEFINE('_JANUARY','Enero');
 DEFINE('_FEBRUARY','Febrero');

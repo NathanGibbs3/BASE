@@ -51,6 +51,7 @@ $UI_CW_Ts = 'タイムスタンプ';
 $UI_CW_Addr = 'アドレス';
 $UI_CW_Layer = 'レイヤー';
 $UI_CW_Proto = 'Protocol';
+$UI_CW_Pri = '優先度';
 // Common Phrases.
 $UI_CP_SrcName = array($UI_CW_Src,$UI_CW_Name);
 $UI_CP_DstName = array($UI_CW_Dst,$UI_CW_Name);
@@ -64,7 +65,6 @@ $UI_AD_RID = array($UI_CW_Role,$UI_CW_Id);
 $UI_AD_ASD = '有効';
 
 //common phrases
-DEFINE('_PRIORITY','優先度');
 DEFINE('_EVENTTYPE','イベントタイプ');
 DEFINE('_JANUARY','１月');
 DEFINE('_FEBRUARY','２月');
@@ -322,7 +322,7 @@ DEFINE('_QUERYRESULTSHEADER','クエリ出力結果のヘッダ');
 
 //base_signature.inc.php
 DEFINE('_ERRSIGNAMEUNK',$UI_CW_Sig.'名が不明です');
-DEFINE('_ERRSIGPROIRITYUNK','優先度が不明です');
+DEFINE('_ERRSIGPROIRITYUNK',$UI_CW_Pri.'が不明です');
 DEFINE('_UNCLASS','unclassified');
 
 //base_state_citems.inc.php

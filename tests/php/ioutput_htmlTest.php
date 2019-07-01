@@ -5,6 +5,10 @@ use PHPUnit\Framework\TestCase;
 
 /**
   * @covers ::NLI
+  * @covers ::NLIO
+  * @covers ::PageEnd
+  * @covers ::chk_select
+  * @covers ::chk_check
   */
 class output_htmlTest extends TestCase {
 	// Tests go here.
@@ -36,9 +40,6 @@ class output_htmlTest extends TestCase {
 			'Unexpected Return Value.'
 		);
 	}
-	/**
-	  * @covers ::NLIO
-	  */
 	public function testNLIOBlankOutputsExpected() {
 		$this->expectOutputString(
 			"\n",
@@ -46,19 +47,13 @@ class output_htmlTest extends TestCase {
 			'Unexpected Return Value.'
 		);
 	}
-	/**
-	  * @covers ::NLIO
-	  */
-	public function testNLIOInvalidCountReturnsExpected() {
+	public function testNLIOInvalidCountOutputsExpected() {
 		$this->expectOutputString(
 			"\n<td>",
 			NLIO('<td>','string'),
 			'Unexpected Return Value.'
 		);
 	}
-	/**
-	  * @covers ::NLIO
-	  */
 	public function testNLIONoIndentOutputsExpected() {
 		$this->expectOutputString(
 			"\n<td>",
@@ -66,9 +61,6 @@ class output_htmlTest extends TestCase {
 			'Unexpected Return Value.'
 		);
 	}
-	/**
-	  * @covers ::NLIO
-	  */
 	public function testNLIOIndentOutputsExpected() {
 		$this->expectOutputString(
 			"\n\t\t\t\t\t<td>",
@@ -76,14 +68,38 @@ class output_htmlTest extends TestCase {
 			'Unexpected Return Value.'
 		);
 	}
-	/**
-	  * @covers ::PageEnd
-	  * @uses ::NLIO
-	  */
 	public function testPageEndOutputsExpected() {
 		$this->expectOutputString(
 			"\n\t</body>\n</html>",
 			PageEnd(),
+			'Unexpected Return Value.'
+		);
+	}
+	public function testchk_selectNEReturnsExpected() {
+		$this->assertEquals(
+			' ',
+			chk_select(1,2),
+			'Unexpected Return Value.'
+		);
+	}
+	public function testchk_selectEQReturnsExpected() {
+		$this->assertEquals(
+			' selected',
+			chk_select(1,1),
+			'Unexpected Return Value.'
+		);
+	}
+	public function testchk_checkNEReturnsExpected() {
+		$this->assertEquals(
+			' ',
+			chk_check(1,2),
+			'Unexpected Return Value.'
+		);
+	}
+	public function testchk_checkEQReturnsExpected() {
+		$this->assertEquals(
+			' checked',
+			chk_check(1,1),
 			'Unexpected Return Value.'
 		);
 	}

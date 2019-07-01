@@ -56,6 +56,7 @@ $UI_CW_Ts = 'Aikaleima';
 $UI_CW_Addr = 'Osoite';
 $UI_CW_Layer = 'Layer';
 $UI_CW_Proto = 'Protocol';
+$UI_CW_Pri = 'Tärkeysjärjetys';
 // Common Phrases.
 $UI_CP_SrcName = array('Lähteen',$UI_CW_Name);
 $UI_CP_DstName = array('Kohteen',$UI_CW_Name);
@@ -69,7 +70,6 @@ $UI_AD_RID = array($UI_CW_Role,$UI_CW_Id);
 $UI_AD_ASD = 'Toiminnassa';
 
 //common phrases
-DEFINE('_PRIORITY','Tärkeysjärjetys');
 DEFINE('_EVENTTYPE','tapahtumatyyppi');
 DEFINE('_JANUARY','tammikuu');
 DEFINE('_FEBRUARY','helmikuu');

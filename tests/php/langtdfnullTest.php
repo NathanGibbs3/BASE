@@ -539,6 +539,25 @@ class nulllangTest extends TestCase {
 //			"Uninitialized: $TItem ."
 //		);
 //	}
+	public function testCWASetItemPri() {
+		$lang = self::$langs;
+		$tf = __FUNCTION__;
+		$tmp = "UI$lang";
+		LogTC($tf,'language',$lang);
+		$$tmp = self::$UIL;
+		$file = $$tmp->TDF;
+		$key = 'Pri';
+		$KA = 'CWA';
+		$TItem = $KA."[$key]";
+		$EEM = self::$EEM."$TItem.\n";
+		LogTC($tf,'TD file',$file);
+		$this->CWAHas($$tmp, $key, $TItem);
+		$this->assertEquals(
+			$EEM,
+			$$tmp->{$KA}[$key],
+			"Uninitialized: $TItem ."
+		);
+	}
 
 	// Test Common Phrase Items.
 	public function testCPASetItemSrcName() {

@@ -45,6 +45,7 @@ if ( $submit == _ADDPAYLOAD && $cs->criteria['data']->GetFormItemCnt() < $MAX_RO
 
 $CPSensor = $UIL->CWA['Sensor'];
 $CPSig = $UIL->CWA['Sig'];
+$CPPri = $UIL->CWA['Pri'];
 NLIO('<!-- ************ Meta Criteria ******************** -->');
 NLIO("<table width='100%' border='0'>");
 NLIO('<tr>',1);
@@ -67,13 +68,12 @@ $cs->criteria['sig']->PrintForm('','','');
 if ( $db->baseGetDBversion() >= 103 ) {
 	echo '<B>'._CHRTCLASS.': </B>';
 	$cs->criteria['sig_class']->PrintForm('','','');
-	echo '<B>'._PRIORITY.': </B>';
+	print "<b>$CPPri: </b>";
 	$cs->criteria['sig_priority']->PrintForm('','','');
 }
-     echo '</TD></TR>';    
-
-echo '<TR>
-      <TD><B>'._ALERTTIME.':</B></TD>
+NLIO('</td>',2);
+NLIO('</tr><tr>',1);
+echo '      <TD><B>'._ALERTTIME.':</B></TD>
       <TD>';
 $cs->criteria['time']->PrintForm('','','');
         echo '

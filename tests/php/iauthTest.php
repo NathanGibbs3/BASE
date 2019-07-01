@@ -6,9 +6,11 @@ use PHPUnit\Framework\TestCase;
 /**
   * @covers BaseUser::returnRoleNamesDropDown
   * @covers BaseUser::returnUser
-  * @uses ::XSSPrintSafe
   * @uses baseCon
   * @uses baseRS
+  * @uses ::chk_select
+  * @uses ::NLI
+  * @uses ::XSSPrintSafe
   */
 class authTest extends TestCase {
 	// Pre Test Setup.
@@ -81,7 +83,7 @@ class authTest extends TestCase {
 	}
 	public function testreturnRoleNamesDropDownAdmin() {
 		$user = self::$user;
-		$msg = '<option value=\'1\' selected>Admin<\/option>';
+		$msg = '<option value="1" selected>Admin<\/option>';
 		$this->assertRegExp(
 			'/'.$msg.'/',
 			$user->returnRoleNamesDropDown(1),
@@ -90,7 +92,7 @@ class authTest extends TestCase {
 	}
 	public function testreturnRoleNamesDropDownUser() {
 		$user = self::$user;
-		$msg = '<option value=\'10\' selected>user<\/option>';
+		$msg = '<option value="10" selected>user<\/option>';
 		$this->assertRegExp(
 			'/'.$msg.'/',
 			$user->returnRoleNamesDropDown(10),
@@ -99,7 +101,7 @@ class authTest extends TestCase {
 	}
 	public function testreturnRoleNamesDropDownAnonymous() {
 		$user = self::$user;
-		$msg = '<option value=\'10000\' selected>anonymous<\/option>';
+		$msg = '<option value="10000" selected>anonymous<\/option>';
 		$this->assertRegExp(
 			'/'.$msg.'/',
 			$user->returnRoleNamesDropDown(10000),
@@ -108,7 +110,7 @@ class authTest extends TestCase {
 	}
 	public function testreturnRoleNamesDropDownAGEditor() {
 		$user = self::$user;
-		$msg = '<option value=\'50\' selected>ag_editor<\/option>';
+		$msg = '<option value="50" selected>ag_editor<\/option>';
 		$this->assertRegExp(
 			'/'.$msg.'/',
 			$user->returnRoleNamesDropDown(50),

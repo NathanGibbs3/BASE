@@ -51,6 +51,7 @@ $UI_CW_Ts = 'Tidsmærke';
 $UI_CW_Addr = 'Adresse';
 $UI_CW_Layer = 'Lag';
 $UI_CW_Proto = 'Protocol';
+$UI_CW_Pri = 'Prioritet';
 // Common Phrases.
 $UI_CP_SrcName = array($UI_CW_Src,$UI_CW_Name);
 $UI_CP_DstName = array('Dest.',$UI_CW_Name);
@@ -64,7 +65,6 @@ $UI_AD_RID = array($UI_CW_Role,$UI_CW_Id);
 $UI_AD_ASD = 'Enabled';
 
 //common phrases
-DEFINE('_PRIORITY','Prioritet');
 DEFINE('_EVENTTYPE','hændelses type');
 DEFINE('_JANUARY','Januar');
 DEFINE('_FEBRUARY','Februar');

@@ -51,6 +51,7 @@ $UI_CW_Ts = 'Tid stämpel';
 $UI_CW_Addr = 'Adress';
 $UI_CW_Layer = 'Layer';
 $UI_CW_Proto = 'Protocol';
+$UI_CW_Pri = 'Prioritet';
 // Common Phrases.
 $UI_CP_SrcName = array($UI_CW_Src,$UI_CW_Name);
 $UI_CP_DstName = array('Dest.',$UI_CW_Name);
@@ -64,7 +65,6 @@ $UI_AD_RID = array($UI_CW_Role,$UI_CW_Id);
 $UI_AD_ASD = 'Möjliggjord';
 
 //common phrases
-DEFINE('_PRIORITY','Prioritet');
 DEFINE('_EVENTTYPE','Händelse typ');
 DEFINE('_JANUARY','Januari');
 DEFINE('_FEBRUARY','Februari');

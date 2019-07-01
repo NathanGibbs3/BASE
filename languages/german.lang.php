@@ -52,6 +52,7 @@ $UI_CW_Ts = 'Zeitstempel';
 $UI_CW_Addr = 'adresse';
 $UI_CW_Layer = 'Schicht';
 $UI_CW_Proto = 'Protokoll';
+$UI_CW_Pri = 'Priorit&auml;t';
 // Common Phrases.
 $UI_CP_SrcName = array($UI_CW_Src,$UI_CW_Name);
 $UI_CP_DstName = array($UI_CW_Dst,$UI_CW_Name);
@@ -65,7 +66,6 @@ $UI_AD_RID = array($UI_CW_Role,$UI_CW_Id);
 $UI_AD_ASD = 'Aktiv';
 
 //common phrases
-DEFINE('_PRIORITY','Priorit&auml;t');
 DEFINE('_EVENTTYPE','Ereignistyp');
 DEFINE('_JANUARY','Januar');
 DEFINE('_FEBRUARY','Februar');

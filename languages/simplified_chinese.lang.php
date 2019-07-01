@@ -51,6 +51,7 @@ $UI_CW_Ts = '时间戳';
 $UI_CW_Addr = '地址';
 $UI_CW_Layer = '层';
 $UI_CW_Proto = '协议';
+$UI_CW_Pri = '优先级';
 // Common Phrases.
 $UI_CP_SrcName = array($UI_CW_Src,$UI_CW_Name);
 $UI_CP_DstName = array($UI_CW_Dst,$UI_CW_Name);
@@ -64,7 +65,6 @@ $UI_AD_RID = array($UI_CW_Role,$UI_CW_Id);
 $UI_AD_ASD = '启用';
 
 //common phrases
-DEFINE('_PRIORITY','优先级');
 DEFINE('_EVENTTYPE','事件类型');
 DEFINE('_JANUARY','一月');
 DEFINE('_FEBRUARY','二月');
@@ -363,7 +363,7 @@ DEFINE('_QUERYRESULTSHEADER','查询结果输出头');
 
 //base_signature.inc.php
 DEFINE('_ERRSIGNAMEUNK','未知的Sig名');
-DEFINE('_ERRSIGPROIRITYUNK','未知的Sig优先级');
+DEFINE('_ERRSIGPROIRITYUNK','未知的Sig'.$UI_CW_Pri);
 DEFINE('_UNCLASS','未分类');
 
 //base_state_citems.inc.php

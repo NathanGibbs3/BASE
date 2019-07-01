@@ -50,6 +50,7 @@ $UI_CW_Ts = 'Timestamp';
 $UI_CW_Addr = 'Address';
 $UI_CW_Layer = 'Layer';
 $UI_CW_Proto = 'Protocol';
+$UI_CW_Pri = 'Priority';
 // Common Phrases.
 $UI_CP_SrcName = array($UI_CW_Src,$UI_CW_Name);
 $UI_CP_DstName = array('Dest.',$UI_CW_Name);
@@ -63,7 +64,6 @@ $UI_AD_RID = array($UI_CW_Role,$UI_CW_Id);
 $UI_AD_ASD = 'Enabled';
 
 //common phrases
-DEFINE('_PRIORITY','Priority');
 DEFINE('_EVENTTYPE','event type');
 DEFINE('_JANUARY','January');
 DEFINE('_FEBRUARY','February');

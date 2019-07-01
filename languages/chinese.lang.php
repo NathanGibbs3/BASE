@@ -51,6 +51,7 @@ $UI_CW_Ts = '時間戳記';
 $UI_CW_Addr = '位址';
 $UI_CW_Layer = '層';
 $UI_CW_Proto = '協議';
+$UI_CW_Pri = '優先等級';
 // Common Phrases.
 $UI_CP_SrcName = array($UI_CW_Src,$UI_CW_Name);
 $UI_CP_DstName = array($UI_CW_Dst,$UI_CW_Name);
@@ -64,7 +65,6 @@ $UI_AD_RID = array($UI_CW_Role,$UI_CW_Id);
 $UI_AD_ASD = '啟用';
 
 //common phrases
-DEFINE('_PRIORITY','優先等級');
 DEFINE('_EVENTTYPE','事件型態');
 DEFINE('_JANUARY','一月');
 DEFINE('_FEBRUARY','二月');
@@ -342,7 +342,7 @@ DEFINE('_SHORTNOV','十一月'); //NEW
 DEFINE('_SHORTDEC','十二月'); //NEW
 DEFINE('_DISPSIG',"{ $UI_CW_Sig }"); //NEW
 DEFINE('_DISPANYCLASS','{ 任何分類 }'); //NEW
-DEFINE('_DISPANYPRIO','{ 任何優先等級 }'); //NEW
+DEFINE('_DISPANYPRIO','{ 任何'.$UI_CW_Pri.' }'); //NEW
 DEFINE('_DISPANYSENSOR','{ 任何偵測器 }'); //NEW
 DEFINE('_DISPADDRESS',"{ $UI_CW_Addr }"); //NEW
 DEFINE('_DISPFIELD','{ 欄位 }'); //NEW
@@ -355,7 +355,7 @@ DEFINE('_DISPFLAGS','{ 旗標 }'); //NEW
 DEFINE('_SIGEXACTLY','精確的'); //NEW
 DEFINE('_SIGROUGHLY','模糊的'); //NEW
 DEFINE('_SIGCLASS',$UI_CW_Sig.'分類'); //NEW
-DEFINE('_SIGPRIO',$UI_CW_Sig.'優先等級'); //NEW
+DEFINE('_SIGPRIO',$UI_CW_Sig.$UI_CW_Pri); //NEW
 DEFINE('_SHORTSOURCE',$UI_CW_Src); //NEW
 DEFINE('_SHORTDEST','目的'); //NEW
 DEFINE('_SHORTSOURCEORDEST',$UI_CW_Src.'或目的'); //NEW

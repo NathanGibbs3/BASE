@@ -123,20 +123,20 @@ function PrintFramedBoxFooter()
 </TD></TR></TABLE>';
 }
 
-function chk_select($stored_value, $current_value)
-{
-     if ( strnatcmp($stored_value,$current_value) == 0 )
-          return " SELECTED";
-     else
-          return " ";
+function chk_select($stored_value, $current_value){
+	$msg = ' ';
+	if ( strnatcmp($stored_value,$current_value) == 0 ){
+		$msg .= 'selected';
+	}
+	return $msg;
 }
 
-function chk_check($stored_value, $current_value)
-{
-     if ( $stored_value == $current_value )
-          return " CHECKED";
-     else
-          return " ";
+function chk_check($stored_value, $current_value){
+	$msg = ' ';
+	if ( $stored_value == $current_value ){
+		$msg .= 'checked';
+	}
+	return $msg;
 }
 
 function dispYearOptions($stored_value)

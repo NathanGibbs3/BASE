@@ -51,6 +51,7 @@ $UI_CW_Ts = 'Waktu';
 $UI_CW_Addr = 'Alamat';
 $UI_CW_Layer = 'Lapisan';
 $UI_CW_Proto = 'Protokol';
+$UI_CW_Pri = 'Prioritas';
 // Common Phrases.
 $UI_CP_SrcName = array($UI_CW_Name,$UI_CW_Src);
 $UI_CP_DstName = array($UI_CW_Name,$UI_CW_Dst);
@@ -64,7 +65,6 @@ $UI_AD_RID = array($UI_CW_Id,$UI_CW_Role);
 $UI_AD_ASD = 'Aktif';
 
 //common phrases
-DEFINE('_PRIORITY','Prioritas');
 DEFINE('_EVENTTYPE','jenis peristiwa');
 DEFINE('_JANUARY','Januari');
 DEFINE('_FEBRUARY','Februari');
