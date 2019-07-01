@@ -3,6 +3,5 @@ languages/danish.lang.php
 languages/french.lang.php
 languages/italian.lang.php
 languages/norwegian.lang.php
-languages/russian.lang.php
 languages/swedish.lang.php
 languages/turkish.lang.php

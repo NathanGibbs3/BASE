@@ -21,7 +21,7 @@
 ** Kevin Johnson <kjohnson@secureideas.net>
 ** Joel Esler <joelesler@users.sourceforge.net>
 ** Russian translation by: Dmitry Purgin <dpurgin@hotmail.kz>
-** Русский перевод: Дмитрий Пургин <dpurgin@hotmail.kz>
+** Р СѓСЃСЃРєРёР№ РїРµСЂРµРІРѕРґ: Р”РјРёС‚СЂРёР№ РџСѓСЂРіРёРЅ <dpurgin@hotmail.kz>
 ********************************************************************************
 */
 
@@ -32,60 +32,60 @@ $UI_Locales = array( 'eng_ENG.ISO8859-1', 'eng_ENG.utf-8', 'english' );
 // Time Format - See strftime() syntax.
 $UI_Timefmt = '%a %B %d, %Y %H:%M:%S';
 // UI Init.
-$UI_Charset = 'windows-1251';
-$UI_Title = 'Базовый движок анализа и безопасности';
+$UI_Charset = 'UTF-8';
+$UI_Title = 'Р‘Р°Р·РѕРІС‹Р№ РґРІРёР¶РѕРє Р°РЅР°Р»РёР·Р° Рё Р±РµР·РѕРїР°СЃРЅРѕСЃС‚Рё';
 // Common Words.
-$UI_CW_Edit = 'Редактировать';
-$UI_CW_Delete = 'Удалить';
-$UI_CW_Src = 'Источника';
-$UI_CW_Dst = 'Назначение';
+$UI_CW_Edit = 'Р РµРґР°РєС‚РёСЂРѕРІР°С‚СЊ';
+$UI_CW_Delete = 'РЈРґР°Р»РёС‚СЊ';
+$UI_CW_Src = 'РСЃС‚РѕС‡РЅРёРєР°';
+$UI_CW_Dst = 'РќР°Р·РЅР°С‡РµРЅРёРµ';
 $UI_CW_Id = 'ID';
-$UI_CW_Name = 'Имя';
-$UI_CW_Int = 'Интерфейс';
-$UI_CW_Filter = 'Фильтр';
-$UI_CW_Desc = 'Описание';
-$UI_CW_SucDesc = 'Успешно';
-$UI_CW_Sensor = 'Сенсор';
-$UI_CW_Sig = 'Сигнатура';
-$UI_CW_Role = 'роли';
-$UI_CW_Pw = 'Пароль';
-$UI_CW_Ts = 'Время';
-$UI_CW_Addr = 'Адрес';
+$UI_CW_Name = 'РРјСЏ';
+$UI_CW_Int = 'РРЅС‚РµСЂС„РµР№СЃ';
+$UI_CW_Filter = 'Р¤РёР»СЊС‚СЂ';
+$UI_CW_Desc = 'РћРїРёСЃР°РЅРёРµ';
+$UI_CW_SucDesc = 'РЈСЃРїРµС€РЅРѕ';
+$UI_CW_Sensor = 'РЎРµРЅСЃРѕСЂ';
+$UI_CW_Sig = 'РЎРёРіРЅР°С‚СѓСЂР°';
+$UI_CW_Role = 'СЂРѕР»Рё';
+$UI_CW_Pw = 'РџР°СЂРѕР»СЊ';
+$UI_CW_Ts = 'Р’СЂРµРјСЏ';
+$UI_CW_Addr = 'РђРґСЂРµСЃ';
 $UI_CW_Layer = '';
 $UI_CW_Proto = '';
-$UI_CW_Pri = 'Приоритет';
+$UI_CW_Pri = 'РџСЂРёРѕСЂРёС‚РµС‚';
 // Common Phrases.
 $UI_CP_SrcName = array($UI_CW_Name,$UI_CW_Src);
 $UI_CP_DstName = array($UI_CW_Name,$UI_CW_Dst);
-$UI_CP_SrcDst = array($UI_CW_Src,'или',$UI_CW_Dst);
+$UI_CP_SrcDst = array($UI_CW_Src,'РёР»Рё',$UI_CW_Dst);
 $UI_CP_SrcAddr = array($UI_CW_Addr,$UI_CW_Src);
-$UI_CP_DstAddr = array($UI_CW_Addr,'назначения');
-$UI_CP_L4P = array('Слой','для','прото');
+$UI_CP_DstAddr = array($UI_CW_Addr,'РЅР°Р·РЅР°С‡РµРЅРёСЏ');
+$UI_CP_L4P = array('РЎР»РѕР№','РґР»СЏ','РїСЂРѕС‚Рѕ');
 // Authentication Data.
-$UI_AD_UND = 'Логин';
+$UI_AD_UND = 'Р›РѕРіРёРЅ';
 $UI_AD_RID = array($UI_CW_Id,$UI_CW_Role);
-$UI_AD_ASD = 'Включено';
+$UI_AD_ASD = 'Р’РєР»СЋС‡РµРЅРѕ';
 
-// основные фразы
-DEFINE('_EVENTTYPE','тип события');
-DEFINE('_JANUARY','Январь');
-DEFINE('_FEBRUARY','Февраль');
-DEFINE('_MARCH','Март');
-DEFINE('_APRIL','Апрель');
-DEFINE('_MAY','Май');
-DEFINE('_JUNE','Июнь');
-DEFINE('_JULY','Июль');
-DEFINE('_AUGUST','Август');
-DEFINE('_SEPTEMBER','Сентябрь');
-DEFINE('_OCTOBER','Октябрь');
-DEFINE('_NOVEMBER','Ноябрь');
-DEFINE('_DECEMBER','Декабрь');
-DEFINE('_LAST','Последний');
+// РѕСЃРЅРѕРІРЅС‹Рµ С„СЂР°Р·С‹
+DEFINE('_EVENTTYPE','С‚РёРї СЃРѕР±С‹С‚РёСЏ');
+DEFINE('_JANUARY','РЇРЅРІР°СЂСЊ');
+DEFINE('_FEBRUARY','Р¤РµРІСЂР°Р»СЊ');
+DEFINE('_MARCH','РњР°СЂС‚');
+DEFINE('_APRIL','РђРїСЂРµР»СЊ');
+DEFINE('_MAY','РњР°Р№');
+DEFINE('_JUNE','РСЋРЅСЊ');
+DEFINE('_JULY','РСЋР»СЊ');
+DEFINE('_AUGUST','РђРІРіСѓСЃС‚');
+DEFINE('_SEPTEMBER','РЎРµРЅС‚СЏР±СЂСЊ');
+DEFINE('_OCTOBER','РћРєС‚СЏР±СЂСЊ');
+DEFINE('_NOVEMBER','РќРѕСЏР±СЂСЊ');
+DEFINE('_DECEMBER','Р”РµРєР°Р±СЂСЊ');
+DEFINE('_LAST','РџРѕСЃР»РµРґРЅРёР№');
 DEFINE('_FIRST','First'); //NEW
 DEFINE('_TOTAL','Total'); //NEW
-DEFINE('_ALERT','Предупреждения');
-DEFINE('_ADDRESS','Адрес');
-DEFINE('_UNKNOWN','неизвестно');
+DEFINE('_ALERT','РџСЂРµРґСѓРїСЂРµР¶РґРµРЅРёСЏ');
+DEFINE('_ADDRESS','РђРґСЂРµСЃ');
+DEFINE('_UNKNOWN','РЅРµРёР·РІРµСЃС‚РЅРѕ');
 DEFINE('_AND','AND'); //NEW
 DEFINE('_OR','OR'); //NEW
 DEFINE('_IS','is'); //NEW
@@ -145,164 +145,164 @@ DEFINE('_TYPE','type'); //NEW
 DEFINE('_NEXT','Next'); //NEW
 DEFINE('_PREVIOUS','Previous'); //NEW
 
-//пункты меню
-DEFINE('_HOME','Домой');
-DEFINE('_SEARCH','Поиск');
-DEFINE('_AGMAINT','Поддержка Групп Предупреждений');
-DEFINE('_USERPREF','Установки пользователя');
-DEFINE('_CACHE','Кэш и Статус');
-DEFINE('_ADMIN','Администрирование');
-DEFINE('_GALERTD','График данных предупреждений');
-DEFINE('_GALERTDT','График времени определения предупреждений');
-DEFINE('_USERMAN','Управление пользователями');
-DEFINE('_LISTU','Список пользователей');
-DEFINE('_CREATEU','Создать пользователя');
-DEFINE('_ROLEMAN','Управление ролями');
-DEFINE('_LISTR','Список ролей');
-DEFINE('_CREATER','Создать роль');
-DEFINE('_LISTALL','Весь список');
-DEFINE('_CREATE','Создать');
-DEFINE('_VIEW','Просмотреть');
-DEFINE('_CLEAR','Очистить');
-DEFINE('_LISTGROUPS','Список групп');
-DEFINE('_CREATEGROUPS','Создать группу');
-DEFINE('_VIEWGROUPS','Просмотреть группу');
-DEFINE('_EDITGROUPS',"$UI_CW_Edit группу");
-DEFINE('_DELETEGROUPS',"$UI_CW_Delete группу");
-DEFINE('_CLEARGROUPS','Очистить группу');
-DEFINE('_CHNGPWD',"Поменять $UI_CW_Pw");
-DEFINE('_DISPLAYU','Показать пользователя');
+//РїСѓРЅРєС‚С‹ РјРµРЅСЋ
+DEFINE('_HOME','Р”РѕРјРѕР№');
+DEFINE('_SEARCH','РџРѕРёСЃРє');
+DEFINE('_AGMAINT','РџРѕРґРґРµСЂР¶РєР° Р“СЂСѓРїРї РџСЂРµРґСѓРїСЂРµР¶РґРµРЅРёР№');
+DEFINE('_USERPREF','РЈСЃС‚Р°РЅРѕРІРєРё РїРѕР»СЊР·РѕРІР°С‚РµР»СЏ');
+DEFINE('_CACHE','РљСЌС€ Рё РЎС‚Р°С‚СѓСЃ');
+DEFINE('_ADMIN','РђРґРјРёРЅРёСЃС‚СЂРёСЂРѕРІР°РЅРёРµ');
+DEFINE('_GALERTD','Р“СЂР°С„РёРє РґР°РЅРЅС‹С… РїСЂРµРґСѓРїСЂРµР¶РґРµРЅРёР№');
+DEFINE('_GALERTDT','Р“СЂР°С„РёРє РІСЂРµРјРµРЅРё РѕРїСЂРµРґРµР»РµРЅРёСЏ РїСЂРµРґСѓРїСЂРµР¶РґРµРЅРёР№');
+DEFINE('_USERMAN','РЈРїСЂР°РІР»РµРЅРёРµ РїРѕР»СЊР·РѕРІР°С‚РµР»СЏРјРё');
+DEFINE('_LISTU','РЎРїРёСЃРѕРє РїРѕР»СЊР·РѕРІР°С‚РµР»РµР№');
+DEFINE('_CREATEU','РЎРѕР·РґР°С‚СЊ РїРѕР»СЊР·РѕРІР°С‚РµР»СЏ');
+DEFINE('_ROLEMAN','РЈРїСЂР°РІР»РµРЅРёРµ СЂРѕР»СЏРјРё');
+DEFINE('_LISTR','РЎРїРёСЃРѕРє СЂРѕР»РµР№');
+DEFINE('_CREATER','РЎРѕР·РґР°С‚СЊ СЂРѕР»СЊ');
+DEFINE('_LISTALL','Р’РµСЃСЊ СЃРїРёСЃРѕРє');
+DEFINE('_CREATE','РЎРѕР·РґР°С‚СЊ');
+DEFINE('_VIEW','РџСЂРѕСЃРјРѕС‚СЂРµС‚СЊ');
+DEFINE('_CLEAR','РћС‡РёСЃС‚РёС‚СЊ');
+DEFINE('_LISTGROUPS','РЎРїРёСЃРѕРє РіСЂСѓРїРї');
+DEFINE('_CREATEGROUPS','РЎРѕР·РґР°С‚СЊ РіСЂСѓРїРїСѓ');
+DEFINE('_VIEWGROUPS','РџСЂРѕСЃРјРѕС‚СЂРµС‚СЊ РіСЂСѓРїРїСѓ');
+DEFINE('_EDITGROUPS',"$UI_CW_Edit РіСЂСѓРїРїСѓ");
+DEFINE('_DELETEGROUPS',"$UI_CW_Delete РіСЂСѓРїРїСѓ");
+DEFINE('_CLEARGROUPS','РћС‡РёСЃС‚РёС‚СЊ РіСЂСѓРїРїСѓ');
+DEFINE('_CHNGPWD',"РџРѕРјРµРЅСЏС‚СЊ $UI_CW_Pw");
+DEFINE('_DISPLAYU','РџРѕРєР°Р·Р°С‚СЊ РїРѕР»СЊР·РѕРІР°С‚РµР»СЏ');
 
 //base_footer.php
-DEFINE('_FOOTER','( by <A class="largemenuitem" href="mailto:base@secureideas.net">Кевин Джонсон (Kevin Johnson)</A> и комманда проекта <A class="largemenuitem" href="http://sourceforge.net/project/memberlist.php?group_id=103348">BASE</A><BR>Основано на ACID Романа Данылива (Roman Danyliw)');
+DEFINE('_FOOTER','( by <A class="largemenuitem" href="mailto:base@secureideas.net">РљРµРІРёРЅ Р”Р¶РѕРЅСЃРѕРЅ (Kevin Johnson)</A> Рё РєРѕРјРјР°РЅРґР° РїСЂРѕРµРєС‚Р° <A class="largemenuitem" href="http://sourceforge.net/project/memberlist.php?group_id=103348">BASE</A><BR>РћСЃРЅРѕРІР°РЅРѕ РЅР° ACID Р РѕРјР°РЅР° Р”Р°РЅС‹Р»РёРІР° (Roman Danyliw)');
 
-//index.php --страница входа в систему
-DEFINE('_LOGINERROR',"Пользователь не существует или Ваш $UI_CW_Pw неверный!<br>Пожалуйста, попытайтесь еще раз");
+//index.php --СЃС‚СЂР°РЅРёС†Р° РІС…РѕРґР° РІ СЃРёСЃС‚РµРјСѓ
+DEFINE('_LOGINERROR',"РџРѕР»СЊР·РѕРІР°С‚РµР»СЊ РЅРµ СЃСѓС‰РµСЃС‚РІСѓРµС‚ РёР»Рё Р’Р°С€ $UI_CW_Pw РЅРµРІРµСЂРЅС‹Р№!<br>РџРѕР¶Р°Р»СѓР№СЃС‚Р°, РїРѕРїС‹С‚Р°Р№С‚РµСЃСЊ РµС‰Рµ СЂР°Р·");
 
 // base_main.php
-DEFINE('_MOSTRECENT','Самые последние ');
-DEFINE('_MOSTFREQUENT','Самые частые ');
-DEFINE('_ALERTS',' Предупреждения:');
-DEFINE('_ADDRESSES',' Адреса');
-DEFINE('_ANYPROTO','любой протокол');
-DEFINE('_UNI','уникальный');
-DEFINE('_LISTING','листинг');
-DEFINE('_TALERTS','Сегодняшние предупреждения: ');
+DEFINE('_MOSTRECENT','РЎР°РјС‹Рµ РїРѕСЃР»РµРґРЅРёРµ ');
+DEFINE('_MOSTFREQUENT','РЎР°РјС‹Рµ С‡Р°СЃС‚С‹Рµ ');
+DEFINE('_ALERTS',' РџСЂРµРґСѓРїСЂРµР¶РґРµРЅРёСЏ:');
+DEFINE('_ADDRESSES',' РђРґСЂРµСЃР°');
+DEFINE('_ANYPROTO','Р»СЋР±РѕР№ РїСЂРѕС‚РѕРєРѕР»');
+DEFINE('_UNI','СѓРЅРёРєР°Р»СЊРЅС‹Р№');
+DEFINE('_LISTING','Р»РёСЃС‚РёРЅРі');
+DEFINE('_TALERTS','РЎРµРіРѕРґРЅСЏС€РЅРёРµ РїСЂРµРґСѓРїСЂРµР¶РґРµРЅРёСЏ: ');
 DEFINE('_SOURCEIP','Source IP'); //NEW
 DEFINE('_DESTIP','Destination IP'); //NEW
-DEFINE('_L24ALERTS','Предупреждения за последние 24 часа: ');
-DEFINE('_L72ALERTS','Предупреждения за последние 72 часа: ');
-DEFINE('_UNIALERTS',' Уникальные предупреждения');
-DEFINE('_LSOURCEPORTS',"Последние порты-$UI_CW_Src".'и: ');
-DEFINE('_LDESTPORTS','Последние порты-назначения: ');
-DEFINE('_FREGSOURCEP',"Самые частые порты-$UI_CW_Src".'и: ');
-DEFINE('_FREGDESTP','Самые частые порты-назначения: ');
-DEFINE('_QUERIED','Запрос по');
-DEFINE('_DATABASE','База данных:');
-DEFINE('_SCHEMAV','Версия схемы:');
-DEFINE('_TIMEWIN','Временное окно:');
-DEFINE('_NOALERTSDETECT','предупреждений нет');
+DEFINE('_L24ALERTS','РџСЂРµРґСѓРїСЂРµР¶РґРµРЅРёСЏ Р·Р° РїРѕСЃР»РµРґРЅРёРµ 24 С‡Р°СЃР°: ');
+DEFINE('_L72ALERTS','РџСЂРµРґСѓРїСЂРµР¶РґРµРЅРёСЏ Р·Р° РїРѕСЃР»РµРґРЅРёРµ 72 С‡Р°СЃР°: ');
+DEFINE('_UNIALERTS',' РЈРЅРёРєР°Р»СЊРЅС‹Рµ РїСЂРµРґСѓРїСЂРµР¶РґРµРЅРёСЏ');
+DEFINE('_LSOURCEPORTS',"РџРѕСЃР»РµРґРЅРёРµ РїРѕСЂС‚С‹-$UI_CW_Src".'Рё: ');
+DEFINE('_LDESTPORTS','РџРѕСЃР»РµРґРЅРёРµ РїРѕСЂС‚С‹-РЅР°Р·РЅР°С‡РµРЅРёСЏ: ');
+DEFINE('_FREGSOURCEP',"РЎР°РјС‹Рµ С‡Р°СЃС‚С‹Рµ РїРѕСЂС‚С‹-$UI_CW_Src".'Рё: ');
+DEFINE('_FREGDESTP','РЎР°РјС‹Рµ С‡Р°СЃС‚С‹Рµ РїРѕСЂС‚С‹-РЅР°Р·РЅР°С‡РµРЅРёСЏ: ');
+DEFINE('_QUERIED','Р—Р°РїСЂРѕСЃ РїРѕ');
+DEFINE('_DATABASE','Р‘Р°Р·Р° РґР°РЅРЅС‹С…:');
+DEFINE('_SCHEMAV','Р’РµСЂСЃРёСЏ СЃС…РµРјС‹:');
+DEFINE('_TIMEWIN','Р’СЂРµРјРµРЅРЅРѕРµ РѕРєРЅРѕ:');
+DEFINE('_NOALERTSDETECT','РїСЂРµРґСѓРїСЂРµР¶РґРµРЅРёР№ РЅРµС‚');
 DEFINE('_USEALERTDB','Use Alert Database'); //NEW
 DEFINE('_USEARCHIDB','Use Archive Database'); //NEW
 DEFINE('_TRAFFICPROBPRO','Traffic Profile by Protocol'); //NEW
 
 //base_auth.inc.php
-DEFINE('_ADDEDSF',"$UI_CW_SucDesc добавлено");
-DEFINE('_NOPWDCHANGE',"Невозможно поменять $UI_CW_Pw: ");
-DEFINE('_NOUSER','Пользователь не сущетсвует!');
-DEFINE('_OLDPWD',"Старый введенный $UI_CW_Pw не соответствует нашим записям!");
-DEFINE('_PWDCANT',"Невозможно поменять Ваш $UI_CW_Pw: ");
-DEFINE('_PWDDONE',"Ваш $UI_CW_Pw изменен!");
-DEFINE('_ROLEEXIST','Роль уже существует');
+DEFINE('_ADDEDSF',"$UI_CW_SucDesc РґРѕР±Р°РІР»РµРЅРѕ");
+DEFINE('_NOPWDCHANGE',"РќРµРІРѕР·РјРѕР¶РЅРѕ РїРѕРјРµРЅСЏС‚СЊ $UI_CW_Pw: ");
+DEFINE('_NOUSER','РџРѕР»СЊР·РѕРІР°С‚РµР»СЊ РЅРµ СЃСѓС‰РµС‚СЃРІСѓРµС‚!');
+DEFINE('_OLDPWD',"РЎС‚Р°СЂС‹Р№ РІРІРµРґРµРЅРЅС‹Р№ $UI_CW_Pw РЅРµ СЃРѕРѕС‚РІРµС‚СЃС‚РІСѓРµС‚ РЅР°С€РёРј Р·Р°РїРёСЃСЏРј!");
+DEFINE('_PWDCANT',"РќРµРІРѕР·РјРѕР¶РЅРѕ РїРѕРјРµРЅСЏС‚СЊ Р’Р°С€ $UI_CW_Pw: ");
+DEFINE('_PWDDONE',"Р’Р°С€ $UI_CW_Pw РёР·РјРµРЅРµРЅ!");
+DEFINE('_ROLEEXIST','Р РѕР»СЊ СѓР¶Рµ СЃСѓС‰РµСЃС‚РІСѓРµС‚');
 // TD Migration Hack
 if ($UI_Spacing == 1){
 	$glue = ' ';
 }else{
 	$glue = '';
 }
-DEFINE('_ROLEIDEXIST',implode($glue, $UI_AD_RID)." уже существует");
-DEFINE('_ROLEADDED',"Роль $UI_CW_SucDesc добавлена");
+DEFINE('_ROLEIDEXIST',implode($glue, $UI_AD_RID)." СѓР¶Рµ СЃСѓС‰РµСЃС‚РІСѓРµС‚");
+DEFINE('_ROLEADDED',"Р РѕР»СЊ $UI_CW_SucDesc РґРѕР±Р°РІР»РµРЅР°");
 
 //base_roleadmin.php
-DEFINE('_ROLEADMIN','Администрирование ролей BASE');
+DEFINE('_ROLEADMIN','РђРґРјРёРЅРёСЃС‚СЂРёСЂРѕРІР°РЅРёРµ СЂРѕР»РµР№ BASE');
 DEFINE('_FRMROLENAME',"$UI_CW_Name $UI_CW_Role:");
 DEFINE('_UPDATEROLE',"Update $UI_CW_Role"); //NEW
 
 //base_useradmin.php
-DEFINE('_USERADMIN','Администрирование пользователей BASE');
-DEFINE('_FRMFULLNAME',"Полное $UI_CW_Name:");
-DEFINE('_FRMUID',"$UI_CW_Id пользователя:");
+DEFINE('_USERADMIN','РђРґРјРёРЅРёСЃС‚СЂРёСЂРѕРІР°РЅРёРµ РїРѕР»СЊР·РѕРІР°С‚РµР»РµР№ BASE');
+DEFINE('_FRMFULLNAME',"РџРѕР»РЅРѕРµ $UI_CW_Name:");
+DEFINE('_FRMUID',"$UI_CW_Id РїРѕР»СЊР·РѕРІР°С‚РµР»СЏ:");
 DEFINE('_SUBMITQUERY','Submit Query'); //NEW
 DEFINE('_UPDATEUSER','Update User'); //NEW
 
 //admin/index.php
-DEFINE('_BASEADMIN','Администрирование BASE ');
-DEFINE('_BASEADMINTEXT','Пожалуйста, выберите опцию слева.');
+DEFINE('_BASEADMIN','РђРґРјРёРЅРёСЃС‚СЂРёСЂРѕРІР°РЅРёРµ BASE ');
+DEFINE('_BASEADMINTEXT','РџРѕР¶Р°Р»СѓР№СЃС‚Р°, РІС‹Р±РµСЂРёС‚Рµ РѕРїС†РёСЋ СЃР»РµРІР°.');
 
 //base_action.inc.php
-DEFINE('_NOACTION','Дествие для предупреждений не указано');
-DEFINE('_INVALIDACT',' неверное действие');
-DEFINE('_ERRNOAG','Невозможно добавить предупреждения, ГП не указана');
-DEFINE('_ERRNOEMAIL','Невозможно отправить предупреждения по e-mail, не указан e-mail-адрес');
-DEFINE('_ACTION','ДЕЙСТВИЕ');
-DEFINE('_CONTEXT','контекст');
-DEFINE('_ADDAGID',"ДОБАВИТЬ в ГП (по $UI_CW_Id)");
-DEFINE('_ADDAG','ДОБАВИТЬ-Новую-ГП');
-DEFINE('_ADDAGNAME','ДОБАВИТЬ в ГП (по имени)');
-DEFINE('_CREATEAG','Создать ГП (по имени)');
-DEFINE('_CLEARAG','Очистить ГП');
-DEFINE('_DELETEALERT',"$UI_CW_Delete предупреждение(-я)");
-DEFINE('_EMAILALERTSFULL','Отправить предупреждение(-я) (полностью)');
-DEFINE('_EMAILALERTSSUMM',"Отправить предупреждение(-я) ($UI_CW_Desc)");
-DEFINE('_EMAILALERTSCSV','Отправить предупреждение(-я) (csv)');
-DEFINE('_ARCHIVEALERTSCOPY','Архивировать предупреждение(-я) (копировать)');
-DEFINE('_ARCHIVEALERTSMOVE','Архивировать предупреждение(-я) (переместить)');
-DEFINE('_IGNORED','Игнорированное ');
-DEFINE('_DUPALERTS',' дублирующееся(-иеся) предупреждение(-я)');
-DEFINE('_ALERTSPARA',' предупреждение(-я)');
-DEFINE('_NOALERTSSELECT','Предупреждения не выбраны или');
-DEFINE('_NOTSUCCESSFUL','не был успешным');
-DEFINE('_ERRUNKAGID','Указан неизвестный идентификатор ГП (возможно, ГП не существует)');
-DEFINE('_ERRREMOVEFAIL',"Не удалось $UI_CW_Delete новый ГП");
-DEFINE('_GENBASE','Сгенерировано BASE');
-DEFINE('_ERRNOEMAILEXP','ОШИБКА ЭКСПОРТА: Не удалось отправить экспортированные предупреждения на');
-DEFINE('_ERRNOEMAILPHP','Проверьте конфигурацию почты PHP.');
-DEFINE('_ERRDELALERT','Ошибка удаления предупреждения');
-DEFINE('_ERRARCHIVE','Ошибка архивации:');
-DEFINE('_ERRMAILNORECP','ОШИБКА ПОЧТЫ: Получатель не указан');
+DEFINE('_NOACTION','Р”РµСЃС‚РІРёРµ РґР»СЏ РїСЂРµРґСѓРїСЂРµР¶РґРµРЅРёР№ РЅРµ СѓРєР°Р·Р°РЅРѕ');
+DEFINE('_INVALIDACT',' РЅРµРІРµСЂРЅРѕРµ РґРµР№СЃС‚РІРёРµ');
+DEFINE('_ERRNOAG','РќРµРІРѕР·РјРѕР¶РЅРѕ РґРѕР±Р°РІРёС‚СЊ РїСЂРµРґСѓРїСЂРµР¶РґРµРЅРёСЏ, Р“Рџ РЅРµ СѓРєР°Р·Р°РЅР°');
+DEFINE('_ERRNOEMAIL','РќРµРІРѕР·РјРѕР¶РЅРѕ РѕС‚РїСЂР°РІРёС‚СЊ РїСЂРµРґСѓРїСЂРµР¶РґРµРЅРёСЏ РїРѕ e-mail, РЅРµ СѓРєР°Р·Р°РЅ e-mail-Р°РґСЂРµСЃ');
+DEFINE('_ACTION','Р”Р•Р™РЎРўР’РР•');
+DEFINE('_CONTEXT','РєРѕРЅС‚РµРєСЃС‚');
+DEFINE('_ADDAGID',"Р”РћР‘РђР’РРўР¬ РІ Р“Рџ (РїРѕ $UI_CW_Id)");
+DEFINE('_ADDAG','Р”РћР‘РђР’РРўР¬-РќРѕРІСѓСЋ-Р“Рџ');
+DEFINE('_ADDAGNAME','Р”РћР‘РђР’РРўР¬ РІ Р“Рџ (РїРѕ РёРјРµРЅРё)');
+DEFINE('_CREATEAG','РЎРѕР·РґР°С‚СЊ Р“Рџ (РїРѕ РёРјРµРЅРё)');
+DEFINE('_CLEARAG','РћС‡РёСЃС‚РёС‚СЊ Р“Рџ');
+DEFINE('_DELETEALERT',"$UI_CW_Delete РїСЂРµРґСѓРїСЂРµР¶РґРµРЅРёРµ(-СЏ)");
+DEFINE('_EMAILALERTSFULL','РћС‚РїСЂР°РІРёС‚СЊ РїСЂРµРґСѓРїСЂРµР¶РґРµРЅРёРµ(-СЏ) (РїРѕР»РЅРѕСЃС‚СЊСЋ)');
+DEFINE('_EMAILALERTSSUMM',"РћС‚РїСЂР°РІРёС‚СЊ РїСЂРµРґСѓРїСЂРµР¶РґРµРЅРёРµ(-СЏ) ($UI_CW_Desc)");
+DEFINE('_EMAILALERTSCSV','РћС‚РїСЂР°РІРёС‚СЊ РїСЂРµРґСѓРїСЂРµР¶РґРµРЅРёРµ(-СЏ) (csv)');
+DEFINE('_ARCHIVEALERTSCOPY','РђСЂС…РёРІРёСЂРѕРІР°С‚СЊ РїСЂРµРґСѓРїСЂРµР¶РґРµРЅРёРµ(-СЏ) (РєРѕРїРёСЂРѕРІР°С‚СЊ)');
+DEFINE('_ARCHIVEALERTSMOVE','РђСЂС…РёРІРёСЂРѕРІР°С‚СЊ РїСЂРµРґСѓРїСЂРµР¶РґРµРЅРёРµ(-СЏ) (РїРµСЂРµРјРµСЃС‚РёС‚СЊ)');
+DEFINE('_IGNORED','РРіРЅРѕСЂРёСЂРѕРІР°РЅРЅРѕРµ ');
+DEFINE('_DUPALERTS',' РґСѓР±Р»РёСЂСѓСЋС‰РµРµСЃСЏ(-РёРµСЃСЏ) РїСЂРµРґСѓРїСЂРµР¶РґРµРЅРёРµ(-СЏ)');
+DEFINE('_ALERTSPARA',' РїСЂРµРґСѓРїСЂРµР¶РґРµРЅРёРµ(-СЏ)');
+DEFINE('_NOALERTSSELECT','РџСЂРµРґСѓРїСЂРµР¶РґРµРЅРёСЏ РЅРµ РІС‹Р±СЂР°РЅС‹ РёР»Рё');
+DEFINE('_NOTSUCCESSFUL','РЅРµ Р±С‹Р» СѓСЃРїРµС€РЅС‹Рј');
+DEFINE('_ERRUNKAGID','РЈРєР°Р·Р°РЅ РЅРµРёР·РІРµСЃС‚РЅС‹Р№ РёРґРµРЅС‚РёС„РёРєР°С‚РѕСЂ Р“Рџ (РІРѕР·РјРѕР¶РЅРѕ, Р“Рџ РЅРµ СЃСѓС‰РµСЃС‚РІСѓРµС‚)');
+DEFINE('_ERRREMOVEFAIL',"РќРµ СѓРґР°Р»РѕСЃСЊ $UI_CW_Delete РЅРѕРІС‹Р№ Р“Рџ");
+DEFINE('_GENBASE','РЎРіРµРЅРµСЂРёСЂРѕРІР°РЅРѕ BASE');
+DEFINE('_ERRNOEMAILEXP','РћРЁРР‘РљРђ Р­РљРЎРџРћР РўРђ: РќРµ СѓРґР°Р»РѕСЃСЊ РѕС‚РїСЂР°РІРёС‚СЊ СЌРєСЃРїРѕСЂС‚РёСЂРѕРІР°РЅРЅС‹Рµ РїСЂРµРґСѓРїСЂРµР¶РґРµРЅРёСЏ РЅР°');
+DEFINE('_ERRNOEMAILPHP','РџСЂРѕРІРµСЂСЊС‚Рµ РєРѕРЅС„РёРіСѓСЂР°С†РёСЋ РїРѕС‡С‚С‹ PHP.');
+DEFINE('_ERRDELALERT','РћС€РёР±РєР° СѓРґР°Р»РµРЅРёСЏ РїСЂРµРґСѓРїСЂРµР¶РґРµРЅРёСЏ');
+DEFINE('_ERRARCHIVE','РћС€РёР±РєР° Р°СЂС…РёРІР°С†РёРё:');
+DEFINE('_ERRMAILNORECP','РћРЁРР‘РљРђ РџРћР§РўР«: РџРѕР»СѓС‡Р°С‚РµР»СЊ РЅРµ СѓРєР°Р·Р°РЅ');
 
 //base_cache.inc.php
-DEFINE('_ADDED','Добавлены ');
-DEFINE('_HOSTNAMESDNS',' имена хостов к кэшу IP DNS');
-DEFINE('_HOSTNAMESWHOIS',' имена хостов к кэшу Whois');
-DEFINE('_ERRCACHENULL','ОШИБКА Кэширования: обнаружен ряд NULL-событий?');
-DEFINE('_ERRCACHEERROR','ОШИБКА КЭШИРОВАНИЯ СОБЫТИЙ:');
-DEFINE('_ERRCACHEUPDATE','Не удалось обновить кэш событий');
-DEFINE('_ALERTSCACHE',' предупреждение(-я) к кэшу предупреждений');
+DEFINE('_ADDED','Р”РѕР±Р°РІР»РµРЅС‹ ');
+DEFINE('_HOSTNAMESDNS',' РёРјРµРЅР° С…РѕСЃС‚РѕРІ Рє РєСЌС€Сѓ IP DNS');
+DEFINE('_HOSTNAMESWHOIS',' РёРјРµРЅР° С…РѕСЃС‚РѕРІ Рє РєСЌС€Сѓ Whois');
+DEFINE('_ERRCACHENULL','РћРЁРР‘РљРђ РљСЌС€РёСЂРѕРІР°РЅРёСЏ: РѕР±РЅР°СЂСѓР¶РµРЅ СЂСЏРґ NULL-СЃРѕР±С‹С‚РёР№?');
+DEFINE('_ERRCACHEERROR','РћРЁРР‘РљРђ РљР­РЁРР РћР’РђРќРРЇ РЎРћР‘Р«РўРР™:');
+DEFINE('_ERRCACHEUPDATE','РќРµ СѓРґР°Р»РѕСЃСЊ РѕР±РЅРѕРІРёС‚СЊ РєСЌС€ СЃРѕР±С‹С‚РёР№');
+DEFINE('_ALERTSCACHE',' РїСЂРµРґСѓРїСЂРµР¶РґРµРЅРёРµ(-СЏ) Рє РєСЌС€Сѓ РїСЂРµРґСѓРїСЂРµР¶РґРµРЅРёР№');
 
 //base_db.inc.php
-DEFINE('_ERRSQLTRACE','Не удалось открыть файл трассировки SQL');
-DEFINE('_ERRSQLCONNECT','Ошибка подключения к БД :');
-DEFINE('_ERRSQLCONNECTINFO','<P>Проверьте переменные подключения к БД в файле <I>base_conf.php</I> 
+DEFINE('_ERRSQLTRACE','РќРµ СѓРґР°Р»РѕСЃСЊ РѕС‚РєСЂС‹С‚СЊ С„Р°Р№Р» С‚СЂР°СЃСЃРёСЂРѕРІРєРё SQL');
+DEFINE('_ERRSQLCONNECT','РћС€РёР±РєР° РїРѕРґРєР»СЋС‡РµРЅРёСЏ Рє Р‘Р” :');
+DEFINE('_ERRSQLCONNECTINFO','<P>РџСЂРѕРІРµСЂСЊС‚Рµ РїРµСЂРµРјРµРЅРЅС‹Рµ РїРѕРґРєР»СЋС‡РµРЅРёСЏ Рє Р‘Р” РІ С„Р°Р№Р»Рµ <I>base_conf.php</I> 
               <PRE>
-               = $alert_dbname   : '.$UI_CW_Name.' БД MySQL, в которой хранятся предупреждения
-               = $alert_host     : хост, на котором хранится БД
-               = $alert_port     : порт, на котором хранится БД
-               = $alert_user     : '.$UI_CW_Name.' пользователя БД
-               = $alert_password : '.$UI_CW_Pw.' пользователя
+               = $alert_dbname   : '.$UI_CW_Name.' Р‘Р” MySQL, РІ РєРѕС‚РѕСЂРѕР№ С…СЂР°РЅСЏС‚СЃСЏ РїСЂРµРґСѓРїСЂРµР¶РґРµРЅРёСЏ
+               = $alert_host     : С…РѕСЃС‚, РЅР° РєРѕС‚РѕСЂРѕРј С…СЂР°РЅРёС‚СЃСЏ Р‘Р”
+               = $alert_port     : РїРѕСЂС‚, РЅР° РєРѕС‚РѕСЂРѕРј С…СЂР°РЅРёС‚СЃСЏ Р‘Р”
+               = $alert_user     : '.$UI_CW_Name.' РїРѕР»СЊР·РѕРІР°С‚РµР»СЏ Р‘Р”
+               = $alert_password : '.$UI_CW_Pw.' РїРѕР»СЊР·РѕРІР°С‚РµР»СЏ
               </PRE>
               <P>');
-DEFINE('_ERRSQLPCONNECT','Ошибка (p)подключения к БД :');
-DEFINE('_ERRSQLDB','ОШИБКА БД:');
-DEFINE('_DBALCHECK','Проверка абстракционной библиотеки БД в');
-DEFINE('_ERRSQLDBALLOAD1','<P><B>Ошибка зарузки абстракционной библиотеки БД: </B> из ');
-DEFINE('_ERRSQLDBALLOAD2','<P>Проверьте переменную абстракционной библиотеки БД <CODE>$DBlib_path</CODE> в <CODE>base_conf.php</CODE>
+DEFINE('_ERRSQLPCONNECT','РћС€РёР±РєР° (p)РїРѕРґРєР»СЋС‡РµРЅРёСЏ Рє Р‘Р” :');
+DEFINE('_ERRSQLDB','РћРЁРР‘РљРђ Р‘Р”:');
+DEFINE('_DBALCHECK','РџСЂРѕРІРµСЂРєР° Р°Р±СЃС‚СЂР°РєС†РёРѕРЅРЅРѕР№ Р±РёР±Р»РёРѕС‚РµРєРё Р‘Р” РІ');
+DEFINE('_ERRSQLDBALLOAD1','<P><B>РћС€РёР±РєР° Р·Р°СЂСѓР·РєРё Р°Р±СЃС‚СЂР°РєС†РёРѕРЅРЅРѕР№ Р±РёР±Р»РёРѕС‚РµРєРё Р‘Р”: </B> РёР· ');
+DEFINE('_ERRSQLDBALLOAD2','<P>РџСЂРѕРІРµСЂСЊС‚Рµ РїРµСЂРµРјРµРЅРЅСѓСЋ Р°Р±СЃС‚СЂР°РєС†РёРѕРЅРЅРѕР№ Р±РёР±Р»РёРѕС‚РµРєРё Р‘Р” <CODE>$DBlib_path</CODE> РІ <CODE>base_conf.php</CODE>
             <P>
-            В данный момент используется ADODB как библиотека работы с БД, она может быть загружена с
+            Р’ РґР°РЅРЅС‹Р№ РјРѕРјРµРЅС‚ РёСЃРїРѕР»СЊР·СѓРµС‚СЃСЏ ADODB РєР°Рє Р±РёР±Р»РёРѕС‚РµРєР° СЂР°Р±РѕС‚С‹ СЃ Р‘Р”, РѕРЅР° РјРѕР¶РµС‚ Р±С‹С‚СЊ Р·Р°РіСЂСѓР¶РµРЅР° СЃ
             ');
-DEFINE('_ERRSQLDBTYPE','Указан неверный тип БД');
-DEFINE('_ERRSQLDBTYPEINFO1','Переменная <CODE>\$DBtype</CODE> в <CODE>base_conf.php</CODE> установлена в нераспознаваемое значение типа БД ');
-DEFINE('_ERRSQLDBTYPEINFO2','Поддерживаются только следующие БД: <PRE>
+DEFINE('_ERRSQLDBTYPE','РЈРєР°Р·Р°РЅ РЅРµРІРµСЂРЅС‹Р№ С‚РёРї Р‘Р”');
+DEFINE('_ERRSQLDBTYPEINFO1','РџРµСЂРµРјРµРЅРЅР°СЏ <CODE>\$DBtype</CODE> РІ <CODE>base_conf.php</CODE> СѓСЃС‚Р°РЅРѕРІР»РµРЅР° РІ РЅРµСЂР°СЃРїРѕР·РЅР°РІР°РµРјРѕРµ Р·РЅР°С‡РµРЅРёРµ С‚РёРїР° Р‘Р” ');
+DEFINE('_ERRSQLDBTYPEINFO2','РџРѕРґРґРµСЂР¶РёРІР°СЋС‚СЃСЏ С‚РѕР»СЊРєРѕ СЃР»РµРґСѓСЋС‰РёРµ Р‘Р”: <PRE>
                 MySQL         : \'mysql\'
                 PostgreSQL    : \'postgres\'
                 MS SQL Server : \'mssql\'
@@ -310,26 +310,26 @@ DEFINE('_ERRSQLDBTYPEINFO2','Поддерживаются только следующие БД: <PRE>
              </PRE>');
 
 //base_log_error.inc.php
-DEFINE('_ERRBASEFATAL','ФАТАЛЬНАЯ ОШИБКА BASE:');
+DEFINE('_ERRBASEFATAL','Р¤РђРўРђР›Р¬РќРђРЇ РћРЁРР‘РљРђ BASE:');
 
 //base_log_timing.inc.php
-DEFINE('_LOADEDIN','Загружено за');
-DEFINE('_SECONDS','секунд');
+DEFINE('_LOADEDIN','Р—Р°РіСЂСѓР¶РµРЅРѕ Р·Р°');
+DEFINE('_SECONDS','СЃРµРєСѓРЅРґ');
 
 //base_net.inc.php
-DEFINE('_ERRRESOLVEADDRESS','Невозможно получить адрес');
+DEFINE('_ERRRESOLVEADDRESS','РќРµРІРѕР·РјРѕР¶РЅРѕ РїРѕР»СѓС‡РёС‚СЊ Р°РґСЂРµСЃ');
 
 //base_output_query.inc.php
-DEFINE('_QUERYRESULTSHEADER','Выходной заголовок результатов запроса:');
+DEFINE('_QUERYRESULTSHEADER','Р’С‹С…РѕРґРЅРѕР№ Р·Р°РіРѕР»РѕРІРѕРє СЂРµР·СѓР»СЊС‚Р°С‚РѕРІ Р·Р°РїСЂРѕСЃР°:');
 
 //base_signature.inc.php
-DEFINE('_ERRSIGNAMEUNK','Неизвестный SigName');
-DEFINE('_ERRSIGPROIRITYUNK','Неизвестный SigPriority');
-DEFINE('_UNCLASS','неклассифицировано');
+DEFINE('_ERRSIGNAMEUNK','РќРµРёР·РІРµСЃС‚РЅС‹Р№ SigName');
+DEFINE('_ERRSIGPROIRITYUNK','РќРµРёР·РІРµСЃС‚РЅС‹Р№ SigPriority');
+DEFINE('_UNCLASS','РЅРµРєР»Р°СЃСЃРёС„РёС†РёСЂРѕРІР°РЅРѕ');
 
 //base_state_citems.inc.php
-DEFINE('_DENCODED','данные закодированы как');
-DEFINE('_NODENCODED','(данные не преобразованы, предполагается родная кодировка БД)');
+DEFINE('_DENCODED','РґР°РЅРЅС‹Рµ Р·Р°РєРѕРґРёСЂРѕРІР°РЅС‹ РєР°Рє');
+DEFINE('_NODENCODED','(РґР°РЅРЅС‹Рµ РЅРµ РїСЂРµРѕР±СЂР°Р·РѕРІР°РЅС‹, РїСЂРµРґРїРѕР»Р°РіР°РµС‚СЃСЏ СЂРѕРґРЅР°СЏ РєРѕРґРёСЂРѕРІРєР° Р‘Р”)');
 DEFINE('_SHORTJAN','Jan'); //NEW
 DEFINE('_SHORTFEB','Feb'); //NEW
 DEFINE('_SHORTMAR','Mar'); //NEW
@@ -366,79 +366,79 @@ DEFINE('_INPUTCRTENC','Input Criteria Encoding Type'); //NEW
 DEFINE('_CONVERT2WS','Convert To (when searching)'); //NEW
 
 //base_state_common.inc.php
-DEFINE('_PHPERRORCSESSION','ОШИБКА PHP: Обнаружена частная РНР-сессия (пользовательская). Однако, BASE не сконфигурирован распознавать данный конкретный заголовок.  Установите <CODE>use_user_session=1</CODE> в <CODE>base_conf.php</CODE>');
-DEFINE('_PHPERRORCSESSIONCODE','ОШИБКА PHP: Был сконфигурирован частный хэндер НР-сессии (пользовательской), но хэндер, указанный в <CODE>user_session_path</CODE> неправильный.');
-DEFINE('_PHPERRORCSESSIONVAR','PHP ERROR: Был сконфигурирован частный хэндлер РНР-сессии (пользовательской), но имплементация этого хэндлера не указана в BASE.  Если хэндлер частеой сессии предпочтителен, установите переменную <CODE>user_session_path</CODE> в <CODE>base_conf.php</CODE>.');
-DEFINE('_PHPSESSREG','Сессия зарегестрирована');
+DEFINE('_PHPERRORCSESSION','РћРЁРР‘РљРђ PHP: РћР±РЅР°СЂСѓР¶РµРЅР° С‡Р°СЃС‚РЅР°СЏ Р РќР -СЃРµСЃСЃРёСЏ (РїРѕР»СЊР·РѕРІР°С‚РµР»СЊСЃРєР°СЏ). РћРґРЅР°РєРѕ, BASE РЅРµ СЃРєРѕРЅС„РёРіСѓСЂРёСЂРѕРІР°РЅ СЂР°СЃРїРѕР·РЅР°РІР°С‚СЊ РґР°РЅРЅС‹Р№ РєРѕРЅРєСЂРµС‚РЅС‹Р№ Р·Р°РіРѕР»РѕРІРѕРє.  РЈСЃС‚Р°РЅРѕРІРёС‚Рµ <CODE>use_user_session=1</CODE> РІ <CODE>base_conf.php</CODE>');
+DEFINE('_PHPERRORCSESSIONCODE','РћРЁРР‘РљРђ PHP: Р‘С‹Р» СЃРєРѕРЅС„РёРіСѓСЂРёСЂРѕРІР°РЅ С‡Р°СЃС‚РЅС‹Р№ С…СЌРЅРґРµСЂ РќР -СЃРµСЃСЃРёРё (РїРѕР»СЊР·РѕРІР°С‚РµР»СЊСЃРєРѕР№), РЅРѕ С…СЌРЅРґРµСЂ, СѓРєР°Р·Р°РЅРЅС‹Р№ РІ <CODE>user_session_path</CODE> РЅРµРїСЂР°РІРёР»СЊРЅС‹Р№.');
+DEFINE('_PHPERRORCSESSIONVAR','PHP ERROR: Р‘С‹Р» СЃРєРѕРЅС„РёРіСѓСЂРёСЂРѕРІР°РЅ С‡Р°СЃС‚РЅС‹Р№ С…СЌРЅРґР»РµСЂ Р РќР -СЃРµСЃСЃРёРё (РїРѕР»СЊР·РѕРІР°С‚РµР»СЊСЃРєРѕР№), РЅРѕ РёРјРїР»РµРјРµРЅС‚Р°С†РёСЏ СЌС‚РѕРіРѕ С…СЌРЅРґР»РµСЂР° РЅРµ СѓРєР°Р·Р°РЅР° РІ BASE.  Р•СЃР»Рё С…СЌРЅРґР»РµСЂ С‡Р°СЃС‚РµРѕР№ СЃРµСЃСЃРёРё РїСЂРµРґРїРѕС‡С‚РёС‚РµР»РµРЅ, СѓСЃС‚Р°РЅРѕРІРёС‚Рµ РїРµСЂРµРјРµРЅРЅСѓСЋ <CODE>user_session_path</CODE> РІ <CODE>base_conf.php</CODE>.');
+DEFINE('_PHPSESSREG','РЎРµСЃСЃРёСЏ Р·Р°СЂРµРіРµСЃС‚СЂРёСЂРѕРІР°РЅР°');
 
 //base_state_criteria.inc.php
-DEFINE('_REMOVE','Удаление');
-DEFINE('_FROMCRIT','из критериев');
-DEFINE('_ERRCRITELEM','Неверный элемент критериев');
+DEFINE('_REMOVE','РЈРґР°Р»РµРЅРёРµ');
+DEFINE('_FROMCRIT','РёР· РєСЂРёС‚РµСЂРёРµРІ');
+DEFINE('_ERRCRITELEM','РќРµРІРµСЂРЅС‹Р№ СЌР»РµРјРµРЅС‚ РєСЂРёС‚РµСЂРёРµРІ');
 
 //base_state_query.inc.php
-DEFINE('_VALIDCANNED','Верный список запросов');
-DEFINE('_DISPLAYING','Отображение');
-DEFINE('_DISPLAYINGTOTAL','Отображение предупреждений %d-%d из %d');
-DEFINE('_NOALERTS','Предупреждения не найдены.');
-DEFINE('_QUERYRESULTS','Результаты запроса');
-DEFINE('_QUERYSTATE','Состояние запроса');
+DEFINE('_VALIDCANNED','Р’РµСЂРЅС‹Р№ СЃРїРёСЃРѕРє Р·Р°РїСЂРѕСЃРѕРІ');
+DEFINE('_DISPLAYING','РћС‚РѕР±СЂР°Р¶РµРЅРёРµ');
+DEFINE('_DISPLAYINGTOTAL','РћС‚РѕР±СЂР°Р¶РµРЅРёРµ РїСЂРµРґСѓРїСЂРµР¶РґРµРЅРёР№ %d-%d РёР· %d');
+DEFINE('_NOALERTS','РџСЂРµРґСѓРїСЂРµР¶РґРµРЅРёСЏ РЅРµ РЅР°Р№РґРµРЅС‹.');
+DEFINE('_QUERYRESULTS','Р РµР·СѓР»СЊС‚Р°С‚С‹ Р·Р°РїСЂРѕСЃР°');
+DEFINE('_QUERYSTATE','РЎРѕСЃС‚РѕСЏРЅРёРµ Р·Р°РїСЂРѕСЃР°');
 DEFINE('_DISPACTION','{ action }'); //NEW
 
 //base_ag_common.php
-DEFINE('_ERRAGNAMESEARCH',"Указанное $UI_CW_Name ГП для поиска неверно. Попробуйте еще раз!");
-DEFINE('_ERRAGNAMEEXIST','Указанная ГП не существует.');
-DEFINE('_ERRAGIDSEARCH',"Указанный $UI_CW_Id ГП для поиска неверный.  Попробуйте еще раз!");
-DEFINE('_ERRAGLOOKUP',"Ошибка поиска $UI_CW_Id ГП");
-DEFINE('_ERRAGINSERT','Ошибка вставки новой ГП');
+DEFINE('_ERRAGNAMESEARCH',"РЈРєР°Р·Р°РЅРЅРѕРµ $UI_CW_Name Р“Рџ РґР»СЏ РїРѕРёСЃРєР° РЅРµРІРµСЂРЅРѕ. РџРѕРїСЂРѕР±СѓР№С‚Рµ РµС‰Рµ СЂР°Р·!");
+DEFINE('_ERRAGNAMEEXIST','РЈРєР°Р·Р°РЅРЅР°СЏ Р“Рџ РЅРµ СЃСѓС‰РµСЃС‚РІСѓРµС‚.');
+DEFINE('_ERRAGIDSEARCH',"РЈРєР°Р·Р°РЅРЅС‹Р№ $UI_CW_Id Р“Рџ РґР»СЏ РїРѕРёСЃРєР° РЅРµРІРµСЂРЅС‹Р№.  РџРѕРїСЂРѕР±СѓР№С‚Рµ РµС‰Рµ СЂР°Р·!");
+DEFINE('_ERRAGLOOKUP',"РћС€РёР±РєР° РїРѕРёСЃРєР° $UI_CW_Id Р“Рџ");
+DEFINE('_ERRAGINSERT','РћС€РёР±РєР° РІСЃС‚Р°РІРєРё РЅРѕРІРѕР№ Р“Рџ');
 
 //base_ag_main.php
-DEFINE('_AGMAINTTITLE','Поддержка Групп Предупреждений (ГП)');
-DEFINE('_ERRAGUPDATE','Ошибка обновления ГП');
-DEFINE('_ERRAGPACKETLIST','Ошибка удаления списка пакетов из ГП:');
-DEFINE('_ERRAGDELETE','Ошибка удаления ГП');
-DEFINE('_AGDELETE',"$UI_CW_SucDesc УДАЛЕНО");
-DEFINE('_AGDELETEINFO','информация удалена');
-DEFINE('_ERRAGSEARCHINV','Введенные критерии поиска неверны. Попробуйте еще раз!');
-DEFINE('_ERRAGSEARCHNOTFOUND','По данным критериям не найдено ни одной ГП.');
-DEFINE('_NOALERTGOUPS','Групп Предупреждений нет');
-DEFINE('_NUMALERTS','Число предупреждений');
-DEFINE('_ACTIONS','Действия');
-DEFINE('_NOTASSIGN','еще но назначено');
+DEFINE('_AGMAINTTITLE','РџРѕРґРґРµСЂР¶РєР° Р“СЂСѓРїРї РџСЂРµРґСѓРїСЂРµР¶РґРµРЅРёР№ (Р“Рџ)');
+DEFINE('_ERRAGUPDATE','РћС€РёР±РєР° РѕР±РЅРѕРІР»РµРЅРёСЏ Р“Рџ');
+DEFINE('_ERRAGPACKETLIST','РћС€РёР±РєР° СѓРґР°Р»РµРЅРёСЏ СЃРїРёСЃРєР° РїР°РєРµС‚РѕРІ РёР· Р“Рџ:');
+DEFINE('_ERRAGDELETE','РћС€РёР±РєР° СѓРґР°Р»РµРЅРёСЏ Р“Рџ');
+DEFINE('_AGDELETE',"$UI_CW_SucDesc РЈР”РђР›Р•РќРћ");
+DEFINE('_AGDELETEINFO','РёРЅС„РѕСЂРјР°С†РёСЏ СѓРґР°Р»РµРЅР°');
+DEFINE('_ERRAGSEARCHINV','Р’РІРµРґРµРЅРЅС‹Рµ РєСЂРёС‚РµСЂРёРё РїРѕРёСЃРєР° РЅРµРІРµСЂРЅС‹. РџРѕРїСЂРѕР±СѓР№С‚Рµ РµС‰Рµ СЂР°Р·!');
+DEFINE('_ERRAGSEARCHNOTFOUND','РџРѕ РґР°РЅРЅС‹Рј РєСЂРёС‚РµСЂРёСЏРј РЅРµ РЅР°Р№РґРµРЅРѕ РЅРё РѕРґРЅРѕР№ Р“Рџ.');
+DEFINE('_NOALERTGOUPS','Р“СЂСѓРїРї РџСЂРµРґСѓРїСЂРµР¶РґРµРЅРёР№ РЅРµС‚');
+DEFINE('_NUMALERTS','Р§РёСЃР»Рѕ РїСЂРµРґСѓРїСЂРµР¶РґРµРЅРёР№');
+DEFINE('_ACTIONS','Р”РµР№СЃС‚РІРёСЏ');
+DEFINE('_NOTASSIGN','РµС‰Рµ РЅРѕ РЅР°Р·РЅР°С‡РµРЅРѕ');
 DEFINE('_SAVECHANGES','Save Changes'); //NEW
 DEFINE('_CONFIRMDELETE','Confirm Delete'); //NEW
 DEFINE('_CONFIRMCLEAR','Confirm Clear'); //NEW
 
 //base_common.php
-DEFINE('_PORTSCAN','Траффик сканирования портов');
+DEFINE('_PORTSCAN','РўСЂР°С„С„РёРє СЃРєР°РЅРёСЂРѕРІР°РЅРёСЏ РїРѕСЂС‚РѕРІ');
 
 //base_db_common.php
-DEFINE('_ERRDBINDEXCREATE','Не удалось создать индекс для');
-DEFINE('_DBINDEXCREATE',"Индекс $UI_CW_SucDesc создан для");
-DEFINE('_ERRSNORTVER','Это может быть старой версии. Поддерживаются базы предупреждений созданные только с помощью Snort 1.7-beta0 или более поздней версии');
-DEFINE('_ERRSNORTVER1','БД-подложка');
-DEFINE('_ERRSNORTVER2','может быть неполной/неверной');
-DEFINE('_ERRDBSTRUCT1','Версия БД верна, но структура БД BASE');
-DEFINE('_ERRDBSTRUCT2','не присутствует. Используйте <A HREF="base_db_setup.php">Страницу установки</A> для конфигурирования и оптимизации БД.');
-DEFINE('_ERRPHPERROR','ОШИБКА PHP');
-DEFINE('_ERRPHPERROR1','Несовместимая версия');
-DEFINE('_ERRVERSION','Версия');
-DEFINE('_ERRPHPERROR2','PHP слишком стара.  Пожалуйста, обновите ее до 4.0.4 или более поздней');
-DEFINE('_ERRPHPMYSQLSUP','<B>билд PHP неполный</B>: <FONT>встроенная поддержка MySQL, необходимая для 
-               чтения базы предупреждений, не встроена в PHP.  
-               Пожалуйста, перекомпилируйте PHP с необходимой библиотекой (<CODE>--with-mysql</CODE>)</FONT>');
-DEFINE('_ERRPHPPOSTGRESSUP','<B>билд PHP неполный</B>: <FONT>встроенная поддержка PostgreSQL, необходимая для 
-               чтения базы предупреждений, не встроена в PHP.  
-               Пожалуйста, перекомпилируйте PHP с необходимой библиотекой (<CODE>--with-pgsql</CODE>)</FONT>');
-DEFINE('_ERRPHPMSSQLSUP','<B>билд PHP неполный</B>: <FONT>встроенная поддержка MS SQL Server, необходимая для
-               чтения базы предупреждений, не встроена в PHP.  
-               Пожалуйста, перекомпилируйте PHP с необходимой библиотекой  (<CODE>--enable-mssql</CODE>)</FONT>');
+DEFINE('_ERRDBINDEXCREATE','РќРµ СѓРґР°Р»РѕСЃСЊ СЃРѕР·РґР°С‚СЊ РёРЅРґРµРєСЃ РґР»СЏ');
+DEFINE('_DBINDEXCREATE',"РРЅРґРµРєСЃ $UI_CW_SucDesc СЃРѕР·РґР°РЅ РґР»СЏ");
+DEFINE('_ERRSNORTVER','Р­С‚Рѕ РјРѕР¶РµС‚ Р±С‹С‚СЊ СЃС‚Р°СЂРѕР№ РІРµСЂСЃРёРё. РџРѕРґРґРµСЂР¶РёРІР°СЋС‚СЃСЏ Р±Р°Р·С‹ РїСЂРµРґСѓРїСЂРµР¶РґРµРЅРёР№ СЃРѕР·РґР°РЅРЅС‹Рµ С‚РѕР»СЊРєРѕ СЃ РїРѕРјРѕС‰СЊСЋ Snort 1.7-beta0 РёР»Рё Р±РѕР»РµРµ РїРѕР·РґРЅРµР№ РІРµСЂСЃРёРё');
+DEFINE('_ERRSNORTVER1','Р‘Р”-РїРѕРґР»РѕР¶РєР°');
+DEFINE('_ERRSNORTVER2','РјРѕР¶РµС‚ Р±С‹С‚СЊ РЅРµРїРѕР»РЅРѕР№/РЅРµРІРµСЂРЅРѕР№');
+DEFINE('_ERRDBSTRUCT1','Р’РµСЂСЃРёСЏ Р‘Р” РІРµСЂРЅР°, РЅРѕ СЃС‚СЂСѓРєС‚СѓСЂР° Р‘Р” BASE');
+DEFINE('_ERRDBSTRUCT2','РЅРµ РїСЂРёСЃСѓС‚СЃС‚РІСѓРµС‚. РСЃРїРѕР»СЊР·СѓР№С‚Рµ <A HREF="base_db_setup.php">РЎС‚СЂР°РЅРёС†Сѓ СѓСЃС‚Р°РЅРѕРІРєРё</A> РґР»СЏ РєРѕРЅС„РёРіСѓСЂРёСЂРѕРІР°РЅРёСЏ Рё РѕРїС‚РёРјРёР·Р°С†РёРё Р‘Р”.');
+DEFINE('_ERRPHPERROR','РћРЁРР‘РљРђ PHP');
+DEFINE('_ERRPHPERROR1','РќРµСЃРѕРІРјРµСЃС‚РёРјР°СЏ РІРµСЂСЃРёСЏ');
+DEFINE('_ERRVERSION','Р’РµСЂСЃРёСЏ');
+DEFINE('_ERRPHPERROR2','PHP СЃР»РёС€РєРѕРј СЃС‚Р°СЂР°.  РџРѕР¶Р°Р»СѓР№СЃС‚Р°, РѕР±РЅРѕРІРёС‚Рµ РµРµ РґРѕ 4.0.4 РёР»Рё Р±РѕР»РµРµ РїРѕР·РґРЅРµР№');
+DEFINE('_ERRPHPMYSQLSUP','<B>Р±РёР»Рґ PHP РЅРµРїРѕР»РЅС‹Р№</B>: <FONT>РІСЃС‚СЂРѕРµРЅРЅР°СЏ РїРѕРґРґРµСЂР¶РєР° MySQL, РЅРµРѕР±С…РѕРґРёРјР°СЏ РґР»СЏ 
+               С‡С‚РµРЅРёСЏ Р±Р°Р·С‹ РїСЂРµРґСѓРїСЂРµР¶РґРµРЅРёР№, РЅРµ РІСЃС‚СЂРѕРµРЅР° РІ PHP.  
+               РџРѕР¶Р°Р»СѓР№СЃС‚Р°, РїРµСЂРµРєРѕРјРїРёР»РёСЂСѓР№С‚Рµ PHP СЃ РЅРµРѕР±С…РѕРґРёРјРѕР№ Р±РёР±Р»РёРѕС‚РµРєРѕР№ (<CODE>--with-mysql</CODE>)</FONT>');
+DEFINE('_ERRPHPPOSTGRESSUP','<B>Р±РёР»Рґ PHP РЅРµРїРѕР»РЅС‹Р№</B>: <FONT>РІСЃС‚СЂРѕРµРЅРЅР°СЏ РїРѕРґРґРµСЂР¶РєР° PostgreSQL, РЅРµРѕР±С…РѕРґРёРјР°СЏ РґР»СЏ 
+               С‡С‚РµРЅРёСЏ Р±Р°Р·С‹ РїСЂРµРґСѓРїСЂРµР¶РґРµРЅРёР№, РЅРµ РІСЃС‚СЂРѕРµРЅР° РІ PHP.  
+               РџРѕР¶Р°Р»СѓР№СЃС‚Р°, РїРµСЂРµРєРѕРјРїРёР»РёСЂСѓР№С‚Рµ PHP СЃ РЅРµРѕР±С…РѕРґРёРјРѕР№ Р±РёР±Р»РёРѕС‚РµРєРѕР№ (<CODE>--with-pgsql</CODE>)</FONT>');
+DEFINE('_ERRPHPMSSQLSUP','<B>Р±РёР»Рґ PHP РЅРµРїРѕР»РЅС‹Р№</B>: <FONT>РІСЃС‚СЂРѕРµРЅРЅР°СЏ РїРѕРґРґРµСЂР¶РєР° MS SQL Server, РЅРµРѕР±С…РѕРґРёРјР°СЏ РґР»СЏ
+               С‡С‚РµРЅРёСЏ Р±Р°Р·С‹ РїСЂРµРґСѓРїСЂРµР¶РґРµРЅРёР№, РЅРµ РІСЃС‚СЂРѕРµРЅР° РІ PHP.  
+               РџРѕР¶Р°Р»СѓР№СЃС‚Р°, РїРµСЂРµРєРѕРјРїРёР»РёСЂСѓР№С‚Рµ PHP СЃ РЅРµРѕР±С…РѕРґРёРјРѕР№ Р±РёР±Р»РёРѕС‚РµРєРѕР№  (<CODE>--enable-mssql</CODE>)</FONT>');
 DEFINE('_ERRPHPORACLESUP','<B>PHP build incomplete</B>: <FONT>the prerequisite Oracle support required to 
                    read the alert database was not built into PHP.  
                    Please recompile PHP with the necessary library (<CODE>--with-oci8</CODE>)</FONT>');
 
 //base_graph_form.php
-DEFINE('_CHARTTITLE','Заголовок графика:');
+DEFINE('_CHARTTITLE','Р—Р°РіРѕР»РѕРІРѕРє РіСЂР°С„РёРєР°:');
 DEFINE('_CHARTTYPE','Chart Type:'); //NEW
 DEFINE('_CHARTTYPES','{ chart type }'); //NEW
 DEFINE('_CHARTPERIOD','Chart Period:'); //NEW
@@ -454,193 +454,193 @@ DEFINE('_TYPELINE','line'); //NEW
 DEFINE('_TYPEPIE','pie'); //NEW
 DEFINE('_CHARTHOUR','{hora}'); //NEW
 DEFINE('_CHARTDAY','{dia}'); //NEW
-DEFINE('_CHARTMONTH','{mГЄs}'); //NEW
+DEFINE('_CHARTMONTH','{mР“Р„s}'); //NEW
 DEFINE('_GRAPHALERTS','Graph Alerts'); //NEW
 DEFINE('_AXISCONTROLS','X / Y AXIS CONTROLS'); //NEW
-DEFINE('_CHRTTYPEHOUR','Время (часы) и число предупреждений');
-DEFINE('_CHRTTYPEDAY','Время (дни) и число предупреждений');
-DEFINE('_CHRTTYPEWEEK','Время (недели) и число предупреждений');
-DEFINE('_CHRTTYPEMONTH','Время (месяцы) и число предупреждений');
-DEFINE('_CHRTTYPEYEAR','Время (годы) и число предупреждений');
-DEFINE('_CHRTTYPESRCIP',"IP-$UI_CW_Src  и число предупреждений");
-DEFINE('_CHRTTYPEDSTIP',"IP-$UI_CW_Dst и число предупреждений");
-DEFINE('_CHRTTYPEDSTUDP',"UDP порт-$UI_CW_Dst и число предупреждений");
-DEFINE('_CHRTTYPESRCUDP',"UDP порт-$UI_CW_Src и число предупреждений");
-DEFINE('_CHRTTYPEDSTPORT',"TCP порт-$UI_CW_Dst и число предупреждений");
-DEFINE('_CHRTTYPESRCPORT',"TCP порт-$UI_CW_Src и число предупреждений");
-DEFINE('_CHRTTYPESIG','Сиг. классификация и число предупреждений');
-DEFINE('_CHRTTYPESENSOR',"$UI_CW_Sensor и число предупреждений");
-DEFINE('_CHRTBEGIN','Начало графика:');
-DEFINE('_CHRTEND','Конец графика:');
-DEFINE('_CHRTDS',"$UI_CW_Src данных:");
-DEFINE('_CHRTX','Ось X');
-DEFINE('_CHRTY','Ось Y');
-DEFINE('_CHRTMINTRESH','Минимальное пороговое значение');
-DEFINE('_CHRTROTAXISLABEL','Повернуть метки на оси (90 градусов)');
-DEFINE('_CHRTSHOWX','Показать сетку линий оси X');
-DEFINE('_CHRTDISPLABELX','Показывать метку оси X каждые');
-DEFINE('_CHRTDATAPOINTS','единиц данных');
-DEFINE('_CHRTYLOG','Логарифмическая ось Y');
-DEFINE('_CHRTYGRID','Показывать сетку линий оси Y');
+DEFINE('_CHRTTYPEHOUR','Р’СЂРµРјСЏ (С‡Р°СЃС‹) Рё С‡РёСЃР»Рѕ РїСЂРµРґСѓРїСЂРµР¶РґРµРЅРёР№');
+DEFINE('_CHRTTYPEDAY','Р’СЂРµРјСЏ (РґРЅРё) Рё С‡РёСЃР»Рѕ РїСЂРµРґСѓРїСЂРµР¶РґРµРЅРёР№');
+DEFINE('_CHRTTYPEWEEK','Р’СЂРµРјСЏ (РЅРµРґРµР»Рё) Рё С‡РёСЃР»Рѕ РїСЂРµРґСѓРїСЂРµР¶РґРµРЅРёР№');
+DEFINE('_CHRTTYPEMONTH','Р’СЂРµРјСЏ (РјРµСЃСЏС†С‹) Рё С‡РёСЃР»Рѕ РїСЂРµРґСѓРїСЂРµР¶РґРµРЅРёР№');
+DEFINE('_CHRTTYPEYEAR','Р’СЂРµРјСЏ (РіРѕРґС‹) Рё С‡РёСЃР»Рѕ РїСЂРµРґСѓРїСЂРµР¶РґРµРЅРёР№');
+DEFINE('_CHRTTYPESRCIP',"IP-$UI_CW_Src  Рё С‡РёСЃР»Рѕ РїСЂРµРґСѓРїСЂРµР¶РґРµРЅРёР№");
+DEFINE('_CHRTTYPEDSTIP',"IP-$UI_CW_Dst Рё С‡РёСЃР»Рѕ РїСЂРµРґСѓРїСЂРµР¶РґРµРЅРёР№");
+DEFINE('_CHRTTYPEDSTUDP',"UDP РїРѕСЂС‚-$UI_CW_Dst Рё С‡РёСЃР»Рѕ РїСЂРµРґСѓРїСЂРµР¶РґРµРЅРёР№");
+DEFINE('_CHRTTYPESRCUDP',"UDP РїРѕСЂС‚-$UI_CW_Src Рё С‡РёСЃР»Рѕ РїСЂРµРґСѓРїСЂРµР¶РґРµРЅРёР№");
+DEFINE('_CHRTTYPEDSTPORT',"TCP РїРѕСЂС‚-$UI_CW_Dst Рё С‡РёСЃР»Рѕ РїСЂРµРґСѓРїСЂРµР¶РґРµРЅРёР№");
+DEFINE('_CHRTTYPESRCPORT',"TCP РїРѕСЂС‚-$UI_CW_Src Рё С‡РёСЃР»Рѕ РїСЂРµРґСѓРїСЂРµР¶РґРµРЅРёР№");
+DEFINE('_CHRTTYPESIG','РЎРёРі. РєР»Р°СЃСЃРёС„РёРєР°С†РёСЏ Рё С‡РёСЃР»Рѕ РїСЂРµРґСѓРїСЂРµР¶РґРµРЅРёР№');
+DEFINE('_CHRTTYPESENSOR',"$UI_CW_Sensor Рё С‡РёСЃР»Рѕ РїСЂРµРґСѓРїСЂРµР¶РґРµРЅРёР№");
+DEFINE('_CHRTBEGIN','РќР°С‡Р°Р»Рѕ РіСЂР°С„РёРєР°:');
+DEFINE('_CHRTEND','РљРѕРЅРµС† РіСЂР°С„РёРєР°:');
+DEFINE('_CHRTDS',"$UI_CW_Src РґР°РЅРЅС‹С…:");
+DEFINE('_CHRTX','РћСЃСЊ X');
+DEFINE('_CHRTY','РћСЃСЊ Y');
+DEFINE('_CHRTMINTRESH','РњРёРЅРёРјР°Р»СЊРЅРѕРµ РїРѕСЂРѕРіРѕРІРѕРµ Р·РЅР°С‡РµРЅРёРµ');
+DEFINE('_CHRTROTAXISLABEL','РџРѕРІРµСЂРЅСѓС‚СЊ РјРµС‚РєРё РЅР° РѕСЃРё (90 РіСЂР°РґСѓСЃРѕРІ)');
+DEFINE('_CHRTSHOWX','РџРѕРєР°Р·Р°С‚СЊ СЃРµС‚РєСѓ Р»РёРЅРёР№ РѕСЃРё X');
+DEFINE('_CHRTDISPLABELX','РџРѕРєР°Р·С‹РІР°С‚СЊ РјРµС‚РєСѓ РѕСЃРё X РєР°Р¶РґС‹Рµ');
+DEFINE('_CHRTDATAPOINTS','РµРґРёРЅРёС† РґР°РЅРЅС‹С…');
+DEFINE('_CHRTYLOG','Р›РѕРіР°СЂРёС„РјРёС‡РµСЃРєР°СЏ РѕСЃСЊ Y');
+DEFINE('_CHRTYGRID','РџРѕРєР°Р·С‹РІР°С‚СЊ СЃРµС‚РєСѓ Р»РёРЅРёР№ РѕСЃРё Y');
 
 //base_graph_main.php
-DEFINE('_CHRTTITLE','График BASE');
-DEFINE('_ERRCHRTNOTYPE','Не указан тип графика');
-DEFINE('_ERRNOAGSPEC','ГП ну указана. Используются все предупреждения.');
-DEFINE('_CHRTDATAIMPORT','Начало импорта данных');
-DEFINE('_CHRTTIMEVNUMBER','Время и число предупреждений');
-DEFINE('_CHRTTIME','Время');
-DEFINE('_CHRTALERTOCCUR','Случаи предупреждений');
-DEFINE('_CHRTSIPNUMBER',"IP-$UI_CW_Src и число предупреждений");
+DEFINE('_CHRTTITLE','Р“СЂР°С„РёРє BASE');
+DEFINE('_ERRCHRTNOTYPE','РќРµ СѓРєР°Р·Р°РЅ С‚РёРї РіСЂР°С„РёРєР°');
+DEFINE('_ERRNOAGSPEC','Р“Рџ РЅСѓ СѓРєР°Р·Р°РЅР°. РСЃРїРѕР»СЊР·СѓСЋС‚СЃСЏ РІСЃРµ РїСЂРµРґСѓРїСЂРµР¶РґРµРЅРёСЏ.');
+DEFINE('_CHRTDATAIMPORT','РќР°С‡Р°Р»Рѕ РёРјРїРѕСЂС‚Р° РґР°РЅРЅС‹С…');
+DEFINE('_CHRTTIMEVNUMBER','Р’СЂРµРјСЏ Рё С‡РёСЃР»Рѕ РїСЂРµРґСѓРїСЂРµР¶РґРµРЅРёР№');
+DEFINE('_CHRTTIME','Р’СЂРµРјСЏ');
+DEFINE('_CHRTALERTOCCUR','РЎР»СѓС‡Р°Рё РїСЂРµРґСѓРїСЂРµР¶РґРµРЅРёР№');
+DEFINE('_CHRTSIPNUMBER',"IP-$UI_CW_Src Рё С‡РёСЃР»Рѕ РїСЂРµРґСѓРїСЂРµР¶РґРµРЅРёР№");
 DEFINE('_CHRTSIP',"IP-$UI_CW_Src");
-DEFINE('_CHRTDIPALERTS',"IP-$UI_CW_Dst и число предупреждений");
+DEFINE('_CHRTDIPALERTS',"IP-$UI_CW_Dst Рё С‡РёСЃР»Рѕ РїСЂРµРґСѓРїСЂРµР¶РґРµРЅРёР№");
 DEFINE('_CHRTDIP',"IP-$UI_CW_Dst");
-DEFINE('_CHRTUDPPORTNUMBER',"UDP порт ($UI_CW_Dst) и число предупреждений");
-DEFINE('_CHRTDUDPPORT',"UDP порт-$UI_CW_Dst");
-DEFINE('_CHRTSUDPPORTNUMBER',"UDP порт ($UI_CW_Src) и число предупреждений");
-DEFINE('_CHRTSUDPPORT',"UDP порт-$UI_CW_Src");
-DEFINE('_CHRTPORTDESTNUMBER',"TCP порт ($UI_CW_Dst) и число предупреждений");
-DEFINE('_CHRTPORTDEST',"TCP порт-$UI_CW_Dst");
-DEFINE('_CHRTPORTSRCNUMBER',"TCP порт ($UI_CW_Src) и число предупреждений");
-DEFINE('_CHRTPORTSRC',"TCP порт-$UI_CW_Src");
-DEFINE('_CHRTSIGNUMBER','Сиг. классификация и число предупреждений');
-DEFINE('_CHRTCLASS','Классификация');
-DEFINE('_CHRTSENSORNUMBER',"$UI_CW_Sensor и число предупреждений");
-DEFINE('_CHRTHANDLEPERIOD','Определение периода при необходимости');
-DEFINE('_CHRTDUMP','Запись данных ...');
-DEFINE('_CHRTDRAW','Рисование графика');
-DEFINE('_ERRCHRTNODATAPOINTS','Нет точек данных для рисования');
+DEFINE('_CHRTUDPPORTNUMBER',"UDP РїРѕСЂС‚ ($UI_CW_Dst) Рё С‡РёСЃР»Рѕ РїСЂРµРґСѓРїСЂРµР¶РґРµРЅРёР№");
+DEFINE('_CHRTDUDPPORT',"UDP РїРѕСЂС‚-$UI_CW_Dst");
+DEFINE('_CHRTSUDPPORTNUMBER',"UDP РїРѕСЂС‚ ($UI_CW_Src) Рё С‡РёСЃР»Рѕ РїСЂРµРґСѓРїСЂРµР¶РґРµРЅРёР№");
+DEFINE('_CHRTSUDPPORT',"UDP РїРѕСЂС‚-$UI_CW_Src");
+DEFINE('_CHRTPORTDESTNUMBER',"TCP РїРѕСЂС‚ ($UI_CW_Dst) Рё С‡РёСЃР»Рѕ РїСЂРµРґСѓРїСЂРµР¶РґРµРЅРёР№");
+DEFINE('_CHRTPORTDEST',"TCP РїРѕСЂС‚-$UI_CW_Dst");
+DEFINE('_CHRTPORTSRCNUMBER',"TCP РїРѕСЂС‚ ($UI_CW_Src) Рё С‡РёСЃР»Рѕ РїСЂРµРґСѓРїСЂРµР¶РґРµРЅРёР№");
+DEFINE('_CHRTPORTSRC',"TCP РїРѕСЂС‚-$UI_CW_Src");
+DEFINE('_CHRTSIGNUMBER','РЎРёРі. РєР»Р°СЃСЃРёС„РёРєР°С†РёСЏ Рё С‡РёСЃР»Рѕ РїСЂРµРґСѓРїСЂРµР¶РґРµРЅРёР№');
+DEFINE('_CHRTCLASS','РљР»Р°СЃСЃРёС„РёРєР°С†РёСЏ');
+DEFINE('_CHRTSENSORNUMBER',"$UI_CW_Sensor Рё С‡РёСЃР»Рѕ РїСЂРµРґСѓРїСЂРµР¶РґРµРЅРёР№");
+DEFINE('_CHRTHANDLEPERIOD','РћРїСЂРµРґРµР»РµРЅРёРµ РїРµСЂРёРѕРґР° РїСЂРё РЅРµРѕР±С…РѕРґРёРјРѕСЃС‚Рё');
+DEFINE('_CHRTDUMP','Р—Р°РїРёСЃСЊ РґР°РЅРЅС‹С… ...');
+DEFINE('_CHRTDRAW','Р РёСЃРѕРІР°РЅРёРµ РіСЂР°С„РёРєР°');
+DEFINE('_ERRCHRTNODATAPOINTS','РќРµС‚ С‚РѕС‡РµРє РґР°РЅРЅС‹С… РґР»СЏ СЂРёСЃРѕРІР°РЅРёСЏ');
 DEFINE('_GRAPHALERTDATA','Graph Alert Data'); //NEW
 
 //base_maintenance.php
-DEFINE('_MAINTTITLE','Поддержка');
-DEFINE('_MNTPHP','Билд PHP:');
-DEFINE('_MNTCLIENT','КЛИЕНТ:');
-DEFINE('_MNTSERVER','СЕРВЕР:');
-DEFINE('_MNTSERVERHW','HW СЕРВЕРА:');
-DEFINE('_MNTPHPVER','ВЕРСИЯ PHP:');
+DEFINE('_MAINTTITLE','РџРѕРґРґРµСЂР¶РєР°');
+DEFINE('_MNTPHP','Р‘РёР»Рґ PHP:');
+DEFINE('_MNTCLIENT','РљР›РР•РќРў:');
+DEFINE('_MNTSERVER','РЎР•Р Р’Р•Р :');
+DEFINE('_MNTSERVERHW','HW РЎР•Р Р’Р•Р Рђ:');
+DEFINE('_MNTPHPVER','Р’Р•Р РЎРРЇ PHP:');
 DEFINE('_MNTPHPAPI','PHP API:');
-DEFINE('_MNTPHPLOGLVL','Уровень протоколирования PHP:');
-DEFINE('_MNTPHPMODS','Загруженные модули:');
-DEFINE('_MNTDBTYPE','Тип DB:');
-DEFINE('_MNTDBALV','Версия абстракции DB:');
-DEFINE('_MNTDBALERTNAME',"$UI_CW_Name БД предупреждений:");
-DEFINE('_MNTDBARCHNAME',"$UI_CW_Name БД архива:");
-DEFINE('_MNTAIC','Кэш информации о предупреждениях:');
-DEFINE('_MNTAICTE','Всего событий:');
-DEFINE('_MNTAICCE','Кэшировано событий:');
-DEFINE('_MNTIPAC','Кэш IP-адресов');
-DEFINE('_MNTIPACUSIP',"Уникальные IP-$UI_CW_Src".'и:');
-DEFINE('_MNTIPACDNSC','Кэшированных DNS:');
-DEFINE('_MNTIPACWC','Кэшированных Whois:');
-DEFINE('_MNTIPACUDIP','Уникальные IP-назначения:');
+DEFINE('_MNTPHPLOGLVL','РЈСЂРѕРІРµРЅСЊ РїСЂРѕС‚РѕРєРѕР»РёСЂРѕРІР°РЅРёСЏ PHP:');
+DEFINE('_MNTPHPMODS','Р—Р°РіСЂСѓР¶РµРЅРЅС‹Рµ РјРѕРґСѓР»Рё:');
+DEFINE('_MNTDBTYPE','РўРёРї DB:');
+DEFINE('_MNTDBALV','Р’РµСЂСЃРёСЏ Р°Р±СЃС‚СЂР°РєС†РёРё DB:');
+DEFINE('_MNTDBALERTNAME',"$UI_CW_Name Р‘Р” РїСЂРµРґСѓРїСЂРµР¶РґРµРЅРёР№:");
+DEFINE('_MNTDBARCHNAME',"$UI_CW_Name Р‘Р” Р°СЂС…РёРІР°:");
+DEFINE('_MNTAIC','РљСЌС€ РёРЅС„РѕСЂРјР°С†РёРё Рѕ РїСЂРµРґСѓРїСЂРµР¶РґРµРЅРёСЏС…:');
+DEFINE('_MNTAICTE','Р’СЃРµРіРѕ СЃРѕР±С‹С‚РёР№:');
+DEFINE('_MNTAICCE','РљСЌС€РёСЂРѕРІР°РЅРѕ СЃРѕР±С‹С‚РёР№:');
+DEFINE('_MNTIPAC','РљСЌС€ IP-Р°РґСЂРµСЃРѕРІ');
+DEFINE('_MNTIPACUSIP',"РЈРЅРёРєР°Р»СЊРЅС‹Рµ IP-$UI_CW_Src".'Рё:');
+DEFINE('_MNTIPACDNSC','РљСЌС€РёСЂРѕРІР°РЅРЅС‹С… DNS:');
+DEFINE('_MNTIPACWC','РљСЌС€РёСЂРѕРІР°РЅРЅС‹С… Whois:');
+DEFINE('_MNTIPACUDIP','РЈРЅРёРєР°Р»СЊРЅС‹Рµ IP-РЅР°Р·РЅР°С‡РµРЅРёСЏ:');
 
 //base_qry_alert.php
-DEFINE('_QAINVPAIR','Неверная пара (sid,cid)');
-DEFINE('_QAALERTDELET','Предупреждение УДАЛЕНО');
-DEFINE('_QATRIGGERSIG',"Триггерная $UI_CW_Sig");
+DEFINE('_QAINVPAIR','РќРµРІРµСЂРЅР°СЏ РїР°СЂР° (sid,cid)');
+DEFINE('_QAALERTDELET','РџСЂРµРґСѓРїСЂРµР¶РґРµРЅРёРµ РЈР”РђР›Р•РќРћ');
+DEFINE('_QATRIGGERSIG',"РўСЂРёРіРіРµСЂРЅР°СЏ $UI_CW_Sig");
 DEFINE('_QANORMALD','Normal Display'); //NEW
 DEFINE('_QAPLAIND','Plain Display'); //NEW
 DEFINE('_QANOPAYLOAD','Fast logging used so payload was discarded'); //NEW
 
 //base_qry_common.php
 DEFINE('_QCSIG',$UI_CW_Sig);
-DEFINE('_QCIPADDR','IP адреса');
-DEFINE('_QCIPFIELDS','IP поля');
-DEFINE('_QCTCPPORTS','TCP порты');
-DEFINE('_QCTCPFLAGS','TCP флаги');
-DEFINE('_QCTCPFIELD','TCP поля');
-DEFINE('_QCUDPPORTS','UDP порты');
-DEFINE('_QCUDPFIELDS','UDP поля');
-DEFINE('_QCICMPFIELDS','ICMP поля');
-DEFINE('_QCDATA','Данные');
-DEFINE('_QCERRCRITWARN','Внимание:');
-DEFINE('_QCERRVALUE','Величина');
-DEFINE('_QCERRFIELD','Поле');
-DEFINE('_QCERROPER','Оператор');
-DEFINE('_QCERRDATETIME','Дата/время');
-DEFINE('_QCERRPAYLOAD','Величина загрузки');
-DEFINE('_QCERRIP','IP адрес');
-DEFINE('_QCERRIPTYPE','IP адрес типа');
-DEFINE('_QCERRSPECFIELD',' введен(-а) в поле протокола, но конкретное поле не было указано.');
-DEFINE('_QCERRSPECVALUE','выбран(-а) как критерий, но не указана величина для соответствия ей.');
-DEFINE('_QCERRBOOLEAN','В качестве критерия введено несоклько протоколов, но не использованы логические операторы (напр., AND, OR).');
-DEFINE('_QCERRDATEVALUE','выбран(-а) как показывающий(-ая), что должна совпадать дата/время, но значение не указано.');
-DEFINE('_QCERRINVHOUR','(Неверное время) Не введен критерий даты для указанного времени.');
-DEFINE('_QCERRDATECRIT','выбран(-а), как показывающий(-ая), что должна совпадать дата/время, но значение не указано.');
-DEFINE('_QCERROPERSELECT','введен(-а), но ни один оператор не выбран.');
-DEFINE('_QCERRDATEBOOL','Введены несколько критериев даты/времени без логических операторов между ними (напр., AND, OR).');
-DEFINE('_QCERRPAYCRITOPER','введен(-а) как критерий загрузки, но оператор (напр., has, has not) не был указан.');
-DEFINE('_QCERRPAYCRITVALUE','выбран(-а) как показывющий, что критерием является загрузка, но значение не указано.');
-DEFINE('_QCERRPAYBOOL','Введено несколько критериев загрузки без логического оператора между ними (напр., AND, OR).');
-DEFINE('_QCMETACRIT','Мета критерий');
-DEFINE('_QCIPCRIT','Критерий IP');
-DEFINE('_QCPAYCRIT','Критерий загрузки');
-DEFINE('_QCTCPCRIT','Критерий TCP');
-DEFINE('_QCUDPCRIT','Критерий UDP');
-DEFINE('_QCICMPCRIT','Критерий ICMP');
+DEFINE('_QCIPADDR','IP Р°РґСЂРµСЃР°');
+DEFINE('_QCIPFIELDS','IP РїРѕР»СЏ');
+DEFINE('_QCTCPPORTS','TCP РїРѕСЂС‚С‹');
+DEFINE('_QCTCPFLAGS','TCP С„Р»Р°РіРё');
+DEFINE('_QCTCPFIELD','TCP РїРѕР»СЏ');
+DEFINE('_QCUDPPORTS','UDP РїРѕСЂС‚С‹');
+DEFINE('_QCUDPFIELDS','UDP РїРѕР»СЏ');
+DEFINE('_QCICMPFIELDS','ICMP РїРѕР»СЏ');
+DEFINE('_QCDATA','Р”Р°РЅРЅС‹Рµ');
+DEFINE('_QCERRCRITWARN','Р’РЅРёРјР°РЅРёРµ:');
+DEFINE('_QCERRVALUE','Р’РµР»РёС‡РёРЅР°');
+DEFINE('_QCERRFIELD','РџРѕР»Рµ');
+DEFINE('_QCERROPER','РћРїРµСЂР°С‚РѕСЂ');
+DEFINE('_QCERRDATETIME','Р”Р°С‚Р°/РІСЂРµРјСЏ');
+DEFINE('_QCERRPAYLOAD','Р’РµР»РёС‡РёРЅР° Р·Р°РіСЂСѓР·РєРё');
+DEFINE('_QCERRIP','IP Р°РґСЂРµСЃ');
+DEFINE('_QCERRIPTYPE','IP Р°РґСЂРµСЃ С‚РёРїР°');
+DEFINE('_QCERRSPECFIELD',' РІРІРµРґРµРЅ(-Р°) РІ РїРѕР»Рµ РїСЂРѕС‚РѕРєРѕР»Р°, РЅРѕ РєРѕРЅРєСЂРµС‚РЅРѕРµ РїРѕР»Рµ РЅРµ Р±С‹Р»Рѕ СѓРєР°Р·Р°РЅРѕ.');
+DEFINE('_QCERRSPECVALUE','РІС‹Р±СЂР°РЅ(-Р°) РєР°Рє РєСЂРёС‚РµСЂРёР№, РЅРѕ РЅРµ СѓРєР°Р·Р°РЅР° РІРµР»РёС‡РёРЅР° РґР»СЏ СЃРѕРѕС‚РІРµС‚СЃС‚РІРёСЏ РµР№.');
+DEFINE('_QCERRBOOLEAN','Р’ РєР°С‡РµСЃС‚РІРµ РєСЂРёС‚РµСЂРёСЏ РІРІРµРґРµРЅРѕ РЅРµСЃРѕРєР»СЊРєРѕ РїСЂРѕС‚РѕРєРѕР»РѕРІ, РЅРѕ РЅРµ РёСЃРїРѕР»СЊР·РѕРІР°РЅС‹ Р»РѕРіРёС‡РµСЃРєРёРµ РѕРїРµСЂР°С‚РѕСЂС‹ (РЅР°РїСЂ., AND, OR).');
+DEFINE('_QCERRDATEVALUE','РІС‹Р±СЂР°РЅ(-Р°) РєР°Рє РїРѕРєР°Р·С‹РІР°СЋС‰РёР№(-Р°СЏ), С‡С‚Рѕ РґРѕР»Р¶РЅР° СЃРѕРІРїР°РґР°С‚СЊ РґР°С‚Р°/РІСЂРµРјСЏ, РЅРѕ Р·РЅР°С‡РµРЅРёРµ РЅРµ СѓРєР°Р·Р°РЅРѕ.');
+DEFINE('_QCERRINVHOUR','(РќРµРІРµСЂРЅРѕРµ РІСЂРµРјСЏ) РќРµ РІРІРµРґРµРЅ РєСЂРёС‚РµСЂРёР№ РґР°С‚С‹ РґР»СЏ СѓРєР°Р·Р°РЅРЅРѕРіРѕ РІСЂРµРјРµРЅРё.');
+DEFINE('_QCERRDATECRIT','РІС‹Р±СЂР°РЅ(-Р°), РєР°Рє РїРѕРєР°Р·С‹РІР°СЋС‰РёР№(-Р°СЏ), С‡С‚Рѕ РґРѕР»Р¶РЅР° СЃРѕРІРїР°РґР°С‚СЊ РґР°С‚Р°/РІСЂРµРјСЏ, РЅРѕ Р·РЅР°С‡РµРЅРёРµ РЅРµ СѓРєР°Р·Р°РЅРѕ.');
+DEFINE('_QCERROPERSELECT','РІРІРµРґРµРЅ(-Р°), РЅРѕ РЅРё РѕРґРёРЅ РѕРїРµСЂР°С‚РѕСЂ РЅРµ РІС‹Р±СЂР°РЅ.');
+DEFINE('_QCERRDATEBOOL','Р’РІРµРґРµРЅС‹ РЅРµСЃРєРѕР»СЊРєРѕ РєСЂРёС‚РµСЂРёРµРІ РґР°С‚С‹/РІСЂРµРјРµРЅРё Р±РµР· Р»РѕРіРёС‡РµСЃРєРёС… РѕРїРµСЂР°С‚РѕСЂРѕРІ РјРµР¶РґСѓ РЅРёРјРё (РЅР°РїСЂ., AND, OR).');
+DEFINE('_QCERRPAYCRITOPER','РІРІРµРґРµРЅ(-Р°) РєР°Рє РєСЂРёС‚РµСЂРёР№ Р·Р°РіСЂСѓР·РєРё, РЅРѕ РѕРїРµСЂР°С‚РѕСЂ (РЅР°РїСЂ., has, has not) РЅРµ Р±С‹Р» СѓРєР°Р·Р°РЅ.');
+DEFINE('_QCERRPAYCRITVALUE','РІС‹Р±СЂР°РЅ(-Р°) РєР°Рє РїРѕРєР°Р·С‹РІСЋС‰РёР№, С‡С‚Рѕ РєСЂРёС‚РµСЂРёРµРј СЏРІР»СЏРµС‚СЃСЏ Р·Р°РіСЂСѓР·РєР°, РЅРѕ Р·РЅР°С‡РµРЅРёРµ РЅРµ СѓРєР°Р·Р°РЅРѕ.');
+DEFINE('_QCERRPAYBOOL','Р’РІРµРґРµРЅРѕ РЅРµСЃРєРѕР»СЊРєРѕ РєСЂРёС‚РµСЂРёРµРІ Р·Р°РіСЂСѓР·РєРё Р±РµР· Р»РѕРіРёС‡РµСЃРєРѕРіРѕ РѕРїРµСЂР°С‚РѕСЂР° РјРµР¶РґСѓ РЅРёРјРё (РЅР°РїСЂ., AND, OR).');
+DEFINE('_QCMETACRIT','РњРµС‚Р° РєСЂРёС‚РµСЂРёР№');
+DEFINE('_QCIPCRIT','РљСЂРёС‚РµСЂРёР№ IP');
+DEFINE('_QCPAYCRIT','РљСЂРёС‚РµСЂРёР№ Р·Р°РіСЂСѓР·РєРё');
+DEFINE('_QCTCPCRIT','РљСЂРёС‚РµСЂРёР№ TCP');
+DEFINE('_QCUDPCRIT','РљСЂРёС‚РµСЂРёР№ UDP');
+DEFINE('_QCICMPCRIT','РљСЂРёС‚РµСЂРёР№ ICMP');
 DEFINE('_QCLAYER4CRIT','Layer 4 Criteria'); //NEW
-DEFINE('_QCERRINVIPCRIT','Неверный критерий: IP адрес');
-DEFINE('_QCERRCRITADDRESSTYPE',"введен(-а) как значение критерия, но тип адреса (напр., $UI_CW_Src, $UI_CW_Dst) не был указан.");
-DEFINE('_QCERRCRITIPADDRESSNONE','показывающий(-ая), что IP адрес должен быть критерием, но адрес не указан.');
-DEFINE('_QCERRCRITIPADDRESSNONE1','выбран(-а) (#');
-DEFINE('_QCERRCRITIPIPBOOL','В качестве критерия введены несколько IP адресов без логического оператора между ними (напр., AND, OR)');
+DEFINE('_QCERRINVIPCRIT','РќРµРІРµСЂРЅС‹Р№ РєСЂРёС‚РµСЂРёР№: IP Р°РґСЂРµСЃ');
+DEFINE('_QCERRCRITADDRESSTYPE',"РІРІРµРґРµРЅ(-Р°) РєР°Рє Р·РЅР°С‡РµРЅРёРµ РєСЂРёС‚РµСЂРёСЏ, РЅРѕ С‚РёРї Р°РґСЂРµСЃР° (РЅР°РїСЂ., $UI_CW_Src, $UI_CW_Dst) РЅРµ Р±С‹Р» СѓРєР°Р·Р°РЅ.");
+DEFINE('_QCERRCRITIPADDRESSNONE','РїРѕРєР°Р·С‹РІР°СЋС‰РёР№(-Р°СЏ), С‡С‚Рѕ IP Р°РґСЂРµСЃ РґРѕР»Р¶РµРЅ Р±С‹С‚СЊ РєСЂРёС‚РµСЂРёРµРј, РЅРѕ Р°РґСЂРµСЃ РЅРµ СѓРєР°Р·Р°РЅ.');
+DEFINE('_QCERRCRITIPADDRESSNONE1','РІС‹Р±СЂР°РЅ(-Р°) (#');
+DEFINE('_QCERRCRITIPIPBOOL','Р’ РєР°С‡РµСЃС‚РІРµ РєСЂРёС‚РµСЂРёСЏ РІРІРµРґРµРЅС‹ РЅРµСЃРєРѕР»СЊРєРѕ IP Р°РґСЂРµСЃРѕРІ Р±РµР· Р»РѕРіРёС‡РµСЃРєРѕРіРѕ РѕРїРµСЂР°С‚РѕСЂР° РјРµР¶РґСѓ РЅРёРјРё (РЅР°РїСЂ., AND, OR)');
 
 //base_qry_form.php
-DEFINE('_QFRMSORTORDER','Порядок сортировки');
+DEFINE('_QFRMSORTORDER','РџРѕСЂСЏРґРѕРє СЃРѕСЂС‚РёСЂРѕРІРєРё');
 DEFINE('_QFRMSORTNONE','none'); //NEW
-DEFINE('_QFRMTIMEA','время (восходящий)');
-DEFINE('_QFRMTIMED','время (нисходящий)');
+DEFINE('_QFRMTIMEA','РІСЂРµРјСЏ (РІРѕСЃС…РѕРґСЏС‰РёР№)');
+DEFINE('_QFRMTIMED','РІСЂРµРјСЏ (РЅРёСЃС…РѕРґСЏС‰РёР№)');
 DEFINE('_QFRMSIG',$UI_CW_Sig);
 DEFINE('_QFRMSIP',"IP-$UI_CW_Src");
 DEFINE('_QFRMDIP',"IP-$UI_CW_Dst");
 
 //base_qry_sqlcalls.php
-DEFINE('_QSCSUMM','Общая статистика');
-DEFINE('_QSCTIMEPROF','Временной профииль');
-DEFINE('_QSCOFALERTS','предупреждений');
+DEFINE('_QSCSUMM','РћР±С‰Р°СЏ СЃС‚Р°С‚РёСЃС‚РёРєР°');
+DEFINE('_QSCTIMEPROF','Р’СЂРµРјРµРЅРЅРѕР№ РїСЂРѕС„РёРёР»СЊ');
+DEFINE('_QSCOFALERTS','РїСЂРµРґСѓРїСЂРµР¶РґРµРЅРёР№');
 
 //base_stat_alerts.php
-DEFINE('_ALERTTITLE','Список предупреждений');
+DEFINE('_ALERTTITLE','РЎРїРёСЃРѕРє РїСЂРµРґСѓРїСЂРµР¶РґРµРЅРёР№');
 
 //base_stat_common.php
-DEFINE('_SCCATEGORIES','Категории:');
-DEFINE('_SCSENSORTOTAL',$UI_CW_Sensor.'ы/Всего:');
-DEFINE('_SCTOTALNUMALERTS','Общее количество предупреждений:');
+DEFINE('_SCCATEGORIES','РљР°С‚РµРіРѕСЂРёРё:');
+DEFINE('_SCSENSORTOTAL',$UI_CW_Sensor.'С‹/Р’СЃРµРіРѕ:');
+DEFINE('_SCTOTALNUMALERTS','РћР±С‰РµРµ РєРѕР»РёС‡РµСЃС‚РІРѕ РїСЂРµРґСѓРїСЂРµР¶РґРµРЅРёР№:');
 DEFINE('_SCSRCIP',"IP-$UI_CW_Src:");
 DEFINE('_SCDSTIP',"IP-$UI_CW_Dst:");
-DEFINE('_SCUNILINKS','Уникальные IP связи');
-DEFINE('_SCSRCPORTS',"Порты-$UI_CW_Src".'и: ');
-DEFINE('_SCDSTPORTS','Порты-назначения: ');
-DEFINE('_SCSENSORS',$UI_CW_Sensor.'ы');
-DEFINE('_SCCLASS','классификации');
-DEFINE('_SCUNIADDRESS','Уникальные адресы: ');
+DEFINE('_SCUNILINKS','РЈРЅРёРєР°Р»СЊРЅС‹Рµ IP СЃРІСЏР·Рё');
+DEFINE('_SCSRCPORTS',"РџРѕСЂС‚С‹-$UI_CW_Src".'Рё: ');
+DEFINE('_SCDSTPORTS','РџРѕСЂС‚С‹-РЅР°Р·РЅР°С‡РµРЅРёСЏ: ');
+DEFINE('_SCSENSORS',$UI_CW_Sensor.'С‹');
+DEFINE('_SCCLASS','РєР»Р°СЃСЃРёС„РёРєР°С†РёРё');
+DEFINE('_SCUNIADDRESS','РЈРЅРёРєР°Р»СЊРЅС‹Рµ Р°РґСЂРµСЃС‹: ');
 DEFINE('_SCSOURCE',$UI_CW_Src);
 DEFINE('_SCDEST',$UI_CW_Dst);
-DEFINE('_SCPORT','Порт');
+DEFINE('_SCPORT','РџРѕСЂС‚');
 
 //base_stat_ipaddr.php
-DEFINE('_PSEVENTERR','ОШИБКА СОБЫТИЯ СКАНИРОВАНИЯ ПОРТОВ: ');
-DEFINE('_PSEVENTERRNOFILE','Ни один файл не указан в переменной $portscan_file.');
-DEFINE('_PSEVENTERROPENFILE','Не удалось открыть файл событий сканирования портов');
-DEFINE('_PSDATETIME','Дата/Время');
+DEFINE('_PSEVENTERR','РћРЁРР‘РљРђ РЎРћР‘Р«РўРРЇ РЎРљРђРќРР РћР’РђРќРРЇ РџРћР РўРћР’: ');
+DEFINE('_PSEVENTERRNOFILE','РќРё РѕРґРёРЅ С„Р°Р№Р» РЅРµ СѓРєР°Р·Р°РЅ РІ РїРµСЂРµРјРµРЅРЅРѕР№ $portscan_file.');
+DEFINE('_PSEVENTERROPENFILE','РќРµ СѓРґР°Р»РѕСЃСЊ РѕС‚РєСЂС‹С‚СЊ С„Р°Р№Р» СЃРѕР±С‹С‚РёР№ СЃРєР°РЅРёСЂРѕРІР°РЅРёСЏ РїРѕСЂС‚РѕРІ');
+DEFINE('_PSDATETIME','Р”Р°С‚Р°/Р’СЂРµРјСЏ');
 DEFINE('_PSSRCIP',"IP-$UI_CW_Src");
 DEFINE('_PSDSTIP',"IP-$UI_CW_Dst");
-DEFINE('_PSSRCPORT',"порт-$UI_CW_Src");
-DEFINE('_PSDSTPORT',"порт-$UI_CW_Dst");
-DEFINE('_PSTCPFLAGS','Флаги TCP');
-DEFINE('_PSTOTALOCC','Всего<BR> Случаев');
-DEFINE('_PSNUMSENSORS',"Число $UI_CW_Sensor".'ов');
-DEFINE('_PSFIRSTOCC','Первый<BR> Случай');
-DEFINE('_PSLASTOCC','Последний<BR> Случай');
-DEFINE('_PSUNIALERTS','Уникальные предупреждения');
-DEFINE('_PSPORTSCANEVE','События сканирования портов');
-DEFINE('_PSREGWHOIS','Поиск (whois) в');
-DEFINE('_PSNODNS','не получено DNS-разрешения');
-DEFINE('_PSNUMSENSORSBR',"Число <BR>$UI_CW_Sensor".'ов');
-DEFINE('_PSOCCASSRC',"Случаи <BR>как $UI_CW_Src".'и.');
-DEFINE('_PSOCCASDST','Случаи <BR>как назначения.');
-DEFINE('_PSWHOISINFO','Информация Whois');
+DEFINE('_PSSRCPORT',"РїРѕСЂС‚-$UI_CW_Src");
+DEFINE('_PSDSTPORT',"РїРѕСЂС‚-$UI_CW_Dst");
+DEFINE('_PSTCPFLAGS','Р¤Р»Р°РіРё TCP');
+DEFINE('_PSTOTALOCC','Р’СЃРµРіРѕ<BR> РЎР»СѓС‡Р°РµРІ');
+DEFINE('_PSNUMSENSORS',"Р§РёСЃР»Рѕ $UI_CW_Sensor".'РѕРІ');
+DEFINE('_PSFIRSTOCC','РџРµСЂРІС‹Р№<BR> РЎР»СѓС‡Р°Р№');
+DEFINE('_PSLASTOCC','РџРѕСЃР»РµРґРЅРёР№<BR> РЎР»СѓС‡Р°Р№');
+DEFINE('_PSUNIALERTS','РЈРЅРёРєР°Р»СЊРЅС‹Рµ РїСЂРµРґСѓРїСЂРµР¶РґРµРЅРёСЏ');
+DEFINE('_PSPORTSCANEVE','РЎРѕР±С‹С‚РёСЏ СЃРєР°РЅРёСЂРѕРІР°РЅРёСЏ РїРѕСЂС‚РѕРІ');
+DEFINE('_PSREGWHOIS','РџРѕРёСЃРє (whois) РІ');
+DEFINE('_PSNODNS','РЅРµ РїРѕР»СѓС‡РµРЅРѕ DNS-СЂР°Р·СЂРµС€РµРЅРёСЏ');
+DEFINE('_PSNUMSENSORSBR',"Р§РёСЃР»Рѕ <BR>$UI_CW_Sensor".'РѕРІ');
+DEFINE('_PSOCCASSRC',"РЎР»СѓС‡Р°Рё <BR>РєР°Рє $UI_CW_Src".'Рё.');
+DEFINE('_PSOCCASDST','РЎР»СѓС‡Р°Рё <BR>РєР°Рє РЅР°Р·РЅР°С‡РµРЅРёСЏ.');
+DEFINE('_PSWHOISINFO','РРЅС„РѕСЂРјР°С†РёСЏ Whois');
 DEFINE('_PSTOTALHOSTS','Total Hosts Scanned'); //NEW
 DEFINE('_PSDETECTAMONG','%d unique alerts detected among %d alerts on %s'); //NEW
 DEFINE('_PSALLALERTSAS','all alerts with %s/%s as'); //NEW
@@ -648,54 +648,54 @@ DEFINE('_PSSHOW','show'); //NEW
 DEFINE('_PSEXTERNAL','external'); //NEW
 
 //base_stat_iplink.php
-DEFINE('_SIPLTITLE','IP Связи');
+DEFINE('_SIPLTITLE','IP РЎРІСЏР·Рё');
 DEFINE('_SIPLSOURCEFGDN',"$UI_CW_Src FQDN");
 DEFINE('_SIPLDESTFGDN',"$UI_CW_Dst FQDN");
-DEFINE('_SIPLDIRECTION','Направление');
-DEFINE('_SIPLPROTO','Протокол');
-DEFINE('_SIPLUNIDSTPORTS','Уникальные порты-назначения');
-DEFINE('_SIPLUNIEVENTS','Уникальные события');
-DEFINE('_SIPLTOTALEVENTS','Всего событий');
+DEFINE('_SIPLDIRECTION','РќР°РїСЂР°РІР»РµРЅРёРµ');
+DEFINE('_SIPLPROTO','РџСЂРѕС‚РѕРєРѕР»');
+DEFINE('_SIPLUNIDSTPORTS','РЈРЅРёРєР°Р»СЊРЅС‹Рµ РїРѕСЂС‚С‹-РЅР°Р·РЅР°С‡РµРЅРёСЏ');
+DEFINE('_SIPLUNIEVENTS','РЈРЅРёРєР°Р»СЊРЅС‹Рµ СЃРѕР±С‹С‚РёСЏ');
+DEFINE('_SIPLTOTALEVENTS','Р’СЃРµРіРѕ СЃРѕР±С‹С‚РёР№');
 
 //base_stat_ports.php
-DEFINE('_UNIQ','Уникальные');
-DEFINE('_DSTPS','Порты-назначения');
-DEFINE('_SRCPS',"Порт-$UI_CW_Src".'и');
+DEFINE('_UNIQ','РЈРЅРёРєР°Р»СЊРЅС‹Рµ');
+DEFINE('_DSTPS','РџРѕСЂС‚С‹-РЅР°Р·РЅР°С‡РµРЅРёСЏ');
+DEFINE('_SRCPS',"РџРѕСЂС‚-$UI_CW_Src".'Рё');
 DEFINE('_OCCURRENCES','Occurrences'); //NEW
 
 //base_stat_sensor.php
-DEFINE('SPSENSORLIST',"Список $UI_CW_Sensor".'ов');
+DEFINE('SPSENSORLIST',"РЎРїРёСЃРѕРє $UI_CW_Sensor".'РѕРІ');
 
 //base_stat_time.php
-DEFINE('_BSTTITLE','Временной профиль предупреждений');
-DEFINE('_BSTTIMECRIT','Критерии времени');
-DEFINE('_BSTERRPROFILECRIT','<FONT><B>Не указан профайлинг критериев!</B>  Нажмите на "часы", "день", или "месяц", чтобы выбрать зернистость агрегатной статистики.</FONT>');
-DEFINE('_BSTERRTIMETYPE','<FONT><B>Не указан тип временного параметра!</B>  Выберите или "в", чтобы указать одну дату, или "между", чтобы указать интервал.</FONT>');
-DEFINE('_BSTERRNOYEAR','<FONT><B>Параметр Год не указан!</B></FONT>');
-DEFINE('_BSTERRNOMONTH','<FONT><B>Параметр Месяц не указан!</B></FONT>');
-DEFINE('_BSTERRNODAY','<FONT><B>Параметр День не указан!</B></FONT>');
+DEFINE('_BSTTITLE','Р’СЂРµРјРµРЅРЅРѕР№ РїСЂРѕС„РёР»СЊ РїСЂРµРґСѓРїСЂРµР¶РґРµРЅРёР№');
+DEFINE('_BSTTIMECRIT','РљСЂРёС‚РµСЂРёРё РІСЂРµРјРµРЅРё');
+DEFINE('_BSTERRPROFILECRIT','<FONT><B>РќРµ СѓРєР°Р·Р°РЅ РїСЂРѕС„Р°Р№Р»РёРЅРі РєСЂРёС‚РµСЂРёРµРІ!</B>  РќР°Р¶РјРёС‚Рµ РЅР° "С‡Р°СЃС‹", "РґРµРЅСЊ", РёР»Рё "РјРµСЃСЏС†", С‡С‚РѕР±С‹ РІС‹Р±СЂР°С‚СЊ Р·РµСЂРЅРёСЃС‚РѕСЃС‚СЊ Р°РіСЂРµРіР°С‚РЅРѕР№ СЃС‚Р°С‚РёСЃС‚РёРєРё.</FONT>');
+DEFINE('_BSTERRTIMETYPE','<FONT><B>РќРµ СѓРєР°Р·Р°РЅ С‚РёРї РІСЂРµРјРµРЅРЅРѕРіРѕ РїР°СЂР°РјРµС‚СЂР°!</B>  Р’С‹Р±РµСЂРёС‚Рµ РёР»Рё "РІ", С‡С‚РѕР±С‹ СѓРєР°Р·Р°С‚СЊ РѕРґРЅСѓ РґР°С‚Сѓ, РёР»Рё "РјРµР¶РґСѓ", С‡С‚РѕР±С‹ СѓРєР°Р·Р°С‚СЊ РёРЅС‚РµСЂРІР°Р».</FONT>');
+DEFINE('_BSTERRNOYEAR','<FONT><B>РџР°СЂР°РјРµС‚СЂ Р“РѕРґ РЅРµ СѓРєР°Р·Р°РЅ!</B></FONT>');
+DEFINE('_BSTERRNOMONTH','<FONT><B>РџР°СЂР°РјРµС‚СЂ РњРµСЃСЏС† РЅРµ СѓРєР°Р·Р°РЅ!</B></FONT>');
+DEFINE('_BSTERRNODAY','<FONT><B>РџР°СЂР°РјРµС‚СЂ Р”РµРЅСЊ РЅРµ СѓРєР°Р·Р°РЅ!</B></FONT>');
 DEFINE('_BSTPROFILEBY','Profile by'); //NEW
 DEFINE('_TIMEON','on'); //NEW
 DEFINE('_TIMEBETWEEN','between'); //NEW
 DEFINE('_PROFILEALERT','Profile Alert'); //NEW
 
 //base_stat_uaddr.php
-DEFINE('_UNISADD',"Уникальные адреса-$UI_CW_Src".'и');
+DEFINE('_UNISADD',"РЈРЅРёРєР°Р»СЊРЅС‹Рµ Р°РґСЂРµСЃР°-$UI_CW_Src".'Рё');
 DEFINE('_SUASRCIP',"IP-$UI_CW_Src");
-DEFINE('_SUAERRCRITADDUNK',"ОШИБКА КРИТЕРИЯ: неизвестный типа адреса -- предполагается адрес-$UI_CW_Dst");
-DEFINE('_UNIDADD','Уникальниые адреса-назначения');
+DEFINE('_SUAERRCRITADDUNK',"РћРЁРР‘РљРђ РљР РРўР•Р РРЇ: РЅРµРёР·РІРµСЃС‚РЅС‹Р№ С‚РёРїР° Р°РґСЂРµСЃР° -- РїСЂРµРґРїРѕР»Р°РіР°РµС‚СЃСЏ Р°РґСЂРµСЃ-$UI_CW_Dst");
+DEFINE('_UNIDADD','РЈРЅРёРєР°Р»СЊРЅРёС‹Рµ Р°РґСЂРµСЃР°-РЅР°Р·РЅР°С‡РµРЅРёСЏ');
 DEFINE('_SUADSTIP',"IP-$UI_CW_Dst");
-DEFINE('_SUAUNIALERTS','Уникальные&nbsp;предупреждения');
-DEFINE('_SUASRCADD',"Адрес&nbsp;$UI_CW_Src".'.');
-DEFINE('_SUADSTADD',"Адрес.&nbsp;$UI_CW_Dst");
+DEFINE('_SUAUNIALERTS','РЈРЅРёРєР°Р»СЊРЅС‹Рµ&nbsp;РїСЂРµРґСѓРїСЂРµР¶РґРµРЅРёСЏ');
+DEFINE('_SUASRCADD',"РђРґСЂРµСЃ&nbsp;$UI_CW_Src".'.');
+DEFINE('_SUADSTADD',"РђРґСЂРµСЃ.&nbsp;$UI_CW_Dst");
 
 //base_user.php
-DEFINE('_BASEUSERTITLE','Пользовательские установки BASE');
-DEFINE('_BASEUSERERRPWD',"Ваш $UI_CW_Pw не может быть пустым или два пароля не совпали!");
-DEFINE('_BASEUSEROLDPWD',"Старый $UI_CW_Pw:");
-DEFINE('_BASEUSERNEWPWD',"Новый $UI_CW_Pw:");
-DEFINE('_BASEUSERNEWPWDAGAIN',"Еще раз новый $UI_CW_Pw:");
+DEFINE('_BASEUSERTITLE','РџРѕР»СЊР·РѕРІР°С‚РµР»СЊСЃРєРёРµ СѓСЃС‚Р°РЅРѕРІРєРё BASE');
+DEFINE('_BASEUSERERRPWD',"Р’Р°С€ $UI_CW_Pw РЅРµ РјРѕР¶РµС‚ Р±С‹С‚СЊ РїСѓСЃС‚С‹Рј РёР»Рё РґРІР° РїР°СЂРѕР»СЏ РЅРµ СЃРѕРІРїР°Р»Рё!");
+DEFINE('_BASEUSEROLDPWD',"РЎС‚Р°СЂС‹Р№ $UI_CW_Pw:");
+DEFINE('_BASEUSERNEWPWD',"РќРѕРІС‹Р№ $UI_CW_Pw:");
+DEFINE('_BASEUSERNEWPWDAGAIN',"Р•С‰Рµ СЂР°Р· РЅРѕРІС‹Р№ $UI_CW_Pw:");
 
-DEFINE('_LOGOUT','Выход');
+DEFINE('_LOGOUT','Р’С‹С…РѕРґ');
 
 ?>
