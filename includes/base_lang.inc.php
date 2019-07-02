@@ -239,6 +239,18 @@ class UILang{
 		}else{
 			$this->SetUICWItem('Pri');
 		}
+		if ( isset($UI_CW_Event) ) { // Var New TDF
+			$this->SetUICWItem('Event',$UI_CW_Event);
+		}else{ // No Legacy TD Equivalent
+			$this->SetUICWItem('Event','');
+		}
+		if ( isset($UI_CW_Type) ) { // Var New TDF
+			$this->SetUICWItem('Type',$UI_CW_Type);
+		}elseif (defined('_TYPE')) { // Const Legacy TDF
+			$this->SetUICWItem('Type',_TYPE);
+		}else{
+			$this->SetUICWItem('Type');
+		}
 		// Init Common Phrases
 		if ( isset($UI_CP_SrcName) ) { // Var New TDF
 			$this->SetUICPItem('SrcName',$this->Phrase($UI_CP_SrcName));
@@ -281,6 +293,13 @@ class UILang{
 			$this->SetUICPItem('L4P',_NBLAYER4);
 		}else{
 			$this->SetUICPItem('L4P');
+		}
+		if ( isset($UI_CP_ET) ) { // Var New TDF
+			$this->SetUICPItem('ET',$this->Phrase($UI_CP_ET));
+		}elseif (defined('_EVENTTYPE')) { // Const Legacy TDF
+			$this->SetUICPItem('ET',_EVENTTYPE);
+		}else{
+			$this->SetUICPItem('ET');
 		}
 		// Init Authentication Data if Auth Sys is enabled.
 		if ($Use_Auth_System == 1) {
@@ -417,7 +436,7 @@ class UILang{
 	// Sets Common Phrase Item from translation data.
 	function SetUICPItem($Item,$Value = NULL) {
 		$Items = array (
-			'SrcName', 'DstName', 'SrcDst', 'SrcAddr', 'DstAddr', 'L4P'
+			'SrcName', 'DstName', 'SrcDst', 'SrcAddr', 'DstAddr', 'L4P', 'ET'
 		);
 		if (in_array($Item, $Items)) {
 			$this->CPA[$Item] = $Value;

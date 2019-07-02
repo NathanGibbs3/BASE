@@ -52,6 +52,8 @@ $UI_CW_Addr = 'Alamat';
 $UI_CW_Layer = 'Lapisan';
 $UI_CW_Proto = 'Protokol';
 $UI_CW_Pri = 'Prioritas';
+$UI_CW_Event = 'Acara';
+$UI_CW_Type = 'Jenis';
 // Common Phrases.
 $UI_CP_SrcName = array($UI_CW_Name,$UI_CW_Src);
 $UI_CP_DstName = array($UI_CW_Name,$UI_CW_Dst);
@@ -59,13 +61,13 @@ $UI_CP_SrcDst = array($UI_CW_Src,'atau',$UI_CW_Dst);
 $UI_CP_SrcAddr = array($UI_CW_Addr,$UI_CW_Src);
 $UI_CP_DstAddr = array($UI_CW_Addr,$UI_CW_Dst);
 $UI_CP_L4P = array($UI_CW_Proto,$UI_CW_Layer,'4');
+$UI_CP_ET = array($UI_CW_Type,$UI_CW_Event);
 // Authentication Data.
 $UI_AD_UND = 'Login';
 $UI_AD_RID = array($UI_CW_Id,$UI_CW_Role);
 $UI_AD_ASD = 'Aktif';
 
 //common phrases
-DEFINE('_EVENTTYPE','jenis peristiwa');
 DEFINE('_JANUARY','Januari');
 DEFINE('_FEBRUARY','Februari');
 DEFINE('_MARCH','Maret');
@@ -211,7 +213,7 @@ DEFINE('_NOUSER','Pengguna tidak ditemukan!');
 DEFINE('_OLDPWD','Sebuah '.strtolower($UI_CW_Pw).' lama digunakan yang tidak cocok dengan catatan!');
 DEFINE('_PWDCANT','Gagal merubah '.strtolower($UI_CW_Pw).' Anda: ');
 DEFINE('_PWDDONE','Kata sandi Anda telah diubah!');
-DEFINE('_ROLEEXIST','Jenis ini sudah ada');
+DEFINE('_ROLEEXIST',$UI_CW_Type.' ini sudah ada');
 // TD Migration Hack
 if ($UI_Spacing == 1){
 	$glue = ' ';
@@ -219,7 +221,7 @@ if ($UI_Spacing == 1){
 	$glue = '';
 }
 DEFINE('_ROLEIDEXIST',implode($glue, $UI_AD_RID)." sudah ada");
-DEFINE('_ROLEADDED','Sukses menambah jenis');
+DEFINE('_ROLEADDED','Sukses menambah '.$UI_CW_Type);
 
 //base_roleadmin.php
 DEFINE('_ROLEADMIN',"Administrasi $UI_CW_Role BASE");
@@ -273,10 +275,10 @@ DEFINE('_ERRMAILNORECP','MAIL ERROR: Penerima tidak ditentukan');
 DEFINE('_ADDED','<BR>Ditambahkan ');
 DEFINE('_HOSTNAMESDNS',' nama host pada cache IP DNS');
 DEFINE('_HOSTNAMESWHOIS',' nama host pada cache Whois');
-DEFINE('_ERRCACHENULL','KESALAHAN pada Caching: Baris daftar peristiwa TIDAK DITEMUKAN?');
-DEFINE('_ERRCACHEERROR','KESALAHAN pada CACHING PERISTIWA:');
-DEFINE('_ERRCACHEUPDATE','Gagal meng-update cache peristiwa');
-DEFINE('_ALERTSCACHE',' alarem dalam cache peristiwa<BR>');
+DEFINE('_ERRCACHENULL','KESALAHAN pada Caching: Baris daftar '.$UI_CW_Event.' TIDAK DITEMUKAN?');
+DEFINE('_ERRCACHEERROR','KESALAHAN pada CACHING '.$UI_CW_Event.':');
+DEFINE('_ERRCACHEUPDATE','Gagal meng-update cache '.$UI_CW_Event);
+DEFINE('_ALERTSCACHE',' alarem dalam cache '.$UI_CW_Event.'<BR>');
 
 //base_db.inc.php
 DEFINE('_ERRSQLTRACE','Gagal membuka file SQL catatan');
@@ -298,9 +300,9 @@ DEFINE('_ERRSQLDBALLOAD2','<P>Periksalah variabel libari niskala DB <CODE>$DBlib
             <P>
             Libari database yang digunakan sebagai syarat pada saat ini adalah ADODB, yang dapat di-download
             melalui ');
-DEFINE('_ERRSQLDBTYPE','Jenis database yang ditetapkan tidak valid');
-DEFINE('_ERRSQLDBTYPEINFO1','Variabel <CODE>\$DBtype</CODE> pada <CODE>base_conf.php</CODE> ditetapkan pada jenis database yang tidak dikenal. ');
-DEFINE('_ERRSQLDBTYPEINFO2','Hanya jenis database yang berikut didukung oleh BASE: <PRE>
+DEFINE('_ERRSQLDBTYPE',$UI_CW_Type.' database yang ditetapkan tidak valid');
+DEFINE('_ERRSQLDBTYPEINFO1','Variabel <CODE>\$DBtype</CODE> pada <CODE>base_conf.php</CODE> ditetapkan pada '.$UI_CW_Type.' database yang tidak dikenal. ');
+DEFINE('_ERRSQLDBTYPEINFO2','Hanya '.$UI_CW_Type.' database yang berikut didukung oleh BASE: <PRE>
                 MySQL         : \'mysql\'
                 PostgreSQL    : \'postgres\'
                 MS SQL Server : \'mssql\'
@@ -483,12 +485,12 @@ DEFINE('_CHRTYGRID','Tampilkan garis pada koordinat Y');
 
 //base_graph_main.php
 DEFINE('_CHRTTITLE','Grafik BASE');
-DEFINE('_ERRCHRTNOTYPE','Jenis grafik belum ditepatkan');
+DEFINE('_ERRCHRTNOTYPE',$UI_CW_Type.' grafik belum ditepatkan');
 DEFINE('_ERRNOAGSPEC','Kelompok alarem tidak ditepatkan.  Menggunakan semua alarem.');
 DEFINE('_CHRTDATAIMPORT','Memulai impor data');
 DEFINE('_CHRTTIMEVNUMBER','Waktu vs. Jumlah Alarem');
 DEFINE('_CHRTTIME','Waktu');
-DEFINE('_CHRTALERTOCCUR','Peristiwa Alarem');
+DEFINE('_CHRTALERTOCCUR',$UI_CW_Event.' Alarem');
 DEFINE('_CHRTSIPNUMBER','IP sumber vs. Jumlah Alarem');
 DEFINE('_CHRTSIP','Alamat IP sumber');
 DEFINE('_CHRTDIPALERTS','IP sasaran vs. Jumlah Alarem');
@@ -520,13 +522,13 @@ DEFINE('_MNTPHPVER','VERSI PHP:');
 DEFINE('_MNTPHPAPI','API PHP:');
 DEFINE('_MNTPHPLOGLVL','PHP Level Logging:');
 DEFINE('_MNTPHPMODS','Modul2 yang berjalan:');
-DEFINE('_MNTDBTYPE','Jenis DB:');
+DEFINE('_MNTDBTYPE',$UI_CW_Type.' DB:');
 DEFINE('_MNTDBALV','Versi Niskala DB:');
 DEFINE('_MNTDBALERTNAME','Nama DB Alarem:');
 DEFINE('_MNTDBARCHNAME','Nama DB Arsip:');
-DEFINE('_MNTAIC','Peristiwa dalam Cache:');
-DEFINE('_MNTAICTE','Jumlah Peristiwa:');
-DEFINE('_MNTAICCE','Peristiwa dalam Cache:');
+DEFINE('_MNTAIC',$UI_CW_Event.' dalam Cache:');
+DEFINE('_MNTAICTE','Jumlah '.$UI_CW_Event.':');
+DEFINE('_MNTAICCE',$UI_CW_Event.' dalam Cache:');
 DEFINE('_MNTIPAC','Cache alamat IP');
 DEFINE('_MNTIPACUSIP','Jml. IP sumber unik:');
 DEFINE('_MNTIPACDNSC','DNS dalam Cache:');
@@ -559,7 +561,7 @@ DEFINE('_QCERROPER','Operator dari');
 DEFINE('_QCERRDATETIME','Nilai tanggal/waktu dari');
 DEFINE('_QCERRPAYLOAD','Nilai Payload dari');
 DEFINE('_QCERRIP','Alamat IP dari');
-DEFINE('_QCERRIPTYPE','Alamat IP jenis');
+DEFINE('_QCERRIPTYPE','Alamat IP '.$UI_CW_Type);
 DEFINE('_QCERRSPECFIELD',' dimasukkan pada field protokol tetapi field yang bersangkutan tidak ditetapkan.');
 DEFINE('_QCERRSPECVALUE','ditetapkan sebagai dasar pencarian tetapi nilai untuk yang dicarikan belum ditentukan.');
 DEFINE('_QCERRBOOLEAN','Mohon menggunakan operator boolean (seperti AND, OR) bila memakai lebih dari satu protokol.');
@@ -579,7 +581,7 @@ DEFINE('_QCUDPCRIT','Kriteria UDP');
 DEFINE('_QCICMPCRIT','Kriteria ICMP');
 DEFINE('_QCLAYER4CRIT','Layer 4 Criteria'); //NEW
 DEFINE('_QCERRINVIPCRIT','Kriteria alamat IP tidak valid');
-DEFINE('_QCERRCRITADDRESSTYPE','telah ditetapkan sebagai kriteria tetapi jenis alamat (seperti sumber, sasaran) belum ditentukan.');
+DEFINE('_QCERRCRITADDRESSTYPE','telah ditetapkan sebagai kriteria tetapi '.$UI_CW_Type.' alamat (seperti sumber, sasaran) belum ditentukan.');
 DEFINE('_QCERRCRITIPADDRESSNONE','menunjukkan, bahwa sebuah alamat IP dimaksud sebagai kriteria pencarian tetapi alamat IP yang bersangkutan belum ditetapkan.');
 DEFINE('_QCERRCRITIPADDRESSNONE1','dipilih (pada #');
 DEFINE('_QCERRCRITIPIPBOOL','Lebih dari satu kriteria alamat IP dimasukkan tanpa menggunakan operator boolean (seperti AND, OR)');
@@ -618,26 +620,26 @@ DEFINE('_SCDEST','Sasaran');
 DEFINE('_SCPORT','Port');
 
 //base_stat_ipaddr.php
-DEFINE('_PSEVENTERR','ERROR PADA PERISTIWA PORTSCAN: ');
+DEFINE('_PSEVENTERR','ERROR PADA '.$UI_CW_Event.' PORTSCAN: ');
 DEFINE('_PSEVENTERRNOFILE','File pada variabel $portscan_file belum ditetapkan.');
-DEFINE('_PSEVENTERROPENFILE','Gagal membuka file tentang peristiwa Portscan');
+DEFINE('_PSEVENTERROPENFILE','Gagal membuka file tentang '.$UI_CW_Event.' Portscan');
 DEFINE('_PSDATETIME','Tanggal/Waktu');
 DEFINE('_PSSRCIP','IP Sumber');
 DEFINE('_PSDSTIP','IP Sasaran');
 DEFINE('_PSSRCPORT','Port Sumber');
 DEFINE('_PSDSTPORT','Port Sasaran');
 DEFINE('_PSTCPFLAGS','Flag TCP');
-DEFINE('_PSTOTALOCC','Jumlah<BR> Peristiwa');
+DEFINE('_PSTOTALOCC','Jumlah<BR> '.$UI_CW_Event);
 DEFINE('_PSNUMSENSORS','Jml. Sensor');
-DEFINE('_PSFIRSTOCC','Peristiwa<BR> Pertama');
-DEFINE('_PSLASTOCC','Peristiwa<BR> Terakhir');
+DEFINE('_PSFIRSTOCC',$UI_CW_Event.'<BR> Pertama');
+DEFINE('_PSLASTOCC',$UI_CW_Event.'<BR> Terakhir');
 DEFINE('_PSUNIALERTS','Alarem Unik');
-DEFINE('_PSPORTSCANEVE','Peristiwa Portscan');
+DEFINE('_PSPORTSCANEVE',$UI_CW_Event.' Portscan');
 DEFINE('_PSREGWHOIS','Periksa pendaftar (whois) di');
 DEFINE('_PSNODNS','pemecahan DNS tidak dilakukan');
 DEFINE('_PSNUMSENSORSBR','Jumlah <BR>Sensor');
-DEFINE('_PSOCCASSRC','Peristiwa <BR>pada sumber');
-DEFINE('_PSOCCASDST','Peristiwa <BR>pada sasaran');
+DEFINE('_PSOCCASSRC',$UI_CW_Event.' <BR>pada sumber');
+DEFINE('_PSOCCASDST',$UI_CW_Event.' <BR>pada sasaran');
 DEFINE('_PSWHOISINFO','Informasi Whois');
 DEFINE('_PSTOTALHOSTS','Total Hosts Scanned'); //NEW
 DEFINE('_PSDETECTAMONG','%d unique alerts detected among %d alerts on %s'); //NEW
@@ -652,8 +654,8 @@ DEFINE('_SIPLDESTFGDN','FQDN Sasaran');
 DEFINE('_SIPLDIRECTION','arah');
 DEFINE('_SIPLPROTO','Protokol');
 DEFINE('_SIPLUNIDSTPORTS','Port Sasaran Unik');
-DEFINE('_SIPLUNIEVENTS','Peristiwa Unik');
-DEFINE('_SIPLTOTALEVENTS','Jumlah Peristiwa');
+DEFINE('_SIPLUNIEVENTS',$UI_CW_Event.' Unik');
+DEFINE('_SIPLTOTALEVENTS','Jumlah '.$UI_CW_Event);
 
 //base_stat_ports.php
 DEFINE('_UNIQ','Unik');
@@ -668,7 +670,7 @@ DEFINE('SPSENSORLIST','Daftar Sensor');
 DEFINE('_BSTTITLE','Profil waktu Alarem');
 DEFINE('_BSTTIMECRIT','Kriteria Waktu');
 DEFINE('_BSTERRPROFILECRIT','<FONT><B>Penggolongan satuan belum ditetapkan!</B>  Silakan pilih "jam", "hari" atau "bulan" terlebih dahulu.</FONT>');
-DEFINE('_BSTERRTIMETYPE','<FONT><B>Jenis parameter tentang waktu belum ditetapkan!</B>  Silakan pilih "pada" untuk suatu hari tertentu atau pilih "antara" untuk tentukan jangka waktu tertentu.</FONT>');
+DEFINE('_BSTERRTIMETYPE','<FONT><B>'.$UI_CW_Type.' parameter tentang waktu belum ditetapkan!</B>  Silakan pilih "pada" untuk suatu hari tertentu atau pilih "antara" untuk tentukan jangka waktu tertentu.</FONT>');
 DEFINE('_BSTERRNOYEAR','<FONT><B>Parameter Tahun belum ditetapkan!</B></FONT>');
 DEFINE('_BSTERRNOMONTH','<FONT><B>Parameter Bulan belum ditetapkan!</B></FONT>');
 DEFINE('_BSTERRNODAY','<FONT><B>Parameter Hari belum ditetapkan!</B></FONT>');
@@ -680,7 +682,7 @@ DEFINE('_PROFILEALERT','Profile Alert'); //NEW
 //base_stat_uaddr.php
 DEFINE('_UNISADD','Alamat Sumber unik');
 DEFINE('_SUASRCIP','Sumber alamat IP');
-DEFINE('_SUAERRCRITADDUNK','ERROR PADA CRITERIA: jenis alamat tidak dikenal -- menggunakan alamat sasaran');
+DEFINE('_SUAERRCRITADDUNK','ERROR PADA CRITERIA: '.$UI_CW_Type.' alamat tidak dikenal -- menggunakan alamat sasaran');
 DEFINE('_UNIDADD','Alamat sasaran unik');
 DEFINE('_SUADSTIP','Alamat IP sasaran');
 DEFINE('_SUAUNIALERTS','Alarem&nbsp;Unik');

@@ -53,6 +53,8 @@ $UI_CW_Addr = 'adresa';
 $UI_CW_Layer = 'vrstvy';
 $UI_CW_Protp = 'Protokol';
 $UI_CW_Pri = 'Priorita';
+$UI_CW_Event = 'Událost';
+$UI_CW_Type = 'Typu';
 // Common Phrases.
 $UI_CP_SrcName = array($UI_CW_Name,$UI_CW_Src);
 $UI_CP_DstName = array($UI_CW_Name,$UI_CW_Dst);
@@ -60,13 +62,13 @@ $UI_CP_SrcDst = array($UI_CW_Src,'n.',$UI_CW_Dst);
 $UI_CP_SrcAddr = array($UI_CW_Src,$UI_CW_Addr);
 $UI_CP_DstAddr = array($UI_CW_Dst,$UI_CW_Addr);
 $UI_CP_L4P = array($UI_CW_Proto,$UI_CW_Layer,'4');
+$UI_CP_ET = array($UI_CW_Type,$UI_CW_Event);
 // Authentication Data.
 $UI_AD_UND = 'Login';
 $UI_AD_RID = array($UI_CW_Id,$UI_CW_Role);
 $UI_AD_ASD = 'Enabled';
 
 //common phrases
-DEFINE('_EVENTTYPE','typ události');
 DEFINE('_JANUARY','Leden');
 DEFINE('_FEBRUARY','�nor');
 DEFINE('_MARCH','B�ezen');
@@ -140,7 +142,7 @@ DEFINE('_OPTIONS','Options'); //NEW
 DEFINE('_LENGTH','length'); //NEW
 DEFINE('_CODE','code'); //NEW
 DEFINE('_DATA','data'); //NEW
-DEFINE('_TYPE','type'); //NEW
+DEFINE('_TYPE',$UI_CW_Type); //NEW
 DEFINE('_NEXT','Next'); //NEW
 DEFINE('_PREVIOUS','Previous'); //NEW
 
@@ -298,7 +300,7 @@ DEFINE('_ERRSQLDBALLOAD1','<P><B>Chyba p�i na�ítání knihovny pro práci s dat
 DEFINE('_ERRSQLDBALLOAD2','<P>Zkontrolujte prom�nnou pro ur�ení cesty ke knihovn� pro práci s databází <CODE>$DBlib_path</CODE> v souboru <CODE>base_conf.php</CODE>
             <P>Knihovnu pro práci s databází ADODB stáhn�te z
             ');
-DEFINE('_ERRSQLDBTYPE','Specifikován neplatný typ databáze');
+DEFINE('_ERRSQLDBTYPE','Specifikován neplatný '.$UI_CW_Type.' databáze');
 DEFINE('_ERRSQLDBTYPEINFO1','Prom�nná <CODE>\$DBtype</CODE> v souboru <CODE>base_conf.php</CODE> byla �patn� nastavena na ');
 DEFINE('_ERRSQLDBTYPEINFO2','Podporovány jsou pouze následující databázové systémy: <PRE>
                 MySQL         : \'mysql\'
@@ -361,7 +363,7 @@ DEFINE('_SHORTSOURCE','Source'); //NEW
 DEFINE('_SHORTDEST','Dest'); //NEW
 DEFINE('_SHORTSOURCEORDEST','Src or Dest'); //NEW
 DEFINE('_NOLAYER4','no layer4'); //NEW
-DEFINE('_INPUTCRTENC','Input Criteria Encoding Type'); //NEW
+DEFINE('_INPUTCRTENC','Input Criteria Encoding '.$UI_CW_Type); //NEW
 DEFINE('_CONVERT2WS','Convert To (when searching)'); //NEW
 
 //base_state_common.inc.php
@@ -438,8 +440,8 @@ DEFINE('_ERRPHPORACLESUP','<B>PHP podpora není kompletní</B>: <FONT>podpora pr
 
 //base_graph_form.php
 DEFINE('_CHARTTITLE','Nadpis grafu:');
-DEFINE('_CHARTTYPE','Chart Type:'); //NEW
-DEFINE('_CHARTTYPES','{ chart type }'); //NEW
+DEFINE('_CHARTTYPE','Chart '.$UI_CW_Type.':'); //NEW
+DEFINE('_CHARTTYPES','{ chart '.$UI_CW_Type.' }'); //NEW
 DEFINE('_CHARTPERIOD','Chart Period:'); //NEW
 DEFINE('_PERIODNO','no period'); //NEW
 DEFINE('_PERIODWEEK','7 (a week)'); //NEW
@@ -447,7 +449,7 @@ DEFINE('_PERIODDAY','24 (whole day)'); //NEW
 DEFINE('_PERIOD168','168 (24x7)'); //NEW
 DEFINE('_CHARTSIZE','Size: (width x height)'); //NEW
 DEFINE('_PLOTMARGINS','Plot Margins: (left x right x top x bottom)'); //NEW
-DEFINE('_PLOTTYPE','Plot type:'); //NEW
+DEFINE('_PLOTTYPE','Plot '.$UI_CW_Type.':'); //NEW
 DEFINE('_TYPEBAR','bar'); //NEW
 DEFINE('_TYPELINE','line'); //NEW
 DEFINE('_TYPEPIE','pie'); //NEW
@@ -484,7 +486,7 @@ DEFINE('_CHRTYGRID','Zobraz rastr pro osu Y');
 
 //base_graph_main.php
 DEFINE('_CHRTTITLE','Graf BASE');
-DEFINE('_ERRCHRTNOTYPE','Nebyl ur�en typ grafu');
+DEFINE('_ERRCHRTNOTYPE','Nebyl ur�en '.$UI_CW_Type.' grafu');
 DEFINE('_ERRNOAGSPEC','Nebyla ur�ena skupiny. Pou�ívám v�echny alarmy.');
 DEFINE('_CHRTDATAIMPORT','Za�ínám na�ítat data'); 
 DEFINE('_CHRTTIMEVNUMBER','�as port proti po�tu alarm�');
@@ -521,13 +523,13 @@ DEFINE('_MNTPHPVER','PHP VERZE:');
 DEFINE('_MNTPHPAPI','PHP API:');
 DEFINE('_MNTPHPLOGLVL','�rove� hlá�ení PHP:');
 DEFINE('_MNTPHPMODS','Nahrané moduly:');
-DEFINE('_MNTDBTYPE','Typ databáze:');
+DEFINE('_MNTDBTYPE',$UI_CW_Type.' databáze:');
 DEFINE('_MNTDBALV','Verze podp�rné databázové knihovny:');
 DEFINE('_MNTDBALERTNAME','Jméno ALERT databáze:');
 DEFINE('_MNTDBARCHNAME','Jméno ARCHIVE databáze:');
 DEFINE('_MNTAIC','Vyrovnávací pam� alarm�:');
-DEFINE('_MNTAICTE','Celkový po�et událostí:');
-DEFINE('_MNTAICCE','Události ve vyrovnávací pam�ti:');
+DEFINE('_MNTAICTE','Celkový po�et '.$UI_CW_Event.'í:');
+DEFINE('_MNTAICCE',$UI_CW_Event.'i ve vyrovnávací pam�ti:');
 DEFINE('_MNTIPAC','Vyrovnávací pam� IP address');
 DEFINE('_MNTIPACUSIP','Unikátní zdrojové IP:');
 DEFINE('_MNTIPACDNSC','DNS ve vyrovnávací pam�ti:');
@@ -560,7 +562,7 @@ DEFINE('_QCERROPER','Operátor');
 DEFINE('_QCERRDATETIME','Hodnota datum/�as');
 DEFINE('_QCERRPAYLOAD','Hodnota obsahu');
 DEFINE('_QCERRIP','IP adresa');
-DEFINE('_QCERRIPTYPE','IP adresa typu');
+DEFINE('_QCERRIPTYPE','IP adresa '.$UI_CW_Type);
 DEFINE('_QCERRSPECFIELD','bylo zadáno pole protokolu, ale nebyla ur�ena hodnota.');
 DEFINE('_QCERRSPECVALUE','bylo vybráno, ale nebyla ur�ena hodnota.');
 DEFINE('_QCERRBOOLEAN','Více polí pro ur�ení protokolu bylo zadáno, ale nebyl mezi nimi zadán logický operátor (AND, OR).');
@@ -669,7 +671,7 @@ DEFINE('SPSENSORLIST','Výpis senzor�');
 DEFINE('_BSTTITLE','Time Profile of Alerts');
 DEFINE('_BSTTIMECRIT','Time Criteria');
 DEFINE('_BSTERRPROFILECRIT','<FONT><B>No profiling criteria was specified!</B>  Click on "hour", "day", or "month" to choose the granularity of the aggregate statistics.</FONT>');
-DEFINE('_BSTERRTIMETYPE','<FONT><B>The type of time parameter which will be passed was not specified!</B>  Choose either "on", to specify a single date, or "between" to specify an interval.</FONT>');
+DEFINE('_BSTERRTIMETYPE','<FONT><B>The '.$UI_CW_Type.' of time parameter which will be passed was not specified!</B>  Choose either "on", to specify a single date, or "between" to specify an interval.</FONT>');
 DEFINE('_BSTERRNOYEAR','<FONT><B>No Year parameter was specified!</B></FONT>');
 DEFINE('_BSTERRNOMONTH','<FONT><B>No Month parameter was specified!</B></FONT>');
 DEFINE('_BSTERRNODAY','<FONT><B>No Day parameter was specified!</B></FONT>');
@@ -681,7 +683,7 @@ DEFINE('_PROFILEALERT','Profile Alert'); //NEW
 //base_stat_uaddr.php
 DEFINE('_UNISADD','Unikátní zdrojové IP adresy');
 DEFINE('_SUASRCIP','Zdrojová IP adresa');
-DEFINE('_SUAERRCRITADDUNK','chyba v kritériu: neznámý typ adresy -- p�edpokládám cílovou');
+DEFINE('_SUAERRCRITADDUNK','chyba v kritériu: neznámý '.$UI_CW_Type.' adresy -- p�edpokládám cílovou');
 DEFINE('_UNIDADD','Unikátní cílové IP adresy');
 DEFINE('_SUADSTIP','Cílová IP adresa');
 DEFINE('_SUAUNIALERTS','Unikátních alarm�');

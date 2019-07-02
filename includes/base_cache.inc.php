@@ -203,12 +203,12 @@ function CacheSensor($sid, $cid, $db) {
 	// Caches all alerts for sensor $sid newer than the event $cid.
 	GLOBAL $UIL, $debug_mode;
 	$CPSensor = $UIL->CWA['Sensor'];
-  $schema_specific = array(2);
-
-  $schema_specific[0] = "";
-  $schema_specific[1] = "";
-  $schema_specific[2] = "";
-
+	$CPET = $UIL->CPA['ET'];
+	$EPfx = '<BR>' . __FILE__ . ':';
+	$schema_specific = array(2);
+	$schema_specific[0] = '';
+	$schema_specific[1] = '';
+	$schema_specific[2] = '';
   if ( $db->baseGetDBversion() >= 100 ) 
   {
      $schema_specific[1] = ", sig_name"; 
@@ -465,26 +465,20 @@ function CacheSensor($sid, $cid, $db) {
     $mystr = '<BR>' . __FILE__ . ':' . __LINE__ . ": WARNING: \$update_sql[] has only empty elements with sid = $sid, cid = $cid<BR>";
     echo $mystr;
   }
-
-
-
-  // Now commit all those SQL commands
-  for ( $i = 0; $i < $update_cnt; $i++ )
-  {
-    if ($debug_mode > 0)
-    {
-      $mystr = '<BR>' . __FILE__ . ':' . __LINE__ . ": <BR>\n$update_sql[$i] <BR><BR>\n\n";
-      echo $mystr;
-    }
+	// Commit all SQL commands.
+	for ( $i = 0; $i < $update_cnt; $i++ ){
+		if ($debug_mode > 0){
+			$DMsg = $EPfx . __LINE__ . ": <BR>\n$update_sql[$i] <BR><BR>\n";
+			print "$DMsg\n";
+		}
 		$db->baseExecute($update_sql[$i]);
 		if ( $db->baseErrorMessage() != "" ){
 			ErrorMessage(
-				_ERRCACHEERROR." [$CPSensor #$sid]["._EVENTTYPE." $i]".
-				" "._ERRCACHEUPDATE);
+				_ERRCACHEERROR." [$CPSensor #$sid][$CPET $i] "._ERRCACHEUPDATE
+			);
 		}
 	}
 }
-
 
 // This is an auxiliary function for problems with updating acid_event
 function dump_missing_events($db, $sid, $start_cid, $end_cid)

@@ -52,6 +52,8 @@ $UI_CW_Addr = '地址';
 $UI_CW_Layer = '层';
 $UI_CW_Proto = '协议';
 $UI_CW_Pri = '优先级';
+$UI_CW_Event = '事件';
+$UI_CW_Type = '类型';
 // Common Phrases.
 $UI_CP_SrcName = array($UI_CW_Src,$UI_CW_Name);
 $UI_CP_DstName = array($UI_CW_Dst,$UI_CW_Name);
@@ -59,13 +61,13 @@ $UI_CP_SrcDst = array($UI_CW_Src,'或',$UI_CW_Dst);
 $UI_CP_SrcAddr = array($UI_CW_Src,$UI_CW_Addr);
 $UI_CP_DstAddr = array($UI_CW_Dst,$UI_CW_Addr);
 $UI_CP_L4P = array($UI_CW_Layer,'4',$UI_CW_Proto);
+$UI_CP_ET = array($UI_CW_Event,$UI_CW_Type);
 // Authentication Data.
 $UI_AD_UND = '用户登录';
 $UI_AD_RID = array($UI_CW_Role,$UI_CW_Id);
 $UI_AD_ASD = '启用';
 
 //common phrases
-DEFINE('_EVENTTYPE','事件类型');
 DEFINE('_JANUARY','一月');
 DEFINE('_FEBRUARY','二月');
 DEFINE('_MARCH','三月');
@@ -276,9 +278,9 @@ DEFINE('_ERRMAILNORECP','发送电子邮件错误: 没有指定接收方');
 DEFINE('_ADDED','增加 ');
 DEFINE('_HOSTNAMESDNS',' 主机到 IP DNS 缓存');
 DEFINE('_HOSTNAMESWHOIS',' 主机到 Whois 缓存');
-DEFINE('_ERRCACHENULL','缓存错误: 找到空事件列?');
-DEFINE('_ERRCACHEERROR','事件缓存错误:');
-DEFINE('_ERRCACHEUPDATE','无法更新事件缓存');
+DEFINE('_ERRCACHENULL','缓存错误: 找到空'.$UI_CW_Event.'列?');
+DEFINE('_ERRCACHEERROR',$UI_CW_Event.'缓存错误:');
+DEFINE('_ERRCACHEUPDATE','无法更新'.$UI_CW_Event.'缓存');
 DEFINE('_ALERTSCACHE',' 条警告到警告缓存');
 
 //base_db.inc.php
@@ -304,9 +306,9 @@ DEFINE('_ERRSQLDBALLOAD2','<P>检查 DB 抽象库变量
             <P>
             下面的使用的数据库是ADODB, 可以从这里下载:
              ');
-DEFINE('_ERRSQLDBTYPE','指定的数据库类型无效');
+DEFINE('_ERRSQLDBTYPE','指定的数据库'.$UI_CW_Type.'无效');
 DEFINE('_ERRSQLDBTYPEINFO1','变量 <CODE>\$DBtype</CODE> 在 
-<CODE>base_conf.php</CODE> 被设置成无法认出的数据库类型 ');
+<CODE>base_conf.php</CODE> 被设置成无法认出的数据库'.$UI_CW_Type.' ');
 DEFINE('_ERRSQLDBTYPEINFO2','只支持以下数据库系统: <PRE>
                 MySQL         : \'mysql\'
                 PostgreSQL    : \'postgres\'
@@ -509,12 +511,12 @@ DEFINE('_GRAPHALERTDATA','Graph Alert Data'); //NEW
 
 //base_graph_main.php
 DEFINE('_CHRTTITLE','BASE 图表');
-DEFINE('_ERRCHRTNOTYPE','没有指定图表类型');
+DEFINE('_ERRCHRTNOTYPE','没有指定图表'.$UI_CW_Type);
 DEFINE('_ERRNOAGSPEC','没有指定 AG。使用所有警告。');
 DEFINE('_CHRTDATAIMPORT','开始导入数据');
 DEFINE('_CHRTTIMEVNUMBER','时间 vs. 警告的数量');
 DEFINE('_CHRTTIME','时间');
-DEFINE('_CHRTALERTOCCUR','警告事件');
+DEFINE('_CHRTALERTOCCUR','警告'.$UI_CW_Event);
 DEFINE('_CHRTSIPNUMBER','源 IP vs. 警告的数量');
 DEFINE('_CHRTSIP','源 IP '.$UI_CW_Addr);
 DEFINE('_CHRTDIPALERTS',$UI_CW_Dst.' IP vs. 警告的数量');
@@ -545,13 +547,13 @@ DEFINE('_MNTPHPVER','PHP 版本:');
 DEFINE('_MNTPHPAPI','PHP API:');
 DEFINE('_MNTPHPLOGLVL','PHP 记录级别:');
 DEFINE('_MNTPHPMODS','已加载的模块:');
-DEFINE('_MNTDBTYPE','DB 类型:');
+DEFINE('_MNTDBTYPE','DB '.$UI_CW_Type.':');
 DEFINE('_MNTDBALV','DB 抽象版本:');
 DEFINE('_MNTDBALERTNAME','警告数据库名:');
 DEFINE('_MNTDBARCHNAME','存档数据库名:');
 DEFINE('_MNTAIC','警告信息缓存:');
-DEFINE('_MNTAICTE','全部的事件:');
-DEFINE('_MNTAICCE','缓存的事件:');
+DEFINE('_MNTAICTE','全部的'.$UI_CW_Event.':');
+DEFINE('_MNTAICCE','缓存的'.$UI_CW_Event.':');
 DEFINE('_MNTIPAC','IP '.$UI_CW_Addr.'缓存');
 DEFINE('_MNTIPACUSIP','单项源 IP:');
 DEFINE('_MNTIPACDNSC','DNS 缓存:');
@@ -586,7 +588,7 @@ DEFINE('_QCERRDATETIME','一个日期/时间值为');
 DEFINE('_QFRMSORTNONE','none'); //NEW
 DEFINE('_QCERRPAYLOAD','一个封包内容为');
 DEFINE('_QCERRIP','一个 IP '.$UI_CW_Addr.'为');
-DEFINE('_QCERRIPTYPE','一个 IP '.$UI_CW_Addr.'类型为');
+DEFINE('_QCERRIPTYPE','一个 IP '.$UI_CW_Addr.$UI_CW_Type.'为');
 DEFINE('_QCERRSPECFIELD',' 
 已作为协议字段输入，但是没有指定特殊字段。');
 DEFINE('_QCERRSPECVALUE','已选择表明应该是一个准则，但是没有指定匹配什么值。');
@@ -615,7 +617,7 @@ DEFINE('_QCTCPCRIT','TCP 准则');
 DEFINE('_QCUDPCRIT','UDP 准则');
 DEFINE('_QCICMPCRIT','ICMP 准则');
 DEFINE('_QCERRINVIPCRIT','无效的 IP '.$UI_CW_Addr.'准则');
-DEFINE('_QCERRCRITADDRESSTYPE','作为一个准则的值而输入，但是'.$UI_CW_Addr.'的类型 (例如： 源, '.$UI_CW_Dst.') 没有被指定。');
+DEFINE('_QCERRCRITADDRESSTYPE','作为一个准则的值而输入，但是'.$UI_CW_Addr.'的'.$UI_CW_Type.' (例如： 源, '.$UI_CW_Dst.') 没有被指定。');
 DEFINE('_QCERRCRITIPADDRESSNONE','表示一个 IP '.$UI_CW_Addr.'应该是一个准则，但是没有指定应该匹配的'.$UI_CW_Addr.'。');
 DEFINE('_QCERRCRITIPADDRESSNONE1','被选择 (at #');
 DEFINE('_QCERRCRITIPIPBOOL','输入的多 IP '.$UI_CW_Addr.'准则在IP '.$UI_CW_Addr.'之间没有布尔操作符 (e.g. AND, OR) ');
@@ -659,10 +661,10 @@ DEFINE('_SCDEST',$UI_CW_Dst);
 DEFINE('_SCPORT','端口');
 
 //base_stat_ipaddr.php
-DEFINE('_PSEVENTERR','端口扫描事件错误: ');
+DEFINE('_PSEVENTERR','端口扫描'.$UI_CW_Event.'错误: ');
 DEFINE('_PSEVENTERRNOFILE','没有在 $portscan_file 
 变量里指定文件.');
-DEFINE('_PSEVENTERROPENFILE','无法打开端口扫描事件文件');
+DEFINE('_PSEVENTERROPENFILE','无法打开端口扫描'.$UI_CW_Event.'文件');
 DEFINE('_PSDATETIME','日期/时间');
 DEFINE('_PSSRCIP','源 IP');
 DEFINE('_PSDSTIP',"$UI_CW_Dst IP");
@@ -678,7 +680,7 @@ DEFINE('_PSNUMSENSORS','监测器数量');
 DEFINE('_PSFIRSTOCC','首次<BR> 发生');
 DEFINE('_PSLASTOCC','最后<BR> 发生');
 DEFINE('_PSUNIALERTS','单项警告');
-DEFINE('_PSPORTSCANEVE','端口扫描事件');
+DEFINE('_PSPORTSCANEVE','端口扫描'.$UI_CW_Event);
 DEFINE('_PSREGWHOIS','注册查询 (whois) 在');
 DEFINE('_PSNODNS','没有 DNS 解析企图');
 DEFINE('_PSNUMSENSORSBR','多少个 <BR>监测器');
@@ -693,8 +695,8 @@ DEFINE('_SIPLDESTFGDN',$UI_CW_Dst.'域名');
 DEFINE('_SIPLDIRECTION','方向');
 DEFINE('_SIPLPROTO','协议');
 DEFINE('_SIPLUNIDSTPORTS','单项'.$UI_CW_Dst.'端口');
-DEFINE('_SIPLUNIEVENTS','单项事件');
-DEFINE('_SIPLTOTALEVENTS','总事件');
+DEFINE('_SIPLUNIEVENTS','单项'.$UI_CW_Event);
+DEFINE('_SIPLTOTALEVENTS','总'.$UI_CW_Event);
 
 //base_stat_ports.php
 DEFINE('_UNIQ','单项');
@@ -705,12 +707,12 @@ DEFINE('_SRCPS','源端口');
 DEFINE('SPSENSORLIST','监测器列表');
 
 //base_stat_time.php
-DEFINE('_BSTTITLE','警告的事件配置文件');
+DEFINE('_BSTTITLE','警告的'.$UI_CW_Event.'配置文件');
 DEFINE('_BSTTIMECRIT','时间准则');
 DEFINE('_BSTERRPROFILECRIT','<FONT><B>没有指定配置文件准则!</B>  
 点击 "小时", "日", 或 
 "月"来选择统计聚合的间隔粒度。</FONT>');
-DEFINE('_BSTERRTIMETYPE','<FONT><B>要传送的时间参数的类型没有指定!</B> 
+DEFINE('_BSTERRTIMETYPE','<FONT><B>要传送的时间参数的'.$UI_CW_Type.'没有指定!</B> 
   选择 "on", 来指定一个单点日期, 或者选择 "between" 
 来指定一个时间间隔。</FONT>');
 DEFINE('_BSTERRNOYEAR','<FONT><B>没有设置"年"参数!</B></FONT>');
@@ -720,7 +722,7 @@ DEFINE('_BSTERRNODAY','<FONT><B>没有设置"日"参数!</B></FONT>');
 //base_stat_uaddr.php
 DEFINE('_UNISADD','单项源'.$UI_CW_Addr);
 DEFINE('_SUASRCIP','源 IP '.$UI_CW_Addr);
-DEFINE('_SUAERRCRITADDUNK','准则错误: 位置'.$UI_CW_Addr.'类型 -- 假定'.$UI_CW_Dst.$UI_CW_Addr);
+DEFINE('_SUAERRCRITADDUNK','准则错误: 位置'.$UI_CW_Addr.$UI_CW_Type.' -- 假定'.$UI_CW_Dst.$UI_CW_Addr);
 DEFINE('_UNIDADD','单词'.$UI_CW_Dst.$UI_CW_Addr);
 DEFINE('_SUADSTIP',$UI_CW_Dst.' IP '.$UI_CW_Addr);
 DEFINE('_SUAUNIALERTS','单项&nbsp;警告');

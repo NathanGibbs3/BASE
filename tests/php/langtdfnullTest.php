@@ -558,6 +558,45 @@ class nulllangTest extends TestCase {
 			"Uninitialized: $TItem ."
 		);
 	}
+	public function testCWASetItemEvent() {
+		$lang = self::$langs;
+		$tf = __FUNCTION__;
+		$tmp = "UI$lang";
+		LogTC($tf,'language',$lang);
+		$$tmp = self::$UIL;
+		$file = $$tmp->TDF;
+		$key = 'Event';
+		$KA = 'CWA';
+		$TItem = $KA."[$key]";
+		$EEM = self::$EEM."$TItem.\n";
+		LogTC($tf,'TD file',$file);
+		$this->CWAHas($$tmp, $key, $TItem);
+		$this->assertEquals(
+			'',
+			$$tmp->{$KA}[$key],
+			"Uninitialized: $TItem ."
+		);
+	}
+	// Uncomment when we migrate _TYPE in TD
+//	public function testCWASetItemType() {
+//		$lang = self::$langs;
+//		$tf = __FUNCTION__;
+//		$tmp = "UI$lang";
+//		LogTC($tf,'language',$lang);
+//		$$tmp = self::$UIL;
+//		$file = $$tmp->TDF;
+//		$key = 'Type';
+//		$KA = 'CWA';
+//		$TItem = $KA."[$key]";
+//		$EEM = self::$EEM."$TItem.\n";
+//		LogTC($tf,'TD file',$file);
+//		$this->CWAHas($$tmp, $key, $TItem);
+//		$this->assertEquals(
+//			$EEM,
+//			$$tmp->{$KA}[$key],
+//			"Uninitialized: $TItem ."
+//		);
+//	}
 
 	// Test Common Phrase Items.
 	public function testCPASetItemSrcName() {
@@ -655,7 +694,7 @@ class nulllangTest extends TestCase {
 			"Uninitialized: $TItem ."
 		);
 	}
-	public function testCPASetItemDstLayer4Protocol() {
+	public function testCPASetItemLayer4Protocol() {
 		$lang = self::$langs;
 		$tf = __FUNCTION__;
 		$tmp = "UI$lang";
@@ -663,6 +702,25 @@ class nulllangTest extends TestCase {
 		$$tmp = self::$UIL;
 		$file = $$tmp->TDF;
 		$key = 'L4P';
+		$KA = 'CPA';
+		$TItem = $KA."[$key]";
+		$EEM = self::$EEM."$TItem.\n";
+		LogTC($tf,'TD file',$file);
+		$this->CPAHas($$tmp, $key, $TItem);
+		$this->assertEquals(
+			$EEM,
+			$$tmp->{$KA}[$key],
+			"Uninitialized: $TItem ."
+		);
+	}
+	public function testCPASetItemEventType() {
+		$lang = self::$langs;
+		$tf = __FUNCTION__;
+		$tmp = "UI$lang";
+		LogTC($tf,'language',$lang);
+		$$tmp = self::$UIL;
+		$file = $$tmp->TDF;
+		$key = 'ET';
 		$KA = 'CPA';
 		$TItem = $KA."[$key]";
 		$EEM = self::$EEM."$TItem.\n";

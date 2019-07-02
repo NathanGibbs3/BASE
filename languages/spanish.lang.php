@@ -52,6 +52,8 @@ $UI_CW_Addr = 'Direcci&oacute;n';
 $UI_CW_Layer = 'Capa';
 $UI_CW_Proto = 'Protocolo';
 $UI_CW_Pri = 'Prioridad';
+$UI_CW_Event = 'Evento';
+$UI_CW_Type = 'Tipo';
 // Common Phrases.
 $UI_CP_SrcName = array($UI_CW_Name,'del','origen');
 $UI_CP_DstName = array($UI_CW_Name,'del','dest.');
@@ -59,13 +61,13 @@ $UI_CP_SrcDst = array($UI_CW_Src,'o','Dest');
 $UI_CP_SrcAddr = array($UI_CW_Addr,$UI_CW_Src);
 $UI_CP_DstAddr = array($UI_CW_Addr,$UI_CW_Dst);
 $UI_CP_L4P = array($UI_CW_Proto,$UI_CW_Layer,'4');
+$UI_CP_ET = array($UI_CW_Type,'de',$UI_CW_Event);
 // Authentication Data.
 $UI_AD_UND = 'Usuario';
 $UI_AD_RID = array($UI_CW_Id,$UI_CW_Role);
 $UI_AD_ASD = 'Activado';
 
 //common phrases
-DEFINE('_EVENTTYPE','tipo de evento');
 DEFINE('_JANUARY','Enero');
 DEFINE('_FEBRUARY','Febrero');
 DEFINE('_MARCH','Marzo');
@@ -274,9 +276,9 @@ DEFINE('_ERRMAILNORECP','ERROR EN EMAIL: Ning&uacute;n recipiente especificado')
 DEFINE('_ADDED','A&ntilde;adido ');
 DEFINE('_HOSTNAMESDNS',' nombres de maquinas al escondrijo de DNS');
 DEFINE('_HOSTNAMESWHOIS',' nombres de maquinas al escondrijo de Whois');
-DEFINE('_ERRCACHENULL','ERROR EN ESCONDRIJO: linea de evento NULL encontrado?');
+DEFINE('_ERRCACHENULL','ERROR EN ESCONDRIJO: linea de '.$UI_CW_Event.' NULL encontrado?');
 DEFINE('_ERRCACHEERROR','ERROR EN ESCONDRIJO:');
-DEFINE('_ERRCACHEUPDATE','No se pudo actualizar el escondrijo de eventos');
+DEFINE('_ERRCACHEUPDATE','No se pudo actualizar el escondrijo de '.$UI_CW_Event.'s');
 DEFINE('_ALERTSCACHE',' alerta(s) al escondrijo de alertas');
 
 //base_db.inc.php
@@ -299,9 +301,9 @@ DEFINE('_ERRSQLDBALLOAD2','<P>Por favor compruebe la variable de la biblioteca d
             <P>
             En este momento, se usa la biblioteca ADODB, que se puede encontrar en
             at ');
-DEFINE('_ERRSQLDBTYPE','Tipo de DB desconocido');
-DEFINE('_ERRSQLDBTYPEINFO1','La variable <CODE>\$DBtype</CODE> en <CODE>base_conf.php</CODE> tiene el tipo desconocido de ');
-DEFINE('_ERRSQLDBTYPEINFO2','Solo los tipos siguientes son soportados: <PRE>
+DEFINE('_ERRSQLDBTYPE',$UI_CW_Type.' de DB desconocido');
+DEFINE('_ERRSQLDBTYPEINFO1','La variable <CODE>\$DBtype</CODE> en <CODE>base_conf.php</CODE> tiene el '.$UI_CW_Type.' desconocido de ');
+DEFINE('_ERRSQLDBTYPEINFO2','Solo los '.$UI_CW_Type.'s siguientes son soportados: <PRE>
                 MySQL         : \'mysql\'
                 PostgreSQL    : \'postgres\'
                 MS SQL Server : \'mssql\'
@@ -483,7 +485,7 @@ DEFINE('_CHRTYGRID','Muestra lineas de rejilla del eje Y');
 
 //base_graph_main.php
 DEFINE('_CHRTTITLE','Gr&aacute;fica de BASE');
-DEFINE('_ERRCHRTNOTYPE','Ning&uacute;n tipo de gr&aacute;fica especificado');
+DEFINE('_ERRCHRTNOTYPE','Ning&uacute;n '.$UI_CW_Type.' de gr&aacute;fica especificado');
 DEFINE('_ERRNOAGSPEC','Ning&uacute;n AG especificado. Usando todas las alertas.');
 DEFINE('_CHRTDATAIMPORT','Importando datos');
 DEFINE('_CHRTTIMEVNUMBER','Tiempo vs. N&uacute;mero de Alertas');
@@ -520,13 +522,13 @@ DEFINE('_MNTPHPVER','VERSI&Oacute;N PHP:');
 DEFINE('_MNTPHPAPI','PHP API:');
 DEFINE('_MNTPHPLOGLVL','Nivel de registro PHP:');
 DEFINE('_MNTPHPMODS','Modulos Cargados:');
-DEFINE('_MNTDBTYPE','Tipo de DB:');
+DEFINE('_MNTDBTYPE',$UI_CW_Type.' de DB:');
 DEFINE('_MNTDBALV','Versi&oacute;n de Abstracci&oacute;n DB:');
 DEFINE('_MNTDBALERTNAME','Nombre de DB de Alertas:');
 DEFINE('_MNTDBARCHNAME','Nombre de DB de Archivo:');
 DEFINE('_MNTAIC','Escondrijo de informaci&oacute;n de Alertas:');
-DEFINE('_MNTAICTE','Total de Eventos:');
-DEFINE('_MNTAICCE','Eventos Escondrijidos:');
+DEFINE('_MNTAICTE','Total de '.$UI_CW_Event.'s:');
+DEFINE('_MNTAICCE',$UI_CW_Event.'s Escondrijidos:');
 DEFINE('_MNTIPAC','Escondrijo de Direcciones IP');
 DEFINE('_MNTIPACUSIP','IP Orig. &Uacute;nica:');
 DEFINE('_MNTIPACDNSC','Escondrijo DNS:');
@@ -559,7 +561,7 @@ DEFINE('_QCERROPER','Un operador de');
 DEFINE('_QCERRDATETIME','Un valor de fecha/hora de');
 DEFINE('_QCERRPAYLOAD','Un valor de la carga de');
 DEFINE('_QCERRIP','Una direcci&oacute;n IP de');
-DEFINE('_QCERRIPTYPE','Una direcci&oacute;n IP de tipo');
+DEFINE('_QCERRIPTYPE','Una direcci&oacute;n IP de '.$UI_CW_Type);
 DEFINE('_QCERRSPECFIELD',' fue entrada en un campo de protocolo, pero el campo en particular no fue especificado.');
 DEFINE('_QCERRSPECVALUE','fue seleccionado, indicando que debe ser un criterio, pero ning&uacute;n valor para comparar fue especificado.');
 DEFINE('_QCERRBOOLEAN','Varios criterios de campo de protocolo fueron entrados sin un operador Booleano (ej. AND, OR) entre ellos.');
@@ -579,7 +581,7 @@ DEFINE('_QCUDPCRIT','Criterio UDP');
 DEFINE('_QCICMPCRIT','Criterio ICMP');
 DEFINE('_QCLAYER4CRIT','Layer 4 Criteria'); //NEW
 DEFINE('_QCERRINVIPCRIT','Criterio direcci&oacute;n IP inv&aacute;lido');
-DEFINE('_QCERRCRITADDRESSTYPE','fue entrada como un valor de criterio, pero el tipo de direcci&oacute;n (ej. origen, destino), no fue especificado.');
+DEFINE('_QCERRCRITADDRESSTYPE','fue entrada como un valor de criterio, pero el '.$UI_CW_Type.' de direcci&oacute;n (ej. origen, destino), no fue especificado.');
 DEFINE('_QCERRCRITIPADDRESSNONE','indicando que una direcci&oacute;n IP debe ser un criterio, pero ningna direcc&oacute;n para comparar fue especificada.');
 DEFINE('_QCERRCRITIPADDRESSNONE1','fue seleccionado (en #');
 DEFINE('_QCERRCRITIPIPBOOL','Varios criterios de direcci&oacute;n IP fueron entrados sin un operador Booleano (ej. AND, OR) entre ellos.');
@@ -618,9 +620,9 @@ DEFINE('_SCDEST','Destino');
 DEFINE('_SCPORT','Puerto');
 
 //base_stat_ipaddr.php
-DEFINE('_PSEVENTERR','ERROR EVENTO BUSQUEDA DE PUERTOS: ');
+DEFINE('_PSEVENTERR','ERROR '.$UI_CW_Event.' BUSQUEDA DE PUERTOS: ');
 DEFINE('_PSEVENTERRNOFILE','Ning&uacute;n fichero especificado en la variable $portscan_file.');
-DEFINE('_PSEVENTERROPENFILE','No se pudo abrir el fichero de eventos de la b&uacute;squeda de puertos');
+DEFINE('_PSEVENTERROPENFILE','No se pudo abrir el fichero de '.$UI_CW_Event.'s de la b&uacute;squeda de puertos');
 DEFINE('_PSDATETIME','Fecha/Hora');
 DEFINE('_PSSRCIP','IP Origen');
 DEFINE('_PSDSTIP','IP Destino');
@@ -632,7 +634,7 @@ DEFINE('_PSNUMSENSORS','Num. de Sensores');
 DEFINE('_PSFIRSTOCC','Primer<BR> Suceso');
 DEFINE('_PSLASTOCC','Ultimo<BR> Suceso');
 DEFINE('_PSUNIALERTS','Alertas &uacute;nicas');
-DEFINE('_PSPORTSCANEVE','Eventos de busqueda de puertos');
+DEFINE('_PSPORTSCANEVE',$UI_CW_Event.'s de busqueda de puertos');
 DEFINE('_PSREGWHOIS','Buscar en el registro Whois en');
 DEFINE('_PSNODNS','no se trat&oacute; de resolver por DNS');
 DEFINE('_PSNUMSENSORSBR','Num. de <BR>Sensores');
@@ -652,8 +654,8 @@ DEFINE('_SIPLDESTFGDN','Destino FQDN');
 DEFINE('_SIPLDIRECTION','Sentido');
 DEFINE('_SIPLPROTO','Protocolo');
 DEFINE('_SIPLUNIDSTPORTS','Puertos Destino &uacute;nicos');
-DEFINE('_SIPLUNIEVENTS','Eventos &uacute;nicos');
-DEFINE('_SIPLTOTALEVENTS','Total de Eventos');
+DEFINE('_SIPLUNIEVENTS',$UI_CW_Event.'s &uacute;nicos');
+DEFINE('_SIPLTOTALEVENTS','Total de '.$UI_CW_Event.'s');
 
 //base_stat_ports.php
 DEFINE('_UNIQ','&Uacute;nico');
@@ -668,7 +670,7 @@ DEFINE('SPSENSORLIST','Lista de Sensores');
 DEFINE('_BSTTITLE','Perfil de Tiempo de Alertas');
 DEFINE('_BSTTIMECRIT','Criterio de Tiempo');
 DEFINE('_BSTERRPROFILECRIT','<FONT><B>Ning&uacute;n criterio de perfilar fue especificado!</B>  Escoge "hora", "d&iacute;a", o "mes" para escoger la medida de las estat&iacute;sticas agregadas.</FONT>');
-DEFINE('_BSTERRTIMETYPE','<FONT><B>El tipo de parametro de tiempo no est&aacute; especificado!</B>  Escoge entre "encendida", para seleccionar una s&oacute;la fecha, o "entre" para especificar un intervalo.</FONT>');
+DEFINE('_BSTERRTIMETYPE','<FONT><B>El '.$UI_CW_Type.' de parametro de tiempo no est&aacute; especificado!</B>  Escoge entre "encendida", para seleccionar una s&oacute;la fecha, o "entre" para especificar un intervalo.</FONT>');
 DEFINE('_BSTERRNOYEAR','<FONT><B>Ningn &ntilde;o especificado!</B></FONT>');
 DEFINE('_BSTERRNOMONTH','<FONT><B>Ningn mes especificado!</B></FONT>');
 DEFINE('_BSTERRNODAY','<FONT><B>Ningn &iacute;a especificado!</B></FONT>');
@@ -680,7 +682,7 @@ DEFINE('_PROFILEALERT','Profile Alert'); //NEW
 //base_stat_uaddr.php
 DEFINE('_UNISADD','Direcciones de Origen &Uacute;nicas');
 DEFINE('_SUASRCIP','Direcci&oacute;n IP de Origen');
-DEFINE('_SUAERRCRITADDUNK','ERROR CRITERIO: tipo de direcci&oacute;n desconocido -- asumiendo direcci&oacute;n de destino');
+DEFINE('_SUAERRCRITADDUNK','ERROR CRITERIO: '.$UI_CW_Type.' de direcci&oacute;n desconocido -- asumiendo direcci&oacute;n de destino');
 DEFINE('_UNIDADD','Direcciones de Destino &uacute;nicas');
 DEFINE('_SUADSTIP','Direcci&oacute;n IP de Destino');
 DEFINE('_SUAUNIALERTS','Alertas&nbsp; &Uacute;nicas');

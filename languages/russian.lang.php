@@ -38,7 +38,7 @@ $UI_Title = 'Базовый движок анализа и безопаснос�
 $UI_CW_Edit = 'Редактировать';
 $UI_CW_Delete = 'Удалить';
 $UI_CW_Src = 'Источника';
-$UI_CW_Dst = 'Назначение';
+$UI_CW_Dst = 'назначения';
 $UI_CW_Id = 'ID';
 $UI_CW_Name = 'Имя';
 $UI_CW_Int = 'Интерфейс';
@@ -51,23 +51,25 @@ $UI_CW_Role = 'роли';
 $UI_CW_Pw = 'Пароль';
 $UI_CW_Ts = 'Время';
 $UI_CW_Addr = 'Адрес';
-$UI_CW_Layer = '';
-$UI_CW_Proto = '';
+$UI_CW_Layer = 'Слой';
+$UI_CW_Proto = 'Протокол';
 $UI_CW_Pri = 'Приоритет';
+$UI_CW_Event = 'события';
+$UI_CW_Type = 'тип';
 // Common Phrases.
 $UI_CP_SrcName = array($UI_CW_Name,$UI_CW_Src);
 $UI_CP_DstName = array($UI_CW_Name,$UI_CW_Dst);
 $UI_CP_SrcDst = array($UI_CW_Src,'или',$UI_CW_Dst);
 $UI_CP_SrcAddr = array($UI_CW_Addr,$UI_CW_Src);
-$UI_CP_DstAddr = array($UI_CW_Addr,'назначения');
-$UI_CP_L4P = array('Слой','для','прото');
+$UI_CP_DstAddr = array($UI_CW_Addr,$UI_CW_Dst);
+$UI_CP_L4P = array($UI_CW_Layer,'4',$UI_CW_Proto);
+$UI_CP_ET = array($UI_CW_Type,$UI_CW_Event);
 // Authentication Data.
 $UI_AD_UND = 'Логин';
 $UI_AD_RID = array($UI_CW_Id,$UI_CW_Role);
 $UI_AD_ASD = 'Включено';
 
 // основные фразы
-DEFINE('_EVENTTYPE','тип события');
 DEFINE('_JANUARY','Январь');
 DEFINE('_FEBRUARY','Февраль');
 DEFINE('_MARCH','Март');
@@ -84,7 +86,7 @@ DEFINE('_LAST','Последний');
 DEFINE('_FIRST','First'); //NEW
 DEFINE('_TOTAL','Total'); //NEW
 DEFINE('_ALERT','Предупреждения');
-DEFINE('_ADDRESS','Адрес');
+DEFINE('_ADDRESS',$UI_CW_Addr);
 DEFINE('_UNKNOWN','неизвестно');
 DEFINE('_AND','AND'); //NEW
 DEFINE('_OR','OR'); //NEW
@@ -183,7 +185,7 @@ DEFINE('_LOGINERROR',"Пользователь не существует или 
 DEFINE('_MOSTRECENT','Самые последние ');
 DEFINE('_MOSTFREQUENT','Самые частые ');
 DEFINE('_ALERTS',' Предупреждения:');
-DEFINE('_ADDRESSES',' Адреса');
+DEFINE('_ADDRESSES',' '.$UI_CW_Addr.'а');
 DEFINE('_ANYPROTO','любой протокол');
 DEFINE('_UNI','уникальный');
 DEFINE('_LISTING','листинг');
@@ -194,9 +196,9 @@ DEFINE('_L24ALERTS','Предупреждения за последние 24 ч�
 DEFINE('_L72ALERTS','Предупреждения за последние 72 часа: ');
 DEFINE('_UNIALERTS',' Уникальные предупреждения');
 DEFINE('_LSOURCEPORTS',"Последние порты-$UI_CW_Src".'и: ');
-DEFINE('_LDESTPORTS','Последние порты-назначения: ');
+DEFINE('_LDESTPORTS',"Последние порты-$UI_CW_Dst: ");
 DEFINE('_FREGSOURCEP',"Самые частые порты-$UI_CW_Src".'и: ');
-DEFINE('_FREGDESTP','Самые частые порты-назначения: ');
+DEFINE('_FREGDESTP',"Самые частые порты-$UI_CW_Dst: ");
 DEFINE('_QUERIED','Запрос по');
 DEFINE('_DATABASE','База данных:');
 DEFINE('_SCHEMAV','Версия схемы:');
@@ -243,7 +245,7 @@ DEFINE('_BASEADMINTEXT','Пожалуйста, выберите опцию сл�
 DEFINE('_NOACTION','Дествие для предупреждений не указано');
 DEFINE('_INVALIDACT',' неверное действие');
 DEFINE('_ERRNOAG','Невозможно добавить предупреждения, ГП не указана');
-DEFINE('_ERRNOEMAIL','Невозможно отправить предупреждения по e-mail, не указан e-mail-адрес');
+DEFINE('_ERRNOEMAIL','Невозможно отправить предупреждения по e-mail, не указан e-mail-'.$UI_CW_Addr);
 DEFINE('_ACTION','ДЕЙСТВИЕ');
 DEFINE('_CONTEXT','контекст');
 DEFINE('_ADDAGID',"ДОБАВИТЬ в ГП (по $UI_CW_Id)");
@@ -300,8 +302,8 @@ DEFINE('_ERRSQLDBALLOAD2','<P>Проверьте переменную абстр
             <P>
             В данный момент используется ADODB как библиотека работы с БД, она может быть загружена с
             ');
-DEFINE('_ERRSQLDBTYPE','Указан неверный тип БД');
-DEFINE('_ERRSQLDBTYPEINFO1','Переменная <CODE>\$DBtype</CODE> в <CODE>base_conf.php</CODE> установлена в нераспознаваемое значение типа БД ');
+DEFINE('_ERRSQLDBTYPE','Указан неверный '.$UI_CW_Type.' БД');
+DEFINE('_ERRSQLDBTYPEINFO1','Переменная <CODE>\$DBtype</CODE> в <CODE>base_conf.php</CODE> установлена в нераспознаваемое значение '.$UI_CW_Type.'а БД ');
 DEFINE('_ERRSQLDBTYPEINFO2','Поддерживаются только следующие БД: <PRE>
                 MySQL         : \'mysql\'
                 PostgreSQL    : \'postgres\'
@@ -317,7 +319,7 @@ DEFINE('_LOADEDIN','Загружено за');
 DEFINE('_SECONDS','секунд');
 
 //base_net.inc.php
-DEFINE('_ERRRESOLVEADDRESS','Невозможно получить адрес');
+DEFINE('_ERRRESOLVEADDRESS','Невозможно получить '.$UI_CW_Addr);
 
 //base_output_query.inc.php
 DEFINE('_QUERYRESULTSHEADER','Выходной заголовок результатов запроса:');
@@ -457,11 +459,11 @@ DEFINE('_CHARTDAY','{dia}'); //NEW
 DEFINE('_CHARTMONTH','{mГЄs}'); //NEW
 DEFINE('_GRAPHALERTS','Graph Alerts'); //NEW
 DEFINE('_AXISCONTROLS','X / Y AXIS CONTROLS'); //NEW
-DEFINE('_CHRTTYPEHOUR','Время (часы) и число предупреждений');
-DEFINE('_CHRTTYPEDAY','Время (дни) и число предупреждений');
-DEFINE('_CHRTTYPEWEEK','Время (недели) и число предупреждений');
-DEFINE('_CHRTTYPEMONTH','Время (месяцы) и число предупреждений');
-DEFINE('_CHRTTYPEYEAR','Время (годы) и число предупреждений');
+DEFINE('_CHRTTYPEHOUR',$UI_CW_Ts.' (часы) и число предупреждений');
+DEFINE('_CHRTTYPEDAY',$UI_CW_Ts.' (дни) и число предупреждений');
+DEFINE('_CHRTTYPEWEEK',$UI_CW_Ts.' (недели) и число предупреждений');
+DEFINE('_CHRTTYPEMONTH',$UI_CW_Ts.' (месяцы) и число предупреждений');
+DEFINE('_CHRTTYPEYEAR',$UI_CW_Ts.' (годы) и число предупреждений');
 DEFINE('_CHRTTYPESRCIP',"IP-$UI_CW_Src  и число предупреждений");
 DEFINE('_CHRTTYPEDSTIP',"IP-$UI_CW_Dst и число предупреждений");
 DEFINE('_CHRTTYPEDSTUDP',"UDP порт-$UI_CW_Dst и число предупреждений");
@@ -485,11 +487,11 @@ DEFINE('_CHRTYGRID','Показывать сетку линий оси Y');
 
 //base_graph_main.php
 DEFINE('_CHRTTITLE','График BASE');
-DEFINE('_ERRCHRTNOTYPE','Не указан тип графика');
+DEFINE('_ERRCHRTNOTYPE','Не указан '.$UI_CW_Type.' графика');
 DEFINE('_ERRNOAGSPEC','ГП ну указана. Используются все предупреждения.');
 DEFINE('_CHRTDATAIMPORT','Начало импорта данных');
-DEFINE('_CHRTTIMEVNUMBER','Время и число предупреждений');
-DEFINE('_CHRTTIME','Время');
+DEFINE('_CHRTTIMEVNUMBER',$UI_CW_Ts.' и число предупреждений');
+DEFINE('_CHRTTIME',$UI_CW_Ts);
 DEFINE('_CHRTALERTOCCUR','Случаи предупреждений');
 DEFINE('_CHRTSIPNUMBER',"IP-$UI_CW_Src и число предупреждений");
 DEFINE('_CHRTSIP',"IP-$UI_CW_Src");
@@ -522,18 +524,18 @@ DEFINE('_MNTPHPVER','ВЕРСИЯ PHP:');
 DEFINE('_MNTPHPAPI','PHP API:');
 DEFINE('_MNTPHPLOGLVL','Уровень протоколирования PHP:');
 DEFINE('_MNTPHPMODS','Загруженные модули:');
-DEFINE('_MNTDBTYPE','Тип DB:');
+DEFINE('_MNTDBTYPE',$UI_CW_Type.' DB:');
 DEFINE('_MNTDBALV','Версия абстракции DB:');
 DEFINE('_MNTDBALERTNAME',"$UI_CW_Name БД предупреждений:");
 DEFINE('_MNTDBARCHNAME',"$UI_CW_Name БД архива:");
 DEFINE('_MNTAIC','Кэш информации о предупреждениях:');
 DEFINE('_MNTAICTE','Всего событий:');
 DEFINE('_MNTAICCE','Кэшировано событий:');
-DEFINE('_MNTIPAC','Кэш IP-адресов');
+DEFINE('_MNTIPAC','Кэш IP-'.$UI_CW_Addr.'ов');
 DEFINE('_MNTIPACUSIP',"Уникальные IP-$UI_CW_Src".'и:');
 DEFINE('_MNTIPACDNSC','Кэшированных DNS:');
 DEFINE('_MNTIPACWC','Кэшированных Whois:');
-DEFINE('_MNTIPACUDIP','Уникальные IP-назначения:');
+DEFINE('_MNTIPACUDIP',"Уникальные IP-$UI_CW_Dst:");
 
 //base_qry_alert.php
 DEFINE('_QAINVPAIR','Неверная пара (sid,cid)');
@@ -545,7 +547,7 @@ DEFINE('_QANOPAYLOAD','Fast logging used so payload was discarded'); //NEW
 
 //base_qry_common.php
 DEFINE('_QCSIG',$UI_CW_Sig);
-DEFINE('_QCIPADDR','IP адреса');
+DEFINE('_QCIPADDR','IP '.$UI_CW_Addr.'а');
 DEFINE('_QCIPFIELDS','IP поля');
 DEFINE('_QCTCPPORTS','TCP порты');
 DEFINE('_QCTCPFLAGS','TCP флаги');
@@ -558,16 +560,16 @@ DEFINE('_QCERRCRITWARN','Внимание:');
 DEFINE('_QCERRVALUE','Величина');
 DEFINE('_QCERRFIELD','Поле');
 DEFINE('_QCERROPER','Оператор');
-DEFINE('_QCERRDATETIME','Дата/время');
+DEFINE('_QCERRDATETIME',"Дата/$UI_CW_Ts");
 DEFINE('_QCERRPAYLOAD','Величина загрузки');
-DEFINE('_QCERRIP','IP адрес');
-DEFINE('_QCERRIPTYPE','IP адрес типа');
+DEFINE('_QCERRIP','IP '.$UI_CW_Addr);
+DEFINE('_QCERRIPTYPE','IP '.$UI_CW_Addr.' '.$UI_CW_Type.'а');
 DEFINE('_QCERRSPECFIELD',' введен(-а) в поле протокола, но конкретное поле не было указано.');
 DEFINE('_QCERRSPECVALUE','выбран(-а) как критерий, но не указана величина для соответствия ей.');
 DEFINE('_QCERRBOOLEAN','В качестве критерия введено несоклько протоколов, но не использованы логические операторы (напр., AND, OR).');
-DEFINE('_QCERRDATEVALUE','выбран(-а) как показывающий(-ая), что должна совпадать дата/время, но значение не указано.');
-DEFINE('_QCERRINVHOUR','(Неверное время) Не введен критерий даты для указанного времени.');
-DEFINE('_QCERRDATECRIT','выбран(-а), как показывающий(-ая), что должна совпадать дата/время, но значение не указано.');
+DEFINE('_QCERRDATEVALUE','выбран(-а) как показывающий(-ая), что должна совпадать дата/'.$UI_CW_Ts.', но значение не указано.');
+DEFINE('_QCERRINVHOUR','(Неверное '.$UI_CW_Ts.') Не введен критерий даты для указанного времени.');
+DEFINE('_QCERRDATECRIT','выбран(-а), как показывающий(-ая), что должна совпадать дата/'.$UI_CW_Ts.', но значение не указано.');
 DEFINE('_QCERROPERSELECT','введен(-а), но ни один оператор не выбран.');
 DEFINE('_QCERRDATEBOOL','Введены несколько критериев даты/времени без логических операторов между ними (напр., AND, OR).');
 DEFINE('_QCERRPAYCRITOPER','введен(-а) как критерий загрузки, но оператор (напр., has, has not) не был указан.');
@@ -580,17 +582,17 @@ DEFINE('_QCTCPCRIT','Критерий TCP');
 DEFINE('_QCUDPCRIT','Критерий UDP');
 DEFINE('_QCICMPCRIT','Критерий ICMP');
 DEFINE('_QCLAYER4CRIT','Layer 4 Criteria'); //NEW
-DEFINE('_QCERRINVIPCRIT','Неверный критерий: IP адрес');
-DEFINE('_QCERRCRITADDRESSTYPE',"введен(-а) как значение критерия, но тип адреса (напр., $UI_CW_Src, $UI_CW_Dst) не был указан.");
-DEFINE('_QCERRCRITIPADDRESSNONE','показывающий(-ая), что IP адрес должен быть критерием, но адрес не указан.');
+DEFINE('_QCERRINVIPCRIT','Неверный критерий: IP '.$UI_CW_Addr);
+DEFINE('_QCERRCRITADDRESSTYPE','введен(-а) как значение критерия, но '.$UI_CW_Type.' '.$UI_CW_Addr."а (напр., $UI_CW_Src, $UI_CW_Dst) не был указан.");
+DEFINE('_QCERRCRITIPADDRESSNONE','показывающий(-ая), что IP '.$UI_CW_Addr.' должен быть критерием, но '.$UI_CW_Addr.' не указан.');
 DEFINE('_QCERRCRITIPADDRESSNONE1','выбран(-а) (#');
-DEFINE('_QCERRCRITIPIPBOOL','В качестве критерия введены несколько IP адресов без логического оператора между ними (напр., AND, OR)');
+DEFINE('_QCERRCRITIPIPBOOL','В качестве критерия введены несколько IP '.$UI_CW_Addr.'ов без логического оператора между ними (напр., AND, OR)');
 
 //base_qry_form.php
 DEFINE('_QFRMSORTORDER','Порядок сортировки');
 DEFINE('_QFRMSORTNONE','none'); //NEW
-DEFINE('_QFRMTIMEA','время (восходящий)');
-DEFINE('_QFRMTIMED','время (нисходящий)');
+DEFINE('_QFRMTIMEA',$UI_CW_Ts.' (восходящий)');
+DEFINE('_QFRMTIMED',$UI_CW_Ts.' (нисходящий)');
 DEFINE('_QFRMSIG',$UI_CW_Sig);
 DEFINE('_QFRMSIP',"IP-$UI_CW_Src");
 DEFINE('_QFRMDIP',"IP-$UI_CW_Dst");
@@ -611,19 +613,19 @@ DEFINE('_SCSRCIP',"IP-$UI_CW_Src:");
 DEFINE('_SCDSTIP',"IP-$UI_CW_Dst:");
 DEFINE('_SCUNILINKS','Уникальные IP связи');
 DEFINE('_SCSRCPORTS',"Порты-$UI_CW_Src".'и: ');
-DEFINE('_SCDSTPORTS','Порты-назначения: ');
+DEFINE('_SCDSTPORTS','Порты-$UI_CW_Dst: ');
 DEFINE('_SCSENSORS',$UI_CW_Sensor.'ы');
 DEFINE('_SCCLASS','классификации');
-DEFINE('_SCUNIADDRESS','Уникальные адресы: ');
+DEFINE('_SCUNIADDRESS','Уникальные '.$UI_CW_Addr.'ы: ');
 DEFINE('_SCSOURCE',$UI_CW_Src);
 DEFINE('_SCDEST',$UI_CW_Dst);
 DEFINE('_SCPORT','Порт');
 
 //base_stat_ipaddr.php
-DEFINE('_PSEVENTERR','ОШИБКА СОБЫТИЯ СКАНИРОВАНИЯ ПОРТОВ: ');
+DEFINE('_PSEVENTERR','ОШИБКА '.$UI_CW_Event.' СКАНИРОВАНИЯ ПОРТОВ: ');
 DEFINE('_PSEVENTERRNOFILE','Ни один файл не указан в переменной $portscan_file.');
 DEFINE('_PSEVENTERROPENFILE','Не удалось открыть файл событий сканирования портов');
-DEFINE('_PSDATETIME','Дата/Время');
+DEFINE('_PSDATETIME',"Дата/$UI_CW_Ts");
 DEFINE('_PSSRCIP',"IP-$UI_CW_Src");
 DEFINE('_PSDSTIP',"IP-$UI_CW_Dst");
 DEFINE('_PSSRCPORT',"порт-$UI_CW_Src");
@@ -634,12 +636,12 @@ DEFINE('_PSNUMSENSORS',"Число $UI_CW_Sensor".'ов');
 DEFINE('_PSFIRSTOCC','Первый<BR> Случай');
 DEFINE('_PSLASTOCC','Последний<BR> Случай');
 DEFINE('_PSUNIALERTS','Уникальные предупреждения');
-DEFINE('_PSPORTSCANEVE','События сканирования портов');
+DEFINE('_PSPORTSCANEVE',$UI_CW_Event.' сканирования портов');
 DEFINE('_PSREGWHOIS','Поиск (whois) в');
 DEFINE('_PSNODNS','не получено DNS-разрешения');
 DEFINE('_PSNUMSENSORSBR',"Число <BR>$UI_CW_Sensor".'ов');
 DEFINE('_PSOCCASSRC',"Случаи <BR>как $UI_CW_Src".'и.');
-DEFINE('_PSOCCASDST','Случаи <BR>как назначения.');
+DEFINE('_PSOCCASDST',"Случаи <BR>как $UI_CW_Dst");
 DEFINE('_PSWHOISINFO','Информация Whois');
 DEFINE('_PSTOTALHOSTS','Total Hosts Scanned'); //NEW
 DEFINE('_PSDETECTAMONG','%d unique alerts detected among %d alerts on %s'); //NEW
@@ -652,14 +654,14 @@ DEFINE('_SIPLTITLE','IP Связи');
 DEFINE('_SIPLSOURCEFGDN',"$UI_CW_Src FQDN");
 DEFINE('_SIPLDESTFGDN',"$UI_CW_Dst FQDN");
 DEFINE('_SIPLDIRECTION','Направление');
-DEFINE('_SIPLPROTO','Протокол');
-DEFINE('_SIPLUNIDSTPORTS','Уникальные порты-назначения');
-DEFINE('_SIPLUNIEVENTS','Уникальные события');
+DEFINE('_SIPLPROTO',$UI_CW_Proto);
+DEFINE('_SIPLUNIDSTPORTS','Уникальные порты-'.$UI_CW_Dst);
+DEFINE('_SIPLUNIEVENTS','Уникальные '.$UI_CW_Event);
 DEFINE('_SIPLTOTALEVENTS','Всего событий');
 
 //base_stat_ports.php
 DEFINE('_UNIQ','Уникальные');
-DEFINE('_DSTPS','Порты-назначения');
+DEFINE('_DSTPS',"Порты-$UI_CW_Dst");
 DEFINE('_SRCPS',"Порт-$UI_CW_Src".'и');
 DEFINE('_OCCURRENCES','Occurrences'); //NEW
 
@@ -670,7 +672,7 @@ DEFINE('SPSENSORLIST',"Список $UI_CW_Sensor".'ов');
 DEFINE('_BSTTITLE','Временной профиль предупреждений');
 DEFINE('_BSTTIMECRIT','Критерии времени');
 DEFINE('_BSTERRPROFILECRIT','<FONT><B>Не указан профайлинг критериев!</B>  Нажмите на "часы", "день", или "месяц", чтобы выбрать зернистость агрегатной статистики.</FONT>');
-DEFINE('_BSTERRTIMETYPE','<FONT><B>Не указан тип временного параметра!</B>  Выберите или "в", чтобы указать одну дату, или "между", чтобы указать интервал.</FONT>');
+DEFINE('_BSTERRTIMETYPE','<FONT><B>Не указан '.$UI_CW_Type.' временного параметра!</B>  Выберите или "в", чтобы указать одну дату, или "между", чтобы указать интервал.</FONT>');
 DEFINE('_BSTERRNOYEAR','<FONT><B>Параметр Год не указан!</B></FONT>');
 DEFINE('_BSTERRNOMONTH','<FONT><B>Параметр Месяц не указан!</B></FONT>');
 DEFINE('_BSTERRNODAY','<FONT><B>Параметр День не указан!</B></FONT>');
@@ -680,14 +682,14 @@ DEFINE('_TIMEBETWEEN','between'); //NEW
 DEFINE('_PROFILEALERT','Profile Alert'); //NEW
 
 //base_stat_uaddr.php
-DEFINE('_UNISADD',"Уникальные адреса-$UI_CW_Src".'и');
+DEFINE('_UNISADD','Уникальные '.$UI_CW_Addr."а-$UI_CW_Src".'и');
 DEFINE('_SUASRCIP',"IP-$UI_CW_Src");
-DEFINE('_SUAERRCRITADDUNK',"ОШИБКА КРИТЕРИЯ: неизвестный типа адреса -- предполагается адрес-$UI_CW_Dst");
-DEFINE('_UNIDADD','Уникальниые адреса-назначения');
+DEFINE('_SUAERRCRITADDUNK','ОШИБКА КРИТЕРИЯ: неизвестный '.$UI_CW_Type.'а '.$UI_CW_Addr."а -- предполагается $UI_CW_Addr-$UI_CW_Dst");
+DEFINE('_UNIDADD','Уникальниые '.$UI_CW_Addr."а-$UI_CW_Dst");
 DEFINE('_SUADSTIP',"IP-$UI_CW_Dst");
 DEFINE('_SUAUNIALERTS','Уникальные&nbsp;предупреждения');
-DEFINE('_SUASRCADD',"Адрес&nbsp;$UI_CW_Src".'.');
-DEFINE('_SUADSTADD',"Адрес.&nbsp;$UI_CW_Dst");
+DEFINE('_SUASRCADD',$UI_CW_Addr.'&nbsp;'.$UI_CW_Src);
+DEFINE('_SUADSTADD',$UI_CW_Addr.'&nbsp;'.$UI_CW_Dst);
 
 //base_user.php
 DEFINE('_BASEUSERTITLE','Пользовательские установки BASE');

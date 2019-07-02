@@ -52,20 +52,22 @@ $UI_CW_Addr = 'Indirizzo';
 $UI_CW_Layer = 'Layer';
 $UI_CW_Proto = 'Protocol';
 $UI_CW_Pri = 'Priorit√†';
+$UI_CW_Event = 'Evento';
+$UI_CW_Type = 'Tipo';
 // Common Phrases.
 $UI_CP_SrcName = array($UI_CW_Name,$UI_CW_Src);
-$UI_CP_DstName = array($UI_CW_Name,'Dest.');
-$UI_CP_SrcDst = array('Sorg.','o','Dest.');
+$UI_CP_DstName = array($UI_CW_Name,$UI_CW_Dst);
+$UI_CP_SrcDst = array($UI_CW_Src,'o',$UI_CW_Dst);
 $UI_CP_SrcAddr = array($UI_CW_Addr,$UI_CW_Src);
 $UI_CP_DstAddr = array($UI_CW_Addr,$UI_CW_Dst);
 $UI_CP_L4P = array($UI_CW_Layer,'4',$UI_CW_Proto);
+$UI_CP_ET = array($UI_CW_Type,$UI_CW_Event);
 // Authentication Data.
 $UI_AD_UND = 'Login';
 $UI_AD_RID = array($UI_CW_Id,$UI_CW_Role);
 $UI_AD_ASD = 'Abilitato';
 
 //common phrases
-DEFINE('_EVENTTYPE','tipo evento');
 DEFINE('_JANUARY','Gennaio');
 DEFINE('_FEBRUARY','Febbraio');
 DEFINE('_MARCH','Marzo');
@@ -275,7 +277,7 @@ DEFINE('_ADDED','Aggiunti ');
 DEFINE('_HOSTNAMESDNS',' nomi host alla cache IP DNS');
 DEFINE('_HOSTNAMESWHOIS',' nomi host alla cache Whois');
 DEFINE('_ERRCACHENULL','Errore cache: trovato valore nullo?');
-DEFINE('_ERRCACHEERROR','ERRORE CACHE EVENTO:');
+DEFINE('_ERRCACHEERROR','ERRORE CACHE '.$UI_CW_Event.':');
 DEFINE('_ERRCACHEUPDATE','Impossibile aggiornare la cache eventi');
 DEFINE('_ALERTSCACHE',' avvertimento/i alla cache Avvertimenti');
 
@@ -299,8 +301,8 @@ DEFINE('_ERRSQLDBALLOAD2','<P>Controllare la variabile di astrazione DB <CODE>$D
             <P>
             L\'interfaccia attualmente in uso Ë ADODB, scaricabile direttamente da
             ');
-DEFINE('_ERRSQLDBTYPE','Tipo Database specificato non valido');
-DEFINE('_ERRSQLDBTYPEINFO1','La variabile <CODE>\$DBtype</CODE> in <CODE>base_conf.php</CODE> Ë impostata al tipo sconosciuto di database ');
+DEFINE('_ERRSQLDBTYPE',$UI_CW_Type.' Database specificato non valido');
+DEFINE('_ERRSQLDBTYPEINFO1','La variabile <CODE>\$DBtype</CODE> in <CODE>base_conf.php</CODE> Ë impostata al '.$UI_CW_Type.' sconosciuto di database ');
 DEFINE('_ERRSQLDBTYPEINFO2','Solo i seguenti database sono supportati: <PRE>
                 MySQL         : \'mysql\'
                 PostgreSQL    : \'postgres\'
@@ -365,7 +367,7 @@ DEFINE('_INPUTCRTENC','Input Criteria Encoding Type'); //NEW
 DEFINE('_CONVERT2WS','Convert To (when searching)'); //NEW
 
 //base_state_common.inc.php
-DEFINE('_PHPERRORCSESSION','ERRORE PHP: rilevata sessione utente PHP. BASE non Ë impostato per questo tipo di gestione.  Impostare <CODE>use_user_session=1</CODE> in <CODE>base_conf.php</CODE>');
+DEFINE('_PHPERRORCSESSION','ERRORE PHP: rilevata sessione utente PHP. BASE non Ë impostato per questo '.$UI_CW_Type.' di gestione.  Impostare <CODE>use_user_session=1</CODE> in <CODE>base_conf.php</CODE>');
 DEFINE('_PHPERRORCSESSIONCODE','ERRORE PHP: un gestore sessione utente Ë gi√† configurato, ma il codice handle specificato in <CODE>user_session_path</CODE> non Ë valido.');
 DEFINE('_PHPERRORCSESSIONVAR','ERRORE PHP: un gestore sessione utente Ë gi√† configurato, ma la sua implementazione non Ë specificata in BASE. Se si vuole utilizzare un gestore di sessioni utente, impostare <CODE>user_session_path</CODE> in <CODE>base_conf.php</CODE>.');
 DEFINE('_PHPSESSREG','Sessione Registrata');
@@ -484,7 +486,7 @@ DEFINE('_CHRTYGRID','Mostra griglia asse Y');
 
 //base_graph_main.php
 DEFINE('_CHRTTITLE','Grafico BASE');
-DEFINE('_ERRCHRTNOTYPE','Tipo di grafico non specificato');
+DEFINE('_ERRCHRTNOTYPE',$UI_CW_Type.' di grafico non specificato');
 DEFINE('_ERRNOAGSPEC','Gruppo non specificato. Verranno considerati tutti gli avvertimenti.');
 DEFINE('_CHRTDATAIMPORT','Inizio importazione dati');
 DEFINE('_CHRTTIMEVNUMBER','Tempo vs. Numero Avvertimenti');
@@ -521,7 +523,7 @@ DEFINE('_MNTPHPVER','VERSIONE PHP:');
 DEFINE('_MNTPHPAPI','API PHP:');
 DEFINE('_MNTPHPLOGLVL','Livelo log PHP:');
 DEFINE('_MNTPHPMODS','Modulei caricati:');
-DEFINE('_MNTDBTYPE','Tipo DB:');
+DEFINE('_MNTDBTYPE',$UI_CW_Type.' DB:');
 DEFINE('_MNTDBALV','Versione Astrazione DB:');
 DEFINE('_MNTDBALERTNAME','Nome DB AVVERTIMENTI:');
 DEFINE('_MNTDBARCHNAME','Nome DB ARCHIVIO:');
@@ -560,7 +562,7 @@ DEFINE('_QCERROPER','Un operatore di');
 DEFINE('_QCERRDATETIME','Una data/ora di');
 DEFINE('_QCERRPAYLOAD','Un valore payload di');
 DEFINE('_QCERRIP','Un indirizzo IP di');
-DEFINE('_QCERRIPTYPE','Un indirizzo IP del tipo');
+DEFINE('_QCERRIPTYPE','Un indirizzo IP del '.$UI_CW_Type);
 DEFINE('_QCERRSPECFIELD',' Ë stato inserito per il campo protocollo, ma il campo stesso non Ë stato specificato.');
 DEFINE('_QCERRSPECVALUE','Ë stato indicato come criterio, ma non Ë stato valorizzato.');
 DEFINE('_QCERRBOOLEAN','Necessari operatori logici in caso di immissione di pi˘ protocolli (AND, OR).');
@@ -580,7 +582,7 @@ DEFINE('_QCUDPCRIT','Criteri UDP');
 DEFINE('_QCICMPCRIT','Criteri ICMP');
 DEFINE('_QCLAYER4CRIT','Layer 4 Criteria'); //NEW
 DEFINE('_QCERRINVIPCRIT','Criterio IP Non Valido');
-DEFINE('_QCERRCRITADDRESSTYPE','Ë stato inserito come valore del criterio, ma il tipo di indirizzo (es. sorgente, destinazione) non Ë stato specificato.');
+DEFINE('_QCERRCRITADDRESSTYPE','Ë stato inserito come valore del criterio, ma il '.$UI_CW_Type.' di indirizzo (es. sorgente, destinazione) non Ë stato specificato.');
 DEFINE('_QCERRCRITIPADDRESSNONE','indicando che un indirizzo IP sia un criterio, ma non Ë stato specificato alcun indirizzo da verificare.');
 DEFINE('_QCERRCRITIPADDRESSNONE1','Ë stato selzionato (al #');
 DEFINE('_QCERRCRITIPIPBOOL','Inseriti criteri IP multipli senza operatore booleano separatore (es. AND, OR)');
@@ -619,7 +621,7 @@ DEFINE('_SCDEST','Destinazione');
 DEFINE('_SCPORT','Porta');
 
 //base_stat_ipaddr.php
-DEFINE('_PSEVENTERR','ERRORE EVENTO PORTSCA: ');
+DEFINE('_PSEVENTERR','ERRORE '.$UI_CW_Event.' PORTSCA: ');
 DEFINE('_PSEVENTERRNOFILE','Nessun file specificato nella variabile $portscan_file.');
 DEFINE('_PSEVENTERROPENFILE','Impossibile aprire il file degli eventi Portscan');
 DEFINE('_PSDATETIME','Data/Ora');
@@ -669,7 +671,7 @@ DEFINE('SPSENSORLIST','Lista Sensori');
 DEFINE('_BSTTITLE','Orario Profilo di Avvertimenti');
 DEFINE('_BSTTIMECRIT','Criteri Tempo');
 DEFINE('_BSTERRPROFILECRIT','<FONT><B>Nessun criterio di profilo specificato!</B>  Cliccare su "ora", "giorno", o "mese" per scegliere come raggruppare le statistiche.</FONT>');
-DEFINE('_BSTERRTIMETYPE','<FONT><B>il tipo di parametro che verr√† passato non Ë specificato!</B>  Scegliere "il" per specificare una singola data, o "tra" per un intervallo.</FONT>');
+DEFINE('_BSTERRTIMETYPE','<FONT><B>il '.$UI_CW_Type.' di parametro che verr√† passato non Ë specificato!</B>  Scegliere "il" per specificare una singola data, o "tra" per un intervallo.</FONT>');
 DEFINE('_BSTERRNOYEAR','<FONT><B>Nessun parametro anno specificato!</B></FONT>');
 DEFINE('_BSTERRNOMONTH','<FONT><B>Nessun parametro mese specificato!</B></FONT>');
 DEFINE('_BSTERRNODAY','<FONT><B>Nessun parametro giorno specificato!</B></FONT>');
@@ -681,7 +683,7 @@ DEFINE('_PROFILEALERT','Profile Alert'); //NEW
 //base_stat_uaddr.php
 DEFINE('_UNISADD','Indirizzo/i IP Sorgente unico/i');
 DEFINE('_SUASRCIP','Indirizzi IP sorg.');
-DEFINE('_SUAERRCRITADDUNK','ERRORE CRITERI: tipo indirizzo sconosciuto -- si assume come Destinazione');
+DEFINE('_SUAERRCRITADDUNK','ERRORE CRITERI: '.$UI_CW_Type.' indirizzo sconosciuto -- si assume come Destinazione');
 DEFINE('_UNIDADD','Indirizzo/i IP Destinazione unico/i');
 DEFINE('_SUADSTIP','Indirizzi IP dest.');
 DEFINE('_SUAUNIALERTS','Avvisi&nbsp;unici');

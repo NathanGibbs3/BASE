@@ -51,6 +51,8 @@ $UI_CW_Addr = 'Address';
 $UI_CW_Layer = 'Layer';
 $UI_CW_Proto = 'Protocol';
 $UI_CW_Pri = 'Priority';
+$UI_CW_Event = 'Event';
+$UI_CW_Type = 'Type';
 // Common Phrases.
 $UI_CP_SrcName = array($UI_CW_Src,$UI_CW_Name);
 $UI_CP_DstName = array('Dest.',$UI_CW_Name);
@@ -58,13 +60,13 @@ $UI_CP_SrcDst = array('Src','or','Dest');
 $UI_CP_SrcAddr = array($UI_CW_Src,$UI_CW_Addr);
 $UI_CP_DstAddr = array($UI_CW_Dst,$UI_CW_Addr);
 $UI_CP_L4P = array($UI_CW_Layer,'4',$UI_CW_Proto);
+$UI_CP_ET = array($UI_CW_Event,$UI_CW_Type);
 // Authentication Data.
 $UI_AD_UND = 'Login';
 $UI_AD_RID = array($UI_CW_Role,$UI_CW_Id);
 $UI_AD_ASD = 'Enabled';
 
 //common phrases
-DEFINE('_EVENTTYPE','event type');
 DEFINE('_JANUARY','January');
 DEFINE('_FEBRUARY','February');
 DEFINE('_MARCH','March');
@@ -138,7 +140,7 @@ DEFINE('_OPTIONS','Options');
 DEFINE('_LENGTH','length');
 DEFINE('_CODE','code');
 DEFINE('_DATA','data');
-DEFINE('_TYPE','type');
+DEFINE('_TYPE',$UI_CW_Type);
 DEFINE('_NEXT','Next');
 DEFINE('_PREVIOUS','Previous');
 
@@ -272,9 +274,9 @@ DEFINE('_ERRMAILNORECP','MAIL ERROR: No recipient Specified');
 DEFINE('_ADDED','Added ');
 DEFINE('_HOSTNAMESDNS',' host'.strtolower($UI_CW_Name).'s to the IP DNS cache');
 DEFINE('_HOSTNAMESWHOIS',' host'.strtolower($UI_CW_Name).'s to the Whois cache');
-DEFINE('_ERRCACHENULL','Caching ERROR: NULL event row found?');
-DEFINE('_ERRCACHEERROR','EVENT CACHING ERROR:');
-DEFINE('_ERRCACHEUPDATE','Could not update event cache');
+DEFINE('_ERRCACHENULL','Caching ERROR: NULL '.$UI_CW_Event.' row found?');
+DEFINE('_ERRCACHEERROR',$UI_CW_Event.' CACHING ERROR:');
+DEFINE('_ERRCACHEUPDATE','Could not update '.$UI_CW_Event.' cache');
 DEFINE('_ALERTSCACHE',' alert(s) to the Alert cache');
 
 //base_db.inc.php
@@ -297,8 +299,8 @@ DEFINE('_ERRSQLDBALLOAD2','<P>Check the DB abstraction library variable <CODE>$D
             <P>
             The underlying database library currently used is ADODB, that can be downloaded
             at ');
-DEFINE('_ERRSQLDBTYPE','Invalid Database Type Specified');
-DEFINE('_ERRSQLDBTYPEINFO1','The variable <CODE>\$DBtype</CODE> in <CODE>base_conf.php</CODE> was set to the unrecognized database type of ');
+DEFINE('_ERRSQLDBTYPE','Invalid Database '.$UI_CW_Type.' Specified');
+DEFINE('_ERRSQLDBTYPEINFO1','The variable <CODE>\$DBtype</CODE> in <CODE>base_conf.php</CODE> was set to the unrecognized database '.$UI_CW_Type.' of ');
 DEFINE('_ERRSQLDBTYPEINFO2','Only the following databases are supported: <PRE>
                 MySQL         : \'mysql\'
                 PostgreSQL    : \'postgres\'
@@ -359,7 +361,7 @@ DEFINE('_SHORTSOURCE',$UI_CW_Src);
 DEFINE('_SHORTDEST','Dest');
 DEFINE('_SHORTSOURCEORDEST','Src or Dest');
 DEFINE('_NOLAYER4','no layer4');
-DEFINE('_INPUTCRTENC','Input Criteria Encoding Type');
+DEFINE('_INPUTCRTENC','Input Criteria Encoding '.$UI_CW_Type);
 DEFINE('_CONVERT2WS','Convert To (when searching)');
 
 //base_state_common.inc.php
@@ -436,8 +438,8 @@ DEFINE('_ERRPHPORACLESUP','<B>PHP build incomplete</B>: <FONT>the prerequisite O
 
 //base_graph_form.php
 DEFINE('_CHARTTITLE','Chart Title:');
-DEFINE('_CHARTTYPE','Chart Type:');
-DEFINE('_CHARTTYPES','{ chart type }');
+DEFINE('_CHARTTYPE','Chart '.$UI_CW_Type.':');
+DEFINE('_CHARTTYPES','{ chart '.$UI_CW_Type.' }');
 DEFINE('_CHARTPERIOD','Chart Period:');
 DEFINE('_PERIODNO','no period');
 DEFINE('_PERIODWEEK','7 (a week)');
@@ -445,7 +447,7 @@ DEFINE('_PERIODDAY','24 (whole day)');
 DEFINE('_PERIOD168','168 (24x7)');
 DEFINE('_CHARTSIZE','Size: (width x height)');
 DEFINE('_PLOTMARGINS','Plot Margins: (left x right x top x bottom)');
-DEFINE('_PLOTTYPE','Plot type:');
+DEFINE('_PLOTTYPE','Plot '.$UI_CW_Type.':');
 DEFINE('_TYPEBAR','bar');
 DEFINE('_TYPELINE','line');
 DEFINE('_TYPEPIE','pie');
@@ -482,7 +484,7 @@ DEFINE('_CHRTYGRID','Show Y-axis grid-lines');
 
 //base_graph_main.php
 DEFINE('_CHRTTITLE','BASE Chart');
-DEFINE('_ERRCHRTNOTYPE','No chart type was specified');
+DEFINE('_ERRCHRTNOTYPE','No chart '.$UI_CW_Type.' was specified');
 DEFINE('_ERRNOAGSPEC','No AG was specified.  Using all alerts.');
 DEFINE('_CHRTDATAIMPORT','Starting data import');
 DEFINE('_CHRTTIMEVNUMBER','Time vs. Number of Alerts');
@@ -519,13 +521,13 @@ DEFINE('_MNTPHPVER','PHP VERSION:');
 DEFINE('_MNTPHPAPI','PHP API:');
 DEFINE('_MNTPHPLOGLVL','PHP Logging level:');
 DEFINE('_MNTPHPMODS','Loaded Modules:');
-DEFINE('_MNTDBTYPE','DB Type:');
+DEFINE('_MNTDBTYPE','DB '.$UI_CW_Type.':');
 DEFINE('_MNTDBALV','DB Abstraction Version:');
 DEFINE('_MNTDBALERTNAME',"ALERT DB $UI_CW_Name:");
 DEFINE('_MNTDBARCHNAME',"ARCHIVE DB $UI_CW_Name:");
 DEFINE('_MNTAIC','Alert Information Cache:');
-DEFINE('_MNTAICTE','Total Events:');
-DEFINE('_MNTAICCE','Cached Events:');
+DEFINE('_MNTAICTE','Total '.$UI_CW_Event.'s:');
+DEFINE('_MNTAICCE','Cached '.$UI_CW_Event.'s:');
 DEFINE('_MNTIPAC','IP Address Cache');
 DEFINE('_MNTIPACUSIP','Unique Src IP:');
 DEFINE('_MNTIPACDNSC','DNS Cached:');
@@ -558,7 +560,7 @@ DEFINE('_QCERROPER','An operator of');
 DEFINE('_QCERRDATETIME','A date/time value of');
 DEFINE('_QCERRPAYLOAD','A payload value of');
 DEFINE('_QCERRIP','An IP address of');
-DEFINE('_QCERRIPTYPE','An IP address of type');
+DEFINE('_QCERRIPTYPE','An IP address of '.$UI_CW_Type);
 DEFINE('_QCERRSPECFIELD',' was entered for a protocol field, but the particular field was not specified.');
 DEFINE('_QCERRSPECVALUE','was selected indicating that it should be a criteria, but no value was specified on which to match.');
 DEFINE('_QCERRBOOLEAN','Multiple protocol field criteria entered without a boolean operator (e.g. AND, OR) between them.');
@@ -578,7 +580,7 @@ DEFINE('_QCUDPCRIT','UDP Criteria');
 DEFINE('_QCICMPCRIT','ICMP Criteria');
 DEFINE('_QCLAYER4CRIT','Layer 4 Criteria');
 DEFINE('_QCERRINVIPCRIT','Invalid IP address criteria');
-DEFINE('_QCERRCRITADDRESSTYPE','was entered for as a criteria value, but the type of address (e.g. '.strtolower($UI_CW_Src).', '.strtolower($UI_CW_Dst).') was not specified.');
+DEFINE('_QCERRCRITADDRESSTYPE','was entered for as a criteria value, but the '.$UI_CW_Type.' of address (e.g. '.strtolower($UI_CW_Src).', '.strtolower($UI_CW_Dst).') was not specified.');
 DEFINE('_QCERRCRITIPADDRESSNONE','indicating that an IP address should be a criteria, but no address on which to match was specified.');
 DEFINE('_QCERRCRITIPADDRESSNONE1','was selected (at #');
 DEFINE('_QCERRCRITIPIPBOOL','Multiple IP address criteria entered without a boolean operator (e.g. AND, OR) between IP Criteria');
@@ -617,9 +619,9 @@ DEFINE('_SCDEST',$UI_CW_Dst);
 DEFINE('_SCPORT','Port');
 
 //base_stat_ipaddr.php
-DEFINE('_PSEVENTERR','PORTSCAN EVENT ERROR: ');
+DEFINE('_PSEVENTERR','PORTSCAN '.$UI_CW_Event.' ERROR: ');
 DEFINE('_PSEVENTERRNOFILE','No file was specified in the $portscan_file variable.');
-DEFINE('_PSEVENTERROPENFILE','Unable to open Portscan event file');
+DEFINE('_PSEVENTERROPENFILE','Unable to open Portscan '.$UI_CW_Event.' file');
 DEFINE('_PSDATETIME','Date/Time');
 DEFINE('_PSSRCIP',"$UI_CW_Src IP");
 DEFINE('_PSDSTIP','$UI_CW_Dst IP');
@@ -631,7 +633,7 @@ DEFINE('_PSNUMSENSORS',"Num of $UI_CW_Sensor".'s');
 DEFINE('_PSFIRSTOCC','First<BR> Occurrence');
 DEFINE('_PSLASTOCC','Last<BR> Occurrence');
 DEFINE('_PSUNIALERTS','Unique Alerts');
-DEFINE('_PSPORTSCANEVE','Portscan Events');
+DEFINE('_PSPORTSCANEVE','Portscan '.$UI_CW_Event.'s');
 DEFINE('_PSREGWHOIS','Registry lookup (whois) in');
 DEFINE('_PSNODNS','no DNS resolution attempted');
 DEFINE('_PSNUMSENSORSBR',"Num of <BR>$UI_CW_Sensor".'s');
@@ -651,8 +653,8 @@ DEFINE('_SIPLDESTFGDN','$UI_CW_Dst FQDN');
 DEFINE('_SIPLDIRECTION','Direction');
 DEFINE('_SIPLPROTO','Protocol');
 DEFINE('_SIPLUNIDSTPORTS','Unique Dst Ports');
-DEFINE('_SIPLUNIEVENTS','Unique Events');
-DEFINE('_SIPLTOTALEVENTS','Total Events');
+DEFINE('_SIPLUNIEVENTS','Unique '.$UI_CW_Event.'s');
+DEFINE('_SIPLTOTALEVENTS','Total '.$UI_CW_Event.'s');
 
 //base_stat_ports.php
 DEFINE('_UNIQ','Unique');
@@ -667,7 +669,7 @@ DEFINE('SPSENSORLIST',"$UI_CW_Sensor Listing");
 DEFINE('_BSTTITLE','Time Profile of Alerts');
 DEFINE('_BSTTIMECRIT','Time Criteria');
 DEFINE('_BSTERRPROFILECRIT','<FONT><B>No profiling criteria was specified!</B>  Click on "hour", "day", or "month" to choose the granularity of the aggregate statistics.</FONT>');
-DEFINE('_BSTERRTIMETYPE','<FONT><B>The type of time parameter which will be passed was not specified!</B>  Choose either "on", to specify a single date, or "between" to specify an interval.</FONT>');
+DEFINE('_BSTERRTIMETYPE','<FONT><B>The '.$UI_CW_Type.' of time parameter which will be passed was not specified!</B>  Choose either "on", to specify a single date, or "between" to specify an interval.</FONT>');
 DEFINE('_BSTERRNOYEAR','<FONT><B>No Year parameter was specified!</B></FONT>');
 DEFINE('_BSTERRNOMONTH','<FONT><B>No Month parameter was specified!</B></FONT>');
 DEFINE('_BSTERRNODAY','<FONT><B>No Day parameter was specified!</B></FONT>');
@@ -679,7 +681,7 @@ DEFINE('_PROFILEALERT','Profile Alert');
 //base_stat_uaddr.php
 DEFINE('_UNISADD',"Unique $UI_CW_Src Address(es)");
 DEFINE('_SUASRCIP','Src IP address');
-DEFINE('_SUAERRCRITADDUNK','CRITERIA ERROR: unknown address type -- assuming Dst address');
+DEFINE('_SUAERRCRITADDUNK','CRITERIA ERROR: unknown address '.$UI_CW_Type.' -- assuming Dst address');
 DEFINE('_UNIDADD','Unique $UI_CW_Dst Address(es)');
 DEFINE('_SUADSTIP','Dst IP address');
 DEFINE('_SUAUNIALERTS','Unique&nbsp;Alerts');

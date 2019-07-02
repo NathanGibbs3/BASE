@@ -57,6 +57,8 @@ $UI_CW_Addr = 'Osoite';
 $UI_CW_Layer = 'Layer';
 $UI_CW_Proto = 'Protocol';
 $UI_CW_Pri = 'Tärkeysjärjetys';
+$UI_CW_Event = 'tapahtuma';
+$UI_CW_Type = 'tyyppi';
 // Common Phrases.
 $UI_CP_SrcName = array('Lähteen',$UI_CW_Name);
 $UI_CP_DstName = array('Kohteen',$UI_CW_Name);
@@ -64,13 +66,13 @@ $UI_CP_SrcDst = array('Lähteen','nimi');
 $UI_CP_SrcAddr = array($UI_CW_Src,$UI_CW_Addr);
 $UI_CP_DstAddr = array($UI_CW_Dst,$UI_CW_Addr);
 $UI_CP_L4P = array($UI_CW_Layer,'4',$UI_CW_Proto);
+$UI_CP_ET = array($UI_CW_Event,$UI_CW_Type);
 // Authentication Data.
 $UI_AD_UND = 'Login';
 $UI_AD_RID = array($UI_CW_Role,$UI_CW_Id);
 $UI_AD_ASD = 'Toiminnassa';
 
 //common phrases
-DEFINE('_EVENTTYPE','tapahtumatyyppi');
 DEFINE('_JANUARY','tammikuu');
 DEFINE('_FEBRUARY','helmikuu');
 DEFINE('_MARCH','maaliskuu');
@@ -278,9 +280,9 @@ DEFINE('_ERRMAILNORECP','MAIL ERROR: Vastaanottajaa ei määritelty');//#
 DEFINE('_ADDED','Lisätty ');
 DEFINE('_HOSTNAMESDNS',' hostnames to the IP-DNS-välimuistiin');//#
 DEFINE('_HOSTNAMESWHOIS',' hostnames to the Whois cache');//#
-DEFINE('_ERRCACHENULL','Caching ERROR: NULL event row found?');//#
-DEFINE('_ERRCACHEERROR','EVENT CACHING ERROR:');//#
-DEFINE('_ERRCACHEUPDATE','Tapahtumavälimuistin päivittäminen ei onnistunut');
+DEFINE('_ERRCACHENULL','Caching ERROR: NULL '.$UI_CW_Event.' row found?');//#
+DEFINE('_ERRCACHEERROR',$UI_CW_Event.' CACHING ERROR:');//#
+DEFINE('_ERRCACHEUPDATE',$UI_CW_Event.'välimuistin päivittäminen ei onnistunut');
 DEFINE('_ALERTSCACHE',' hälytykset Hälytysvälimuistiin');
 
 //base_db.inc.php
@@ -622,7 +624,7 @@ DEFINE('_SCPORT','Portti');
 //base_stat_ipaddr.php
 DEFINE('_PSEVENTERR','PORTSCAN EVENT ERROR: ');//#
 DEFINE('_PSEVENTERRNOFILE','Yhtään tiedostoa ei ole asetettu $portscan_file muuttujaan.');
-DEFINE('_PSEVENTERROPENFILE','Porttiskannaus-tapahtuma-tiedoston(portscan event file) avaaminen ei onnistu');
+DEFINE('_PSEVENTERROPENFILE','Porttiskannaus-'.$UI_CW_Event.'-tiedoston(portscan event file) avaaminen ei onnistu');
 DEFINE('_PSDATETIME','Pvm./Aika');
 DEFINE('_PSSRCIP','Lähde IP');
 DEFINE('_PSDSTIP','Kohde IP');
@@ -654,8 +656,8 @@ DEFINE('_SIPLDESTFGDN','Kohde FQDN');//#
 DEFINE('_SIPLDIRECTION','Suunta');
 DEFINE('_SIPLPROTO','Protokolla');
 DEFINE('_SIPLUNIDSTPORTS','Uniikki Kohde Portti');
-DEFINE('_SIPLUNIEVENTS','Uniikit Tapahtumat');
-DEFINE('_SIPLTOTALEVENTS','Kaikki Tapahtumat');
+DEFINE('_SIPLUNIEVENTS','Uniikit '.$UI_CW_Event.'t');
+DEFINE('_SIPLTOTALEVENTS','Kaikki '.$UI_CW_Event.'t');
 
 //base_stat_ports.php
 DEFINE('_UNIQ','Uniikki');

@@ -662,6 +662,16 @@ class legacylangTest extends TestCase {
 		LogTC($tf,'TD file',$file);
 		$this->CWAHas($$tmp,'Pri','Priority');
 	}
+	public function testCWASetItemType() {
+		$lang = self::$langs;
+		$tf = __FUNCTION__;
+		$tmp = "UI$lang";
+		LogTC($tf,'language',$lang);
+		$$tmp = self::$UIL;
+		$file = $$tmp->TDF;
+		LogTC($tf,'TD file',$file);
+		$this->CWAHas($$tmp,'Type','Type');
+	}
 	// Test Common Phrase Items.
 	public function testCPASetItemSrcName() {
 		$lang = self::$langs;
@@ -722,6 +732,16 @@ class legacylangTest extends TestCase {
 		$file = $$tmp->TDF;
 		LogTC($tf,'TD file',$file);
 		$this->CPAHas($$tmp,'L4P','Layer 4 Protocol');
+	}
+	public function testCPASetItemEventType() {
+		$lang = self::$langs;
+		$tf = __FUNCTION__;
+		$tmp = "UI$lang";
+		LogTC($tf,'language',$lang);
+		$$tmp = self::$UIL;
+		$file = $$tmp->TDF;
+		LogTC($tf,'TD file',$file);
+		$this->CPAHas($$tmp,'ET','Event Type');
 	}
 	// Test Universal Action Items.
 	public function testUAASetItemEdit() {

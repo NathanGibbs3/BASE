@@ -52,6 +52,8 @@ $UI_CW_Addr = '位址';
 $UI_CW_Layer = '層';
 $UI_CW_Proto = '協議';
 $UI_CW_Pri = '優先等級';
+$UI_CW_Event = '事件';
+$UI_CW_Type = '型態';
 // Common Phrases.
 $UI_CP_SrcName = array($UI_CW_Src,$UI_CW_Name);
 $UI_CP_DstName = array($UI_CW_Dst,$UI_CW_Name);
@@ -59,13 +61,13 @@ $UI_CP_SrcDst = array($UI_CW_Src,'或',$UI_CW_Dst);
 $UI_CP_SrcAddr = array($UI_CW_Src,$UI_CW_Addr);
 $UI_CP_DstAddr = array($UI_CW_Dst,$UI_CW_Addr);
 $UI_CP_L4P = array($UI_CW_Layer,'4',$UI_CW_Proto);
+$UI_CP_ET = array($UI_CW_Event,$UI_CW_Type);
 // Authentication Data.
 $UI_AD_UND = '使用者登入';
 $UI_AD_RID = array($UI_CW_Role,$UI_CW_Id);
 $UI_AD_ASD = '啟用';
 
 //common phrases
-DEFINE('_EVENTTYPE','事件型態');
 DEFINE('_JANUARY','一月');
 DEFINE('_FEBRUARY','二月');
 DEFINE('_MARCH','三月');
@@ -139,7 +141,7 @@ DEFINE('_OPTIONS','選項'); //NEW
 DEFINE('_LENGTH','長度'); //NEW
 DEFINE('_CODE','碼'); //NEW
 DEFINE('_DATA','資料'); //NEW
-DEFINE('_TYPE','型態'); //NEW
+DEFINE('_TYPE',$UI_CW_Type); //NEW
 DEFINE('_NEXT','下一個'); //NEW
 DEFINE('_PREVIOUS','前一個'); //NEW
 
@@ -273,9 +275,9 @@ DEFINE('_ERRMAILNORECP','電子郵件錯誤: 沒有指定收件人');
 DEFINE('_ADDED','新增 ');
 DEFINE('_HOSTNAMESDNS',' 主機名稱對應 IP DNS 快取暫存');
 DEFINE('_HOSTNAMESWHOIS',' 主機名稱對應 Whois 快取暫存');
-DEFINE('_ERRCACHENULL','快取暫存發生錯誤: 找到無效事件列?');
-DEFINE('_ERRCACHEERROR','事件快取暫存出現錯誤:');
-DEFINE('_ERRCACHEUPDATE','無法更新快取事件');
+DEFINE('_ERRCACHENULL','快取暫存發生錯誤: 找到無效'.$UI_CW_Event.'列?');
+DEFINE('_ERRCACHEERROR',$UI_CW_Event.'快取暫存出現錯誤:');
+DEFINE('_ERRCACHEUPDATE','無法更新快取'.$UI_CW_Event);
 DEFINE('_ALERTSCACHE',' 警告至快取暫存');
 
 //base_db.inc.php
@@ -298,8 +300,8 @@ DEFINE('_ERRSQLDBALLOAD2','<P>檢查資料庫中函式庫可用性 <CODE>$DBlib_
             <P>
             底層資料庫連結函式數使用 ADODB, 該程式可下載自
             ');
-DEFINE('_ERRSQLDBTYPE','指定了不合法的資料庫型態');
-DEFINE('_ERRSQLDBTYPEINFO1','變數 <CODE>\$DBtype</CODE> 在 <CODE>base_conf.php</CODE> 被設成不認識的資料庫型態 ');
+DEFINE('_ERRSQLDBTYPE','指定了不合法的資料庫'.$UI_CW_Type);
+DEFINE('_ERRSQLDBTYPEINFO1','變數 <CODE>\$DBtype</CODE> 在 <CODE>base_conf.php</CODE> 被設成不認識的資料庫'.$UI_CW_Type);
 DEFINE('_ERRSQLDBTYPEINFO2','只有下列的資料庫被支援: <PRE>
                 MySQL         : \'mysql\'
                 PostgreSQL    : \'postgres\'
@@ -360,7 +362,7 @@ DEFINE('_SHORTSOURCE',$UI_CW_Src); //NEW
 DEFINE('_SHORTDEST','目的'); //NEW
 DEFINE('_SHORTSOURCEORDEST',$UI_CW_Src.'或目的'); //NEW
 DEFINE('_NOLAYER4','無 layer4'); //NEW
-DEFINE('_INPUTCRTENC','輸入解碼型態規則'); //NEW
+DEFINE('_INPUTCRTENC','輸入解碼'.$UI_CW_Type.'規則'); //NEW
 DEFINE('_CONVERT2WS','轉換成 (當查詢時)'); //NEW
 
 //base_state_common.inc.php
@@ -437,7 +439,7 @@ DEFINE('_ERRPHPORACLESUP','<B>PHP 未完整建立</B>: <FONT>在預設情況要�
 
 //base_graph_form.php
 DEFINE('_CHARTTITLE','圖形標題:');
-DEFINE('_CHARTTYPE','圖形型態:'); //NEW
+DEFINE('_CHARTTYPE','圖形'.$UI_CW_Type.':'); //NEW
 DEFINE('_CHARTTYPES','{ 圖表形式 }'); //NEW
 DEFINE('_CHARTPERIOD','圖表週期:'); //NEW
 DEFINE('_PERIODNO','沒有週期'); //NEW
@@ -446,7 +448,7 @@ DEFINE('_PERIODDAY','24 (整天)'); //NEW
 DEFINE('_PERIOD168','168 (24x7)'); //NEW
 DEFINE('_CHARTSIZE','尺寸: (寬 x 高)'); //NEW
 DEFINE('_PLOTMARGINS','繪圖範圍: (左 x 右 x 上 x 下)'); //NEW
-DEFINE('_PLOTTYPE','繪圖型態:'); //NEW
+DEFINE('_PLOTTYPE','繪圖'.$UI_CW_Type.':'); //NEW
 DEFINE('_TYPEBAR','條狀圖'); //NEW
 DEFINE('_TYPELINE','線形圖'); //NEW
 DEFINE('_TYPEPIE','圓餅圖'); //NEW
@@ -483,12 +485,12 @@ DEFINE('_CHRTYGRID','顯示 Y-軸 線格');
 
 //base_graph_main.php
 DEFINE('_CHRTTITLE','BASE 圖形');
-DEFINE('_ERRCHRTNOTYPE','沒有圖型型態被指定');
+DEFINE('_ERRCHRTNOTYPE','沒有圖型'.$UI_CW_Type.'被指定');
 DEFINE('_ERRNOAGSPEC','沒有 AG 警告群組被指定.  使用全部警告.');
 DEFINE('_CHRTDATAIMPORT','開始資料轉入');
 DEFINE('_CHRTTIMEVNUMBER','時間 vs. 警告數');
 DEFINE('_CHRTTIME','時間');
-DEFINE('_CHRTALERTOCCUR','警告事件');
+DEFINE('_CHRTALERTOCCUR','警告'.$UI_CW_Event);
 DEFINE('_CHRTSIPNUMBER',$UI_CW_Src.' IP vs. N警告數s');
 DEFINE('_CHRTSIP',$UI_CW_Src.' IP '.$UI_CW_Addr);
 DEFINE('_CHRTDIPALERTS',$UI_CW_Dst.' IP vs. 警告數');
@@ -520,13 +522,13 @@ DEFINE('_MNTPHPVER','PHP 版本:');
 DEFINE('_MNTPHPAPI','PHP API:');
 DEFINE('_MNTPHPLOGLVL','PHP 登入位準:');
 DEFINE('_MNTPHPMODS','載入模組:');
-DEFINE('_MNTDBTYPE','資料庫型態:');
+DEFINE('_MNTDBTYPE','資料庫'.$UI_CW_Type.':');
 DEFINE('_MNTDBALV','資料庫抽象版本:');
 DEFINE('_MNTDBALERTNAME','警告資料庫名稱:');
 DEFINE('_MNTDBARCHNAME','封存資料庫名稱:');
 DEFINE('_MNTAIC','警告資訊快取暫存:');
-DEFINE('_MNTAICTE','全部事件數:');
-DEFINE('_MNTAICCE','快取事件數:');
+DEFINE('_MNTAICTE','全部'.$UI_CW_Event.'數:');
+DEFINE('_MNTAICCE','快取'.$UI_CW_Event.'數:');
 DEFINE('_MNTIPAC','IP '.$UI_CW_Addr.'快取');
 DEFINE('_MNTIPACUSIP','單一'.$UI_CW_Src.' IP:');
 DEFINE('_MNTIPACDNSC','DNS 快取:');
@@ -536,7 +538,7 @@ DEFINE('_MNTIPACUDIP','單一'.$UI_CW_Dst.' IP:');
 //base_qry_alert.php
 DEFINE('_QAINVPAIR','不合法 (sid,cid) 配對');
 DEFINE('_QAALERTDELET','警告已刪除');
-DEFINE('_QATRIGGERSIG',"觸發事件$UI_CW_Sig");
+DEFINE('_QATRIGGERSIG','觸發'.$UI_CW_Event.$UI_CW_Sig);
 DEFINE('_QANORMALD','正常顯示'); //NEW
 DEFINE('_QAPLAIND','簡易顯示'); //NEW
 DEFINE('_QANOPAYLOAD','已使用快速記錄因此封包內容被丟棄'); //NEW
@@ -559,7 +561,7 @@ DEFINE('_QCERROPER','一個運算子為');
 DEFINE('_QCERRDATETIME','一個日期/時間值為');
 DEFINE('_QCERRPAYLOAD','一個封包內容值為');
 DEFINE('_QCERRIP','一個 IP '.$UI_CW_Addr.'為');
-DEFINE('_QCERRIPTYPE','一個 IP '.$UI_CW_Addr.'型態');
+DEFINE('_QCERRIPTYPE','一個 IP '.$UI_CW_Addr.$UI_CW_Type);
 DEFINE('_QCERRSPECFIELD',' 已經輸入通訊協定欄位, 但是特定欄位沒有被指定.');
 DEFINE('_QCERRSPECVALUE','已經選擇指出這項為標準, 但是沒有數值被指定相符.');
 DEFINE('_QCERRBOOLEAN','多個通訊協定欄位標準輸入但是沒有邏輯運算子 (例. AND, OR) 在倆者之間.');
@@ -579,7 +581,7 @@ DEFINE('_QCUDPCRIT','UDP 標準');
 DEFINE('_QCICMPCRIT','ICMP 標準');
 DEFINE('_QCLAYER4CRIT','第四層規則'); //NEW
 DEFINE('_QCERRINVIPCRIT','不合法 IP '.$UI_CW_Addr.'標準');
-DEFINE('_QCERRCRITADDRESSTYPE','已經被輸入做為標準值, 但是'.$UI_CW_Addr.'型態 (例. '.$UI_CW_Src.', '.$UI_CW_Dst.') 沒有被指定.');
+DEFINE('_QCERRCRITADDRESSTYPE','已經被輸入做為標準值, 但是'.$UI_CW_Addr.$UI_CW_Type.' (例. '.$UI_CW_Src.', '.$UI_CW_Dst.') 沒有被指定.');
 DEFINE('_QCERRCRITIPADDRESSNONE','指出一個 IP '.$UI_CW_Addr.'必需當做標準, 但是沒有'.$UI_CW_Addr.'可以與指定的相符合.');
 DEFINE('_QCERRCRITIPADDRESSNONE1','已經選擇 (於 #');
 DEFINE('_QCERRCRITIPIPBOOL','多個 IP '.$UI_CW_Addr.'標準輸入但是沒有一個邏輯運算子 (例. AND, OR) 介於兩個 IP 標準間');
@@ -618,21 +620,21 @@ DEFINE('_SCDEST',$UI_CW_Dst);
 DEFINE('_SCPORT','通訊埠');
 
 //base_stat_ipaddr.php
-DEFINE('_PSEVENTERR','PORTSCAN 事件錯誤: ');
+DEFINE('_PSEVENTERR','PORTSCAN '.$UI_CW_Event.'錯誤: ');
 DEFINE('_PSEVENTERRNOFILE','沒有檔案被指定在 $portscan_file 變數.');
-DEFINE('_PSEVENTERROPENFILE','無法開啟 通訊埠掃描 事件檔');
+DEFINE('_PSEVENTERROPENFILE','無法開啟 通訊埠掃描 '.$UI_CW_Event.'檔');
 DEFINE('_PSDATETIME','日期/時間');
 DEFINE('_PSSRCIP',$UI_CW_Src.' IP');
 DEFINE('_PSDSTIP',$UI_CW_Dst.' IP');
 DEFINE('_PSSRCPORT',$UI_CW_Src.'通訊埠');
 DEFINE('_PSDSTPORT',$UI_CW_Dst.'通訊埠');
 DEFINE('_PSTCPFLAGS','TCP 旗標');
-DEFINE('_PSTOTALOCC','全部<BR> 事件');
+DEFINE('_PSTOTALOCC','全部<BR> '.$UI_CW_Event);
 DEFINE('_PSNUMSENSORS','偵測器數目');
-DEFINE('_PSFIRSTOCC','最早<BR> 事件');
-DEFINE('_PSLASTOCC','最後<BR> 事件');
+DEFINE('_PSFIRSTOCC','最早<BR> '.$UI_CW_Event);
+DEFINE('_PSLASTOCC','最後<BR> '.$UI_CW_Event);
 DEFINE('_PSUNIALERTS','單一警告數');
-DEFINE('_PSPORTSCANEVE','通訊埠掃描事件');
+DEFINE('_PSPORTSCANEVE','通訊埠掃描'.$UI_CW_Event);
 DEFINE('_PSREGWHOIS','登入查詢 (whois) 於');
 DEFINE('_PSNODNS','沒有 DNS 解析企圖');
 DEFINE('_PSNUMSENSORSBR','偵測器 <BR>數目');
@@ -652,8 +654,8 @@ DEFINE('_SIPLDESTFGDN',$UI_CW_Dst.' FQDN');
 DEFINE('_SIPLDIRECTION','方向');
 DEFINE('_SIPLPROTO','通訊協定');
 DEFINE('_SIPLUNIDSTPORTS','單一'.$UI_CW_Dst.'通訊埠');
-DEFINE('_SIPLUNIEVENTS','單一事件');
-DEFINE('_SIPLTOTALEVENTS','全部事件');
+DEFINE('_SIPLUNIEVENTS','單一'.$UI_CW_Event);
+DEFINE('_SIPLTOTALEVENTS','全部'.$UI_CW_Event);
 
 //base_stat_ports.php
 DEFINE('_UNIQ','單一');
@@ -668,7 +670,7 @@ DEFINE('SPSENSORLIST','偵測器列表');
 DEFINE('_BSTTITLE','警告時間數據表');
 DEFINE('_BSTTIMECRIT','時間標準');
 DEFINE('_BSTERRPROFILECRIT','<FONT><B>沒有數據庫標準被指定!</B>  選擇 "小時", "日", 或 "月" 來選定成為粒狀的狀態.</FONT>');
-DEFINE('_BSTERRTIMETYPE','<FONT><B>通過的時間參數型態沒有被指定!</B>  選擇 "on", ,指定的單獨日期或 "between" 來指定特定期間.</FONT>');
+DEFINE('_BSTERRTIMETYPE','<FONT><B>通過的時間參數'.$UI_CW_Type.'沒有被指定!</B>  選擇 "on", ,指定的單獨日期或 "between" 來指定特定期間.</FONT>');
 DEFINE('_BSTERRNOYEAR','<FONT><B>沒有年參數被指定!</B></FONT>');
 DEFINE('_BSTERRNOMONTH','<FONT><B>沒有月參數被指定!</B></FONT>');
 DEFINE('_BSTERRNODAY','<FONT><B>沒有日參數被指定!</B></FONT>');
@@ -680,7 +682,7 @@ DEFINE('_PROFILEALERT',' 曲線圖表 警告資料'); //NEW
 //base_stat_uaddr.php
 DEFINE('_UNISADD','單一'.$UI_CW_Src.$UI_CW_Addr.'數');
 DEFINE('_SUASRCIP',"$UI_CW_Src IP $UI_CW_Addr");
-DEFINE('_SUAERRCRITADDUNK','標準錯誤: 未知'.$UI_CW_Addr.'型態 -- 表示'.$UI_CW_Dst.$UI_CW_Addr);
+DEFINE('_SUAERRCRITADDUNK','標準錯誤: 未知'.$UI_CW_Addr.$UI_CW_Type.' -- 表示'.$UI_CW_Dst.$UI_CW_Addr);
 DEFINE('_UNIDADD','單一'.$UI_CW_Dst.$UI_CW_Addr.'數');
 DEFINE('_SUADSTIP',"$UI_CW_Dst IP $UI_CW_Addr");
 DEFINE('_SUAUNIALERTS','單一&nbsp;警告數');

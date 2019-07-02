@@ -53,6 +53,8 @@ $UI_CW_Addr = 'adresse';
 $UI_CW_Layer = 'Schicht';
 $UI_CW_Proto = 'Protokoll';
 $UI_CW_Pri = 'Priorit&auml;t';
+$UI_CW_Event = 'Ereignis';
+$UI_CW_Type = 'Typ';
 // Common Phrases.
 $UI_CP_SrcName = array($UI_CW_Src,$UI_CW_Name);
 $UI_CP_DstName = array($UI_CW_Dst,$UI_CW_Name);
@@ -60,13 +62,13 @@ $UI_CP_SrcDst = array($UI_CW_Src,'oder',$UI_CW_Dst);
 $UI_CP_SrcAddr = array($UI_CW_Src,$UI_CW_Addr);
 $UI_CP_DstAddr = array($UI_CW_Dst,$UI_CW_Addr);
 $UI_CP_L4P = array($UI_CW_Layer,'4',$UI_CW_Proto);
+$UI_CP_ET = array($UI_CW_Event,$UI_CW_Type);
 // Authentication Data.
 $UI_AD_UND = 'Login';
 $UI_AD_RID = array($UI_CW_Role,$UI_CW_Id);
 $UI_AD_ASD = 'Aktiv';
 
 //common phrases
-DEFINE('_EVENTTYPE','Ereignistyp');
 DEFINE('_JANUARY','Januar');
 DEFINE('_FEBRUARY','Februar');
 DEFINE('_MARCH','M&auml;rz');
@@ -140,7 +142,7 @@ DEFINE('_OPTIONS','Options'); //NEW
 DEFINE('_LENGTH','length'); //NEW
 DEFINE('_CODE','code'); //NEW
 DEFINE('_DATA','data'); //NEW
-DEFINE('_TYPE','type'); //NEW
+DEFINE('_TYPE',$UI_CW_Type); //NEW
 DEFINE('_NEXT','Next'); //NEW
 DEFINE('_PREVIOUS','Previous'); //NEW
 
@@ -274,9 +276,9 @@ DEFINE('_ERRMAILNORECP','MAIL FEHLER: Es wurde kein Empf&auml;nger festgelegt');
 DEFINE('_ADDED','Es wurde(n) ');
 DEFINE('_HOSTNAMESDNS',' Hostnamen zum IP DNS Cache hinzugef&uuml;gt');
 DEFINE('_HOSTNAMESWHOIS',' Hostnames zum Whois Cache hinzugef&uuml;gt');
-DEFINE('_ERRCACHENULL','CACHE FEHLER: KEINE Ereignis Zeilen gefunden?');
-DEFINE('_ERRCACHEERROR','EREIGNIS CACHING FEHLER:');
-DEFINE('_ERRCACHEUPDATE','Konte den Ereigniscache nicht aktualisieren.');
+DEFINE('_ERRCACHENULL','CACHE FEHLER: KEINE '.$UI_CW_Event.' Zeilen gefunden?');
+DEFINE('_ERRCACHEERROR',$UI_CW_Event.' CACHING FEHLER:');
+DEFINE('_ERRCACHEUPDATE','Konte den '.$UI_CW_Event.'cache nicht aktualisieren.');
 DEFINE('_ALERTSCACHE',' Alarm(e) hinzugef&uuml;gt');
 
 //base_db.inc.php
@@ -361,7 +363,7 @@ DEFINE('_SHORTSOURCE','Source'); //NEW
 DEFINE('_SHORTDEST','Dest'); //NEW
 DEFINE('_SHORTSOURCEORDEST','Src or Dest'); //NEW
 DEFINE('_NOLAYER4','no layer4'); //NEW
-DEFINE('_INPUTCRTENC','Input Criteria Encoding Type'); //NEW
+DEFINE('_INPUTCRTENC','Input Criteria Encoding '.$UI_CW_Type); //NEW
 DEFINE('_CONVERT2WS','Convert To (when searching)'); //NEW
 
 //base_state_common.inc.php
@@ -438,7 +440,7 @@ DEFINE('_ERRPHPORACLESUP','<B>PHP build incomplete</B>: <FONT>the prerequisite O
 
 //base_graph_form.php
 DEFINE('_CHARTTITLE','Diagrammtitel:');
-DEFINE('_CHARTTYPE','Chart Type:'); //NEW
+DEFINE('_CHARTTYPE','Chart '.$UI_CW_Type.':'); //NEW
 DEFINE('_CHARTTYPES','{ Diagrammtyp }'); //NEW
 DEFINE('_CHARTPERIOD','Chart Period:'); //NEW
 DEFINE('_PERIODNO','no period'); //NEW
@@ -447,7 +449,7 @@ DEFINE('_PERIODDAY','24 (whole day)'); //NEW
 DEFINE('_PERIOD168','168 (24x7)'); //NEW
 DEFINE('_CHARTSIZE','Size: (width x height)'); //NEW
 DEFINE('_PLOTMARGINS','Plot Margins: (left x right x top x bottom)'); //NEW
-DEFINE('_PLOTTYPE','Plot type:'); //NEW
+DEFINE('_PLOTTYPE','Plot '.$UI_CW_Type.':'); //NEW
 DEFINE('_TYPEBAR','bar'); //NEW
 DEFINE('_TYPELINE','line'); //NEW
 DEFINE('_TYPEPIE','pie'); //NEW
@@ -521,13 +523,13 @@ DEFINE('_MNTPHPVER','PHP VERSION:');
 DEFINE('_MNTPHPAPI','PHP API:');
 DEFINE('_MNTPHPLOGLVL','PHP Logging level:');
 DEFINE('_MNTPHPMODS','Geladene Module:');
-DEFINE('_MNTDBTYPE','DB Typ:');
+DEFINE('_MNTDBTYPE','DB '.$UI_CW_Type.':');
 DEFINE('_MNTDBALV','Version der DB Abstraktionsbibliothek:');
 DEFINE('_MNTDBALERTNAME','DB Name der Alarme:');
 DEFINE('_MNTDBARCHNAME','DB Name des Archivs:');
 DEFINE('_MNTAIC','Alarme im Cache:');
-DEFINE('_MNTAICTE','Anzahl Ereignisse:');
-DEFINE('_MNTAICCE','Gecachte Ereignisse:');
+DEFINE('_MNTAICTE','Anzahl '.$UI_CW_Event.'se:');
+DEFINE('_MNTAICCE','Gecachte '.$UI_CW_Event.'se:');
 DEFINE('_MNTIPAC','IP Adress-Cache');
 DEFINE('_MNTIPACUSIP','Unterschiedliche Quell IPs:');
 DEFINE('_MNTIPACDNSC','DNS gepuffert:');
@@ -560,7 +562,7 @@ DEFINE('_QCERROPER','Ein operator von');
 DEFINE('_QCERRDATETIME','Ein Datums-/Zeit-Angabe von');
 DEFINE('_QCERRPAYLOAD','Eine Payload Angabe von');
 DEFINE('_QCERRIP','Eine IP Adresse von');
-DEFINE('_QCERRIPTYPE','Eine IP Adresse vom Typ');
+DEFINE('_QCERRIPTYPE','Eine IP Adresse vom '.$UI_CW_Type);
 DEFINE('_QCERRSPECFIELD',' wurde f&uuml;r ein Protokoll-Feld angegeben, aber das betreffende Feld wurde nicht festgelegt.');
 DEFINE('_QCERRSPECVALUE','wurde f&uuml;r die Suche festgelegt, aber kein Wert wonach gesucht werden soll.');
 DEFINE('_QCERRBOOLEAN','Bitte verwenden Sie einen boolschen Operator (z. B.  "AND", "OR") bei mehreren Protokollen.');
@@ -619,9 +621,9 @@ DEFINE('_SCDEST','Ziel');
 DEFINE('_SCPORT','Port');
 
 //base_stat_ipaddr.php
-DEFINE('_PSEVENTERR','PORTSCAN EREIGNIS FEHLER: ');
+DEFINE('_PSEVENTERR','PORTSCAN '.$UI_CW_Event.' FEHLER: ');
 DEFINE('_PSEVENTERRNOFILE','Es wurde keine Datei in der $portscan_file Variable festgelegt.');
-DEFINE('_PSEVENTERROPENFILE','Kann die "Portscan Ereignis-Datei" nicht &ouml;ffnen');
+DEFINE('_PSEVENTERROPENFILE','Kann die "Portscan '.$UI_CW_Event.'-Datei" nicht &ouml;ffnen');
 DEFINE('_PSDATETIME','Datum/Zeit');
 DEFINE('_PSSRCIP','Quell IP');
 DEFINE('_PSDSTIP','Ziel IP');
@@ -653,8 +655,8 @@ DEFINE('_SIPLDESTFGDN','Ziel FQDN');
 DEFINE('_SIPLDIRECTION','Richtung');
 DEFINE('_SIPLPROTO','Protokoll');
 DEFINE('_SIPLUNIDSTPORTS','Unterschiedliche Zielports');
-DEFINE('_SIPLUNIEVENTS','Unterschiedliche Ereignisse');
-DEFINE('_SIPLTOTALEVENTS','Ereignisse insgesamt');
+DEFINE('_SIPLUNIEVENTS','Unterschiedliche '.$UI_CW_Event.'se');
+DEFINE('_SIPLTOTALEVENTS',$UI_CW_Event.'se insgesamt');
 
 //base_stat_ports.php
 DEFINE('_UNIQ','Unterschiedliche(r)');

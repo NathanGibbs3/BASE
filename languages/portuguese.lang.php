@@ -58,6 +58,8 @@ $UI_CW_Addr = 'Endereço'
 $UI_CW_Layer = 'Camada';
 $UI_CW_Proto = 'Protocol';
 $UI_CW_Pri = 'Prioridade';
+$UI_CW_Event = 'Evento';
+$UI_CW_Type = 'Tipo';
 // Common Phrases.
 $UI_CP_SrcName = array($UI_CW_Name,'da',$UI_CW_Src);
 $UI_CP_DstName = array($UI_CW_Name,'do',$UI_CW_Dst);
@@ -65,13 +67,13 @@ $UI_CP_SrcDst = array($UI_CW_Src,'ou',$UI_CW_Dst);
 $UI_CP_SrcAddr = array($UI_CW_Addr,'de',$UI_CW_Src);
 $UI_CP_DstAddr = array($UI_CW_Addr,'de',$UI_CW_Dst);
 $UI_CP_L4P = array($UI_CW_Proto,$UI_CW_Layer,'4');
+$UI_CP_ET = array($UI_CW_Type,'de',$UI_CW_Event);
 // Authentication Data.
 $UI_AD_UND = $UI_CW_Name;
 $UI_AD_RID = array($UI_CW_Id,'da',$UI_CW_Role);
 $UI_AD_ASD = 'Habilitado';
 
 //common phrases;
-DEFINE('_EVENTTYPE','tipo de evento');
 DEFINE('_JANUARY','Janeiro');
 DEFINE('_FEBRUARY','Fevereiro');
 DEFINE('_MARCH','Março');
@@ -145,7 +147,7 @@ DEFINE('_OPTIONS','Opções');
 DEFINE('_LENGTH','comprimento');
 DEFINE('_CODE','código');
 DEFINE('_DATA','dados');
-DEFINE('_TYPE','tipo');
+DEFINE('_TYPE',$UI_CW_Type);
 DEFINE('_NEXT','Próximo');
 DEFINE('_PREVIOUS','Anterior');
 
@@ -279,9 +281,9 @@ DEFINE('_ERRMAILNORECP','ERRO DE MENSAGEM: Nenhum destino Especificado');
 DEFINE('_ADDED','Adicionado ');
 DEFINE('_HOSTNAMESDNS',' hostnames to the IP DNS cache');
 DEFINE('_HOSTNAMESWHOIS',' hostnames to the Whois cache');
-DEFINE('_ERRCACHENULL','ERRO de Cache: Coluna NULA de evento encontrada?');
-DEFINE('_ERRCACHEERROR','ERRO DE CACHE DE EVENTO:');
-DEFINE('_ERRCACHEUPDATE','Não foi possível atualizar cache de eventos');
+DEFINE('_ERRCACHENULL','ERRO de Cache: Coluna NULA de '.$UI_CW_Event.' encontrada?');
+DEFINE('_ERRCACHEERROR','ERRO DE CACHE DE '.$UI_CW_Event.':');
+DEFINE('_ERRCACHEUPDATE','Não foi possível atualizar cache de '.$UI_CW_Event.'s');
 DEFINE('_ALERTSCACHE',' alerta(s) para o cache de Alertas');
 
 //base_db.inc.php
@@ -304,8 +306,8 @@ DEFINE('_ERRSQLDBALLOAD2','<P>Verifique a variável da lib de abstração de BD 
             <P>
             A atual biblioteca de Banco de Dados utilizada é o ADODB, que pode ser baixada
             em ');
-DEFINE('_ERRSQLDBTYPE','Tipo de Base de Dados Inválido Especificado');
-DEFINE('_ERRSQLDBTYPEINFO1','A variável <CODE>\$DBtype</CODE> em <CODE>base_conf.php</CODE> foi selecionada para o tipo não reconhecido de ');
+DEFINE('_ERRSQLDBTYPE',$UI_CW_Type.' de Base de Dados Inválido Especificado');
+DEFINE('_ERRSQLDBTYPEINFO1','A variável <CODE>\$DBtype</CODE> em <CODE>base_conf.php</CODE> foi selecionada para o '.$UI_CW_Type.' não reconhecido de ');
 DEFINE('_ERRSQLDBTYPEINFO2','Somente as seguintes base de dados são suportadas: <PRE>
                 MySQL         : \'mysql\'
                 PostgreSQL    : \'postgres\'
@@ -366,7 +368,7 @@ DEFINE('_SHORTSOURCE','Orig');
 DEFINE('_SHORTDEST','Dest');
 DEFINE('_SHORTSOURCEORDEST','Orig ou Dest');
 DEFINE('_NOLAYER4','sem camada 4');
-DEFINE('_INPUTCRTENC','Tipo de codificação para o critério');
+DEFINE('_INPUTCRTENC',$UI_CW_Type.' de codificação para o critério');
 DEFINE('_CONVERT2WS','Converter em (na procura)');
 
 //base_state_common.inc.php
@@ -444,8 +446,8 @@ DEFINE('_ERRPHPORACLESUP','<B>PHP build incomplete</B>: <FONT>the prerequisite O
 //base_graph_form.php
 DEFINE('_CHARTTITLE','Título do gráfico:');
 
-DEFINE('_CHARTTYPE','Tipo de gráfico:');
-DEFINE('_CHARTTYPES','{ tipo de gráfico }');
+DEFINE('_CHARTTYPE',$UI_CW_Type.' de gráfico:');
+DEFINE('_CHARTTYPES','{ '.$UI_CW_Type.' de gráfico }');
 DEFINE('_CHARTPERIOD','Periodo do gráfico:');
 DEFINE('_PERIODNO','sem periodo');
 DEFINE('_PERIODWEEK','7 (uma semana)');
@@ -453,7 +455,7 @@ DEFINE('_PERIODDAY','24 (dia inteiro)');
 DEFINE('_PERIOD168','168 (24x7)');
 DEFINE('_CHARTSIZE','Tamanho: (largura x altura)');
 DEFINE('_PLOTMARGINS','Margens de desenho: (esq x dir x cima x baixo)');
-DEFINE('_PLOTTYPE','Tipo de desenho:');
+DEFINE('_PLOTTYPE',$UI_CW_Type.' de desenho:');
 DEFINE('_TYPEBAR','barras');
 DEFINE('_TYPELINE','linhas');
 DEFINE('_TYPEPIE','tarte');
@@ -492,7 +494,7 @@ DEFINE('_CHRTYGRID','Exibir linhas de grade do eixo Y');
 
 //base_graph_main.php
 DEFINE('_CHRTTITLE','Gráfico BASE');
-DEFINE('_ERRCHRTNOTYPE','Nenhum tipo de gráfico foi especificado');
+DEFINE('_ERRCHRTNOTYPE','Nenhum '.$UI_CW_Type.' de gráfico foi especificado');
 DEFINE('_ERRNOAGSPEC','Nenhum AG foi especificado. Usando todos alertas.');
 DEFINE('_CHRTDATAIMPORT','Iniciando importação de dados');
 DEFINE('_CHRTTIMEVNUMBER','Tempo vs. Número de Alertas');
@@ -529,13 +531,13 @@ DEFINE('_MNTPHPVER','VERSÃO DO PHP:');
 DEFINE('_MNTPHPAPI','API DO PHP:');
 DEFINE('_MNTPHPLOGLVL','Nível do log do PHP:');
 DEFINE('_MNTPHPMODS','Módulos Carregados:');
-DEFINE('_MNTDBTYPE','Tipo de BD:');
+DEFINE('_MNTDBTYPE',$UI_CW_Type.' de BD:');
 DEFINE('_MNTDBALV','Versão da abstração do BD:');
 DEFINE('_MNTDBALERTNAME','Nome do BD de ALERTA:');
 DEFINE('_MNTDBARCHNAME','Nome do BD de ARQUIVO:');
 DEFINE('_MNTAIC','Informações do cache de Alerta:');
-DEFINE('_MNTAICTE','Total de Eventos:');
-DEFINE('_MNTAICCE','Eventos no Cache:');
+DEFINE('_MNTAICTE','Total de '.$UI_CW_Event.'s:');
+DEFINE('_MNTAICCE',$UI_CW_Events.' no Cache:');
 DEFINE('_MNTIPAC','Cache de Endereços IP');
 DEFINE('_MNTIPACUSIP','IP de origem únicos:');
 DEFINE('_MNTIPACDNSC','DNS no Cache:');
@@ -568,7 +570,7 @@ DEFINE('_QCERROPER','Um operador de');
 DEFINE('_QCERRDATETIME','Um valor data/hora de');
 DEFINE('_QCERRPAYLOAD','Um valor payload de');
 DEFINE('_QCERRIP','Um endereço IP de');
-DEFINE('_QCERRIPTYPE','Um endereço IP do tipo');
+DEFINE('_QCERRIPTYPE','Um endereço IP do '.$UI_CW_Type);
 DEFINE('_QCERRSPECFIELD',' foi inserido para um campo de protocolo, mas o campo em particular não foi especificado.');
 DEFINE('_QCERRSPECVALUE','foi selecionado indicando que deve ser um critério, mas nenhum valor foi especificado para a comparação.');
 DEFINE('_QCERRBOOLEAN','Multiplos campos de protocolo inseridos sem um operador boleano (ex.: E, OU) entre eles.');
@@ -588,7 +590,7 @@ DEFINE('_QCUDPCRIT','Critério de UDP');
 DEFINE('_QCICMPCRIT','Critério de ICMP');
 DEFINE('_QCLAYER4CRIT','Critério de Camada 4');
 DEFINE('_QCERRINVIPCRIT','Critério de endereço IP inválido');
-DEFINE('_QCERRCRITADDRESSTYPE','foi inserido como um valor de critério, mas o tipo de endereço (ex.: origem, destino) não foi especificado.');
+DEFINE('_QCERRCRITADDRESSTYPE','foi inserido como um valor de critério, mas o '.$UI_CW_Type.' de endereço (ex.: origem, destino) não foi especificado.');
 DEFINE('_QCERRCRITIPADDRESSNONE','indicando que um endereço IP deve ser um critério, mas nenhum endereço para comparação foi especificado.');
 DEFINE('_QCERRCRITIPADDRESSNONE1','foi selecionado (em #');
 DEFINE('_QCERRCRITIPIPBOOL','Foi inserido um critério de Multiplos endereços IP sem um operador boleano (ex.: E, OU) entre eles.');
@@ -627,9 +629,9 @@ DEFINE('_SCDEST','Destino');
 DEFINE('_SCPORT','Porta');
 
 //base_stat_ipaddr.php
-DEFINE('_PSEVENTERR','ERRO DE EVENTO PORTSCAN: ');
+DEFINE('_PSEVENTERR','ERRO DE '.$UI_CW_Event.' PORTSCAN: ');
 DEFINE('_PSEVENTERRNOFILE','Nenhum arquivo foi especificado na variável $portscan_file.');
-DEFINE('_PSEVENTERROPENFILE','Não foi possível abrir o arquivo de eventos Portscan');
+DEFINE('_PSEVENTERROPENFILE','Não foi possível abrir o arquivo de '.$UI_CW_Event.'s Portscan');
 DEFINE('_PSDATETIME','Data/Hora');
 DEFINE('_PSSRCIP','IP de Origem');
 DEFINE('_PSDSTIP','IP de Destino');
@@ -641,7 +643,7 @@ DEFINE('_PSNUMSENSORS','Num de Sensores');
 DEFINE('_PSFIRSTOCC','Primeira<BR> Ocorrência');
 DEFINE('_PSLASTOCC','Última<BR> Ocorrência');
 DEFINE('_PSUNIALERTS','Alertas Únicos');
-DEFINE('_PSPORTSCANEVE','Eventos Portscan');
+DEFINE('_PSPORTSCANEVE',$UI_CW_Event.'s Portscan');
 DEFINE('_PSREGWHOIS','Consulta registro (whois) em');
 DEFINE('_PSNODNS','nenhuma consulta DNS realizada');
 DEFINE('_PSNUMSENSORSBR','Num de <BR>Sensores');
@@ -656,8 +658,8 @@ DEFINE('_SIPLDESTFGDN','FQDN de Destino');
 DEFINE('_SIPLDIRECTION','Direção');
 DEFINE('_SIPLPROTO','Protocolo');
 DEFINE('_SIPLUNIDSTPORTS','Portas de Destino Únicas');
-DEFINE('_SIPLUNIEVENTS','Eventos Únicos');
-DEFINE('_SIPLTOTALEVENTS','Total de Eventos');
+DEFINE('_SIPLUNIEVENTS',$UI_CW_Event.'s Únicos');
+DEFINE('_SIPLTOTALEVENTS','Total de '.$UI_CW_Event.'s');
 DEFINE('_PSTOTALHOSTS','Total de endereços pesquisados');
 DEFINE('_PSDETECTAMONG','Foram detectados %d alertas únicos entre %d no endereço %s');
 DEFINE('_PSALLALERTSAS','Todos os alertas com %s/%s como');
@@ -689,7 +691,7 @@ DEFINE('_PROFILEALERT','Caracterizar Alerta');
 //base_stat_uaddr.php
 DEFINE('_UNISADD','Ends. de Origem Únicos');
 DEFINE('_SUASRCIP','Ends. IP de Origem');
-DEFINE('_SUAERRCRITADDUNK','ERRO DE CRITÉRIO: tipo de end. desconhecido -- assumindo end. de destino');
+DEFINE('_SUAERRCRITADDUNK','ERRO DE CRITÉRIO: '.$UI_CW_Type.' de end. desconhecido -- assumindo end. de destino');
 DEFINE('_UNIDADD','Endereços Únicos');
 DEFINE('_SUADSTIP','Ends. IP de Destino');
 DEFINE('_SUAUNIALERTS','Alertas&nbsp;Únicos');

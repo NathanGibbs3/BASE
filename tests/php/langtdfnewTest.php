@@ -779,6 +779,56 @@ class langTest extends TestCase {
 			$this->CWAHas($$tmp,'Pri','Priority');
 		}
 	}
+	public function testCWASetItemEvent() {
+		$langs = $this->langs;
+		$tf = __FUNCTION__;
+		foreach($langs as $lang){
+			$tmp = "UI$lang";
+			LogTC($tf,'language',$lang);
+			// Expect errors as we Transition Translation Data
+			$PHPUV = $this->PHPUV;
+			if (version_compare($PHPUV, '3.0', '<')) {
+				$this->markTestSkipped('Requires Phpunit 3+ to run.');
+			}elseif (version_compare($PHPUV, '5.0', '<')) { // PHPUnit 3x - 4x
+				$this->setExpectedException("PHPUnit_Framework_Error");
+			}elseif (version_compare($PHPUV, '6.0', '<')) { // PHPUnit 5x
+				$this->expectException("PHPUnit_Framework_Error");
+			}else{ // PHPUnit 6+
+				$this->expectException("PHPUnit\Framework\Error\Error");
+			}
+			$$tmp = new UILang($lang);
+			// $$tmp = $this->UIL[$tmp];
+			// Will not run until TD is transitioned.
+			$file = $$tmp->TDF;
+			LogTC($tf,'TD file',$file);
+			$this->CWAHas($$tmp,'Event','Event');
+		}
+	}
+	public function testCWASetItemType() {
+		$langs = $this->langs;
+		$tf = __FUNCTION__;
+		foreach($langs as $lang){
+			$tmp = "UI$lang";
+			LogTC($tf,'language',$lang);
+			// Expect errors as we Transition Translation Data
+			$PHPUV = $this->PHPUV;
+			if (version_compare($PHPUV, '3.0', '<')) {
+				$this->markTestSkipped('Requires Phpunit 3+ to run.');
+			}elseif (version_compare($PHPUV, '5.0', '<')) { // PHPUnit 3x - 4x
+				$this->setExpectedException("PHPUnit_Framework_Error");
+			}elseif (version_compare($PHPUV, '6.0', '<')) { // PHPUnit 5x
+				$this->expectException("PHPUnit_Framework_Error");
+			}else{ // PHPUnit 6+
+				$this->expectException("PHPUnit\Framework\Error\Error");
+			}
+			$$tmp = new UILang($lang);
+			// $$tmp = $this->UIL[$tmp];
+			// Will not run until TD is transitioned.
+			$file = $$tmp->TDF;
+			LogTC($tf,'TD file',$file);
+			$this->CWAHas($$tmp,'Type','Type');
+		}
+	}
 	// Test Common Phrase Items.
 	public function testCPASetItemSrcName() {
 		$langs = $this->langs;
@@ -930,6 +980,31 @@ class langTest extends TestCase {
 			$this->CPAHas($$tmp,'L4P','Layer 4 Protocol');
 		}
 	}
+	public function testCPASetItemEventType() {
+		$langs = $this->langs;
+		$tf = __FUNCTION__;
+		foreach($langs as $lang){
+			$tmp = "UI$lang";
+			LogTC($tf,'language',$lang);
+			// Expect errors as we Transition Translation Data
+			$PHPUV = $this->PHPUV;
+			if (version_compare($PHPUV, '3.0', '<')) {
+				$this->markTestSkipped('Requires Phpunit 3+ to run.');
+			}elseif (version_compare($PHPUV, '5.0', '<')) { // PHPUnit 3x - 4x
+				$this->setExpectedException("PHPUnit_Framework_Error");
+			}elseif (version_compare($PHPUV, '6.0', '<')) { // PHPUnit 5x
+				$this->expectException("PHPUnit_Framework_Error");
+			}else{ // PHPUnit 6+
+				$this->expectException("PHPUnit\Framework\Error\Error");
+			}
+			$$tmp = new UILang($lang);
+			// $$tmp = $this->UIL[$tmp];
+			// Will not run until TD is transitioned.
+			$file = $$tmp->TDF;
+			LogTC($tf,'TD file',$file);
+			$this->CPAHas($$tmp,'ET','Event Type');
+		}
+	}
 	// Test Universal Actions Items.
 	public function testUAASetItemEdit() {
 		$langs = $this->langs;
@@ -1003,7 +1078,6 @@ class langTest extends TestCase {
 			}
 			include_once("$BASE_path/languages/$file");
 			// Test common phrases
-			// DEFINE('_EVENTTYPE','event type');
 			// DEFINE('_JANUARY','January');
 			// DEFINE('_FEBRUARY','February');
 			// DEFINE('_MARCH','March');
@@ -1080,7 +1154,6 @@ class langTest extends TestCase {
 			// DEFINE('_TYPE','type');
 			// DEFINE('_NEXT','Next');
 			// DEFINE('_PREVIOUS','Previous');
-			$this->assertTrue(defined('_EVENTTYPE'),'event type not defined');
 			$this->assertTrue(defined('_JANUARY'),'January not defined');
 			$this->assertTrue(defined('_FEBRUARY'),'February not defined');
 			$this->assertTrue(defined('_MARCH'),'March not defined');

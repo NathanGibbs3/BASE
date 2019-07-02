@@ -52,6 +52,8 @@ $UI_CW_Addr = 'Adresse';
 $UI_CW_Layer = 'Couche';
 $UI_CW_Proto = 'Protocole';
 $UI_CW_Pri = 'Priorité';
+$UI_CW_Event = 'événement';
+$UI_CW_Type = 'Type';
 // Common Phrases.
 $UI_CP_SrcName = array($UI_CW_Name,'de la',$UI_CW_Src);
 $UI_CP_DstName = array($UI_CW_Name,'de la',$UI_CW_Dst);
@@ -59,14 +61,13 @@ $UI_CP_SrcDst = array('Src','ou','Dest');
 $UI_CP_SrcAddr = array($UI_CW_Addr,$UI_CW_Src);
 $UI_CP_DstAddr = array($UI_CW_Addr,$UI_CW_Dst);
 $UI_CP_L4P = array($UI_CW_Proto,'de',$UI_CW_Layer,'4');
+$UI_CP_ET = array($UI_CW_Type, "d'$UI_CW_Event");
 // Authentication Data.
 $UI_AD_UND = 'Identifiant';
 $UI_AD_RID = array($UI_CW_Id,'de',$UI_CW_Role);
 $UI_AD_ASD = 'Activé';
 
 //common phrases
-DEFINE('_EVENTTYPE','type d\'événement');
-// event type
 DEFINE('_JANUARY','janvier');
 // January
 DEFINE('_FEBRUARY','février');
@@ -326,7 +327,7 @@ DEFINE('_ERRCACHENULL','ERREUR DE MISE EN CACHE: événemement null?');
 // Caching ERROR: NULL event row found?
 DEFINE('_ERRCACHEERROR','ERREUR DE MISE EN CACHE D\'EVENEMENT:');
 // EVENT CACHING ERROR:
-DEFINE('_ERRCACHEUPDATE','Impossible de mettre à jour le cache d\'événements');
+DEFINE('_ERRCACHEUPDATE','Impossible de mettre à jour le cache '."d'$UI_CW_Event".'s');
 // Could not update event cache
 DEFINE('_ALERTSCACHE',' alerte(s) au cache d\'Alertes');
 //  alert(s) to the Alert cache
@@ -374,13 +375,13 @@ DEFINE('_ERRSQLDBALLOAD2','<P> Vérifier la variable <CODE>$DBlib_path</CODE> da
             at <A HREF="http://adodb.sourceforge.net/">http://adodb.sourceforge.net/</A>
 */
 
-DEFINE('_ERRSQLDBTYPE','Type de base de données incorrect');
+DEFINE('_ERRSQLDBTYPE',$UI_CW_Type.' de base de données incorrect');
 // Invalid Database Type Specified
-DEFINE('_ERRSQLDBTYPEINFO1','La variable <CODE>\$DBtype</CODE> dans <CODE>base_conf.php</CODE> spécifie un type non reconnu : ');
+DEFINE('_ERRSQLDBTYPEINFO1','La variable <CODE>\$DBtype</CODE> dans <CODE>base_conf.php</CODE> spécifie un '.$UI_CW_Type.' non reconnu : ');
 /*
 	'The variable <CODE>\$DBtype</CODE> in <CODE>base_conf.php</CODE> was set to the unrecognized 	database type of 
 */
-DEFINE('_ERRSQLDBTYPEINFO2','Seuls les types de base de données suivants sont supportés : <PRE>
+DEFINE('_ERRSQLDBTYPEINFO2','Seuls les '.$UI_CW_Type.'s de base de données suivants sont supportés : <PRE>
                 MySQL         : \'mysql\'
                 PostgreSQL    : \'postgres\'
                 MS SQL Server : \'mssql\'
@@ -614,7 +615,7 @@ DEFINE('_CHRTYGRID',' Affichage le quadrillage horizontal');
 //base_graph_main.php
 DEFINE('_CHRTTITLE','Graphique BASE');
 // BASE Chart
-DEFINE('_ERRCHRTNOTYPE','Aucun type de graphique séléctionné');
+DEFINE('_ERRCHRTNOTYPE','Aucun '.$UI_CW_Type.' de graphique séléctionné');
 // No chart type was specified
 DEFINE('_ERRNOAGSPEC','Aucun Groupe d\'Alertes précisé. Toutes les alertes sont prises en compte.');
 // No AG was specified.  Using all alerts.
@@ -684,7 +685,7 @@ DEFINE('_MNTPHPLOGLVL','PHP Logging level :');
 // PHP Logging level:
 DEFINE('_MNTPHPMODS','Modules chargés :');
 // Loaded Modules:
-DEFINE('_MNTDBTYPE','Type de base de données :');
+DEFINE('_MNTDBTYPE',$UI_CW_Type.' de base de données :');
 // DB Type:
 DEFINE('_MNTDBALV','Version d\'Abstraction Base de Données :');
 // DB Abstraction Version:
@@ -752,7 +753,7 @@ DEFINE('_QCERRPAYLOAD','Le contenu (payload)');
 // A payload value of
 DEFINE('_QCERRIP','L\'adresse IP');
 // An IP address of
-DEFINE('_QCERRIPTYPE','Une adresse IP de type');
+DEFINE('_QCERRIPTYPE','Une adresse IP de '.$UI_CW_Type);
 // An IP address of type
 DEFINE('_QCERRSPECFIELD','était saisi pour un champ de protocole, mais le champ précis n\'est pas spécifié.');
 //  was entered for a protocol field, but the particular field was not specified.
@@ -790,7 +791,7 @@ DEFINE('_QCICMPCRIT','Crit�res ICMP');
 // ICMP Criteria
 DEFINE('_QCERRINVIPCRIT','Crit�re d\'adresse IP non valide');
 // Invalid IP address criteria
-DEFINE('_QCERRCRITADDRESSTYPE','a été saisi en tant que valeur de crit�re, mais le type d\'adresse (source, destination) n\'était pas précisé.');
+DEFINE('_QCERRCRITADDRESSTYPE','a été saisi en tant que valeur de crit�re, mais le '.$UI_CW_Type.' d\'adresse (source, destination) n\'était pas précisé.');
 // was entered for as a criteria value, but the type of address (e.g. source, destination) was not specified.
 DEFINE('_QCERRCRITIPADDRESSNONE','ce qui suppose un crit�re sur l\'adresse IP, mais aucune adresse IP à   ');
 // indicating that an IP address should be a criteria, but no address on which to match was specified.
@@ -860,7 +861,7 @@ DEFINE('_PSEVENTERR','ERREUR D\'EVENEMENT PORTSCAN');
 // PORTSCAN EVENT ERROR: 
 DEFINE('_PSEVENTERRNOFILE','Aucun fichier précisé dans la variable $portscan_file.');
 // No file was specified in the $portscan_file variable.
-DEFINE('_PSEVENTERROPENFILE','Impossible d\ouvrir le fichier des événements Portscan.');
+DEFINE('_PSEVENTERROPENFILE','Impossible d\ouvrir le fichier des '.$UI_CW_Event.'s Portscan.');
 // Unable to open Portscan event file
 DEFINE('_PSDATETIME','Date/Heure');
 // Date/Time
@@ -935,10 +936,10 @@ DEFINE('_BSTTITLE','Profile temporel des Alertes');
 DEFINE('_BSTTIMECRIT','Crit�re temporel');
 // Time Criteria
 DEFINE('_BSTERRPROFILECRIT','<font><b>Crit�res manquants!</b> Choisir "heure", "jour", ou "mois" pour définir la granularité des statistiques consolidées</font>');
-/*'<FONT><B>No profiling criteria was specified!</B>  Click on "hour", "day", or "month" to choose the granularity of the aggregate statistics.</FONT>
+/* '<FONT><B>No profiling criteria was specified!</B>  Click on "hour", "day", or "month" to choose the granularity of the aggregate statistics.</FONT>
 */
-DEFINE('_BSTERRTIMETYPE','<font><b>Le type de param�tre temporel à appliquer n\'était pas spécifié!</b> Choisir soit "on", pour une seule date, soit "between" pour spécifier un intervalle. ');
-/*'<FONT><B>The type of time parameter which will be passed was not specified!</B>  Choose either "on", to specify a single date, or "between" to specify an interval.</FONT>
+DEFINE('_BSTERRTIMETYPE','<font><b>Le '.$UI_CW_Type.' de param�tre temporel à appliquer n\'était pas spécifié!</b> Choisir soit "on", pour une seule date, soit "between" pour spécifier un intervalle. ');
+/* '<FONT><B>The $UI_CW_Type of time parameter which will be passed was not specified!</B>  Choose either "on", to specify a single date, or "between" to specify an interval.</FONT>
 */
 DEFINE('_BSTERRNOYEAR','Aucun param�tre d\'Année précisé!');
 // <FONT><B>No Year parameter was specified!</B></FONT>
@@ -952,7 +953,7 @@ DEFINE('_UNISADD','Adresse(s) Source Unique(s)');
 // Unique Source Address(es)
 DEFINE('_SUASRCIP','Adresse IP Src');
 // Src IP address
-DEFINE('_SUAERRCRITADDUNK','ERREUR DE CRITERE: type d\'adresse inconnu -- suppose adresse Dst.');
+DEFINE('_SUAERRCRITADDUNK','ERREUR DE CRITERE: '.$UI_CW_Type.' d\'adresse inconnu -- suppose adresse Dst.');
 // CRITERIA ERROR: unknown address type -- assuming Dst address
 DEFINE('_UNIDADD','Adresse(s) de Destination Unique(s) ');
 // Unique Destination Address(es)
@@ -1068,14 +1069,14 @@ DEFINE('_SHORTSOURCE','Source'); //NEW
 DEFINE('_SHORTDEST','Dest'); //NEW
 DEFINE('_SHORTSOURCEORDEST','Src or Dest'); //NEW
 DEFINE('_NOLAYER4','no layer4'); //NEW
-DEFINE('_INPUTCRTENC','Input Criteria Encoding Type'); //NEW
+DEFINE('_INPUTCRTENC','Input Criteria Encoding '.$UI_CW_Type); //NEW
 DEFINE('_CONVERT2WS','Convert To (when searching)'); //NEW
 DEFINE('_DISPACTION','{ action }'); //NEW
 DEFINE('_SAVECHANGES','Save Changes'); //NEW
 DEFINE('_CONFIRMDELETE','Confirm Delete'); //NEW
 DEFINE('_CONFIRMCLEAR','Confirm Clear'); //NEW
-DEFINE('_CHARTTYPE','Chart Type:'); //NEW
-DEFINE('_CHARTTYPES','{ chart type }'); //NEW
+DEFINE('_CHARTTYPE','Chart '.$UI_CW_Type.':'); //NEW
+DEFINE('_CHARTTYPES','{ chart '.$UI_CW_Type.' }'); //NEW
 DEFINE('_CHARTPERIOD','Chart Period:'); //NEW
 DEFINE('_PERIODNO','no period'); //NEW
 DEFINE('_PERIODWEEK','7 (a week)'); //NEW
@@ -1083,7 +1084,7 @@ DEFINE('_PERIODDAY','24 (whole day)'); //NEW
 DEFINE('_PERIOD168','168 (24x7)'); //NEW
 DEFINE('_CHARTSIZE','Size: (width x height)'); //NEW
 DEFINE('_PLOTMARGINS','Plot Margins: (left x right x top x bottom)'); //NEW
-DEFINE('_PLOTTYPE','Plot type:'); //NEW
+DEFINE('_PLOTTYPE','Plot '.$UI_CW_Type.':'); //NEW
 DEFINE('_TYPEBAR','bar'); //NEW
 DEFINE('_TYPELINE','line'); //NEW
 DEFINE('_TYPEPIE','pie'); //NEW
@@ -1112,7 +1113,7 @@ DEFINE('_OPTIONS','Options'); //NEW
 DEFINE('_LENGTH','length'); //NEW
 DEFINE('_CODE','code'); //NEW
 DEFINE('_DATA','data'); //NEW
-DEFINE('_TYPE','type'); //NEW
+DEFINE('_TYPE',$UI_CW_Type); //NEW
 DEFINE('_NEXT','Next'); //NEW
 DEFINE('_PREVIOUS','Previous'); //NEW
 DEFINE('_QANORMALD','Normal Display'); //NEW

@@ -52,6 +52,8 @@ $UI_CW_Addr = 'Adress';
 $UI_CW_Layer = 'Layer';
 $UI_CW_Proto = 'Protocol';
 $UI_CW_Pri = 'Prioritet';
+$UI_CW_Event = 'Händelse';
+$UI_CW_Type = 'Typ';
 // Common Phrases.
 $UI_CP_SrcName = array($UI_CW_Src,$UI_CW_Name);
 $UI_CP_DstName = array('Dest.',$UI_CW_Name);
@@ -59,13 +61,13 @@ $UI_CP_SrcDst = array('Src','or','Dest');
 $UI_CP_SrcAddr = array($UI_CW_Src,$UI_CW_Addr);
 $UI_CP_DstAddr = array($UI_CW_Dst,$UI_CW_Addr);
 $UI_CP_L4P = array($UI_CW_Layer,'4',$UI_CW_Proto);
+$UI_CP_ET = array($UI_CW_Event,$UI_CW_Type);
 // Authentication Data.
 $UI_AD_UND = 'Logga in';
 $UI_AD_RID = array($UI_CW_Role,$UI_CW_Id);
 $UI_AD_ASD = 'Möjliggjord';
 
 //common phrases
-DEFINE('_EVENTTYPE','Händelse typ');
 DEFINE('_JANUARY','Januari');
 DEFINE('_FEBRUARY','Februari');
 DEFINE('_MARCH','Mars');
@@ -139,7 +141,7 @@ DEFINE('_OPTIONS','Options'); //NEW
 DEFINE('_LENGTH','längd'); //NEW
 DEFINE('_CODE','kod'); //NEW
 DEFINE('_DATA','data'); //NEW
-DEFINE('_TYPE','type'); //NEW
+DEFINE('_TYPE',$UI_CW_Type); //NEW
 DEFINE('_NEXT','Nästa'); //NEW
 DEFINE('_PREVIOUS','Föreg�ende'); //NEW
 
@@ -274,9 +276,9 @@ DEFINE('_ERRMAILNORECP','POST FEL: Ingen mottagare har Specifierats');
 DEFINE('_ADDED','Added ');
 DEFINE('_HOSTNAMESDNS',' Värdnamn till IP DNS cachen');
 DEFINE('_HOSTNAMESWHOIS',' Värdnamn till Whois cachen');
-DEFINE('_ERRCACHENULL','Caching FEL: Värdelös händelse rad funnen?');
-DEFINE('_ERRCACHEERROR','Händelse CACHE fel:');
-DEFINE('_ERRCACHEUPDATE','Kunde inte uppdatera händelse cachen');
+DEFINE('_ERRCACHENULL','Caching FEL: Värdelös '.$UI_CW_Event.' rad funnen?');
+DEFINE('_ERRCACHEERROR',$UI_CW_Event.' CACHE fel:');
+DEFINE('_ERRCACHEUPDATE','Kunde inte uppdatera '.$UI_CW_Event.' cachen');
 DEFINE('_ALERTSCACHE',' Varning(ar) till varnings cachen');
 
 //base_db.inc.php
@@ -299,8 +301,8 @@ DEFINE('_ERRSQLDBALLOAD2','<P>Kontrollera DB abstraktion bibliotek variabel <COD
             <P>
             Bakomliggande databas bibliotek som används för närvarande är ADODB, som kan laddas ner
             fr�n ');
-DEFINE('_ERRSQLDBTYPE','Ogiltig Databas typ Specifierad');
-DEFINE('_ERRSQLDBTYPEINFO1','variabel <CODE>\$DBtype</CODE> i <CODE>base_conf.php</CODE> var satt till anonym databas typ av ');
+DEFINE('_ERRSQLDBTYPE','Ogiltig Databas '.$UI_CW_Type.' Specifierad');
+DEFINE('_ERRSQLDBTYPEINFO1','variabel <CODE>\$DBtype</CODE> i <CODE>base_conf.php</CODE> var satt till anonym databas '.$UI_CW_Type.' av ');
 DEFINE('_ERRSQLDBTYPEINFO2','Endast följande databaser är giltiga: <PRE>
                 MySQL         : \'mysql\'
                 PostgreSQL    : \'postgres\'
@@ -361,7 +363,7 @@ DEFINE('_SHORTSOURCE','Källa'); //NEW
 DEFINE('_SHORTDEST','M�l'); //NEW
 DEFINE('_SHORTSOURCEORDEST','Källa eller Dest.'); //NEW
 DEFINE('_NOLAYER4','ingen layer4'); //NEW
-DEFINE('_INPUTCRTENC','Kodnings Typ'); //NEW
+DEFINE('_INPUTCRTENC','Kodnings '.$UI_CW_Type); //NEW
 DEFINE('_CONVERT2WS','Konventera Till (under sökning)'); //NEW
 DEFINE('_NODENCODED','(no data conversion, assuming criteria in DB native encoding)');
 
@@ -438,8 +440,8 @@ DEFINE('_ERRPHPORACLESUP','<B>PHP build incomplete</B>: <FONT>the prerequisite O
                    Please recompile PHP with the necessary library (<CODE>--with-oci8</CODE>)</FONT>');
 
 //base_graph_form.php
-DEFINE('_CHARTTYPE','Graf typ:'); //NEW
-DEFINE('_CHARTTYPES','{ Graf typ }'); //NEW
+DEFINE('_CHARTTYPE','Graf '.$UI_CW_Type.':'); //NEW
+DEFINE('_CHARTTYPES','{ Graf '.$UI_CW_Type.' }'); //NEW
 DEFINE('_CHARTPERIOD','Graf Period:'); //NEW
 DEFINE('_PERIODNO','ingen period'); //NEW
 DEFINE('_PERIODWEEK','7 (en vecka)'); //NEW
@@ -447,7 +449,7 @@ DEFINE('_PERIODDAY','24 (hel dag)'); //NEW
 DEFINE('_PERIOD168','168 (24x7)'); //NEW
 DEFINE('_CHARTSIZE','Size: (bredd x höjd)'); //NEW
 DEFINE('_PLOTMARGINS','Graf Marginaler: (vänster x höger x uppe x nere)'); //NEW
-DEFINE('_PLOTTYPE','Graf typ:'); //NEW
+DEFINE('_PLOTTYPE','Graf '.$UI_CW_Type.':'); //NEW
 DEFINE('_TYPEBAR','Stapel'); //NEW
 DEFINE('_TYPELINE','linje'); //NEW
 DEFINE('_TYPEPIE','circle'); //NEW
@@ -485,7 +487,7 @@ DEFINE('_CHRTYGRID','Show Y-axis grid-lines');
 
 //base_graph_main.php
 DEFINE('_CHRTTITLE','BASE Chart');
-DEFINE('_ERRCHRTNOTYPE','No chart type was specified');
+DEFINE('_ERRCHRTNOTYPE','No chart '.$UI_CW_Type.' was specified');
 DEFINE('_ERRNOAGSPEC','No AG was specified.  Using all alerts.');
 DEFINE('_CHRTDATAIMPORT','Starting data import');
 DEFINE('_CHRTTIMEVNUMBER','Time vs. Number of Alerts');
@@ -522,13 +524,13 @@ DEFINE('_MNTPHPVER','PHP VERSION:');
 DEFINE('_MNTPHPAPI','PHP API:');
 DEFINE('_MNTPHPLOGLVL','PHP Logg niv�:');
 DEFINE('_MNTPHPMODS','Laddade Moduler:');
-DEFINE('_MNTDBTYPE','DB Typ:');
+DEFINE('_MNTDBTYPE','DB '.$UI_CW_Type.':');
 DEFINE('_MNTDBALV','DB Abstraktion Version:');
 DEFINE('_MNTDBALERTNAME','Varna DB Namn:');
 DEFINE('_MNTDBARCHNAME','Arkiv DB Namn:');
 DEFINE('_MNTAIC','Varnings information Cache:');
 DEFINE('_MNTAICTE','Total Events:');
-DEFINE('_MNTAICCE','Cached händelser:');
+DEFINE('_MNTAICCE','Cached '.$UI_CW_Event.'r:');
 DEFINE('_MNTIPAC','IP Address Cache');
 DEFINE('_MNTIPACUSIP','Unik käll IP:');
 DEFINE('_MNTIPACDNSC','DNS Cachad:');
@@ -561,7 +563,7 @@ DEFINE('_QCERROPER','An operator of');
 DEFINE('_QCERRDATETIME','A date/time value of');
 DEFINE('_QCERRPAYLOAD','A payload value of');
 DEFINE('_QCERRIP','An IP address of');
-DEFINE('_QCERRIPTYPE','An IP address of type');
+DEFINE('_QCERRIPTYPE','An IP address of '.$UI_CW_Type);
 DEFINE('_QCERRSPECFIELD',' was entered for a protocol field, but the particular field was not specified.');
 DEFINE('_QCERRSPECVALUE','was selected indicating that it should be a criteria, but no value was specified on which to match.');
 DEFINE('_QCERRBOOLEAN','Multiple protocol field criteria entered without a boolean operator (e.g. AND, OR) between them.');
@@ -581,7 +583,7 @@ DEFINE('_QCUDPCRIT','UDP Criteria');
 DEFINE('_QCLAYER4CRIT','Layer 4 Criteria'); //NEW
 DEFINE('_QCICMPCRIT','ICMP Criteria');
 DEFINE('_QCERRINVIPCRIT','Invalid IP address criteria');
-DEFINE('_QCERRCRITADDRESSTYPE','was entered for as a criteria value, but the type of address (e.g. source, destination) was not specified.');
+DEFINE('_QCERRCRITADDRESSTYPE','was entered for as a criteria value, but the '.$UI_CW_Type.' of address (e.g. source, destination) was not specified.');
 DEFINE('_QCERRCRITIPADDRESSNONE','indicating that an IP address should be a criteria, but no address on which to match was specified.');
 DEFINE('_QCERRCRITIPADDRESSNONE1','was selected (at #');
 DEFINE('_QCERRCRITIPIPBOOL','Multiple IP address criteria entered without a boolean operator (e.g. AND, OR) between IP Criteria');
@@ -654,8 +656,8 @@ DEFINE('_SIPLDESTFGDN','Destination FQDN');
 DEFINE('_SIPLDIRECTION','Direction');
 DEFINE('_SIPLPROTO','Protokol');
 DEFINE('_SIPLUNIDSTPORTS','Unika Dst Portar');
-DEFINE('_SIPLUNIEVENTS','Unika händelser');
-DEFINE('_SIPLTOTALEVENTS','Alla händelser');
+DEFINE('_SIPLUNIEVENTS','Unika '.$UI_CW_Event.'r');
+DEFINE('_SIPLTOTALEVENTS','Alla '.$UI_CW_Event.'r');
 
 //base_stat_ports.php
 DEFINE('_UNIQ','Unik');
@@ -682,7 +684,7 @@ DEFINE('_BSTERRNODAY','<FONT><B>Ingen dag parameter var specifierad!</B></FONT>'
 //base_stat_uaddr.php
 DEFINE('_UNISADD','Unika käll adress(er)');
 DEFINE('_SUASRCIP','Käll IP address');
-DEFINE('_SUAERRCRITADDUNK','CRITERIA ERROR: unknown address type -- assuming Dst address');
+DEFINE('_SUAERRCRITADDUNK','CRITERIA ERROR: unknown address '.$UI_CW_Type.' -- assuming Dst address');
 DEFINE('_UNIDADD','Unik(a) Destination Adress(er)');
 DEFINE('_SUADSTIP','Dst IP adress');
 DEFINE('_SUAUNIALERTS','Unika&nbsp;Varningar');

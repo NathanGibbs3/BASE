@@ -52,6 +52,8 @@ $UI_CW_Addr = 'アドレス';
 $UI_CW_Layer = 'レイヤー';
 $UI_CW_Proto = 'Protocol';
 $UI_CW_Pri = '優先度';
+$UI_CW_Event = 'イベント';
+$UI_CW_Type = 'タイプ';
 // Common Phrases.
 $UI_CP_SrcName = array($UI_CW_Src,$UI_CW_Name);
 $UI_CP_DstName = array($UI_CW_Dst,$UI_CW_Name);
@@ -59,13 +61,13 @@ $UI_CP_SrcDst = array($UI_CW_Src,'or',$UI_CW_Dst);
 $UI_CP_SrcAddr = array($UI_CW_Src,$UI_CW_Addr);
 $UI_CP_DstAddr = array($UI_CW_Dst,$UI_CW_Addr);
 $UI_CP_L4P = array($UI_CW_Layer,'4',$UI_CW_Proto);
+$UI_CP_ET = array($UI_CW_Event,$UI_CW_Type);
 // Authentication Data.
 $UI_AD_UND = 'ログイン';
 $UI_AD_RID = array($UI_CW_Role,$UI_CW_Id);
 $UI_AD_ASD = '有効';
 
 //common phrases
-DEFINE('_EVENTTYPE','イベントタイプ');
 DEFINE('_JANUARY','１月');
 DEFINE('_FEBRUARY','２月');
 DEFINE('_MARCH','３月');
@@ -274,8 +276,8 @@ DEFINE('_ADDED','新しいアラート');
 DEFINE('_HOSTNAMESDNS',' hostnames to the IP DNS cache');
 DEFINE('_HOSTNAMESWHOIS',' hostnames to the Whois cache');
 DEFINE('_ERRCACHENULL','Caching ERROR: NULL event row found?');
-DEFINE('_ERRCACHEERROR','イベントキャッシュエラー:');
-DEFINE('_ERRCACHEUPDATE','イベントキャッシュをアップデート出来ませんでした。');
+DEFINE('_ERRCACHEERROR',$UI_CW_Event.'キャッシュエラー:');
+DEFINE('_ERRCACHEUPDATE',$UI_CW_Event.'キャッシュをアップデート出来ませんでした。');
 DEFINE('_ALERTSCACHE','件をアラートキャッシュへ追加');
 
 //base_db.inc.php
@@ -298,7 +300,7 @@ DEFINE('_ERRSQLDBALLOAD2','<P>データベース抽象ライブラリのパス�
             <P>
             データベースライブラリはADODBを使用しています。ダウンロードはこちら→
             ');
-DEFINE('_ERRSQLDBTYPE','不正なデータベースタイプです');
+DEFINE('_ERRSQLDBTYPE','不正なデータベース'.$UI_CW_Type.'です');
 DEFINE('_ERRSQLDBTYPEINFO1','<CODE>\$DBtype</CODE> in <CODE>base_conf.php</CODE> が不正です');
 DEFINE('_ERRSQLDBTYPEINFO2','Only the following databases are supported: <PRE>
                 MySQL         : \'mysql\'
@@ -483,7 +485,7 @@ DEFINE('_CHRTYGRID','Y軸のグリッドラインを表示');
 
 //base_graph_main.php
 DEFINE('_CHRTTITLE','BASEグラフ');
-DEFINE('_ERRCHRTNOTYPE','グラフタイプを選択してください');
+DEFINE('_ERRCHRTNOTYPE','グラフ'.$UI_CW_Type.'を選択してください');
 DEFINE('_ERRNOAGSPEC','アラートグループが選択されていないため、すべてのアラートグループが使用されます');
 DEFINE('_CHRTDATAIMPORT','データインポート開始');
 DEFINE('_CHRTTIMEVNUMBER','時間　ｘ　アラート数');
@@ -520,13 +522,13 @@ DEFINE('_MNTPHPVER','PHPバージョン:');
 DEFINE('_MNTPHPAPI','PHP API:');
 DEFINE('_MNTPHPLOGLVL','PHP Logging level:');
 DEFINE('_MNTPHPMODS','ロードされたモジュール:');
-DEFINE('_MNTDBTYPE','DBタイプ:');
+DEFINE('_MNTDBTYPE','DB'.$UI_CW_Type.':');
 DEFINE('_MNTDBALV','DBライブラリバージョン:');
 DEFINE('_MNTDBALERTNAME','アラートデータベース名:');
 DEFINE('_MNTDBARCHNAME','アーカイブデータベース名:');
 DEFINE('_MNTAIC','アラート情報キャッシュ:');
-DEFINE('_MNTAICTE','イベント総数:');
-DEFINE('_MNTAICCE','キャッシュされたイベント:');
+DEFINE('_MNTAICTE',$UI_CW_Event.'総数:');
+DEFINE('_MNTAICCE','キャッシュされた'.$UI_CW_Event.':');
 DEFINE('_MNTIPAC','キャッシュされたIP'.$UI_CW_Addr);
 DEFINE('_MNTIPACUSIP','ユニーク'.$UI_CW_Src.'IP:');
 DEFINE('_MNTIPACDNSC','キャッシュされたDNS:');
@@ -618,9 +620,9 @@ DEFINE('_SCDEST','送信先');
 DEFINE('_SCPORT','ポート');
 
 //base_stat_ipaddr.php
-DEFINE('_PSEVENTERR','ポートスキャンイベントエラー: ');
+DEFINE('_PSEVENTERR','ポートスキャン'.$UI_CW_Event.'エラー: ');
 DEFINE('_PSEVENTERRNOFILE','No file was specified in the $portscan_file variable.');
-DEFINE('_PSEVENTERROPENFILE','ポートスキャンイベントファイルが開けません');
+DEFINE('_PSEVENTERROPENFILE','ポートスキャン'.$UI_CW_Event.'ファイルが開けません');
 DEFINE('_PSDATETIME','日付/時刻');
 DEFINE('_PSSRCIP',$UI_CW_Src.' IP');
 DEFINE('_PSDSTIP','送信先 IP');
@@ -652,8 +654,8 @@ DEFINE('_SIPLDESTFGDN','送信先 FQDN');
 DEFINE('_SIPLDIRECTION','方向');
 DEFINE('_SIPLPROTO','プロトコル');
 DEFINE('_SIPLUNIDSTPORTS','ユニーク送信先ポート');
-DEFINE('_SIPLUNIEVENTS','ユニークイベント');
-DEFINE('_SIPLTOTALEVENTS','イベント総数');
+DEFINE('_SIPLUNIEVENTS','ユニーク'.$UI_CW_Event);
+DEFINE('_SIPLTOTALEVENTS',$UI_CW_Event.'総数');
 
 //base_stat_ports.php
 DEFINE('_UNIQ','ユニーク');

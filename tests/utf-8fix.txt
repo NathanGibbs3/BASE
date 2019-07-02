@@ -32,3 +32,6 @@ sed 's/\xE0/\xC3\xA0/g'
 
 Ö
 sed 's/\xD6/\xC3\x96/g'
+
+æ
+sed 's/\xE6/\xC3\xA6/g'

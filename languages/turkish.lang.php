@@ -52,6 +52,8 @@ $UI_CW_Addr = 'Adresi';
 $UI_CW_Layer = 'Katman';
 $UI_CW_Proto = 'Protokolü';
 $UI_CW_Pri = 'Öncelik';
+$UI_CW_Event = 'Olay';
+$UI_CW_Type = 'Tipi';
 // Common Phrases.
 $UI_CP_SrcName = array($UI_CW_Src,$UI_CW_Name);
 $UI_CP_DstName = array($UI_CW_Dst,$UI_CW_Name);
@@ -59,13 +61,13 @@ $UI_CP_SrcDst = array($UI_CW_Src,'veya',$UI_CW_Dst);
 $UI_CP_SrcAddr = array($UI_CW_Src,$UI_CW_Addr);
 $UI_CP_DstAddr = array($UI_CW_Dst,$UI_CW_Addr);
 $UI_CP_L4P = array('4',$UI_CW_Layer,$UI_CW_Proto);
+$UI_CP_ET = array($UI_CW_Event,$UI_CW_Type);
 // Authentication Data.
 $UI_AD_UND = 'Oturum A�';
 $UI_AD_RID = array($UI_CW_Role,$UI_CW_Id);
 $UI_AD_ASD = 'Se�ilir Kýlýnmýþ';
 
 //common phrases
-DEFINE('_EVENTTYPE','olay türü');
 DEFINE('_JANUARY','Ocak');
 DEFINE('_FEBRUARY','�ubat');
 DEFINE('_MARCH','Mart');
@@ -273,9 +275,9 @@ DEFINE('_ERRMAILNORECP','MAIL HATASI: Alýcý Belirlenmemiþ');
 DEFINE('_ADDED','Ekledi ');
 DEFINE('_HOSTNAMESDNS',' host isimlerini IP DNS önbelle�ine');
 DEFINE('_HOSTNAMESWHOIS',' host isimlerini Whois önbelle�ine');
-DEFINE('_ERRCACHENULL','Önbelle�e Alma HATASI: NULL olay sýrasý bulundu?');
-DEFINE('_ERRCACHEERROR','OLAYI ÖNBELLE�E ALMA HATASI:');
-DEFINE('_ERRCACHEUPDATE','Olay önbelle�ini güncelleyemedi');
+DEFINE('_ERRCACHENULL','Önbelle�e Alma HATASI: NULL '.$UI_CW_Event.' sýrasý bulundu?');
+DEFINE('_ERRCACHEERROR',$UI_CW_Event.'I ÖNBELLE�E ALMA HATASI:');
+DEFINE('_ERRCACHEUPDATE',$UI_CW_Event.' önbelle�ini güncelleyemedi');
 DEFINE('_ALERTSCACHE',' uyarý(larý) Uyarý önbelle�ine');
 
 //base_db.inc.php
@@ -298,8 +300,8 @@ DEFINE('_ERRSQLDBALLOAD2','<P><CODE>base_conf.php</CODE> dosyasýndaki <CODE>$DB
             <P>
             Yürürlükte kullanýlan temel veritabaný kitaplý�ý ADODB\'dir ten indirilebilir
             ');
-DEFINE('_ERRSQLDBTYPE','Ge�ersiz Veritabaný Tipi Belirlenmiþ');
-DEFINE('_ERRSQLDBTYPEINFO1','<CODE>base_conf.php</CODE> dosyasýndaki <CODE>\$DBtype</CODE> de�iþkeni tanýmlanmamýþ veritabaný tipinde ayarlanmýþ ');
+DEFINE('_ERRSQLDBTYPE','Ge�ersiz Veritabaný '.$UI_CW_Type.' Belirlenmiþ');
+DEFINE('_ERRSQLDBTYPEINFO1','<CODE>base_conf.php</CODE> dosyasýndaki <CODE>\$DBtype</CODE> de�iþkeni tanýmlanmamýþ veritabaný '.$UI_CW_Type.'nde ayarlanmýþ ');
 DEFINE('_ERRSQLDBTYPEINFO2','Yalnýzca aþa�ýdaki veritabanlarý desteklenmektedir: <PRE>
                 MySQL         : \'mysql\'
                 PostgreSQL    : \'postgres\'
@@ -360,7 +362,7 @@ DEFINE('_SHORTSOURCE','Kaynak');
 DEFINE('_SHORTDEST','Varýþ');
 DEFINE('_SHORTSOURCEORDEST','Kaynak ya da Varýþ');
 DEFINE('_NOLAYER4','4.katman yok');
-DEFINE('_INPUTCRTENC','Girdi Öl�ütü �ifreleme Tipi');
+DEFINE('_INPUTCRTENC','Girdi Öl�ütü �ifreleme '.$UI_CW_Type);
 DEFINE('_CONVERT2WS','Dönüþtür (ararken)');
 
 //base_state_common.inc.php
@@ -437,8 +439,8 @@ DEFINE('_ERRPHPORACLESUP','<B>PHP inþasý eksik</B>: <FONT>uyarý veritabanýn�
 
 //base_graph_form.php
 DEFINE('_CHARTTITLE','Grafik Baþlý�ý:');
-DEFINE('_CHARTTYPE','Grafik Tipi:');
-DEFINE('_CHARTTYPES','{ grafik tipi }');
+DEFINE('_CHARTTYPE','Grafik '.$UI_CW_Type.':');
+DEFINE('_CHARTTYPES','{ grafik '.$UI_CW_Type.' }');
 DEFINE('_CHARTPERIOD','Grafik Dönemi:');
 DEFINE('_PERIODNO','dönem yok');
 DEFINE('_PERIODWEEK','7 (bir hafta)');
@@ -446,7 +448,7 @@ DEFINE('_PERIODDAY','24 (bütün gün)');
 DEFINE('_PERIOD168','168 (24x7)');
 DEFINE('_CHARTSIZE','Boyut: (en x yükseklik)');
 DEFINE('_PLOTMARGINS','�izim Boþluklarý: (sol x sa� x üst x alt)');
-DEFINE('_PLOTTYPE','�izim tipi:');
+DEFINE('_PLOTTYPE','�izim '.$UI_CW_Type.':');
 DEFINE('_TYPEBAR','�ubuk');
 DEFINE('_TYPELINE','�izgi');
 DEFINE('_TYPEPIE','pasta');
@@ -483,7 +485,7 @@ DEFINE('_CHRTYGRID','Y-ekseni ýzgara-�izgilerini göster');
 
 //base_graph_main.php
 DEFINE('_CHRTTITLE','BASE Grafik');
-DEFINE('_ERRCHRTNOTYPE','Hi�bir grafik tipi belirtilmemiþ');
+DEFINE('_ERRCHRTNOTYPE','Hi�bir grafik '.$UI_CW_Type.' belirtilmemiþ');
 DEFINE('_ERRNOAGSPEC','Hi�bir UG belirtilmemiþ.  Tüm uyarýlarý kullanýyor.');
 DEFINE('_CHRTDATAIMPORT','Veri aktarýmýný baþlatýyor');
 DEFINE('_CHRTTIMEVNUMBER','Zaman vs. Uyarý Sayýsý');
@@ -520,13 +522,13 @@ DEFINE('_MNTPHPVER','PHP S�R�M�:');
 DEFINE('_MNTPHPAPI','PHP API:');
 DEFINE('_MNTPHPLOGLVL','PHP Günlükleme düzeyi:');
 DEFINE('_MNTPHPMODS','Yüklü Modüller:');
-DEFINE('_MNTDBTYPE','DB Tipi:');
+DEFINE('_MNTDBTYPE','DB '.$UI_CW_Type.':');
 DEFINE('_MNTDBALV','DB Soyutlama Sürümü:');
 DEFINE('_MNTDBALERTNAME','UYARI DB Adý:');
 DEFINE('_MNTDBARCHNAME','AR��V DB Adý:');
 DEFINE('_MNTAIC','Uyarý Bilgi Önbelle�i:');
-DEFINE('_MNTAICTE','Toplam Olaylar:');
-DEFINE('_MNTAICCE','Önbellekteki Olaylar:');
+DEFINE('_MNTAICTE','Toplam '.$UI_CW_Event.'lar:');
+DEFINE('_MNTAICCE','Önbellekteki '.$UI_CW_Event.'lar:');
 DEFINE('_MNTIPAC','IP Adres Önbelle�i');
 DEFINE('_MNTIPACUSIP','Benzersiz Kaynak IP:');
 DEFINE('_MNTIPACDNSC','DNS Önbelle�e alýndý:');
@@ -559,7 +561,7 @@ DEFINE('_QCERROPER','iþletmeni');
 DEFINE('_QCERRDATETIME','tarih/zaman de�eri');
 DEFINE('_QCERRPAYLOAD','payload de�eri');
 DEFINE('_QCERRIP','IP adresi');
-DEFINE('_QCERRIPTYPE','Tipin IP adresi');
+DEFINE('_QCERRIPTYPE',$UI_CW_Type.'n IP adresi');
 DEFINE('_QCERRSPECFIELD',' bir protokol alaný i�in girildi, fakat özel alan belirlenmemiþ.');
 DEFINE('_QCERRSPECVALUE','onun bir öl�üt olmasý gerekti�ini göstermek üzere se�ilmiþ, fakat hangisiyle eþleþece�ini gösteren hi�bir de�er belirlenmemiþ.');
 DEFINE('_QCERRBOOLEAN','Aralarýnda bir boolen iþleci olmadan (örne�in; VE, YA DA) �oklu Protokol Alan öl�ütü girildi.');
@@ -579,7 +581,7 @@ DEFINE('_QCUDPCRIT','UDP Öl�ütü');
 DEFINE('_QCICMPCRIT','ICMP Öl�ütü');
 DEFINE('_QCLAYER4CRIT','4. Katman Öl�ütü');
 DEFINE('_QCERRINVIPCRIT','Ge�ersiz IP adres öl�ütü');
-DEFINE('_QCERRCRITADDRESSTYPE','bir öl�üt de�eri olmasý i�in girilmiþ, fakat adresin tipi (örne�in; kaynak, varýþ) belirlenmemiþ.');
+DEFINE('_QCERRCRITADDRESSTYPE','bir öl�üt de�eri olmasý i�in girilmiþ, fakat adresin '.$UI_CW_Type.' (örne�in; kaynak, varýþ) belirlenmemiþ.');
 DEFINE('_QCERRCRITIPADDRESSNONE','bir IP adresinin bir öl�üt olmasý gerekti�ini gösteriyor, fakat hangisiyle eþleþece�ini gösteren hi�bir adres belirlenmemiþ.');
 DEFINE('_QCERRCRITIPADDRESSNONE1','se�ilmiþ (#');
 DEFINE('_QCERRCRITIPIPBOOL','IP Öl�ütü arasýnda bir boolen iþleci olmadan (örne�in; VE, YA DA) �oklu IP adres öl�ütü girildi');
@@ -618,21 +620,21 @@ DEFINE('_SCDEST','Varýþ');
 DEFINE('_SCPORT','Port');
 
 //base_stat_ipaddr.php
-DEFINE('_PSEVENTERR','PORTSCAN OLAY HATASI: ');
+DEFINE('_PSEVENTERR','PORTSCAN '.$UI_CW_Event.' HATASI: ');
 DEFINE('_PSEVENTERRNOFILE','$portscan_file de�iþkeninde hi�bir dosya belirtilmemiþ');
-DEFINE('_PSEVENTERROPENFILE','Portscan olay dosyasýný a�mak olanaksýz');
+DEFINE('_PSEVENTERROPENFILE','Portscan '.$UI_CW_Event.' dosyasýný a�mak olanaksýz');
 DEFINE('_PSDATETIME','Tarih/Zaman');
 DEFINE('_PSSRCIP','Kaynak IP');
 DEFINE('_PSDSTIP','Varýþ IP');
 DEFINE('_PSSRCPORT','Kaynak Portu');
 DEFINE('_PSDSTPORT','Varýþ Portu');
 DEFINE('_PSTCPFLAGS','TCP Bayraklarý');
-DEFINE('_PSTOTALOCC','Toplam<BR> Olaylar');
+DEFINE('_PSTOTALOCC','Toplam<BR> '.$UI_CW_Event.'lar');
 DEFINE('_PSNUMSENSORS','Sensor Sayýsý');
-DEFINE('_PSFIRSTOCC','�lk<BR> Ger�ekleþen Olay');
-DEFINE('_PSLASTOCC','Son<BR> Ger�ekleþen Olay');
+DEFINE('_PSFIRSTOCC','�lk<BR> Ger�ekleþen '.$UI_CW_Event);
+DEFINE('_PSLASTOCC','Son<BR> Ger�ekleþen '.$UI_CW_Event);
 DEFINE('_PSUNIALERTS','Benzersiz Uyarýlar');
-DEFINE('_PSPORTSCANEVE','Portscan Olaylarý');
+DEFINE('_PSPORTSCANEVE','Portscan '.$UI_CW_Event.'larý');
 DEFINE('_PSREGWHOIS','Kayýt bakýþý (whois)');
 DEFINE('_PSNODNS','hi� DNS �özünürlü�ü denenmedi');
 DEFINE('_PSNUMSENSORSBR','Sensor <BR>Sayýsý');
@@ -652,8 +654,8 @@ DEFINE('_SIPLDESTFGDN','Varýþ FQDN');
 DEFINE('_SIPLDIRECTION','Yön');
 DEFINE('_SIPLPROTO','Protokol');
 DEFINE('_SIPLUNIDSTPORTS','Benzersiz Varýþ Portlarý');
-DEFINE('_SIPLUNIEVENTS','Benzersiz Olaylar');
-DEFINE('_SIPLTOTALEVENTS','Toplam Olaylar');
+DEFINE('_SIPLUNIEVENTS','Benzersiz '.$UI_CW_Event.'lar');
+DEFINE('_SIPLTOTALEVENTS','Toplam '.$UI_CW_Event.'lar');
 
 //base_stat_ports.php
 DEFINE('_UNIQ','Benzersiz');
@@ -668,7 +670,7 @@ DEFINE('SPSENSORLIST','Sensor Listeleme');
 DEFINE('_BSTTITLE','Uyarýlarýn Zaman Profili');
 DEFINE('_BSTTIMECRIT','Zaman Öl�ütü');
 DEFINE('_BSTERRPROFILECRIT','<FONT><B>Hi�bir profilleme öl�ütü belirlenmemeiþ!</B>  "saat", "gün", ya da "ay" üzerine týklayarak kümelenmiþ istatistiklerden taneli olaný se�in.</FONT>');
-DEFINE('_BSTERRTIMETYPE','<FONT><B>Ge�ecek olan zaman parametresi tipi belirlenmemeiþ!</B>  Tek bir zaman belirtmek i�in "üzerinde", ya da bir aralýk belirtmek i�in "arasýnda" \'dan herhangi birini se�in.</FONT>');
+DEFINE('_BSTERRTIMETYPE','<FONT><B>Ge�ecek olan zaman parametresi '.$UI_CW_Type.' belirlenmemeiþ!</B>  Tek bir zaman belirtmek i�in "üzerinde", ya da bir aralýk belirtmek i�in "arasýnda" \'dan herhangi birini se�in.</FONT>');
 DEFINE('_BSTERRNOYEAR','<FONT><B>Hi�bir Yýl parametresi belirtilmemiþ!</B></FONT>');
 DEFINE('_BSTERRNOMONTH','<FONT><B>Hi�bir Ay parametresi belirtilmemiþ!</B></FONT>');
 DEFINE('_BSTERRNODAY','<FONT><B>Hi�bir Gün parametresi belirtilmemiþ!</B></FONT>');
@@ -680,7 +682,7 @@ DEFINE('_PROFILEALERT','Profil Uyarýsý');
 //base_stat_uaddr.php
 DEFINE('_UNISADD','Benzersiz Kaynak Adres(leri)');
 DEFINE('_SUASRCIP','Kaynak IP adresi');
-DEFINE('_SUAERRCRITADDUNK','ÖL��T HATASI: bilinmeyen adres tipi -- Varýþ adresi oldu�u sanýlýyor');
+DEFINE('_SUAERRCRITADDUNK','ÖL��T HATASI: bilinmeyen adres '.$UI_CW_Type.' -- Varýþ adresi oldu�u sanýlýyor');
 DEFINE('_UNIDADD','Benzersiz Varýþ Adres(leri)');
 DEFINE('_SUADSTIP','Varýþ IP adresi');
 DEFINE('_SUAUNIALERTS','Benzersiz Uyarýlar');
