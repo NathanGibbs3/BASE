@@ -39,17 +39,12 @@ if [[ $LANG =~ UTF-8$ ]]; then
 			rm -f ./$TFN
 		fi
 	elif [ "$1" == "-t" ]; then
-		grep -axvc '.*' ../languages/*|grep -v ":0"
+		echo "Find t$CT1"
+		grep -axvc '.*' ../languages/*|grep -v ":0"|sed -r -e s/^\.\.\\///
 	else
-		if [ -s $TF ]; then
-			echo "T$CT1"
-			cat $TF
-		else
-			echo "Find t$CT1"
-			$0 -t
-			$0 -s
-			$0 -n
-		fi
+		$0 -t
+		$0 -s
+		$0 -n
 	fi
 else
 	echo "Cannot run test."

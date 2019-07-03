@@ -23,8 +23,9 @@
 ********************************************************************************
 */
 
-// Inter Character Spacing.
-$UI_Spacing = 1;
+$UI_Spacing = 1; // Inter Character Spacing.
+$UI_ILC = 'tr'; // ISO 639-1 Language Code.
+$UI_IRC = ''; // Region Code.
 // Locales.
 $UI_Locales = array( 'tur_TUR.ISO8859-9', 'tur_TUR.utf-8', 'turkish' );
 // Time Format - See strftime() syntax.
@@ -54,6 +55,18 @@ $UI_CW_Proto = 'Protokolü';
 $UI_CW_Pri = 'Öncelik';
 $UI_CW_Event = 'Olay';
 $UI_CW_Type = 'Tipi';
+$UI_CW_ML1 = 'Ocak';
+$UI_CW_ML2 = '�ubat';
+$UI_CW_ML3 = 'Mart';
+$UI_CW_ML4 = 'Nisan';
+$UI_CW_ML5 = 'Mayýs';
+$UI_CW_ML6 = 'Haziran';
+$UI_CW_ML7 = 'Temmuz';
+$UI_CW_ML8 = 'A�ustos';
+$UI_CW_ML9 = 'Eylül';
+$UI_CW_ML10 = 'Ekim';
+$UI_CW_ML11 = 'Kasým';
+$UI_CW_ML12 = 'Aralýk';
 // Common Phrases.
 $UI_CP_SrcName = array($UI_CW_Src,$UI_CW_Name);
 $UI_CP_DstName = array($UI_CW_Dst,$UI_CW_Name);
@@ -68,18 +81,6 @@ $UI_AD_RID = array($UI_CW_Role,$UI_CW_Id);
 $UI_AD_ASD = 'Se�ilir Kýlýnmýþ';
 
 //common phrases
-DEFINE('_JANUARY','Ocak');
-DEFINE('_FEBRUARY','�ubat');
-DEFINE('_MARCH','Mart');
-DEFINE('_APRIL','Nisan');
-DEFINE('_MAY','Mayýs');
-DEFINE('_JUNE','Haziran');
-DEFINE('_JULY','Temmuz');
-DEFINE('_AUGUST','A�ustos');
-DEFINE('_SEPTEMBER','Eylül');
-DEFINE('_OCTOBER','Ekim');
-DEFINE('_NOVEMBER','Kasým');
-DEFINE('_DECEMBER','Aralýk');
 DEFINE('_LAST','Son');
 DEFINE('_FIRST','�lk');
 DEFINE('_TOTAL','Toplam');

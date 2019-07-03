@@ -23,8 +23,9 @@
 ********************************************************************************
 */
 
-// Inter Character Spacing.
-$UI_Spacing = 0;
+$UI_Spacing = 0; // Inter Character Spacing.
+$UI_ILC = 'zh'; // ISO 639-1 Language Code.
+$UI_IRC = ''; // Region Code.
 // Locales.
 $UI_Locales = array( 'eng_ENG.ISO8859-1', 'eng_ENG.utf-8', 'english' );
 // Time Format - See strftime() syntax.
@@ -54,6 +55,18 @@ $UI_CW_Proto = '协议';
 $UI_CW_Pri = '优先级';
 $UI_CW_Event = '事件';
 $UI_CW_Type = '类型';
+$UI_CW_ML1 = '一月';
+$UI_CW_ML2 = '二月';
+$UI_CW_ML3 = '三月';
+$UI_CW_ML4 = '四月';
+$UI_CW_ML5 = '五月';
+$UI_CW_ML6 = '六月';
+$UI_CW_ML7 = '7月';
+$UI_CW_ML8 = '八月';
+$UI_CW_ML9 = '九月';
+$UI_CW_ML10 = '十月';
+$UI_CW_ML11 = '十一月';
+$UI_CW_ML12 = '十二月';
 // Common Phrases.
 $UI_CP_SrcName = array($UI_CW_Src,$UI_CW_Name);
 $UI_CP_DstName = array($UI_CW_Dst,$UI_CW_Name);
@@ -68,18 +81,6 @@ $UI_AD_RID = array($UI_CW_Role,$UI_CW_Id);
 $UI_AD_ASD = '启用';
 
 //common phrases
-DEFINE('_JANUARY','一月');
-DEFINE('_FEBRUARY','二月');
-DEFINE('_MARCH','三月');
-DEFINE('_APRIL','四月');
-DEFINE('_MAY','五月');
-DEFINE('_JUNE','六月');
-DEFINE('_JULY','7月');
-DEFINE('_AUGUST','八月');
-DEFINE('_SEPTEMBER','九月');
-DEFINE('_OCTOBER','十月');
-DEFINE('_NOVEMBER','十一月');
-DEFINE('_DECEMBER','十二月');
 DEFINE('_LAST','最后');
 DEFINE('_FIRST','First'); //NEW
 DEFINE('_TOTAL','Total'); //NEW

@@ -30,6 +30,7 @@ class UILang{
 	var $UAA;
 	var $Spacing;
 	var $Caps;
+	var $ILocale;
 
 	function __construct($UILang) { // PHP 5+ constructor Shim.
 		// Class/Method agnostic shim code.
@@ -49,7 +50,7 @@ class UILang{
 		}
 	}
 	function UILang($UILang) { // PHP 4x constructor.
-		GLOBAL $BASE_path, $BASE_installID, $Use_Auth_System;
+		GLOBAL $BASE_path, $BASE_installID, $Use_Auth_System, $debug_mode;
 		$TDF = "$BASE_path/languages/$UILang.lang.php";
 		if (!file_exists($TDF)) { // TD file for lang not found.
 			trigger_error(
@@ -61,6 +62,7 @@ class UILang{
 		include_once($TDF); // Include Translation Data.
 		$this->Lang = $UILang;
 		$this->TDF = $TDF;
+		// Init Spacing & Capitalization.
 		if ( isset($UI_Spacing) ) { // New TDF
 			if ( !is_int($UI_Spacing) ) {
 				$UI_Spacing = 1; // Default to 1 on invalid data.
@@ -76,6 +78,151 @@ class UILang{
 				$this->Caps = 1;
 			}
 		}
+		// Auto Generate Long/Short Month Names
+		if ( !isset($UI_ILC) ){ // Legecy TDF
+			// Compatibility Shimming
+			$UI_IRC = '';
+			if ( preg_match("/portuguese/", $this->Lang) ){
+				$UI_ILC = 'pt';
+				if ( preg_match("/portuguese-PT/", $this->Lang) ){
+					$UI_IRC = 'PT';
+				}else{
+					$UI_IRC = 'BR';
+				}
+			}elseif (preg_match("/chinese/", $this->Lang) ){
+				$UI_ILC = 'zh';
+			}else{
+				switch ($this->Lang) {
+					case 'czech':
+						$UI_ILC = 'cs';
+						break;
+					case 'danish':
+						$UI_ILC = 'da';
+						break;
+					case 'english':
+						$UI_ILC = 'en';
+						break;
+					case 'finnish':
+						$UI_ILC = 'fi';
+						break;
+					case 'french':
+						$UI_ILC = 'fr';
+						break;
+					case 'german':
+						$UI_ILC = 'de';
+						break;
+					case 'indonesian':
+						$UI_ILC = 'id';
+						break;
+					case 'italian':
+						$UI_ILC = 'it';
+						break;
+					case 'japanese':
+						$UI_ILC = 'ja';
+						break;
+					case 'norwegian':
+						$UI_ILC = 'no';
+						break;
+					case 'polish':
+						$UI_ILC = 'pl';
+						break;
+					case 'russian':
+						$UI_ILC = 'ru';
+						break;
+					case 'spanish':
+						$UI_ILC = 'es';
+						break;
+					case 'swedish':
+						$UI_ILC = 'sv';
+						break;
+					case 'turkish':
+						$UI_ILC = 'tr';
+						break;
+					default:
+						$UI_ILC = 'en';
+				}
+			}
+		}else{ // New TDF
+			if ( strlen($UI_ILC) != 2 ) {
+				$UI_ILC = 'en'; // Default to english on invalid data.
+			}
+			if ( isset($UI_IRC) ) {
+				if ( strlen($UI_IRC) != 2 ) {
+					$UI_IRC = 'US'; // Default to US on invalid data.
+				}
+			}else{
+				$UI_IRC = '';
+			}
+		}
+		$UI_ILC = strtolower($UI_ILC);
+		$UI_IRC = strtoupper($UI_IRC);
+		if ( isset($UI_Charset) ){ // Var New TDF
+			$tcs = $UI_Charset;
+		}elseif (defined('_CHARSET')) { // Const Legacy TDF
+			$tcs = _CHARSET;
+		}else{ // Default to UTF-8
+			$tcs = 'utf-8';
+		}
+		$this->SetUICharset($tcs); // UI Content-Type charset.
+		$loc = $UI_ILC.'_';
+		if ( $UI_IRC != '' ){ // Add Region Code.;
+			$loc .= "$UI_IRC.";
+		}
+		$loc .= $tcs;
+		$this->ILocale = $loc; // Auto Generated Locale :-)
+		if ( phpversion('intl') ){ // Is Intl available?
+			// Set up Month format strings via Intl.
+			$MfS = new IntlDateFormatter(
+				$loc, IntlDateFormatter::NONE, IntlDateFormatter::NONE, NULL,
+				NULL, "LLL"
+			);
+			$MfL = new IntlDateFormatter(
+				$loc, IntlDateFormatter::NONE, IntlDateFormatter::NONE, NULL,
+				NULL, "LLLL"
+			);
+			if ($MfS && $MfL){
+				$Mgf = 'datefmt_format';
+			}else{ // Not Auto Generating TD.
+				$Mgf = NULL;
+			}
+		}else{
+			$tmplocale = setlocale(LC_TIME, "0"); // Snapshot Locale.
+			if ( setlocale(LC_TIME,$loc) ){
+				// Set up Month format strings via Locale.
+				$MfS = '%b';
+				$MfL = '%B';
+				$Mgf = 'strftime';
+			}else{ // Not Auto Generating TD.
+				$Mgf = NULL;
+			}
+			setlocale(LC_TIME, $tmplocale); // Put Locale back.
+		}
+		if ( isset($Mgf) ){
+			for ($i = 1; $i < 13; $i++){
+				$tts = mktime(0, 0, 0, $i);
+				$this->SetUICWItem("ML$i",$Mgf($MfL,$tts)); // Set Long Month
+				$this->SetUICWItem("MS$i",$Mgf($MfS,$tts)); // Set Short Month
+			}
+		}else{ // Fall back to TDF.
+			$MLI = array (
+				'JANUARY', 'FEBRUARY', 'MARCH', 'APRIL', 'MAY', 'JUNE', 'JULY',
+				'AUGUST', 'SEPTEMBER', 'OCTOBER', 'NOVEMBER', 'DECEMBER'
+			);
+			for ($i = 1; $i < 13; $i++){
+				$Idx = $i - 1;
+				$MLk = "ML$i";
+				$MLv = "UI_CW_ML$i";
+				$MLc = '_'.$MLI[$Idx];
+				if ( isset($$MLv) ) { // Var New TDF
+					$this->SetUICWItem($MLk,$$MLv);
+				}elseif (defined($MLc)) { // Const Legacy TDF
+					$this->SetUICWItem($MLk,$MLc);
+				}else{
+					$this->SetUICWItem($MLk);
+				}
+			}
+		}
+		// Init Misc Items.
 		if ( isset($UI_Locales) ) { // Var New TDF
 			if ( is_array($UI_Locales) ) {
 				$this->Locale = $UI_Locales;
@@ -97,13 +244,6 @@ class UILang{
 			$this->SetUITimefmt(_STRFTIMEFORMAT);
 		}else{
 			$this->SetUITimefmt();
-		}
-		if ( isset($UI_Charset) ) { // Var New TDF
-			$this->SetUICharset($UI_Charset);
-		}elseif (defined('_CHARSET')) { // Const Legacy TDF
-			$this->SetUICharset(_CHARSET);
-		}else{
-			$this->SetUICharset();
 		}
 		if ( isset($UI_Title) ) { // Var New TDF
 			$this->SetUITitle($UI_Title);
@@ -380,7 +520,10 @@ class UILang{
 		}else{
 			$tmp = array();
 		}
-		array_push( $tmp, "");
+		// Fallback options if TD doesn't work.
+		// Auto generated Locale from class Init.
+		array_push( $tmp, $this->ILocale );
+		array_push( $tmp, ""); // Locale from Environemnt.
 		$Ret = setlocale (LC_TIME, $tmp);
 		if ($Ret != FALSE) {
 			$this->Locale = setlocale(LC_TIME, "0");
@@ -396,7 +539,7 @@ class UILang{
 	function SetUITimeFmt($Value = NULL) {
 		$this->Timefmt = $Value;
 	}
-	// Sets HTML Content-Type charset from translation data.
+	// Set UI Content-Type charset from TD.
 	function SetUICharset($Value = NULL) {
 		$this->Charset = $Value;
 	}

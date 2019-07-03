@@ -24,8 +24,9 @@
 ********************************************************************************
 */
 
-// Inter Character Spacing.
-$UI_Spacing = 1;
+$UI_Spacing = 1; // Inter Character Spacing.
+$UI_ILC = 'pl'; // ISO 639-1 Language Code.
+$UI_IRC = ''; // Region Code.
 // Locales.
 $UI_Locales = array( 'eng_ENG.ISO8859-1', 'eng_ENG.utf-8', 'english' );
 // Time Format - See strftime() syntax.
@@ -55,6 +56,18 @@ $UI_CW_Proto = 'Protokol';
 $UI_CW_Pri = 'Priorytet';
 $UI_CW_Event = 'Zdarzenia';
 $UI_CW_Type = 'Typ';
+$UI_CW_ML1 = 'Styczen';
+$UI_CW_ML2 = 'Luty';
+$UI_CW_ML3 = 'Marzec';
+$UI_CW_ML4 = 'Kwiecien';
+$UI_CW_ML5 = 'Maj';
+$UI_CW_ML6 = 'Czerwiec';
+$UI_CW_ML7 = 'Lipiec';
+$UI_CW_ML8 = 'Sierpien';
+$UI_CW_ML9 = 'Wrzesien';
+$UI_CW_ML10 = 'Pazdziernik';
+$UI_CW_ML11 = 'Listopad';
+$UI_CW_ML12 = 'Grudzien';
 // Common Phrases.
 $UI_CP_SrcName = array($UI_CW_Name,'Zrodlowa');
 $UI_CP_DstName = array($UI_CW_Name,'Docelowa');
@@ -69,18 +82,6 @@ $UI_AD_RID = array($UI_CW_Id,'Roli');
 $UI_AD_ASD = 'Wlaczony';
 
 //common phrases
-DEFINE('_JANUARY','Styczen');
-DEFINE('_FEBRUARY','Luty');
-DEFINE('_MARCH','Marzec');
-DEFINE('_APRIL','Kwiecien');
-DEFINE('_MAY','Maj');
-DEFINE('_JUNE','Czerwiec');
-DEFINE('_JULY','Lipiec');
-DEFINE('_AUGUST','Sierpien');
-DEFINE('_SEPTEMBER','Wrzesien');
-DEFINE('_OCTOBER','Pazdziernik');
-DEFINE('_NOVEMBER','Listopad');
-DEFINE('_DECEMBER','Grudzien');
 DEFINE('_LAST','Ostatni');
 DEFINE('_FIRST','Pierwszy'); //NEW
 DEFINE('_TOTAL','Wszystkich'); //NEW

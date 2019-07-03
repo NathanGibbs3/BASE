@@ -23,8 +23,9 @@
 ** Joel Esler <joelesler@users.sourceforge.net>
 *********************************************************************************/
 
-// Inter Character Spacing.
-$UI_Spacing = 1;
+$UI_Spacing = 1; // Inter Character Spacing.
+$UI_ILC = 'id'; // ISO 639-1 Language Code.
+$UI_IRC = ''; // Region Code.
 // Locales.
 $UI_Locales = array( 'eng_ENG.ISO8859-1', 'eng_ENG.utf-8', 'english' );
 // Time Format - See strftime() syntax.
@@ -54,6 +55,18 @@ $UI_CW_Proto = 'Protokol';
 $UI_CW_Pri = 'Prioritas';
 $UI_CW_Event = 'Acara';
 $UI_CW_Type = 'Jenis';
+$UI_CW_ML1 = 'Januari';
+$UI_CW_ML2 = 'Februari';
+$UI_CW_ML3 = 'Maret';
+$UI_CW_ML4 = 'April';
+$UI_CW_ML5 = 'Mei';
+$UI_CW_ML6 = 'Juni';
+$UI_CW_ML7 = 'Juli';
+$UI_CW_ML8 = 'Augustus';
+$UI_CW_ML9 = 'September';
+$UI_CW_ML10 = 'Oktober';
+$UI_CW_ML11 = 'November';
+$UI_CW_ML12 = 'Desember';
 // Common Phrases.
 $UI_CP_SrcName = array($UI_CW_Name,$UI_CW_Src);
 $UI_CP_DstName = array($UI_CW_Name,$UI_CW_Dst);
@@ -68,18 +81,6 @@ $UI_AD_RID = array($UI_CW_Id,$UI_CW_Role);
 $UI_AD_ASD = 'Aktif';
 
 //common phrases
-DEFINE('_JANUARY','Januari');
-DEFINE('_FEBRUARY','Februari');
-DEFINE('_MARCH','Maret');
-DEFINE('_APRIL','April');
-DEFINE('_MAY','Mei');
-DEFINE('_JUNE','Juni');
-DEFINE('_JULY','Juli');
-DEFINE('_AUGUST','Augustus');
-DEFINE('_SEPTEMBER','September');
-DEFINE('_OCTOBER','Oktober');
-DEFINE('_NOVEMBER','November');
-DEFINE('_DECEMBER','Desember');
 DEFINE('_LAST','terakhir');
 DEFINE('_FIRST','First'); //NEW
 DEFINE('_TOTAL','Total'); //NEW

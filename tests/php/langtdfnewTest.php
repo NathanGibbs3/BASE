@@ -149,6 +149,34 @@ class langTest extends TestCase {
 			}
 		}
 	}
+	public function testSetUIILocale() {
+		$langs = $this->langs;
+		$tf = __FUNCTION__;
+		foreach($langs as $lang){
+			$tmp = "UI$lang";
+			LogTC($tf,'language',$lang);
+			// Expect errors as we Transition Translation Data
+			$PHPUV = $this->PHPUV;
+			if (version_compare($PHPUV, '3.0', '<')) {
+				$this->markTestSkipped('Requires Phpunit 3+ to run.');
+			}elseif (version_compare($PHPUV, '5.0', '<')) { // PHPUnit 3x - 4x
+				$this->setExpectedException("PHPUnit_Framework_Error");
+			}elseif (version_compare($PHPUV, '6.0', '<')) { // PHPUnit 5x
+				$this->expectException("PHPUnit_Framework_Error");
+			}else{ // PHPUnit 6+
+				$this->expectException("PHPUnit\Framework\Error\Error");
+			}
+			$$tmp = new UILang($lang);
+			// $$tmp = $this->UIL[$tmp];
+			// Will not run until TD is transitioned.
+			$file = $$tmp->TDF;
+			LogTC($tf,'TD file',$file);
+			$this->assertTrue(
+				isset($$tmp->ILocale),
+				"ILocale not set."
+			);
+		}
+	}
 	public function testSetUITimefmt() {
 		$langs = $this->langs;
 		$tf = __FUNCTION__;
@@ -829,6 +857,34 @@ class langTest extends TestCase {
 			$this->CWAHas($$tmp,'Type','Type');
 		}
 	}
+	public function testCWASetItemMonthsLong() {
+		$langs = $this->langs;
+		$tf = __FUNCTION__;
+		foreach($langs as $lang){
+			$tmp = "UI$lang";
+			LogTC($tf,'language',$lang);
+			// Expect errors as we Transition Translation Data
+			$PHPUV = $this->PHPUV;
+			if (version_compare($PHPUV, '3.0', '<')) {
+				$this->markTestSkipped('Requires Phpunit 3+ to run.');
+			}elseif (version_compare($PHPUV, '5.0', '<')) { // PHPUnit 3x - 4x
+				$this->setExpectedException("PHPUnit_Framework_Error");
+			}elseif (version_compare($PHPUV, '6.0', '<')) { // PHPUnit 5x
+				$this->expectException("PHPUnit_Framework_Error");
+			}else{ // PHPUnit 6+
+				$this->expectException("PHPUnit\Framework\Error\Error");
+			}
+			$$tmp = new UILang($lang);
+			// $$tmp = $this->UIL[$tmp];
+			// Will not run until TD is transitioned.
+			$file = $$tmp->TDF;
+			LogTC($tf,'TD file',$file);
+			for ($i = 1; $i < 13; $i++){
+				$a = "ML$i";
+				$this->CWAHas($$tmp,$a,"Month Long $i");
+			}
+		}
+	}
 	// Test Common Phrase Items.
 	public function testCPASetItemSrcName() {
 		$langs = $this->langs;
@@ -1078,18 +1134,6 @@ class langTest extends TestCase {
 			}
 			include_once("$BASE_path/languages/$file");
 			// Test common phrases
-			// DEFINE('_JANUARY','January');
-			// DEFINE('_FEBRUARY','February');
-			// DEFINE('_MARCH','March');
-			// DEFINE('_APRIL','April');
-			// DEFINE('_MAY','May');
-			// DEFINE('_JUNE','June');
-			// DEFINE('_JULY','July');
-			// DEFINE('_AUGUST','August');
-			// DEFINE('_SEPTEMBER','September');
-			// DEFINE('_OCTOBER','October');
-			// DEFINE('_NOVEMBER','November');
-			// DEFINE('_DECEMBER','December');
 			// DEFINE('_LAST','Last');
 			// DEFINE('_FIRST','First');
 			// DEFINE('_TOTAL','Total');
@@ -1154,18 +1198,6 @@ class langTest extends TestCase {
 			// DEFINE('_TYPE','type');
 			// DEFINE('_NEXT','Next');
 			// DEFINE('_PREVIOUS','Previous');
-			$this->assertTrue(defined('_JANUARY'),'January not defined');
-			$this->assertTrue(defined('_FEBRUARY'),'February not defined');
-			$this->assertTrue(defined('_MARCH'),'March not defined');
-			$this->assertTrue(defined('_APRIL'),'April not defined');
-			$this->assertTrue(defined('_MAY'),'May not defined');
-			$this->assertTrue(defined('_JUNE'),'June not defined');
-			$this->assertTrue(defined('_JULY'),'July not defined');
-			$this->assertTrue(defined('_AUGUST'),'August not defined');
-			$this->assertTrue(defined('_SEPTEMBER'),'September not defined');
-			$this->assertTrue(defined('_OCTOBER'),'October not defined');
-			$this->assertTrue(defined('_NOVEMBER'),'November not defined');
-			$this->assertTrue(defined('_DECEMBER'),'December not defined');
 			$this->assertTrue(defined('_LAST'),'Last not defined');
 			$this->assertTrue(defined('_FIRST'),'First not defined');
 			$this->assertTrue(defined('_TOTAL'),'Total not defined');

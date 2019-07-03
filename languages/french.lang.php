@@ -23,8 +23,9 @@
 ********************************************************************************
 */
 
-// Inter Character Spacing.
-$UI_Spacing = 1;
+$UI_Spacing = 1; // Inter Character Spacing.
+$UI_ILC = 'fr'; // ISO 639-1 Language Code.
+$UI_IRC = ''; // Region Code.
 // Locales.
 $UI_Locales = array( 'eng_ENG.ISO8859-1', 'eng_ENG.utf-8', 'english' );
 // Time Format - See strftime() syntax.
@@ -42,7 +43,7 @@ $UI_CW_Name = 'Nom';
 $UI_CW_Int = 'Interface';
 $UI_CW_Filter = 'Filtre';
 $UI_CW_Desc = 'Description';
-$UI_CW_SucDesc = 'Succ�s -';
+$UI_CW_SucDesc = 'Succès -';
 $UI_CW_Sensor = 'Sonde';
 $UI_CW_Sig = 'Signature';
 $UI_CW_Role = 'Rôle';
@@ -54,6 +55,18 @@ $UI_CW_Proto = 'Protocole';
 $UI_CW_Pri = 'Priorité';
 $UI_CW_Event = 'événement';
 $UI_CW_Type = 'Type';
+$UI_CW_ML1 = 'janvier';
+$UI_CW_ML2 = 'février';
+$UI_CW_ML3 = 'mars';
+$UI_CW_ML4 = 'avril';
+$UI_CW_ML5 = 'mai';
+$UI_CW_ML6 = 'juin';
+$UI_CW_ML7 = 'juillet';
+$UI_CW_ML8 = 'ao�t';
+$UI_CW_ML9 = 'septembre';
+$UI_CW_ML10 = 'octobre';
+$UI_CW_ML11 = 'novembre';
+$UI_CW_ML12 = 'décembre';
 // Common Phrases.
 $UI_CP_SrcName = array($UI_CW_Name,'de la',$UI_CW_Src);
 $UI_CP_DstName = array($UI_CW_Name,'de la',$UI_CW_Dst);
@@ -68,31 +81,7 @@ $UI_AD_RID = array($UI_CW_Id,'de',$UI_CW_Role);
 $UI_AD_ASD = 'Activé';
 
 //common phrases
-DEFINE('_JANUARY','janvier');
-// January
-DEFINE('_FEBRUARY','février');
-// February
-DEFINE('_MARCH','mars');
-// March
-DEFINE('_APRIL','avril');
-// April
-DEFINE('_MAY','mai');
-// May
-DEFINE('_JUNE','juin');
-// June
-DEFINE('_JULY','juillet');
-// July
-DEFINE('_AUGUST','ao�t');
-// August
-DEFINE('_SEPTEMBER','septembre');
-// September
-DEFINE('_OCTOBER','octobre');
-// October
-DEFINE('_NOVEMBER','novembre');
-// November
-DEFINE('_DECEMBER','décembre');
-// December
-DEFINE('_LAST','Derni(er|�re)');
+DEFINE('_LAST','Derni(er|ère)');
 // Last
 DEFINE('_ALERT','Alertes ');
 // Alerts
@@ -183,9 +172,9 @@ DEFINE('_LISTING','liste');
 // listing
 DEFINE('_TALERTS','Alertes du jour :'); 
 // Today\'s alerts: 
-DEFINE('_L24ALERTS','Alertes des derni�res 24 heures :');
+DEFINE('_L24ALERTS','Alertes des dernières 24 heures :');
 // Last 24 Hours alerts: 
-DEFINE('_L72ALERTS','Alertes des derni�res 72 heures :');
+DEFINE('_L72ALERTS','Alertes des dernières 72 heures :');
 // Last 72 Hours alerts: 
 DEFINE('_UNIALERTS',' Alertes Uniques');
 //  Unique Alerts
@@ -360,13 +349,13 @@ DEFINE('_ERRSQLPCONNECT','Erreur de connexion à la base (p)connect :');
 // Error (p)connecting to DB :
 DEFINE('_ERRSQLDB','ERREUR de la base de données');
 // Database ERROR:
-DEFINE('_DBALCHECK','Recherche de la biblioth�que d\'abstraction de DB dans ');
+DEFINE('_DBALCHECK','Recherche de la bibliothèque d\'abstraction de DB dans ');
 // Checking for DB abstraction lib in
-DEFINE('_ERRSQLDBALLOAD1','<P><B>Erreur lors du chargement de la biblioth�que d\'abstraction base de données : </B> à partir de ');
+DEFINE('_ERRSQLDBALLOAD1','<P><B>Erreur lors du chargement de la bibliothèque d\'abstraction base de données : </B> à partir de ');
 // <P><B>Error loading the DB Abstraction library: </B> from 
 DEFINE('_ERRSQLDBALLOAD2','<P> Vérifier la variable <CODE>$DBlib_path</CODE> dans <CODE>base_conf.php</CODE></P>
 		<P>
-		La bibliot�que sousjacente actuellement utilisée est ADODB, téléchargeable
+		La bibliotèque sousjacente actuellement utilisée est ADODB, téléchargeable
 		 à ');
 /*
 <P>Check the DB abstraction library variable <CODE>$DBlib_path</CODE> in <CODE>base_conf.php</CODE>
@@ -422,7 +411,7 @@ DEFINE('_UNCLASS','non classé');
 //base_state_citems.inc.php
 DEFINE('_DENCODED','données encodées en ');
 // data encoded as
-DEFINE('_NODENCODED','aucune conversion des données, présomption d\'encodage des crit�res compatible avec la base de données');
+DEFINE('_NODENCODED','aucune conversion des données, présomption d\'encodage des critères compatible avec la base de données');
 // (no data conversion, assuming criteria in DB native encoding)
 
 //base_state_common.inc.php
@@ -445,9 +434,9 @@ DEFINE('_PHPSESSREG','Session Enregistrée');
 //base_state_criteria.inc.php
 DEFINE('_REMOVE','Suppression');
 // Removing
-DEFINE('_FROMCRIT','des crit�res');
+DEFINE('_FROMCRIT','des critères');
 // from criteria
-DEFINE('_ERRCRITELEM','Elément de crit�re non valide');
+DEFINE('_ERRCRITELEM','Elément de critère non valide');
 // Invalid criteria element
 
 //base_state_query.inc.php
@@ -489,9 +478,9 @@ DEFINE('_AGDELETE','Suppression réussie');
 // DELETED successfully
 DEFINE('_AGDELETEINFO','information supprimée');
 // information deleted
-DEFINE('_ERRAGSEARCHINV','Le crit�re de recherche n\'est pas valide. Essayez à nouveau!');
+DEFINE('_ERRAGSEARCHINV','Le critère de recherche n\'est pas valide. Essayez à nouveau!');
 // The entered search criteria is invalid.  Try again!
-DEFINE('_ERRAGSEARCHNOTFOUND','Aucun Groupe d\'Alertes correspondant à ce crit�re n\'a été trouvé');
+DEFINE('_ERRAGSEARCHNOTFOUND','Aucun Groupe d\'Alertes correspondant à ce critère n\'a été trouvé');
 // No AG found with that criteria.
 DEFINE('_NOALERTGOUPS','Il n\'y a pas de Groupes d\'Alertes');
 // There are no Alert Groups
@@ -511,11 +500,11 @@ DEFINE('_ERRDBINDEXCREATE','Echec de création d\'index pour');
 // Unable to CREATE INDEX for
 DEFINE('_DBINDEXCREATE','Création d\'index réussie pour');
 // Successfully created INDEX for
-DEFINE('_ERRSNORTVER','Il s\'agit peut �tre d\'une version plus ancienne. Seules les bases d\'alertes créées par Snort 1.7-beta0 ou ult�rieur sont supportées');
+DEFINE('_ERRSNORTVER','Il s\'agit peut �tre d\'une version plus ancienne. Seules les bases d\'alertes créées par Snort 1.7-beta0 ou ultèrieur sont supportées');
 // It might be an older version.  Only alert databases created by Snort 1.7-beta0 or later are supported
 DEFINE('_ERRSNORTVER1','La base de données sousjacente');
 // The underlying database
-DEFINE('_ERRSNORTVER2','semble �tre incompl�te/invalide');
+DEFINE('_ERRSNORTVER2','semble �tre incomplète/invalide');
 // appears to be incomplete/invalid
 DEFINE('_ERRDBSTRUCT1','La version de la base de données est valide, mais la structure db de BASE ');
 // The database version is valid, but the BASE DB structure
@@ -532,23 +521,23 @@ DEFINE('_ERRVERSION','Version');
 // Version
 DEFINE('_ERRPHPERROR2','de PHP est trop ancienne. Utiliser la version 4.0.4 ou ultérieure');
 // of PHP is too old.  Please upgrade to version 4.0.4 or later
-DEFINE('_ERRPHPMYSQLSUP','<B>PHP build incomplet</B>: <FONT>le support MySQL requis pour acc�der à la base de données des alertes est absent de PHP.  
-               Recompiler PHP avec la biblioth�que requise (<CODE>--with-mysql</CODE>) SVP</FONT> ');
+DEFINE('_ERRPHPMYSQLSUP','<B>PHP build incomplet</B>: <FONT>le support MySQL requis pour accèder à la base de données des alertes est absent de PHP.  
+               Recompiler PHP avec la bibliothèque requise (<CODE>--with-mysql</CODE>) SVP</FONT> ');
 /*
 '<B>PHP build incomplete</B>: <FONT>the prerequisite MySQL support required to 
                read the alert database was not built into PHP.  
                Please recompile PHP with the necessary library (<CODE>--with-mysql</CODE>)</FONT>
 */
-DEFINE('_ERRPHPPOSTGRESSUP','<B>PHP build incomplet</B>: <FONT>le support PostgreSQL requis pour acc�der à la base de données des alertes est absent de PHP.  
-               Recompiler PHP avec la biblioth�que requise (<CODE>--with-pgsql</CODE>) SVP</FONT> ');
+DEFINE('_ERRPHPPOSTGRESSUP','<B>PHP build incomplet</B>: <FONT>le support PostgreSQL requis pour accèder à la base de données des alertes est absent de PHP.  
+               Recompiler PHP avec la bibliothèque requise (<CODE>--with-pgsql</CODE>) SVP</FONT> ');
 /*
 '<B>PHP build incomplete</B>: <FONT>the prerequisite PostgreSQL support required to 
                read the alert database was not built into PHP.  
                Please recompile PHP with the necessary library (<CODE>--with-pgsql</CODE>)</FONT>
 */
 
-DEFINE('_ERRPHPMSSQLSUP','<B>PHP build incomplet</B>: <FONT>le support MS SQL Server requis pour acc�der à la base de données des alertes est absent de PHP.  
-               Recompiler PHP avec la biblioth�que requise (<CODE>--enable-mssql</CODE>) SVP</FONT>');
+DEFINE('_ERRPHPMSSQLSUP','<B>PHP build incomplet</B>: <FONT>le support MS SQL Server requis pour accèder à la base de données des alertes est absent de PHP.  
+               Recompiler PHP avec la bibliothèque requise (<CODE>--enable-mssql</CODE>) SVP</FONT>');
 /*
 '<B>PHP build incomplete</B>: <FONT>the prerequisite MS SQL Server support required to 
                    read the alert database was not built into PHP.  
@@ -739,7 +728,7 @@ DEFINE('_QCICMPFIELDS','champs ICMP');
 // ICMP fields
 DEFINE('_QCDATA','Données');
 // Data
-DEFINE('_QCERRCRITWARN','Avertissement concernant les crit�res :');
+DEFINE('_QCERRCRITWARN','Avertissement concernant les critères :');
 // Criteria warning:
 DEFINE('_QCERRVALUE','La valeur');
 // A value of
@@ -757,47 +746,47 @@ DEFINE('_QCERRIPTYPE','Une adresse IP de '.$UI_CW_Type);
 // An IP address of type
 DEFINE('_QCERRSPECFIELD','était saisi pour un champ de protocole, mais le champ précis n\'est pas spécifié.');
 //  was entered for a protocol field, but the particular field was not specified.
-DEFINE('_QCERRSPECVALUE','était choisi comme crit�re, mais aucune valeur n\'est spécifiée.');
+DEFINE('_QCERRSPECVALUE','était choisi comme critère, mais aucune valeur n\'est spécifiée.');
 // was selected indicating that it should be a criteria, but no value was specified on which to match.
-DEFINE('_QCERRBOOLEAN','Crit�res multiples de protocole saisis sans opérateur(s) logiques (AND, OR) entre eux.');
+DEFINE('_QCERRBOOLEAN','Critères multiples de protocole saisis sans opérateur(s) logiques (AND, OR) entre eux.');
 // Multiple protocol field criteria entered without a boolean operator (e.g. AND, OR) between them.
-DEFINE('_QCERRDATEVALUE','était séléctionné ce qui indique que des crit�res date/heure doivent s\'appliquer, mais aucune valeur n\'était précisée.');
+DEFINE('_QCERRDATEVALUE','était séléctionné ce qui indique que des critères date/heure doivent s\'appliquer, mais aucune valeur n\'était précisée.');
 // was selected indicating that some date/time criteria should be matched, but no value was specified.
-DEFINE('_QCERRINVHOUR','(Heure non valide) Aucun crit�re date saisi avec l\'heure specifiée.');
+DEFINE('_QCERRINVHOUR','(Heure non valide) Aucun critère date saisi avec l\'heure specifiée.');
 // (Invalid Hour) No date criteria were entered with the specified time.
-DEFINE('_QCERRDATECRIT','était séléctionné ce qui indique que des crit�res date/heure doivent s\'appliquer, mais aucune valeur n\'était précisée.');
+DEFINE('_QCERRDATECRIT','était séléctionné ce qui indique que des critères date/heure doivent s\'appliquer, mais aucune valeur n\'était précisée.');
 // was selected indicating that some date/time criteria should be matched, but no value was specified.
 DEFINE('_QCERROPERSELECT','était saisi mais aucun opérateur n\'a été choisi.');
 // was entered but no operator was selected.
-DEFINE('_QCERRDATEBOOL','Crit�res Date/Heure multiples sans opérateur(s) logiques (AND, OR) entre eux ');
+DEFINE('_QCERRDATEBOOL','Critères Date/Heure multiples sans opérateur(s) logiques (AND, OR) entre eux ');
 // Multiple Date/Time criteria entered without a boolean operator (e.g. AND, OR) between them.
 DEFINE('_QCERRPAYCRITOPER','était saisi comme filtre sur le contenu, mais un opérateur tel "has","has not" n\' pas été précisé.');
 // was entered for a payload criteria field, but an operator (e.g. has, has not) was not specified.
-DEFINE('_QCERRPAYCRITVALUE','était séléctionné ce qui indique que des crit�res doivent s\'appliquer au contenu (payload), mais aucune valeur n\'était précisée.  ');
+DEFINE('_QCERRPAYCRITVALUE','était séléctionné ce qui indique que des critères doivent s\'appliquer au contenu (payload), mais aucune valeur n\'était précisée.  ');
 // was selected indicating that payload should be a criteria, but no value on which to match was specified.
-DEFINE('_QCERRPAYBOOL','De multiples crit�res de contenu (payload) saisis sans opérateur logique (AND, OR) entre eux.');
+DEFINE('_QCERRPAYBOOL','De multiples critères de contenu (payload) saisis sans opérateur logique (AND, OR) entre eux.');
 // Multiple Data payload criteria entered without a boolean operator (e.g. AND, OR) between them.
-DEFINE('_QCMETACRIT','Meta crit�res');
+DEFINE('_QCMETACRIT','Meta critères');
 // Meta Criteria
-DEFINE('_QCIPCRIT','Crit�res IP');
+DEFINE('_QCIPCRIT','Critères IP');
 // IP Criteria
-DEFINE('_QCPAYCRIT','Crit�res de contenu (payload)');
+DEFINE('_QCPAYCRIT','Critères de contenu (payload)');
 // Payload Criteria
-DEFINE('_QCTCPCRIT','Crit�res TCP');
+DEFINE('_QCTCPCRIT','Critères TCP');
 // TCP Criteria
-DEFINE('_QCUDPCRIT','Crit�res UDP');
+DEFINE('_QCUDPCRIT','Critères UDP');
 // UDP Criteria
-DEFINE('_QCICMPCRIT','Crit�res ICMP');
+DEFINE('_QCICMPCRIT','Critères ICMP');
 // ICMP Criteria
-DEFINE('_QCERRINVIPCRIT','Crit�re d\'adresse IP non valide');
+DEFINE('_QCERRINVIPCRIT','Critère d\'adresse IP non valide');
 // Invalid IP address criteria
-DEFINE('_QCERRCRITADDRESSTYPE','a été saisi en tant que valeur de crit�re, mais le '.$UI_CW_Type.' d\'adresse (source, destination) n\'était pas précisé.');
+DEFINE('_QCERRCRITADDRESSTYPE','a été saisi en tant que valeur de critère, mais le '.$UI_CW_Type.' d\'adresse (source, destination) n\'était pas précisé.');
 // was entered for as a criteria value, but the type of address (e.g. source, destination) was not specified.
-DEFINE('_QCERRCRITIPADDRESSNONE','ce qui suppose un crit�re sur l\'adresse IP, mais aucune adresse IP à   ');
+DEFINE('_QCERRCRITIPADDRESSNONE','ce qui suppose un critère sur l\'adresse IP, mais aucune adresse IP à   ');
 // indicating that an IP address should be a criteria, but no address on which to match was specified.
 DEFINE('_QCERRCRITIPADDRESSNONE1','était séléctionné (à #');
 // was selected (at #
-DEFINE('_QCERRCRITIPIPBOOL','Multiples crit�res d\'adresse IP saisis sans opérateur logique (AND, OR) entre eux.');
+DEFINE('_QCERRCRITIPIPBOOL','Multiples critères d\'adresse IP saisis sans opérateur logique (AND, OR) entre eux.');
 // Multiple IP address criteria entered without a boolean operator (e.g. AND, OR) between IP Criteria
 
 //base_qry_form.php
@@ -879,9 +868,9 @@ DEFINE('_PSTOTALOCC','Total<BR> Occurrences');
 // Total<BR> Occurrences
 DEFINE('_PSNUMSENSORS','Nombre de sondes');
 // Num of Sensors
-DEFINE('_PSFIRSTOCC','Premi�re<br>occurrence');
+DEFINE('_PSFIRSTOCC','Première<br>occurrence');
 // First<BR> Occurrence
-DEFINE('_PSLASTOCC','Derni�re<br>occurrence');
+DEFINE('_PSLASTOCC','Dernière<br>occurrence');
 // Last<BR> Occurrence
 DEFINE('_PSUNIALERTS','Alertes uniques');
 // Unique Alerts
@@ -933,19 +922,19 @@ DEFINE('SPSENSORLIST','Liste des sondes');
 //base_stat_time.php
 DEFINE('_BSTTITLE','Profile temporel des Alertes');
 // Time Profile of Alerts
-DEFINE('_BSTTIMECRIT','Crit�re temporel');
+DEFINE('_BSTTIMECRIT','Critère temporel');
 // Time Criteria
-DEFINE('_BSTERRPROFILECRIT','<font><b>Crit�res manquants!</b> Choisir "heure", "jour", ou "mois" pour définir la granularité des statistiques consolidées</font>');
+DEFINE('_BSTERRPROFILECRIT','<font><b>Critères manquants!</b> Choisir "heure", "jour", ou "mois" pour définir la granularité des statistiques consolidées</font>');
 /* '<FONT><B>No profiling criteria was specified!</B>  Click on "hour", "day", or "month" to choose the granularity of the aggregate statistics.</FONT>
 */
-DEFINE('_BSTERRTIMETYPE','<font><b>Le '.$UI_CW_Type.' de param�tre temporel à appliquer n\'était pas spécifié!</b> Choisir soit "on", pour une seule date, soit "between" pour spécifier un intervalle. ');
+DEFINE('_BSTERRTIMETYPE','<font><b>Le '.$UI_CW_Type.' de paramètre temporel à appliquer n\'était pas spécifié!</b> Choisir soit "on", pour une seule date, soit "between" pour spécifier un intervalle. ');
 /* '<FONT><B>The $UI_CW_Type of time parameter which will be passed was not specified!</B>  Choose either "on", to specify a single date, or "between" to specify an interval.</FONT>
 */
-DEFINE('_BSTERRNOYEAR','Aucun param�tre d\'Année précisé!');
+DEFINE('_BSTERRNOYEAR','Aucun paramètre d\'Année précisé!');
 // <FONT><B>No Year parameter was specified!</B></FONT>
-DEFINE('_BSTERRNOMONTH','Aucun param�tre de Mois précisé!');
+DEFINE('_BSTERRNOMONTH','Aucun paramètre de Mois précisé!');
 // <FONT><B>No Month parameter was specified!</B></FONT>
-DEFINE('_BSTERRNODAY','Aucun param�tre de Jour précisé! ');
+DEFINE('_BSTERRNODAY','Aucun paramètre de Jour précisé! ');
 // <FONT><B>No Day parameter was specified!</B></FONT>
 
 //base_stat_uaddr.php

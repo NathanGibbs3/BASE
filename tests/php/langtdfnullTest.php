@@ -78,6 +78,25 @@ class nulllangTest extends TestCase {
 			}
 		}
 	}
+	public function testSetUIILocale() {
+		$lang = self::$langs;
+		$tf = __FUNCTION__;
+		$tmp = "UI$lang";
+		LogTC($tf,'language',$lang);
+		$$tmp = self::$UIL;
+		$file = $$tmp->TDF;
+		LogTC($tf,'TD file',$file);
+		$TItem = 'ILocale';
+		$this->assertTrue(
+			isset($$tmp->$TItem),
+			"Unset: $TItem ."
+		);
+		$this->assertEquals(
+			'en_utf-8',
+			$$tmp->$TItem,
+			"Uninitialized: $TItem ."
+		);
+	}
 	public function testSetUITimefmt() {
 		$lang = self::$langs;
 		$tf = __FUNCTION__;
@@ -98,7 +117,7 @@ class nulllangTest extends TestCase {
 			"Uninitialized: $TItem ."
 		);
 	}
-	public function testSetUICharset() {
+	public function testSetUICharsetDefaultstoutf8() {
 		$lang = self::$langs;
 		$tf = __FUNCTION__;
 		$tmp = "UI$lang";
@@ -107,13 +126,12 @@ class nulllangTest extends TestCase {
 		$file = $$tmp->TDF;
 		LogTC($tf,'TD file',$file);
 		$TItem = 'Charset';
-		$EEM = self::$EEM."$TItem.\n";
 		$this->assertTrue(
 			isset($$tmp->$TItem),
 			"Unset: $TItem ."
 		);
 		$this->assertEquals(
-			$EEM,
+			'utf-8',
 			$$tmp->$TItem,
 			"Uninitialized: $TItem ."
 		);
@@ -500,7 +518,7 @@ class nulllangTest extends TestCase {
 			"Uninitialized: $TItem ."
 		);
 	}
-	public function testCWASetItemLayer() {
+	public function testCWASetItemLayerDefaultstoEmpty() {
 		$lang = self::$langs;
 		$tf = __FUNCTION__;
 		$tmp = "UI$lang";
@@ -510,11 +528,9 @@ class nulllangTest extends TestCase {
 		$key = 'Layer';
 		$KA = 'CWA';
 		$TItem = $KA."[$key]";
-		$EEM = self::$EEM."$TItem.\n";
 		LogTC($tf,'TD file',$file);
 		$this->CWAHas($$tmp, $key, $TItem);
-		$this->assertEquals(
-			'',
+		$this->assertEmpty(
 			$$tmp->{$KA}[$key],
 			"Uninitialized: $TItem ."
 		);
@@ -558,7 +574,7 @@ class nulllangTest extends TestCase {
 			"Uninitialized: $TItem ."
 		);
 	}
-	public function testCWASetItemEvent() {
+	public function testCWASetItemEventDefaultstoEmpty() {
 		$lang = self::$langs;
 		$tf = __FUNCTION__;
 		$tmp = "UI$lang";
@@ -571,8 +587,7 @@ class nulllangTest extends TestCase {
 		$EEM = self::$EEM."$TItem.\n";
 		LogTC($tf,'TD file',$file);
 		$this->CWAHas($$tmp, $key, $TItem);
-		$this->assertEquals(
-			'',
+		$this->assertEmpty(
 			$$tmp->{$KA}[$key],
 			"Uninitialized: $TItem ."
 		);
@@ -597,6 +612,25 @@ class nulllangTest extends TestCase {
 //			"Uninitialized: $TItem ."
 //		);
 //	}
+	public function testCWASetItemMonthsLong() {
+		$lang = self::$langs;
+		$tf = __FUNCTION__;
+		$tmp = "UI$lang";
+		LogTC($tf,'language',$lang);
+		$$tmp = self::$UIL;
+		$file = $$tmp->TDF;
+		LogTC($tf,'TD file',$file);
+		$KA = 'CWA';
+		for ($i = 1; $i < 13; $i++){
+			$key = "ML$i";
+			$TItem = $KA."[$key] Month Long $i";
+			$this->CWAHas($$tmp, $key, $TItem);
+			$this->assertNotEmpty(
+				$$tmp->{$KA}[$key],
+				"Uninitialized: $TItem ."
+			);
+		}
+	}
 
 	// Test Common Phrase Items.
 	public function testCPASetItemSrcName() {

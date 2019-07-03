@@ -20,18 +20,32 @@ table, th, td {
 	</thead>
 	<tbody>
 		<tr>
-			<td>Inter Character Spacing & Capitalization Flag</td>
-			<td>N/A</td>
+			<td rowspan="2">Character Spacing & Capitalization Flags</td>
+			<td rowspan="5">N/A</td>
 			<td>$UI_Spacing</td>
-			<td>Boolean</td>
+			<td rowspan="2">Boolean</td>
 			<td>Spacing</td>
+			<td rowspan="5">N/A</td>
+		</tr><tr>
+			<td>$UI_Caps</td>
+			<td>Caps</td>
+		</tr><tr>
+			<td rowspan="2">ISO 639-1 Language & Region Codes</td>
+			<td>$UI_ILC</td>
+			<td rowspan="3">String</td>
+			<td rowspan="2">Part of ILocale</td>
+		</tr><tr>
+			<td>$UI_IRC</td>
+		</tr><tr>
+			<td>Auto Generated Locale</td>
 			<td>N/A</td>
+			<td>ILocale</td>
 		</tr><tr>
 			<td>Common Word</td>
 			<td>Derived from _FRMROLE</td>
 			<td>$UI_CW_Role</td>
 			<td>String</td>
-			<td>Multiple locations via cascading translation.</td>
+			<td>CWA[Role]</td>
 			<td>Role</td>
 		</tr><tr>
 			<td rowspan="3">UI Locales.</td>
@@ -51,10 +65,10 @@ table, th, td {
 			<td rowspan="7">String</td>
 			<td>Timefmt</td>
 		</tr><tr>
-			<td>UI Charset passed to Http client.</td>
+			<td>UI Charset.</td>
 			<td>_CHARSET</td>
 			<td>$UI_Charset</td>
-			<td>Charset</td>
+			<td>Charset, also part of ILocale</td>
 		</tr><tr>
 			<td>Page Title Foundation</td>
 			<td>_TITLE</td>

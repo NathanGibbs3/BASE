@@ -23,8 +23,9 @@
 ********************************************************************************
 */
 
-// Inter Character Spacing.
-$UI_Spacing = 1;
+$UI_Spacing = 1; // Inter Character Spacing.
+$UI_ILC = 'it'; // ISO 639-1 Language Code.
+$UI_IRC = ''; // Region Code.
 // Locales.
 $UI_Locales = array( 'eng_ENG.ISO8859-1', 'eng_ENG.utf-8', 'english' );
 // Time Format - See strftime() syntax.
@@ -54,6 +55,18 @@ $UI_CW_Proto = 'Protocol';
 $UI_CW_Pri = 'Priorit√†';
 $UI_CW_Event = 'Evento';
 $UI_CW_Type = 'Tipo';
+$UI_CW_ML1 = 'Gennaio';
+$UI_CW_ML2 = 'Febbraio';
+$UI_CW_ML3 = 'Marzo';
+$UI_CW_ML4 = 'Aprile';
+$UI_CW_ML5 = 'Maggio';
+$UI_CW_ML6 = 'Giugno';
+$UI_CW_ML7 = 'Luglio';
+$UI_CW_ML8 = 'Agosto';
+$UI_CW_ML9 = 'Settembre';
+$UI_CW_ML10 = 'Ottobre';
+$UI_CW_ML11 = 'Novembre';
+$UI_CW_ML12 = 'Dicembre';
 // Common Phrases.
 $UI_CP_SrcName = array($UI_CW_Name,$UI_CW_Src);
 $UI_CP_DstName = array($UI_CW_Name,$UI_CW_Dst);
@@ -68,18 +81,6 @@ $UI_AD_RID = array($UI_CW_Id,$UI_CW_Role);
 $UI_AD_ASD = 'Abilitato';
 
 //common phrases
-DEFINE('_JANUARY','Gennaio');
-DEFINE('_FEBRUARY','Febbraio');
-DEFINE('_MARCH','Marzo');
-DEFINE('_APRIL','Aprile');
-DEFINE('_MAY','Maggio');
-DEFINE('_JUNE','Giugno');
-DEFINE('_JULY','Luglio');
-DEFINE('_AUGUST','Agosto');
-DEFINE('_SEPTEMBER','Settembre');
-DEFINE('_OCTOBER','Ottobre');
-DEFINE('_NOVEMBER','Novembre');
-DEFINE('_DECEMBER','Dicembre');
 DEFINE('_LAST','Ultimo');
 DEFINE('_FIRST','First'); //NEW
 DEFINE('_TOTAL','Total'); //NEW
@@ -211,7 +212,7 @@ DEFINE('_TRAFFICPROBPRO','Traffic Profile by Protocol'); //NEW
 DEFINE('_ADDEDSF','Aggiunto con successo');
 DEFINE('_NOPWDCHANGE','Impossibile cambiare la '.strtolower($UI_CW_Pw).': ');
 DEFINE('_NOUSER','L\'utente non esiste!');
-DEFINE('_OLDPWD','La vecchia '.strtolower($UI_CW_Pw).' inserita non Ë corretta!');
+DEFINE('_OLDPWD','La vecchia '.strtolower($UI_CW_Pw).' inserita non √® corretta!');
 DEFINE('_PWDCANT','Impossibile cambiare la '.strtolower($UI_CW_Pw).': ');
 DEFINE('_PWDDONE',"$UI_CW_Pw cambiata!");
 DEFINE('_ROLEEXIST',"$UI_CW_Role gi√† esistente");
@@ -242,9 +243,9 @@ DEFINE('_BASEADMINTEXT','Scegliere un\'opzione dalla destra.');
 
 //base_action.inc.php
 DEFINE('_NOACTION','Nessuna azione specificata sugli avvertimenti');
-DEFINE('_INVALIDACT',' non Ë un\'azione valida');
-DEFINE('_ERRNOAG','Impossibile aggiungere l\'avvertimento perchË non Ë definito il gruppo');
-DEFINE('_ERRNOEMAIL','Impossibile inviare e-amil di notifica perchË non sono specificati indirizzi');
+DEFINE('_INVALIDACT',' non √® un\'azione valida');
+DEFINE('_ERRNOAG','Impossibile aggiungere l\'avvertimento perch√® non √® definito il gruppo');
+DEFINE('_ERRNOEMAIL','Impossibile inviare e-amil di notifica perch√® non sono specificati indirizzi');
 DEFINE('_ACTION','AZIONE');
 DEFINE('_CONTEXT','contesto');
 DEFINE('_ADDAGID','Aggiungi A Gruppo (per ID)');
@@ -299,10 +300,10 @@ DEFINE('_DBALCHECK','Controllo librerie di astrazione database in');
 DEFINE('_ERRSQLDBALLOAD1','<P><B>Impossibile caricare le librerie di Astrazione DB: </B> da ');
 DEFINE('_ERRSQLDBALLOAD2','<P>Controllare la variabile di astrazione DB <CODE>$DBlib_path</CODE> in <CODE>base_conf.php</CODE>
             <P>
-            L\'interfaccia attualmente in uso Ë ADODB, scaricabile direttamente da
+            L\'interfaccia attualmente in uso √® ADODB, scaricabile direttamente da
             ');
 DEFINE('_ERRSQLDBTYPE',$UI_CW_Type.' Database specificato non valido');
-DEFINE('_ERRSQLDBTYPEINFO1','La variabile <CODE>\$DBtype</CODE> in <CODE>base_conf.php</CODE> Ë impostata al '.$UI_CW_Type.' sconosciuto di database ');
+DEFINE('_ERRSQLDBTYPEINFO1','La variabile <CODE>\$DBtype</CODE> in <CODE>base_conf.php</CODE> √® impostata al '.$UI_CW_Type.' sconosciuto di database ');
 DEFINE('_ERRSQLDBTYPEINFO2','Solo i seguenti database sono supportati: <PRE>
                 MySQL         : \'mysql\'
                 PostgreSQL    : \'postgres\'
@@ -367,9 +368,9 @@ DEFINE('_INPUTCRTENC','Input Criteria Encoding Type'); //NEW
 DEFINE('_CONVERT2WS','Convert To (when searching)'); //NEW
 
 //base_state_common.inc.php
-DEFINE('_PHPERRORCSESSION','ERRORE PHP: rilevata sessione utente PHP. BASE non Ë impostato per questo '.$UI_CW_Type.' di gestione.  Impostare <CODE>use_user_session=1</CODE> in <CODE>base_conf.php</CODE>');
-DEFINE('_PHPERRORCSESSIONCODE','ERRORE PHP: un gestore sessione utente Ë gi√† configurato, ma il codice handle specificato in <CODE>user_session_path</CODE> non Ë valido.');
-DEFINE('_PHPERRORCSESSIONVAR','ERRORE PHP: un gestore sessione utente Ë gi√† configurato, ma la sua implementazione non Ë specificata in BASE. Se si vuole utilizzare un gestore di sessioni utente, impostare <CODE>user_session_path</CODE> in <CODE>base_conf.php</CODE>.');
+DEFINE('_PHPERRORCSESSION','ERRORE PHP: rilevata sessione utente PHP. BASE non √® impostato per questo '.$UI_CW_Type.' di gestione.  Impostare <CODE>use_user_session=1</CODE> in <CODE>base_conf.php</CODE>');
+DEFINE('_PHPERRORCSESSIONCODE','ERRORE PHP: un gestore sessione utente √® gi√† configurato, ma il codice handle specificato in <CODE>user_session_path</CODE> non √® valido.');
+DEFINE('_PHPERRORCSESSIONVAR','ERRORE PHP: un gestore sessione utente √® gi√† configurato, ma la sua implementazione non √® specificata in BASE. Se si vuole utilizzare un gestore di sessioni utente, impostare <CODE>user_session_path</CODE> in <CODE>base_conf.php</CODE>.');
 DEFINE('_PHPSESSREG','Sessione Registrata');
 
 //base_state_criteria.inc.php
@@ -387,9 +388,9 @@ DEFINE('_QUERYSTATE','Stato Query');
 DEFINE('_DISPACTION','{ action }'); //NEW
 
 //base_ag_common.php
-DEFINE('_ERRAGNAMESEARCH','Il nome Gruppo specificato non Ë valido.  Riprovare!');
+DEFINE('_ERRAGNAMESEARCH','Il nome Gruppo specificato non √® valido.  Riprovare!');
 DEFINE('_ERRAGNAMEEXIST','Il Gruppo specificato non esiste.');
-DEFINE('_ERRAGIDSEARCH','L\'ID gruppo non Ë valido.  Riprovare!');
+DEFINE('_ERRAGIDSEARCH','L\'ID gruppo non √® valido.  Riprovare!');
 DEFINE('_ERRAGLOOKUP','Errore di ricerca Gruppo per ID');
 DEFINE('_ERRAGINSERT','Errore inserimento nuovo Gruppo');
 
@@ -419,20 +420,20 @@ DEFINE('_DBINDEXCREATE','INDICE creato correttamente per');
 DEFINE('_ERRSNORTVER','Potrebbe essere una vecchia versione. Solo i database avvertimenti creati da Snort 1.7-beta0 o successivi sono supportati');
 DEFINE('_ERRSNORTVER1','Il database sottostante');
 DEFINE('_ERRSNORTVER2','sembra essere incompleto/non valido');
-DEFINE('_ERRDBSTRUCT1','La versione database Ë valida, ma la struttura DB BASE');
-DEFINE('_ERRDBSTRUCT2','non Ë presente. Utilizzare il <A HREF="base_db_setup.php">Setup</A> per configurare e ottimizzare il database.');
+DEFINE('_ERRDBSTRUCT1','La versione database √® valida, ma la struttura DB BASE');
+DEFINE('_ERRDBSTRUCT2','non √® presente. Utilizzare il <A HREF="base_db_setup.php">Setup</A> per configurare e ottimizzare il database.');
 DEFINE('_ERRPHPERROR','ERRORE PHP');
 DEFINE('_ERRPHPERROR1','Versione non compatibile');
 DEFINE('_ERRVERSION','La versione');
-DEFINE('_ERRPHPERROR2','di PHP Ë troppo vecchia.  Aggiornarla alla 4.0.4 or successiva');
+DEFINE('_ERRPHPERROR2','di PHP √® troppo vecchia.  Aggiornarla alla 4.0.4 or successiva');
 DEFINE('_ERRPHPMYSQLSUP','<B>Pacchetto PHP mancante</B>: <FONT>il modulo MySQL, necessario per la lettura
-               del database Avvertimenti, non Ë incluso in PHP.
+               del database Avvertimenti, non √® incluso in PHP.
                Per favore ricompilare PHP includendo MySQL (<CODE>--with-mysql</CODE>)</FONT>');
 DEFINE('_ERRPHPPOSTGRESSUP','<B>Pacchetto PHP mancante</B>: <FONT>il modulo PostgreSQL necessario per la lettura
-               del database Avvertimenti, non Ë incluso in PHP.
+               del database Avvertimenti, non √® incluso in PHP.
                Per favore ricompilare PHP includendo PostgreSQL (<CODE>--with-pgsql</CODE>)</FONT>');
 DEFINE('_ERRPHPMSSQLSUP','<B>Pacchetto PHP mancante</B>: <FONT>il modulo MS SQL necessario per la lettura
-               del database Avvertimenti, non Ë incluso in PHP.
+               del database Avvertimenti, non √® incluso in PHP.
                Per favore ricompilare PHP includendo MySQL (<CODE>--enable-sql</CODE>)</FONT>');
 DEFINE('_ERRPHPORACLESUP','<B>PHP build incomplete</B>: <FONT>the prerequisite Oracle support required to 
                    read the alert database was not built into PHP.  
@@ -563,16 +564,16 @@ DEFINE('_QCERRDATETIME','Una data/ora di');
 DEFINE('_QCERRPAYLOAD','Un valore payload di');
 DEFINE('_QCERRIP','Un indirizzo IP di');
 DEFINE('_QCERRIPTYPE','Un indirizzo IP del '.$UI_CW_Type);
-DEFINE('_QCERRSPECFIELD',' Ë stato inserito per il campo protocollo, ma il campo stesso non Ë stato specificato.');
-DEFINE('_QCERRSPECVALUE','Ë stato indicato come criterio, ma non Ë stato valorizzato.');
+DEFINE('_QCERRSPECFIELD',' √® stato inserito per il campo protocollo, ma il campo stesso non √® stato specificato.');
+DEFINE('_QCERRSPECVALUE','√® stato indicato come criterio, ma non √® stato valorizzato.');
 DEFINE('_QCERRBOOLEAN','Necessari operatori logici in caso di immissione di pi˘ protocolli (AND, OR).');
-DEFINE('_QCERRDATEVALUE','Ë stato selezionato indicando che deve rispettare criteri data/ora non specificati.');
+DEFINE('_QCERRDATEVALUE','√® stato selezionato indicando che deve rispettare criteri data/ora non specificati.');
 DEFINE('_QCERRINVHOUR','(Ora non valida) Nessun criterio dati specificato valido per l\'ora indicata.');
-DEFINE('_QCERRDATECRIT','Ë stato selezionato indicando che deve rispettare criteri data/ora non specificati.');
-DEFINE('_QCERROPERSELECT','Ë stato immesso senza indicare operatori.');
+DEFINE('_QCERRDATECRIT','√® stato selezionato indicando che deve rispettare criteri data/ora non specificati.');
+DEFINE('_QCERROPERSELECT','√® stato immesso senza indicare operatori.');
 DEFINE('_QCERRDATEBOOL','Necessari operatori logici in caso di immissione di pi˘ criteri data/ora (AND, OR).');
-DEFINE('_QCERRPAYCRITOPER','Ë stato inserito per un campo criteri payload, ma non Ë stato specificato un operatore logico.');
-DEFINE('_QCERRPAYCRITVALUE','Ë stato selezionato indicando che il payload deve essere un criterio, ma non Ë stato specificato alcun valore da verificare.');
+DEFINE('_QCERRPAYCRITOPER','√® stato inserito per un campo criteri payload, ma non √® stato specificato un operatore logico.');
+DEFINE('_QCERRPAYCRITVALUE','√® stato selezionato indicando che il payload deve essere un criterio, ma non √® stato specificato alcun valore da verificare.');
 DEFINE('_QCERRPAYBOOL','Inseriti pi˘ criteri payload senza un operatore booleano separatore.');
 DEFINE('_QCMETACRIT','Criteri Meta');
 DEFINE('_QCIPCRIT','Criteri IP');
@@ -582,9 +583,9 @@ DEFINE('_QCUDPCRIT','Criteri UDP');
 DEFINE('_QCICMPCRIT','Criteri ICMP');
 DEFINE('_QCLAYER4CRIT','Layer 4 Criteria'); //NEW
 DEFINE('_QCERRINVIPCRIT','Criterio IP Non Valido');
-DEFINE('_QCERRCRITADDRESSTYPE','Ë stato inserito come valore del criterio, ma il '.$UI_CW_Type.' di indirizzo (es. sorgente, destinazione) non Ë stato specificato.');
-DEFINE('_QCERRCRITIPADDRESSNONE','indicando che un indirizzo IP sia un criterio, ma non Ë stato specificato alcun indirizzo da verificare.');
-DEFINE('_QCERRCRITIPADDRESSNONE1','Ë stato selzionato (al #');
+DEFINE('_QCERRCRITADDRESSTYPE','√® stato inserito come valore del criterio, ma il '.$UI_CW_Type.' di indirizzo (es. sorgente, destinazione) non √® stato specificato.');
+DEFINE('_QCERRCRITIPADDRESSNONE','indicando che un indirizzo IP sia un criterio, ma non √® stato specificato alcun indirizzo da verificare.');
+DEFINE('_QCERRCRITIPADDRESSNONE1','√® stato selzionato (al #');
 DEFINE('_QCERRCRITIPIPBOOL','Inseriti criteri IP multipli senza operatore booleano separatore (es. AND, OR)');
 
 //base_qry_form.php
@@ -671,7 +672,7 @@ DEFINE('SPSENSORLIST','Lista Sensori');
 DEFINE('_BSTTITLE','Orario Profilo di Avvertimenti');
 DEFINE('_BSTTIMECRIT','Criteri Tempo');
 DEFINE('_BSTERRPROFILECRIT','<FONT><B>Nessun criterio di profilo specificato!</B>  Cliccare su "ora", "giorno", o "mese" per scegliere come raggruppare le statistiche.</FONT>');
-DEFINE('_BSTERRTIMETYPE','<FONT><B>il '.$UI_CW_Type.' di parametro che verr√† passato non Ë specificato!</B>  Scegliere "il" per specificare una singola data, o "tra" per un intervallo.</FONT>');
+DEFINE('_BSTERRTIMETYPE','<FONT><B>il '.$UI_CW_Type.' di parametro che verr√† passato non √® specificato!</B>  Scegliere "il" per specificare una singola data, o "tra" per un intervallo.</FONT>');
 DEFINE('_BSTERRNOYEAR','<FONT><B>Nessun parametro anno specificato!</B></FONT>');
 DEFINE('_BSTERRNOMONTH','<FONT><B>Nessun parametro mese specificato!</B></FONT>');
 DEFINE('_BSTERRNODAY','<FONT><B>Nessun parametro giorno specificato!</B></FONT>');

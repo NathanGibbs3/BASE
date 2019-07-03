@@ -387,6 +387,19 @@ class legacylangTest extends TestCase {
 			$this->assertFalse( is_array($$tmp->Locale), $EEM );
 		}
 	}
+	public function testSetUIILocale() {
+		$lang = self::$langs;
+		$tf = __FUNCTION__;
+		$tmp = "UI$lang";
+		LogTC($tf,'language',$lang);
+		$$tmp = self::$UIL;
+		$file = $$tmp->TDF;
+		LogTC($tf,'TD file',$file);
+		$this->assertTrue(
+			isset($$tmp->ILocale),
+			"ILocale not set."
+		);
+	}
 	public function testSetUITimefmt() {
 		$lang = self::$langs;
 		$tf = __FUNCTION__;
@@ -671,6 +684,19 @@ class legacylangTest extends TestCase {
 		$file = $$tmp->TDF;
 		LogTC($tf,'TD file',$file);
 		$this->CWAHas($$tmp,'Type','Type');
+	}
+	public function testCWASetItemMonthsLong() {
+		$lang = self::$langs;
+		$tf = __FUNCTION__;
+		$tmp = "UI$lang";
+		LogTC($tf,'language',$lang);
+		$$tmp = self::$UIL;
+		$file = $$tmp->TDF;
+		LogTC($tf,'TD file',$file);
+		for ($i = 1; $i < 13; $i++){
+			$a = "ML$i";
+			$this->CWAHas($$tmp,$a,"Month Long $i");
+		}
 	}
 	// Test Common Phrase Items.
 	public function testCPASetItemSrcName() {

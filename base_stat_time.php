@@ -181,32 +181,18 @@ $UIL = new UILang($BASE_Language); // Create UI Language Abstraction Object.
          <OPTION VALUE="on" '.@chk_select($time_sep[1], "on").'>'._TIMEON.'
          <OPTION VALUE="between"'.@chk_select($time_sep[1], "between").'>'._TIMEBETWEEN.'
         </SELECT>';
- 
-  for ( $i = 0; $i < 2; $i++ )
-  {
+for ( $i = 0; $i < 2; $i++ ){
       echo '<SELECT NAME="time['.$i.'][0]">
-             <OPTION VALUE=" "  '.chk_select($time[$i][0]," " ).'>'._DISPMONTH.'
-             <OPTION VALUE="01" '.chk_select($time[$i][0],"01").'>'._JANUARY.'
-             <OPTION VALUE="02" '.chk_select($time[$i][0],"02").'>'._FEBRUARY.'
-             <OPTION VALUE="03" '.chk_select($time[$i][0],"03").'>'._MARCH.'
-             <OPTION VALUE="04" '.chk_select($time[$i][0],"04").'>'._APRIL.'
-             <OPTION VALUE="05" '.chk_select($time[$i][0],"05").'>'._MAY.'
-             <OPTION VALUE="06" '.chk_select($time[$i][0],"06").'>'._JUNE.'
-             <OPTION VALUE="07" '.chk_select($time[$i][0],"07").'>'._JULY.'
-             <OPTION VALUE="08" '.chk_select($time[$i][0],"08").'>'._AUGUST.'
-             <OPTION VALUE="09" '.chk_select($time[$i][0],"09").'>'._SEPTEMBER.'
-             <OPTION VALUE="10" '.chk_select($time[$i][0],"10").'>'._OCTOBER.'
-             <OPTION VALUE="11" '.chk_select($time[$i][0],"11").'>'._NOVEMBER.'
-             <OPTION VALUE="12" '.chk_select($time[$i][0],"12").'>'._DECEMBER.'
-            </SELECT>';
-      
+             <OPTION VALUE=" "  '.chk_select($time[$i][0]," " ).'>'._DISPMONTH;
+	print dispMonthOptions($time[$i][0],4);
+	NLIO('</select>',3);
       echo '<INPUT TYPE="text" NAME="time['.$i.'][1]" SIZE=2 VALUE="'.$time[$i][1].'"> &nbsp;'."\n";
       echo '<SELECT NAME="time['.$i.'][2]">'.
              dispYearOptions($time[$i][2])
             .'</SELECT>';
 
       if ( $i == 0 ) echo '&nbsp; -- &nbsp;&nbsp;';
-  }
+}
 
   echo '<INPUT TYPE="submit" NAME="submit" VALUE="'._PROFILEALERT.'">
         </TD></TR></TABLE>

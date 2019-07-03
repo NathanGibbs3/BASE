@@ -139,6 +139,21 @@ function chk_check($stored_value, $current_value){
 	return $msg;
 }
 
+function dispMonthOptions($stored_value, $Indent = 0){
+	GLOBAL $UIL;
+	$Ret = '';
+	for ($i = 1; $i < 13; $i++){
+		$MLk = "ML$i";
+		$tv = str_pad($i, 2, "0", STR_PAD_LEFT);
+		$tdv = $UIL->CWA[$MLk];
+		$tmp = '<option value="'.$tv.'"';
+		$tmp .= chk_select($stored_value, $tv);
+		$tmp .= '>'.$tdv.'</option>';
+		$Ret .= NLI($tmp,$Indent);
+	}
+	return $Ret;
+}
+
 function dispYearOptions($stored_value)
 {
   // Creates the years for drop down boxes

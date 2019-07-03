@@ -24,8 +24,9 @@
 ********************************************************************************
 */
 
-// Inter Character Spacing.
-$UI_Spacing = 1;
+$UI_Spacing = 1; // Inter Character Spacing.
+$UI_ILC = 'cs'; // ISO 639-1 Language Code.
+$UI_IRC = ''; // Region Code.
 // Locales.
 $UI_Locales = array( 'eng_ENG.ISO8859-1', 'eng_ENG.utf-8', 'english' );
 // Time Format - See strftime() syntax.
@@ -48,13 +49,25 @@ $UI_CW_Sensor = 'Senzor';
 $UI_CW_Sig = 'Podpis';
 $UI_CW_Role = 'role';
 $UI_CW_Pw = 'Heslo';
-$UI_CW_Ts = '»asov√° znaËka';
+$UI_CW_Ts = '√àasov√° zna√®ka';
 $UI_CW_Addr = 'adresa';
 $UI_CW_Layer = 'vrstvy';
 $UI_CW_Protp = 'Protokol';
 $UI_CW_Pri = 'Priorita';
 $UI_CW_Event = 'Ud√°lost';
 $UI_CW_Type = 'Typu';
+$UI_CW_ML1 = 'Leden';
+$UI_CW_ML2 = '√önor';
+$UI_CW_ML3 = 'B¯ezen';
+$UI_CW_ML4 = 'Duben';
+$UI_CW_ML5 = 'KvÏten';
+$UI_CW_ML6 = '√àerven';
+$UI_CW_ML7 = '√àervenec';
+$UI_CW_ML8 = 'Srpen';
+$UI_CW_ML9 = 'Z√°¯√≠';
+$UI_CW_ML10 = 'ÿ√≠jen';
+$UI_CW_ML11 = 'Listopad';
+$UI_CW_ML12 = 'Prosinec';
 // Common Phrases.
 $UI_CP_SrcName = array($UI_CW_Name,$UI_CW_Src);
 $UI_CP_DstName = array($UI_CW_Name,$UI_CW_Dst);
@@ -69,18 +82,6 @@ $UI_AD_RID = array($UI_CW_Id,$UI_CW_Role);
 $UI_AD_ASD = 'Enabled';
 
 //common phrases
-DEFINE('_JANUARY','Leden');
-DEFINE('_FEBRUARY','⁄nor');
-DEFINE('_MARCH','B¯ezen');
-DEFINE('_APRIL','Duben');
-DEFINE('_MAY','KvÏten');
-DEFINE('_JUNE','»erven');
-DEFINE('_JULY','»ervenec');
-DEFINE('_AUGUST','Srpen');
-DEFINE('_SEPTEMBER','Z√°¯√≠');
-DEFINE('_OCTOBER','ÿ√≠jen');
-DEFINE('_NOVEMBER','Listopad');
-DEFINE('_DECEMBER','Prosinec');
 DEFINE('_LAST','Posledn√≠');
 DEFINE('_FIRST','First'); //NEW
 DEFINE('_TOTAL','Total'); //NEW
@@ -154,7 +155,7 @@ DEFINE('_USERPREF','Uæivatelsk√© volby');
 DEFINE('_CACHE','Keπ a stav');
 DEFINE('_ADMIN','Administrace');
 DEFINE('_GALERTD','Vytvo¯it graf alarm˘');
-DEFINE('_GALERTDT','Vytvo¯it graf Ëasu detekce alarm˘');
+DEFINE('_GALERTDT','Vytvo¯it graf √®asu detekce alarm˘');
 DEFINE('_USERMAN','Spr√°va uæivatel˘');
 DEFINE('_LISTU','Seznam uæivatel˘');
 DEFINE('_CREATEU','Vytvo¯it uæivatele');
@@ -164,13 +165,13 @@ DEFINE('_CREATER','Vytvo¯it roli');
 DEFINE('_LISTALL','Vypsat vπe');
 DEFINE('_CREATE','Vytvo¯');
 DEFINE('_VIEW','Zobraz');
-DEFINE('_CLEAR','VyËisti');
+DEFINE('_CLEAR','Vy√®isti');
 DEFINE('_LISTGROUPS','Seznam skupin');
 DEFINE('_CREATEGROUPS','Vytvo¯ skupinu');
 DEFINE('_VIEWGROUPS','Zobraz skupinu');
 DEFINE('_EDITGROUPS','Edituj skupinu');
 DEFINE('_DELETEGROUPS','Smaæ skupinu');
-DEFINE('_CLEARGROUPS','VyËisti skupinu');
+DEFINE('_CLEARGROUPS','Vy√®isti skupinu');
 DEFINE('_CHNGPWD','ZmÏnit '.strtolower($UI_CW_Pw));
 DEFINE('_DISPLAYU','Zobraz uæivatele');
 
@@ -182,7 +183,7 @@ DEFINE('_LOGINERROR','Uæivatel neexistuje nebo jste zadali πpatn√© '.strtolower(
 
 // base_main.php
 DEFINE('_MOSTRECENT','Posledn√≠ch ');
-DEFINE('_MOSTFREQUENT','NejËastÏjπ√≠ch ');
+DEFINE('_MOSTFREQUENT','Nej√®astÏjπ√≠ch ');
 DEFINE('_ALERTS',' alarm˘:');
 DEFINE('_ADDRESSES',' adres:');
 DEFINE('_ANYPROTO','jak√Ωkoliv<br>protokol');
@@ -196,19 +197,19 @@ DEFINE('_L72ALERTS','Alarmy za posledn√≠ch 72 hodin: ');
 DEFINE('_UNIALERTS','unik√°tn√≠ch alarm˘');
 DEFINE('_LSOURCEPORTS','Posledn√≠ zdrojov√© porty: ');
 DEFINE('_LDESTPORTS','Posledn√≠ c√≠lov√© porty: ');
-DEFINE('_FREGSOURCEP','NejËastÏjπ√≠ zdrojov√© porty: ');
-DEFINE('_FREGDESTP','NejËastÏjπ√≠ c√≠lov√© porty: ');
+DEFINE('_FREGSOURCEP','Nej√®astÏjπ√≠ zdrojov√© porty: ');
+DEFINE('_FREGDESTP','Nej√®astÏjπ√≠ c√≠lov√© porty: ');
 DEFINE('_QUERIED','Dot√°z√°no ');
 DEFINE('_DATABASE','Datab√°ze:');
 DEFINE('_SCHEMAV','Verze sch√©matu:');
-DEFINE('_TIMEWIN','»asov√© rozmez√≠:');
+DEFINE('_TIMEWIN','√àasov√© rozmez√≠:');
 DEFINE('_NOALERTSDETECT','Æ√°dn√© alarmy dezjiπtÏny');
 DEFINE('_USEALERTDB','Use Alert Database'); //NEW
 DEFINE('_USEARCHIDB','Use Archive Database'); //NEW
 DEFINE('_TRAFFICPROBPRO','Traffic Profile by Protocol'); //NEW
 
 //base_auth.inc.php
-DEFINE('_ADDEDSF','⁄spÏπnÏ p¯id√°n');
+DEFINE('_ADDEDSF','√öspÏπnÏ p¯id√°n');
 DEFINE('_NOPWDCHANGE','Nelze zmÏnit '.strtolower($UI_CW_Pw).': ');
 DEFINE('_NOUSER','Uæivatel neexistuje!');
 DEFINE('_OLDPWD','Aktu√°ln√≠ '.strtolower($UI_CW_Pw).' nen√≠ spr√°vn√©!');
@@ -296,8 +297,8 @@ DEFINE('_ERRSQLCONNECTINFO','<P>Zkontrolujte promÏnn√© pro p¯ipojov√°n√≠ se do d
 DEFINE('_ERRSQLPCONNECT','Chyba p¯i p¯ipojov√°n√≠ datab√°ze:');
 DEFINE('_ERRSQLDB','Datab√°zov√° chyba:');
 DEFINE('_DBALCHECK','Kontraoluje knihovnu pro pr√°ci s datab√°z√≠ v');
-DEFINE('_ERRSQLDBALLOAD1','<P><B>Chyba p¯i naË√≠t√°n√≠ knihovny pro pr√°ci s datab√°z√≠: </B> od ');
-DEFINE('_ERRSQLDBALLOAD2','<P>Zkontrolujte promÏnnou pro urËen√≠ cesty ke knihovnÏ pro pr√°ci s datab√°z√≠ <CODE>$DBlib_path</CODE> v souboru <CODE>base_conf.php</CODE>
+DEFINE('_ERRSQLDBALLOAD1','<P><B>Chyba p¯i na√®√≠t√°n√≠ knihovny pro pr√°ci s datab√°z√≠: </B> od ');
+DEFINE('_ERRSQLDBALLOAD2','<P>Zkontrolujte promÏnnou pro ur√®en√≠ cesty ke knihovnÏ pro pr√°ci s datab√°z√≠ <CODE>$DBlib_path</CODE> v souboru <CODE>base_conf.php</CODE>
             <P>Knihovnu pro pr√°ci s datab√°z√≠ ADODB st√°hnÏte z
             ');
 DEFINE('_ERRSQLDBTYPE','Specifikov√°n neplatn√Ω '.$UI_CW_Type.' datab√°ze');
@@ -314,7 +315,7 @@ DEFINE('_ERRSQLDBTYPEINFO2','Podporov√°ny jsou pouze n√°sleduj√≠c√≠ datab√°zov√©
 DEFINE('_ERRBASEFATAL','Kritick√° chyba BASE:');
 
 //base_log_timing.inc.php
-DEFINE('_LOADEDIN','NaËteno za');
+DEFINE('_LOADEDIN','Na√®teno za');
 DEFINE('_SECONDS','vte¯in');
 
 //base_net.inc.php
@@ -389,7 +390,7 @@ DEFINE('_DISPACTION','{ action }'); //NEW
 //base_ag_common.php
 DEFINE('_ERRAGNAMESEARCH','Jmenovanou skupinu nelze nal√©zt. Zkuste to znovu.');
 DEFINE('_ERRAGNAMEEXIST','Zadan√° skupina neexistuje.');
-DEFINE('_ERRAGIDSEARCH','Skupinu urËenou ID nelze nal√©zt. Zkuste to znovu.');
+DEFINE('_ERRAGIDSEARCH','Skupinu ur√®enou ID nelze nal√©zt. Zkuste to znovu.');
 DEFINE('_ERRAGLOOKUP','Chyba p¯i vyhled√°v√°n√≠ skupiny dle ID');
 DEFINE('_ERRAGINSERT','Chyba p¯i vkl√°d√°n√≠ nov√© skupiny');
 
@@ -403,7 +404,7 @@ DEFINE('_AGDELETEINFO','informace smaz√°na');
 DEFINE('_ERRAGSEARCHINV','Zadan√© vyhled√°vac√≠ krit√©rium je neplatn√©. Zkuste to znovu.');
 DEFINE('_ERRAGSEARCHNOTFOUND','Æ√°dn√° skupiny s t√≠mto krit√©riem nenalezena.');
 DEFINE('_NOALERTGOUPS','Nejsou definov√°ny æ√°dn√© skupiny');
-DEFINE('_NUMALERTS','poËet alarm˘');
+DEFINE('_NUMALERTS','po√®et alarm˘');
 DEFINE('_ACTIONS','Akce');
 DEFINE('_NOTASSIGN','jeπtÏ nep¯i¯azeno');
 DEFINE('_SAVECHANGES','Save Changes'); //NEW
@@ -415,27 +416,27 @@ DEFINE('_PORTSCAN','Provoz skenov√°n√≠ port˘');
 
 //base_db_common.php
 DEFINE('_ERRDBINDEXCREATE','Nemohu vytvo¯it index pro');
-DEFINE('_DBINDEXCREATE','⁄spÏπnÏ vytvo¯en index pro');
+DEFINE('_DBINDEXCREATE','√öspÏπnÏ vytvo¯en index pro');
 DEFINE('_ERRSNORTVER','M˘æe se jednat o starπ√≠ verzi. Podporov√°ny jsou pouze datab√°ze vytvo¯en√© Snort 1.7-beta0 nebo novÏjπ√≠m');
 DEFINE('_ERRSNORTVER1','Z√°kladn√≠ datab√°ze');
 DEFINE('_ERRSNORTVER2','se zd√° nekompletn√≠ nebo neplatn√°');
 DEFINE('_ERRDBSTRUCT1','Verze datab√°ze je spr√°vn√°, ale neobsahuje');
-DEFINE('_ERRDBSTRUCT2','BASE tabulky. Pouæijte <A HREF="base_db_setup.php">InicializaËn√≠ str√°nku</A> pro nastaven√≠ a optimalizaci datab√°ze.');
+DEFINE('_ERRDBSTRUCT2','BASE tabulky. Pouæijte <A HREF="base_db_setup.php">Inicializa√®n√≠ str√°nku</A> pro nastaven√≠ a optimalizaci datab√°ze.');
 DEFINE('_ERRPHPERROR','Chyba PHP');
 DEFINE('_ERRPHPERROR1','Nekompatibiln√≠ verze');
 DEFINE('_ERRVERSION','Verze');
 DEFINE('_ERRPHPERROR2','PHP je p¯√≠liπ star√°. ProveÔte pros√≠m aktualizaci na verzi 4.0.4 nebo pozdÏjπ√≠');
 DEFINE('_ERRPHPMYSQLSUP','<B>PHP podpora nen√≠ kompletn√≠</B>: <FONT>podpora pro pr√°ci s MySQL 
-               datab√°z√≠ nen√≠ souË√°st√≠ instalace.
+               datab√°z√≠ nen√≠ sou√®√°st√≠ instalace.
                Pros√≠m p¯einstalujte PHP s pot¯ebnou knihovnou (<CODE>--with-mysql</CODE>)</FONT>');
 DEFINE('_ERRPHPPOSTGRESSUP','<B>PHP podpora nen√≠ kompletn√≠</B>: <FONT>podpora pro pr√°ci s PostgreSQL
-               datab√°z√≠ nen√≠ souË√°st√≠ instalace.
+               datab√°z√≠ nen√≠ sou√®√°st√≠ instalace.
                Pros√≠m p¯einstalujte PHP s pot¯ebnou knihovnou (<CODE>--with-pgsql</CODE>)</FONT>');
 DEFINE('_ERRPHPMSSQLSUP','<B>PHP podpora nen√≠ kompletn√≠</B>: <FONT>podpora pro pr√°ci s MS SQL
-               datab√°z√≠ nen√≠ souË√°st√≠ instalace.
+               datab√°z√≠ nen√≠ sou√®√°st√≠ instalace.
                Pros√≠m p¯einstalujte PHP s pot¯ebnou knihovnou (<CODE>--enable-mssql</CODE>)</FONT>');
 DEFINE('_ERRPHPORACLESUP','<B>PHP podpora nen√≠ kompletn√≠</B>: <FONT>podpora pro pr√°ci s Oracle
-               datab√°z√≠ nen√≠ souË√°st√≠ instalace.
+               datab√°z√≠ nen√≠ sou√®√°st√≠ instalace.
                Pros√≠m p¯einstalujte PHP s pot¯ebnou knihovnou (<CODE>--with-oci8</CODE>)</FONT>');
 
 //base_graph_form.php
@@ -458,26 +459,26 @@ DEFINE('_CHARTDAY','{dia}'); //NEW
 DEFINE('_CHARTMONTH','{m√™s}'); //NEW
 DEFINE('_GRAPHALERTS','Graph Alerts'); //NEW
 DEFINE('_AXISCONTROLS','X / Y AXIS CONTROLS'); //NEW
-DEFINE('_CHRTTYPEHOUR','»as (hodiny) proti poËtu alarm˘');
-DEFINE('_CHRTTYPEDAY','»as (dny) proti poËtu alarm˘');
-DEFINE('_CHRTTYPEWEEK','»as (t√Ωdny) proti poËtu alarm˘');
-DEFINE('_CHRTTYPEMONTH','»as (mÏs√≠ce) proti poËtu alarm˘');
-DEFINE('_CHRTTYPEYEAR','»as (roky) proti poËtu alarm˘');
-DEFINE('_CHRTTYPESRCIP','Zdrojov√° IP adresa proti poËtu alarm˘');
-DEFINE('_CHRTTYPEDSTIP','C√≠lov√° IP adresa proti poËtu alarm˘');
-DEFINE('_CHRTTYPEDSTUDP','C√≠lov√Ω UDP port proti poËtu alarm˘');
-DEFINE('_CHRTTYPESRCUDP','Zdrojov√Ω UDP port proti poËtu alarm˘');
-DEFINE('_CHRTTYPEDSTPORT','C√≠lov√Ω TCP port proti poËtu alarm˘');
-DEFINE('_CHRTTYPESRCPORT','Zdrojov√Ω TCP port proti poËtu alarm˘');
-DEFINE('_CHRTTYPESIG','Klasifikace podpis˘ proti poËtu alarm˘');
-DEFINE('_CHRTTYPESENSOR','Senzor proti poËtu alarm˘');
-DEFINE('_CHRTBEGIN','ZaË√°tek grafu:');
+DEFINE('_CHRTTYPEHOUR','√àas (hodiny) proti po√®tu alarm˘');
+DEFINE('_CHRTTYPEDAY','√àas (dny) proti po√®tu alarm˘');
+DEFINE('_CHRTTYPEWEEK','√àas (t√Ωdny) proti po√®tu alarm˘');
+DEFINE('_CHRTTYPEMONTH','√àas (mÏs√≠ce) proti po√®tu alarm˘');
+DEFINE('_CHRTTYPEYEAR','√àas (roky) proti po√®tu alarm˘');
+DEFINE('_CHRTTYPESRCIP','Zdrojov√° IP adresa proti po√®tu alarm˘');
+DEFINE('_CHRTTYPEDSTIP','C√≠lov√° IP adresa proti po√®tu alarm˘');
+DEFINE('_CHRTTYPEDSTUDP','C√≠lov√Ω UDP port proti po√®tu alarm˘');
+DEFINE('_CHRTTYPESRCUDP','Zdrojov√Ω UDP port proti po√®tu alarm˘');
+DEFINE('_CHRTTYPEDSTPORT','C√≠lov√Ω TCP port proti po√®tu alarm˘');
+DEFINE('_CHRTTYPESRCPORT','Zdrojov√Ω TCP port proti po√®tu alarm˘');
+DEFINE('_CHRTTYPESIG','Klasifikace podpis˘ proti po√®tu alarm˘');
+DEFINE('_CHRTTYPESENSOR','Senzor proti po√®tu alarm˘');
+DEFINE('_CHRTBEGIN','Za√®√°tek grafu:');
 DEFINE('_CHRTEND','Konec grafu:');
 DEFINE('_CHRTDS','Zdroj dat:');
 DEFINE('_CHRTX','Osa X');
 DEFINE('_CHRTY','Osa Y');
 DEFINE('_CHRTMINTRESH','Minim√°ln√≠ hodnota');
-DEFINE('_CHRTROTAXISLABEL','OtoËit popisky os o 90 stupÚ˘');
+DEFINE('_CHRTROTAXISLABEL','Oto√®it popisky os o 90 stupÚ˘');
 DEFINE('_CHRTSHOWX','Zobraz rastr pro osu X');
 DEFINE('_CHRTDISPLABELX','Zobraz popis osy X kaæd√Ωch');
 DEFINE('_CHRTDATAPOINTS','vzork˘ dat');
@@ -486,27 +487,27 @@ DEFINE('_CHRTYGRID','Zobraz rastr pro osu Y');
 
 //base_graph_main.php
 DEFINE('_CHRTTITLE','Graf BASE');
-DEFINE('_ERRCHRTNOTYPE','Nebyl urËen '.$UI_CW_Type.' grafu');
-DEFINE('_ERRNOAGSPEC','Nebyla urËena skupiny. Pouæ√≠v√°m vπechny alarmy.');
-DEFINE('_CHRTDATAIMPORT','ZaË√≠n√°m naË√≠tat data'); 
-DEFINE('_CHRTTIMEVNUMBER','»as port proti poËtu alarm˘');
-DEFINE('_CHRTTIME','»as');
+DEFINE('_ERRCHRTNOTYPE','Nebyl ur√®en '.$UI_CW_Type.' grafu');
+DEFINE('_ERRNOAGSPEC','Nebyla ur√®ena skupiny. Pouæ√≠v√°m vπechny alarmy.');
+DEFINE('_CHRTDATAIMPORT','Za√®√≠n√°m na√®√≠tat data'); 
+DEFINE('_CHRTTIMEVNUMBER','√àas port proti po√®tu alarm˘');
+DEFINE('_CHRTTIME','√àas');
 DEFINE('_CHRTALERTOCCUR','V√Ωskyty alarm˘');
-DEFINE('_CHRTSIPNUMBER','Zdrojov√° IP adresa proti poËtu alarm˘');
+DEFINE('_CHRTSIPNUMBER','Zdrojov√° IP adresa proti po√®tu alarm˘');
 DEFINE('_CHRTSIP','Zdrojov√° IP adresa');
-DEFINE('_CHRTDIPALERTS','C√≠lov√° IP adresa proti poËtu alarm˘');
+DEFINE('_CHRTDIPALERTS','C√≠lov√° IP adresa proti po√®tu alarm˘');
 DEFINE('_CHRTDIP','C√≠lov√° IP adresa');
-DEFINE('_CHRTUDPPORTNUMBER','UDP port (c√≠l) port proti poËtu alarm˘');
+DEFINE('_CHRTUDPPORTNUMBER','UDP port (c√≠l) port proti po√®tu alarm˘');
 DEFINE('_CHRTDUDPPORT','C√≠lov√Ω UDP port');
-DEFINE('_CHRTSUDPPORTNUMBER','UDP port (zdroj) port proti poËtu alarm˘');
+DEFINE('_CHRTSUDPPORTNUMBER','UDP port (zdroj) port proti po√®tu alarm˘');
 DEFINE('_CHRTSUDPPORT','Zdrojov√Ω UDP port');
-DEFINE('_CHRTPORTDESTNUMBER','TCP port (c√≠l) port proti poËtu alarm˘');
+DEFINE('_CHRTPORTDESTNUMBER','TCP port (c√≠l) port proti po√®tu alarm˘');
 DEFINE('_CHRTPORTDEST','C√≠lov√Ω TCP port');
-DEFINE('_CHRTPORTSRCNUMBER','TCP port (zdroj) port proti poËtu alarm˘');
+DEFINE('_CHRTPORTSRCNUMBER','TCP port (zdroj) port proti po√®tu alarm˘');
 DEFINE('_CHRTPORTSRC','Zdrojov√Ω TCP port');
-DEFINE('_CHRTSIGNUMBER','Klasifikace podpis˘ proti poËtu alarm˘');
+DEFINE('_CHRTSIGNUMBER','Klasifikace podpis˘ proti po√®tu alarm˘');
 DEFINE('_CHRTCLASS','Klasifikace');
-DEFINE('_CHRTSENSORNUMBER','Senzor port proti poËtu alarm˘');
+DEFINE('_CHRTSENSORNUMBER','Senzor port proti po√®tu alarm˘');
 DEFINE('_CHRTHANDLEPERIOD','Rozhodn√© obdob√≠ (pokud je t¯eba)');
 DEFINE('_CHRTDUMP','Vypisuji data ... (zobrazuji jen kaæd√©');
 DEFINE('_CHRTDRAW','Kresl√≠m graf');
@@ -514,21 +515,21 @@ DEFINE('_ERRCHRTNODATAPOINTS','Pro vykreslen√≠ nejsou k dispozici æ√°dn√° data')
 DEFINE('_GRAPHALERTDATA','Graph Alert Data'); //NEW
 
 //base_maintenance.php
-DEFINE('_MAINTTITLE','⁄dræba');
+DEFINE('_MAINTTITLE','√ödræba');
 DEFINE('_MNTPHP','PHP popis:');
 DEFINE('_MNTCLIENT','CLIENT:');
 DEFINE('_MNTSERVER','SERVER:');
 DEFINE('_MNTSERVERHW','SERVER HW:');
 DEFINE('_MNTPHPVER','PHP VERZE:');
 DEFINE('_MNTPHPAPI','PHP API:');
-DEFINE('_MNTPHPLOGLVL','⁄roveÚ hl√°πen√≠ PHP:');
+DEFINE('_MNTPHPLOGLVL','√öroveÚ hl√°πen√≠ PHP:');
 DEFINE('_MNTPHPMODS','Nahran√© moduly:');
 DEFINE('_MNTDBTYPE',$UI_CW_Type.' datab√°ze:');
 DEFINE('_MNTDBALV','Verze podp˘rn√© datab√°zov√© knihovny:');
 DEFINE('_MNTDBALERTNAME','Jm√©no ALERT datab√°ze:');
 DEFINE('_MNTDBARCHNAME','Jm√©no ARCHIVE datab√°ze:');
 DEFINE('_MNTAIC','Vyrovn√°vac√≠ pamÏª alarm˘:');
-DEFINE('_MNTAICTE','Celkov√Ω poËet '.$UI_CW_Event.'√≠:');
+DEFINE('_MNTAICTE','Celkov√Ω po√®et '.$UI_CW_Event.'√≠:');
 DEFINE('_MNTAICCE',$UI_CW_Event.'i ve vyrovn√°vac√≠ pamÏti:');
 DEFINE('_MNTIPAC','Vyrovn√°vac√≠ pamÏª IP address');
 DEFINE('_MNTIPACUSIP','Unik√°tn√≠ zdrojov√© IP:');
@@ -559,21 +560,21 @@ DEFINE('_QCERRCRITWARN','Varov√°n√≠ vyhled√°vac√≠ch krit√©ri√≠:');
 DEFINE('_QCERRVALUE','Hodnota');
 DEFINE('_QCERRFIELD','Pole');
 DEFINE('_QCERROPER','Oper√°tor');
-DEFINE('_QCERRDATETIME','Hodnota datum/Ëas');
+DEFINE('_QCERRDATETIME','Hodnota datum/√®as');
 DEFINE('_QCERRPAYLOAD','Hodnota obsahu');
 DEFINE('_QCERRIP','IP adresa');
 DEFINE('_QCERRIPTYPE','IP adresa '.$UI_CW_Type);
-DEFINE('_QCERRSPECFIELD','bylo zad√°no pole protokolu, ale nebyla urËena hodnota.');
-DEFINE('_QCERRSPECVALUE','bylo vybr√°no, ale nebyla urËena hodnota.');
-DEFINE('_QCERRBOOLEAN','V√≠ce pol√≠ pro urËen√≠ protokolu bylo zad√°no, ale nebyl mezi nimi zad√°n logick√Ω oper√°tor (AND, OR).');
-DEFINE('_QCERRDATEVALUE','bylo zvoleno, æe se m√° vyhled√°vat podle data/Ëasu, ale nebyla urËena hodnota.');
-DEFINE('_QCERRINVHOUR','(Neplatn√° hodina) Æ√°dn√© krit√©rium pro urËen√≠ data/Ëasu neodpov√≠d√° urËen√©mu Ëasu.');
-DEFINE('_QCERRDATECRIT','bylo zvoleno, æe se m√° vyhled√°vat podle data/Ëasu, ale nebyla urËena hodnota.');
+DEFINE('_QCERRSPECFIELD','bylo zad√°no pole protokolu, ale nebyla ur√®ena hodnota.');
+DEFINE('_QCERRSPECVALUE','bylo vybr√°no, ale nebyla ur√®ena hodnota.');
+DEFINE('_QCERRBOOLEAN','V√≠ce pol√≠ pro ur√®en√≠ protokolu bylo zad√°no, ale nebyl mezi nimi zad√°n logick√Ω oper√°tor (AND, OR).');
+DEFINE('_QCERRDATEVALUE','bylo zvoleno, æe se m√° vyhled√°vat podle data/√®asu, ale nebyla ur√®ena hodnota.');
+DEFINE('_QCERRINVHOUR','(Neplatn√° hodina) Æ√°dn√© krit√©rium pro ur√®en√≠ data/√®asu neodpov√≠d√° ur√®en√©mu √®asu.');
+DEFINE('_QCERRDATECRIT','bylo zvoleno, æe se m√° vyhled√°vat podle data/√®asu, ale nebyla ur√®ena hodnota.');
 DEFINE('_QCERROPERSELECT','bylo vloæeno, ale nebyl zvolen æ√°dn√Ω oper√°tor.');
-DEFINE('_QCERRDATEBOOL','V√≠ce krit√©ri√≠ datum/Ëas bylo zad√°no bez urËen√≠ logick√©ho oper√°toru (AND, OR) mezi nimi.');
-DEFINE('_QCERRPAYCRITOPER','byl urËen obsah, kter√Ω se m√° vyhled√°vat, ale nebylo zvoleno, zda m√° b√Ωt obsaæen nebo ne.');
-DEFINE('_QCERRPAYCRITVALUE','bylo urËeno, æe se m√° vyhled√°vat podle obsahu, ale nebyla urËena hodnota.');
-DEFINE('_QCERRPAYBOOL','V√≠ce krit√©ri√≠ obsahu bylo zad√°no bez urËen√≠t logick√©ho oper√°toru (AND, OR) mezi nimi.');
+DEFINE('_QCERRDATEBOOL','V√≠ce krit√©ri√≠ datum/√®as bylo zad√°no bez ur√®en√≠ logick√©ho oper√°toru (AND, OR) mezi nimi.');
+DEFINE('_QCERRPAYCRITOPER','byl ur√®en obsah, kter√Ω se m√° vyhled√°vat, ale nebylo zvoleno, zda m√° b√Ωt obsaæen nebo ne.');
+DEFINE('_QCERRPAYCRITVALUE','bylo ur√®eno, æe se m√° vyhled√°vat podle obsahu, ale nebyla ur√®ena hodnota.');
+DEFINE('_QCERRPAYBOOL','V√≠ce krit√©ri√≠ obsahu bylo zad√°no bez ur√®en√≠t logick√©ho oper√°toru (AND, OR) mezi nimi.');
 DEFINE('_QCMETACRIT','Meta krit√°ria');
 DEFINE('_QCIPCRIT','IP krit√©ria');
 DEFINE('_QCPAYCRIT','Obsahov√° krit√©ria');
@@ -582,23 +583,23 @@ DEFINE('_QCUDPCRIT','UDP krit√©ria');
 DEFINE('_QCICMPCRIT','ICMP krit√©ria');
 DEFINE('_QCLAYER4CRIT','Layer 4 Criteria'); //NEW
 DEFINE('_QCERRINVIPCRIT','Neplatn√© krit√©rium IP adresy');
-DEFINE('_QCERRCRITADDRESSTYPE','byla zvolena jako krit√©rium, ale nebylo urËeno, zda se jedn√° o zdrojovou nebo c√≠lovou adresu.');
-DEFINE('_QCERRCRITIPADDRESSNONE','ukazuj√≠c, æe IP adresa m√° b√Ωt krit√©riem, ale nebyla urËena hodnota.');
+DEFINE('_QCERRCRITADDRESSTYPE','byla zvolena jako krit√©rium, ale nebylo ur√®eno, zda se jedn√° o zdrojovou nebo c√≠lovou adresu.');
+DEFINE('_QCERRCRITIPADDRESSNONE','ukazuj√≠c, æe IP adresa m√° b√Ωt krit√©riem, ale nebyla ur√®ena hodnota.');
 DEFINE('_QCERRCRITIPADDRESSNONE1','bylo vybr√°no (v #');
-DEFINE('_QCERRCRITIPIPBOOL','V√≠ce krit√©ri√≠ pro IP adresy bylo zad√°no bez urËen√≠ logick√©ho oper√°toru (AND, OR) mezi nimi.');
+DEFINE('_QCERRCRITIPIPBOOL','V√≠ce krit√©ri√≠ pro IP adresy bylo zad√°no bez ur√®en√≠ logick√©ho oper√°toru (AND, OR) mezi nimi.');
 
 //base_qry_form.php
 DEFINE('_QFRMSORTORDER','SmÏr t¯√≠dÏn√≠');
 DEFINE('_QFRMSORTNONE','none'); //NEW
-DEFINE('_QFRMTIMEA','Ëas (vzestupnÏ)');
-DEFINE('_QFRMTIMED','Ëas (sestupnÏ)');
+DEFINE('_QFRMTIMEA','√®as (vzestupnÏ)');
+DEFINE('_QFRMTIMED','√®as (sestupnÏ)');
 DEFINE('_QFRMSIG','podpis');
 DEFINE('_QFRMSIP','zdrojov√° IP adresa');
 DEFINE('_QFRMDIP','c√≠lov√° IP adresa');
 
 //base_qry_sqlcalls.php
 DEFINE('_QSCSUMM','Souhrn√© statistiky');
-DEFINE('_QSCTIMEPROF','Profil v Ëase');
+DEFINE('_QSCTIMEPROF','Profil v √®ase');
 DEFINE('_QSCOFALERTS','z alarm˘');
 
 //base_stat_alerts.php
@@ -607,7 +608,7 @@ DEFINE('_ALERTTITLE','V√Ωpis alarm˘');
 //base_stat_common.php
 DEFINE('_SCCATEGORIES','Kategorie:');
 DEFINE('_SCSENSORTOTAL','Senzory/Celkem:');
-DEFINE('_SCTOTALNUMALERTS','Celkov√Ω poËet alarm˘:');
+DEFINE('_SCTOTALNUMALERTS','Celkov√Ω po√®et alarm˘:');
 DEFINE('_SCSRCIP','Zdrojov√Ωch IP adres:');
 DEFINE('_SCDSTIP','C√≠lov√Ωch IP adres:');
 DEFINE('_SCUNILINKS','Unik√°tn√≠ch IP spoj˘');

@@ -1,19 +1,28 @@
 Find files containing byte
 LC_CTYPE=C grep -lP "\xXX" *
 
-Sed patterns to fix invlaid utf-8 codepoints
+Sed patterns to fix invlaid utf-8 codepoints.
 
-ö
-sed 's/\xF6/\xC3\xB6/g'
+È
+sed 's/\xC8/\xC3\x88/g'
 
-í
-sed 's/\xED/\xC3\xAD/g'
+Ú
+sed 's/\xDA/\xC3\x9A/g'
 
 á
 sed 's/\xE1/\xC3\xA1/g'
 
 ä
 sed 's/\xE4/\xC3\xA4/g'
+
+è
+sed 's/\xE8/\xC3\xA8/g'
+
+í
+sed 's/\xED/\xC3\xAD/g'
+
+ö
+sed 's/\xF6/\xC3\xB6/g'
 
 ý
 sed 's/\xFD/\xC3\xBD/g'

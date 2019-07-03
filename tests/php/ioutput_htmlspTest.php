@@ -45,7 +45,7 @@ class output_htmlSPTest extends TestCase {
 
 	// Tests go here.
 	public function testPageStartDefaults() {
-		GLOBAL $BASE_path, $BASE_installID, $BASE_VERSION, $UIL, $base_style;
+		GLOBAL $BASE_installID, $BASE_VERSION, $UIL, $base_style;
 		$MHE = '<meta http-equiv="';
 		$UIL = self::$UIL;
 		$ETitle = "$UIL->Title (BASE) $BASE_installID $BASE_VERSION";
@@ -62,7 +62,7 @@ class output_htmlSPTest extends TestCase {
 		PageStart();
 	}
 	public function testPageStartCustomTitle() {
-		GLOBAL $BASE_path, $BASE_installID, $BASE_VERSION, $UIL, $base_style;
+		GLOBAL $BASE_installID, $BASE_VERSION, $UIL, $base_style;
 		$MHE = '<meta http-equiv="';
 		$UIL = self::$UIL;
 		$ETitle = "$UIL->Title (BASE) $BASE_installID $BASE_VERSION : "
@@ -80,7 +80,7 @@ class output_htmlSPTest extends TestCase {
 		PageStart(0,'Custom Title');
 	}
 	public function testPageStartArchiveTitle() {
-		GLOBAL $BASE_path, $BASE_installID, $BASE_VERSION, $UIL, $base_style;
+		GLOBAL $BASE_installID, $BASE_VERSION, $UIL, $base_style;
 		$_COOKIE['archive'] = 1;
 		$MHE = '<meta http-equiv="';
 		$UIL = self::$UIL;
@@ -99,7 +99,7 @@ class output_htmlSPTest extends TestCase {
 		PageStart();
 	}
 	public function testPageStartNoCacheON() {
-		GLOBAL $BASE_path, $BASE_installID, $BASE_VERSION, $UIL, $base_style,
+		GLOBAL $BASE_installID, $BASE_VERSION, $UIL, $base_style,
 		$html_no_cache;
 		$html_no_cache = 1;
 		$MHE = '<meta http-equiv="';
@@ -119,9 +119,8 @@ class output_htmlSPTest extends TestCase {
 		PageStart();
 	}
 	public function testPageStartRefreshON() {
-		GLOBAL $BASE_path, $BASE_installID, $BASE_VERSION, $UIL, $base_style,
+		GLOBAL $BASE_installID, $BASE_VERSION, $UIL, $base_style,
 		$stat_page_refresh_time;
-		$_SERVER["REQUEST_URI"] = "$BASE_path/testing";
 		$MHE = '<meta http-equiv="';
 		$UIL = self::$UIL;
 		$ETitle = "$UIL->Title (BASE) $BASE_installID $BASE_VERSION";
@@ -130,7 +129,7 @@ class output_htmlSPTest extends TestCase {
 		'<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">'
 		. "\n<!-- $ETitle -->\n<html>\n\t<head>"
 		."\n\t\t$MHE"."Content-Type\" content=\"text/html; charset=$ECS\">"
-		."\n\t\t$MHE"."refresh\" content=\"180; URL=$BASE_path/testing\">"
+		."\n\t\t$MHE"."refresh\" content=\"180; URL=/\">"
 		."\n\t\t<title>$ETitle</title>"
 		."\n\t\t<link rel=\"stylesheet\" type=\"text/css\""
 		." HREF=\"/styles/$base_style\">\n\t</head>\n\t<body>";
@@ -138,6 +137,49 @@ class output_htmlSPTest extends TestCase {
 		$this->expectOutputString($expected);
 		PageStart(1);
 	}
+	public function testdispMonthOptionsReturnDefaults() {
+		GLOBAL $UIL;
+		$UIL = self::$UIL;
+		$expected ="\n".'<option value="01" >January</option>';
+		$expected .="\n".'<option value="02" >February</option>';
+		$expected .="\n".'<option value="03" >March</option>';
+		$expected .="\n".'<option value="04" >April</option>';
+		$expected .="\n".'<option value="05" >May</option>';
+		$expected .="\n".'<option value="06" >June</option>';
+		$expected .="\n".'<option value="07" >July</option>';
+		$expected .="\n".'<option value="08" >August</option>';
+		$expected .="\n".'<option value="09" >September</option>';
+		$expected .="\n".'<option value="10" >October</option>';
+		$expected .="\n".'<option value="11" >November</option>';
+		$expected .="\n".'<option value="12" >December</option>';
+		$this->assertEquals(
+			$expected,
+			dispMonthOptions(''),
+			'Unexpected Return Value.'
+		);
+	}
+	public function testdispMonthOptionsReturnindents() {
+		GLOBAL $UIL;
+		$UIL = self::$UIL;
+		$expected ="\n\t".'<option value="01" >January</option>';
+		$expected .="\n\t".'<option value="02" >February</option>';
+		$expected .="\n\t".'<option value="03" >March</option>';
+		$expected .="\n\t".'<option value="04" >April</option>';
+		$expected .="\n\t".'<option value="05" >May</option>';
+		$expected .="\n\t".'<option value="06" >June</option>';
+		$expected .="\n\t".'<option value="07" >July</option>';
+		$expected .="\n\t".'<option value="08" >August</option>';
+		$expected .="\n\t".'<option value="09" >September</option>';
+		$expected .="\n\t".'<option value="10" >October</option>';
+		$expected .="\n\t".'<option value="11" >November</option>';
+		$expected .="\n\t".'<option value="12" >December</option>';
+		$this->assertEquals(
+			$expected,
+			dispMonthOptions('',1),
+			'Unexpected Return Value.'
+		);
+	}
+
 
 	// Add code to a function if needed.
 	// Stop here and mark test incomplete.

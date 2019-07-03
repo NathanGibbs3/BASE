@@ -25,8 +25,9 @@
 ********************************************************************************
 */
 
-// Inter Character Spacing.
-$UI_Spacing = 1;
+$UI_Spacing = 1; // Inter Character Spacing.
+$UI_ILC = 'ru'; // ISO 639-1 Language Code.
+$UI_IRC = ''; // Region Code.
 // Locales.
 $UI_Locales = array( 'eng_ENG.ISO8859-1', 'eng_ENG.utf-8', 'english' );
 // Time Format - See strftime() syntax.
@@ -56,6 +57,18 @@ $UI_CW_Proto = 'Протокол';
 $UI_CW_Pri = 'Приоритет';
 $UI_CW_Event = 'события';
 $UI_CW_Type = 'тип';
+$UI_CW_ML1 = 'Январь';
+$UI_CW_ML2 = 'Февраль';
+$UI_CW_ML3 = 'Март';
+$UI_CW_ML4 = 'Апрель';
+$UI_CW_ML5 = 'Май';
+$UI_CW_ML6 = 'Июнь';
+$UI_CW_ML7 = 'Июль';
+$UI_CW_ML8 = 'Август';
+$UI_CW_ML9 = 'Сентябрь';
+$UI_CW_ML10 = 'Октябрь';
+$UI_CW_ML11 = 'Ноябрь';
+$UI_CW_ML12 = 'Декабрь';
 // Common Phrases.
 $UI_CP_SrcName = array($UI_CW_Name,$UI_CW_Src);
 $UI_CP_DstName = array($UI_CW_Name,$UI_CW_Dst);
@@ -70,18 +83,6 @@ $UI_AD_RID = array($UI_CW_Id,$UI_CW_Role);
 $UI_AD_ASD = 'Включено';
 
 // основные фразы
-DEFINE('_JANUARY','Январь');
-DEFINE('_FEBRUARY','Февраль');
-DEFINE('_MARCH','Март');
-DEFINE('_APRIL','Апрель');
-DEFINE('_MAY','Май');
-DEFINE('_JUNE','Июнь');
-DEFINE('_JULY','Июль');
-DEFINE('_AUGUST','Август');
-DEFINE('_SEPTEMBER','Сентябрь');
-DEFINE('_OCTOBER','Октябрь');
-DEFINE('_NOVEMBER','Ноябрь');
-DEFINE('_DECEMBER','Декабрь');
 DEFINE('_LAST','Последний');
 DEFINE('_FIRST','First'); //NEW
 DEFINE('_TOTAL','Total'); //NEW

@@ -149,21 +149,10 @@ include_once ("$BASE_path/base_graph_common.php");
 
   echo '</SELECT>
         <SELECT NAME="chart_begin_month">
-         <OPTION VALUE=" "  '.chk_select($chart_begin_month, " ").'>'._CHARTMONTH.'
-         <OPTION VALUE="01" '.chk_select($chart_begin_month, "01").'>'._JANUARY.'
-         <OPTION VALUE="02" '.chk_select($chart_begin_month, "02").'>'._FEBRUARY.'
-         <OPTION VALUE="03" '.chk_select($chart_begin_month, "03").'>'._MARCH.'
-         <OPTION VALUE="04" '.chk_select($chart_begin_month, "04").'>'._APRIL.'
-         <OPTION VALUE="05" '.chk_select($chart_begin_month, "05").'>'._MAY.'
-         <OPTION VALUE="06" '.chk_select($chart_begin_month, "06").'>'._JUNE.'
-         <OPTION VALUE="07" '.chk_select($chart_begin_month, "07").'>'._JULY.'
-         <OPTION VALUE="08" '.chk_select($chart_begin_month, "08").'>'._AUGUST.'
-         <OPTION VALUE="09" '.chk_select($chart_begin_month, "09").'>'._SEPTEMBER.'
-         <OPTION VALUE="10" '.chk_select($chart_begin_month, "10").'>'._OCTOBER.'
-         <OPTION VALUE="11" '.chk_select($chart_begin_month, "11").'>'._NOVEMBER.'
-         <OPTION VALUE="12" '.chk_select($chart_begin_month, "12").'>'._DECEMBER.'
-        </SELECT>
-        <SELECT NAME="chart_begin_year">'.
+         <OPTION VALUE=" "  '.chk_select($chart_begin_month, " ").'>'._CHARTMONTH;
+print dispMonthOptions($chart_begin_month,4);
+NLIO('</select>',3);
+  echo '<SELECT NAME="chart_begin_year">'.
         dispYearOptions($chart_begin_year)
         .'</SELECT>';
 
@@ -181,21 +170,10 @@ include_once ("$BASE_path/base_graph_common.php");
 
   echo '</SELECT>
         <SELECT NAME="chart_end_month">
-         <OPTION VALUE=" "  '.chk_select($chart_end_month, " ").'>'._CHARTMONTH.'
-         <OPTION VALUE="01" '.chk_select($chart_end_month, "01").'>'._JANUARY.'
-         <OPTION VALUE="02" '.chk_select($chart_end_month, "02").'>'._FEBRUARY.'
-         <OPTION VALUE="03" '.chk_select($chart_end_month, "03").'>'._MARCH.'
-         <OPTION VALUE="04" '.chk_select($chart_end_month, "04").'>'._APRIL.'
-         <OPTION VALUE="05" '.chk_select($chart_end_month, "05").'>'._MAY.'
-         <OPTION VALUE="06" '.chk_select($chart_end_month, "06").'>'._JUNE.'
-         <OPTION VALUE="07" '.chk_select($chart_end_month, "07").'>'._JULY.'
-         <OPTION VALUE="08" '.chk_select($chart_end_month, "08").'>'._AUGUST.'
-         <OPTION VALUE="09" '.chk_select($chart_end_month, "09").'>'._SEPTEMBER.'
-         <OPTION VALUE="10" '.chk_select($chart_end_month, "10").'>'._OCTOBER.'
-         <OPTION VALUE="11" '.chk_select($chart_end_month, "11").'>'._NOVEMBER.'
-         <OPTION VALUE="12" '.chk_select($chart_end_month, "12").'>'._DECEMBER.'
-        </SELECT>
-        <SELECT NAME="chart_end_year">'.
+         <OPTION VALUE=" "  '.chk_select($chart_end_month, " ").'>'._CHARTMONTH;
+print dispMonthOptions($chart_end_month,4);
+NLIO('</select>',3);
+  echo '<SELECT NAME="chart_end_year">'.
         dispYearOptions($chart_end_year)
         .'</SELECT></TD></TR>';
       

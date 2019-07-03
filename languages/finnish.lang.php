@@ -28,8 +28,9 @@
 ********************************************************************************
 */
 
-// Inter Character Spacing.
-$UI_Spacing = 1;
+$UI_Spacing = 1; // Inter Character Spacing.
+$UI_ILC = 'fi'; // ISO 639-1 Language Code.
+$UI_IRC = ''; // Region Code.
 // Locales.
 $UI_Locales = array( 'eng_ENG.ISO8859-1', 'eng_ENG.utf-8', 'english' );
 // Time Format - See strftime() syntax.
@@ -59,6 +60,18 @@ $UI_CW_Proto = 'Protocol';
 $UI_CW_Pri = 'Tärkeysjärjetys';
 $UI_CW_Event = 'tapahtuma';
 $UI_CW_Type = 'tyyppi';
+$UI_CW_ML1 = 'tammikuu';
+$UI_CW_ML2 = 'helmikuu';
+$UI_CW_ML3 = 'maaliskuu';
+$UI_CW_ML4 = 'huhtikuu';
+$UI_CW_ML5 = 'toukokuu';
+$UI_CW_ML6 = 'kesäkuu';
+$UI_CW_ML7 = 'heinäkuu';
+$UI_CW_ML8 = 'elokuu';
+$UI_CW_ML9 = 'syyskuu';
+$UI_CW_ML10 = 'lokakuu';
+$UI_CW_ML11 = 'marraskuu';
+$UI_CW_ML12 = 'joulukuu';
 // Common Phrases.
 $UI_CP_SrcName = array('Lähteen',$UI_CW_Name);
 $UI_CP_DstName = array('Kohteen',$UI_CW_Name);
@@ -73,18 +86,6 @@ $UI_AD_RID = array($UI_CW_Role,$UI_CW_Id);
 $UI_AD_ASD = 'Toiminnassa';
 
 //common phrases
-DEFINE('_JANUARY','tammikuu');
-DEFINE('_FEBRUARY','helmikuu');
-DEFINE('_MARCH','maaliskuu');
-DEFINE('_APRIL','huhtikuu');
-DEFINE('_MAY','toukokuu');
-DEFINE('_JUNE','kesäkuu');
-DEFINE('_JULY','heinäkuu');
-DEFINE('_AUGUST','elokuu');
-DEFINE('_SEPTEMBER','syyskuu');
-DEFINE('_OCTOBER','lokakuu');
-DEFINE('_NOVEMBER','marraskuu');
-DEFINE('_DECEMBER','joulukuu');
 DEFINE('_LAST','Viimeinen');
 DEFINE('_FIRST','First'); //NEW
 DEFINE('_TOTAL','Total'); //NEW
