@@ -698,6 +698,16 @@ class legacylangTest extends TestCase {
 			$this->CWAHas($$tmp,$a,"Month Long $i");
 		}
 	}
+	public function testCWASetItemLast() {
+		$lang = self::$langs;
+		$tf = __FUNCTION__;
+		$tmp = "UI$lang";
+		LogTC($tf,'language',$lang);
+		$$tmp = self::$UIL;
+		$file = $$tmp->TDF;
+		LogTC($tf,'TD file',$file);
+		$this->CWAHas($$tmp,'Last','Last');
+	}
 	// Test Common Phrase Items.
 	public function testCPASetItemSrcName() {
 		$lang = self::$langs;

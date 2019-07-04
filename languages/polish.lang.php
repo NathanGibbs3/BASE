@@ -68,6 +68,7 @@ $UI_CW_ML9 = 'Wrzesien';
 $UI_CW_ML10 = 'Pazdziernik';
 $UI_CW_ML11 = 'Listopad';
 $UI_CW_ML12 = 'Grudzien';
+$UI_CW_Last = 'Ostatni';
 // Common Phrases.
 $UI_CP_SrcName = array($UI_CW_Name,'Zrodlowa');
 $UI_CP_DstName = array($UI_CW_Name,'Docelowa');
@@ -82,7 +83,6 @@ $UI_AD_RID = array($UI_CW_Id,'Roli');
 $UI_AD_ASD = 'Wlaczony';
 
 //common phrases
-DEFINE('_LAST','Ostatni');
 DEFINE('_FIRST','Pierwszy'); //NEW
 DEFINE('_TOTAL','Wszystkich'); //NEW
 DEFINE('_ALERT','Alarmy');
@@ -128,11 +128,11 @@ DEFINE('_ADDPAYLOAD','DODAJ Zawartosc'); //NEW
 DEFINE('_MOSTFREQALERTS','Najczestsze Alarmy'); //NEW
 DEFINE('_MOSTFREQPORTS','Najczestsze Porty'); //NEW
 DEFINE('_MOSTFREQADDRS','Najczestsze adresy IP'); //NEW
-DEFINE('_LASTALERTS','Ostatnie Alarmy'); //NEW
-DEFINE('_LASTPORTS','Ostatnie Ports'); //NEW
-DEFINE('_LASTTCP','Ostatnie Alarmy TCP'); //NEW
-DEFINE('_LASTUDP','Ostatnie Alarmy UDP'); //NEW
-DEFINE('_LASTICMP','Ostatnie Alarmy ICMP'); //NEW
+DEFINE('_LASTALERTS',$UI_CW_Last.' Alarmy'); //NEW
+DEFINE('_LASTPORTS',$UI_CW_Last.' Ports'); //NEW
+DEFINE('_LASTTCP',$UI_CW_Last.' Alarmy TCP'); //NEW
+DEFINE('_LASTUDP',$UI_CW_Last.' Alarmy UDP'); //NEW
+DEFINE('_LASTICMP',$UI_CW_Last.' Alarmy ICMP'); //NEW
 DEFINE('_QUERYDB','Query DB'); //NEW
 DEFINE('_QUERYDBP','Query+DB'); //NEW - Equals to _QUERYDB where spaces are '+'s. 
                                 //Should be something like: DEFINE('_QUERYDBP',str_replace(" ", "+", _QUERYDB));
@@ -192,11 +192,11 @@ DEFINE('_LISTING','lista');
 DEFINE('_TALERTS','Dzisiejsze alarmy: ');
 DEFINE('_SOURCEIP','IP Zrodlowy'); //NEW
 DEFINE('_DESTIP','IP Docelowy'); //NEW
-DEFINE('_L24ALERTS','Alarmy z ostatnich 24 godzin: ');
-DEFINE('_L72ALERTS','Alarmy z ostatnich 72 godzin: ');
+DEFINE('_L24ALERTS','Alarmy z '.$UI_CW_Last.' 24 godzin: ');
+DEFINE('_L72ALERTS','Alarmy z '.$UI_CW_Last.' 72 godzin: ');
 DEFINE('_UNIALERTS',' Unikalnych Alarmow');
-DEFINE('_LSOURCEPORTS','Ostatnie Porty Zrodlowe: ');
-DEFINE('_LDESTPORTS','Ostatnie Porty Docelowe: ');
+DEFINE('_LSOURCEPORTS',$UI_CW_Last.' Porty Zrodlowe: ');
+DEFINE('_LDESTPORTS',$UI_CW_Last.' Porty Docelowe: ');
 DEFINE('_FREGSOURCEP','Najczestsze Porty Zrodlowe: ');
 DEFINE('_FREGDESTP','Najczestsze Porty Docelowe: ');
 DEFINE('_QUERIED','Zapytanie');
@@ -634,7 +634,7 @@ DEFINE('_PSTCPFLAGS','Flagi TCP');
 DEFINE('_PSTOTALOCC','Total<BR> Occurrences');
 DEFINE('_PSNUMSENSORS','Liczba Sensorow');
 DEFINE('_PSFIRSTOCC','First<BR> Occurrence');
-DEFINE('_PSLASTOCC','Ostatnie<BR> Occurrence');
+DEFINE('_PSLASTOCC',$UI_CW_Last.'<BR> Occurrence');
 DEFINE('_PSUNIALERTS','Unikalnych Alarmow');
 DEFINE('_PSPORTSCANEVE','Portscan Events');
 DEFINE('_PSREGWHOIS','Registry lookup (whois) in');

@@ -67,6 +67,7 @@ $UI_CW_ML9 = 'September';
 $UI_CW_ML10 = 'Oktober';
 $UI_CW_ML11 = 'November';
 $UI_CW_ML12 = 'Desember';
+$UI_CW_Last = 'terakhir';
 // Common Phrases.
 $UI_CP_SrcName = array($UI_CW_Name,$UI_CW_Src);
 $UI_CP_DstName = array($UI_CW_Name,$UI_CW_Dst);
@@ -81,7 +82,6 @@ $UI_AD_RID = array($UI_CW_Id,$UI_CW_Role);
 $UI_AD_ASD = 'Aktif';
 
 //common phrases
-DEFINE('_LAST','terakhir');
 DEFINE('_FIRST','First'); //NEW
 DEFINE('_TOTAL','Total'); //NEW
 DEFINE('_ALERT','Alarem');
@@ -191,11 +191,11 @@ DEFINE('_LISTING','seluruh');
 DEFINE('_TALERTS','Alarem hari ini: ');
 DEFINE('_SOURCEIP','Source IP'); //NEW
 DEFINE('_DESTIP','Destination IP'); //NEW
-DEFINE('_L24ALERTS','Alarem dalam 24 jam terakhir: ');
-DEFINE('_L72ALERTS','Alarem dalam 72 jam terakhir: ');
+DEFINE('_L24ALERTS','Alarem dalam 24 jam '.$UI_CW_Last.': ');
+DEFINE('_L72ALERTS','Alarem dalam 72 jam '.$UI_CW_Last.': ');
 DEFINE('_UNIALERTS',' Alarem Unik');
-DEFINE('_LSOURCEPORTS','Port sumber terakhir: ');
-DEFINE('_LDESTPORTS','Port sasaran terakhir: ');
+DEFINE('_LSOURCEPORTS','Port sumber '.$UI_CW_Last.': ');
+DEFINE('_LDESTPORTS','Port sasaran '.$UI_CW_Last.': ');
 DEFINE('_FREGSOURCEP','Port sumber seringkali: ');
 DEFINE('_FREGDESTP','Port sasaran seringkali: ');
 DEFINE('_QUERIED','Ditampilkan pada');
@@ -633,7 +633,7 @@ DEFINE('_PSTCPFLAGS','Flag TCP');
 DEFINE('_PSTOTALOCC','Jumlah<BR> '.$UI_CW_Event);
 DEFINE('_PSNUMSENSORS','Jml. Sensor');
 DEFINE('_PSFIRSTOCC',$UI_CW_Event.'<BR> Pertama');
-DEFINE('_PSLASTOCC',$UI_CW_Event.'<BR> Terakhir');
+DEFINE('_PSLASTOCC',$UI_CW_Event.'<BR> '.$UI_CW_Last);
 DEFINE('_PSUNIALERTS','Alarem Unik');
 DEFINE('_PSPORTSCANEVE',$UI_CW_Event.' Portscan');
 DEFINE('_PSREGWHOIS','Periksa pendaftar (whois) di');

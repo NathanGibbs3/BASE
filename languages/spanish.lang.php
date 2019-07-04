@@ -67,6 +67,7 @@ $UI_CW_ML9 = 'Septiembre';
 $UI_CW_ML10 = 'Octubre';
 $UI_CW_ML11 = 'Noviembre';
 $UI_CW_ML12 = 'Diciembre';
+$UI_CW_Last = 'Ultimo';
 // Common Phrases.
 $UI_CP_SrcName = array($UI_CW_Name,'del','origen');
 $UI_CP_DstName = array($UI_CW_Name,'del','dest.');
@@ -81,7 +82,6 @@ $UI_AD_RID = array($UI_CW_Id,$UI_CW_Role);
 $UI_AD_ASD = 'Activado';
 
 //common phrases
-DEFINE('_LAST','Ultimo');
 DEFINE('_ALERT','Alertas');
 DEFINE('_FIRST','First'); //NEW
 DEFINE('_TOTAL','Total'); //NEW
@@ -633,7 +633,7 @@ DEFINE('_PSTCPFLAGS','Banderas TCP');
 DEFINE('_PSTOTALOCC','Total<BR> de sucesos');
 DEFINE('_PSNUMSENSORS','Num. de Sensores');
 DEFINE('_PSFIRSTOCC','Primer<BR> Suceso');
-DEFINE('_PSLASTOCC','Ultimo<BR> Suceso');
+DEFINE('_PSLASTOCC',$UI_CW_Last.'<BR> Suceso');
 DEFINE('_PSUNIALERTS','Alertas &uacute;nicas');
 DEFINE('_PSPORTSCANEVE',$UI_CW_Event.'s de busqueda de puertos');
 DEFINE('_PSREGWHOIS','Buscar en el registro Whois en');

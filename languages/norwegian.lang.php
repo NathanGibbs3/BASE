@@ -66,6 +66,7 @@ $UI_CW_ML9 = 'September';
 $UI_CW_ML10 = 'Oktober';
 $UI_CW_ML11 = 'November';
 $UI_CW_ML12 = 'Desember';
+$UI_CW_Last = 'Siste';
 // Common Phrases.
 $UI_CP_SrcName = array($UI_CW_Src,$UI_CW_Name);
 $UI_CP_DstName = array('Dest.',$UI_CW_Name);
@@ -79,7 +80,6 @@ $UI_AD_RID = array($UI_CW_Role,$UI_CW_Id);
 $UI_AD_ASD = 'Aktivert';
 
 //common phrases
-DEFINE('_LAST','Siste');
 DEFINE('_FIRST','First'); //NEW
 DEFINE('_TOTAL','Total'); //NEW
 DEFINE('_ALERT','Hendelser');
@@ -190,11 +190,11 @@ DEFINE('_LISTING','listing');
 DEFINE('_SOURCEIP','Source IP'); //NEW
 DEFINE('_DESTIP','Destination IP'); //NEW
 DEFINE('_TALERTS','Dagens hendelser: ');
-DEFINE('_L24ALERTS','Hendelser de siste 24 timene: ');
-DEFINE('_L72ALERTS','Hendelser de siste 72 timene: ');
+DEFINE('_L24ALERTS','Hendelser de '.$UI_CW_Last.' 24 timene: ');
+DEFINE('_L72ALERTS','Hendelser de '.$UI_CW_Last.' 72 timene: ');
 DEFINE('_UNIALERTS',' unike hendelser');
-DEFINE('_LSOURCEPORTS','Siste kildeporter: ');
-DEFINE('_LDESTPORTS','Siste destinasjonsporter: ');
+DEFINE('_LSOURCEPORTS',$UI_CW_Last.' kildeporter: ');
+DEFINE('_LDESTPORTS',$UI_CW_Last.' destinasjonsporter: ');
 DEFINE('_FREGSOURCEP','Mest aktive kildeporter: ');
 DEFINE('_FREGDESTP','Mest aktive destinasjonsporter: ');
 # Not sure about the next line (context and case...)
@@ -409,7 +409,7 @@ DEFINE('_CONFIRMDELETE','Confirm Delete'); //NEW
 DEFINE('_CONFIRMCLEAR','Confirm Clear'); //NEW
 DEFINE('_NOALERTGOUPS','Det finnes ingen hendelsesgrupper');
 DEFINE('_NUMALERTS','Antall hendelser');
-DEFINE('_ACTIONS','Gjøremål');
+DEFINE('_ACTIONS','GjÃ¸remål');
 DEFINE('_NOTASSIGN','ikke lagt til enda');
 
 //base_common.php
@@ -634,7 +634,7 @@ DEFINE('_PSTCPFLAGS','TCP flagg');
 DEFINE('_PSTOTALOCC','Hendelser<BR> totalt');
 DEFINE('_PSNUMSENSORS','Antall sensorer');
 DEFINE('_PSFIRSTOCC','Frste<BR> hendelse');
-DEFINE('_PSLASTOCC','Siste<BR> hendelse');
+DEFINE('_PSLASTOCC',$UI_CW_Last.'<BR> hendelse');
 DEFINE('_PSUNIALERTS','Unike hendelser');
 DEFINE('_PSPORTSCANEVE','Portscan hendelser');
 DEFINE('_PSREGWHOIS','Oppslag (whois) i');

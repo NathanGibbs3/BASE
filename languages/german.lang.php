@@ -68,6 +68,7 @@ $UI_CW_ML9 = 'September';
 $UI_CW_ML10 = 'Oktober';
 $UI_CW_ML11 = 'November';
 $UI_CW_ML12 = 'Dezember';
+$UI_CW_Last = 'letztes';
 // Common Phrases.
 $UI_CP_SrcName = array($UI_CW_Src,$UI_CW_Name);
 $UI_CP_DstName = array($UI_CW_Dst,$UI_CW_Name);
@@ -82,7 +83,6 @@ $UI_AD_RID = array($UI_CW_Role,$UI_CW_Id);
 $UI_AD_ASD = 'Aktiv';
 
 //common phrases
-DEFINE('_LAST','letzte(r/s)');
 DEFINE('_FIRST','First'); //NEW
 DEFINE('_TOTAL','Total'); //NEW
 DEFINE('_ALERT','Alarm');
@@ -192,11 +192,11 @@ DEFINE('_LISTING','alle');
 DEFINE('_TALERTS','Alarme heute: ');
 DEFINE('_SOURCEIP','Source IP'); //NEW
 DEFINE('_DESTIP','Destination IP'); //NEW
-DEFINE('_L24ALERTS','Alarme der letzten 24 Stunden: ');
-DEFINE('_L72ALERTS','Alarme der letzten 72 Stunden: ');
+DEFINE('_L24ALERTS','Alarme der '.$UI_CW_Last.' 24 Stunden: ');
+DEFINE('_L72ALERTS','Alarme der '.$UI_CW_Last.' 72 Stunden: ');
 DEFINE('_UNIALERTS',' Alarmtypen');
-DEFINE('_LSOURCEPORTS','Letzte Quellports: ');
-DEFINE('_LDESTPORTS','Letzte Zielports: ');
+DEFINE('_LSOURCEPORTS',$UI_CW_Last.' Quellports: ');
+DEFINE('_LDESTPORTS',$UI_CW_Last.' Zielports: ');
 DEFINE('_FREGSOURCEP','H&auml;ufigste Quellports: ');
 DEFINE('_FREGDESTP','H&auml;ufigste Zielports: ');
 DEFINE('_QUERIED','Stand:');
@@ -634,7 +634,7 @@ DEFINE('_PSTCPFLAGS','TCP Flags');
 DEFINE('_PSTOTALOCC','Anzahl<BR> Vorkommen');
 DEFINE('_PSNUMSENSORS','Anzahl Sensoren');
 DEFINE('_PSFIRSTOCC','Erstes<BR> Vorkommen');
-DEFINE('_PSLASTOCC','Letztes<BR> Vorkommen');
+DEFINE('_PSLASTOCC',$UI_CW_Last.'<BR> Vorkommen');
 DEFINE('_PSUNIALERTS','Einheitliche Alarmtypen');
 DEFINE('_PSPORTSCANEVE','Portscan Events');
 DEFINE('_PSREGWHOIS','Verzeichnissuche (whois) in');

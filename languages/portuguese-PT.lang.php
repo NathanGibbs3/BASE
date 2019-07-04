@@ -75,6 +75,7 @@ $UI_CW_ML9 = 'Setembro';
 $UI_CW_ML10 = 'Outubro';
 $UI_CW_ML11 = 'Novembro';
 $UI_CW_ML12 = 'Dezembro';
+$UI_CW_Last = 'Último';
 // Common Phrases.
 $UI_CP_SrcName = array($UI_CW_Name,'da',$UI_CW_Src);
 $UI_CP_DstName = array($UI_CW_Name,'do',$UI_CW_Dst);
@@ -89,7 +90,6 @@ $UI_AD_RID = array($UI_CW_Id,'do',$UI_CW_Role);
 $UI_AD_ASD = 'Habilitado';
 
 //common phrases
-DEFINE('_LAST','Último');
 DEFINE('_FIRST','Primeiro');
 DEFINE('_TOTAL','Total');
 DEFINE('_ALERT','Alerta');

@@ -67,6 +67,7 @@ $UI_CW_ML9 = 'septembre';
 $UI_CW_ML10 = 'octobre';
 $UI_CW_ML11 = 'novembre';
 $UI_CW_ML12 = 'décembre';
+$UI_CW_Last = 'Dernière';
 // Common Phrases.
 $UI_CP_SrcName = array($UI_CW_Name,'de la',$UI_CW_Src);
 $UI_CP_DstName = array($UI_CW_Name,'de la',$UI_CW_Dst);
@@ -81,8 +82,6 @@ $UI_AD_RID = array($UI_CW_Id,'de',$UI_CW_Role);
 $UI_AD_ASD = 'Activé';
 
 //common phrases
-DEFINE('_LAST','Derni(er|ère)');
-// Last
 DEFINE('_ALERT','Alertes ');
 // Alerts
 DEFINE('_ADDRESS','Adresse');
@@ -172,9 +171,9 @@ DEFINE('_LISTING','liste');
 // listing
 DEFINE('_TALERTS','Alertes du jour :'); 
 // Today\'s alerts: 
-DEFINE('_L24ALERTS','Alertes des dernières 24 heures :');
+DEFINE('_L24ALERTS','Alertes des '.$UI_CW_Last.'s 24 heures :');
 // Last 24 Hours alerts: 
-DEFINE('_L72ALERTS','Alertes des dernières 72 heures :');
+DEFINE('_L72ALERTS','Alertes des '.$UI_CW_Last.'s 72 heures :');
 // Last 72 Hours alerts: 
 DEFINE('_UNIALERTS',' Alertes Uniques');
 //  Unique Alerts
@@ -870,7 +869,7 @@ DEFINE('_PSNUMSENSORS','Nombre de sondes');
 // Num of Sensors
 DEFINE('_PSFIRSTOCC','Première<br>occurrence');
 // First<BR> Occurrence
-DEFINE('_PSLASTOCC','Dernière<br>occurrence');
+DEFINE('_PSLASTOCC',$UI_CW_Last.'<br>occurrence');
 // Last<BR> Occurrence
 DEFINE('_PSUNIALERTS','Alertes uniques');
 // Unique Alerts

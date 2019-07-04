@@ -1,7 +1,7 @@
 <?php
 use PHPUnit\Framework\TestCase;
 
-// Test fucntions in /base_common.php
+// Test fucntions in base_common.php
 /**
   * @covers ::GetQueryResultID
   * @covers ::GetVendor

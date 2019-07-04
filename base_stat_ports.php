@@ -48,6 +48,7 @@ include_once("$BASE_path/includes/base_constants.inc.php");
                      $alert_dbname, $alert_host, $alert_port, $alert_user, $alert_password);
 $UIL = new UILang($BASE_Language); // Create UI Language Object.
 $CPSensor = $UIL->CWA['Sensor'];
+$CPLast = $UIL->CWA['Last'];
   $cs = new CriteriaState("base_stat_ports.php");
   $cs->ReadState();
 
@@ -211,11 +212,10 @@ $qro->AddTitle("$CPSensor&nbsp;#",
   $qro->AddTitle(_FIRST, 
                 "first_a", " ", " ORDER BY first_timestamp ASC",
                 "first_d", " ", " ORDER BY first_timestamp DESC");
-  $qro->AddTitle(_LAST, 
-                "last_a", " ", " ORDER BY last_timestamp ASC",
-                "last_d", " ", " ORDER BY last_timestamp DESC");
-
-
+$qro->AddTitle($CPLast,
+	"last_a", " ", " ORDER BY last_timestamp ASC",
+	"last_d", " ", " ORDER BY last_timestamp DESC"
+);
   $sort_sql = $qro->GetSortSQL($qs->GetCurrentSort(), $qs->GetCurrentCannedQuerySort());
 
   $sql = "SELECT DISTINCT $port_type_sql, MIN(ip_proto), ".

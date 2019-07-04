@@ -67,6 +67,7 @@ $UI_CW_ML9 = 'September';
 $UI_CW_ML10 = 'Oktober';
 $UI_CW_ML11 = 'November';
 $UI_CW_ML12 = 'December';
+$UI_CW_Last = 'Senaste';
 // Common Phrases.
 $UI_CP_SrcName = array($UI_CW_Src,$UI_CW_Name);
 $UI_CP_DstName = array('Dest.',$UI_CW_Name);
@@ -81,7 +82,6 @@ $UI_AD_RID = array($UI_CW_Role,$UI_CW_Id);
 $UI_AD_ASD = 'Möjliggjord';
 
 //common phrases
-DEFINE('_LAST','Senaste');
 DEFINE('_FIRST','Föreg�ende'); //NEW
 DEFINE('_TOTAL','Total'); //NEW
 DEFINE('_ALERT','Varningar');
@@ -192,11 +192,11 @@ DEFINE('_LISTING','Lista');
 DEFINE('_TALERTS','Dagens varningar: ');
 DEFINE('_SOURCEIP','Käll IP'); //NEW
 DEFINE('_DESTIP','Destinations IP'); //NEW
-DEFINE('_L24ALERTS','Varningar dom senaste 24 timmarna  : ');
-DEFINE('_L72ALERTS','Varningar dom senaste 72 timmarna: ');
+DEFINE('_L24ALERTS','Varningar dom '.$UI_CW_Last.' 24 timmarna  : ');
+DEFINE('_L72ALERTS','Varningar dom '.$UI_CW_Last.' 72 timmarna: ');
 DEFINE('_UNIALERTS',' Unika varningar');
-DEFINE('_LSOURCEPORTS','Senaste käll Port(ar): ');
-DEFINE('_LDESTPORTS','Senaste Destination Port(ar): ');
+DEFINE('_LSOURCEPORTS',$UI_CW_Last.' käll Port(ar): ');
+DEFINE('_LDESTPORTS',$UI_CW_Last.' Destination Port(ar): ');
 DEFINE('_FREGSOURCEP','Mest förekommande käll Portar: ');
 DEFINE('_FREGDESTP','Mest förkommande Destinations Portar: ');
 DEFINE('_QUERIED','Queried on'); //---------------------------------------------- 

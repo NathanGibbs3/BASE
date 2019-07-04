@@ -374,32 +374,32 @@ function DataRows2sql($field, $cnt, $data_encode, &$s_sql)
 
 function PrintCriteria($caller) {
 	GLOBAL $db, $cs, $last_num_alerts, $save_criteria, $UIL;
+	$CPLast = $UIL->CWA['Last'];
 	// Generate the Criteria entered into a human readable form.
-  $save_criteria = '
-   <TABLE CELLSPACING=1 CELLPADDING=2 BORDER=0 BGCOLOR="#FFFFFF">
-    <TR>
-        <TD CLASS="metatitle">'._QCMETACRIT.'</TD>
-        <TD>';
-
-  /* If printing any of the LAST-X stats then ignore all the other criteria */
-  if (  $caller == "last_tcp" || $caller == "last_udp" || 
-        $caller == "last_icmp" || $caller == "last_any" ) 
-  {
-    $save_criteria = $save_criteria.'&nbsp;&nbsp;';
-    if ( $caller == "last_tcp" )
-       $save_criteria .= _LAST.' '.$last_num_alerts.' TCP '._ALERT; 
-    else if ( $caller == "last_udp" )
-       $save_criteria .= _LAST.' '.$last_num_alerts.' UDP '._ALERT; 
-    else if ( $caller == "last_icmp" )
-       $save_criteria .= _LAST.' '.$last_num_alerts.' ICMP '._ALERT; 
-    else if ( $caller == "last_any" )
-       $save_criteria .= _LAST.' '.$last_num_alerts.' '._ALERT;
-    
-    $save_criteria .= '&nbsp;&nbsp;</TD></TR></TABLE>';
-    echo $save_criteria;
-    return;
-  }
-
+	$save_criteria =
+	NLI('<table cellspacing="1" cellpadding="2" border="0" bgcolor="#FFFFFF">',4).
+	NLI('<tr>',5).
+	NLI('<td class="metatitle">'._QCMETACRIT.'</td>',6).
+	NLI('<td>',6);
+	// If printing any of the LAST-X stats then ignore all other criteria.
+	if (
+		$caller == "last_tcp" || $caller == "last_udp"
+		|| $caller == "last_icmp" || $caller == "last_any"
+	){
+		$save_criteria .= "&nbsp;&nbsp;$CPLast $last_num_alerts ";
+		if ( $caller == "last_tcp" ){
+			$save_criteria .= 'TCP ';
+		}elseif ( $caller == "last_udp" ){
+			$save_criteria .= 'UDP ';
+		}elseif ( $caller == "last_icmp" ){
+			$save_criteria .= 'ICMP ';
+		}
+		$save_criteria .= _ALERT.'&nbsp;&nbsp;</td>'.
+		NLI('</tr>',5).
+		NLI('</table>',4);
+		print $save_criteria;
+		return;
+	}
      $tmp_len = strlen($save_criteria);
 	if (is_object($cs)){ // Issue #5
 		$save_criteria .= $cs->criteria['sensor']->Description('');

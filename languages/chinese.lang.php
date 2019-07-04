@@ -67,6 +67,7 @@ $UI_CW_ML9 = '九月';
 $UI_CW_ML10 = '十月';
 $UI_CW_ML11 = '十一月';
 $UI_CW_ML12 = '十二月';
+$UI_CW_Last = '最後';
 // Common Phrases.
 $UI_CP_SrcName = array($UI_CW_Src,$UI_CW_Name);
 $UI_CP_DstName = array($UI_CW_Dst,$UI_CW_Name);
@@ -81,7 +82,6 @@ $UI_AD_RID = array($UI_CW_Role,$UI_CW_Id);
 $UI_AD_ASD = '啟用';
 
 //common phrases
-DEFINE('_LAST','最後');
 DEFINE('_FIRST','最早'); //NEW
 DEFINE('_TOTAL','總數'); //NEW
 DEFINE('_ALERT','警告數');
@@ -127,11 +127,11 @@ DEFINE('_ADDPAYLOAD','增加 封包內容'); //NEW
 DEFINE('_MOSTFREQALERTS','最常發生的警告數'); //NEW
 DEFINE('_MOSTFREQPORTS','最常發生的通訊埠'); //NEW
 DEFINE('_MOSTFREQADDRS','最常發生的 IP '.$UI_CW_Addr); //NEW
-DEFINE('_LASTALERTS','最後的警告'); //NEW
-DEFINE('_LASTPORTS','最後的通訊埠'); //NEW
-DEFINE('_LASTTCP','最後的 TCP 警告'); //NEW
-DEFINE('_LASTUDP','最後的 UDP 警告'); //NEW
-DEFINE('_LASTICMP','最後的 ICMP 警告'); //NEW
+DEFINE('_LASTALERTS',$UI_CW_Last.'的警告'); //NEW
+DEFINE('_LASTPORTS',$UI_CW_Last.'的通訊埠'); //NEW
+DEFINE('_LASTTCP',$UI_CW_Last.'的 TCP 警告'); //NEW
+DEFINE('_LASTUDP',$UI_CW_Last.'的 UDP 警告'); //NEW
+DEFINE('_LASTICMP',$UI_CW_Last.'的 ICMP 警告'); //NEW
 DEFINE('_QUERYDB','查詢 DB'); //NEW
 DEFINE('_QUERYDBP','查詢+DB'); //NEW - Equals to _QUERYDB where spaces are '+'s. 
                                 //Should be something like: DEFINE('_QUERYDBP',str_replace(" ", "+", _QUERYDB));
@@ -633,7 +633,7 @@ DEFINE('_PSTCPFLAGS','TCP 旗標');
 DEFINE('_PSTOTALOCC','全部<BR> '.$UI_CW_Event);
 DEFINE('_PSNUMSENSORS','偵測器數目');
 DEFINE('_PSFIRSTOCC','最早<BR> '.$UI_CW_Event);
-DEFINE('_PSLASTOCC','最後<BR> '.$UI_CW_Event);
+DEFINE('_PSLASTOCC',$UI_CW_Last.'<BR> '.$UI_CW_Event);
 DEFINE('_PSUNIALERTS','單一警告數');
 DEFINE('_PSPORTSCANEVE','通訊埠掃描'.$UI_CW_Event);
 DEFINE('_PSREGWHOIS','登入查詢 (whois) 於');

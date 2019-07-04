@@ -18,6 +18,7 @@ $debug_time_mode = 1;
 $debug_mode = 0;
 $sql_trace_mode = 0;
 $event_cache_auto_update = 0;
+$last_num_alerts = 15;
 
 session_start();
 print "   Testing with: (BASE) $BASE_installID $BASE_VERSION\n";
@@ -29,5 +30,6 @@ include ("$BASE_path/tests/phpcommon/tsf.php"); // Test Support Functions.
 include("$BASE_path/includes/base_include.inc.php");
 include_once("$BASE_path/base_db_common.php");
 include_once("$BASE_path/base_common.php");
+include_once("$BASE_path/base_qry_common.php");
 
 ?>

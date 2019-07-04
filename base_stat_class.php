@@ -36,6 +36,7 @@ $CPSensor = $UIL->CWA['Sensor'];
 $CPSig = $UIL->CWA['Sig'];
 $CPSA = $UIL->CPA['SrcAddr'];
 $CPDA = $UIL->CPA['DstAddr'];
+$CPLast = $UIL->CWA['Last'];
   $cs = new CriteriaState("base_stat_class.php");
   $cs->ReadState();
 
@@ -159,12 +160,12 @@ $qro->AddTitle($CPDA,
                 "first_d", ", min(timestamp) AS first_timestamp ",
                            " ORDER BY first_timestamp DESC");
 
-  $qro->AddTitle(_LAST, 
-                "last_a", ", max(timestamp) AS last_timestamp ",
-                           " ORDER BY last_timestamp ASC",
-                "last_d", ", max(timestamp) AS last_timestamp ",
-                           " ORDER BY last_timestamp DESC");
-
+$qro->AddTitle($CPLast,
+	"last_a", ", max(timestamp) AS last_timestamp ",
+	" ORDER BY last_timestamp ASC",
+	"last_d", ", max(timestamp) AS last_timestamp ",
+	" ORDER BY last_timestamp DESC"
+);
   $sort_sql = $qro->GetSortSQL($qs->GetCurrentSort(), $qs->GetCurrentCannedQuerySort());
 
   $sql = "SELECT DISTINCT sig_class_id, ".

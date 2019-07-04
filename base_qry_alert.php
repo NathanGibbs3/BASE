@@ -115,30 +115,32 @@ function PrintPcapDownload($db, $cid, $sid) {
 	return $url;
 }
 
-function PrintPacketLookupBrowseButtons($seq, $save_sql, $db, &$previous_button, &$next_button)
-{
-  $sf_portscan_flag = 0;
-
-  echo "\n\n<!-- Single Alert Browsing Buttons -->\n";
-
-  $result2 = $db->baseExecute($save_sql);
-
-  if ( $seq == 0 )
-     $previous_button = '[ '._FIRST.' ]'."\n";
-
-  $i = 0;
+function PrintPacketLookupBrowseButtons(
+	$seq, $save_sql, $db, &$prv_button, &$nxt_button
+){
+	GLOBAL $UIL;
+	$BtnLast = $UIL->CWA['Last'];
+	$sf_portscan_flag = 0;
+	NLIO('<!-- Single Alert Browsing Buttons -->',4);
+	$result2 = $db->baseExecute($save_sql);
+	if ( $seq == 0 ){
+		$prv_button = '[ '._FIRST.' ]';
+	}
+	$i = 0;
+	// HTML Templates
+	$BtnPfx = '<input type="submit" name="submit" value="';
+	$BtnSfx = '';
 	while ($i <= $seq+1 ) {
-     $myrow2 = $result2->baseFetchRow();
-
-     if ( $myrow2 == "" )
-        $next_button = '[ '._LAST.' ]'."\n"; 
-     else if ( $i == $seq-1 ) {
-        $previous_button = '<INPUT TYPE="submit" NAME="submit" VALUE="&lt;&lt; '._PREVIOUS.' #';
-        $previous_button.= ($seq-1).'-('.$myrow2[0].'-'.$myrow2[1].')">'."\n";
-     }
-     else if ( $i == $seq+1 ) {
-        $next_button = '<INPUT TYPE="submit" NAME="submit" VALUE="&gt;&gt; '._NEXT.' #';
-        $next_button.= ($seq+1).'-('.$myrow2[0].'-'.$myrow2[1].')">'."\n";
+		$myrow2 = $result2->baseFetchRow();
+		if ( $myrow2 == '' ){
+			$nxt_button = "[ $BtnLast ]";
+		}else{
+			$BtnSfx = ' #'.$i.'-('.$myrow2[0].'-'.$myrow2[1].')">';
+			if ( $i == $seq-1 ){
+				$prv_button = $BtnPfx.'&lt;&lt; '._PREVIOUS.$BtnSfx;
+			}elseif ( $i == $seq+1 ){
+				$nxt_button = $BtnPfx.'&gt;&gt; '._NEXT.$BtnSfx;
+			}
 		}
 		$i++;
 	}

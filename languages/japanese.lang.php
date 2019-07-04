@@ -67,6 +67,7 @@ $UI_CW_ML9 = '９月';
 $UI_CW_ML10 = '１０月';
 $UI_CW_ML11 = '１１月';
 $UI_CW_ML12 = '１２月';
+$UI_CW_Last = '最新の';
 // Common Phrases.
 $UI_CP_SrcName = array($UI_CW_Src,$UI_CW_Name);
 $UI_CP_DstName = array($UI_CW_Dst,$UI_CW_Name);
@@ -81,7 +82,6 @@ $UI_AD_RID = array($UI_CW_Role,$UI_CW_Id);
 $UI_AD_ASD = '有効';
 
 //common phrases
-DEFINE('_LAST','最新の');
 DEFINE('_FIRST','First'); //NEW
 DEFINE('_TOTAL','Total'); //NEW
 DEFINE('_ALERT','アラート');

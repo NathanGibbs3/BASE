@@ -2,15 +2,10 @@
 use PHPUnit\Framework\TestCase;
 
 // Test fucntions in /includes/base_output_html.inc.php
-// Tests that need process isolation.
+// Tests that need Globals isolation.
 
 /**
-  * @preserveGlobalState disabled
-  * A necessary evil for tests touching UILang during TD Transition.
-  * @runTestsInSeparateProcesses
-  * Apparently the covers annotations are ignored whe the above necessary
-  * evil is in effect. Will Add covers annotations once we get rid of
-  * necessary evil.
+  * @backupGlobals disabled
   */
 class output_htmlSPTest extends TestCase {
 	// Pre Test Setup.
@@ -25,23 +20,18 @@ class output_htmlSPTest extends TestCase {
 		self::$langs = $ll;
 		$lf = "$ll.lang.php";
 		self::$files = $lf;
-		self::assertInstanceOf('UILang',self::$UIL = new UILang($ll),
+		// Setup UI Language Object
+		// Will throw error during TD transition.
+		// Use error suppression @ symbol.
+		self::assertInstanceOf('UILang',self::$UIL = @new UILang($ll),
 			"Class for $ll not created."
 		);
-		// Issue #36 Cutout.
-		// See: https://github.com/NathanGibbs3/BASE/issues/36
-		$PHPV = GetPHPV();
-		$PSM = getenv('SafeMode');
-		if (version_compare($PHPV, '5.4', '<') && $PSM == 1){
-			self::markTestSkipped();
-		}
 	}
 	public static function tearDownAfterClass() {
 		self::$UIL = null;
 		self::$langs = null;
 		self::$files = null;
 	}
-
 
 	// Tests go here.
 	public function testPageStartDefaults() {
@@ -97,6 +87,7 @@ class output_htmlSPTest extends TestCase {
 		;
 		$this->expectOutputString($expected);
 		PageStart();
+		$_COOKIE['archive'] = 0;
 	}
 	public function testPageStartNoCacheON() {
 		GLOBAL $BASE_installID, $BASE_VERSION, $UIL, $base_style,
@@ -117,6 +108,7 @@ class output_htmlSPTest extends TestCase {
 		;
 		$this->expectOutputString($expected);
 		PageStart();
+		$html_no_cache = 0;
 	}
 	public function testPageStartRefreshON() {
 		GLOBAL $BASE_installID, $BASE_VERSION, $UIL, $base_style,
@@ -179,7 +171,6 @@ class output_htmlSPTest extends TestCase {
 			'Unexpected Return Value.'
 		);
 	}
-
 
 	// Add code to a function if needed.
 	// Stop here and mark test incomplete.

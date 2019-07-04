@@ -36,6 +36,7 @@ $CPSensor = $UIL->CWA['Sensor'];
 $CPSig = $UIL->CWA['Sig'];
 $CPSA = $UIL->CPA['SrcAddr'];
 $CPDA = $UIL->CPA['DstAddr'];
+$CPLast = $UIL->CWA['Last'];
   $cs = new CriteriaState("base_stat_alerts.php");
   $submit = ImportHTTPVar("submit", VAR_ALPHA | VAR_SPACE, array(_SELECTED, _ALLONSCREEN, _ENTIREQUERY));
 
@@ -180,12 +181,12 @@ $qro->AddTitle($CPDA,
 if ( isset($show_previous_alert) && $show_previous_alert == 1 ){
 	$qro->AddTitle("Previous");
 }
-  $qro->AddTitle(_LAST, 
-                "last_a", ", max(timestamp) AS last_timestamp ",
-                           " ORDER BY last_timestamp ASC",
-                "last_d", ", max(timestamp) AS last_timestamp ",
-                           " ORDER BY last_timestamp DESC");
-
+$qro->AddTitle($CPLast,
+	"last_a", ", max(timestamp) AS last_timestamp ",
+	" ORDER BY last_timestamp ASC",
+	"last_d", ", max(timestamp) AS last_timestamp ",
+	" ORDER BY last_timestamp DESC"
+);
   $sort_sql = $qro->GetSortSQL($qs->GetCurrentSort(), $qs->GetCurrentCannedQuerySort());
 
   /* mstone 20050309 add sig_name to GROUP BY & query so it can be used in postgres ORDER BY */

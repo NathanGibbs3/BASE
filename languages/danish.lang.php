@@ -67,6 +67,7 @@ $UI_CW_ML9 = 'September';
 $UI_CW_ML10 = 'Oktober';
 $UI_CW_ML11 = 'November';
 $UI_CW_ML12 = 'December';
+$UI_CW_Last = 'Sidste';
 // Common Phrases.
 $UI_CP_SrcName = array($UI_CW_Src,$UI_CW_Name);
 $UI_CP_DstName = array('Dest.',$UI_CW_Name);
@@ -81,7 +82,6 @@ $UI_AD_RID = array($UI_CW_Role,$UI_CW_Id);
 $UI_AD_ASD = 'Enabled';
 
 //common phrases
-DEFINE('_LAST','Sidst');
 DEFINE('_FIRST','First'); //NEW
 DEFINE('_TOTAL','Total'); //NEW
 DEFINE('_ALERT','Alarmer');
@@ -148,7 +148,7 @@ DEFINE('_PREVIOUS','Previous'); //NEW
 
 //Menu items
 DEFINE('_HOME','Hjem');
-DEFINE('_SEARCH','Søg');
+DEFINE('_SEARCH','SÃ¸g');
 DEFINE('_AGMAINT','Alarm Gruppe Vedligholdelse');
 DEFINE('_USERPREF','Bruger Indstillinger');
 DEFINE('_CACHE','Cache & Status');
@@ -179,7 +179,7 @@ DEFINE('_DISPLAYU','Vis bruger');
 DEFINE('_FOOTER','( by <A class="largemenuitem" href="mailto:base@secureideas.net">Kevin Johnson</A> and the <A class="largemenuitem" href="http://sourceforge.net/project/memberlist.php?group_id=103348">BASE Project Team</A><BR>Built on ACID by Roman Danyliw )');
 
 //index.php --Log in Page
-DEFINE('_LOGINERROR','Bruger eksistere ikke eller dit '.strtolower($UI_CW_Pw).' var forkert!<br>Prøv venligst igen');
+DEFINE('_LOGINERROR','Bruger eksistere ikke eller dit '.strtolower($UI_CW_Pw).' var forkert!<br>PrÃ¸v venligst igen');
 
 // base_main.php
 DEFINE('_MOSTRECENT','Seneste ');
@@ -192,14 +192,14 @@ DEFINE('_LISTING','liste');
 DEFINE('_TALERTS','Alarmer idag: ');
 DEFINE('_SOURCEIP','Source IP'); //NEW
 DEFINE('_DESTIP','Destination IP'); //NEW
-DEFINE('_L24ALERTS','De sidste 24 timers alarmer: ');
-DEFINE('_L72ALERTS','De sidste 72 timers alarmer: ');
+DEFINE('_L24ALERTS','De '.$UI_CW_Last.' 24 timers alarmer: ');
+DEFINE('_L72ALERTS','De '.$UI_CW_Last.' 72 timers alarmer: ');
 DEFINE('_UNIALERTS',' Unikke Alarmer');
-DEFINE('_LSOURCEPORTS','Sidste Kilde Porte: ');
-DEFINE('_LDESTPORTS','Sidste Destination Porte: ');
+DEFINE('_LSOURCEPORTS',$UI_CW_Last.' Kilde Porte: ');
+DEFINE('_LDESTPORTS',$UI_CW_Last.' Destination Porte: ');
 DEFINE('_FREGSOURCEP','De Meste Brugte Kilde Porte: ');
 DEFINE('_FREGDESTP','De Meste Brugte Destination Porte: ');
-DEFINE('_QUERIED','Sat I Kø Den');
+DEFINE('_QUERIED','Sat I KÃ¸ Den');
 DEFINE('_DATABASE','Database:');
 DEFINE('_SCHEMAV','Schema Version:');
 DEFINE('_TIMEWIN','Tids Vindue:');
@@ -304,7 +304,7 @@ DEFINE('_ERRSQLDBALLOAD2','<P>Check DB abstraction bibliotekets variable <CODE>$
             på ');
 DEFINE('_ERRSQLDBTYPE','Invalid Database '.$UI_CW_Type.' Specificeret');
 DEFINE('_ERRSQLDBTYPEINFO1','Variablen <CODE>\$DBtype</CODE> i <CODE>base_conf.php</CODE> var sat til den ukendte database '.$UI_CW_Type.' af ');
-DEFINE('_ERRSQLDBTYPEINFO2','Kun de følgende databaser kan bruges: <PRE>
+DEFINE('_ERRSQLDBTYPEINFO2','Kun de fÃ¸lgende databaser kan bruges: <PRE>
                 MySQL         : \'mysql\'
                 PostgreSQL    : \'postgres\'
                 MS SQL Server : \'mssql\'
@@ -322,7 +322,7 @@ DEFINE('_SECONDS','sekunder');
 DEFINE('_ERRRESOLVEADDRESS','Kunne ikke resolve adresse');
 
 //base_output_query.inc.php
-DEFINE('_QUERYRESULTSHEADER','Kø Resultater Uddata Hoved');
+DEFINE('_QUERYRESULTSHEADER','KÃ¸ Resultater Uddata Hoved');
 
 //base_signature.inc.php
 DEFINE('_ERRSIGNAMEUNK','SigNavn ukendt');

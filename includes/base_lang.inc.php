@@ -391,6 +391,13 @@ class UILang{
 		}else{
 			$this->SetUICWItem('Type');
 		}
+		if ( isset($UI_CW_Last) ) { // Var New TDF
+			$this->SetUICWItem('Last',$UI_CW_Last);
+		}elseif (defined('_LAST')) { // Const Legacy TDF
+			$this->SetUICWItem('Last',_LAST);
+		}else{
+			$this->SetUICWItem('Last');
+		}
 		// Init Common Phrases
 		if ( isset($UI_CP_SrcName) ) { // Var New TDF
 			$this->SetUICPItem('SrcName',$this->Phrase($UI_CP_SrcName));
@@ -567,7 +574,7 @@ class UILang{
 			'Sensor', 'Sig', 'Ts', 'Role', 'Addr', 'Layer', 'Proto', 'Pri',
 			'Event', 'Type', 'ML1', 'ML2', 'ML3', 'ML4', 'ML5', 'ML6', 'ML7',
 			'ML8', 'ML9', 'ML10', 'ML11', 'ML12', 'MS1', 'MS2', 'MS3', 'MS4',
-			'MS5', 'MS6', 'MS7', 'MS8', 'MS9', 'MS10', 'MS11', 'MS12'
+			'MS5', 'MS6', 'MS7', 'MS8', 'MS9', 'MS10', 'MS11', 'MS12', 'Last'
 		);
 		if (in_array($Item, $Items)) {
 			$this->CWA[$Item] = $Value;

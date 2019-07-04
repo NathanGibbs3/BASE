@@ -67,6 +67,7 @@ $UI_CW_ML9 = '九月';
 $UI_CW_ML10 = '十月';
 $UI_CW_ML11 = '十一月';
 $UI_CW_ML12 = '十二月';
+$UI_CW_Last = '最后';
 // Common Phrases.
 $UI_CP_SrcName = array($UI_CW_Src,$UI_CW_Name);
 $UI_CP_DstName = array($UI_CW_Dst,$UI_CW_Name);
@@ -81,7 +82,6 @@ $UI_AD_RID = array($UI_CW_Role,$UI_CW_Id);
 $UI_AD_ASD = '启用';
 
 //common phrases
-DEFINE('_LAST','最后');
 DEFINE('_FIRST','First'); //NEW
 DEFINE('_TOTAL','Total'); //NEW
 DEFINE('_ALERT','警告数');
@@ -198,8 +198,8 @@ DEFINE('_TALERTS','今日警告数: ');
 DEFINE('_L24ALERTS','最近24小时警告数: ');
 DEFINE('_L72ALERTS','最近72小时警告数: ');
 DEFINE('_UNIALERTS',' 单项警告数');
-DEFINE('_LSOURCEPORTS','最后'.$UI_CW_Src.'端口: ');
-DEFINE('_LDESTPORTS','最后'.$UI_CW_Dst.'端口: ');
+DEFINE('_LSOURCEPORTS',$UI_CW_Last.$UI_CW_Src.'端口: ');
+DEFINE('_LDESTPORTS',$UI_CW_Last.$UI_CW_Dst.'端口: ');
 DEFINE('_FREGSOURCEP','出现频率最高源端口: ');
 DEFINE('_FREGDESTP','出现频率最高'.$UI_CW_Dst.'端口: ');
 DEFINE('_QUERIED','查询自');
@@ -679,7 +679,7 @@ DEFINE('_PSTCPFLAGS','TCP 标志');
 DEFINE('_PSTOTALOCC','总共<BR> 发生');
 DEFINE('_PSNUMSENSORS','监测器数量');
 DEFINE('_PSFIRSTOCC','首次<BR> 发生');
-DEFINE('_PSLASTOCC','最后<BR> 发生');
+DEFINE('_PSLASTOCC',$UI_CW_Last.'<BR> 发生');
 DEFINE('_PSUNIALERTS','单项警告');
 DEFINE('_PSPORTSCANEVE','端口扫描'.$UI_CW_Event);
 DEFINE('_PSREGWHOIS','注册查询 (whois) 在');

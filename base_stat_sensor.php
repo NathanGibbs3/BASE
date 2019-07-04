@@ -36,6 +36,7 @@ include_once ("$BASE_path/includes/base_constants.inc.php");
 $UIL = new UILang($BASE_Language); // Create UI Language Object.
 $CPName = $UIL->CWA['Name'];
 $CPSensor = $UIL->CWA['Sensor'];
+$CPLast = $UIL->CWA['Last'];
   $cs = new CriteriaState("base_stat_sensor.php");
   $cs->ReadState();
 
@@ -131,10 +132,10 @@ $qro->AddTitle( $CPName,
   $qro->AddTitle(_FIRST, 
                 "first_a", "", " ORDER BY first_timestamp ASC",
                 "first_d", "", " ORDER BY first_timestamp DESC");
-  $qro->AddTitle(_LAST, 
-                "last_a", "", " ORDER BY last_timestamp ASC",
-                "last_d", "", " ORDER BY last_timestamp DESC");
-
+$qro->AddTitle($CPLast,
+	"last_a", "", " ORDER BY last_timestamp ASC",
+	"last_d", "", " ORDER BY last_timestamp DESC"
+);
   $sort_sql = $qro->GetSortSQL($qs->GetCurrentSort(), "");
 
   $sql = "SELECT DISTINCT acid_event.sid, count(acid_event.cid) as event_cnt,".
