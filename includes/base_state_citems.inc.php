@@ -258,7 +258,7 @@ class MultipleElementCriteria extends BaseCriteria {
          return false;
    }
 	function PrintForm($field_list, $blank_field_string, $add_button_string){
-		if ( is_array($this->criteria) ){
+//		if ( is_array($this->criteria) ){
 			for ( $i = 0; $i < $this->criteria_cnt; $i++ ){
 				if (!is_array($this->criteria[$i])){
 					$this->criteria = array();
@@ -305,7 +305,7 @@ class MultipleElementCriteria extends BaseCriteria {
             echo '    <INPUT TYPE="submit" NAME="submit" VALUE="'.htmlspecialchars($add_button_string).'">';
          echo '<BR>';
 			}
-		}
+//		}
 	}
    function Compact()
    {
