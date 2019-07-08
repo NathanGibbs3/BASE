@@ -170,12 +170,10 @@ class state_commonTest extends TestCase {
 			$URV
 		);
 	}
-	/**
-	 * @backupGlobals disabled
-	 */
 	public function testSetSessionVarGET() {
 		GLOBAL $debug_mode;
 		$odb = $debug_mode;
+		$oget = $_GET;
 		$debug_mode = 1;
 		$a = 'Test';
 		$_GET['Test'] = $a;
@@ -188,15 +186,13 @@ class state_commonTest extends TestCase {
 		);
 		$this->assertNotEmpty($Ret, $URV);
 		$this->assertEquals($a, $Ret, $URV);
-		unset($_GET);
+		$_GET = $oget;
 		$debug_mode = $odb;
 	}
-	/**
-	 * @backupGlobals disabled
-	 */
 	public function testSetSessionVarPOST() {
 		GLOBAL $debug_mode;
 		$odb = $debug_mode;
+		$opost = $_POST;
 		$debug_mode = 1;
 		$a = 'Test';
 		$_POST['Test'] = $a;
@@ -209,15 +205,13 @@ class state_commonTest extends TestCase {
 		);
 		$this->assertNotEmpty($Ret, $URV);
 		$this->assertEquals($a, $Ret, $URV);
-		unset($_POST);
+		$_POST = $opost;
 		$debug_mode = $odb;
 	}
-	/**
-	 * @backupGlobals disabled
-	 */
 	public function testSetSessionVarSESSION() {
 		GLOBAL $debug_mode;
 		$odb = $debug_mode;
+		$osession = $_SESSION;
 		$debug_mode = 1;
 		$a = 'Test';
 		$_SESSION['Test'] = $a;
@@ -230,7 +224,7 @@ class state_commonTest extends TestCase {
 		);
 		$this->assertNotEmpty($Ret, $URV);
 		$this->assertEquals($a, $Ret, $URV);
-		unset($_SESSION);
+		$_SESSION = $osession;
 		$debug_mode = $odb;
 	}
 
