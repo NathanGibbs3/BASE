@@ -22,14 +22,12 @@ defined( '_BASE_INC' ) or die( 'Accessing this file directly is not allowed.' );
 SetConst("UDP", 17);
 SetConst("TCP", 6);
 SetConst("ICMP", 1);
-
 SetConst("SOURCE_PORT", 1);
 SetConst("DEST_PORT", 2);
-
 SetConst("SOURCE_IP", 1);
 SetConst("DEST_IP", 2);
 
-/* Page ID */
+// Page ID
 SetConst("PAGE_QRY_ALERTS", 1);
 SetConst("PAGE_STAT_ALERTS", 2);
 SetConst("PAGE_STAT_SENSOR", 3);
@@ -42,18 +40,18 @@ SetConst("PAGE_STAT_PORTS", 9);
 
 SetConst("NULL_IP", "256.256.256.256");
 
-/* Criteria Field count */
+// Criteria Field count
 SetConst("IPADDR_CFCNT", 11);
 SetConst("TIME_CFCNT", 10);
 SetConst("PROTO_CFCNT", 6);
-SetConst("TCPFLAGS_CFCNT", 7);
+SetConst("TCPFLAGS_CFCNT", 9);
 SetConst("PAYLOAD_CFCNT", 5);
 
-/* Database connection method */
+// DB connection method
 SetConst("DB_CONNECT", 2);
 SetConst("DB_PCONNECT", 1);
 
-/* */
+// CleanVariable Mask
 SetConst("VAR_DIGIT",       1);
 SetConst("VAR_LETTER",      2);
 SetConst("VAR_ULETTER",     4);

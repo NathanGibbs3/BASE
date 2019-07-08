@@ -187,45 +187,41 @@ function CleanVariable($item, $valid_data, $exception = "")
 	return preg_replace("/[^".$regex_mask."]/", "", $item);
 }
 
-/* ***********************************************************************
- * Function: SetSessionVar()
- *
- * @doc Handles retrieving and updating persistant session (criteria)
- *      data.  This routine handles the details of checking for criteria
- *      updates passed through POST/GET and resolving this with values
- *      that may already have been set and stored in the session.
- *
- *      All criteria variables need invoke this function before they are 
- *      used for the first time to extract their previously stored values,
- *      and process potential updates to their value.
- *
- *      Note: Validation of user input is not performed by this routine.
- *     
- * @param $var_name  name of the persistant session variable to retrieve
- *
- * @return the updated value of the persistant session variable named
- *         by $var_name
- *
- ************************************************************************/
-function SetSessionVar($var_name)
-{
-   if ( isset($_POST[$var_name]) ) 
-   {
-      if ( $GLOBALS['debug_mode'] > 0 )  echo "importing POST var '$var_name'<BR>";
-      return $_POST[$var_name];
-   }
-   else if ( isset($_GET[$var_name]) )
-   { 
-      if ( $GLOBALS['debug_mode'] > 0 )  echo "importing GET var '$var_name'<BR>";
-      return $_GET[$var_name];
-   }
-   else if ( isset($_SESSION[$var_name]) )
-   { 
-      if ( $GLOBALS['debug_mode'] > 0 )  echo "importing SESSION var '$var_name'<BR>";
-      return $_SESSION[$var_name];
-   }
-   else
-      return "";
+// Function: SetSessionVar()
+// @doc Handles retrieving and updating persistant session (criteria) data.
+// This routine handles the details of checking for criteria updates passed
+// through POST/GET and resolving this with values that may already have been
+// set and stored in the session.
+// All criteria variables need invoke this function before they are used for
+// the first time to extract their previously stored values, and process
+// potential updates to their value.
+// Note: Validation of user input is not performed by this routine.
+//
+// @param $var_name name of the persistant session variable to retrieve
+// @return the updated value of the persistant session variable named by
+// $var_name
+//
+function SetSessionVar($var_name){
+	if ( isset($_POST[$var_name]) ){
+		$msg = 'POST';
+		$Ret = $_POST[$var_name];
+	}else if ( isset($_GET[$var_name]) ){
+		$msg = 'GET';
+		$Ret = $_GET[$var_name];
+	}elseif ( isset($_SESSION[$var_name]) ){
+		$msg = 'SESSION';
+		$Ret = $_SESSION[$var_name];
+	}else{
+		$msg = '';
+		// This return value is a contributing factor to Issue(s) #5, #10, #54
+		// & #55.
+		// Leaving it at the moment, so as not to break things.
+		$Ret = '';
+	}
+	if ( $GLOBALS['debug_mode'] > 0 && $msg != '' ){
+		print "Importing $msg var '$var_name'<BR>";
+	}
+	return $Ret;
 }
 
 /* ***********************************************************************
