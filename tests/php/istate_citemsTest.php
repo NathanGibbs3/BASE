@@ -170,14 +170,13 @@ class state_citemsTest extends TestCase {
 		$_SESSION = $osession;
 		$this->assertEquals('Test',$tc->criteria,$URV);
 	}
-
 	public function testClassMultipleElementCriteriaConstruct(){
 		$db = self::$db;
 		$cs = 'Test';
 		$URV = 'Unexpected Return Value.';
 		$this->assertInstanceOf(
 			'MultipleElementCriteria',
-			$tc = new MultipleElementCriteria($db, $cs, 'Test', 1, array()),
+			$tc = new MultipleElementCriteria($db, $cs, 'Test', 1),
 			'Class Not Initialized.'
 		);
 		$this->assertEquals('Test', $tc->cs, $URV);
@@ -190,6 +189,18 @@ class state_citemsTest extends TestCase {
 		$this->assertEquals(1, $tc->element_cnt, $URV);
 		$this->assertEquals(0, $tc->criteria_cnt, $URV);
 		$this->assertTrue(is_array($tc->valid_field_list), $URV);
+	}
+	public function testClassMultipleElementCriteriaFuncs(){
+		$db = self::$db;
+		$cs = 'Test';
+		$URV = 'Unexpected Return Value.';
+		$this->assertInstanceOf(
+			'MultipleElementCriteria',
+			$tc = new MultipleElementCriteria($db, $cs, 'Test', 1),
+			'Class Not Initialized.'
+		);
+		$this->assertTrue($tc->isEmpty(),$URV);
+		$this->assertEquals(0,$tc->GetFormItemCnt(),$URV);
 	}
 
 	// Add code to a function if needed.

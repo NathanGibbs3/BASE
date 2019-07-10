@@ -126,7 +126,7 @@ class SingleElementCriteria extends BaseCriteria{
 		return $this->criteria;
 	}
 	function isEmpty(){
-		if ( $this->criteria == "" ){
+		if ( $this->criteria == '' ){
 			$Ret = true;
 		}else{
 			$Ret = false;
@@ -203,16 +203,12 @@ class MultipleElementCriteria extends BaseCriteria {
          }
       }
    }
-
-   function SanitizeElement($i)
-   {
-   }
-
-   function GetFormItemCnt()
-   {
-      return $this->criteria_cnt;
-   }   
-
+	// NoOp placeholders in this class. Why is it even here?
+	function SanitizeElement($i){
+	}
+	function GetFormItemCnt(){
+		return $this->criteria_cnt;
+	}
    function SetFormItemCnt($value)
    {
       $this->criteria_cnt = $value;
@@ -233,14 +229,14 @@ class MultipleElementCriteria extends BaseCriteria {
    {
       return $this->criteria;
    }
-
-   function isEmpty()
-   {
-      if ( $this->criteria_cnt == 0 )
-         return true;
-      else
-         return false;
-   }
+	function isEmpty(){
+		if ( $this->criteria_cnt == 0 ){
+			$Ret = true;
+		}else{
+			$Ret = false;
+		}
+		return $Ret;
+	}
 	function PrintForm($field_list, $blank_field_string, $add_button_string){
 //		if ( is_array($this->criteria) ){
 			for ( $i = 0; $i < $this->criteria_cnt; $i++ ){
@@ -1285,10 +1281,11 @@ class TCPFieldCriteria extends ProtocolFieldCriteria {
 
 class TCPFlagsCriteria extends SingleElementCriteria{
 	// $tcp_flags[7]: stores all other tcp flags parameters/operators row
-	//  - [0] : is, contains                   [4] : 8     (RST)
-	//  - [1] : 1   (FIN)                      [5] : 16    (ACK)
-	//  - [2] : 2   (SYN)                      [6] : 32    (URG)
-	//  - [3] : 4   (PUSH)
+	//  - [0] : is, contains                   [5] : 16    (ACK)
+	//  - [1] : 1   (FIN)                      [6] : 32    (URG)
+	//  - [2] : 2   (SYN)                      [7] : 64    (RSV0)
+	//  - [3] : 4   (PUSH)                     [8] : 128   (RSV1)
+	//  - [4] : 8   (RST)
 
 	function Init(){
 		if ( array_key_exists('MAX_ROWS',$GLOBALS) ){
@@ -1729,5 +1726,4 @@ class DataCriteria extends MultipleElementCriteria {
       return $tmp;
 	}
 };
-
 ?>
