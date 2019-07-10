@@ -5,6 +5,7 @@ use PHPUnit\Framework\TestCase;
 
 /**
   * @covers ::returnErrorMessage
+  * @covers ::ErrorMessage
   */
 class log_errorTest extends TestCase {
 	// Tests go here.
@@ -43,9 +44,6 @@ class log_errorTest extends TestCase {
 			'Unexpected Return Value.'
 		);
 	}
-	/**
-	  * @covers ::ErrorMessage
-	  */
 	public function testErrorMessageDefault() {
 		$this->expectOutputString(
 			'<font color="#ff0000">message</font>',
@@ -53,9 +51,6 @@ class log_errorTest extends TestCase {
 			'Unexpected Return Value.'
 		);
 	}
-	/**
-	  * @covers ::ErrorMessage
-	  */
 	public function testErrorMessageInvalidColor() {
 		$this->expectOutputString(
 			'<font color="#ff0000">message</font>',
@@ -63,9 +58,6 @@ class log_errorTest extends TestCase {
 			'Unexpected Return Value.'
 		);
 	}
-	/**
-	  * @covers ::ErrorMessage
-	  */
 	public function testErrorMessageValidColor() {
 		$this->expectOutputString(
 			'<font color="#0000ff">message</font>',
@@ -73,9 +65,6 @@ class log_errorTest extends TestCase {
 			'Unexpected Return Value.'
 		);
 	}
-	/**
-	  * @covers ::ErrorMessage
-	  */
 	public function testErrorMessageInvalidBr() {
 		$this->expectOutputString(
 			'<font color="#0000ff">message</font>',
@@ -83,9 +72,6 @@ class log_errorTest extends TestCase {
 			'Unexpected Return Value.'
 		);
 	}
-	/**
-	  * @covers ::ErrorMessage
-	  */
 	public function testErrorMessageBr() {
 		$this->expectOutputString(
 			'<font color="#0000ff">message</font><br/>',

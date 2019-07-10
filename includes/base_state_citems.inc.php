@@ -62,61 +62,49 @@ class BaseCriteria {
 		$this->value2 = NULL;
 		$this->value3 = NULL;
 	}
-   function Init()
-   { 
-   }
-
-   function Import()
-   {
-     /* imports criteria from POST, GET, or the session */
-   }
-
-   function Clear()
-   {
-     /* clears the criteria */
-   }
- 
-   function Sanitize()
-   {
-     /* clean/validate the criteria */
-   }
-	function SanitizeElement($value) {
-		/* clean/validate the criteria */
+	// These functions are NoOp placeholders in this class..
+	function Init(){
+		// Initilaize Class Data Structure(s).
 	}
-	function PrintForm($value1, $value2, $value3) {
-		/* prints the HTML form to input the criteria */
+	function Import(){
+		// Imports criteria from POST, GET, or the session.
 	}
-	function AddFormItem(&$value1, $value2) {
-		/* adding another item to the HTML form  */
+	function Clear(){
+		// Clears the criteria.
 	}
-   function GetFormItemCnt()
-   {
-     /* returns the number of items in this form element  */
-   }
-	function SetFormItemCnt($value) {
-		/* sets the number of items in this form element */
+	function Sanitize(){
+		// Clean/validate the criteria.
 	}
-   function Set($value)
-   {
-     /* set the value of this criteria */
-   }
-
-   function Get()
-   {
-     /* returns the value of this criteria */
-   }
-
-   function ToSQL()
-   {
-     /* convert this criteria to SQL */
-   }
-	function Description($value) {
-		/* generate human-readable description of this criteria */
+	function SanitizeElement($value){
+		// Clean/validate the criteria.
 	}
-   function isEmpty()
-   {
-     /* returns if the criteria is empty */
-   }
+	function PrintForm($value1, $value2, $value3){
+		// Prints the HTML form to input the criteria.
+	}
+	function AddFormItem(&$value1, $value2){
+		// Adding another item to the HTML form.
+	}
+	function GetFormItemCnt(){
+		// Returns the number of items in this form element.
+	}
+	function SetFormItemCnt($value){
+		// Sets the number of items in this form element.
+	}
+	function Set($value){
+		// Set the value of this criteria.
+	}
+	function Get(){
+		// Returns the value of this criteria.
+	}
+	function ToSQL(){
+		// Convert this criteria to SQL.
+	}
+	function Description($value){
+		// Generate human-readable description of this criteria.
+	}
+	function isEmpty(){
+		// Returns if the criteria is empty.
+	}
 };
 
 class SingleElementCriteria extends BaseCriteria{
@@ -190,6 +178,7 @@ class MultipleElementCriteria extends BaseCriteria {
 		$this->valid_field_list = $field_list;
 	}
 	function Init(){
+		GLOBAL $debug_mode;
 		if ( array_key_exists('MAX_ROWS',$GLOBALS) ){
 			$tmp = $GLOBALS['MAX_ROWS'];
 		}else{
@@ -743,8 +732,6 @@ class SensorCriteria extends SingleElementCriteria
 	}
 	function PrintForm($value1, $value2, $value3) {
 		GLOBAL $debug_mode;
-
-
       // How many sensors do we have?
       $number_sensors = 0;
       $number_sensors_lst = $this->db->baseExecute("SELECT count(*) FROM sensor");
@@ -765,13 +752,9 @@ class SensorCriteria extends SingleElementCriteria
       {
         $number_sensors = $number_sensors_array[0];
       }
-
-      if ($debug_mode > 1)
-      {
-        echo '$number_sensors = ' . $number_sensors . '<BR><BR>';
-      }
-
-
+		if ($debug_mode > 1){
+			print '$number_sensors = ' . $number_sensors . '<BR><BR>';
+		}
       echo '<SELECT NAME="sensor">
              <OPTION VALUE=" " '.chk_select($this->criteria, " ").'>'._DISPANYSENSOR;
 
