@@ -62,7 +62,7 @@ class BaseCriteria {
 		$this->value2 = NULL;
 		$this->value3 = NULL;
 	}
-	// These functions are NoOp placeholders in this class..
+	// These functions are NoOp placeholders in this class.
 	function Init(){
 		// Initilaize Class Data Structure(s).
 	}
@@ -108,36 +108,31 @@ class BaseCriteria {
 };
 
 class SingleElementCriteria extends BaseCriteria{
-   function Import()
-   {
-      $this->criteria = SetSessionVar($this->export_name);
-
-      $_SESSION[$this->export_name] = &$this->criteria;
-   }
+	function Import(){
+		$this->criteria = SetSessionVar($this->export_name);
+		$_SESSION[$this->export_name] = &$this->criteria;
+	}
+	// NoOp placeholders in this class. Why is it even here?
 	function Sanitize() {
 		$this->SanitizeElement('');
 	}
-   function GetFormItemCnt()
-   {
-      return -1;
-   }   
- 
-   function Set($value)
-   {
-      $this->criteria = $value;
-   }
-
-   function Get()
-   {
-      return $this->criteria;
-   }
-   function isEmpty()
-   {
-      if ( $this->criteria == "" )
-         return true;
-      else
-         return false;
-   }
+	function GetFormItemCnt(){
+		return -1;
+	}
+	function Set($value){
+		$this->criteria = $value;
+	}
+	function Get(){
+		return $this->criteria;
+	}
+	function isEmpty(){
+		if ( $this->criteria == "" ){
+			$Ret = true;
+		}else{
+			$Ret = false;
+		}
+		return $Ret;
+	}
 };
 
 class MultipleElementCriteria extends BaseCriteria {

@@ -145,6 +145,32 @@ class state_citemsTest extends TestCase {
 		$this->assertNull($tc->value2, $URV);
 		$this->assertNull($tc->value3, $URV);
 	}
+	public function testClassSingleElementCriteriaFuncs(){
+		$db = self::$db;
+		$cs = 'Test';
+		$URV = 'Unexpected Return Value.';
+		$this->assertInstanceOf(
+			'SingleElementCriteria',
+			$tc = new SingleElementCriteria($db, $cs, 'Test'),
+			'Class Not Initialized.'
+		);
+		$this->assertTrue($tc->isEmpty(),$URV);
+		$tc->Set(1);
+		$this->assertEquals(1,$tc->criteria,$URV);
+		$this->assertEquals(1,$tc->Get(),$URV);
+		$this->assertFalse($tc->isEmpty(),$URV);
+		$this->assertEquals(-1,$tc->GetFormItemCnt(),$URV);
+		// This function in this class is a NoOp.
+		// Call them for Code Coverage purposes.
+		$tc->Sanitize();
+		// Test Import Function.
+		$osession = $_SESSION;
+		$_SESSION['Test'] = $cs;
+		$tc->Import();
+		$_SESSION = $osession;
+		$this->assertEquals('Test',$tc->criteria,$URV);
+	}
+
 	public function testClassMultipleElementCriteriaConstruct(){
 		$db = self::$db;
 		$cs = 'Test';
