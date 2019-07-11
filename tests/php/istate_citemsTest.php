@@ -103,14 +103,35 @@ class state_citemsTest extends TestCase {
 		$this->assertNull($tc->value3, $URV);
 	}
 	public function testClassBaseCriteriaFuncs(){
+		GLOBAL $debug_mode;
 		$db = self::$db;
 		$cs = 'Test';
 		$URV = 'Unexpected Return Value.';
+		$UOV = 'Unexpected Output.';
 		$this->assertInstanceOf(
 			'BaseCriteria',
 			$tc = new BaseCriteria($db, $cs, 'Test'),
 			'Class Not Initialized.'
 		);
+		// Test CTIFD Function;
+		$odb = $debug_mode;
+		$debug_mode = 1;
+		$this->expectOutputString(
+			"CTIFD: Test<br/>\nCriteria Type: NULL<br/>\n".
+			"Criteria CTIFD: Allowed.<br/>\n".
+			"CTIFD: Test<br/>\nCriteria Type: NULL<br/>\n".
+			"Criteria CTIFD: Denied.<br/>\n".
+			"Func: Test<br/>\nCriteria Type: NULL<br/>\n".
+			"Criteria Func: Allowed.<br/>\n".
+			"Func: Test<br/>\nCriteria Type: NULL<br/>\n".
+			"Criteria Func: Denied.<br/>\n",
+			$UOV
+		);
+		$tc->CTIFD();
+		$tc->CTIFD(0);
+		$tc->CTIFD(1,'Func');
+		$tc->CTIFD(0,'Func');
+		$debug_mode = $odb;
 		// These functions in the foundation class are NoOps.
 		// Call them for Code Coverage purposes.
 		$tc->Init();
@@ -191,16 +212,67 @@ class state_citemsTest extends TestCase {
 		$this->assertTrue(is_array($tc->valid_field_list), $URV);
 	}
 	public function testClassMultipleElementCriteriaFuncs(){
+		GLOBAL $debug_mode;
 		$db = self::$db;
 		$cs = 'Test';
+		$ta = array();
 		$URV = 'Unexpected Return Value.';
+		$UOV = 'Unexpected Output.';
 		$this->assertInstanceOf(
 			'MultipleElementCriteria',
 			$tc = new MultipleElementCriteria($db, $cs, 'Test', 1),
 			'Class Not Initialized.'
 		);
+		// Test IsRmpty Function ReturnsTrue.
 		$this->assertTrue($tc->isEmpty(),$URV);
+		// Test Get/Set FormItemCnt Function.
 		$this->assertEquals(0,$tc->GetFormItemCnt(),$URV);
+		$tc->SetFormItemCnt(1);
+		$this->assertEquals(1, $tc->criteria_cnt, $URV);
+		// Test IsRmpty Function ReturnsFalse.
+		$this->assertFalse($tc->isEmpty(),$URV);
+		// Test Set Function.
+		$odb = $debug_mode;
+		$debug_mode = 1;
+		$this->expectOutputString(
+			"Set: Test<br/>\nCriteria Type: NULL<br/>\n".
+			"Criteria Set: Denied.<br/>\n".
+			"Set: Test<br/>\nCriteria Type: array<br/>\n".
+			"Criteria Set: Allowed.<br/>\n",
+			$UOV
+		);
+		$tc->Set('');
+		$this->assertNull($tc->criteria, $URV);
+		$tc->Set($ta);
+		$debug_mode = $odb;
+		$this->assertTrue(is_array($tc->criteria), $URV);
+		// Test Set Function.
+		$this->assertTrue(is_array($tc->Get()), $URV);
+		// Test Import Function.
+		$osession = $_SESSION;
+		$_SESSION['Test'] = '';
+		$tc->Import();
+		$this->assertEquals('', $tc->criteria_cnt, $URV);
+		$this->assertTrue(is_array($tc->criteria), $URV);
+		$_SESSION['Test'] = array(0 => '1', 1 => '2');
+		$_SESSION['Test_cnt'] = 1;
+		$tc->Import();
+		$this->assertEquals(1, $tc->criteria_cnt, $URV);
+		$this->assertTrue(is_array($tc->criteria), $URV);
+		$this->assertEquals(array(0 => '1', 1 => '2'),$tc->criteria, $URV);
+		$_SESSION = $osession;
+		// Test Init Function
+		$tc->Init();
+		$this->assertTrue(is_array($tc->criteria), $URV);
+		$this->assertEquals(1, $tc->criteria_cnt, $URV);
+		$this->assertEquals(1, $_SESSION['Test_cnt'], $URV);
+		$this->assertEquals(10, count($tc->criteria,1)-count($tc->criteria), $URV);
+		for ( $i = 0; $i < 10; $i++ ){
+			for ( $j = 0; $j < $tc->criteria_cnt; $j++ ){
+				$this->assertEquals('',$tc->criteria[$i][$j],$URV);
+			}
+		}
+		$_SESSION = $osession;
 	}
 
 	// Add code to a function if needed.

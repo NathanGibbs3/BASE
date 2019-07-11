@@ -105,6 +105,22 @@ class BaseCriteria {
 	function isEmpty(){
 		// Returns if the criteria is empty.
 	}
+	function CTIFD( $SF = true, $func = __FUNCTION__){
+		// Prints debuging info regarding Criteria Type Input/Import Functions.
+		GLOBAL $debug_mode;
+		if ( $debug_mode > 0 ){
+			print "$func: $this->export_name<br/>\n";
+			print "Criteria Type: ".gettype($this->criteria)."<br/>\n";
+			$msg = "Criteria $func: ";
+			if ($SF){
+				$msg .= 'Allowed';
+			}else{
+				$msg .= 'Denied';
+			}
+			$msg .= ".<br/>\n";
+			print $msg;
+		}
+	}
 };
 
 class SingleElementCriteria extends BaseCriteria{
@@ -173,25 +189,29 @@ class MultipleElementCriteria extends BaseCriteria {
 		$this->valid_field_list = $field_list;
 	}
 	function Init(){
-		GLOBAL $debug_mode;
 		if ( array_key_exists('MAX_ROWS',$GLOBALS) ){
 			$tmp = $GLOBALS['MAX_ROWS'];
 		}else{
 			$tmp = 10;
 		}
-		InitArray($this->criteria, $tmp, $this->element_cnt, "");
+		InitArray($this->criteria, $tmp, $this->element_cnt, '');
 		$this->criteria_cnt = 1;
 		$_SESSION[$this->export_name."_cnt"] = &$this->criteria_cnt;
+		$this->CTIFD(1,__FUNCTION__);
 	}
-   function Import()
-   {
-      $this->criteria = SetSessionVar($this->export_name);
-      $this->criteria_cnt = SetSessionVar($this->export_name."_cnt");
-
-      $_SESSION[$this->export_name] = &$this->criteria;
-      $_SESSION[$this->export_name."_cnt"] = &$this->criteria_cnt;
-   }
-
+	function Import(){
+		$tmp = SetSessionVar($this->export_name);
+		if ( is_array($tmp) ){ // Type Lock criteria import. Fixes Issue #10.
+			$SF = true;
+			$this->criteria = $tmp;
+		}else{
+			$SF = false;
+		}
+		$this->criteria_cnt = SetSessionVar($this->export_name."_cnt");
+		$_SESSION[$this->export_name] = &$this->criteria;
+		$_SESSION[$this->export_name."_cnt"] = &$this->criteria_cnt;
+		$this->CTIFD($SF,__FUNCTION__);
+	}
    function Sanitize()
    { 
       if ( in_array("criteria", array_keys(get_object_vars($this))) )
@@ -209,26 +229,26 @@ class MultipleElementCriteria extends BaseCriteria {
 	function GetFormItemCnt(){
 		return $this->criteria_cnt;
 	}
-   function SetFormItemCnt($value)
-   {
-      $this->criteria_cnt = $value;
-   }
-
+	function SetFormItemCnt($value){
+		$this->criteria_cnt = $value;
+	}
    function AddFormItem(&$submit, $submit_value)
    {
 	$this->criteria_cnt =& $this->criteria_cnt;
       AddCriteriaFormRow($submit, $submit_value, $this->criteria_cnt, $this->criteria, $this->element_cnt);
    }
- 
-   function Set($value)
-   {
-      $this->criteria = $value;
-   }
-
-   function Get()
-   {
-      return $this->criteria;
-   }
+	function Set($value){
+		if ( is_array($value) ){ // Type Lock criteria Set. Fixes Issue #10.
+			$SF = true;
+			$this->criteria = $value;
+		}else{
+			$SF = false;
+		}
+		$this->CTIFD($SF,__FUNCTION__);
+	}
+	function Get(){
+		return $this->criteria;
+	}
 	function isEmpty(){
 		if ( $this->criteria_cnt == 0 ){
 			$Ret = true;
