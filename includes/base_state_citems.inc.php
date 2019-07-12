@@ -493,57 +493,54 @@ class SignatureCriteria extends SingleElementCriteria {
 	function ToSQL(){
 	}
 	function Description($value) {
-      $tmp = $tmp_human = "";
-
-
-      // First alternative: signature name is taken from the
-      // signature list.  The user has clicked at a drop down menu for this
-      if ( 
-           (isset($this->criteria[0])) && ($this->criteria[0] != " ") && 
-           (isset($this->criteria[3])) && ($this->criteria[3] != "" ) &&
-           ($this->criteria[3] != "null") && ($this->criteria[3] != "NULL") &&
-           ($this->criteria[3] != NULL)
-         )
-      {
-        if ( $this->criteria[0] == '=' && $this->criteria[2] == '!=' )
-           $tmp_human = '!=';
-        else if ( $this->criteria[0] == '=' && $this->criteria[2] == '=' )
-           $tmp_human = '=';
-        else if ( $this->criteria[0] == 'LIKE' && $this->criteria[2] == '!=' )
-           $tmp_human = ' '._DOESNTCONTAIN.' ';
-        else if ( $this->criteria[0] == 'LIKE' && $this->criteria[2] == '=' )
-           $tmp_human = ' '._CONTAINS.' ';
-
-        $tmp = $tmp._SIGNATURE.' '.$tmp_human.' "';
-        if ( ($this->db->baseGetDBversion() >= 100) && $this->sig_type == 1 )
-          $tmp = $tmp.BuildSigByID($this->criteria[3], $this->db).'" '.$this->cs->GetClearCriteriaString($this->export_name);
-        else
-          $tmp = $tmp.htmlentities($this->criteria[3]).'"'.$this->cs->GetClearCriteriaString($this->export_name);
-
-      }
-      else
-      // Second alternative: Signature is taken from a string that
-      // has been typed in manually by the user:
-      if ( (isset($this->criteria[0])) && ($this->criteria[0] != " ") && 
-           (isset($this->criteria[1])) && ($this->criteria[1] != "") )
-      {
-        if ( $this->criteria[0] == '=' && $this->criteria[2] == '!=' )
-           $tmp_human = '!=';
-        else if ( $this->criteria[0] == '=' && $this->criteria[2] == '=' )
-           $tmp_human = '=';
-        else if ( $this->criteria[0] == 'LIKE' && $this->criteria[2] == '!=' )
-           $tmp_human = ' '._DOESNTCONTAIN.' ';
-        else if ( $this->criteria[0] == 'LIKE' && $this->criteria[2] == '=' )
-           $tmp_human = ' '._CONTAINS.' ';
-
-        $tmp = $tmp._SIGNATURE.' '.$tmp_human.' "';
-        if ( ($this->db->baseGetDBversion() >= 100) && $this->sig_type == 1 )
-          $tmp = $tmp.BuildSigByID($this->criteria[1], $this->db).'" '.$this->cs->GetClearCriteriaString($this->export_name);
-        else
-          $tmp = $tmp.htmlentities($this->criteria[1]).'"'.$this->cs->GetClearCriteriaString($this->export_name);
-
+		$tmp = $tmp_human = "";
+		if ( isset($this->criteria[0]) && $this->criteria[0] != " " ){
+			// Common code for both scenarios.
+			if ( $this->criteria[0] == '=' ){
+				if ( $this->criteria[2] == '!=' ){
+					$tmp_human = '!=';
+				}elseif ( $this->criteria[2] == '=' ){
+					$tmp_human = '=';
+				}
+			}elseif ( $this->criteria[0] == 'LIKE' ){
+				if ( $this->criteria[2] == '!=' ){
+					$tmp_human = ' '._DOESNTCONTAIN.' ';
+				}elseif ( $this->criteria[2] == '=' ){
+					$tmp_human = ' '._CONTAINS.' ';
+				}
+			}
+			$SIdx = 0;
+			if (
+				(isset($this->criteria[3]))
+				&& ($this->criteria[3] != "" )
+				&& ($this->criteria[3] != "null")
+				&& ($this->criteria[3] != "NULL")
+				&& ($this->criteria[3] != NULL)
+			){
+				// First scenario: Signature name is taken from the signature
+				// list. The user has clicked at a drop down menu for this.
+				$SIdx = 3;
+			}elseif (
+				(isset($this->criteria[1])) && ($this->criteria[1] != "")
+			){
+				// Second scenario: Signature name is taken from a string that
+				// has been typed in manually by the user.
+				$SIdx = 1;
+			}
+			if ( $SIdx != 0 ){
+				$tmp .= _SIGNATURE.' '.$tmp_human.' "';
+				if (
+					($this->db->baseGetDBversion() >= 100)
+					&& $this->sig_type == 1
+				){
+					$tmp .= BuildSigByID($this->criteria[$SIdx], $this->db).'" ';
+				}else{
+					$tmp .= htmlentities($this->criteria[$SIdx]).'"';
+				}
+				$tmp .= $this->cs->GetClearCriteriaString($this->export_name);
+				$tmp .= '<br/>';
+			}
 		}
-		$tmp .= '<br/>';
 		return $tmp;
 	}
 };  /* SignatureCriteria */
@@ -1012,12 +1009,13 @@ class IPAddressCriteria extends MultipleElementCriteria {
       $_SESSION['ip_addr'] = &$this->criteria;
       $_SESSION['ip_addr_cnt'] = &$this->criteria_cnt;
 	}
-   function Clear()
-   {
-     /* clears the criteria */
-   }
+	function Clear(){
+		// Clears the criteria.
+	}
 	function SanitizeElement($value) {
-		$i = 0;
+		$i = 0; // Why is this function hardwired to check only the first
+		// criteria instance? Leaving it for now, but need to investigate.
+		// 2019-07-12 Nathan
       // Make copy of old element array
       $curArr = $this->criteria[$i];
       // Sanitize element
@@ -1035,11 +1033,16 @@ class IPAddressCriteria extends MultipleElementCriteria {
       unset($curArr);
 	}
 	function PrintForm($value1, $value2, $value3) {
-      for ( $i = 0; $i < $this->criteria_cnt; $i++ )
-      {
-		if (!is_array(@$this->criteria[$i]))
-			$this->criteria = array();
-
+		GLOBAL $debug_mode;
+		for ( $i = 0; $i < $this->criteria_cnt; $i++ ){
+			if (!is_array($this->criteria[$i])){
+				if ( $debug_mode > 0 ){
+					$this->CTIFD(__FUNCTION__);
+					print __FUNCTION__.": Criteria Data Error Detected<br/>\n";
+					print "Re Initializing<br/>\n";
+				}
+				$this->Init();
+			}
          echo '    <SELECT NAME="ip_addr['.$i.'][0]"><OPTION VALUE=" " '.chk_select(@$this->criteria[$i][0]," ").'>__'; 
          echo '                                      <OPTION VALUE="(" '.chk_select(@$this->criteria[$i][0],"(").'>(</SELECT>';
          echo '    <SELECT NAME="ip_addr['.$i.'][1]">
@@ -1077,10 +1080,9 @@ class IPAddressCriteria extends MultipleElementCriteria {
         echo '<BR>';
       }
 	}
-   function ToSQL()
-   {
-     /* convert this criteria to SQL */
-   }
+	function ToSQL(){
+		// Convert this criteria to SQL.
+	}
 	function Description($value) {
       $human_fields["ip_src"] = _SOURCE;
       $human_fields["ip_dst"] = _DEST;
@@ -1132,9 +1134,8 @@ class IPAddressCriteria extends MultipleElementCriteria {
                      ' '.$tmp.' '.$this->criteria[$i][8].' '.$this->criteria[$i][9].$mask.
                      $this->cs->GetClearCriteriaString($this->export_name)."<BR>";
          }
-      }
-
-      return $tmp2;
+		}
+		return $tmp2;
 	}
 };  /* IPAddressCriteria */
 

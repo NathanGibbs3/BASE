@@ -729,6 +729,9 @@ class state_citemsTest extends TestCase {
 		$this->assertNull($tc->value1, $URV);
 		$this->assertNull($tc->value2, $URV);
 		$this->assertNull($tc->value3, $URV);
+		$this->assertEquals(1, $tc->element_cnt, $URV);
+		$this->assertEquals(0, $tc->criteria_cnt, $URV);
+		$this->assertTrue(is_array($tc->valid_field_list), $URV);
 	}
 	// These functions in this class are NoOps.
 	// Call them for Code Coverage purposes.
