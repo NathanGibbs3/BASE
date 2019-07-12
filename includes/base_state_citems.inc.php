@@ -269,7 +269,7 @@ class MultipleElementCriteria extends BaseCriteria {
 			if (!is_array($this->criteria[$i])){
 				if ( $debug_mode > 0 ){
 					print __FUNCTION__.": Criteria Data Error Detected<br/>\n";
-					print "Re Initializing<br/>\n"
+					print "Re Initializing<br/>\n";
 				}
 				$this->Init();
 			}
