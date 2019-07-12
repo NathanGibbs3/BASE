@@ -828,27 +828,21 @@ class SensorCriteria extends SingleElementCriteria
 	}
 };  /* SensorCriteria */
 
-class TimeCriteria extends MultipleElementCriteria
-{
-/*
- * $time[MAX][10]: stores the date/time of the packet detection
- *  - [][0] : (                           [][5] : hour  
- *  - [][1] : =, !=, <, <=, >, >=         [][6] : minute
- *  - [][2] : month                       [][7] : second
- *  - [][3] : day                         [][8] : (, )
- *  - [][4] : year                        [][9] : AND, OR
- *
- * $time_cnt : number of rows in the $time[][] structure
- */
+class TimeCriteria extends MultipleElementCriteria {
+// $time[MAX][10]: stores the date/time of the packet detection
+//  - [][0] : (                           [][5] : hour
+//  - [][1] : =, !=, <, <=, >, >=         [][6] : minute
+//  - [][2] : month                       [][7] : second
+//  - [][3] : day                         [][8] : (, )
+//  - [][4] : year                        [][9] : AND, OR
+//
+// $time_cnt : number of rows in the $time[][] structure
 
-   function Clear()
-   {
-     /* clears the criteria */
-   }
- 
-   function SanitizeElement($i)
-   {
-      // Make copy of element array.
+	function Clear(){
+		// Clears the criteria.
+	}
+	function SanitizeElement($i){
+		// Make copy of element array.
       $curArr = $this->criteria[$i];
       // Sanitize the element
       $this->criteria[$i][0] = @CleanVariable($curArr[0], VAR_OPAREN);
@@ -865,11 +859,16 @@ class TimeCriteria extends MultipleElementCriteria
       unset($curArr);
    }
 	function PrintForm($value1, $value2, $value3) {
-      for ( $i = 0; $i < $this->criteria_cnt; $i++ )
-      {
-		if (!@is_array($this->criteria[$i]))
-			$this->criteria = array();
-
+		GLOBAL $debug_mode;
+		for ( $i = 0; $i < $this->criteria_cnt; $i++ ){
+			if (!is_array($this->criteria[$i])){
+				if ( $debug_mode > 0 ){
+					$this->CTIFD(__FUNCTION__);
+					print __FUNCTION__.": Criteria Data Error Detected<br/>\n";
+					print "Re Initializing<br/>\n";
+				}
+				$this->Init();
+			}
          echo '<SELECT NAME="time['.$i.'][0]"><OPTION VALUE=" " '.chk_select(@$this->criteria[$i][0]," ").'>__'; 
          echo '                               <OPTION VALUE="("  '.chk_select(@$this->criteria[$i][0],"(").'>(</SELECT>';
          echo '<SELECT NAME="time['.$i.'][1]"><OPTION VALUE=" "  '.chk_select(@$this->criteria[$i][1]," "). '>'._DISPTIME;    
@@ -912,10 +911,9 @@ class TimeCriteria extends MultipleElementCriteria
          echo '<BR>';
       }
 	}
-   function ToSQL()
-   {
-     /* convert this criteria to SQL */
-   }
+	function ToSQL(){
+		// Convert this criteria to SQL.
+	}
 	function Description($value) {
      $tmp = "";
      for ($i = 0; $i < $this->criteria_cnt; $i++)
@@ -946,7 +944,7 @@ class TimeCriteria extends MultipleElementCriteria
      if ( $tmp != "" )
        $tmp = $tmp.$this->cs->GetClearCriteriaString($this->export_name);
 
-     return $tmp;
+		return $tmp;
 	}
 };  /* TimeCriteria */
 

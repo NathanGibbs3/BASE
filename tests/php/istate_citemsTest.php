@@ -10,6 +10,7 @@ use PHPUnit\Framework\TestCase;
   * @covers ProtocolFieldCriteria
   * @covers SignatureCriteria
   * @covers SignaturePriorityCriteria
+  * @covers TimeCriteria
   * @uses ::InitArray
   * @uses ::SetSessionVar
   */
@@ -710,6 +711,37 @@ class state_citemsTest extends TestCase {
 		for ( $i = 0; $i < 2; $i++ ){
 			$this->assertEquals('',$tc->criteria[$i],$URV);
 		}
+	}
+	// Tests for Class TimeCriteria
+	public function testClassTimeCriteriaConstruct(){
+		$db = self::$db;
+		$cs = 'Test';
+		$URV = 'Unexpected Return Value.';
+		$this->assertInstanceOf(
+			'TimeCriteria',
+			$tc = new TimeCriteria($db, $cs, 'Test',1),
+			'Class Not Initialized.'
+		);
+		$this->assertEquals('Test', $tc->cs, $URV);
+		$this->assertEquals('Test', $tc->export_name, $URV);
+		$this->assertNull($tc->criteria, $URV);
+		$this->assertNull($tc->value, $URV);
+		$this->assertNull($tc->value1, $URV);
+		$this->assertNull($tc->value2, $URV);
+		$this->assertNull($tc->value3, $URV);
+	}
+	// These functions in this class are NoOps.
+	// Call them for Code Coverage purposes.
+	public function testClassTimeCriteriaNoOpFuncs(){
+		$db = self::$db;
+		$cs = 'Test';
+		$this->assertInstanceOf(
+			'TimeCriteria',
+			$tc = new TimeCriteria($db, $cs, 'Test',1),
+			'Class Not Initialized.'
+		);
+		$tc->Clear();
+		$tc->ToSQL();
 	}
 
 	// Add code to a function if needed.
