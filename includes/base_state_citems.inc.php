@@ -105,20 +105,22 @@ class BaseCriteria {
 	function isEmpty(){
 		// Returns if the criteria is empty.
 	}
-	function CTIFD( $SF = true, $func = __FUNCTION__){
+	function CTIFD( $func = __FUNCTION__, $SF = '' ){
 		// Prints debuging info regarding Criteria Type Input/Import Functions.
 		GLOBAL $debug_mode;
 		if ( $debug_mode > 0 ){
 			print "$func: $this->export_name<br/>\n";
 			print "Criteria Type: ".gettype($this->criteria)."<br/>\n";
-			$msg = "Criteria $func: ";
-			if ($SF){
-				$msg .= 'Allowed';
-			}else{
-				$msg .= 'Denied';
+			if ( is_bool($SF) ){
+				$msg = "Criteria $func: ";
+				if ($SF){
+					$msg .= 'Allowed';
+				}else{
+					$msg .= 'Denied';
+				}
+				$msg .= ".<br/>\n";
+				print $msg;
 			}
-			$msg .= ".<br/>\n";
-			print $msg;
 		}
 	}
 };
@@ -197,7 +199,7 @@ class MultipleElementCriteria extends BaseCriteria {
 		InitArray($this->criteria, $tmp, $this->element_cnt, '');
 		$this->criteria_cnt = 1;
 		$_SESSION[$this->export_name."_cnt"] = &$this->criteria_cnt;
-		$this->CTIFD(1,__FUNCTION__);
+		$this->CTIFD(__FUNCTION__);
 	}
 	function Import(){
 		$tmp = SetSessionVar($this->export_name);
@@ -210,7 +212,7 @@ class MultipleElementCriteria extends BaseCriteria {
 		$this->criteria_cnt = SetSessionVar($this->export_name."_cnt");
 		$_SESSION[$this->export_name] = &$this->criteria;
 		$_SESSION[$this->export_name."_cnt"] = &$this->criteria_cnt;
-		$this->CTIFD($SF,__FUNCTION__);
+		$this->CTIFD(__FUNCTION__,$SF);
 	}
    function Sanitize()
    { 
@@ -244,7 +246,7 @@ class MultipleElementCriteria extends BaseCriteria {
 		}else{
 			$SF = false;
 		}
-		$this->CTIFD($SF,__FUNCTION__);
+		$this->CTIFD(__FUNCTION__,$SF);
 	}
 	function Get(){
 		return $this->criteria;
@@ -258,12 +260,19 @@ class MultipleElementCriteria extends BaseCriteria {
 		return $Ret;
 	}
 	function PrintForm($field_list, $blank_field_string, $add_button_string){
-//		if ( is_array($this->criteria) ){
-			for ( $i = 0; $i < $this->criteria_cnt; $i++ ){
-				if (!is_array($this->criteria[$i])){
-					$this->criteria = array();
+		GLOBAL $debug_mode;
+		if ( $debug_mode > 0 ){
+			$this->CTIFD(__FUNCTION__);
+			print "Criteria Count: $this->criteria_cnt<br/>\n";
+		}
+		for ( $i = 0; $i < $this->criteria_cnt; $i++ ){
+			if (!is_array($this->criteria[$i])){
+				if ( $debug_mode > 0 ){
+					print __FUNCTION__.": Criteria Data Error Detected<br/>\n";
+					print "Re Initializing<br/>\n"
 				}
-
+				$this->Init();
+			}
          echo '    <SELECT NAME="'.htmlspecialchars($this->export_name).'['.$i.'][0]">';
          echo '      <OPTION VALUE=" " '.chk_select($this->criteria[$i][0]," ").'>__</OPTION>'; 
          echo '      <OPTION VALUE="(" '.chk_select($this->criteria[$i][0],"(").'>(</OPTION>';
@@ -304,17 +313,16 @@ class MultipleElementCriteria extends BaseCriteria {
          if ( $i == $this->criteria_cnt-1 )
             echo '    <INPUT TYPE="submit" NAME="submit" VALUE="'.htmlspecialchars($add_button_string).'">';
          echo '<BR>';
-			}
-//		}
+		}
 	}
-   function Compact()
-   {
-      if ( $this->isEmpty() )
-      {
-         $this->criteria = "";
-         $_SESSION[$this->export_name] = &$this->criteria; 
-      }
-   }
+	// Not Used in Code. Why is it even here?
+	function Compact(){
+		if ( $this->isEmpty() ){
+			// Restore to newly constructed state.
+			$this->criteria = NULL;
+			$_SESSION[$this->export_name] = &$this->criteria;
+		}
+	}
 };
 
 class ProtocolFieldCriteria extends MultipleElementCriteria {
