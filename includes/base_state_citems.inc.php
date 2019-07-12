@@ -357,8 +357,7 @@ class ProtocolFieldCriteria extends MultipleElementCriteria {
 			$tdb, $cs, $export_name, $element_cnt, $field_list
 		);
 	}
-   function SanitizeElement($i)
-   { 
+	function SanitizeElement($i){
       // Make a copy of the element array
       $curArr = $this->criteria[$i];
       // Sanitize the element
@@ -370,10 +369,8 @@ class ProtocolFieldCriteria extends MultipleElementCriteria {
       $this->criteria[$i][5] = @CleanVariable($curArr[5], "", array("AND", "OR"));
       // Destroy the copy
       unset($curArr);
-   }
-
-   function Description($human_fields)
-   {
+	}
+	function Description($human_fields){
       $tmp = "";
       for ( $i = 0; $i < $this->criteria_cnt; $i++ )
       {
@@ -385,16 +382,14 @@ class ProtocolFieldCriteria extends MultipleElementCriteria {
       if ( $tmp != "" )
          $tmp = $tmp.$this->cs->GetClearCriteriaString($this->export_name); 
 
-      return $tmp;
-   }
+		return $tmp;
+	}
 }
 
 class SignatureCriteria extends SingleElementCriteria {
 // $sig[4]: stores signature
-//   - [0] : exactly, roughly
-//   - [1] : signature
-//   - [2] : =, !=
-//   - [3] : signature from signature list
+//   - [0] : exactly, roughly    [2] : =, !=
+//   - [1] : signature           [3] : signature from signature list
 	var $sig_type;
 	var $criteria = array(0 => '', 1 => '');
 
@@ -420,26 +415,26 @@ class SignatureCriteria extends SingleElementCriteria {
 		$tdb =& $db;
 		$cs =& $cs;
 		$this->BaseCriteria($tdb, $cs, $export_name);
-		$this->sig_type = "";
+		$this->sig_type = '';
 	}
-   function Init()
-   {      
-      InitArray($this->criteria, 4, 0, "");
-      $this->sig_type = "";
-   }
-
-   function Import()
-   {
-      parent::Import();
-
-      $this->sig_type = SetSessionVar("sig_type");
-
-      $_SESSION['sig_type'] = &$this->sig_type;
-   }
-
-   function Clear()
-   {
-   }
+	function Init(){
+		InitArray($this->criteria, 4, 0, '');
+		$this->sig_type = '';
+	}
+	function Import(){
+		$tmp = SetSessionVar($this->export_name);
+		if ( is_array($tmp) ){ // Type Lock criteria import. Fixes Issue #10.
+			$SF = true;
+			parent::Import();
+		}else{
+			$SF = false;
+		}
+		$this->CTIFD(__FUNCTION__,$SF);
+		$this->sig_type = SetSessionVar("sig_type");
+		$_SESSION['sig_type'] = &$this->sig_type;
+	}
+	function Clear(){
+	}
 	function SanitizeElement($value) {
       if (!isset($this->criteria[0]) || !isset($this->criteria[1])) {
           $this->criteria = array(0 => '', 1 => '');
@@ -451,9 +446,15 @@ class SignatureCriteria extends SingleElementCriteria {
       $this->criteria[3] = filterSql(@$this->criteria[3]); /* signature name from the signature list */
 	}
 	function PrintForm($value1, $value2, $value3) {
-      if (!@is_array($this->criteria))
-        $this->criteria = array();
-
+		GLOBAL $debug_mode;
+		if ( !is_array($this->criteria) ){
+			if ( $debug_mode > 0 ){
+				$this->CTIFD(__FUNCTION__);
+				print __FUNCTION__.": Criteria Data Error Detected<br/>\n";
+				print "Re Initializing<br/>\n";
+			}
+			$this->Init();
+		}
       echo '<SELECT NAME="sig[0]"><OPTION VALUE=" "  '.chk_select(@$this->criteria[0]," "). '>'._DISPSIG;    
       echo '                      <OPTION VALUE="="     '.chk_select(@$this->criteria[0],"="). '>'._SIGEXACTLY;
       echo '                      <OPTION VALUE="LIKE" '.chk_select(@$this->criteria[0],"LIKE").'>'._SIGROUGHLY.'</SELECT>';
@@ -489,9 +490,8 @@ class SignatureCriteria extends SingleElementCriteria {
       }
 		}
 	}
-   function ToSQL()
-   {
-   }
+	function ToSQL(){
+	}
 	function Description($value) {
       $tmp = $tmp_human = "";
 
@@ -520,7 +520,6 @@ class SignatureCriteria extends SingleElementCriteria {
         else
           $tmp = $tmp.htmlentities($this->criteria[3]).'"'.$this->cs->GetClearCriteriaString($this->export_name);
 
-        $tmp = $tmp.'<BR>';
       }
       else
       // Second alternative: Signature is taken from a string that
@@ -543,14 +542,11 @@ class SignatureCriteria extends SingleElementCriteria {
         else
           $tmp = $tmp.htmlentities($this->criteria[1]).'"'.$this->cs->GetClearCriteriaString($this->export_name);
 
-        $tmp = $tmp.'<BR>';
-      }
-      
-      return $tmp;
+		}
+		$tmp .= '<br/>';
+		return $tmp;
 	}
 };  /* SignatureCriteria */
-
-
 
 class SignatureClassificationCriteria extends SingleElementCriteria
 {

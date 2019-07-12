@@ -219,7 +219,7 @@ function SetSessionVar($var_name){
 		$Ret = '';
 	}
 	if ( $GLOBALS['debug_mode'] > 0 && $msg != '' ){
-		print "Importing $msg var '$var_name'<BR>";
+		print "Importing $msg var '$var_name'<br/>";
 	}
 	return $Ret;
 }

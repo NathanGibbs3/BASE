@@ -7,6 +7,8 @@ use PHPUnit\Framework\TestCase;
   * @covers BaseCriteria
   * @covers SingleElementCriteria
   * @covers MultipleElementCriteria
+  * @covers ProtocolFieldCriteria
+  * @covers SignatureCriteria
   * @uses ::InitArray
   * @uses ::SetSessionVar
   */
@@ -383,7 +385,7 @@ class state_citemsTest extends TestCase {
 		$debug_mode = 1;
 		$_SESSION[$cs] = '';
 		$this->expectOutputString(
-			"Importing SESSION var 'Test'<BR>".
+			"Importing SESSION var 'Test'<br/>".
 			"Import: Test<br/>\nCriteria Type: NULL<br/>\n".
 			"Criteria Import: Denied.<br/>\n",
 			$UOV
@@ -412,8 +414,8 @@ class state_citemsTest extends TestCase {
 		$_SESSION[$cs] = array(0 => '1', 1 => '2');
 		$_SESSION[$cc] = 1;
 		$this->expectOutputString(
-			"Importing SESSION var 'Test'<BR>".
-			"Importing SESSION var 'Test_cnt'<BR>".
+			"Importing SESSION var 'Test'<br/>".
+			"Importing SESSION var 'Test_cnt'<br/>".
 			"Import: Test<br/>\nCriteria Type: array<br/>\n".
 			"Criteria Import: Allowed.<br/>\n",
 			$UOV
@@ -478,6 +480,133 @@ class state_citemsTest extends TestCase {
 			unset($GLOBALS['MAX_ROWS']);
 		}
 		$_SESSION = $osession;
+	}
+	// Test Class ProtocolFieldCriteria
+	public function testClassProtocolFieldCriteriaConstruct(){
+		$db = self::$db;
+		$cs = 'Test';
+		$URV = 'Unexpected Return Value.';
+		$this->assertInstanceOf(
+			'ProtocolFieldCriteria',
+			$tc = new ProtocolFieldCriteria($db, $cs, 'Test', 1),
+			'Class Not Initialized.'
+		);
+		$this->assertEquals('Test', $tc->cs, $URV);
+		$this->assertEquals('Test', $tc->export_name, $URV);
+		$this->assertNull($tc->criteria, $URV);
+		$this->assertNull($tc->value, $URV);
+		$this->assertNull($tc->value1, $URV);
+		$this->assertNull($tc->value2, $URV);
+		$this->assertNull($tc->value3, $URV);
+		$this->assertEquals(1, $tc->element_cnt, $URV);
+		$this->assertEquals(0, $tc->criteria_cnt, $URV);
+		$this->assertTrue(is_array($tc->valid_field_list), $URV);
+	}
+	// Tests for Class SignatureCriteria
+	public function testClassSignatureCriteriaConstruct(){
+		$db = self::$db;
+		$cs = 'Test';
+		$URV = 'Unexpected Return Value.';
+		$this->assertInstanceOf(
+			'SignatureCriteria',
+			$tc = new SignatureCriteria($db, $cs, 'Test'),
+			'Class Not Initialized.'
+		);
+		$this->assertEquals('Test', $tc->cs, $URV);
+		$this->assertEquals('Test', $tc->export_name, $URV);
+		$this->assertNull($tc->criteria, $URV);
+		$this->assertNull($tc->value, $URV);
+		$this->assertNull($tc->value1, $URV);
+		$this->assertNull($tc->value2, $URV);
+		$this->assertNull($tc->value3, $URV);
+	}
+	// These functions in this class are NoOps.
+	// Call them for Code Coverage purposes.
+	public function testClassSignatureCriteriaNoOpFuncs(){
+		$db = self::$db;
+		$cs = 'Test';
+		$this->assertInstanceOf(
+			'SignatureCriteria',
+			$tc = new SignatureCriteria($db, $cs, 'Test'),
+			'Class Not Initialized.'
+		);
+		$tc->Clear();
+		$tc->ToSQL();
+	}
+	public function testClassSignatureCriteriaFuncImportDenied(){
+		GLOBAL $debug_mode;
+		$db = self::$db;
+		$cs = 'Test';
+		$cc = $cs.'_cnt';
+		$URV = 'Unexpected Return Value.';
+		$UOV = 'Unexpected Output.';
+		$this->assertInstanceOf(
+			'SignatureCriteria',
+			$tc = new SignatureCriteria($db, $cs, 'Test', 1),
+			'Class Not Initialized.'
+		);
+		$odb = $debug_mode;
+		$osession = $_SESSION;
+		$debug_mode = 1;
+		$_SESSION[$cs] = '';
+		$this->expectOutputString(
+			"Importing SESSION var 'Test'<br/>".
+			"Import: Test<br/>\nCriteria Type: NULL<br/>\n".
+			"Criteria Import: Denied.<br/>\n",
+			$UOV
+		);
+		$tc->Import();
+		$debug_mode = $odb;
+		$_SESSION = $osession;
+		$this->assertEquals('', $tc->sig_type, $URV);
+		$this->assertFalse(is_array($tc->criteria), $URV);
+	}
+	public function testClassSignatureCriteriaFuncImportAllowed(){
+		GLOBAL $debug_mode;
+		$db = self::$db;
+		$cs = 'Test';
+		$URV = 'Unexpected Return Value.';
+		$UOV = 'Unexpected Output.';
+		$this->assertInstanceOf(
+			'SignatureCriteria',
+			$tc = new SignatureCriteria($db, $cs, 'Test', 1),
+			'Class Not Initialized.'
+		);
+		$odb = $debug_mode;
+		$osession = $_SESSION;
+		$debug_mode = 1;
+		$_SESSION[$cs] = array(0 => '', 1 => '');
+		$this->expectOutputString(
+			"Importing SESSION var 'Test'<br/>".
+			"Importing SESSION var 'Test'<br/>".
+			"Import: Test<br/>\nCriteria Type: array<br/>\n".
+			"Criteria Import: Allowed.<br/>\n",
+			$UOV
+		);
+		$tc->Import();
+		$debug_mode = $odb;
+		$this->assertEquals('', $tc->sig_type, $URV);
+		$this->assertEquals('', $_SESSION['sig_type'], $URV);
+		$this->assertTrue(is_array($tc->criteria), $URV);
+		$this->assertEquals(array(0 => '', 1 => ''),$tc->criteria, $URV);
+		$_SESSION = $osession;
+	}
+	public function testClassSignatureCriteriaFuncInitDefault(){
+		$db = self::$db;
+		$cs = 'Test';
+		$URV = 'Unexpected Return Value.';
+		$this->assertInstanceOf(
+			'SignatureCriteria',
+			$tc = new SignatureCriteria($db, $cs, 'Test', 1),
+			'Class Not Initialized.'
+		);
+		$tc->Init();
+		$this->assertTrue(is_array($tc->criteria), $URV);
+		$this->assertEquals('', $tc->sig_type, $URV);
+		$this->assertEquals(4, count($tc->criteria), $URV);
+		for ( $i = 0; $i < 4; $i++ ){
+			$this->assertEquals('',$tc->criteria[$i],$URV);
+		}
 	}
 
 	// Add code to a function if needed.

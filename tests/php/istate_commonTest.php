@@ -180,7 +180,7 @@ class state_commonTest extends TestCase {
 		$URV = 'Unexpected return SetSessionVar().';
 		$UOV = 'Unexpected Output SetSessionVar().';
 		$this->expectOutputString(
-			"Importing GET var '$a'<BR>",
+			"Importing GET var '$a'<br/>",
 			$Ret = SetSessionVar($a),
 			$UOV
 		);
@@ -199,7 +199,7 @@ class state_commonTest extends TestCase {
 		$URV = 'Unexpected return SetSessionVar().';
 		$UOV = 'Unexpected Output SetSessionVar().';
 		$this->expectOutputString(
-			"Importing POST var '$a'<BR>",
+			"Importing POST var '$a'<br/>",
 			$Ret = SetSessionVar($a),
 			$UOV
 		);
@@ -218,7 +218,7 @@ class state_commonTest extends TestCase {
 		$URV = 'Unexpected return SetSessionVar().';
 		$UOV = 'Unexpected Output SetSessionVar().';
 		$this->expectOutputString(
-			"Importing SESSION var '$a'<BR>",
+			"Importing SESSION var '$a'<br/>",
 			$Ret = SetSessionVar($a),
 			$UOV
 		);
