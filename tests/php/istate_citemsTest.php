@@ -9,6 +9,7 @@ use PHPUnit\Framework\TestCase;
   * @covers MultipleElementCriteria
   * @covers ProtocolFieldCriteria
   * @covers SignatureCriteria
+  * @covers SignaturePriorityCriteria
   * @uses ::InitArray
   * @uses ::SetSessionVar
   */
@@ -608,10 +609,111 @@ class state_citemsTest extends TestCase {
 			$this->assertEquals('',$tc->criteria[$i],$URV);
 		}
 	}
+	// Tests for Class SignaturePriorityCriteria
+	public function testClassSignaturePriorityCriteriaConstruct(){
+		$db = self::$db;
+		$cs = 'Test';
+		$URV = 'Unexpected Return Value.';
+		$this->assertInstanceOf(
+			'SignaturePriorityCriteria',
+			$tc = new SignaturePriorityCriteria($db, $cs, 'Test'),
+			'Class Not Initialized.'
+		);
+		$this->assertEquals('Test', $tc->cs, $URV);
+		$this->assertEquals('Test', $tc->export_name, $URV);
+		$this->assertNull($tc->criteria, $URV);
+		$this->assertNull($tc->value, $URV);
+		$this->assertNull($tc->value1, $URV);
+		$this->assertNull($tc->value2, $URV);
+		$this->assertNull($tc->value3, $URV);
+	}
+	// These functions in this class are NoOps.
+	// Call them for Code Coverage purposes.
+	public function testClassSignaturePriorityCriteriaNoOpFuncs(){
+		$db = self::$db;
+		$cs = 'Test';
+		$this->assertInstanceOf(
+			'SignaturePriorityCriteria',
+			$tc = new SignaturePriorityCriteria($db, $cs, 'Test'),
+			'Class Not Initialized.'
+		);
+		$tc->Clear();
+		$tc->ToSQL();
+	}
+	public function testClassSignaturePriorityCriteriaFuncImportDenied(){
+		GLOBAL $debug_mode;
+		$db = self::$db;
+		$cs = 'Test';
+		$cc = $cs.'_cnt';
+		$URV = 'Unexpected Return Value.';
+		$UOV = 'Unexpected Output.';
+		$this->assertInstanceOf(
+			'SignaturePriorityCriteria',
+			$tc = new SignaturePriorityCriteria($db, $cs, 'Test', 1),
+			'Class Not Initialized.'
+		);
+		$odb = $debug_mode;
+		$osession = $_SESSION;
+		$debug_mode = 1;
+		$_SESSION[$cs] = '';
+		$this->expectOutputString(
+			"Importing SESSION var 'Test'<br/>".
+			"Import: Test<br/>\nCriteria Type: NULL<br/>\n".
+			"Criteria Import: Denied.<br/>\n",
+			$UOV
+		);
+		$tc->Import();
+		$debug_mode = $odb;
+		$_SESSION = $osession;
+		$this->assertFalse(is_array($tc->criteria), $URV);
+	}
+	public function testClassSignaturePriorityCriteriaFuncImportAllowed(){
+		GLOBAL $debug_mode;
+		$db = self::$db;
+		$cs = 'Test';
+		$URV = 'Unexpected Return Value.';
+		$UOV = 'Unexpected Output.';
+		$this->assertInstanceOf(
+			'SignaturePriorityCriteria',
+			$tc = new SignaturePriorityCriteria($db, $cs, 'Test', 1),
+			'Class Not Initialized.'
+		);
+		$odb = $debug_mode;
+		$osession = $_SESSION;
+		$debug_mode = 1;
+		$_SESSION[$cs] = array(0 => '', 1 => '');
+		$this->expectOutputString(
+			"Importing SESSION var 'Test'<br/>".
+			"Importing SESSION var 'Test'<br/>".
+			"Import: Test<br/>\nCriteria Type: array<br/>\n".
+			"Criteria Import: Allowed.<br/>\n",
+			$UOV
+		);
+		$tc->Import();
+		$debug_mode = $odb;
+		$this->assertTrue(is_array($tc->criteria), $URV);
+		$this->assertEquals(array(0 => '', 1 => ''),$tc->criteria, $URV);
+		$_SESSION = $osession;
+	}
+	public function testClassSignaturePriorityCriteriaFuncInitDefault(){
+		$db = self::$db;
+		$cs = 'Test';
+		$URV = 'Unexpected Return Value.';
+		$this->assertInstanceOf(
+			'SignaturePriorityCriteria',
+			$tc = new SignaturePriorityCriteria($db, $cs, 'Test', 1),
+			'Class Not Initialized.'
+		);
+		$tc->Init();
+		$this->assertTrue(is_array($tc->criteria), $URV);
+		$this->assertEquals(2, count($tc->criteria), $URV);
+		for ( $i = 0; $i < 2; $i++ ){
+			$this->assertEquals('',$tc->criteria[$i],$URV);
+		}
+	}
 
 	// Add code to a function if needed.
 	// Stop here and mark test incomplete.
 	//$this->markTestIncomplete('Incomplete Test.');
 }
-
 ?>

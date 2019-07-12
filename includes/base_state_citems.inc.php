@@ -608,18 +608,25 @@ class SignatureClassificationCriteria extends SingleElementCriteria
 	}
 };  /* SignatureClassificationCriteria */
 
-class SignaturePriorityCriteria extends SingleElementCriteria
-{
-   var $criteria = array();
-   function Init()
-   {
-     $this->criteria = "";
-   }
+class SignaturePriorityCriteria extends SingleElementCriteria {
+	var $criteria = array(0 => '', 1 => '');
 
-   function Clear()
-   {
-    /* clears the criteria */
-   }
+	function Init(){
+		InitArray($this->criteria, 2, 0, '');
+	}
+	function Import(){
+		$tmp = SetSessionVar($this->export_name);
+		if ( is_array($tmp) ){ // Type Lock criteria import. Fixes Issue #10.
+			$SF = true;
+			parent::Import();
+		}else{
+			$SF = false;
+		}
+		$this->CTIFD(__FUNCTION__,$SF);
+	}
+	function Clear(){
+		// Clears the criteria.
+	}
 	function SanitizeElement($value) {
      if (!isset($this->criteria[0]) || !isset($this->criteria[1])) {
          $this->criteria = array(0 => '', 1 => '');
@@ -629,11 +636,16 @@ class SignaturePriorityCriteria extends SingleElementCriteria
       $this->criteria[1] = CleanVariable(@$this->criteria[1], VAR_DIGIT);
 	}
 	function PrintForm($value1, $value2, $value3) {
-     if ( $this->db->baseGetDBversion() >= 103 )
-     {
-  		if (!@is_array($this->criteria))                 
-			$this->criteria = array();
-
+		GLOBAL $debug_mode;
+		if ( $this->db->baseGetDBversion() >= 103 ){
+			if ( !is_array($this->criteria) ){
+				if ( $debug_mode > 0 ){
+					$this->CTIFD(__FUNCTION__);
+					print __FUNCTION__.": Criteria Data Error Detected<br/>\n";
+					print "Re Initializing<br/>\n";
+				}
+				$this->Init();
+			}
         echo '<SELECT NAME="sig_priority[0]">
                 <OPTION VALUE=" " '.@chk_select($this->criteria[0],"="). '>__</OPTION>
                 <OPTION VALUE="=" '.@chk_select($this->criteria[0],"=").'>==</OPTION>
@@ -659,10 +671,9 @@ class SignaturePriorityCriteria extends SingleElementCriteria
         echo '</SELECT>&nbsp;&nbsp';
       }
 	}
-    function ToSQL()
-    {
-    /* convert this criteria to SQL */
-    }
+	function ToSQL(){
+		// Convert this criteria to SQL.
+	}
 	function Description($value) {
        $tmp = "";
        if (!isset($this->criteria[1])) {
@@ -679,10 +690,9 @@ class SignaturePriorityCriteria extends SingleElementCriteria
              else
                 $tmp = $tmp._SIGPRIO.' '.htmlentities($this->criteria[0])." ".htmlentities($this->criteria[1]).
                        $this->cs->GetClearCriteriaString($this->export_name).'<BR>';
-          }
-       }
- 
-       return $tmp;
+			}
+		}
+		return $tmp;
 	}
 };  /* SignaturePriorityCriteria */
 
@@ -1304,7 +1314,7 @@ class TCPFieldCriteria extends ProtocolFieldCriteria {
 };  /* TCPFieldCriteria */
 
 class TCPFlagsCriteria extends SingleElementCriteria{
-	// $tcp_flags[7]: stores all other tcp flags parameters/operators row
+	// $tcp_flags[9]: stores all other tcp flags parameters/operators row
 	//  - [0] : is, contains                   [5] : 16    (ACK)
 	//  - [1] : 1   (FIN)                      [6] : 32    (URG)
 	//  - [2] : 2   (SYN)                      [7] : 64    (RSV0)
