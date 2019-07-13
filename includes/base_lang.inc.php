@@ -210,14 +210,21 @@ class UILang{
 			);
 			for ($i = 1; $i < 13; $i++){
 				$Idx = $i - 1;
-				$MLk = "ML$i";
-				$MLv = "UI_CW_ML$i";
+				$MLk = 'ML'.$i;
+				$MLv = 'UI_CW_'.$MLk;
 				$MLc = '_'.$MLI[$Idx];
+				print "Set CWA[$MLk] ";
 				if ( isset($$MLv) ) { // Var New TDF
+					print "Var: $$MLv Value: ".$$MLv."\n";
 					$this->SetUICWItem($MLk,$$MLv);
 				}elseif (defined($MLc)) { // Const Legacy TDF
+					print "Const: $MLc Value: ".constant($MLc)."\n";
 					$this->SetUICWItem($MLk,$MLc);
 				}else{
+					print "Error:\n";
+					print "VarName: $MLv\n";
+					print "Var: $$MLv Value: ".$$MLv."\n";
+					print "Const: $MLc Value: ".constant($MLc)."\n";
 					$this->SetUICWItem($MLk);
 				}
 			}
