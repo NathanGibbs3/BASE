@@ -29,4 +29,9 @@ function LogTC ($cf,$Item,$Value) { // Output to Test Console
 		print "\n$cf Testing $Item: $Value";
 	}
 }
+function ValidateConst($obj, $Name, $Value){
+	$EPfx = "CONST $Name ";
+	$obj->assertTrue(defined($Name),$EPfx.'not defiend.');
+	$obj->assertEquals($Value,constant($Name),$EPfx.'unexpected value.');
+}
 ?>

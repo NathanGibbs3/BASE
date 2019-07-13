@@ -4,6 +4,7 @@ use PHPUnit\Framework\TestCase;
 // Test fucntions in /includes/base_state_common.inc.php
 /**
   * @covers ::InitArray
+  * @covers ::SetSessionVar
   * @covers ::XSSPrintSafe
   */
 class state_commonTest extends TestCase {
@@ -161,6 +162,72 @@ class state_commonTest extends TestCase {
 			'XSSPrintSafe Unexpected Return Value.'
 		);
 	}
+	public function testSetSessionVarDefaults() {
+		$a = NULL;
+		$URV = 'Unexpected return SetSessionVar().';
+		$this->assertEmpty(
+			SetSessionVar($a),
+			$URV
+		);
+	}
+	public function testSetSessionVarGET() {
+		GLOBAL $debug_mode;
+		$odb = $debug_mode;
+		$oget = $_GET;
+		$debug_mode = 1;
+		$a = 'Test';
+		$_GET['Test'] = $a;
+		$URV = 'Unexpected return SetSessionVar().';
+		$UOV = 'Unexpected Output SetSessionVar().';
+		$this->expectOutputString(
+			"Importing GET var '$a'<br/>\n",
+			$Ret = SetSessionVar($a),
+			$UOV
+		);
+		$this->assertNotEmpty($Ret, $URV);
+		$this->assertEquals($a, $Ret, $URV);
+		$_GET = $oget;
+		$debug_mode = $odb;
+	}
+	public function testSetSessionVarPOST() {
+		GLOBAL $debug_mode;
+		$odb = $debug_mode;
+		$opost = $_POST;
+		$debug_mode = 1;
+		$a = 'Test';
+		$_POST['Test'] = $a;
+		$URV = 'Unexpected return SetSessionVar().';
+		$UOV = 'Unexpected Output SetSessionVar().';
+		$this->expectOutputString(
+			"Importing POST var '$a'<br/>\n",
+			$Ret = SetSessionVar($a),
+			$UOV
+		);
+		$this->assertNotEmpty($Ret, $URV);
+		$this->assertEquals($a, $Ret, $URV);
+		$_POST = $opost;
+		$debug_mode = $odb;
+	}
+	public function testSetSessionVarSESSION() {
+		GLOBAL $debug_mode;
+		$odb = $debug_mode;
+		$osession = $_SESSION;
+		$debug_mode = 1;
+		$a = 'Test';
+		$_SESSION['Test'] = $a;
+		$URV = 'Unexpected return SetSessionVar().';
+		$UOV = 'Unexpected Output SetSessionVar().';
+		$this->expectOutputString(
+			"Importing SESSION var '$a'<br/>\n",
+			$Ret = SetSessionVar($a),
+			$UOV
+		);
+		$this->assertNotEmpty($Ret, $URV);
+		$this->assertEquals($a, $Ret, $URV);
+		$_SESSION = $osession;
+		$debug_mode = $odb;
+	}
+
 	// Add code to a function if needed.
 	// Stop here and mark test incomplete.
 	//$this->markTestIncomplete('Incomplete Test.');
