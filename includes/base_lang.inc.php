@@ -79,7 +79,9 @@ class UILang{
 			}
 		}
 		// Auto Generate Long/Short Month Names
+		$msg = "Auto Generate Month Names\nLegacy Locale Shims: ";
 		if ( !isset($UI_ILC) ){ // Legecy TDF
+			$msg .= "On\n";
 			// Compatibility Shimming
 			$UI_IRC = '';
 			if ( preg_match("/portuguese/", $this->Lang) ){
@@ -143,26 +145,42 @@ class UILang{
 				}
 			}
 		}else{ // New TDF
+			$msg .= "Off\n";
+			$msg .= 'TD ISO Lang Code: ';
 			if ( strlen($UI_ILC) != 2 ) {
 				$UI_ILC = 'en'; // Default to english on invalid data.
+				$msg .= "Invalid. Defaulting to 'en'.";
+			}else{
+				$msg .= 'OK.';
 			}
+			$msg .= "\nTD ISO Region Code Var: ";
 			if ( isset($UI_IRC) ) {
+				$msg .= 'Present & ';
 				if ( strlen($UI_IRC) != 2 ) {
 					$UI_IRC = 'US'; // Default to US on invalid data.
+					$msg .= "Defaulted to 'US'.";
+				}else{
+					$msg .= 'OK.';
 				}
 			}else{
+				$msg .= 'Unset.';
 				$UI_IRC = '';
 			}
+			$msg .= "\n";
 		}
 		$UI_ILC = strtolower($UI_ILC);
 		$UI_IRC = strtoupper($UI_IRC);
+		$msg .= 'TD Character Set: ';
+		$tmp = 'Present.';
 		if ( isset($UI_Charset) ){ // Var New TDF
 			$tcs = $UI_Charset;
 		}elseif (defined('_CHARSET')) { // Const Legacy TDF
 			$tcs = _CHARSET;
 		}else{ // Default to UTF-8
+			$tmp = "Unset. Defaults to 'utf-8'";
 			$tcs = 'utf-8';
 		}
+		$msg .= $tmp."\n";
 		$this->SetUICharset($tcs); // UI Content-Type charset.
 		$loc = $UI_ILC.'_';
 		if ( $UI_IRC != '' ){ // Add Region Code.;
@@ -170,6 +188,7 @@ class UILang{
 		}
 		$loc .= $tcs;
 		$this->ILocale = $loc; // Auto Generated Locale :-)
+		$tmp = '';
 		if ( phpversion('intl') ){ // Is Intl available?
 			// Set up Month format strings via Intl.
 			$MfS = new IntlDateFormatter(
@@ -182,6 +201,7 @@ class UILang{
 			);
 			if ($MfS && $MfL){
 				$Mgf = 'datefmt_format';
+				$tmp = 'PHP intl';
 			}else{ // Not Auto Generating TD.
 				$Mgf = NULL;
 			}
@@ -192,18 +212,23 @@ class UILang{
 				$MfS = '%b';
 				$MfL = '%B';
 				$Mgf = 'strftime';
+				$tmp = 'SYS Locales';
 			}else{ // Not Auto Generating TD.
 				$Mgf = NULL;
 			}
 			setlocale(LC_TIME, $tmplocale); // Put Locale back.
 		}
+		$msg .= 'Generating via: ';
+		$GL = '';
 		if ( isset($Mgf) ){
+			$msg .= $tmp;
 			for ($i = 1; $i < 13; $i++){
 				$tts = mktime(0, 0, 0, $i);
 				$this->SetUICWItem("ML$i",$Mgf($MfL,$tts)); // Set Long Month
 				$this->SetUICWItem("MS$i",$Mgf($MfS,$tts)); // Set Short Month
 			}
 		}else{ // Fall back to TDF.
+			$msg .= 'TD ';
 			$MLI = array (
 				'JANUARY', 'FEBRUARY', 'MARCH', 'APRIL', 'MAY', 'JUNE', 'JULY',
 				'AUGUST', 'SEPTEMBER', 'OCTOBER', 'NOVEMBER', 'DECEMBER'
@@ -213,21 +238,30 @@ class UILang{
 				$MLk = 'ML'.$i;
 				$MLv = 'UI_CW_'.$MLk;
 				$MLc = '_'.$MLI[$Idx];
-				print "Set CWA[$MLk] ";
+				$GL .= "Set CWA[$MLk] ";
 				if ( isset($$MLv) ) { // Var New TDF
-					print "Var: $$MLv Value: ".$$MLv."\n";
+					$TDG = 'New';
+					$GL .=  "Var: $$MLv Value: ".$$MLv;
 					$this->SetUICWItem($MLk,$$MLv);
 				}elseif (defined($MLc)) { // Const Legacy TDF
-					print "Const: $MLc Value: ".constant($MLc)."\n";
+					$TDG = 'Legacy';
+					$GL .=  "Const: $MLc Value: ".constant($MLc);
 					$this->SetUICWItem($MLk,$MLc);
-				}else{
-					print "Error:\n";
-					print "VarName: $MLv\n";
-					print "Var: $$MLv Value: ".$$MLv."\n";
-					print "Const: $MLc Value: ".constant($MLc)."\n";
-					$this->SetUICWItem($MLk);
+				}else{ // Build from Const Name List. :-)
+					$TDG = 'UILANG';
+					$MLv = ucfirst(strtolower($MLI[$Idx]));
+					$GL .=  "Auto English Value: ".$$MLv;
+					$this->SetUICWItem($MLk,$MLv);
 				}
+				$GL .= "\n";
 			}
+			$msg .= "$TDG\n$GL";
+		}
+		if ($debug_mode > 1){
+			print $msg;
+		}
+		if ($GL != ''){
+			print $GL;
 		}
 		// Init Misc Items.
 		if ( isset($UI_Locales) ) { // Var New TDF
