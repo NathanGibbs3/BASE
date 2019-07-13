@@ -1,16 +1,16 @@
 <?php
 use PHPUnit\Framework\TestCase;
 
-// Test fucntions in /includes/base_state_citems.inc.php
+// Test fucntions in includes/base_state_citems.inc.php
 // Tests that need process isolation.
 
 /**
+  * A necessary evil for tests touching legacy TD.
   * @preserveGlobalState disabled
-  * A necessary evil for tests touching UILang during TD Transition.
   * @runTestsInSeparateProcesses
-  * Apparently the covers annotations are ignored whe the above necessary
-  * evil is in effect. Will Add covers annotations once we get rid of
-  * necessary evil.
+  * @covers SignatureCriteria
+  * @covers IPAddressCriteria
+  * @covers DataCriteria
   */
 class state_citemsSPTest extends TestCase {
 	// Pre Test Setup.
@@ -25,6 +25,13 @@ class state_citemsSPTest extends TestCase {
 		GLOBAL $BASE_path, $DBlib_path, $DBtype, $debug_mode, $alert_dbname,
 			$alert_host, $alert_user, $alert_password, $alert_port,
 			$db_connect_method, $db;
+		// Issue #36 Cutout.
+		// See: https://github.com/NathanGibbs3/BASE/issues/36
+		$PHPV = GetPHPV();
+		$PSM = getenv('SafeMode');
+		if (version_compare($PHPV, '5.4', '<') && $PSM == 1){
+			self::markTestSkipped();
+		}
 		$tf = __FUNCTION__;
 		$ll = 'english';
 		self::$langs = $ll;
@@ -35,12 +42,16 @@ class state_citemsSPTest extends TestCase {
 			LogTC($tf,'language',$ll);
 			LogTC($tf,'TD file',$file);
 		}
-		// Setup UI Language Object
-		// Will throw error during TD transition.
-		// Use error suppression @ symbol.
-		self::assertInstanceOf('UILang',self::$UIL = @new UILang($ll),
-			"Class for $ll not created."
-		);
+		if ( class_exists('UILang') ){
+			// Setup UI Language Object
+			// Will throw error during TD transition.
+			// Use error suppression @ symbol.
+			self::assertInstanceOf('UILang',self::$UIL = @new UILang($ll),
+				"Class for $ll not created."
+			);
+		}else{
+			self::$files = $file;
+		}
 		// Setup DB System.
 		$TRAVIS = getenv('TRAVIS');
 		if (!$TRAVIS){ // Running on Local Test System.
@@ -84,14 +95,12 @@ class state_citemsSPTest extends TestCase {
 					$alert_port, $alert_user, $alert_password
 				);
 			}
+			self::assertInstanceOf(
+				'baseCon',
+				$db,
+				'DB Object Not Initialized.'
+			);
 			self::$db = $db;
-		}
-		// Issue #36 Cutout.
-		// See: https://github.com/NathanGibbs3/BASE/issues/36
-		$PHPV = GetPHPV();
-		$PSM = getenv('SafeMode');
-		if (version_compare($PHPV, '5.4', '<') && $PSM == 1){
-			self::markTestSkipped();
 		}
 	}
 	public static function tearDownAfterClass() {
@@ -104,7 +113,12 @@ class state_citemsSPTest extends TestCase {
 	// Tests go here.
 	public function testClassSignatureCriteriaFuncDescriptionReturnsNULL() {
 		GLOBAL $UIL;
-		$UIL = self::$UIL;
+		if ( is_object(self::$UIL) ){
+			$UIL = self::$UIL;
+		}else{
+			GLOBAL $BASE_installID;
+			include_once(self::$files);
+		}
 		$db = self::$db;
 		$cs = new CriteriaState('Unit_Test'); // Create Criteria State Object.
 		$cst = $cs->criteria['sig']; // Porperty under test.
@@ -133,7 +147,12 @@ class state_citemsSPTest extends TestCase {
 	}
 	public function testClassSignatureCriteriaFuncDescription() {
 		GLOBAL $UIL;
-		$UIL = self::$UIL;
+		if ( is_object(self::$UIL) ){
+			$UIL = self::$UIL;
+		}else{
+			GLOBAL $BASE_installID;
+			include_once(self::$files);
+		}
 		$db = self::$db;
 		$cs = new CriteriaState('Unit_Test'); // Create Criteria State Object.
 		$cst = $cs->criteria['sig']; // Porperty under test.
@@ -141,7 +160,7 @@ class state_citemsSPTest extends TestCase {
 		$Ts = 'Test Signature';
 		$cst->criteria[1] = $Ts;
 		$Pfx = 'Signature ';
-		$Sfx = '&nbsp;&nbsp;<A HREF="Unit_Test?clear_criteria=sig&amp;clear_criteria_element=">...Clear...</A><br>';
+		$Sfx = '&nbsp;&nbsp;<A HREF="Unit_Test?clear_criteria=sig&amp;clear_criteria_element=">...Clear...</A><br/>';
 		// CSO INvalid
 		$cst->criteria[0] = 'Invalid';
 		$cst->criteria[2] = '=';
@@ -197,11 +216,248 @@ class state_citemsSPTest extends TestCase {
 			'CSO Not Contains Unexpected Return Value.'
 		);
 	}
-
+	// Tests for Class IPAddressCriteria
+	public function testClassIPAddressCriteriaConstruct(){
+		GLOBAL $UIL;
+		if ( is_object(self::$UIL) ){
+			$UIL = self::$UIL;
+		}else{
+			GLOBAL $BASE_installID;
+			include_once(self::$files);
+		}
+		$db = self::$db;
+		$cs = 'Test';
+		$URV = 'Unexpected Return Value.';
+		$this->assertInstanceOf(
+			'IPAddressCriteria',
+			$tc = new IPAddressCriteria($db, $cs, 'Test',1),
+			'Class Not Initialized.'
+		);
+		$this->assertEquals('Test', $tc->cs, $URV);
+		$this->assertEquals('Test', $tc->export_name, $URV);
+		$this->assertNull($tc->criteria, $URV);
+		$this->assertNull($tc->value, $URV);
+		$this->assertNull($tc->value1, $URV);
+		$this->assertNull($tc->value2, $URV);
+		$this->assertNull($tc->value3, $URV);
+		$this->assertEquals(1, $tc->element_cnt, $URV);
+		$this->assertEquals(0, $tc->criteria_cnt, $URV);
+		$this->assertTrue(is_array($tc->valid_field_list), $URV);
+	}
+	// These functions in this class are NoOps.
+	// Call them for Code Coverage purposes.
+	public function testClassIPAddressCriteriaNoOpFuncs(){
+		GLOBAL $UIL;
+		if ( is_object(self::$UIL) ){
+			$UIL = self::$UIL;
+		}else{
+			GLOBAL $BASE_installID;
+			include_once(self::$files);
+		}
+		$db = self::$db;
+		$cs = 'Test';
+		$this->assertInstanceOf(
+			'IPAddressCriteria',
+			$tc = new IPAddressCriteria($db, $cs, 'Test',1),
+			'Class Not Initialized.'
+		);
+		$tc->Clear();
+		$tc->ToSQL();
+	}
+	// Tests for Class DataCriteria
+	public function testClassDataCriteriaConstruct(){
+		GLOBAL $UIL;
+		if ( is_object(self::$UIL) ){
+			$UIL = self::$UIL;
+		}else{
+			GLOBAL $BASE_installID;
+			include_once(self::$files);
+		}
+		$db = self::$db;
+		$cs = 'Test';
+		$URV = 'Unexpected Return Value.';
+		$this->assertInstanceOf(
+			'DataCriteria',
+			$tc = new DataCriteria($db, $cs, 'Test',1),
+			'Class Not Initialized.'
+		);
+		$this->assertEquals('Test', $tc->cs, $URV);
+		$this->assertEquals('Test', $tc->export_name, $URV);
+		$this->assertNull($tc->criteria, $URV);
+		$this->assertNull($tc->value, $URV);
+		$this->assertNull($tc->value1, $URV);
+		$this->assertNull($tc->value2, $URV);
+		$this->assertNull($tc->value3, $URV);
+		$this->assertEquals(1, $tc->element_cnt, $URV);
+		$this->assertEquals(0, $tc->criteria_cnt, $URV);
+		$this->assertTrue(is_array($tc->valid_field_list), $URV);
+		$this->assertTrue(is_array($tc->data_encode), $URV);
+	}
+	// These functions in this class are NoOps.
+	// Call them for Code Coverage purposes.
+	public function testClassDataCriteriaNoOpFuncs(){
+		GLOBAL $UIL;
+		if ( is_object(self::$UIL) ){
+			$UIL = self::$UIL;
+		}else{
+			GLOBAL $BASE_installID;
+			include_once(self::$files);
+		}
+		$db = self::$db;
+		$cs = 'Test';
+		$this->assertInstanceOf(
+			'DataCriteria',
+			$tc = new DataCriteria($db, $cs, 'Test',1),
+			'Class Not Initialized.'
+		);
+		$tc->Clear();
+		$tc->ToSQL();
+	}
+	public function testClassDataCriteriaFuncImportDenied(){
+		GLOBAL $debug_mode;
+		GLOBAL $UIL;
+		if ( is_object(self::$UIL) ){
+			$UIL = self::$UIL;
+		}else{
+			GLOBAL $BASE_installID;
+			include_once(self::$files);
+		}
+		$db = self::$db;
+		$cs = 'Test';
+		$cc = $cs.'_cnt';
+		$URV = 'Unexpected Return Value.';
+		$UOV = 'Unexpected Output.';
+		$this->assertInstanceOf(
+			'DataCriteria',
+			$tc = new DataCriteria($db, $cs, 'Test',1),
+			'Class Not Initialized.'
+		);
+		$odb = $debug_mode;
+		$osession = $_SESSION;
+		$debug_mode = 1;
+		$_SESSION[$cs] = '';
+		$this->expectOutputString(
+			"Importing SESSION var 'Test'<br/>\n".
+			"Import: Test<br/>\nCriteria Type: NULL<br/>\n".
+			"Criteria Import: Denied.<br/>\n".
+			"Import: Test<br/>\nCriteria Type: NULL<br/>\n".
+			"Property Type: string<br/>\n".
+			"Property Import: Denied.<br/>\n",
+			$UOV
+		);
+		$tc->Import();
+		$debug_mode = $odb;
+		$_SESSION = $osession;
+		$this->assertFalse(is_array($tc->criteria), $URV);
+	}
+	public function testClassDataCriteriaFuncImportDenied2(){
+		GLOBAL $debug_mode;
+		GLOBAL $UIL;
+		if ( is_object(self::$UIL) ){
+			$UIL = self::$UIL;
+		}else{
+			GLOBAL $BASE_installID;
+			include_once(self::$files);
+		}
+		$db = self::$db;
+		$cs = 'Test';
+		$URV = 'Unexpected Return Value.';
+		$UOV = 'Unexpected Output.';
+		$this->assertInstanceOf(
+			'DataCriteria',
+			$tc = new DataCriteria($db, $cs, 'Test',1),
+			'Class Not Initialized.'
+		);
+		$odb = $debug_mode;
+		$osession = $_SESSION;
+		$debug_mode = 1;
+		$_SESSION[$cs] = array(0 => '', 1 => '');
+		$this->expectOutputString(
+			"Importing SESSION var 'Test'<br/>\n".
+			"Import: Test<br/>\nCriteria Type: array<br/>\n".
+			"Criteria Import: Allowed.<br/>\n".
+			"Import: Test<br/>\nCriteria Type: array<br/>\n".
+			"Property Type: string<br/>\n".
+			"Property Import: Denied.<br/>\n",
+			$UOV
+		);
+		$tc->Import();
+		$debug_mode = $odb;
+		$this->assertTrue(is_array($tc->criteria), $URV);
+		$this->assertEquals(array(0 => '', 1 => ''),$tc->criteria, $URV);
+		$_SESSION = $osession;
+	}
+	public function testClassDataCriteriaFuncImportAllowed(){
+		GLOBAL $debug_mode;
+		GLOBAL $UIL;
+		if ( is_object(self::$UIL) ){
+			$UIL = self::$UIL;
+		}else{
+			GLOBAL $BASE_installID;
+			include_once(self::$files);
+		}
+		$db = self::$db;
+		$cs = 'Test';
+		$URV = 'Unexpected Return Value.';
+		$UOV = 'Unexpected Output.';
+		$this->assertInstanceOf(
+			'DataCriteria',
+			$tc = new DataCriteria($db, $cs, 'Test',1),
+			'Class Not Initialized.'
+		);
+		$odb = $debug_mode;
+		$osession = $_SESSION;
+		$debug_mode = 1;
+		$_SESSION[$cs] = array(0 => '', 1 => '');
+		$_SESSION['data_encode'] = array();
+		$this->expectOutputString(
+			"Importing SESSION var 'Test'<br/>\n".
+			"Import: Test<br/>\nCriteria Type: array<br/>\n".
+			"Criteria Import: Allowed.<br/>\n".
+			"Importing SESSION var 'data_encode'<br/>\n".
+			"Import: Test<br/>\nCriteria Type: array<br/>\n".
+			"Property Type: array<br/>\n".
+			"Property Import: Allowed.<br/>\n",
+			$UOV
+		);
+		$tc->Import();
+		$debug_mode = $odb;
+		$this->assertTrue(is_array($tc->criteria), $URV);
+		$this->assertEquals(array(0 => '', 1 => ''),$tc->criteria, $URV);
+		$_SESSION = $osession;
+	}
+	public function testClassDataCriteriaFuncInitDefault(){
+		GLOBAL $UIL;
+		if ( is_object(self::$UIL) ){
+			$UIL = self::$UIL;
+		}else{
+			GLOBAL $BASE_installID;
+			include_once(self::$files);
+		}
+		$db = self::$db;
+		$cs = 'Test';
+		$URV = 'Unexpected Return Value.';
+		$this->assertInstanceOf(
+			'DataCriteria',
+			$tc = new DataCriteria($db, $cs, 'Test',1),
+			'Class Not Initialized.'
+		);
+		$osession = $_SESSION;
+		$tc->Init();
+		$this->assertTrue(is_array($tc->criteria), $URV);
+		$this->assertEquals(1, $tc->criteria_cnt, $URV);
+		$this->assertEquals(1, $_SESSION['Test_cnt'], $URV);
+		$this->assertEquals(10, count($tc->criteria,1)-count($tc->criteria), $URV);
+		for ( $i = 0; $i < 10; $i++ ){
+			for ( $j = 0; $j < $tc->criteria_cnt; $j++ ){
+				$this->assertEquals('',$tc->criteria[$i][$j],$URV);
+			}
+		}
+		$_SESSION = $osession;
+	}
 
 	// Add code to a function if needed.
 	// Stop here and mark test incomplete.
 	//$this->markTestIncomplete('Incomplete Test.');
 }
-
 ?>

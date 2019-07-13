@@ -63,8 +63,18 @@ class authTest extends TestCase {
 					$db_connect_method, $alert_dbname, $alert_host,
 					$alert_port, $alert_user, $alert_password
 				);
-				self::$user = new BaseUser();
 			}
+			self::assertInstanceOf(
+				'baseCon',
+				$db,
+				'DB Object Not Initialized.'
+			);
+			self::assertInstanceOf(
+				'BaseUser',
+				$user = new BaseUser(),
+				'User Object Not Initialized.'
+			);
+			self::$user = $user;
 		}
 	}
 	public static function tearDownAfterClass() {

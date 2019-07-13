@@ -10,6 +10,9 @@ use PHPUnit\Framework\TestCase;
   * @covers ::PrintBackButton
   */
 class state_criteriaSPTest extends TestCase {
+	// Pre Test Setup.
+	protected static $omh;
+
 	public static function setUpBeforeClass() {
 		GLOBAL $maintain_history;
 		// Issue #36 Cutout.
@@ -19,9 +22,8 @@ class state_criteriaSPTest extends TestCase {
 		if (version_compare($PHPV, '5.4', '<') && $PSM == 1){
 			self::markTestSkipped();
 		}
-		if ( $maintain_history != 1 ){
-			$maintain_history = 1;
-		}
+		self::$omh = $maintain_history;
+		$maintain_history = 1;
 		RegisterGlobalState();
 		/* Initialize the history */
 		$_SESSION = NULL;
@@ -29,6 +31,10 @@ class state_criteriaSPTest extends TestCase {
 		$_SESSION['back_list_cnt'] = 0;
 		PushHistory();
 		PushHistory(); // Load History
+	}
+	public static function tearDownAfterClass() {
+		$maintain_history = self::$omh;
+		self::$omh = null;
 	}
 
 	// Tests go here.

@@ -62,94 +62,95 @@ class BaseCriteria {
 		$this->value2 = NULL;
 		$this->value3 = NULL;
 	}
-   function Init()
-   { 
-   }
-
-   function Import()
-   {
-     /* imports criteria from POST, GET, or the session */
-   }
-
-   function Clear()
-   {
-     /* clears the criteria */
-   }
- 
-   function Sanitize()
-   {
-     /* clean/validate the criteria */
-   }
-	function SanitizeElement($value) {
-		/* clean/validate the criteria */
+	// These functions are NoOp placeholders in this class.
+	function Init(){
+		// Initilaize Class Data Structure(s).
 	}
-	function PrintForm($value1, $value2, $value3) {
-		/* prints the HTML form to input the criteria */
+	function Import(){
+		// Imports criteria from POST, GET, or the session.
 	}
-	function AddFormItem(&$value1, $value2) {
-		/* adding another item to the HTML form  */
+	function Clear(){
+		// Clears the criteria.
 	}
-   function GetFormItemCnt()
-   {
-     /* returns the number of items in this form element  */
-   }
-	function SetFormItemCnt($value) {
-		/* sets the number of items in this form element */
+	function Sanitize(){
+		// Clean/validate the criteria.
 	}
-   function Set($value)
-   {
-     /* set the value of this criteria */
-   }
-
-   function Get()
-   {
-     /* returns the value of this criteria */
-   }
-
-   function ToSQL()
-   {
-     /* convert this criteria to SQL */
-   }
-	function Description($value) {
-		/* generate human-readable description of this criteria */
+	function SanitizeElement($value){
+		// Clean/validate the criteria.
 	}
-   function isEmpty()
-   {
-     /* returns if the criteria is empty */
-   }
+	function PrintForm($value1, $value2, $value3){
+		// Prints the HTML form to input the criteria.
+	}
+	function AddFormItem(&$value1, $value2){
+		// Adding another item to the HTML form.
+	}
+	function GetFormItemCnt(){
+		// Returns the number of items in this form element.
+	}
+	function SetFormItemCnt($value){
+		// Sets the number of items in this form element.
+	}
+	function Set($value){
+		// Set the value of this criteria.
+	}
+	function Get(){
+		// Returns the value of this criteria.
+	}
+	function ToSQL(){
+		// Convert this criteria to SQL.
+	}
+	function Description($value){
+		// Generate human-readable description of this criteria.
+	}
+	function isEmpty(){
+		// Returns if the criteria is empty.
+	}
+	function CTIFD( $func = __FUNCTION__, $SF = '' ){
+		// Prints debuging info regarding Criteria Type Input/Import Functions.
+		GLOBAL $debug_mode;
+		if ( $debug_mode > 0 ){
+			print "$func: $this->export_name<br/>\n";
+			print "Criteria Type: ".gettype($this->criteria)."<br/>\n";
+			if ( is_bool($SF) ){
+				$msg = "Criteria $func: ";
+				if ($SF){
+					$msg .= 'Allowed';
+				}else{
+					$msg .= 'Denied';
+				}
+				$msg .= ".<br/>\n";
+				print $msg;
+			}
+		}
+	}
 };
 
 class SingleElementCriteria extends BaseCriteria{
-   function Import()
-   {
-      $this->criteria = SetSessionVar($this->export_name);
-
-      $_SESSION[$this->export_name] = &$this->criteria;
-   }
+	function Import(){
+		$this->criteria = SetSessionVar($this->export_name);
+		$_SESSION[$this->export_name] = &$this->criteria;
+	}
+	// NoOp placeholders in this class. Why is it even here?
 	function Sanitize() {
 		$this->SanitizeElement('');
 	}
-   function GetFormItemCnt()
-   {
-      return -1;
-   }   
- 
-   function Set($value)
-   {
-      $this->criteria = $value;
-   }
-
-   function Get()
-   {
-      return $this->criteria;
-   }
-   function isEmpty()
-   {
-      if ( $this->criteria == "" )
-         return true;
-      else
-         return false;
-   }
+	function GetFormItemCnt(){
+		return -1;
+	}
+	function Set($value){
+		$this->criteria = $value;
+	}
+	function Get(){
+		return $this->criteria;
+	}
+	function isEmpty(){
+		if ( $this->criteria == '' ){
+			$Ret = true;
+		}else{
+			$Ret = false;
+		}
+		return $Ret;
+	}
 };
 
 class MultipleElementCriteria extends BaseCriteria {
@@ -195,19 +196,24 @@ class MultipleElementCriteria extends BaseCriteria {
 		}else{
 			$tmp = 10;
 		}
-		InitArray($this->criteria, $tmp, $this->element_cnt, "");
+		InitArray($this->criteria, $tmp, $this->element_cnt, '');
 		$this->criteria_cnt = 1;
 		$_SESSION[$this->export_name."_cnt"] = &$this->criteria_cnt;
+		$this->CTIFD(__FUNCTION__);
 	}
-   function Import()
-   {
-      $this->criteria = SetSessionVar($this->export_name);
-      $this->criteria_cnt = SetSessionVar($this->export_name."_cnt");
-
-      $_SESSION[$this->export_name] = &$this->criteria;
-      $_SESSION[$this->export_name."_cnt"] = &$this->criteria_cnt;
-   }
-
+	function Import(){
+		$tmp = SetSessionVar($this->export_name);
+		if ( is_array($tmp) ){ // Type Lock criteria import. Fixes Issue #10.
+			$SF = true;
+			$this->criteria = $tmp;
+		}else{
+			$SF = false;
+		}
+		$this->criteria_cnt = SetSessionVar($this->export_name."_cnt");
+		$_SESSION[$this->export_name] = &$this->criteria;
+		$_SESSION[$this->export_name."_cnt"] = &$this->criteria_cnt;
+		$this->CTIFD(__FUNCTION__,$SF);
+	}
    function Sanitize()
    { 
       if ( in_array("criteria", array_keys(get_object_vars($this))) )
@@ -219,51 +225,54 @@ class MultipleElementCriteria extends BaseCriteria {
          }
       }
    }
-
-   function SanitizeElement($i)
-   {
-   }
-
-   function GetFormItemCnt()
-   {
-      return $this->criteria_cnt;
-   }   
-
-   function SetFormItemCnt($value)
-   {
-      $this->criteria_cnt = $value;
-   }
-
+	// NoOp placeholders in this class. Why is it even here?
+	function SanitizeElement($i){
+	}
+	function GetFormItemCnt(){
+		return $this->criteria_cnt;
+	}
+	function SetFormItemCnt($value){
+		$this->criteria_cnt = $value;
+	}
    function AddFormItem(&$submit, $submit_value)
    {
 	$this->criteria_cnt =& $this->criteria_cnt;
       AddCriteriaFormRow($submit, $submit_value, $this->criteria_cnt, $this->criteria, $this->element_cnt);
    }
- 
-   function Set($value)
-   {
-      $this->criteria = $value;
-   }
-
-   function Get()
-   {
-      return $this->criteria;
-   }
-
-   function isEmpty()
-   {
-      if ( $this->criteria_cnt == 0 )
-         return true;
-      else
-         return false;
-   }
+	function Set($value){
+		if ( is_array($value) ){ // Type Lock criteria Set. Fixes Issue #10.
+			$SF = true;
+			$this->criteria = $value;
+		}else{
+			$SF = false;
+		}
+		$this->CTIFD(__FUNCTION__,$SF);
+	}
+	function Get(){
+		return $this->criteria;
+	}
+	function isEmpty(){
+		if ( $this->criteria_cnt == 0 ){
+			$Ret = true;
+		}else{
+			$Ret = false;
+		}
+		return $Ret;
+	}
 	function PrintForm($field_list, $blank_field_string, $add_button_string){
-		if ( is_array($this->criteria) ){
-			for ( $i = 0; $i < $this->criteria_cnt; $i++ ){
-				if (!is_array($this->criteria[$i])){
-					$this->criteria = array();
+		GLOBAL $debug_mode;
+		if ( $debug_mode > 0 ){
+			$this->CTIFD(__FUNCTION__);
+			print "Criteria Count: $this->criteria_cnt<br/>\n";
+		}
+		for ( $i = 0; $i < $this->criteria_cnt; $i++ ){
+			if (!is_array($this->criteria[$i])){
+				if ( $debug_mode > 0 ){
+					print __FUNCTION__.": Criteria Data Error Detected<br/>\n";
+					print "Re Initializing<br/>\n";
 				}
-
+				$this->Init();
+			}
          echo '    <SELECT NAME="'.htmlspecialchars($this->export_name).'['.$i.'][0]">';
          echo '      <OPTION VALUE=" " '.chk_select($this->criteria[$i][0]," ").'>__</OPTION>'; 
          echo '      <OPTION VALUE="(" '.chk_select($this->criteria[$i][0],"(").'>(</OPTION>';
@@ -304,17 +313,16 @@ class MultipleElementCriteria extends BaseCriteria {
          if ( $i == $this->criteria_cnt-1 )
             echo '    <INPUT TYPE="submit" NAME="submit" VALUE="'.htmlspecialchars($add_button_string).'">';
          echo '<BR>';
-			}
 		}
 	}
-   function Compact()
-   {
-      if ( $this->isEmpty() )
-      {
-         $this->criteria = "";
-         $_SESSION[$this->export_name] = &$this->criteria; 
-      }
-   }
+	// Not Used in Code. Why is it even here?
+	function Compact(){
+		if ( $this->isEmpty() ){
+			// Restore to newly constructed state.
+			$this->criteria = NULL;
+			$_SESSION[$this->export_name] = &$this->criteria;
+		}
+	}
 };
 
 class ProtocolFieldCriteria extends MultipleElementCriteria {
@@ -349,8 +357,7 @@ class ProtocolFieldCriteria extends MultipleElementCriteria {
 			$tdb, $cs, $export_name, $element_cnt, $field_list
 		);
 	}
-   function SanitizeElement($i)
-   { 
+	function SanitizeElement($i){
       // Make a copy of the element array
       $curArr = $this->criteria[$i];
       // Sanitize the element
@@ -362,10 +369,8 @@ class ProtocolFieldCriteria extends MultipleElementCriteria {
       $this->criteria[$i][5] = @CleanVariable($curArr[5], "", array("AND", "OR"));
       // Destroy the copy
       unset($curArr);
-   }
-
-   function Description($human_fields)
-   {
+	}
+	function Description($human_fields){
       $tmp = "";
       for ( $i = 0; $i < $this->criteria_cnt; $i++ )
       {
@@ -377,16 +382,14 @@ class ProtocolFieldCriteria extends MultipleElementCriteria {
       if ( $tmp != "" )
          $tmp = $tmp.$this->cs->GetClearCriteriaString($this->export_name); 
 
-      return $tmp;
-   }
+		return $tmp;
+	}
 }
 
 class SignatureCriteria extends SingleElementCriteria {
 // $sig[4]: stores signature
-//   - [0] : exactly, roughly
-//   - [1] : signature
-//   - [2] : =, !=
-//   - [3] : signature from signature list
+//   - [0] : exactly, roughly    [2] : =, !=
+//   - [1] : signature           [3] : signature from signature list
 	var $sig_type;
 	var $criteria = array(0 => '', 1 => '');
 
@@ -412,26 +415,26 @@ class SignatureCriteria extends SingleElementCriteria {
 		$tdb =& $db;
 		$cs =& $cs;
 		$this->BaseCriteria($tdb, $cs, $export_name);
-		$this->sig_type = "";
+		$this->sig_type = '';
 	}
-   function Init()
-   {      
-      InitArray($this->criteria, 4, 0, "");
-      $this->sig_type = "";
-   }
-
-   function Import()
-   {
-      parent::Import();
-
-      $this->sig_type = SetSessionVar("sig_type");
-
-      $_SESSION['sig_type'] = &$this->sig_type;
-   }
-
-   function Clear()
-   {
-   }
+	function Init(){
+		InitArray($this->criteria, 4, 0, '');
+		$this->sig_type = '';
+	}
+	function Import(){
+		$tmp = SetSessionVar($this->export_name);
+		if ( is_array($tmp) ){ // Type Lock criteria import. Fixes Issue #10.
+			parent::Import();
+			$SF = true;
+		}else{
+			$SF = false;
+		}
+		$this->CTIFD(__FUNCTION__,$SF);
+		$this->sig_type = SetSessionVar("sig_type");
+		$_SESSION['sig_type'] = &$this->sig_type;
+	}
+	function Clear(){
+	}
 	function SanitizeElement($value) {
       if (!isset($this->criteria[0]) || !isset($this->criteria[1])) {
           $this->criteria = array(0 => '', 1 => '');
@@ -443,9 +446,15 @@ class SignatureCriteria extends SingleElementCriteria {
       $this->criteria[3] = filterSql(@$this->criteria[3]); /* signature name from the signature list */
 	}
 	function PrintForm($value1, $value2, $value3) {
-      if (!@is_array($this->criteria))
-        $this->criteria = array();
-
+		GLOBAL $debug_mode;
+		if ( !is_array($this->criteria) ){
+			if ( $debug_mode > 0 ){
+				$this->CTIFD(__FUNCTION__);
+				print __FUNCTION__.": Criteria Data Error Detected<br/>\n";
+				print "Re Initializing<br/>\n";
+			}
+			$this->Init();
+		}
       echo '<SELECT NAME="sig[0]"><OPTION VALUE=" "  '.chk_select(@$this->criteria[0]," "). '>'._DISPSIG;    
       echo '                      <OPTION VALUE="="     '.chk_select(@$this->criteria[0],"="). '>'._SIGEXACTLY;
       echo '                      <OPTION VALUE="LIKE" '.chk_select(@$this->criteria[0],"LIKE").'>'._SIGROUGHLY.'</SELECT>';
@@ -531,14 +540,12 @@ class SignatureCriteria extends SingleElementCriteria {
 					$tmp .= htmlentities($this->criteria[$SIdx]).'"';
 				}
 				$tmp .= $this->cs->GetClearCriteriaString($this->export_name);
-				$tmp .= '<br>';
+				$tmp .= '<br/>';
 			}
 		}
 		return $tmp;
 	}
 };  /* SignatureCriteria */
-
-
 
 class SignatureClassificationCriteria extends SingleElementCriteria
 {
@@ -600,18 +607,25 @@ class SignatureClassificationCriteria extends SingleElementCriteria
 	}
 };  /* SignatureClassificationCriteria */
 
-class SignaturePriorityCriteria extends SingleElementCriteria
-{
-   var $criteria = array();
-   function Init()
-   {
-     $this->criteria = "";
-   }
+class SignaturePriorityCriteria extends SingleElementCriteria {
+	var $criteria = array(0 => '', 1 => '');
 
-   function Clear()
-   {
-    /* clears the criteria */
-   }
+	function Init(){
+		InitArray($this->criteria, 2, 0, '');
+	}
+	function Import(){
+		$tmp = SetSessionVar($this->export_name);
+		if ( is_array($tmp) ){ // Type Lock criteria import. Fixes Issue #10.
+			parent::Import();
+			$SF = true;
+		}else{
+			$SF = false;
+		}
+		$this->CTIFD(__FUNCTION__,$SF);
+	}
+	function Clear(){
+		// Clears the criteria.
+	}
 	function SanitizeElement($value) {
      if (!isset($this->criteria[0]) || !isset($this->criteria[1])) {
          $this->criteria = array(0 => '', 1 => '');
@@ -621,11 +635,16 @@ class SignaturePriorityCriteria extends SingleElementCriteria
       $this->criteria[1] = CleanVariable(@$this->criteria[1], VAR_DIGIT);
 	}
 	function PrintForm($value1, $value2, $value3) {
-     if ( $this->db->baseGetDBversion() >= 103 )
-     {
-  		if (!@is_array($this->criteria))                 
-			$this->criteria = array();
-
+		GLOBAL $debug_mode;
+		if ( $this->db->baseGetDBversion() >= 103 ){
+			if ( !is_array($this->criteria) ){
+				if ( $debug_mode > 0 ){
+					$this->CTIFD(__FUNCTION__);
+					print __FUNCTION__.": Criteria Data Error Detected<br/>\n";
+					print "Re Initializing<br/>\n";
+				}
+				$this->Init();
+			}
         echo '<SELECT NAME="sig_priority[0]">
                 <OPTION VALUE=" " '.@chk_select($this->criteria[0],"="). '>__</OPTION>
                 <OPTION VALUE="=" '.@chk_select($this->criteria[0],"=").'>==</OPTION>
@@ -651,10 +670,9 @@ class SignaturePriorityCriteria extends SingleElementCriteria
         echo '</SELECT>&nbsp;&nbsp';
       }
 	}
-    function ToSQL()
-    {
-    /* convert this criteria to SQL */
-    }
+	function ToSQL(){
+		// Convert this criteria to SQL.
+	}
 	function Description($value) {
        $tmp = "";
        if (!isset($this->criteria[1])) {
@@ -671,10 +689,9 @@ class SignaturePriorityCriteria extends SingleElementCriteria
              else
                 $tmp = $tmp._SIGPRIO.' '.htmlentities($this->criteria[0])." ".htmlentities($this->criteria[1]).
                        $this->cs->GetClearCriteriaString($this->export_name).'<BR>';
-          }
-       }
- 
-       return $tmp;
+			}
+		}
+		return $tmp;
 	}
 };  /* SignaturePriorityCriteria */
 
@@ -739,8 +756,6 @@ class SensorCriteria extends SingleElementCriteria
 	}
 	function PrintForm($value1, $value2, $value3) {
 		GLOBAL $debug_mode;
-
-
       // How many sensors do we have?
       $number_sensors = 0;
       $number_sensors_lst = $this->db->baseExecute("SELECT count(*) FROM sensor");
@@ -761,13 +776,9 @@ class SensorCriteria extends SingleElementCriteria
       {
         $number_sensors = $number_sensors_array[0];
       }
-
-      if ($debug_mode > 1)
-      {
-        echo '$number_sensors = ' . $number_sensors . '<BR><BR>';
-      }
-
-
+		if ($debug_mode > 1){
+			print '$number_sensors = ' . $number_sensors . '<BR><BR>';
+		}
       echo '<SELECT NAME="sensor">
              <OPTION VALUE=" " '.chk_select($this->criteria, " ").'>'._DISPANYSENSOR;
 
@@ -817,27 +828,21 @@ class SensorCriteria extends SingleElementCriteria
 	}
 };  /* SensorCriteria */
 
-class TimeCriteria extends MultipleElementCriteria
-{
-/*
- * $time[MAX][10]: stores the date/time of the packet detection
- *  - [][0] : (                           [][5] : hour  
- *  - [][1] : =, !=, <, <=, >, >=         [][6] : minute
- *  - [][2] : month                       [][7] : second
- *  - [][3] : day                         [][8] : (, )
- *  - [][4] : year                        [][9] : AND, OR
- *
- * $time_cnt : number of rows in the $time[][] structure
- */
+class TimeCriteria extends MultipleElementCriteria {
+// $time[MAX][10]: stores the date/time of the packet detection
+//  - [][0] : (                           [][5] : hour
+//  - [][1] : =, !=, <, <=, >, >=         [][6] : minute
+//  - [][2] : month                       [][7] : second
+//  - [][3] : day                         [][8] : (, )
+//  - [][4] : year                        [][9] : AND, OR
+//
+// $time_cnt : number of rows in the $time[][] structure
 
-   function Clear()
-   {
-     /* clears the criteria */
-   }
- 
-   function SanitizeElement($i)
-   {
-      // Make copy of element array.
+	function Clear(){
+		// Clears the criteria.
+	}
+	function SanitizeElement($i){
+		// Make copy of element array.
       $curArr = $this->criteria[$i];
       // Sanitize the element
       $this->criteria[$i][0] = @CleanVariable($curArr[0], VAR_OPAREN);
@@ -854,11 +859,16 @@ class TimeCriteria extends MultipleElementCriteria
       unset($curArr);
    }
 	function PrintForm($value1, $value2, $value3) {
-      for ( $i = 0; $i < $this->criteria_cnt; $i++ )
-      {
-		if (!@is_array($this->criteria[$i]))
-			$this->criteria = array();
-
+		GLOBAL $debug_mode;
+		for ( $i = 0; $i < $this->criteria_cnt; $i++ ){
+			if (!is_array($this->criteria[$i])){
+				if ( $debug_mode > 0 ){
+					$this->CTIFD(__FUNCTION__);
+					print __FUNCTION__.": Criteria Data Error Detected<br/>\n";
+					print "Re Initializing<br/>\n";
+				}
+				$this->Init();
+			}
          echo '<SELECT NAME="time['.$i.'][0]"><OPTION VALUE=" " '.chk_select(@$this->criteria[$i][0]," ").'>__'; 
          echo '                               <OPTION VALUE="("  '.chk_select(@$this->criteria[$i][0],"(").'>(</SELECT>';
          echo '<SELECT NAME="time['.$i.'][1]"><OPTION VALUE=" "  '.chk_select(@$this->criteria[$i][1]," "). '>'._DISPTIME;    
@@ -901,10 +911,9 @@ class TimeCriteria extends MultipleElementCriteria
          echo '<BR>';
       }
 	}
-   function ToSQL()
-   {
-     /* convert this criteria to SQL */
-   }
+	function ToSQL(){
+		// Convert this criteria to SQL.
+	}
 	function Description($value) {
      $tmp = "";
      for ($i = 0; $i < $this->criteria_cnt; $i++)
@@ -935,7 +944,7 @@ class TimeCriteria extends MultipleElementCriteria
      if ( $tmp != "" )
        $tmp = $tmp.$this->cs->GetClearCriteriaString($this->export_name);
 
-     return $tmp;
+		return $tmp;
 	}
 };  /* TimeCriteria */
 
@@ -1004,12 +1013,13 @@ class IPAddressCriteria extends MultipleElementCriteria {
       $_SESSION['ip_addr'] = &$this->criteria;
       $_SESSION['ip_addr_cnt'] = &$this->criteria_cnt;
 	}
-   function Clear()
-   {
-     /* clears the criteria */
-   }
+	function Clear(){
+		// Clears the criteria.
+	}
 	function SanitizeElement($value) {
-		$i = 0;
+		$i = 0; // Why is this function hardwired to check only the first
+		// criteria instance? Leaving it for now, but need to investigate.
+		// 2019-07-12 Nathan
       // Make copy of old element array
       $curArr = $this->criteria[$i];
       // Sanitize element
@@ -1027,11 +1037,16 @@ class IPAddressCriteria extends MultipleElementCriteria {
       unset($curArr);
 	}
 	function PrintForm($value1, $value2, $value3) {
-      for ( $i = 0; $i < $this->criteria_cnt; $i++ )
-      {
-		if (!is_array(@$this->criteria[$i]))
-			$this->criteria = array();
-
+		GLOBAL $debug_mode;
+		for ( $i = 0; $i < $this->criteria_cnt; $i++ ){
+			if (!is_array($this->criteria[$i])){
+				if ( $debug_mode > 0 ){
+					$this->CTIFD(__FUNCTION__);
+					print __FUNCTION__.": Criteria Data Error Detected<br/>\n";
+					print "Re Initializing<br/>\n";
+				}
+				$this->Init();
+			}
          echo '    <SELECT NAME="ip_addr['.$i.'][0]"><OPTION VALUE=" " '.chk_select(@$this->criteria[$i][0]," ").'>__'; 
          echo '                                      <OPTION VALUE="(" '.chk_select(@$this->criteria[$i][0],"(").'>(</SELECT>';
          echo '    <SELECT NAME="ip_addr['.$i.'][1]">
@@ -1121,9 +1136,8 @@ class IPAddressCriteria extends MultipleElementCriteria {
                      ' '.$tmp.' '.$this->criteria[$i][8].' '.$this->criteria[$i][9].$mask.
                      $this->cs->GetClearCriteriaString($this->export_name)."<BR>";
          }
-      }
-
-      return $tmp2;
+		}
+		return $tmp2;
 	}
 };  /* IPAddressCriteria */
 
@@ -1301,31 +1315,41 @@ class TCPFieldCriteria extends ProtocolFieldCriteria {
 };  /* TCPFieldCriteria */
 
 class TCPFlagsCriteria extends SingleElementCriteria{
-	// $tcp_flags[7]: stores all other tcp flags parameters/operators row
-	//  - [0] : is, contains                   [4] : 8     (RST)
-	//  - [1] : 1   (FIN)                      [5] : 16    (ACK)
-	//  - [2] : 2   (SYN)                      [6] : 32    (URG)
-	//  - [3] : 4   (PUSH)
+	// $tcp_flags[9]: stores all other tcp flags parameters/operators row
+	//  - [0] : is, contains                   [5] : 16    (ACK)
+	//  - [1] : 1   (FIN)                      [6] : 32    (URG)
+	//  - [2] : 2   (SYN)                      [7] : 64    (RSV0)
+	//  - [3] : 4   (PUSH)                     [8] : 128   (RSV1)
+	//  - [4] : 8   (RST)
+	var $criteria = array();
 
 	function Init(){
-		if ( array_key_exists('MAX_ROWS',$GLOBALS) ){
-			$tmp = $GLOBALS['MAX_ROWS'];
-		}else{
-			$tmp = 10;
-		}
-		InitArray($this->criteria, $tmp, TCPFLAGS_CFCNT, "");
+		InitArray($this->criteria, TCPFLAGS_CFCNT, 0, '');
 	}
-   function Clear()
-   {
-     /* clears the criteria */
-   }
+	function Import(){
+		$tmp = SetSessionVar($this->export_name);
+		if ( is_array($tmp) ){ // Type Lock criteria import. Fixes Issue #10.
+			parent::Import();
+			$SF = true;
+		}else{
+			$SF = false;
+		}
+		$this->CTIFD(__FUNCTION__,$SF);
+	}
+	function Clear(){
+		// Clears the criteria.
+	}
 	function SanitizeElement($value) {
 		$this->criteria = CleanVariable($this->criteria, VAR_DIGIT);
 	}
 	function PrintForm($value1, $value2, $value3) {
-		if (!is_array($this->criteria[0]))
-			$this->criteria = array();
-
+		GLOBAL $debug_mode;
+		if (!is_array($this->criteria)){
+			$this->CTIFD(__FUNCTION__);
+			print __FUNCTION__.": Criteria Data Error Detected<br/>\n";
+			print "Re Initializing<br/>\n";
+			$this->Init();
+		}
       echo '<TD><SELECT NAME="tcp_flags[0]"><OPTION VALUE=" " '.chk_select($this->criteria[0]," ").'>'._DISPFLAGS;
       echo '                              <OPTION VALUE="is" '.chk_select($this->criteria[0],"is").'>'._IS;
       echo '                              <OPTION VALUE="contains" '.chk_select($this->criteria[0],"contains").'>'._CONTAINS.'</SELECT>';
@@ -1340,10 +1364,9 @@ class TCPFlagsCriteria extends SingleElementCriteria{
       echo '    <INPUT TYPE="checkbox" NAME="tcp_flags[1]" VALUE="1"   '.chk_check($this->criteria[1],"1").'> [FIN] &nbsp';
       echo '  </FONT>';
 	}
-   function ToSQL()
-   {
-     /* convert this criteria to SQL */
-   }
+	function ToSQL(){
+		// Convert this criteria to SQL.
+	}
 	function Description($value) {
       $human_fields["1"] = "F";
       $human_fields["2"] = "S";
@@ -1598,7 +1621,7 @@ class Layer4Criteria extends SingleElementCriteria
 class DataCriteria extends MultipleElementCriteria {
 // $data_encode[2]: how the payload should be interpreted and converted
 //  - [0] : encoding type (hex, ascii)
-//  - [1] : conversion type (hex, ascii) 
+//  - [1] : conversion type (hex, ascii)
 //
 // $data[MAX][5]: stores all the payload related parameters/operators row
 //  - [][0] : (                            [][3] : (, )
@@ -1606,7 +1629,7 @@ class DataCriteria extends MultipleElementCriteria {
 //  - [][2] : field value
 //
 // $data_cnt: number of rows in the $data[][] structure
-	var $data_encode;
+	var $data_encode = array();
 
 	function __construct(
 		&$db, &$cs, $export_name, $element_cnt
@@ -1640,28 +1663,41 @@ class DataCriteria extends MultipleElementCriteria {
 				"NOT LIKE" => _HASNOT
 			)
 		);
-		$this->data_encode = array();
+		InitArray($this->data_encode, 2, 0, '');
 	}
-   function Init()
-   {
-      parent::Init();
-      InitArray($this->data_encode, 2, 0, "");
-   }
-
-   function Import()
-   {
-      parent::Import();
-
-      $this->data_encode = SetSessionVar("data_encode");
-
-      $_SESSION['data_encode'] = &$this->data_encode;
-  }
-
-   function Clear()
-   {
-     /* clears the criteria */
-   }
- 
+	function Init(){
+		parent::Init();
+		InitArray($this->data_encode, 2, 0, '');
+	}
+	function Import(){
+		GLOBAL $debug_mode;
+		parent::Import();
+		$tmp = SetSessionVar("data_encode");
+		if ( is_array($tmp) ){ // Type Lock Property import. Fixes Issue #10.
+			$this->data_encode = $tmp;
+			$ISF = true;
+		}else{
+			$ISF = false;
+		}
+		$_SESSION['data_encode'] = &$this->data_encode;
+		if ( $debug_mode > 0 ){
+			$this->CTIFD(__FUNCTION__);
+			print "Property Type: ".gettype($tmp)."<br/>\n";
+			if ( is_bool($ISF) ){
+				$msg = 'Property '.__FUNCTION__.': ';
+				if ($ISF){
+					$msg .= 'Allowed';
+				}else{
+					$msg .= 'Denied';
+				}
+				$msg .= ".<br/>\n";
+				print $msg;
+			}
+		}
+	}
+	function Clear(){
+		// Clears the criteria.
+	}
    function SanitizeElement($i)
    {
       $this->data_encode[0] = CleanVariable($this->data_encode[0], "", array("hex", "ascii"));
@@ -1678,17 +1714,23 @@ class DataCriteria extends MultipleElementCriteria {
       unset($curArr);
    }
 	function PrintForm($value1, $value2, $value3) {
-	            if (!is_array(@$this->criteria[0]))  
-			$this->criteria = array();
-
+		GLOBAL $debug_mode;
+		if (!is_array($this->criteria[0])){
+			if ( $debug_mode > 0 ){
+				$this->CTIFD(__FUNCTION__);
+				print __FUNCTION__.": Criteria Data Error Detected<br/>\n";
+				print "Re Initializing<br/>\n";
+			}
+			$this->Init();
+		}
       echo '<B>'._INPUTCRTENC.':</B>';
-      echo '<SELECT NAME="data_encode[0]"><OPTION VALUE=" "    '.@chk_select($this->data_encode[0]," ").'>'._DISPENCODING; 
-      echo '                              <OPTION VALUE="hex"  '.@chk_select($this->data_encode[0],"hex").'>hex';
-      echo '                              <OPTION VALUE="ascii"'.@chk_select($this->data_encode[0],"ascii").'>ascii</SELECT>';
+      echo '<SELECT NAME="data_encode[0]"><OPTION VALUE=" "    '.chk_select($this->data_encode[0]," ").'>'._DISPENCODING; 
+      echo '                              <OPTION VALUE="hex"  '.chk_select($this->data_encode[0],"hex").'>hex';
+      echo '                              <OPTION VALUE="ascii"'.chk_select($this->data_encode[0],"ascii").'>ascii</SELECT>';
       echo '<B>'._CONVERT2WS.':</B>';
-      echo '<SELECT NAME="data_encode[1]"><OPTION VALUE=" "    '.@chk_select(@$this->data_encode[1]," ").'>'._DISPCONVERT2; 
-      echo '                              <OPTION VALUE="hex"  '.@chk_select(@$this->data_encode[1],"hex").'>hex';
-      echo '                              <OPTION VALUE="ascii"'.@chk_select(@$this->data_encode[1],"ascii").'>ascii</SELECT>';
+      echo '<SELECT NAME="data_encode[1]"><OPTION VALUE=" "    '.chk_select(@$this->data_encode[1]," ").'>'._DISPCONVERT2; 
+      echo '                              <OPTION VALUE="hex"  '.chk_select(@$this->data_encode[1],"hex").'>hex';
+      echo '                              <OPTION VALUE="ascii"'.chk_select(@$this->data_encode[1],"ascii").'>ascii</SELECT>';
       echo '<BR>';
 
       for ( $i = 0; $i < $this->criteria_cnt; $i++ )
@@ -1713,10 +1755,9 @@ class DataCriteria extends MultipleElementCriteria {
          echo '<BR>';
       }
 	}
-   function ToSQL()
-   {
-     /* convert this criteria to SQL */
-   }
+	function ToSQL(){
+		// Convert this criteria to SQL.
+	}
 	function Description($value) {
       $human_fields["LIKE"] = _CONTAINS;
       $human_fields["NOT LIKE"] = _DOESNTCONTAIN;
@@ -1743,8 +1784,7 @@ class DataCriteria extends MultipleElementCriteria {
       if ( $tmp != "" )
          $tmp = $tmp.$this->cs->GetClearCriteriaString($this->export_name);
 
-      return $tmp;
+		return $tmp;
 	}
 };
-
 ?>

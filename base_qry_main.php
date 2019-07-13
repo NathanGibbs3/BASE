@@ -126,8 +126,10 @@ if ( getenv('TRAVIS') && version_compare(PHP_VERSION, "5.3.0", "<") ){
     $submit = _QUERYDB;
 
   /* End 'interesting' browser code fixes */
-	// Totally new Search
-	if ( ($new == 1) && ($submit == "") ){
+	if ( ($new == 1) && ($submit == "") ){ // Totally new Search
+		if ( $debug_mode > 0 ){
+			print "Initializing Criteria State.\n";
+		}
 		$cs->InitState();
 	}
   /* is this a new query, invoked from the SEARCH screen ? */
@@ -171,9 +173,8 @@ if ( getenv('TRAVIS') && version_compare(PHP_VERSION, "5.3.0", "<") ){
 <input type='hidden' name="search" value="1" />
 <?php
 /* Dump some debugging information on the shared state */
-if ( $debug_mode > 0 )
-{
-   PrintCriteriaState();
+if ( $debug_mode > 0 ){
+	PrintCriteriaState();
 }
 
 /* a browsing button was clicked -> increment view */
