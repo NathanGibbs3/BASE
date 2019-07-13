@@ -250,7 +250,7 @@ class UILang{
 				}else{ // Build from Const Name List. :-)
 					$TDG = 'UILANG';
 					$MLv = ucfirst(strtolower($MLI[$Idx]));
-					$GL .=  "Auto English Value: ".$$MLv;
+					$GL .=  "Auto English Value: ".$MLv;
 					$this->SetUICWItem($MLk,$MLv);
 				}
 				$GL .= "\n";
