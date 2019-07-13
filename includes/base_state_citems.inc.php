@@ -1319,26 +1319,35 @@ class TCPFlagsCriteria extends SingleElementCriteria{
 	//  - [2] : 2   (SYN)                      [7] : 64    (RSV0)
 	//  - [3] : 4   (PUSH)                     [8] : 128   (RSV1)
 	//  - [4] : 8   (RST)
+	var $criteria = array();
 
 	function Init(){
-		if ( array_key_exists('MAX_ROWS',$GLOBALS) ){
-			$tmp = $GLOBALS['MAX_ROWS'];
-		}else{
-			$tmp = 10;
-		}
-		InitArray($this->criteria, $tmp, TCPFLAGS_CFCNT, ""); 
+		InitArray($this->criteria, TCPFLAGS_CFCNT, 0, '');
 	}
-   function Clear()
-   {
-     /* clears the criteria */
-   }
+	function Import(){
+		$tmp = SetSessionVar($this->export_name);
+		if ( is_array($tmp) ){ // Type Lock criteria import. Fixes Issue #10.
+			$SF = true;
+			parent::Import();
+		}else{
+			$SF = false;
+		}
+		$this->CTIFD(__FUNCTION__,$SF);
+	}
+	function Clear(){
+		// Clears the criteria.
+	}
 	function SanitizeElement($value) {
 		$this->criteria = CleanVariable($this->criteria, VAR_DIGIT);
 	}
 	function PrintForm($value1, $value2, $value3) {
-		if (!is_array($this->criteria[0]))
-			$this->criteria = array();
-
+		GLOBAL $debug_mode;
+		if (!is_array($this->criteria)){
+			$this->CTIFD(__FUNCTION__);
+			print __FUNCTION__.": Criteria Data Error Detected<br/>\n";
+			print "Re Initializing<br/>\n";
+			$this->Init();
+		}
       echo '<TD><SELECT NAME="tcp_flags[0]"><OPTION VALUE=" " '.chk_select($this->criteria[0]," ").'>'._DISPFLAGS;
       echo '                              <OPTION VALUE="is" '.chk_select($this->criteria[0],"is").'>'._IS;
       echo '                              <OPTION VALUE="contains" '.chk_select($this->criteria[0],"contains").'>'._CONTAINS.'</SELECT>';
@@ -1353,10 +1362,9 @@ class TCPFlagsCriteria extends SingleElementCriteria{
       echo '    <INPUT TYPE="checkbox" NAME="tcp_flags[1]" VALUE="1"   '.chk_check($this->criteria[1],"1").'> [FIN] &nbsp';
       echo '  </FONT>';
 	}
-   function ToSQL()
-   {
-     /* convert this criteria to SQL */
-   }
+	function ToSQL(){
+		// Convert this criteria to SQL.
+	}
 	function Description($value) {
       $human_fields["1"] = "F";
       $human_fields["2"] = "S";

@@ -11,6 +11,7 @@ use PHPUnit\Framework\TestCase;
   * @covers SignatureCriteria
   * @covers SignaturePriorityCriteria
   * @covers TimeCriteria
+  * @covers TCPFlagsCriteria
   * @uses ::InitArray
   * @uses ::SetSessionVar
   */
@@ -650,7 +651,7 @@ class state_citemsTest extends TestCase {
 		$UOV = 'Unexpected Output.';
 		$this->assertInstanceOf(
 			'SignaturePriorityCriteria',
-			$tc = new SignaturePriorityCriteria($db, $cs, 'Test', 1),
+			$tc = new SignaturePriorityCriteria($db, $cs, 'Test'),
 			'Class Not Initialized.'
 		);
 		$odb = $debug_mode;
@@ -676,7 +677,7 @@ class state_citemsTest extends TestCase {
 		$UOV = 'Unexpected Output.';
 		$this->assertInstanceOf(
 			'SignaturePriorityCriteria',
-			$tc = new SignaturePriorityCriteria($db, $cs, 'Test', 1),
+			$tc = new SignaturePriorityCriteria($db, $cs, 'Test'),
 			'Class Not Initialized.'
 		);
 		$odb = $debug_mode;
@@ -702,7 +703,7 @@ class state_citemsTest extends TestCase {
 		$URV = 'Unexpected Return Value.';
 		$this->assertInstanceOf(
 			'SignaturePriorityCriteria',
-			$tc = new SignaturePriorityCriteria($db, $cs, 'Test', 1),
+			$tc = new SignaturePriorityCriteria($db, $cs, 'Test'),
 			'Class Not Initialized.'
 		);
 		$tc->Init();
@@ -745,6 +746,109 @@ class state_citemsTest extends TestCase {
 		);
 		$tc->Clear();
 		$tc->ToSQL();
+	}
+
+	// Tests for Class TCPFlagsCriteria
+	public function testClassTCPFlagsCriteriaConstruct(){
+		$db = self::$db;
+		$cs = 'Test';
+		$URV = 'Unexpected Return Value.';
+		$this->assertInstanceOf(
+			'TCPFlagsCriteria',
+			$tc = new TCPFlagsCriteria($db, $cs, 'Test'),
+			'Class Not Initialized.'
+		);
+		$this->assertEquals('Test', $tc->cs, $URV);
+		$this->assertEquals('Test', $tc->export_name, $URV);
+		$this->assertNull($tc->criteria, $URV);
+		$this->assertNull($tc->value, $URV);
+		$this->assertNull($tc->value1, $URV);
+		$this->assertNull($tc->value2, $URV);
+		$this->assertNull($tc->value3, $URV);
+	}
+	// These functions in this class are NoOps.
+	// Call them for Code Coverage purposes.
+	public function testClassTCPFlagsCriteriaNoOpFuncs(){
+		$db = self::$db;
+		$cs = 'Test';
+		$this->assertInstanceOf(
+			'TCPFlagsCriteria',
+			$tc = new TCPFlagsCriteria($db, $cs, 'Test'),
+			'Class Not Initialized.'
+		);
+		$tc->Clear();
+		$tc->ToSQL();
+	}
+	public function testClassTCPFlagsCriteriaFuncImportDenied(){
+		GLOBAL $debug_mode;
+		$db = self::$db;
+		$cs = 'Test';
+		$cc = $cs.'_cnt';
+		$URV = 'Unexpected Return Value.';
+		$UOV = 'Unexpected Output.';
+		$this->assertInstanceOf(
+			'TCPFlagsCriteria',
+			$tc = new TCPFlagsCriteria($db, $cs, 'Test'),
+			'Class Not Initialized.'
+		);
+		$odb = $debug_mode;
+		$osession = $_SESSION;
+		$debug_mode = 1;
+		$_SESSION[$cs] = '';
+		$this->expectOutputString(
+			"Importing SESSION var 'Test'<br/>".
+			"Import: Test<br/>\nCriteria Type: NULL<br/>\n".
+			"Criteria Import: Denied.<br/>\n",
+			$UOV
+		);
+		$tc->Import();
+		$debug_mode = $odb;
+		$_SESSION = $osession;
+		$this->assertFalse(is_array($tc->criteria), $URV);
+	}
+	public function testClassTCPFlagsCriteriaFuncImportAllowed(){
+		GLOBAL $debug_mode;
+		$db = self::$db;
+		$cs = 'Test';
+		$URV = 'Unexpected Return Value.';
+		$UOV = 'Unexpected Output.';
+		$this->assertInstanceOf(
+			'TCPFlagsCriteria',
+			$tc = new TCPFlagsCriteria($db, $cs, 'Test'),
+			'Class Not Initialized.'
+		);
+		$odb = $debug_mode;
+		$osession = $_SESSION;
+		$debug_mode = 1;
+		$_SESSION[$cs] = array(0 => '', 1 => '');
+		$this->expectOutputString(
+			"Importing SESSION var 'Test'<br/>".
+			"Importing SESSION var 'Test'<br/>".
+			"Import: Test<br/>\nCriteria Type: array<br/>\n".
+			"Criteria Import: Allowed.<br/>\n",
+			$UOV
+		);
+		$tc->Import();
+		$debug_mode = $odb;
+		$this->assertTrue(is_array($tc->criteria), $URV);
+		$this->assertEquals(array(0 => '', 1 => ''),$tc->criteria, $URV);
+		$_SESSION = $osession;
+	}
+	public function testClassTCPFlagsCriteriaFuncInitDefault(){
+		$db = self::$db;
+		$cs = 'Test';
+		$URV = 'Unexpected Return Value.';
+		$this->assertInstanceOf(
+			'TCPFlagsCriteria',
+			$tc = new TCPFlagsCriteria($db, $cs, 'Test'),
+			'Class Not Initialized.'
+		);
+		$tc->Init();
+		$this->assertTrue(is_array($tc->criteria), $URV);
+		$this->assertEquals(9, count($tc->criteria), $URV);
+		for ( $i = 0; $i < 9; $i++ ){
+			$this->assertEquals('',$tc->criteria[$i],$URV);
+		}
 	}
 
 	// Add code to a function if needed.

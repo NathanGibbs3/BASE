@@ -5,12 +5,10 @@ use PHPUnit\Framework\TestCase;
 // Tests that need process isolation.
 
 /**
+  * A necessary evil for tests touching legacy TD.
   * @preserveGlobalState disabled
-  * A necessary evil for tests touching UILang during TD Transition.
   * @runTestsInSeparateProcesses
-  * Apparently the covers annotations are ignored whe the above necessary
-  * evil is in effect. Will Add covers annotations once we get rid of
-  * necessary evil.
+  * @covers SignatureCriteria
   * @covers IPAddressCriteria
   */
 class state_citemsSPTest extends TestCase {
@@ -26,6 +24,13 @@ class state_citemsSPTest extends TestCase {
 		GLOBAL $BASE_path, $DBlib_path, $DBtype, $debug_mode, $alert_dbname,
 			$alert_host, $alert_user, $alert_password, $alert_port,
 			$db_connect_method, $db;
+		// Issue #36 Cutout.
+		// See: https://github.com/NathanGibbs3/BASE/issues/36
+		$PHPV = GetPHPV();
+		$PSM = getenv('SafeMode');
+		if (version_compare($PHPV, '5.4', '<') && $PSM == 1){
+			self::markTestSkipped();
+		}
 		$tf = __FUNCTION__;
 		$ll = 'english';
 		self::$langs = $ll;
@@ -95,13 +100,6 @@ class state_citemsSPTest extends TestCase {
 				'DB Object Not Initialized.'
 			);
 			self::$db = $db;
-		}
-		// Issue #36 Cutout.
-		// See: https://github.com/NathanGibbs3/BASE/issues/36
-		$PHPV = GetPHPV();
-		$PSM = getenv('SafeMode');
-		if (version_compare($PHPV, '5.4', '<') && $PSM == 1){
-			self::markTestSkipped();
 		}
 	}
 	public static function tearDownAfterClass() {
@@ -265,7 +263,6 @@ class state_citemsSPTest extends TestCase {
 		$tc->Clear();
 		$tc->ToSQL();
 	}
-
 
 	// Add code to a function if needed.
 	// Stop here and mark test incomplete.
