@@ -2,12 +2,17 @@
 
 TF=`echo $0|sed -e s/\.sh//`.txt
 TFN=$TF.new
-TFD=../languages
+td=`pwd|sed -e "s/^.*\///"`
+if [ "$td" == "tests" ]; then
+	TFD=../languages
+else
+	TFD=./languages
+fi
 CT1="ranslation files in $TFD containing invalid UTF-8 characters."
 
 if [[ $LANG =~ UTF-8$ ]]; then
 	if  [ "$1" == "-s" ]; then
-		grep -axvc '.*' $TFD/*|grep -v ":0"|sed -r -e s/^\.\.\\/// -e s/:[0-9]+$// > $TF
+		grep -axvc '.*' $TFD/*|grep -v ":0"|sed -r -e s/^\\.+\\/// -e s/:[0-9]+$// > $TF
 		if [ -s $TF ]; then
 			echo "T$CT1"
 			cat $TF
@@ -30,7 +35,7 @@ if [[ $LANG =~ UTF-8$ ]]; then
 		echo "    Save file list."
 		echo "    Check for new files."
 	elif [ "$1" == "-n" ]; then
-		grep -axvc '.*' ../languages/*|grep -v ":0"|grep -vf $TF > $TFN
+		grep -axvc '.*' $TFD/*|grep -v ":0"|grep -vf $TF > $TFN
 		if [ -s $TFN ]; then
 			echo "New t$CT1"
 			cat $TFN
@@ -39,17 +44,12 @@ if [[ $LANG =~ UTF-8$ ]]; then
 			rm -f ./$TFN
 		fi
 	elif [ "$1" == "-t" ]; then
-		grep -axvc '.*' ../languages/*|grep -v ":0"
+		echo "Find t$CT1"
+		grep -axvc '.*' $TFD/*|grep -v ":0"|sed -r s/^\\.+\\///
 	else
-		if [ -s $TF ]; then
-			echo "T$CT1"
-			cat $TF
-		else
-			echo "Find t$CT1"
-			$0 -t
-			$0 -s
-			$0 -n
-		fi
+		$0 -t
+		$0 -s
+		$0 -n
 	fi
 else
 	echo "Cannot run test."
