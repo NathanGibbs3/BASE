@@ -424,8 +424,8 @@ class SignatureCriteria extends SingleElementCriteria {
 	function Import(){
 		$tmp = SetSessionVar($this->export_name);
 		if ( is_array($tmp) ){ // Type Lock criteria import. Fixes Issue #10.
-			$SF = true;
 			parent::Import();
+			$SF = true;
 		}else{
 			$SF = false;
 		}
@@ -614,8 +614,8 @@ class SignaturePriorityCriteria extends SingleElementCriteria {
 	function Import(){
 		$tmp = SetSessionVar($this->export_name);
 		if ( is_array($tmp) ){ // Type Lock criteria import. Fixes Issue #10.
-			$SF = true;
 			parent::Import();
+			$SF = true;
 		}else{
 			$SF = false;
 		}
@@ -1327,8 +1327,8 @@ class TCPFlagsCriteria extends SingleElementCriteria{
 	function Import(){
 		$tmp = SetSessionVar($this->export_name);
 		if ( is_array($tmp) ){ // Type Lock criteria import. Fixes Issue #10.
-			$SF = true;
 			parent::Import();
+			$SF = true;
 		}else{
 			$SF = false;
 		}
@@ -1619,7 +1619,7 @@ class Layer4Criteria extends SingleElementCriteria
 class DataCriteria extends MultipleElementCriteria {
 // $data_encode[2]: how the payload should be interpreted and converted
 //  - [0] : encoding type (hex, ascii)
-//  - [1] : conversion type (hex, ascii) 
+//  - [1] : conversion type (hex, ascii)
 //
 // $data[MAX][5]: stores all the payload related parameters/operators row
 //  - [][0] : (                            [][3] : (, )
@@ -1663,26 +1663,39 @@ class DataCriteria extends MultipleElementCriteria {
 		);
 		$this->data_encode = array();
 	}
-   function Init()
-   {
-      parent::Init();
-      InitArray($this->data_encode, 2, 0, "");
-   }
-
-   function Import()
-   {
-      parent::Import();
-
-      $this->data_encode = SetSessionVar("data_encode");
-
-      $_SESSION['data_encode'] = &$this->data_encode;
-  }
-
-   function Clear()
-   {
-     /* clears the criteria */
-   }
- 
+	function Init(){
+		parent::Init();
+		InitArray($this->data_encode, 2, 0, '');
+	}
+	function Import(){
+		GLOBAL $debug_mode;
+		parent::Import();
+		$tmp = SetSessionVar("data_encode");
+		if ( is_array($tmp) ){ // Type Lock Property import. Fixes Issue #10.
+			$this->data_encode = $tmp;
+			$ISF = true;
+		}else{
+			$ISF = false;
+		}
+		$_SESSION['data_encode'] = &$this->data_encode;
+		if ( $debug_mode > 0 ){
+			$this->CTIFD(__FUNCTION__);
+			print "Property Type: ".gettype($tmp)."<br/>\n";
+			if ( is_bool($ISF) ){
+				$msg = 'Property '.__FUNCTION__.': ';
+				if ($ISF){
+					$msg .= 'Allowed';
+				}else{
+					$msg .= 'Denied';
+				}
+				$msg .= ".<br/>\n";
+				print $msg;
+			}
+		}
+	}
+	function Clear(){
+		// Clears the criteria.
+	}
    function SanitizeElement($i)
    {
       $this->data_encode[0] = CleanVariable($this->data_encode[0], "", array("hex", "ascii"));
@@ -1699,9 +1712,15 @@ class DataCriteria extends MultipleElementCriteria {
       unset($curArr);
    }
 	function PrintForm($value1, $value2, $value3) {
-	            if (!is_array(@$this->criteria[0]))  
-			$this->criteria = array();
-
+		GLOBAL $debug_mode;
+		if (!is_array($this->criteria[0])){
+			if ( $debug_mode > 0 ){
+				$this->CTIFD(__FUNCTION__);
+				print __FUNCTION__.": Criteria Data Error Detected<br/>\n";
+				print "Re Initializing<br/>\n";
+			}
+			$this->Init();
+		}
       echo '<B>'._INPUTCRTENC.':</B>';
       echo '<SELECT NAME="data_encode[0]"><OPTION VALUE=" "    '.@chk_select($this->data_encode[0]," ").'>'._DISPENCODING; 
       echo '                              <OPTION VALUE="hex"  '.@chk_select($this->data_encode[0],"hex").'>hex';
@@ -1734,10 +1753,9 @@ class DataCriteria extends MultipleElementCriteria {
          echo '<BR>';
       }
 	}
-   function ToSQL()
-   {
-     /* convert this criteria to SQL */
-   }
+	function ToSQL(){
+		// Convert this criteria to SQL.
+	}
 	function Description($value) {
       $human_fields["LIKE"] = _CONTAINS;
       $human_fields["NOT LIKE"] = _DOESNTCONTAIN;
@@ -1764,7 +1782,7 @@ class DataCriteria extends MultipleElementCriteria {
       if ( $tmp != "" )
          $tmp = $tmp.$this->cs->GetClearCriteriaString($this->export_name);
 
-      return $tmp;
+		return $tmp;
 	}
 };
 ?>
