@@ -1627,7 +1627,7 @@ class DataCriteria extends MultipleElementCriteria {
 //  - [][2] : field value
 //
 // $data_cnt: number of rows in the $data[][] structure
-	var $data_encode;
+	var $data_encode = array();
 
 	function __construct(
 		&$db, &$cs, $export_name, $element_cnt
@@ -1661,7 +1661,7 @@ class DataCriteria extends MultipleElementCriteria {
 				"NOT LIKE" => _HASNOT
 			)
 		);
-		$this->data_encode = array();
+		InitArray($this->data_encode, 2, 0, '');
 	}
 	function Init(){
 		parent::Init();
@@ -1722,13 +1722,13 @@ class DataCriteria extends MultipleElementCriteria {
 			$this->Init();
 		}
       echo '<B>'._INPUTCRTENC.':</B>';
-      echo '<SELECT NAME="data_encode[0]"><OPTION VALUE=" "    '.@chk_select($this->data_encode[0]," ").'>'._DISPENCODING; 
-      echo '                              <OPTION VALUE="hex"  '.@chk_select($this->data_encode[0],"hex").'>hex';
-      echo '                              <OPTION VALUE="ascii"'.@chk_select($this->data_encode[0],"ascii").'>ascii</SELECT>';
+      echo '<SELECT NAME="data_encode[0]"><OPTION VALUE=" "    '.chk_select($this->data_encode[0]," ").'>'._DISPENCODING; 
+      echo '                              <OPTION VALUE="hex"  '.chk_select($this->data_encode[0],"hex").'>hex';
+      echo '                              <OPTION VALUE="ascii"'.chk_select($this->data_encode[0],"ascii").'>ascii</SELECT>';
       echo '<B>'._CONVERT2WS.':</B>';
-      echo '<SELECT NAME="data_encode[1]"><OPTION VALUE=" "    '.@chk_select(@$this->data_encode[1]," ").'>'._DISPCONVERT2; 
-      echo '                              <OPTION VALUE="hex"  '.@chk_select(@$this->data_encode[1],"hex").'>hex';
-      echo '                              <OPTION VALUE="ascii"'.@chk_select(@$this->data_encode[1],"ascii").'>ascii</SELECT>';
+      echo '<SELECT NAME="data_encode[1]"><OPTION VALUE=" "    '.chk_select(@$this->data_encode[1]," ").'>'._DISPCONVERT2; 
+      echo '                              <OPTION VALUE="hex"  '.chk_select(@$this->data_encode[1],"hex").'>hex';
+      echo '                              <OPTION VALUE="ascii"'.chk_select(@$this->data_encode[1],"ascii").'>ascii</SELECT>';
       echo '<BR>';
 
       for ( $i = 0; $i < $this->criteria_cnt; $i++ )
