@@ -68,6 +68,7 @@ $UI_CW_ML10 = 'Oktober';
 $UI_CW_ML11 = 'November';
 $UI_CW_ML12 = 'Desember';
 $UI_CW_Last = 'terakhir';
+$UI_CW_First = 'Pertama';
 // Common Phrases.
 $UI_CP_SrcName = array($UI_CW_Name,$UI_CW_Src);
 $UI_CP_DstName = array($UI_CW_Name,$UI_CW_Dst);
@@ -82,7 +83,6 @@ $UI_AD_RID = array($UI_CW_Id,$UI_CW_Role);
 $UI_AD_ASD = 'Aktif';
 
 //common phrases
-DEFINE('_FIRST','First'); //NEW
 DEFINE('_TOTAL','Total'); //NEW
 DEFINE('_ALERT','Alarem');
 DEFINE('_ADDRESS','Alamat');
@@ -632,7 +632,7 @@ DEFINE('_PSDSTPORT','Port Sasaran');
 DEFINE('_PSTCPFLAGS','Flag TCP');
 DEFINE('_PSTOTALOCC','Jumlah<BR> '.$UI_CW_Event);
 DEFINE('_PSNUMSENSORS','Jml. Sensor');
-DEFINE('_PSFIRSTOCC',$UI_CW_Event.'<BR> Pertama');
+DEFINE('_PSFIRSTOCC',$UI_CW_Event.'<BR> '.$UI_CW_First);
 DEFINE('_PSLASTOCC',$UI_CW_Event.'<BR> '.$UI_CW_Last);
 DEFINE('_PSUNIALERTS','Alarem Unik');
 DEFINE('_PSPORTSCANEVE',$UI_CW_Event.' Portscan');

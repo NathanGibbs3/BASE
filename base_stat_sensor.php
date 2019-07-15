@@ -37,6 +37,7 @@ $UIL = new UILang($BASE_Language); // Create UI Language Object.
 $CPName = $UIL->CWA['Name'];
 $CPSensor = $UIL->CWA['Sensor'];
 $CPLast = $UIL->CWA['Last'];
+$CPFirst = $UIL->CWA['First'];
   $cs = new CriteriaState("base_stat_sensor.php");
   $cs->ReadState();
 
@@ -106,7 +107,7 @@ $CPLast = $UIL->CWA['Last'];
   $qro = new QueryResultsOutput("base_stat_sensor.php?x=x");
 
   $qro->AddTitle(" ");
-$qro->AddTitle("$CPSensor&nbsp;#",
+$qro->AddTitle( "$CPSensor&nbsp;#",
 	"sid_a", " ", " ORDER BY acid_event.sid ASC",
 	"sid_d", " ", " ORDER BY acid_event.sid DESC"
 );
@@ -129,10 +130,11 @@ $qro->AddTitle( $CPName,
   $qro->AddTitle(_SUADSTADD, 
                 "daddr_a", "", " ORDER BY daddr_cnt ASC",
                 "daddr_d", "", " ORDER BY daddr_cnt DESC");
-  $qro->AddTitle(_FIRST, 
-                "first_a", "", " ORDER BY first_timestamp ASC",
-                "first_d", "", " ORDER BY first_timestamp DESC");
-$qro->AddTitle($CPLast,
+$qro->AddTitle( $CPFirst,
+	"first_a", "", " ORDER BY first_timestamp ASC",
+	"first_d", "", " ORDER BY first_timestamp DESC"
+);
+$qro->AddTitle( $CPLast,
 	"last_a", "", " ORDER BY last_timestamp ASC",
 	"last_d", "", " ORDER BY last_timestamp DESC"
 );

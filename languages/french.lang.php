@@ -68,6 +68,7 @@ $UI_CW_ML10 = 'octobre';
 $UI_CW_ML11 = 'novembre';
 $UI_CW_ML12 = 'décembre';
 $UI_CW_Last = 'Dernière';
+$UI_CW_First = 'Premier';
 // Common Phrases.
 $UI_CP_SrcName = array($UI_CW_Name,'de la',$UI_CW_Src);
 $UI_CP_DstName = array($UI_CW_Name,'de la',$UI_CW_Dst);
@@ -327,9 +328,9 @@ DEFINE('_ERRSQLCONNECT','Erreur de connexion à la base de données :');
 // Error connecting to DB :
 DEFINE('_ERRSQLCONNECTINFO','<P>Contr�ler les variables de connexion à la base dans <I>base_conf.php</I> 
               <PRE>
-               = $alert_dbname   : nom de la base de données o� les alertes sont stockées 
-               = $alert_host     : adresse de la machine o� la base de données est localisée
-               = $alert_port     : port o� la base de données est localisée
+               = $alert_dbname   : nom de la base de données où les alertes sont stockées 
+               = $alert_host     : adresse de la machine où la base de données est localisée
+               = $alert_port     : port où la base de données est localisée
                = $alert_user     : compte (username) pour accéder à la base de données
                = $alert_password : '.strtolower($UI_CW_Pw).' pour ce compte
               </PRE>
@@ -867,7 +868,7 @@ DEFINE('_PSTOTALOCC','Total<BR> Occurrences');
 // Total<BR> Occurrences
 DEFINE('_PSNUMSENSORS','Nombre de sondes');
 // Num of Sensors
-DEFINE('_PSFIRSTOCC','Première<br>occurrence');
+DEFINE('_PSFIRSTOCC',$UI_CW_First.'<br>occurrence');
 // First<BR> Occurrence
 DEFINE('_PSLASTOCC',$UI_CW_Last.'<br>occurrence');
 // Last<BR> Occurrence
@@ -967,7 +968,7 @@ DEFINE('_BASEUSERNEWPWDAGAIN','Confirmer le '.strtolower($UI_CW_Pw).' :');
 // New Password Again:
 
 //New stuff:
-DEFINE('_FIRST','First'); //NEW
+
 DEFINE('_TOTAL','Total'); //NEW
 DEFINE('_AND','AND'); //NEW
 DEFINE('_OR','OR'); //NEW

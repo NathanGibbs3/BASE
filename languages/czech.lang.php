@@ -69,6 +69,7 @@ $UI_CW_ML10 = 'Øíjen';
 $UI_CW_ML11 = 'Listopad';
 $UI_CW_ML12 = 'Prosinec';
 $UI_CW_Last = 'Poslední';
+$UI_CW_First = 'First';
 // Common Phrases.
 $UI_CP_SrcName = array($UI_CW_Name,$UI_CW_Src);
 $UI_CP_DstName = array($UI_CW_Name,$UI_CW_Dst);
@@ -83,7 +84,6 @@ $UI_AD_RID = array($UI_CW_Id,$UI_CW_Role);
 $UI_AD_ASD = 'Enabled';
 
 //common phrases
-DEFINE('_FIRST','First'); //NEW
 DEFINE('_TOTAL','Total'); //NEW
 DEFINE('_ALERT','Alarm');
 DEFINE('_ADDRESS','Adresa');
@@ -148,16 +148,16 @@ DEFINE('_NEXT','Next'); //NEW
 DEFINE('_PREVIOUS','Previous'); //NEW
 
 //Menu items
-DEFINE('_HOME','Dom�');
+DEFINE('_HOME','Domù');
 DEFINE('_SEARCH','Hledat');
-DEFINE('_AGMAINT','Správa skupin alarm�');
+DEFINE('_AGMAINT','Správa skupin alarmù');
 DEFINE('_USERPREF','U�ivatelské volby');
 DEFINE('_CACHE','Ke� a stav');
 DEFINE('_ADMIN','Administrace');
-DEFINE('_GALERTD','Vytvoøit graf alarm�');
-DEFINE('_GALERTDT','Vytvoøit graf èasu detekce alarm�');
-DEFINE('_USERMAN','Správa u�ivatel�');
-DEFINE('_LISTU','Seznam u�ivatel�');
+DEFINE('_GALERTD','Vytvoøit graf alarmù');
+DEFINE('_GALERTDT','Vytvoøit graf èasu detekce alarmù');
+DEFINE('_USERMAN','Správa u�ivatelù');
+DEFINE('_LISTU','Seznam u�ivatelù');
 DEFINE('_CREATEU','Vytvoøit u�ivatele');
 DEFINE('_ROLEMAN','Správa rolí');
 DEFINE('_LISTR','Seznam rolí');
@@ -184,7 +184,7 @@ DEFINE('_LOGINERROR','U�ivatel neexistuje nebo jste zadali �patné '.strtolower(
 // base_main.php
 DEFINE('_MOSTRECENT','Posledních ');
 DEFINE('_MOSTFREQUENT','Nejèastìj�ích ');
-DEFINE('_ALERTS',' alarm�:');
+DEFINE('_ALERTS',' alarmù:');
 DEFINE('_ADDRESSES',' adres:');
 DEFINE('_ANYPROTO','jakýkoliv<br>protokol');
 DEFINE('_UNI','unikátní');
@@ -194,7 +194,7 @@ DEFINE('_SOURCEIP','Source IP'); //NEW
 DEFINE('_DESTIP','Destination IP'); //NEW
 DEFINE('_L24ALERTS','Alarmy za posledních 24 hodin: ');
 DEFINE('_L72ALERTS','Alarmy za posledních 72 hodin: ');
-DEFINE('_UNIALERTS','unikátních alarm�');
+DEFINE('_UNIALERTS','unikátních alarmù');
 DEFINE('_LSOURCEPORTS',$UI_CW_Last.' zdrojové porty: ');
 DEFINE('_LDESTPORTS',$UI_CW_Last.' cílové porty: ');
 DEFINE('_FREGSOURCEP','Nejèastìj�í zdrojové porty: ');
@@ -231,7 +231,7 @@ DEFINE('_FRMROLENAME',"Jméno $UI_CW_Role:");
 DEFINE('_UPDATEROLE',"Update $UI_CW_Role"); //NEW
 
 //base_useradmin.php
-DEFINE('_USERADMIN','Správa u�ivatel� BASE');
+DEFINE('_USERADMIN','Správa u�ivatelù BASE');
 DEFINE('_FRMFULLNAME','Celé jméno:');
 DEFINE('_FRMUID','ID u�ivatele:');
 DEFINE('_SUBMITQUERY','Submit Query'); //NEW
@@ -280,7 +280,7 @@ DEFINE('_HOSTNAMESWHOIS',' jmen do Whois vyrovnávací pamìti');
 DEFINE('_ERRCACHENULL','Chyba pøi aktualizaci vyrovnávací pamìti: nalezena NULL øádka event?');
 DEFINE('_ERRCACHEERROR','Chyba pøi aktualizaci vyrovnávací pamìti:');
 DEFINE('_ERRCACHEUPDATE','Nemohu aktualizovat vyrovnávací pamì�');
-DEFINE('_ALERTSCACHE',' alarm� do vyrovnávací pamìti');
+DEFINE('_ALERTSCACHE',' alarmù do vyrovnávací pamìti');
 
 //base_db.inc.php
 DEFINE('_ERRSQLTRACE','Nemohu otevøít soubor pro trasování SQL');
@@ -322,7 +322,7 @@ DEFINE('_SECONDS','vteøin');
 DEFINE('_ERRRESOLVEADDRESS','Nemohu pøelo�it adresu');
 
 //base_output_query.inc.php
-DEFINE('_QUERYRESULTSHEADER','Záhlaví výsledk� dotazu'); //not used
+DEFINE('_QUERYRESULTSHEADER','Záhlaví výsledkù dotazu'); //not used
 
 //base_signature.inc.php
 DEFINE('_ERRSIGNAMEUNK','neznámé SigName');
@@ -404,7 +404,7 @@ DEFINE('_AGDELETEINFO','informace smazána');
 DEFINE('_ERRAGSEARCHINV','Zadané vyhledávací kritérium je neplatné. Zkuste to znovu.');
 DEFINE('_ERRAGSEARCHNOTFOUND','�ádná skupiny s tímto kritériem nenalezena.');
 DEFINE('_NOALERTGOUPS','Nejsou definovány �ádné skupiny');
-DEFINE('_NUMALERTS','poèet alarm�');
+DEFINE('_NUMALERTS','poèet alarmù');
 DEFINE('_ACTIONS','Akce');
 DEFINE('_NOTASSIGN','je�tì nepøiøazeno');
 DEFINE('_SAVECHANGES','Save Changes'); //NEW
@@ -412,12 +412,12 @@ DEFINE('_CONFIRMDELETE','Confirm Delete'); //NEW
 DEFINE('_CONFIRMCLEAR','Confirm Clear'); //NEW
 
 //base_common.php
-DEFINE('_PORTSCAN','Provoz skenování port�');
+DEFINE('_PORTSCAN','Provoz skenování portù');
 
 //base_db_common.php
 DEFINE('_ERRDBINDEXCREATE','Nemohu vytvoøit index pro');
 DEFINE('_DBINDEXCREATE','Úspì�nì vytvoøen index pro');
-DEFINE('_ERRSNORTVER','M��e se jednat o star�í verzi. Podporovány jsou pouze databáze vytvoøené Snort 1.7-beta0 nebo novìj�ím');
+DEFINE('_ERRSNORTVER','Mù�e se jednat o star�í verzi. Podporovány jsou pouze databáze vytvoøené Snort 1.7-beta0 nebo novìj�ím');
 DEFINE('_ERRSNORTVER1','Základní databáze');
 DEFINE('_ERRSNORTVER2','se zdá nekompletní nebo neplatná');
 DEFINE('_ERRDBSTRUCT1','Verze databáze je správná, ale neobsahuje');
@@ -459,29 +459,29 @@ DEFINE('_CHARTDAY','{dia}'); //NEW
 DEFINE('_CHARTMONTH','{mês}'); //NEW
 DEFINE('_GRAPHALERTS','Graph Alerts'); //NEW
 DEFINE('_AXISCONTROLS','X / Y AXIS CONTROLS'); //NEW
-DEFINE('_CHRTTYPEHOUR','Èas (hodiny) proti poètu alarm�');
-DEFINE('_CHRTTYPEDAY','Èas (dny) proti poètu alarm�');
-DEFINE('_CHRTTYPEWEEK','Èas (týdny) proti poètu alarm�');
-DEFINE('_CHRTTYPEMONTH','Èas (mìsíce) proti poètu alarm�');
-DEFINE('_CHRTTYPEYEAR','Èas (roky) proti poètu alarm�');
-DEFINE('_CHRTTYPESRCIP','Zdrojová IP adresa proti poètu alarm�');
-DEFINE('_CHRTTYPEDSTIP','Cílová IP adresa proti poètu alarm�');
-DEFINE('_CHRTTYPEDSTUDP','Cílový UDP port proti poètu alarm�');
-DEFINE('_CHRTTYPESRCUDP','Zdrojový UDP port proti poètu alarm�');
-DEFINE('_CHRTTYPEDSTPORT','Cílový TCP port proti poètu alarm�');
-DEFINE('_CHRTTYPESRCPORT','Zdrojový TCP port proti poètu alarm�');
-DEFINE('_CHRTTYPESIG','Klasifikace podpis� proti poètu alarm�');
-DEFINE('_CHRTTYPESENSOR','Senzor proti poètu alarm�');
+DEFINE('_CHRTTYPEHOUR','Èas (hodiny) proti poètu alarmù');
+DEFINE('_CHRTTYPEDAY','Èas (dny) proti poètu alarmù');
+DEFINE('_CHRTTYPEWEEK','Èas (týdny) proti poètu alarmù');
+DEFINE('_CHRTTYPEMONTH','Èas (mìsíce) proti poètu alarmù');
+DEFINE('_CHRTTYPEYEAR','Èas (roky) proti poètu alarmù');
+DEFINE('_CHRTTYPESRCIP','Zdrojová IP adresa proti poètu alarmù');
+DEFINE('_CHRTTYPEDSTIP','Cílová IP adresa proti poètu alarmù');
+DEFINE('_CHRTTYPEDSTUDP','Cílový UDP port proti poètu alarmù');
+DEFINE('_CHRTTYPESRCUDP','Zdrojový UDP port proti poètu alarmù');
+DEFINE('_CHRTTYPEDSTPORT','Cílový TCP port proti poètu alarmù');
+DEFINE('_CHRTTYPESRCPORT','Zdrojový TCP port proti poètu alarmù');
+DEFINE('_CHRTTYPESIG','Klasifikace podpisù proti poètu alarmù');
+DEFINE('_CHRTTYPESENSOR','Senzor proti poètu alarmù');
 DEFINE('_CHRTBEGIN','Zaèátek grafu:');
 DEFINE('_CHRTEND','Konec grafu:');
 DEFINE('_CHRTDS','Zdroj dat:');
 DEFINE('_CHRTX','Osa X');
 DEFINE('_CHRTY','Osa Y');
 DEFINE('_CHRTMINTRESH','Minimální hodnota');
-DEFINE('_CHRTROTAXISLABEL','Otoèit popisky os o 90 stup��');
+DEFINE('_CHRTROTAXISLABEL','Otoèit popisky os o 90 stup�ù');
 DEFINE('_CHRTSHOWX','Zobraz rastr pro osu X');
 DEFINE('_CHRTDISPLABELX','Zobraz popis osy X ka�dých');
-DEFINE('_CHRTDATAPOINTS','vzork� dat');
+DEFINE('_CHRTDATAPOINTS','vzorkù dat');
 DEFINE('_CHRTYLOG','Osa Y logaritmická');
 DEFINE('_CHRTYGRID','Zobraz rastr pro osu Y');
 
@@ -490,24 +490,24 @@ DEFINE('_CHRTTITLE','Graf BASE');
 DEFINE('_ERRCHRTNOTYPE','Nebyl urèen '.$UI_CW_Type.' grafu');
 DEFINE('_ERRNOAGSPEC','Nebyla urèena skupiny. Pou�ívám v�echny alarmy.');
 DEFINE('_CHRTDATAIMPORT','Zaèínám naèítat data'); 
-DEFINE('_CHRTTIMEVNUMBER','Èas port proti poètu alarm�');
+DEFINE('_CHRTTIMEVNUMBER','Èas port proti poètu alarmù');
 DEFINE('_CHRTTIME','Èas');
-DEFINE('_CHRTALERTOCCUR','Výskyty alarm�');
-DEFINE('_CHRTSIPNUMBER','Zdrojová IP adresa proti poètu alarm�');
+DEFINE('_CHRTALERTOCCUR','Výskyty alarmù');
+DEFINE('_CHRTSIPNUMBER','Zdrojová IP adresa proti poètu alarmù');
 DEFINE('_CHRTSIP','Zdrojová IP adresa');
-DEFINE('_CHRTDIPALERTS','Cílová IP adresa proti poètu alarm�');
+DEFINE('_CHRTDIPALERTS','Cílová IP adresa proti poètu alarmù');
 DEFINE('_CHRTDIP','Cílová IP adresa');
-DEFINE('_CHRTUDPPORTNUMBER','UDP port (cíl) port proti poètu alarm�');
+DEFINE('_CHRTUDPPORTNUMBER','UDP port (cíl) port proti poètu alarmù');
 DEFINE('_CHRTDUDPPORT','Cílový UDP port');
-DEFINE('_CHRTSUDPPORTNUMBER','UDP port (zdroj) port proti poètu alarm�');
+DEFINE('_CHRTSUDPPORTNUMBER','UDP port (zdroj) port proti poètu alarmù');
 DEFINE('_CHRTSUDPPORT','Zdrojový UDP port');
-DEFINE('_CHRTPORTDESTNUMBER','TCP port (cíl) port proti poètu alarm�');
+DEFINE('_CHRTPORTDESTNUMBER','TCP port (cíl) port proti poètu alarmù');
 DEFINE('_CHRTPORTDEST','Cílový TCP port');
-DEFINE('_CHRTPORTSRCNUMBER','TCP port (zdroj) port proti poètu alarm�');
+DEFINE('_CHRTPORTSRCNUMBER','TCP port (zdroj) port proti poètu alarmù');
 DEFINE('_CHRTPORTSRC','Zdrojový TCP port');
-DEFINE('_CHRTSIGNUMBER','Klasifikace podpis� proti poètu alarm�');
+DEFINE('_CHRTSIGNUMBER','Klasifikace podpisù proti poètu alarmù');
 DEFINE('_CHRTCLASS','Klasifikace');
-DEFINE('_CHRTSENSORNUMBER','Senzor port proti poètu alarm�');
+DEFINE('_CHRTSENSORNUMBER','Senzor port proti poètu alarmù');
 DEFINE('_CHRTHANDLEPERIOD','Rozhodné období (pokud je tøeba)');
 DEFINE('_CHRTDUMP','Vypisuji data ... (zobrazuji jen ka�dé');
 DEFINE('_CHRTDRAW','Kreslím graf');
@@ -525,10 +525,10 @@ DEFINE('_MNTPHPAPI','PHP API:');
 DEFINE('_MNTPHPLOGLVL','Úrove� hlá�ení PHP:');
 DEFINE('_MNTPHPMODS','Nahrané moduly:');
 DEFINE('_MNTDBTYPE',$UI_CW_Type.' databáze:');
-DEFINE('_MNTDBALV','Verze podp�rné databázové knihovny:');
+DEFINE('_MNTDBALV','Verze podpùrné databázové knihovny:');
 DEFINE('_MNTDBALERTNAME','Jméno ALERT databáze:');
 DEFINE('_MNTDBARCHNAME','Jméno ARCHIVE databáze:');
-DEFINE('_MNTAIC','Vyrovnávací pamì� alarm�:');
+DEFINE('_MNTAIC','Vyrovnávací pamì� alarmù:');
 DEFINE('_MNTAICTE','Celkový poèet '.$UI_CW_Event.'í:');
 DEFINE('_MNTAICCE',$UI_CW_Event.'i ve vyrovnávací pamìti:');
 DEFINE('_MNTIPAC','Vyrovnávací pamì� IP address');
@@ -600,21 +600,21 @@ DEFINE('_QFRMDIP','cílová IP adresa');
 //base_qry_sqlcalls.php
 DEFINE('_QSCSUMM','Souhrné statistiky');
 DEFINE('_QSCTIMEPROF','Profil v èase');
-DEFINE('_QSCOFALERTS','z alarm�');
+DEFINE('_QSCOFALERTS','z alarmù');
 
 //base_stat_alerts.php
-DEFINE('_ALERTTITLE','Výpis alarm�');
+DEFINE('_ALERTTITLE','Výpis alarmù');
 
 //base_stat_common.php
 DEFINE('_SCCATEGORIES','Kategorie:');
 DEFINE('_SCSENSORTOTAL','Senzory/Celkem:');
-DEFINE('_SCTOTALNUMALERTS','Celkový poèet alarm�:');
+DEFINE('_SCTOTALNUMALERTS','Celkový poèet alarmù:');
 DEFINE('_SCSRCIP','Zdrojových IP adres:');
 DEFINE('_SCDSTIP','Cílových IP adres:');
-DEFINE('_SCUNILINKS','Unikátních IP spoj�');
-DEFINE('_SCSRCPORTS','Zdrojových port�: ');
-DEFINE('_SCDSTPORTS','Cílových port�: ');
-DEFINE('_SCSENSORS','Senzor�');
+DEFINE('_SCUNILINKS','Unikátních IP spojù');
+DEFINE('_SCSRCPORTS','Zdrojových portù: ');
+DEFINE('_SCDSTPORTS','Cílových portù: ');
+DEFINE('_SCSENSORS','Senzorù');
 DEFINE('_SCCLASS','Klasifikace');
 DEFINE('_SCUNIADDRESS','Unikátních adres: ');
 DEFINE('_SCSOURCE','Zdroj');
@@ -633,7 +633,7 @@ DEFINE('_PSDSTPORT','Destination Port');
 DEFINE('_PSTCPFLAGS','TCP Flags');
 DEFINE('_PSTOTALOCC','Total<BR> Occurrences');
 DEFINE('_PSNUMSENSORS','Num of Sensors');
-DEFINE('_PSFIRSTOCC','First<BR> Occurrence');
+DEFINE('_PSFIRSTOCC',$UI_CW_First.'<BR> Occurrence');
 DEFINE('_PSLASTOCC','Last<BR> Occurrence');
 DEFINE('_PSUNIALERTS','Unique Alerts');
 DEFINE('_PSPORTSCANEVE','Portscan Events');
@@ -655,9 +655,9 @@ DEFINE('_SIPLSOURCEFGDN','Zdrojové FQDN');
 DEFINE('_SIPLDESTFGDN','Cílové FQDN');
 DEFINE('_SIPLDIRECTION','Smìr');
 DEFINE('_SIPLPROTO','Protokol');
-DEFINE('_SIPLUNIDSTPORTS','Unikátních cílových port�');
-DEFINE('_SIPLUNIEVENTS','Unikátních alarm�');
-DEFINE('_SIPLTOTALEVENTS','Celkem alarm�');
+DEFINE('_SIPLUNIDSTPORTS','Unikátních cílových portù');
+DEFINE('_SIPLUNIEVENTS','Unikátních alarmù');
+DEFINE('_SIPLTOTALEVENTS','Celkem alarmù');
 
 //base_stat_ports.php
 DEFINE('_UNIQ','Unikátní');
@@ -666,7 +666,7 @@ DEFINE('_SRCPS','zdrojové porty');
 DEFINE('_OCCURRENCES','Occurrences'); //NEW
 
 //base_stat_sensor.php
-DEFINE('SPSENSORLIST','Výpis senzor�');
+DEFINE('SPSENSORLIST','Výpis senzorù');
 
 //base_stat_time.php
 DEFINE('_BSTTITLE','Time Profile of Alerts');
@@ -687,7 +687,7 @@ DEFINE('_SUASRCIP','Zdrojová IP adresa');
 DEFINE('_SUAERRCRITADDUNK','chyba v kritériu: neznámý '.$UI_CW_Type.' adresy -- pøedpokládám cílovou');
 DEFINE('_UNIDADD','Unikátní cílové IP adresy');
 DEFINE('_SUADSTIP','Cílová IP adresa');
-DEFINE('_SUAUNIALERTS','Unikátních alarm�');
+DEFINE('_SUAUNIALERTS','Unikátních alarmù');
 DEFINE('_SUASRCADD','Zdrojových adres');
 DEFINE('_SUADSTADD','Cílových adres');
 

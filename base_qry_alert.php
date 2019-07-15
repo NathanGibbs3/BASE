@@ -120,11 +120,12 @@ function PrintPacketLookupBrowseButtons(
 ){
 	GLOBAL $UIL;
 	$BtnLast = $UIL->CWA['Last'];
+	$BtnFirst = $UIL->CWA['First'];
 	$sf_portscan_flag = 0;
 	NLIO('<!-- Single Alert Browsing Buttons -->',4);
 	$result2 = $db->baseExecute($save_sql);
 	if ( $seq == 0 ){
-		$prv_button = '[ '._FIRST.' ]';
+		$prv_button = "[ $BtnFirst ]";
 	}
 	$i = 0;
 	// HTML Templates

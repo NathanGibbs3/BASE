@@ -73,6 +73,7 @@ $UI_CW_ML10 = 'lokakuu';
 $UI_CW_ML11 = 'marraskuu';
 $UI_CW_ML12 = 'joulukuu';
 $UI_CW_Last = 'Viimeinen';
+$UI_CW_First = 'Ensimmäinen';
 // Common Phrases.
 $UI_CP_SrcName = array('Lähteen',$UI_CW_Name);
 $UI_CP_DstName = array('Kohteen',$UI_CW_Name);
@@ -87,7 +88,6 @@ $UI_AD_RID = array($UI_CW_Role,$UI_CW_Id);
 $UI_AD_ASD = 'Toiminnassa';
 
 //common phrases
-DEFINE('_FIRST','First'); //NEW
 DEFINE('_TOTAL','Total'); //NEW
 DEFINE('_ALERT','Hälytykset');
 DEFINE('_ADDRESS','Osoite');
@@ -634,7 +634,7 @@ DEFINE('_PSDSTPORT','Kohde Portti');
 DEFINE('_PSTCPFLAGS','TCP Flags');//#
 DEFINE('_PSTOTALOCC','Esiintymiä<BR> Yhteensä');
 DEFINE('_PSNUMSENSORS','Sensorien Määrä');
-DEFINE('_PSFIRSTOCC','Ensimmäinen<BR> Esiintymä');
+DEFINE('_PSFIRSTOCC',$UI_CW_First.'<BR> Esiintymä');
 DEFINE('_PSLASTOCC',$UI_CW_Last.'<BR> Esiintymä');
 DEFINE('_PSUNIALERTS','Uniikit Hälytykset');
 DEFINE('_PSPORTSCANEVE','Porttiskannaukset');

@@ -45,7 +45,7 @@ $UI_CW_Filter = 'Süzge�';
 $UI_CW_Desc = 'Betimleme';
 $UI_CW_SucDesc = 'Baþarýlý';
 $UI_CW_Sensor = 'Algýlayýcý';
-$UI_CW_Sig = '�mza';
+$UI_CW_Sig = 'Ýmza';
 $UI_CW_Role = 'Rol';
 $UI_CW_Pw = 'Parola';
 $UI_CW_Ts = 'Zaman Damgasý';
@@ -68,6 +68,7 @@ $UI_CW_ML10 = 'Ekim';
 $UI_CW_ML11 = 'Kasým';
 $UI_CW_ML12 = 'Aralýk';
 $UI_CW_Last = 'Son';
+$UI_CW_First = 'Ýlk';
 // Common Phrases.
 $UI_CP_SrcName = array($UI_CW_Src,$UI_CW_Name);
 $UI_CP_DstName = array($UI_CW_Dst,$UI_CW_Name);
@@ -82,7 +83,6 @@ $UI_AD_RID = array($UI_CW_Role,$UI_CW_Id);
 $UI_AD_ASD = 'Se�ilir Kýlýnmýþ';
 
 //common phrases
-DEFINE('_FIRST','�lk');
 DEFINE('_TOTAL','Toplam');
 DEFINE('_ALERT','Uyarý');
 DEFINE('_ADDRESS','Adres');
@@ -136,7 +136,7 @@ DEFINE('_QUERYDB','Sorgu DB');
 DEFINE('_QUERYDBP','Sorgu+DB'); //_QUERYDB 'ye eþit, boþluklar '+' lardýr. 
                                 //Bunun gibi bir þey olmasý gerekli: DEFINE('_QUERYDBP',str_replace(" ", "+", _QUERYDB));
 DEFINE('_SELECTED','Se�ilmiþ');
-DEFINE('_ALLONSCREEN','HEPS� Ekranda');
+DEFINE('_ALLONSCREEN','HEPSÝ Ekranda');
 DEFINE('_ENTIREQUERY','Bütün Sorgu');
 DEFINE('_OPTIONS','Se�enekler');
 DEFINE('_LENGTH','uzunluk');
@@ -324,8 +324,8 @@ DEFINE('_ERRRESOLVEADDRESS','Adresi �özmek olanaksýz');
 DEFINE('_QUERYRESULTSHEADER','Sorgu Sonu�larý Sayfa Baþlý�ý �ýkýþý');
 
 //base_signature.inc.php
-DEFINE('_ERRSIGNAMEUNK','Bilinmeyen �mza�smi');
-DEFINE('_ERRSIGPROIRITYUNK','Bilinmeyen �mzaÖnceli�i');
+DEFINE('_ERRSIGNAMEUNK','Bilinmeyen ÝmzaÝsmi');
+DEFINE('_ERRSIGPROIRITYUNK','Bilinmeyen ÝmzaÖnceli�i');
 DEFINE('_UNCLASS','sýnýflandýrýlmamýþ');
 
 //base_state_citems.inc.php
@@ -357,8 +357,8 @@ DEFINE('_DISPPAYLOAD','{ payload }');
 DEFINE('_DISPFLAGS','{ bayraklar }');
 DEFINE('_SIGEXACTLY','tam olarak');
 DEFINE('_SIGROUGHLY','yaklaþýk olarak');
-DEFINE('_SIGCLASS','�mza Sýnýflandýrma');
-DEFINE('_SIGPRIO','�mza Önceli�i');
+DEFINE('_SIGCLASS','Ýmza Sýnýflandýrma');
+DEFINE('_SIGPRIO','Ýmza Önceli�i');
 DEFINE('_SHORTSOURCE','Kaynak');
 DEFINE('_SHORTDEST','Varýþ');
 DEFINE('_SHORTSOURCEORDEST','Kaynak ya da Varýþ');
@@ -398,7 +398,7 @@ DEFINE('_AGMAINTTITLE','Uyarý Grubu (UG) Bakýmý');
 DEFINE('_ERRAGUPDATE','UG güncelleme Hatasý');
 DEFINE('_ERRAGPACKETLIST','UG i�in paket listesi silme Hatasý:');
 DEFINE('_ERRAGDELETE','UG silme Hatasý');
-DEFINE('_AGDELETE','Baþarýlý bi�imde S�L�ND�');
+DEFINE('_AGDELETE','Baþarýlý bi�imde SÝLÝNDÝ');
 DEFINE('_AGDELETEINFO','bilgi silindi');
 DEFINE('_ERRAGSEARCHINV','Girilen arama öl�ütü ge�ersiz.  Tekrar deneyin!');
 DEFINE('_ERRAGSEARCHNOTFOUND','Bu öl�üte göre UG bulunamadý.');
@@ -457,7 +457,7 @@ DEFINE('_CHARTHOUR','{sat}');
 DEFINE('_CHARTDAY','{gün}');
 DEFINE('_CHARTMONTH','{ay}');
 DEFINE('_GRAPHALERTS','�izge Uyarýlarý');
-DEFINE('_AXISCONTROLS','X / Y EKSEN KONTROLLER�');
+DEFINE('_AXISCONTROLS','X / Y EKSEN KONTROLLERÝ');
 DEFINE('_CHRTTYPEHOUR','Zaman (saat) vs. Uyarý Sayýsý');
 DEFINE('_CHRTTYPEDAY','Zaman (gün) vs. Uyarý Sayýsý');
 DEFINE('_CHRTTYPEWEEK','Zaman (hafta) vs. Uyarý Sayýsý');
@@ -469,7 +469,7 @@ DEFINE('_CHRTTYPEDSTUDP','Varýþ UDP Portu vs. Uyarý Sayýsý');
 DEFINE('_CHRTTYPESRCUDP','Kynak UDP Portu vs. Uyarý Sayýsý');
 DEFINE('_CHRTTYPEDSTPORT','Varýþ TCP Portu vs. Uyarý Sayýsý');
 DEFINE('_CHRTTYPESRCPORT','Kaynak TCP Portu vs. Uyarý Sayýsý');
-DEFINE('_CHRTTYPESIG','�mza Sýnýflamasý vs. Uyarý Sayýsý');
+DEFINE('_CHRTTYPESIG','Ýmza Sýnýflamasý vs. Uyarý Sayýsý');
 DEFINE('_CHRTTYPESENSOR','Sensor vs. Uyarý Sayýsý');
 DEFINE('_CHRTBEGIN','Grafik Baþlangýcý:');
 DEFINE('_CHRTEND','Grafik Sonu:');
@@ -504,10 +504,10 @@ DEFINE('_CHRTPORTDESTNUMBER','TCP Portu (Varýþ) vs. Uyarý Sayýsý');
 DEFINE('_CHRTPORTDEST','Varýþ TCP Portu');
 DEFINE('_CHRTPORTSRCNUMBER','TCP Portu (Kaynak) vs. Uyarý Sayýsý');
 DEFINE('_CHRTPORTSRC','Kaynak TCP Portu');
-DEFINE('_CHRTSIGNUMBER','�mza Sýnýflamasý vs. Uyarý Sayýsý');
+DEFINE('_CHRTSIGNUMBER','Ýmza Sýnýflamasý vs. Uyarý Sayýsý');
 DEFINE('_CHRTCLASS','Sýnýflama');
 DEFINE('_CHRTSENSORNUMBER','Sensor vs. Uyarý Sayýsý');
-DEFINE('_CHRTHANDLEPERIOD','�þleme Dönemi, e�er gerekliyse');
+DEFINE('_CHRTHANDLEPERIOD','Ýþleme Dönemi, e�er gerekliyse');
 DEFINE('_CHRTDUMP','Veriyi boþaltýyor ... (her birini yazýyor');
 DEFINE('_CHRTDRAW','Grafi�i �iziyor');
 DEFINE('_ERRCHRTNODATAPOINTS','�izecek hi� veri göstergesi yok');
@@ -515,8 +515,8 @@ DEFINE('_GRAPHALERTDATA','Grafik Uyarý Verisi');
 
 //base_maintenance.php
 DEFINE('_MAINTTITLE','Bakým');
-DEFINE('_MNTPHP','PHP �nþasý:');
-DEFINE('_MNTCLIENT','�STEMC�:');
+DEFINE('_MNTPHP','PHP Ýnþasý:');
+DEFINE('_MNTCLIENT','ÝSTEMCÝ:');
 DEFINE('_MNTSERVER','SUNUCU:');
 DEFINE('_MNTSERVERHW','SUNUCU HW:');
 DEFINE('_MNTPHPVER','PHP S�R�M�:');
@@ -526,7 +526,7 @@ DEFINE('_MNTPHPMODS','Yüklü Modüller:');
 DEFINE('_MNTDBTYPE','DB '.$UI_CW_Type.':');
 DEFINE('_MNTDBALV','DB Soyutlama Sürümü:');
 DEFINE('_MNTDBALERTNAME','UYARI DB Adý:');
-DEFINE('_MNTDBARCHNAME','AR��V DB Adý:');
+DEFINE('_MNTDBARCHNAME','AR�ÝV DB Adý:');
 DEFINE('_MNTAIC','Uyarý Bilgi Önbelle�i:');
 DEFINE('_MNTAICTE','Toplam '.$UI_CW_Event.'lar:');
 DEFINE('_MNTAICCE','Önbellekteki '.$UI_CW_Event.'lar:');
@@ -538,8 +538,8 @@ DEFINE('_MNTIPACUDIP','Benzersiz Varýþ IP:');
 
 //base_qry_alert.php
 DEFINE('_QAINVPAIR','Ge�ersiz (sid,cid) �ift');
-DEFINE('_QAALERTDELET','Uyarý S�L�ND�');
-DEFINE('_QATRIGGERSIG','Tetiklenmiþ �mza');
+DEFINE('_QAALERTDELET','Uyarý SÝLÝNDÝ');
+DEFINE('_QATRIGGERSIG','Tetiklenmiþ Ýmza');
 DEFINE('_QANORMALD','Normal Görüntü');
 DEFINE('_QAPLAIND','Düz Görüntü');
 DEFINE('_QANOPAYLOAD','Hýzlý günlükleme kullanýldý bu yüzden payload atýldý');
@@ -597,7 +597,7 @@ DEFINE('_QFRMSIP','kaynak IP');
 DEFINE('_QFRMDIP','varýþ IP');
 
 //base_qry_sqlcalls.php
-DEFINE('_QSCSUMM','�statistik Özeti');
+DEFINE('_QSCSUMM','Ýstatistik Özeti');
 DEFINE('_QSCTIMEPROF','Zaman profili');
 DEFINE('_QSCOFALERTS','uyarýlarýn');
 
@@ -632,7 +632,7 @@ DEFINE('_PSDSTPORT','Varýþ Portu');
 DEFINE('_PSTCPFLAGS','TCP Bayraklarý');
 DEFINE('_PSTOTALOCC','Toplam<BR> '.$UI_CW_Event.'lar');
 DEFINE('_PSNUMSENSORS','Sensor Sayýsý');
-DEFINE('_PSFIRSTOCC','�lk<BR> Ger�ekleþen '.$UI_CW_Event);
+DEFINE('_PSFIRSTOCC','Ýlk<BR> Ger�ekleþen '.$UI_CW_Event);
 DEFINE('_PSLASTOCC',$UI_CW_Last.'<BR> Ger�ekleþen '.$UI_CW_Event);
 DEFINE('_PSUNIALERTS','Benzersiz Uyarýlar');
 DEFINE('_PSPORTSCANEVE','Portscan '.$UI_CW_Event.'larý');

@@ -67,6 +67,7 @@ $UI_CW_ML10 = 'Oktober';
 $UI_CW_ML11 = 'November';
 $UI_CW_ML12 = 'Desember';
 $UI_CW_Last = 'Siste';
+$UI_CW_First = 'Frste';
 // Common Phrases.
 $UI_CP_SrcName = array($UI_CW_Src,$UI_CW_Name);
 $UI_CP_DstName = array('Dest.',$UI_CW_Name);
@@ -80,7 +81,6 @@ $UI_AD_RID = array($UI_CW_Role,$UI_CW_Id);
 $UI_AD_ASD = 'Aktivert';
 
 //common phrases
-DEFINE('_FIRST','First'); //NEW
 DEFINE('_TOTAL','Total'); //NEW
 DEFINE('_ALERT','Hendelser');
 DEFINE('_ADDRESS','Adresse');
@@ -177,7 +177,7 @@ DEFINE('_DISPLAYU','Vis bruker');
 DEFINE('_FOOTER','( by <A class="largemenuitem" href="mailto:base@secureideas.net">Kevin Johnson</A> and the <A class="largemenuitem" href="http://sourceforge.net/project/memberlist.php?group_id=103348">BASE Project Team</A><BR>Built on ACID by Roman Danyliw<BR>');
 
 //index.php --Log in Page
-DEFINE('_LOGINERROR','Enten eksisterer ikke brukeren, ellers sÂ var '.strtolower($UI_CW_Pw).'et feil!<br>Vennligst prv igjen');
+DEFINE('_LOGINERROR','Enten eksisterer ikke brukeren, ellers s√• var '.strtolower($UI_CW_Pw).'et feil!<br>Vennligst prv igjen');
 
 // base_main.php
 DEFINE('_MOSTRECENT','Seneste ');
@@ -209,10 +209,10 @@ DEFINE('_NOALERTSDETECT','ingen hendelser detektert');
 
 //base_auth.inc.php
 DEFINE('_ADDEDSF','Vellykket!');
-DEFINE('_NOPWDCHANGE','Greide ikke Â bytte '.strtolower($UI_CW_Pw).': ');
+DEFINE('_NOPWDCHANGE','Greide ikke √• bytte '.strtolower($UI_CW_Pw).': ');
 DEFINE('_NOUSER','Brukeren eksisterer ikke!');
 DEFINE('_OLDPWD','Det gamle '.strtolower($UI_CW_Pw).'et er feil!');
-DEFINE('_PWDCANT','Greide ikke Â bytte '.strtolower($UI_CW_Pw).': ');
+DEFINE('_PWDCANT','Greide ikke √• bytte '.strtolower($UI_CW_Pw).': ');
 DEFINE('_PWDDONE',$UI_CW_Pw.'et er endret!');
 DEFINE('_ROLEEXIST','Rollen eksisterer allerede');
 // TD Migration Hack
@@ -316,7 +316,7 @@ DEFINE('_ERRBASEFATAL','BASE FATAL FEIL:');
 
 //base_log_timing.inc.php
 DEFINE('_LOADEDIN','Brukte');
-DEFINE('_SECONDS','sekunder pÂ Â laste siden');
+DEFINE('_SECONDS','sekunder p√• √• laste siden');
 
 //base_net.inc.php
 DEFINE('_ERRRESOLVEADDRESS','Unable to resolve address');
@@ -409,7 +409,7 @@ DEFINE('_CONFIRMDELETE','Confirm Delete'); //NEW
 DEFINE('_CONFIRMCLEAR','Confirm Clear'); //NEW
 DEFINE('_NOALERTGOUPS','Det finnes ingen hendelsesgrupper');
 DEFINE('_NUMALERTS','Antall hendelser');
-DEFINE('_ACTIONS','Gj√∏remÂl');
+DEFINE('_ACTIONS','Gj√∏rem√•l');
 DEFINE('_NOTASSIGN','ikke lagt til enda');
 
 //base_common.php
@@ -633,7 +633,7 @@ DEFINE('_PSDSTPORT','Destinasjonsport');
 DEFINE('_PSTCPFLAGS','TCP flagg');
 DEFINE('_PSTOTALOCC','Hendelser<BR> totalt');
 DEFINE('_PSNUMSENSORS','Antall sensorer');
-DEFINE('_PSFIRSTOCC','Frste<BR> hendelse');
+DEFINE('_PSFIRSTOCC',$UI_CW_First.'<BR> hendelse');
 DEFINE('_PSLASTOCC',$UI_CW_Last.'<BR> hendelse');
 DEFINE('_PSUNIALERTS','Unike hendelser');
 DEFINE('_PSPORTSCANEVE','Portscan hendelser');

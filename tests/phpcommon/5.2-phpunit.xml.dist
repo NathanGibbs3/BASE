@@ -28,11 +28,8 @@
 				<file>base_conf.php</file>
 				<file>languages/czech.lang.php</file>
 				<file>languages/danish.lang.php</file>
-				<file>languages/finnish.lang.php</file>
 				<file>languages/french.lang.php</file>
 				<file>languages/italian.lang.php</file>
-				<file>languages/norwegian.lang.php</file>
-				<file>languages/russian.lang.php</file>
 				<file>languages/swedish.lang.php</file>
 				<file>languages/turkish.lang.php</file>
 			</exclude>

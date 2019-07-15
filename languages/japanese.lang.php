@@ -67,7 +67,8 @@ $UI_CW_ML9 = '９月';
 $UI_CW_ML10 = '１０月';
 $UI_CW_ML11 = '１１月';
 $UI_CW_ML12 = '１２月';
-$UI_CW_Last = '最新の';
+$UI_CW_Last = '最後の';
+$UI_CW_First = '最初の';
 // Common Phrases.
 $UI_CP_SrcName = array($UI_CW_Src,$UI_CW_Name);
 $UI_CP_DstName = array($UI_CW_Dst,$UI_CW_Name);
@@ -82,7 +83,6 @@ $UI_AD_RID = array($UI_CW_Role,$UI_CW_Id);
 $UI_AD_ASD = '有効';
 
 //common phrases
-DEFINE('_FIRST','First'); //NEW
 DEFINE('_TOTAL','Total'); //NEW
 DEFINE('_ALERT','アラート');
 DEFINE('_ADDRESS',$UI_CW_Addr);
@@ -627,13 +627,13 @@ DEFINE('_PSEVENTERROPENFILE','ポートスキャン'.$UI_CW_Event.'ファイル�
 DEFINE('_PSDATETIME','日付/時刻');
 DEFINE('_PSSRCIP',$UI_CW_Src.' IP');
 DEFINE('_PSDSTIP','送信先 IP');
-DEFINE('_PSSRCPORT',"$UI_CW_Src Port");
+DEFINE('_PSSRCPORT',$UI_CW_Src.' Port');
 DEFINE('_PSDSTPORT','送信先 Port');
 DEFINE('_PSTCPFLAGS','TCPフラグ');
 DEFINE('_PSTOTALOCC','発生<BR>総数');
 DEFINE('_PSNUMSENSORS','センサー数');
-DEFINE('_PSFIRSTOCC','最初の<BR>発生時刻');
-DEFINE('_PSLASTOCC','最後の<BR>発生時刻');
+DEFINE('_PSFIRSTOCC',$UI_CW_First.'<BR>発生時刻');
+DEFINE('_PSLASTOCC',$UI_CW_Last.'<BR>発生時刻');
 DEFINE('_PSUNIALERTS','アラートの種類の数');
 DEFINE('_PSPORTSCANEVE','ポートスキャン数');
 DEFINE('_PSREGWHOIS','Registry lookup (whois) in');

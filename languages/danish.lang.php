@@ -68,6 +68,7 @@ $UI_CW_ML10 = 'Oktober';
 $UI_CW_ML11 = 'November';
 $UI_CW_ML12 = 'December';
 $UI_CW_Last = 'Sidste';
+$UI_CW_First = 'First';
 // Common Phrases.
 $UI_CP_SrcName = array($UI_CW_Src,$UI_CW_Name);
 $UI_CP_DstName = array('Dest.',$UI_CW_Name);
@@ -82,7 +83,6 @@ $UI_AD_RID = array($UI_CW_Role,$UI_CW_Id);
 $UI_AD_ASD = 'Enabled';
 
 //common phrases
-DEFINE('_FIRST','First'); //NEW
 DEFINE('_TOTAL','Total'); //NEW
 DEFINE('_ALERT','Alarmer');
 DEFINE('_ADDRESS','Adresse');
@@ -283,7 +283,7 @@ DEFINE('_ERRCACHEUPDATE','Kunne ikke opdatere handlings cachen');
 DEFINE('_ALERTSCACHE',' alarm(er) til Alarm cachen');
 
 //base_db.inc.php
-DEFINE('_ERRSQLTRACE','Kunne ikke Âbne SQL trace fil');
+DEFINE('_ERRSQLTRACE','Kunne ikke √•bne SQL trace fil');
 DEFINE('_ERRSQLCONNECT','Fejl ved forbindelse til DB :');
 DEFINE('_ERRSQLCONNECTINFO','<P>Check DB forbindelses variablerne i <I>base_conf.php</I> 
               <PRE>
@@ -301,7 +301,7 @@ DEFINE('_ERRSQLDBALLOAD1','<P><B>Fejl ved loading af DB Abstraction biblioteket:
 DEFINE('_ERRSQLDBALLOAD2','<P>Check DB abstraction bibliotekets variable <CODE>$DBlib_path</CODE> i <CODE>base_conf.php</CODE>
             <P>
             Det underliggende database bibliotek brugt er ADODB, som kan downloades
-            pÂ ');
+            p√• ');
 DEFINE('_ERRSQLDBTYPE','Invalid Database '.$UI_CW_Type.' Specificeret');
 DEFINE('_ERRSQLDBTYPEINFO1','Variablen <CODE>\$DBtype</CODE> i <CODE>base_conf.php</CODE> var sat til den ukendte database '.$UI_CW_Type.' af ');
 DEFINE('_ERRSQLDBTYPEINFO2','Kun de f√∏lgende databaser kan bruges: <PRE>
@@ -633,7 +633,7 @@ DEFINE('_PSDSTPORT','Destination Port');
 DEFINE('_PSTCPFLAGS','TCP Flags');
 DEFINE('_PSTOTALOCC','Total<BR> Occurrences');
 DEFINE('_PSNUMSENSORS','Num of Sensors');
-DEFINE('_PSFIRSTOCC','First<BR> Occurrence');
+DEFINE('_PSFIRSTOCC',$UI_CW_First.'<BR> Occurrence');
 DEFINE('_PSLASTOCC','Last<BR> Occurrence');
 DEFINE('_PSUNIALERTS','Unique Alerts');
 DEFINE('_PSPORTSCANEVE','Portscan Events');

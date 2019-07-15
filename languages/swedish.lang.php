@@ -67,7 +67,8 @@ $UI_CW_ML9 = 'September';
 $UI_CW_ML10 = 'Oktober';
 $UI_CW_ML11 = 'November';
 $UI_CW_ML12 = 'December';
-$UI_CW_Last = 'Senaste';
+$UI_CW_Last = 'Sist';
+$UI_CW_First = 'Först';
 // Common Phrases.
 $UI_CP_SrcName = array($UI_CW_Src,$UI_CW_Name);
 $UI_CP_DstName = array('Dest.',$UI_CW_Name);
@@ -82,7 +83,6 @@ $UI_AD_RID = array($UI_CW_Role,$UI_CW_Id);
 $UI_AD_ASD = 'Möjliggjord';
 
 //common phrases
-DEFINE('_FIRST','Föreg�ende'); //NEW
 DEFINE('_TOTAL','Total'); //NEW
 DEFINE('_ALERT','Varningar');
 DEFINE('_ADDRESS','Adress');
@@ -96,12 +96,12 @@ DEFINE('_ANY','any'); //NEW
 DEFINE('_NONE','none'); //NEW
 DEFINE('_HOUR','Timme'); //NEW
 DEFINE('_DAY','Dag'); //NEW
-DEFINE('_MONTH','M�nad'); //NEW
+DEFINE('_MONTH','Månad'); //NEW
 DEFINE('_YEAR','�r'); //NEW
 DEFINE('_ALERTGROUP','Varnings Grupp'); //NEW
 DEFINE('_ALERTTIME','Varnings Tid'); //NEW
-DEFINE('_CONTAINS','inneh�ller'); //NEW
-DEFINE('_DOESNTCONTAIN','inneh�ller inte'); //NEW
+DEFINE('_CONTAINS','innehåller'); //NEW
+DEFINE('_DOESNTCONTAIN','innehåller inte'); //NEW
 DEFINE('_SOURCEPORT','Käll port'); //NEW
 DEFINE('_DESTPORT','dest. port'); //NEW
 DEFINE('_HAS','har'); //NEW
@@ -110,8 +110,8 @@ DEFINE('_PORT','Port'); //NEW
 DEFINE('_FLAGS','Flagor'); //NEW
 DEFINE('_MISC','Misc'); //NEW
 DEFINE('_BACK','Tillbaka'); //NEW
-DEFINE('_DISPYEAR','{ �r }'); //NEW
-DEFINE('_DISPMONTH','{ m�nad }'); //NEW
+DEFINE('_DISPYEAR','{ år }'); //NEW
+DEFINE('_DISPMONTH','{ månad }'); //NEW
 DEFINE('_DISPHOUR','{ timme }'); //NEW
 DEFINE('_DISPDAY','{ dag }'); //NEW
 DEFINE('_DISPTIME','{ tid }'); //NEW
@@ -136,15 +136,15 @@ DEFINE('_QUERYDB','Query DB'); //NEW
 DEFINE('_QUERYDBP','Query+DB'); //NEW - Equals to _QUERYDB where spaces are '+'s. 
                                 //Should be something like: DEFINE('_QUERYDBP',str_replace(" ", "+", _QUERYDB));
 DEFINE('_SELECTED','Valda'); //NEW
-DEFINE('_ALLONSCREEN','ALLA p� skärmen'); //NEW
-DEFINE('_ENTIREQUERY','Hela förfr�gan'); //NEW
+DEFINE('_ALLONSCREEN','ALLA på skärmen'); //NEW
+DEFINE('_ENTIREQUERY','Hela förfrågan'); //NEW
 DEFINE('_OPTIONS','Options'); //NEW
 DEFINE('_LENGTH','längd'); //NEW
 DEFINE('_CODE','kod'); //NEW
 DEFINE('_DATA','data'); //NEW
 DEFINE('_TYPE',$UI_CW_Type); //NEW
 DEFINE('_NEXT','Nästa'); //NEW
-DEFINE('_PREVIOUS','Föreg�ende'); //NEW
+DEFINE('_PREVIOUS','Föregående'); //NEW
 
 //Menu items
 DEFINE('_HOME','Hem');
@@ -212,7 +212,7 @@ DEFINE('_TRAFFICPROBPRO','Traffic Profile by Protocol'); //NEW
 DEFINE('_ADDEDSF','�tgärden lyckades');
 DEFINE('_NOPWDCHANGE','Kunde inte ändra ditt '.strtolower($UI_CW_Pw).'!: ');
 DEFINE('_NOUSER','Användare existerar inte!');
-DEFINE('_OLDPWD','Det gamla '.strtolower($UI_CW_Pw).'et matcha inte v�ra uppgifter!');
+DEFINE('_OLDPWD','Det gamla '.strtolower($UI_CW_Pw).'et matcha inte våra uppgifter!');
 DEFINE('_PWDCANT','Det gick inte ändra ditt '.strtolower($UI_CW_Pw).': ');
 DEFINE('_PWDDONE','Ditt '.strtolower($UI_CW_Pw).' har ändrats');
 DEFINE('_ROLEEXIST',$UI_CW_Role.'en existerar redan!');
@@ -239,20 +239,20 @@ DEFINE('_UPDATEUSER','Uppdatera Användare'); //NEW
 
 //admin/index.php
 DEFINE('_BASEADMIN','BASE Administration');
-DEFINE('_BASEADMINTEXT','Vänligen välj en valmöjlighet fr�n vänster.');
+DEFINE('_BASEADMINTEXT','Vänligen välj en valmöjlighet från vänster.');
 
 //base_action.inc.php 
-DEFINE('_NOACTION','Inget agerande var specifierat p� varningar');
+DEFINE('_NOACTION','Inget agerande var specifierat på varningar');
 DEFINE('_INVALIDACT',' är ett felaktigt agerande');
-DEFINE('_ERRNOAG','Kunde inte lägga til varningar d� ingen AG var specifierad');
-DEFINE('_ERRNOEMAIL','Kan inte e maila varningar d� ingen email adress har specifierats');
+DEFINE('_ERRNOAG','Kunde inte lägga til varningar då ingen AG var specifierad');
+DEFINE('_ERRNOEMAIL','Kan inte e maila varningar då ingen email adress har specifierats');
 DEFINE('_ACTION','Handling');
-DEFINE('_CONTEXT','Inneh�l');
+DEFINE('_CONTEXT','Innehål');
 DEFINE('_ADDAGID','Lägga till till AG (Genom ID)');
 DEFINE('_ADDAG','Lägg-till-ny-AG');
 DEFINE('_ADDAGNAME','Lägga till till AG (genom Namn)');
 DEFINE('_CREATEAG','Skapa AG (Genom namn)');
-DEFINE('_CLEARAG','Rensa fr�n AG');
+DEFINE('_CLEARAG','Rensa från AG');
 DEFINE('_DELETEALERT','Radera Varing(ar)');
 DEFINE('_EMAILALERTSFULL','Email Varning(ar) (Alla)');
 DEFINE('_EMAILALERTSSUMM','Email Varning(ar) (sammanfattning)');
@@ -283,7 +283,7 @@ DEFINE('_ERRCACHEUPDATE','Kunde inte uppdatera '.$UI_CW_Event.' cachen');
 DEFINE('_ALERTSCACHE',' Varning(ar) till varnings cachen');
 
 //base_db.inc.php
-DEFINE('_ERRSQLTRACE','Förhindrad till att öppna SQL sp�r filen');
+DEFINE('_ERRSQLTRACE','Förhindrad till att öppna SQL spår filen');
 DEFINE('_ERRSQLCONNECT','Fel vid anslutande till DB :');
 DEFINE('_ERRSQLCONNECTINFO','<P>Kontrollera DB anslutnings variabler i  <I>base_conf.php</I>
               <PRE>
@@ -297,11 +297,11 @@ DEFINE('_ERRSQLCONNECTINFO','<P>Kontrollera DB anslutnings variabler i  <I>base_
 DEFINE('_ERRSQLPCONNECT','Fel (p)Kopplar till DB :');
 DEFINE('_ERRSQLDB','Databas FEL:');
 DEFINE('_DBALCHECK','Kontroll för DB abstraktion lib i');
-DEFINE('_ERRSQLDBALLOAD1','<P><B>Fel vid laddning av DB Abstraktion biblioteket </B> fr�n ');
+DEFINE('_ERRSQLDBALLOAD1','<P><B>Fel vid laddning av DB Abstraktion biblioteket </B> från ');
 DEFINE('_ERRSQLDBALLOAD2','<P>Kontrollera DB abstraktion bibliotek variabel <CODE>$DBlib_path</CODE> i <CODE>base_conf.php</CODE>
             <P>
             Bakomliggande databas bibliotek som används för närvarande är ADODB, som kan laddas ner
-            fr�n ');
+            från ');
 DEFINE('_ERRSQLDBTYPE','Ogiltig Databas '.$UI_CW_Type.' Specifierad');
 DEFINE('_ERRSQLDBTYPEINFO1','variabel <CODE>\$DBtype</CODE> i <CODE>base_conf.php</CODE> var satt till anonym databas '.$UI_CW_Type.' av ');
 DEFINE('_ERRSQLDBTYPEINFO2','Endast följande databaser är giltiga: <PRE>
@@ -316,7 +316,7 @@ DEFINE('_ERRSQLDBTYPEINFO2','Endast följande databaser är giltiga: <PRE>
 DEFINE('_ERRBASEFATAL','BASE FATAL ERROR:');
 
 //base_log_timing.inc.php
-DEFINE('_LOADEDIN','Laddades p�');
+DEFINE('_LOADEDIN','Laddades på');
 DEFINE('_SECONDS','sekunder');
 
 //base_net.inc.php
@@ -361,7 +361,7 @@ DEFINE('_SIGROUGHLY','ungefär'); //NEW
 DEFINE('_SIGCLASS',"$UI_CW_Sig Klassifikation"); //NEW
 DEFINE('_SIGPRIO',"$UI_CW_Sig Prioritet"); //NEW
 DEFINE('_SHORTSOURCE','Källa'); //NEW
-DEFINE('_SHORTDEST','M�l'); //NEW
+DEFINE('_SHORTDEST','Mål'); //NEW
 DEFINE('_SHORTSOURCEORDEST','Källa eller Dest.'); //NEW
 DEFINE('_NOLAYER4','ingen layer4'); //NEW
 DEFINE('_INPUTCRTENC','Kodnings '.$UI_CW_Type); //NEW
@@ -376,7 +376,7 @@ DEFINE('_PHPSESSREG','Session Registrerad');
 
 //base_state_criteria.inc.php
 DEFINE('_REMOVE','Raderar');
-DEFINE('_FROMCRIT','fr�n kriterium');
+DEFINE('_FROMCRIT','från kriterium');
 DEFINE('_ERRCRITELEM','Invalid criteria element');
 
 //base_state_query.inc.php
@@ -456,15 +456,15 @@ DEFINE('_TYPELINE','linje'); //NEW
 DEFINE('_TYPEPIE','circle'); //NEW
 DEFINE('_CHARTHOUR','{timme}'); //NEW
 DEFINE('_CHARTDAY','{dag}'); //NEW
-DEFINE('_CHARTMONTH','{m�nad}'); //NEW
+DEFINE('_CHARTMONTH','{månad}'); //NEW
 DEFINE('_GRAPHALERTS','Skapa Graf'); //NEW
 DEFINE('_AXISCONTROLS','X / Y Kontroller'); //NEW
 DEFINE('_CHARTTITLE','Graf Namn:');
 DEFINE('_CHRTTYPEHOUR','Tid (timme) vs. Nummer av varningar');
 DEFINE('_CHRTTYPEDAY','Tid (dag) vs. Nummer av varningar');
 DEFINE('_CHRTTYPEWEEK','Tid (vecka) vs. Nummer av varningar');
-DEFINE('_CHRTTYPEMONTH','Tid (m�nad) vs. Nummer av varningar');
-DEFINE('_CHRTTYPEYEAR','Tid (�r) vs. Nummer av varningar');
+DEFINE('_CHRTTYPEMONTH','Tid (månad) vs. Nummer av varningar');
+DEFINE('_CHRTTYPEYEAR','Tid (år) vs. Nummer av varningar');
 DEFINE('_CHRTTYPESRCIP','Src. IP address vs. Nummer av varningar');
 DEFINE('_CHRTTYPEDSTIP','Dst. IP address vs. Nummer av varningar');
 DEFINE('_CHRTTYPEDSTUDP','Dst. UDP Port vs. Nummer av varningar');
@@ -523,7 +523,7 @@ DEFINE('_MNTSERVER','SERVER:');
 DEFINE('_MNTSERVERHW','SERVER HW:');
 DEFINE('_MNTPHPVER','PHP VERSION:');
 DEFINE('_MNTPHPAPI','PHP API:');
-DEFINE('_MNTPHPLOGLVL','PHP Logg niv�:');
+DEFINE('_MNTPHPLOGLVL','PHP Logg nivå:');
 DEFINE('_MNTPHPMODS','Laddade Moduler:');
 DEFINE('_MNTDBTYPE','DB '.$UI_CW_Type.':');
 DEFINE('_MNTDBALV','DB Abstraktion Version:');
@@ -544,7 +544,7 @@ DEFINE('_QAALERTDELET','Varning raderad');
 DEFINE('_QATRIGGERSIG',"Avfyrade $UI_CW_Sig");
 DEFINE('_QANORMALD','Normal Display'); //NEW
 DEFINE('_QAPLAIND','Plain Display'); //NEW
-DEFINE('_QANOPAYLOAD','Snabb logning vald s� paylod kommer inte visas'); //NEW
+DEFINE('_QANOPAYLOAD','Snabb logning vald så paylod kommer inte visas'); //NEW
 
 //base_qry_common.php 
 DEFINE('_QCSIG','signature');
@@ -634,8 +634,8 @@ DEFINE('_PSDSTPORT','Destination Port');
 DEFINE('_PSTCPFLAGS','TCP Flags');
 DEFINE('_PSTOTALOCC','Total<BR> Occurrences');
 DEFINE('_PSNUMSENSORS','Antal Sensors');
-DEFINE('_PSFIRSTOCC','Första<BR> Occurrence');
-DEFINE('_PSLASTOCC','Sista<BR> Occurrence');
+DEFINE('_PSFIRSTOCC',$UI_CW_First.'<BR> Occurrence');
+DEFINE('_PSLASTOCC',$UI_CW_Last.'<BR> Occurrence');
 DEFINE('_PSUNIALERTS','Unika Varningar');
 DEFINE('_PSPORTSCANEVE','Portscan Events');
 DEFINE('_PSREGWHOIS','Registry lookup (whois) in');
@@ -672,12 +672,12 @@ DEFINE('SPSENSORLIST','Lista Sensorer ');
 //base_stat_time.php
 DEFINE('_BSTTITLE','Tid Profil av Varningar');
 DEFINE('_BSTTIMECRIT','Time Criteria'); //Ingen profilering kriterium var specifierad
-DEFINE('_BSTERRPROFILECRIT','<FONT><B>Ingen profilering kriterium var specifierad</B>  Klicka p� "timme", "dag", eller "m�nad" att välja kornighet av total statistik.</FONT>');
-DEFINE('_BSTERRTIMETYPE','<FONT><B>Arten av tid parameter vilken kommer att vara passerade var inte specifierad!</B>  .</FONT>'); //Välj antingen "p�", för att specifiera ett  datum, eller "mellan" för att specifiera en intervall.
+DEFINE('_BSTERRPROFILECRIT','<FONT><B>Ingen profilering kriterium var specifierad</B>  Klicka på "timme", "dag", eller "månad" att välja kornighet av total statistik.</FONT>');
+DEFINE('_BSTERRTIMETYPE','<FONT><B>Arten av tid parameter vilken kommer att vara passerade var inte specifierad!</B>  .</FONT>'); //Välj antingen "på", för att specifiera ett  datum, eller "mellan" för att specifiera en intervall.
 DEFINE('_BSTERRNOYEAR','<FONT><B>Ingen �r parameter var specifierad!</B></FONT>');
-DEFINE('_BSTERRNOMONTH','<FONT><B>Ingen M�nad parameter var specifierad!</B></FONT>');
+DEFINE('_BSTERRNOMONTH','<FONT><B>Ingen Månad parameter var specifierad!</B></FONT>');
 DEFINE('_BSTPROFILEBY','Profil'); //NEW
-DEFINE('_TIMEON','p�'); //NEW
+DEFINE('_TIMEON','på'); //NEW
 DEFINE('_TIMEBETWEEN','mellan'); //NEW
 DEFINE('_PROFILEALERT','Profil Alert'); //NEW
 DEFINE('_BSTERRNODAY','<FONT><B>Ingen dag parameter var specifierad!</B></FONT>');
@@ -694,7 +694,7 @@ DEFINE('_SUADSTADD','Dest.&nbsp;Addr.');
 
 //base_user.php
 DEFINE('_BASEUSERTITLE','BASE Användar inställningar');
-DEFINE('_BASEUSERERRPWD','Ditt '.strtolower($UI_CW_Pw).' kan inte vara blankt eller s� var lösenorden inte lika!');
+DEFINE('_BASEUSERERRPWD','Ditt '.strtolower($UI_CW_Pw).' kan inte vara blankt eller så var lösenorden inte lika!');
 DEFINE('_BASEUSEROLDPWD','Gammalt '.strtolower($UI_CW_Pw).':');
 DEFINE('_BASEUSERNEWPWD','Nytt '.strtolower($UI_CW_Pw).':');
 DEFINE('_BASEUSERNEWPWDAGAIN','Nytt '.strtolower($UI_CW_Pw).' igen:');

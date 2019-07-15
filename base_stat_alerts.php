@@ -37,6 +37,7 @@ $CPSig = $UIL->CWA['Sig'];
 $CPSA = $UIL->CPA['SrcAddr'];
 $CPDA = $UIL->CPA['DstAddr'];
 $CPLast = $UIL->CWA['Last'];
+$CPFirst = $UIL->CWA['First'];
   $cs = new CriteriaState("base_stat_alerts.php");
   $submit = ImportHTTPVar("submit", VAR_ALPHA | VAR_SPACE, array(_SELECTED, _ALLONSCREEN, _ENTIREQUERY));
 
@@ -143,7 +144,7 @@ if (is_object($cs)){ // Issue #5
 // Setup the Query Results Table.
 $qro = new QueryResultsOutput("base_stat_alerts.php?caller=".$caller);
 $qro->AddTitle(" ");
-$qro->AddTitle($CPSig,
+$qro->AddTitle( $CPSig,
 	"sig_a", " ", " ORDER BY sig_name ASC",
 	"sig_d", " ", " ORDER BY sig_name DESC"
 );
@@ -159,29 +160,29 @@ $qro->AddTitle($CPSig,
                            " ORDER BY sig_cnt ASC",
                 "occur_d", " ",
                            " ORDER BY sig_cnt DESC");
-$qro->AddTitle("$CPSensor&nbsp;#");
-$qro->AddTitle($CPSA,
+$qro->AddTitle( "$CPSensor&nbsp;#" );
+$qro->AddTitle( $CPSA,
 	"saddr_a", ", count(DISTINCT ip_src) AS saddr_cnt ",
 	" ORDER BY saddr_cnt ASC",
 	"saddr_d", ", count(DISTINCT ip_src) AS saddr_cnt ",
 	" ORDER BY saddr_cnt DESC"
 );
-$qro->AddTitle($CPDA,
+$qro->AddTitle( $CPDA,
 	"daddr_a", ", count(DISTINCT ip_dst) AS daddr_cnt ",
 	" ORDER BY daddr_cnt ASC",
 	"daddr_d", ", count(DISTINCT ip_dst) AS daddr_cnt ",
 	" ORDER BY daddr_cnt DESC"
 );
-  $qro->AddTitle(_FIRST, 
-                "first_a", ", min(timestamp) AS first_timestamp ",
-                           " ORDER BY first_timestamp ASC",
-                "first_d", ", min(timestamp) AS first_timestamp ",
-                           " ORDER BY first_timestamp DESC");
-
+$qro->AddTitle( $CPFirst,
+	"first_a", ", min(timestamp) AS first_timestamp ",
+	" ORDER BY first_timestamp ASC",
+	"first_d", ", min(timestamp) AS first_timestamp ",
+	" ORDER BY first_timestamp DESC"
+);
 if ( isset($show_previous_alert) && $show_previous_alert == 1 ){
-	$qro->AddTitle("Previous");
+	$qro->AddTitle(_PREVIOUS);
 }
-$qro->AddTitle($CPLast,
+$qro->AddTitle( $CPLast,
 	"last_a", ", max(timestamp) AS last_timestamp ",
 	" ORDER BY last_timestamp ASC",
 	"last_d", ", max(timestamp) AS last_timestamp ",

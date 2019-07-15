@@ -68,6 +68,7 @@ $UI_CW_ML10 = 'Ottobre';
 $UI_CW_ML11 = 'Novembre';
 $UI_CW_ML12 = 'Dicembre';
 $UI_CW_Last = 'Ultimo';
+$UI_CW_First = 'Primo';
 // Common Phrases.
 $UI_CP_SrcName = array($UI_CW_Name,$UI_CW_Src);
 $UI_CP_DstName = array($UI_CW_Name,$UI_CW_Dst);
@@ -82,7 +83,6 @@ $UI_AD_RID = array($UI_CW_Id,$UI_CW_Role);
 $UI_AD_ASD = 'Abilitato';
 
 //common phrases
-DEFINE('_FIRST','First'); //NEW
 DEFINE('_TOTAL','Total'); //NEW
 DEFINE('_ALERT','Avvisi');
 DEFINE('_ADDRESS','Indirizzo');
@@ -182,8 +182,8 @@ DEFINE('_FOOTER','( by <A class="largemenuitem" href="mailto:base@secureideas.ne
 DEFINE('_LOGINERROR','Dati di login errati!<br>Per favore riprova');
 
 // base_main.php
-DEFINE('_MOSTRECENT','Il pi� recente ');
-DEFINE('_MOSTFREQUENT','Il pi� frequente ');
+DEFINE('_MOSTRECENT','Il più recente ');
+DEFINE('_MOSTFREQUENT','Il più frequente ');
 DEFINE('_ALERTS',' Avvertimenti:');
 DEFINE('_ADDRESSES',' Indirizzi:');
 DEFINE('_ANYPROTO','qualsiasi protocollo');
@@ -197,8 +197,8 @@ DEFINE('_L72ALERTS','Avvisi ultime 72 ore: ');
 DEFINE('_UNIALERTS',' Unici Avvisi');
 DEFINE('_LSOURCEPORTS','Ultime Porte Sorgente: ');
 DEFINE('_LDESTPORTS','Ultime Porte di Destinazione: ');
-DEFINE('_FREGSOURCEP','Porte Sorgenti pi� frequenti: ');
-DEFINE('_FREGDESTP','Porte di Destinazione pi� frequenti: ');
+DEFINE('_FREGSOURCEP','Porte Sorgenti più frequenti: ');
+DEFINE('_FREGDESTP','Porte di Destinazione più frequenti: ');
 DEFINE('_QUERIED','Query per Database');
 DEFINE('_DATABASE',':');
 DEFINE('_SCHEMAV','Versione Schema:');
@@ -566,15 +566,15 @@ DEFINE('_QCERRIP','Un indirizzo IP di');
 DEFINE('_QCERRIPTYPE','Un indirizzo IP del '.$UI_CW_Type);
 DEFINE('_QCERRSPECFIELD',' è stato inserito per il campo protocollo, ma il campo stesso non è stato specificato.');
 DEFINE('_QCERRSPECVALUE','è stato indicato come criterio, ma non è stato valorizzato.');
-DEFINE('_QCERRBOOLEAN','Necessari operatori logici in caso di immissione di pi� protocolli (AND, OR).');
+DEFINE('_QCERRBOOLEAN','Necessari operatori logici in caso di immissione di più protocolli (AND, OR).');
 DEFINE('_QCERRDATEVALUE','è stato selezionato indicando che deve rispettare criteri data/ora non specificati.');
 DEFINE('_QCERRINVHOUR','(Ora non valida) Nessun criterio dati specificato valido per l\'ora indicata.');
 DEFINE('_QCERRDATECRIT','è stato selezionato indicando che deve rispettare criteri data/ora non specificati.');
 DEFINE('_QCERROPERSELECT','è stato immesso senza indicare operatori.');
-DEFINE('_QCERRDATEBOOL','Necessari operatori logici in caso di immissione di pi� criteri data/ora (AND, OR).');
+DEFINE('_QCERRDATEBOOL','Necessari operatori logici in caso di immissione di più criteri data/ora (AND, OR).');
 DEFINE('_QCERRPAYCRITOPER','è stato inserito per un campo criteri payload, ma non è stato specificato un operatore logico.');
 DEFINE('_QCERRPAYCRITVALUE','è stato selezionato indicando che il payload deve essere un criterio, ma non è stato specificato alcun valore da verificare.');
-DEFINE('_QCERRPAYBOOL','Inseriti pi� criteri payload senza un operatore booleano separatore.');
+DEFINE('_QCERRPAYBOOL','Inseriti più criteri payload senza un operatore booleano separatore.');
 DEFINE('_QCMETACRIT','Criteri Meta');
 DEFINE('_QCIPCRIT','Criteri IP');
 DEFINE('_QCPAYCRIT','Criteri Payload');
@@ -633,8 +633,8 @@ DEFINE('_PSDSTPORT','Porta Destinazione');
 DEFINE('_PSTCPFLAGS','Flag TCP');
 DEFINE('_PSTOTALOCC','Occorrenze<BR> Totali');
 DEFINE('_PSNUMSENSORS','Num Sensori');
-DEFINE('_PSFIRSTOCC','Prima<BR> Occorrenza');
-DEFINE('_PSLASTOCC','Ultima<BR> Occorrenza');
+DEFINE('_PSFIRSTOCC',$UI_CW_First.'<BR> Occorrenza');
+DEFINE('_PSLASTOCC',$UI_CW_Last.'<BR> Occorrenza');
 DEFINE('_PSUNIALERTS','Avvisi Unici');
 DEFINE('_PSPORTSCANEVE','Eventi Portscan');
 DEFINE('_PSREGWHOIS','Lookup registro (whois) in');

@@ -6,11 +6,17 @@ Sed patterns to fix invlaid utf-8 codepoints.
 È
 sed 's/\xC8/\xC3\x88/g'
 
+Ö
+sed 's/\xD6/\xC3\x96/g'
+
 Ø
 sed 's/\xD8/\xC3\x98/g'
 
 Ú
 sed 's/\xDA/\xC3\x9A/g'
+
+Ý
+sed 's/\xDD/\xC3\x9D/g'
 
 à
 sed 's/\xE0/\xC3\xA0/g'
@@ -20,6 +26,12 @@ sed 's/\xE1/\xC3\xA1/g'
 
 ä
 sed 's/\xE4/\xC3\xA4/g'
+
+å
+sed 's/\xE5/\xC3\xA5/g'
+
+æ
+sed 's/\xE6/\xC3\xA6/g'
 
 è
 sed 's/\xE8/\xC3\xA8/g'
@@ -39,6 +51,9 @@ sed 's/\xF6/\xC3\xB6/g'
 ø
 sed 's/\xF8/\xC3\xB8/g'
 
+ù
+sed 's/\xF9/\xC3\xB9/g'
+
 ü
 sed 's/\xFC/\xC3\xBC/g'
 
@@ -47,9 +62,3 @@ sed 's/\xFD/\xC3\xBD/g'
 
 þ
 sed 's/\xFE/\xC3\xBE/g'
-
-Ö
-sed 's/\xD6/\xC3\x96/g'
-
-æ
-sed 's/\xE6/\xC3\xA6/g'

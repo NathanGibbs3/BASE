@@ -67,6 +67,7 @@ $UI_CW_ML10 = 'October';
 $UI_CW_ML11 = 'November';
 $UI_CW_ML12 = 'December';
 $UI_CW_Last = 'Last';
+$UI_CW_First = 'First';
 // Common Phrases.
 $UI_CP_SrcName = array($UI_CW_Src,$UI_CW_Name);
 $UI_CP_DstName = array('Dest.',$UI_CW_Name);
@@ -81,7 +82,6 @@ $UI_AD_RID = array($UI_CW_Role,$UI_CW_Id);
 $UI_AD_ASD = 'Enabled';
 
 //common phrases
-DEFINE('_FIRST','First');
 DEFINE('_TOTAL','Total');
 DEFINE('_ALERT','Alert');
 DEFINE('_ADDRESS','Address');
@@ -631,7 +631,7 @@ DEFINE('_PSDSTPORT','$UI_CW_Dst Port');
 DEFINE('_PSTCPFLAGS','TCP Flags');
 DEFINE('_PSTOTALOCC','Total<BR> Occurrences');
 DEFINE('_PSNUMSENSORS',"Num of $UI_CW_Sensor".'s');
-DEFINE('_PSFIRSTOCC','First<BR> Occurrence');
+DEFINE('_PSFIRSTOCC',$UI_CW_First.'<BR> Occurrence');
 DEFINE('_PSLASTOCC',$UI_CW_Last.'<BR> Occurrence');
 DEFINE('_PSUNIALERTS','Unique Alerts');
 DEFINE('_PSPORTSCANEVE','Portscan '.$UI_CW_Event.'s');

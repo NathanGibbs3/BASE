@@ -70,6 +70,7 @@ $UI_CW_ML10 = 'Октябрь';
 $UI_CW_ML11 = 'Ноябрь';
 $UI_CW_ML12 = 'Декабрь';
 $UI_CW_Last = 'Последний';
+$UI_CW_First = 'Первый';
 // Common Phrases.
 $UI_CP_SrcName = array($UI_CW_Name,$UI_CW_Src);
 $UI_CP_DstName = array($UI_CW_Name,$UI_CW_Dst);
@@ -84,7 +85,6 @@ $UI_AD_RID = array($UI_CW_Id,$UI_CW_Role);
 $UI_AD_ASD = 'Включено';
 
 // основные фразы
-DEFINE('_FIRST','First'); //NEW
 DEFINE('_TOTAL','Total'); //NEW
 DEFINE('_ALERT','Предупреждения');
 DEFINE('_ADDRESS',$UI_CW_Addr);
@@ -634,7 +634,7 @@ DEFINE('_PSDSTPORT',"порт-$UI_CW_Dst");
 DEFINE('_PSTCPFLAGS','Флаги TCP');
 DEFINE('_PSTOTALOCC','Всего<BR> Случаев');
 DEFINE('_PSNUMSENSORS',"Число $UI_CW_Sensor".'ов');
-DEFINE('_PSFIRSTOCC','Первый<BR> Случай');
+DEFINE('_PSFIRSTOCC',$UI_CW_First.'<BR> Случай');
 DEFINE('_PSLASTOCC',$UI_CW_Last.'<BR> Случай');
 DEFINE('_PSUNIALERTS','Уникальные предупреждения');
 DEFINE('_PSPORTSCANEVE',$UI_CW_Event.' сканирования портов');

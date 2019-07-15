@@ -74,6 +74,7 @@ $UI_CW_ML10 = 'Outubro';
 $UI_CW_ML11 = 'Novembro';
 $UI_CW_ML12 = 'Dezembro';
 $UI_CW_Last = 'Último';
+$UI_CW_First = 'Primeiro';
 // Common Phrases.
 $UI_CP_SrcName = array($UI_CW_Name,'da',$UI_CW_Src);
 $UI_CP_DstName = array($UI_CW_Name,'do',$UI_CW_Dst);
@@ -88,7 +89,6 @@ $UI_AD_RID = array($UI_CW_Id,'da',$UI_CW_Role);
 $UI_AD_ASD = 'Habilitado';
 
 //common phrases;
-DEFINE('_FIRST','Primeiro');
 DEFINE('_TOTAL','Total');
 DEFINE('_ALERT','Alertas');
 DEFINE('_ADDRESS','Endereço');
@@ -641,8 +641,8 @@ DEFINE('_PSDSTPORT','Porta de Destino');
 DEFINE('_PSTCPFLAGS','Flags TCP');
 DEFINE('_PSTOTALOCC','Total de<BR> Ocorrências');
 DEFINE('_PSNUMSENSORS','Num de Sensores');
-DEFINE('_PSFIRSTOCC','Primeira<BR> Ocorrência');
-DEFINE('_PSLASTOCC','Última<BR> Ocorrência');
+DEFINE('_PSFIRSTOCC',$UI_CW_First.'<BR> Ocorrência');
+DEFINE('_PSLASTOCC',$UI_CW_Last.'<BR> Ocorrência');
 DEFINE('_PSUNIALERTS','Alertas Únicos');
 DEFINE('_PSPORTSCANEVE',$UI_CW_Event.'s Portscan');
 DEFINE('_PSREGWHOIS','Consulta registro (whois) em');

@@ -68,6 +68,7 @@ $UI_CW_ML10 = '十月';
 $UI_CW_ML11 = '十一月';
 $UI_CW_ML12 = '十二月';
 $UI_CW_Last = '最后';
+$UI_CW_First = '首次';
 // Common Phrases.
 $UI_CP_SrcName = array($UI_CW_Src,$UI_CW_Name);
 $UI_CP_DstName = array($UI_CW_Dst,$UI_CW_Name);
@@ -82,7 +83,6 @@ $UI_AD_RID = array($UI_CW_Role,$UI_CW_Id);
 $UI_AD_ASD = '启用';
 
 //common phrases
-DEFINE('_FIRST','First'); //NEW
 DEFINE('_TOTAL','Total'); //NEW
 DEFINE('_ALERT','警告数');
 DEFINE('_ADDRESS',$UI_CW_Addr);
@@ -678,7 +678,7 @@ DEFINE('_PSDSTPORT',$UI_CW_Dst.' 端口');
 DEFINE('_PSTCPFLAGS','TCP 标志');
 DEFINE('_PSTOTALOCC','总共<BR> 发生');
 DEFINE('_PSNUMSENSORS','监测器数量');
-DEFINE('_PSFIRSTOCC','首次<BR> 发生');
+DEFINE('_PSFIRSTOCC',$UI_CW_First.'<BR> 发生');
 DEFINE('_PSLASTOCC',$UI_CW_Last.'<BR> 发生');
 DEFINE('_PSUNIALERTS','单项警告');
 DEFINE('_PSPORTSCANEVE','端口扫描'.$UI_CW_Event);

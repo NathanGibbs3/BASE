@@ -83,7 +83,7 @@ class UILang{
 		if ( !isset($UI_ILC) ){ // Legecy TDF
 			$msg .= "On\n";
 			// Compatibility Shimming
-			$UI_IRC = '';
+			$UI_IRC = 'US';
 			if ( preg_match("/portuguese/", $this->Lang) ){
 				$UI_ILC = 'pt';
 				if ( preg_match("/portuguese-PT/", $this->Lang) ){
@@ -163,8 +163,9 @@ class UILang{
 					$msg .= 'OK.';
 				}
 			}else{
-				$msg .= 'Unset.';
-				$UI_IRC = '';
+				$msg .= 'Unset & ';
+				$msg .= "Defaulted to 'US'.";
+				$UI_IRC = 'US';
 			}
 			$msg .= "\n";
 		}
@@ -182,11 +183,8 @@ class UILang{
 		}
 		$msg .= $tmp."\n";
 		$this->SetUICharset($tcs); // UI Content-Type charset.
-		$loc = $UI_ILC.'_';
-		if ( $UI_IRC != '' ){ // Add Region Code.;
-			$loc .= "$UI_IRC.";
-		}
-		$loc .= $tcs;
+		$loc = $UI_ILC."_$UI_IRC.$tcs";
+		$msg .= "Auto Generated Locale: $loc\n";
 		$this->ILocale = $loc; // Auto Generated Locale :-)
 		$tmp = '';
 		if ( phpversion('intl') ){ // Is Intl available?
@@ -207,16 +205,22 @@ class UILang{
 			}
 		}else{
 			$tmplocale = setlocale(LC_TIME, "0"); // Snapshot Locale.
+			print "System Locale: $tmplocale\n";
+			print "Switch Locale: $loc - \n";
 			if ( setlocale(LC_TIME,$loc) ){
 				// Set up Month format strings via Locale.
+				print 'Yes';
 				$MfS = '%b';
 				$MfL = '%B';
 				$Mgf = 'strftime';
 				$tmp = 'SYS Locales';
-			}else{ // Not Auto Generating TD.
+			}else{ // Not Auto Generating TD.\
+				print 'No';
 				$Mgf = NULL;
 			}
-			setlocale(LC_TIME, $tmplocale); // Put Locale back.
+			if ( setlocale(LC_TIME, $tmplocale) ){ // Put Locale back.
+				print "Restore System Locale: $tmplocale\n";
+			}
 		}
 		$msg .= 'Generating via: ';
 		$GL = '';
@@ -259,9 +263,6 @@ class UILang{
 		}
 		if ($debug_mode > 1){
 			print $msg;
-		}
-		if ($GL != ''){
-			print $GL;
 		}
 		// Init Misc Items.
 		if ( isset($UI_Locales) ) { // Var New TDF
@@ -439,6 +440,13 @@ class UILang{
 		}else{
 			$this->SetUICWItem('Last');
 		}
+		if ( isset($UI_CW_First) ) { // Var New TDF
+			$this->SetUICWItem('First',$UI_CW_First);
+		}elseif (defined('_FIRST')) { // Const Legacy TDF
+			$this->SetUICWItem('First',_FIRST);
+		}else{
+			$this->SetUICWItem('First');
+		}
 		// Init Common Phrases
 		if ( isset($UI_CP_SrcName) ) { // Var New TDF
 			$this->SetUICPItem('SrcName',$this->Phrase($UI_CP_SrcName));
@@ -615,7 +623,8 @@ class UILang{
 			'Sensor', 'Sig', 'Ts', 'Role', 'Addr', 'Layer', 'Proto', 'Pri',
 			'Event', 'Type', 'ML1', 'ML2', 'ML3', 'ML4', 'ML5', 'ML6', 'ML7',
 			'ML8', 'ML9', 'ML10', 'ML11', 'ML12', 'MS1', 'MS2', 'MS3', 'MS4',
-			'MS5', 'MS6', 'MS7', 'MS8', 'MS9', 'MS10', 'MS11', 'MS12', 'Last'
+			'MS5', 'MS6', 'MS7', 'MS8', 'MS9', 'MS10', 'MS11', 'MS12', 'Last',
+			'First'
 		);
 		if (in_array($Item, $Items)) {
 			$this->CWA[$Item] = $Value;
