@@ -149,22 +149,20 @@ class UILang{
 			$msg .= 'TD ISO Lang Code: ';
 			if ( strlen($UI_ILC) != 2 ) {
 				$UI_ILC = 'en'; // Default to english on invalid data.
-				$msg .= "Invalid. Defaulting to 'en'.";
+				$msg .= "Invalid. Default to 'en'.";
 			}else{
 				$msg .= 'OK.';
 			}
-			$msg .= "\nTD ISO Region Code Var: ";
+			$msg .= "\nTD ISO Region Code: ";
 			if ( isset($UI_IRC) ) {
-				$msg .= 'Present & ';
 				if ( strlen($UI_IRC) != 2 ) {
 					$UI_IRC = 'US'; // Default to US on invalid data.
-					$msg .= "Defaulted to 'US'.";
+					$msg .= "Invalid. Default to 'US'.";
 				}else{
 					$msg .= 'OK.';
 				}
 			}else{
-				$msg .= 'Unset & ';
-				$msg .= "Defaulted to 'US'.";
+				$msg .= "Unset. Default to 'US'.";
 				$UI_IRC = 'US';
 			}
 			$msg .= "\n";
@@ -178,7 +176,7 @@ class UILang{
 		}elseif (defined('_CHARSET')) { // Const Legacy TDF
 			$tcs = _CHARSET;
 		}else{ // Default to UTF-8
-			$tmp = "Unset. Defaults to 'utf-8'";
+			$tmp = "Unset. Default to 'utf-8'";
 			$tcs = 'utf-8';
 		}
 		$msg .= $tmp."\n";

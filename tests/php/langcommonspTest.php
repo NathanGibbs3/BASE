@@ -88,7 +88,7 @@ class commonlangSPTest extends TestCase {
 			"Class for $lang not created."
 		);
 	}
-	public function testTDFInvalidSetUILocaleDefaultsToInvalid() {
+	public function testTDFInvalidSetUILocaleDefaults() {
 		GLOBAL $BASE_path;
 		$lang = 'broken';
 		$tf = __FUNCTION__;
@@ -113,8 +113,64 @@ class commonlangSPTest extends TestCase {
 			);
 		}
 	}
+	public function testTDFnewInvalidSetUIILocaleDefaults() {
+		GLOBAL $BASE_path;
+		$lang = 'broken-ntd';
+		$tf = __FUNCTION__;
+		$tmp = "UI$lang";
+		LogTC($tf,'language',$lang);
+		$lf = "$lang.lang.php";
+		copy ("$BASE_path/tests/$lf","$BASE_path/languages/$lf");
+		// Test conditions will throw error.
+		// Use error suppression @ symbol.
+		$this->assertInstanceOf('UILang',self::$UIL = @new UILang($lang),
+			"Class for $lang not created."
+		);
+		unlink ("$BASE_path/languages/$lf");
+		$$tmp = self::$UIL;
+		$file = $$tmp->TDF;
+		LogTC($tf,'Invalid TDF:',$file);
+		$TItem = 'ILocale';
+		$this->assertTrue(
+			isset($$tmp->$TItem),
+			"Unset: $TItem ."
+		);
+		$this->assertEquals(
+			'en_US.utf-8',
+			$$tmp->$TItem,
+			"Uninitialized: $TItem ."
+		);
+	}
+	public function testTDFnewInvalidSetUICharsetDefaults() {
+		GLOBAL $BASE_path;
+		$lang = 'broken-ntd';
+		$tf = __FUNCTION__;
+		$tmp = "UI$lang";
+		LogTC($tf,'language',$lang);
+		$lf = "$lang.lang.php";
+		copy ("$BASE_path/tests/$lf","$BASE_path/languages/$lf");
+		// Test conditions will throw error.
+		// Use error suppression @ symbol.
+		$this->assertInstanceOf('UILang',self::$UIL = @new UILang($lang),
+			"Class for $lang not created."
+		);
+		unlink ("$BASE_path/languages/$lf");
+		$$tmp = self::$UIL;
+		$file = $$tmp->TDF;
+		LogTC($tf,'Invalid TDF:',$file);
+		$TItem = 'ILocale';
+		$this->assertTrue(
+			isset($$tmp->$TItem),
+			"Unset: $TItem ."
+		);
+		$this->assertEquals(
+			'en_US.utf-8',
+			$$tmp->$TItem,
+			"Uninitialized: $TItem ."
+		);
+	}
 	// Spacing Tests
-	public function testTDFInvalidSpacingDefaultsTo1() {
+	public function testTDFInvalidSpacingDefaults() {
 		GLOBAL $BASE_path;
 		$lang = 'broken';
 		$tf = __FUNCTION__;

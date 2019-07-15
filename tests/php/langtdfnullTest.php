@@ -4,13 +4,16 @@ use PHPUnit\Framework\TestCase;
 // Test the UILang class functons with an empty TD (Translation Data) file.
 
 // UILang is designed to Init TD Items to a default state when both
-// legacy TD ( _CONSTANSTS ) & new TD ( $variables ) are unavailable..
+// legacy TD ( _CONSTANSTS ) & new TD ( $variables ) are unavailable.
 
 // We want to ensure that UILang can gracefully work under these conditions.
 
 // Tests UILang Data Structures.
 // Verifies that all TD Items Init to defaults.
 
+/**
+  * @covers UILang
+  */
 class nulllangTest extends TestCase {
 	// Pre Test Setup.
 	protected static $files;
@@ -29,7 +32,7 @@ class nulllangTest extends TestCase {
 		self::$files = $lf;
 		$file = "$BASE_path/languages/$lf";
 		if ($debug_mode > 1) {
-			LogTC($tf,'language',$lang);
+			LogTC($tf,'language',$ll);
 			LogTC($tf,'TD file',$file);
 		}
 		copy ("$BASE_path/tests/$lf","$BASE_path/languages/$lf");
@@ -49,9 +52,6 @@ class nulllangTest extends TestCase {
 	}
 
 	// Tests go here.
-	/**
-	  * @covers UILang::SetUILocale
-	  */
 	public function testSetUILocale() {
 		$lang = self::$langs;
 		$tf = __FUNCTION__;
