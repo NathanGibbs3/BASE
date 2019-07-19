@@ -36,7 +36,7 @@ $UI_Locales = array( 'eng_ENG.ISO8859-1', 'eng_ENG.utf-8', 'english' );
 // Time Format - See strftime() syntax.
 $UI_Timefmt = '%a %B %d, %Y %H:%M:%S';
 // UI Init.
-$UI_Charset = 'iso-8859-1';
+$UI_Charset = 'utf-8';
 $UI_Title = 'Basic Analysis and Security Engine';
 // Common Words.
 $UI_CW_Edit = 'Muokkaa';
@@ -74,6 +74,7 @@ $UI_CW_ML11 = 'marraskuu';
 $UI_CW_ML12 = 'joulukuu';
 $UI_CW_Last = 'Viimeinen';
 $UI_CW_First = 'Ensimmäinen';
+$UI_CW_Total = 'Yhteensä';
 // Common Phrases.
 $UI_CP_SrcName = array('Lähteen',$UI_CW_Name);
 $UI_CP_DstName = array('Kohteen',$UI_CW_Name);
@@ -88,7 +89,6 @@ $UI_AD_RID = array($UI_CW_Role,$UI_CW_Id);
 $UI_AD_ASD = 'Toiminnassa';
 
 //common phrases
-DEFINE('_TOTAL','Total'); //NEW
 DEFINE('_ALERT','Hälytykset');
 DEFINE('_ADDRESS','Osoite');
 DEFINE('_UNKNOWN','tuntematon');
@@ -385,7 +385,7 @@ DEFINE('_ERRCRITELEM','Invalid criteria element');//#
 //base_state_query.inc.php
 DEFINE('_VALIDCANNED','Valid Canned Query List');//#
 DEFINE('_DISPLAYING','Displaying');//#
-DEFINE('_DISPLAYINGTOTAL','Displaying alerts %d-%d of %d total');//#
+DEFINE('_DISPLAYINGTOTAL','Displaying alerts %d-%d of %d '.$UI_CW_Total);//#
 DEFINE('_NOALERTS','Ei havaittuja hälytyksiä.');
 DEFINE('_QUERYRESULTS','Query Results');//#
 DEFINE('_QUERYSTATE','Query State');//#
@@ -608,8 +608,8 @@ DEFINE('_ALERTTITLE','Hälytyslistaus');
 
 //base_stat_common.php
 DEFINE('_SCCATEGORIES','Categories:');//#
-DEFINE('_SCSENSORTOTAL','Sensorit/Yhteens�');
-DEFINE('_SCTOTALNUMALERTS','Hälytysten kokonaismäärä');
+DEFINE('_SCSENSORTOTAL','Sensorit/'.$UI_CW_Total);
+DEFINE('_SCTOTALNUMALERTS','Hälytysten '.$UI_CW_Total);
 DEFINE('_SCSRCIP','Lähde IP osoite:');
 DEFINE('_SCDSTIP','Kohde IP osoite:');
 DEFINE('_SCUNILINKS','Unikiit IP linkit');
@@ -632,7 +632,7 @@ DEFINE('_PSDSTIP','Kohde IP');
 DEFINE('_PSSRCPORT','Lähde Portti');
 DEFINE('_PSDSTPORT','Kohde Portti');
 DEFINE('_PSTCPFLAGS','TCP Flags');//#
-DEFINE('_PSTOTALOCC','Esiintymiä<BR> Yhteensä');
+DEFINE('_PSTOTALOCC','Esiintymiä<BR> '.$UI_CW_Total);
 DEFINE('_PSNUMSENSORS','Sensorien Määrä');
 DEFINE('_PSFIRSTOCC',$UI_CW_First.'<BR> Esiintymä');
 DEFINE('_PSLASTOCC',$UI_CW_Last.'<BR> Esiintymä');
@@ -647,7 +647,7 @@ DEFINE('_PSWHOISINFO','Whois Information');//#
 
 //base_stat_iplink.php
 DEFINE('_SIPLTITLE','IP Linkit');
-DEFINE('_PSTOTALHOSTS','Total Hosts Scanned'); //NEW
+DEFINE('_PSTOTALHOSTS',$UI_CW_Total.' Hosts Scanned'); //NEW
 DEFINE('_PSDETECTAMONG','%d unique alerts detected among %d alerts on %s'); //NEW
 DEFINE('_PSALLALERTSAS','all alerts with %s/%s as'); //NEW
 DEFINE('_PSSHOW','show'); //NEW
@@ -658,7 +658,7 @@ DEFINE('_SIPLDIRECTION','Suunta');
 DEFINE('_SIPLPROTO','Protokolla');
 DEFINE('_SIPLUNIDSTPORTS','Uniikki Kohde Portti');
 DEFINE('_SIPLUNIEVENTS','Uniikit '.$UI_CW_Event.'t');
-DEFINE('_SIPLTOTALEVENTS','Kaikki '.$UI_CW_Event.'t');
+DEFINE('_SIPLTOTALEVENTS',$UI_CW_Total.' '.$UI_CW_Event.'t');
 
 //base_stat_ports.php
 DEFINE('_UNIQ','Uniikki');

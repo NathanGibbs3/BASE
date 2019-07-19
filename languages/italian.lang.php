@@ -69,6 +69,7 @@ $UI_CW_ML11 = 'Novembre';
 $UI_CW_ML12 = 'Dicembre';
 $UI_CW_Last = 'Ultimo';
 $UI_CW_First = 'Primo';
+$UI_CW_Total = 'Totale';
 // Common Phrases.
 $UI_CP_SrcName = array($UI_CW_Name,$UI_CW_Src);
 $UI_CP_DstName = array($UI_CW_Name,$UI_CW_Dst);
@@ -83,7 +84,6 @@ $UI_AD_RID = array($UI_CW_Id,$UI_CW_Role);
 $UI_AD_ASD = 'Abilitato';
 
 //common phrases
-DEFINE('_TOTAL','Total'); //NEW
 DEFINE('_ALERT','Avvisi');
 DEFINE('_ADDRESS','Indirizzo');
 DEFINE('_UNKNOWN','sconosciuto');
@@ -607,8 +607,8 @@ DEFINE('_ALERTTITLE','Lista Avvisi');
 
 //base_stat_common.php
 DEFINE('_SCCATEGORIES','Categorie:');
-DEFINE('_SCSENSORTOTAL','Sensori/Totale:');
-DEFINE('_SCTOTALNUMALERTS','Totale Avvisi:');
+DEFINE('_SCSENSORTOTAL','Sensori/'.$UI_CW_Total.':');
+DEFINE('_SCTOTALNUMALERTS',$UI_CW_Total.' Avvisi:');
 DEFINE('_SCSRCIP','Srg. IP:');
 DEFINE('_SCDSTIP','Dest. IP:');
 DEFINE('_SCUNILINKS','Link IP unici');
@@ -643,7 +643,7 @@ DEFINE('_PSNUMSENSORSBR','Num di <BR>Sensori');
 DEFINE('_PSOCCASSRC','Occorrenze <BR>come Srg.');
 DEFINE('_PSOCCASDST','Occorrenze <BR>come Dest.');
 DEFINE('_PSWHOISINFO','Informazioni Whois');
-DEFINE('_PSTOTALHOSTS','Total Hosts Scanned'); //NEW
+DEFINE('_PSTOTALHOSTS',$UI_CW_Total.' Hosts Scanned'); //NEW
 DEFINE('_PSDETECTAMONG','%d unique alerts detected among %d alerts on %s'); //NEW
 DEFINE('_PSALLALERTSAS','all alerts with %s/%s as'); //NEW
 DEFINE('_PSSHOW','show'); //NEW

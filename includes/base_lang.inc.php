@@ -79,11 +79,10 @@ class UILang{
 			}
 		}
 		// Auto Generate Long/Short Month Names
-		$msg = "Auto Generate Month Names\nLegacy Locale Shims: ";
+		$msg = "Auto Generate Month Names\nTD ISO Lang Code: ";
 		if ( !isset($UI_ILC) ){ // Legecy TDF
-			$msg .= "On\n";
+			$msg .= "Unset. Using Legacy Shims";
 			// Compatibility Shimming
-			$UI_IRC = 'US';
 			if ( preg_match("/portuguese/", $this->Lang) ){
 				$UI_ILC = 'pt';
 				if ( preg_match("/portuguese-PT/", $this->Lang) ){
@@ -145,28 +144,27 @@ class UILang{
 				}
 			}
 		}else{ // New TDF
-			$msg .= "Off\n";
-			$msg .= 'TD ISO Lang Code: ';
 			if ( strlen($UI_ILC) != 2 ) {
 				$UI_ILC = 'en'; // Default to english on invalid data.
-				$msg .= "Invalid. Default to 'en'.";
+				$msg .= "Invalid. Default to 'en'";
 			}else{
-				$msg .= 'OK.';
+				$msg .= 'OK';
 			}
-			$msg .= "\nTD ISO Region Code: ";
-			if ( isset($UI_IRC) ) {
-				if ( strlen($UI_IRC) != 2 ) {
-					$UI_IRC = 'US'; // Default to US on invalid data.
-					$msg .= "Invalid. Default to 'US'.";
-				}else{
-					$msg .= 'OK.';
-				}
-			}else{
-				$msg .= "Unset. Default to 'US'.";
-				$UI_IRC = 'US';
-			}
-			$msg .= "\n";
 		}
+		$msg .= ".\nTD ISO Region Code: ";
+		if ( !isset($UI_IRC) ) {
+			$tmp = 'Unset';
+		}elseif ( strlen($UI_IRC) != 2 ) {
+			$tmp = 'Invalid';
+		}else{
+			$tmp = 'OK';
+		}
+		$msg .= $tmp.'.';
+		if ( $tmp != 'OK') { // Default to US on invalid data.
+			$msg .= " Default to 'US'.";
+			$UI_IRC = 'US';
+		}
+		$msg .= "\n";
 		$UI_ILC = strtolower($UI_ILC);
 		$UI_IRC = strtoupper($UI_IRC);
 		$msg .= 'TD Character Set: ';
@@ -204,7 +202,7 @@ class UILang{
 		}else{
 			$tmplocale = setlocale(LC_TIME, "0"); // Snapshot Locale.
 			print "System Locale: $tmplocale\n";
-			print "Switch Locale: $loc - \n";
+			print "Switch Locale: $loc - ";
 			if ( setlocale(LC_TIME,$loc) ){
 				// Set up Month format strings via Locale.
 				print 'Yes';
@@ -217,7 +215,7 @@ class UILang{
 				$Mgf = NULL;
 			}
 			if ( setlocale(LC_TIME, $tmplocale) ){ // Put Locale back.
-				print "Restore System Locale: $tmplocale\n";
+				print "\nRestore System Locale: $tmplocale\n";
 			}
 		}
 		$msg .= 'Generating via: ';
@@ -445,6 +443,13 @@ class UILang{
 		}else{
 			$this->SetUICWItem('First');
 		}
+		if ( isset($UI_CW_Total) ) { // Var New TDF
+			$this->SetUICWItem('Total',$UI_CW_Total);
+		}elseif (defined('_FIRST')) { // Const Legacy TDF
+			$this->SetUICWItem('Total',_TOTAL);
+		}else{
+			$this->SetUICWItem('Total');
+		}
 		// Init Common Phrases
 		if ( isset($UI_CP_SrcName) ) { // Var New TDF
 			$this->SetUICPItem('SrcName',$this->Phrase($UI_CP_SrcName));
@@ -622,7 +627,7 @@ class UILang{
 			'Event', 'Type', 'ML1', 'ML2', 'ML3', 'ML4', 'ML5', 'ML6', 'ML7',
 			'ML8', 'ML9', 'ML10', 'ML11', 'ML12', 'MS1', 'MS2', 'MS3', 'MS4',
 			'MS5', 'MS6', 'MS7', 'MS8', 'MS9', 'MS10', 'MS11', 'MS12', 'Last',
-			'First'
+			'First', 'Total'
 		);
 		if (in_array($Item, $Items)) {
 			$this->CWA[$Item] = $Value;

@@ -77,6 +77,7 @@ $UI_CW_ML11 = 'Novembro';
 $UI_CW_ML12 = 'Dezembro';
 $UI_CW_Last = 'Último';
 $UI_CW_First = 'Primeiro';
+$UI_CW_Total = 'Total';
 // Common Phrases.
 $UI_CP_SrcName = array($UI_CW_Name,'da',$UI_CW_Src);
 $UI_CP_DstName = array($UI_CW_Name,'do',$UI_CW_Dst);
@@ -91,7 +92,6 @@ $UI_AD_RID = array($UI_CW_Id,'do',$UI_CW_Role);
 $UI_AD_ASD = 'Habilitado';
 
 //common phrases
-DEFINE('_TOTAL','Total');
 DEFINE('_ALERT','Alerta');
 DEFINE('_ADDRESS','Endereço');
 DEFINE('_UNKNOWN','Desconhecido');
@@ -388,7 +388,7 @@ DEFINE('_ERRCRITELEM','Elemento do critério inválido');
 //base_state_query.inc.php
 DEFINE('_VALIDCANNED','Valid Canned Query List');
 DEFINE('_DISPLAYING','Exibindo');
-DEFINE('_DISPLAYINGTOTAL','Exibindo alertas %d-%d de %d total');
+DEFINE('_DISPLAYINGTOTAL','Exibindo alertas %d-%d de %d '.$UI_CW_Total);
 DEFINE('_NOALERTS','Não foi encontrado nenhum alerta.');
 DEFINE('_QUERYRESULTS','Resultados da Consulta');
 DEFINE('_QUERYSTATE','Estado da Consulta');
@@ -539,7 +539,7 @@ DEFINE('_MNTDBALV','Versão da abstração da BD:');
 DEFINE('_MNTDBALERTNAME','Nome da BD de ALERTA:');
 DEFINE('_MNTDBARCHNAME','Nome da BD de ARQUIVO:');
 DEFINE('_MNTAIC','Informações da cache de Alertas:');
-DEFINE('_MNTAICTE','Total de '.$UI_CW_Event.'s:');
+DEFINE('_MNTAICTE',$UI_CW_Total.' de '.$UI_CW_Event.'s:');
 DEFINE('_MNTAICCE',$UI_CW_Event.'s na Cache:');
 DEFINE('_MNTIPAC','Cache de Endereços IP');
 DEFINE('_MNTIPACUSIP','IP de origem únicos:');
@@ -617,8 +617,8 @@ DEFINE('_ALERTTITLE','Lista de Alertas');
 
 //base_stat_common.php
 DEFINE('_SCCATEGORIES','Categorias:');
-DEFINE('_SCSENSORTOTAL','Sensores/Total:');
-DEFINE('_SCTOTALNUMALERTS','Número Total de Alertas:');
+DEFINE('_SCSENSORTOTAL','Sensores/'.$UI_CW_Total.':');
+DEFINE('_SCTOTALNUMALERTS','Número '.$UI_CW_Total.' de Alertas:');
 DEFINE('_SCSRCIP','Ends. IP de Origem:');
 DEFINE('_SCDSTIP','Ends. IP de Destino:');
 DEFINE('_SCUNILINKS','Links IP Únicos');
@@ -641,7 +641,7 @@ DEFINE('_PSDSTIP','IP de Destino');
 DEFINE('_PSSRCPORT','Porta de Origem');
 DEFINE('_PSDSTPORT','Porta de Destino');
 DEFINE('_PSTCPFLAGS','Flags TCP');
-DEFINE('_PSTOTALOCC','Total de<BR> Ocorrências');
+DEFINE('_PSTOTALOCC',$UI_CW_Total.' de<BR> Ocorrências');
 DEFINE('_PSNUMSENSORS','Núm de Sensores');
 DEFINE('_PSFIRSTOCC',$UI_CW_First.'<BR> Ocorrência');
 DEFINE('_PSLASTOCC',$UI_CW_Last.'<BR> Ocorrência');
@@ -662,8 +662,8 @@ DEFINE('_SIPLDIRECTION','Direção');
 DEFINE('_SIPLPROTO','Protocolo');
 DEFINE('_SIPLUNIDSTPORTS','Portas de Destino Únicas');
 DEFINE('_SIPLUNIEVENTS',$UI_CW_Event.'s Únicos');
-DEFINE('_SIPLTOTALEVENTS','Total de '.$UI_CW_Event.'s');
-DEFINE('_PSTOTALHOSTS','Total de endereços pesquisados');
+DEFINE('_SIPLTOTALEVENTS',$UI_CW_Total.' de '.$UI_CW_Event.'s');
+DEFINE('_PSTOTALHOSTS',$UI_CW_Total.' de endereços pesquisados');
 DEFINE('_PSDETECTAMONG','Foram detectados %d alertas únicos entre %d no endereço %s');
 DEFINE('_PSALLALERTSAS','Todos os alertas com %s/%s como');
 DEFINE('_PSSHOW','Mostra');

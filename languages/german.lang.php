@@ -32,7 +32,7 @@ $UI_Locales = array( 'eng_ENG.ISO8859-1', 'eng_ENG.utf-8', 'english' );
 // Time Format - See strftime() syntax.
 $UI_Timefmt = '%a %B %d, %Y %H:%M:%S';
 // UI Init.
-$UI_Charset = 'iso-8859-1';
+$UI_Charset = 'utf-8';
 $UI_Title = 'Basic Analysis and Security Engine';
 // Common Words.
 $UI_CW_Edit = 'Bearbeiten';
@@ -70,6 +70,7 @@ $UI_CW_ML11 = 'November';
 $UI_CW_ML12 = 'Dezember';
 $UI_CW_Last = 'letztes';
 $UI_CW_First = 'Erstes';
+$UI_CW_Total = 'Insgesamt';
 // Common Phrases.
 $UI_CP_SrcName = array($UI_CW_Src,$UI_CW_Name);
 $UI_CP_DstName = array($UI_CW_Dst,$UI_CW_Name);
@@ -84,7 +85,6 @@ $UI_AD_RID = array($UI_CW_Role,$UI_CW_Id);
 $UI_AD_ASD = 'Aktiv';
 
 //common phrases
-DEFINE('_TOTAL','Total'); //NEW
 DEFINE('_ALERT','Alarm');
 DEFINE('_ADDRESS',' Adressen');
 DEFINE('_UNKNOWN','unbekannt');
@@ -381,7 +381,7 @@ DEFINE('_ERRCRITELEM','Ung&uuml;ltiges Kriterium.');
 //base_state_query.inc.php
 DEFINE('_VALIDCANNED','G&uuml;ltige Abfrageliste');
 DEFINE('_DISPLAYING','Anzeigen');
-DEFINE('_DISPLAYINGTOTAL','Anzeigen der Alarme %d-%d von insgesamt %d');
+DEFINE('_DISPLAYINGTOTAL','Anzeigen der Alarme %d-%d von '.$UI_CW_Total.' %d');
 DEFINE('_NOALERTS','Keinen Alarm gefunden.');
 DEFINE('_QUERYRESULTS','Abfrageergebnis');
 DEFINE('_QUERYSTATE','Abfragestatus');
@@ -607,8 +607,8 @@ DEFINE('_ALERTTITLE','Alarmliste');
 
 //base_stat_common.php
 DEFINE('_SCCATEGORIES','Kategorien: ');
-DEFINE('_SCSENSORTOTAL','Sensoren/insgesamt:');
-DEFINE('_SCTOTALNUMALERTS','Alarme insgesamt:');
+DEFINE('_SCSENSORTOTAL','Sensoren/'.$UI_CW_Total.':');
+DEFINE('_SCTOTALNUMALERTS','Alarme '.$UI_CW_Total.':');
 DEFINE('_SCSRCIP','Quell IP Adressen:');
 DEFINE('_SCDSTIP','Ziel IP Adressen:');
 DEFINE('_SCUNILINKS','Unterschiedliche IP Verbindungen:');
@@ -631,7 +631,7 @@ DEFINE('_PSDSTIP','Ziel IP');
 DEFINE('_PSSRCPORT','Quellport');
 DEFINE('_PSDSTPORT','Zielport');
 DEFINE('_PSTCPFLAGS','TCP Flags');
-DEFINE('_PSTOTALOCC','Anzahl<BR> Vorkommen');
+DEFINE('_PSTOTALOCC',$UI_CW_Total.'<BR> Vorkommen');
 DEFINE('_PSNUMSENSORS','Anzahl Sensoren');
 DEFINE('_PSFIRSTOCC',$UI_CW_First.'<BR> Vorkommen');
 DEFINE('_PSLASTOCC',$UI_CW_Last.'<BR> Vorkommen');
@@ -643,7 +643,7 @@ DEFINE('_PSNUMSENSORSBR','Anzahl <BR>Sensoren');
 DEFINE('_PSOCCASSRC','Vorkommen <BR>als Quelle');
 DEFINE('_PSOCCASDST','Vorkommen <BR>as Ziel');
 DEFINE('_PSWHOISINFO','Whois Information');
-DEFINE('_PSTOTALHOSTS','Total Hosts Scanned'); //NEW
+DEFINE('_PSTOTALHOSTS',$UI_CW_Total.' Hosts Scanned'); //NEW
 DEFINE('_PSDETECTAMONG','%d unique alerts detected among %d alerts on %s'); //NEW
 DEFINE('_PSALLALERTSAS','all alerts with %s/%s as'); //NEW
 DEFINE('_PSSHOW','show'); //NEW
@@ -657,7 +657,7 @@ DEFINE('_SIPLDIRECTION','Richtung');
 DEFINE('_SIPLPROTO','Protokoll');
 DEFINE('_SIPLUNIDSTPORTS','Unterschiedliche Zielports');
 DEFINE('_SIPLUNIEVENTS','Unterschiedliche '.$UI_CW_Event.'se');
-DEFINE('_SIPLTOTALEVENTS',$UI_CW_Event.'se insgesamt');
+DEFINE('_SIPLTOTALEVENTS',$UI_CW_Event.'se '.$UI_CW_Total);
 
 //base_stat_ports.php
 DEFINE('_UNIQ','Unterschiedliche(r)');

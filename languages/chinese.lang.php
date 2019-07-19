@@ -69,6 +69,7 @@ $UI_CW_ML11 = '十一月';
 $UI_CW_ML12 = '十二月';
 $UI_CW_Last = '最後';
 $UI_CW_First = '最早';
+$UI_CW_Total = '總數';
 // Common Phrases.
 $UI_CP_SrcName = array($UI_CW_Src,$UI_CW_Name);
 $UI_CP_DstName = array($UI_CW_Dst,$UI_CW_Name);
@@ -83,7 +84,6 @@ $UI_AD_RID = array($UI_CW_Role,$UI_CW_Id);
 $UI_AD_ASD = '啟用';
 
 //common phrases
-DEFINE('_TOTAL','總數'); //NEW
 DEFINE('_ALERT','警告數');
 DEFINE('_ADDRESS',$UI_CW_Addr);
 DEFINE('_UNKNOWN','未知');
@@ -380,7 +380,7 @@ DEFINE('_ERRCRITELEM','不合法標準元件');
 //base_state_query.inc.php
 DEFINE('_VALIDCANNED','合法錄製查詢列表');
 DEFINE('_DISPLAYING','顯示中');
-DEFINE('_DISPLAYINGTOTAL','顯示警告數 %d-%d 中 %d 全數');
+DEFINE('_DISPLAYINGTOTAL','顯示警告數 %d-%d 中 %d '.$UI_CW_Total);
 DEFINE('_NOALERTS','找不到警告.');
 DEFINE('_QUERYRESULTS','查詢結果');
 DEFINE('_QUERYSTATE','查詢狀態');
@@ -606,8 +606,8 @@ DEFINE('_ALERTTITLE','警告列表');
 
 //base_stat_common.php
 DEFINE('_SCCATEGORIES','目錄:');
-DEFINE('_SCSENSORTOTAL','偵測器/全部:');
-DEFINE('_SCTOTALNUMALERTS','全部警告數:');
+DEFINE('_SCSENSORTOTAL','偵測器/'.$UI_CW_Total.':');
+DEFINE('_SCTOTALNUMALERTS',$UI_CW_Total.'警告數:');
 DEFINE('_SCSRCIP',$UI_CW_Src.' IP '.$UI_CW_Addr.':');
 DEFINE('_SCDSTIP',$UI_CW_Dst.' IP '.$UI_CW_Addr.':');
 DEFINE('_SCUNILINKS','單一 IP 連結數');
@@ -630,7 +630,7 @@ DEFINE('_PSDSTIP',$UI_CW_Dst.' IP');
 DEFINE('_PSSRCPORT',$UI_CW_Src.'通訊埠');
 DEFINE('_PSDSTPORT',$UI_CW_Dst.'通訊埠');
 DEFINE('_PSTCPFLAGS','TCP 旗標');
-DEFINE('_PSTOTALOCC','全部<BR> '.$UI_CW_Event);
+DEFINE('_PSTOTALOCC',$UI_CW_Total.'<BR> '.$UI_CW_Event);
 DEFINE('_PSNUMSENSORS','偵測器數目');
 DEFINE('_PSFIRSTOCC',$UI_CW_First.'<BR> '.$UI_CW_Event);
 DEFINE('_PSLASTOCC',$UI_CW_Last.'<BR> '.$UI_CW_Event);
@@ -642,7 +642,7 @@ DEFINE('_PSNUMSENSORSBR','偵測器 <BR>數目');
 DEFINE('_PSOCCASSRC','發生 <BR>做為'.$UI_CW_Src);
 DEFINE('_PSOCCASDST','發生 <BR>做為'.$UI_CW_Dst);
 DEFINE('_PSWHOISINFO','Whois 資訊');
-DEFINE('_PSTOTALHOSTS','全部掃描到主機'); //NEW
+DEFINE('_PSTOTALHOSTS',$UI_CW_Total.'掃描到主機'); //NEW
 DEFINE('_PSDETECTAMONG','%d 單項偵測到警告在 %d 之中為 %s'); //NEW
 DEFINE('_PSALLALERTSAS','全部警告數為 %s/%s as'); //NEW
 DEFINE('_PSSHOW',' 顯示'); //NEW
@@ -656,7 +656,7 @@ DEFINE('_SIPLDIRECTION','方向');
 DEFINE('_SIPLPROTO','通訊協定');
 DEFINE('_SIPLUNIDSTPORTS','單一'.$UI_CW_Dst.'通訊埠');
 DEFINE('_SIPLUNIEVENTS','單一'.$UI_CW_Event);
-DEFINE('_SIPLTOTALEVENTS','全部'.$UI_CW_Event);
+DEFINE('_SIPLTOTALEVENTS',$UI_CW_Total.$UI_CW_Event);
 
 //base_stat_ports.php
 DEFINE('_UNIQ','單一');

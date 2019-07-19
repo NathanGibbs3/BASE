@@ -69,6 +69,7 @@ $UI_CW_ML11 = 'November';
 $UI_CW_ML12 = 'Desember';
 $UI_CW_Last = 'terakhir';
 $UI_CW_First = 'Pertama';
+$UI_CW_Total = 'Jumlah';
 // Common Phrases.
 $UI_CP_SrcName = array($UI_CW_Name,$UI_CW_Src);
 $UI_CP_DstName = array($UI_CW_Name,$UI_CW_Dst);
@@ -83,7 +84,6 @@ $UI_AD_RID = array($UI_CW_Id,$UI_CW_Role);
 $UI_AD_ASD = 'Aktif';
 
 //common phrases
-DEFINE('_TOTAL','Total'); //NEW
 DEFINE('_ALERT','Alarem');
 DEFINE('_ADDRESS','Alamat');
 DEFINE('_UNKNOWN','tak diketahui');
@@ -380,7 +380,7 @@ DEFINE('_ERRCRITELEM','Elemen kriteria tidak berlaku');
 //base_state_query.inc.php
 DEFINE('_VALIDCANNED','Daftar pencarian berlaku');
 DEFINE('_DISPLAYING','Tampilkan');
-DEFINE('_DISPLAYINGTOTAL','Tampilan alarem %d s/d. %d dari jumlah %d');
+DEFINE('_DISPLAYINGTOTAL','Tampilan alarem %d s/d. %d dari '.$UI_CW_Total.' %d');
 DEFINE('_NOALERTS','Tidak ada alarem ditemukan.');
 DEFINE('_QUERYRESULTS','Halaman Pencarian');
 DEFINE('_QUERYSTATE','Status Pencarian');
@@ -458,19 +458,19 @@ DEFINE('_CHARTDAY','{dia}'); //NEW
 DEFINE('_CHARTMONTH','{mês}'); //NEW
 DEFINE('_GRAPHALERTS','Graph Alerts'); //NEW
 DEFINE('_AXISCONTROLS','X / Y AXIS CONTROLS'); //NEW
-DEFINE('_CHRTTYPEHOUR','Waktu (jam) vs. Jumlah Alarem');
-DEFINE('_CHRTTYPEDAY','Waktu (hari) vs. Jumlah Alarem');
-DEFINE('_CHRTTYPEWEEK','Waktu (minggu) vs. Jumlah Alarem');
-DEFINE('_CHRTTYPEMONTH','Waktu (bulan) vs. Jumlah Alarem');
-DEFINE('_CHRTTYPEYEAR','Waktu (tahun) vs. Jumlah Alarem');
-DEFINE('_CHRTTYPESRCIP','Alamat IP sumber vs. Jumlah Alarem');
-DEFINE('_CHRTTYPEDSTIP','Alamat IP sasaran vs. Jumlah Alarem');
-DEFINE('_CHRTTYPEDSTUDP','Port UDP sasaran vs. Jumlah Alarem');
-DEFINE('_CHRTTYPESRCUDP','Port UDP sumber vs. Jumlah Alarem');
-DEFINE('_CHRTTYPEDSTPORT','Port TCP sasaran vs. Jumlah Alarem');
-DEFINE('_CHRTTYPESRCPORT','Port TCP sumber vs. Jumlah Alarem');
-DEFINE('_CHRTTYPESIG','Klasifikasi Sig. vs. Jumlah Alarem');
-DEFINE('_CHRTTYPESENSOR','Sensor vs. Jumlah Alarem');
+DEFINE('_CHRTTYPEHOUR','Waktu (jam) vs. '.$UI_CW_Total.' Alarem');
+DEFINE('_CHRTTYPEDAY','Waktu (hari) vs. '.$UI_CW_Total.' Alarem');
+DEFINE('_CHRTTYPEWEEK','Waktu (minggu) vs. '.$UI_CW_Total.' Alarem');
+DEFINE('_CHRTTYPEMONTH','Waktu (bulan) vs. '.$UI_CW_Total.' Alarem');
+DEFINE('_CHRTTYPEYEAR','Waktu (tahun) vs. '.$UI_CW_Total.' Alarem');
+DEFINE('_CHRTTYPESRCIP','Alamat IP sumber vs. '.$UI_CW_Total.' Alarem');
+DEFINE('_CHRTTYPEDSTIP','Alamat IP sasaran vs. '.$UI_CW_Total.' Alarem');
+DEFINE('_CHRTTYPEDSTUDP','Port UDP sasaran vs. '.$UI_CW_Total.' Alarem');
+DEFINE('_CHRTTYPESRCUDP','Port UDP sumber vs. '.$UI_CW_Total.' Alarem');
+DEFINE('_CHRTTYPEDSTPORT','Port TCP sasaran vs. '.$UI_CW_Total.' Alarem');
+DEFINE('_CHRTTYPESRCPORT','Port TCP sumber vs. '.$UI_CW_Total.' Alarem');
+DEFINE('_CHRTTYPESIG','Klasifikasi Sig. vs. '.$UI_CW_Total.' Alarem');
+DEFINE('_CHRTTYPESENSOR','Sensor vs. '.$UI_CW_Total.' Alarem');
 DEFINE('_CHRTBEGIN','Grafik dimulai:');
 DEFINE('_CHRTEND','Grafik diakhiri:');
 DEFINE('_CHRTDS','Sumber Data:');
@@ -489,24 +489,24 @@ DEFINE('_CHRTTITLE','Grafik BASE');
 DEFINE('_ERRCHRTNOTYPE',$UI_CW_Type.' grafik belum ditepatkan');
 DEFINE('_ERRNOAGSPEC','Kelompok alarem tidak ditepatkan.  Menggunakan semua alarem.');
 DEFINE('_CHRTDATAIMPORT','Memulai impor data');
-DEFINE('_CHRTTIMEVNUMBER','Waktu vs. Jumlah Alarem');
+DEFINE('_CHRTTIMEVNUMBER','Waktu vs. '.$UI_CW_Total.' Alarem');
 DEFINE('_CHRTTIME','Waktu');
 DEFINE('_CHRTALERTOCCUR',$UI_CW_Event.' Alarem');
-DEFINE('_CHRTSIPNUMBER','IP sumber vs. Jumlah Alarem');
+DEFINE('_CHRTSIPNUMBER','IP sumber vs. '.$UI_CW_Total.' Alarem');
 DEFINE('_CHRTSIP','Alamat IP sumber');
-DEFINE('_CHRTDIPALERTS','IP sasaran vs. Jumlah Alarem');
+DEFINE('_CHRTDIPALERTS','IP sasaran vs. '.$UI_CW_Total.' Alarem');
 DEFINE('_CHRTDIP','Alamat IP sasaran');
-DEFINE('_CHRTUDPPORTNUMBER','Port UDP (Sasaran) vs. Jumlah Alarem');
+DEFINE('_CHRTUDPPORTNUMBER','Port UDP (Sasaran) vs. '.$UI_CW_Total.' Alarem');
 DEFINE('_CHRTDUDPPORT','Port UDP sasaran');
-DEFINE('_CHRTSUDPPORTNUMBER','Port UDP (Sumber) vs. Jumlah Alarem');
+DEFINE('_CHRTSUDPPORTNUMBER','Port UDP (Sumber) vs. '.$UI_CW_Total.' Alarem');
 DEFINE('_CHRTSUDPPORT','Port UDP sumber');
-DEFINE('_CHRTPORTDESTNUMBER','Port TCP (Sasaran) vs. Jumlah Alarem');
+DEFINE('_CHRTPORTDESTNUMBER','Port TCP (Sasaran) vs. '.$UI_CW_Total.' Alarem');
 DEFINE('_CHRTPORTDEST','Port TCP sasaran');
-DEFINE('_CHRTPORTSRCNUMBER','Port TCP (Sumber) vs. Jumlah Alarem');
+DEFINE('_CHRTPORTSRCNUMBER','Port TCP (Sumber) vs. '.$UI_CW_Total.' Alarem');
 DEFINE('_CHRTPORTSRC','Port TCP sumber');
-DEFINE('_CHRTSIGNUMBER',"Klasifikasi $UI_CW_Sig vs. Jumlah Alarem");
+DEFINE('_CHRTSIGNUMBER','Klasifikasi '.$UI_CW_Sig.' vs. '.$UI_CW_Total.' Alarem');
 DEFINE('_CHRTCLASS','Klasifikasi');
-DEFINE('_CHRTSENSORNUMBER','Sensor vs. Jumlah Alarem');
+DEFINE('_CHRTSENSORNUMBER','Sensor vs. '.$UI_CW_Total.' Alarem');
 DEFINE('_CHRTHANDLEPERIOD','Jangka waktu penanangan bila perlu');
 DEFINE('_CHRTDUMP','Menerbitkan data ... (hanya tulis setiap');
 DEFINE('_CHRTDRAW','Menciptakan grafik');
@@ -528,7 +528,7 @@ DEFINE('_MNTDBALV','Versi Niskala DB:');
 DEFINE('_MNTDBALERTNAME','Nama DB Alarem:');
 DEFINE('_MNTDBARCHNAME','Nama DB Arsip:');
 DEFINE('_MNTAIC',$UI_CW_Event.' dalam Cache:');
-DEFINE('_MNTAICTE','Jumlah '.$UI_CW_Event.':');
+DEFINE('_MNTAICTE',$UI_CW_Total.' '.$UI_CW_Event.':');
 DEFINE('_MNTAICCE',$UI_CW_Event.' dalam Cache:');
 DEFINE('_MNTIPAC','Cache alamat IP');
 DEFINE('_MNTIPACUSIP','Jml. IP sumber unik:');
@@ -606,8 +606,8 @@ DEFINE('_ALERTTITLE','Daftar Alarem');
 
 //base_stat_common.php
 DEFINE('_SCCATEGORIES','Kategori:');
-DEFINE('_SCSENSORTOTAL','Sensor/Jumlah:');
-DEFINE('_SCTOTALNUMALERTS','Jumlah alarem:');
+DEFINE('_SCSENSORTOTAL','Sensor/'.$UI_CW_Total.':');
+DEFINE('_SCTOTALNUMALERTS',$UI_CW_Total.' alarem:');
 DEFINE('_SCSRCIP','Alamat IP sumber:');
 DEFINE('_SCDSTIP','Alamat IP sasaran:');
 DEFINE('_SCUNILINKS','IP unik berhubungan');
@@ -630,7 +630,7 @@ DEFINE('_PSDSTIP','IP Sasaran');
 DEFINE('_PSSRCPORT','Port Sumber');
 DEFINE('_PSDSTPORT','Port Sasaran');
 DEFINE('_PSTCPFLAGS','Flag TCP');
-DEFINE('_PSTOTALOCC','Jumlah<BR> '.$UI_CW_Event);
+DEFINE('_PSTOTALOCC',$UI_CW_Total.'<BR> '.$UI_CW_Event);
 DEFINE('_PSNUMSENSORS','Jml. Sensor');
 DEFINE('_PSFIRSTOCC',$UI_CW_Event.'<BR> '.$UI_CW_First);
 DEFINE('_PSLASTOCC',$UI_CW_Event.'<BR> '.$UI_CW_Last);
@@ -638,11 +638,11 @@ DEFINE('_PSUNIALERTS','Alarem Unik');
 DEFINE('_PSPORTSCANEVE',$UI_CW_Event.' Portscan');
 DEFINE('_PSREGWHOIS','Periksa pendaftar (whois) di');
 DEFINE('_PSNODNS','pemecahan DNS tidak dilakukan');
-DEFINE('_PSNUMSENSORSBR','Jumlah <BR>Sensor');
+DEFINE('_PSNUMSENSORSBR',$UI_CW_Total.' <BR>Sensor');
 DEFINE('_PSOCCASSRC',$UI_CW_Event.' <BR>pada sumber');
 DEFINE('_PSOCCASDST',$UI_CW_Event.' <BR>pada sasaran');
 DEFINE('_PSWHOISINFO','Informasi Whois');
-DEFINE('_PSTOTALHOSTS','Total Hosts Scanned'); //NEW
+DEFINE('_PSTOTALHOSTS',$UI_CW_Total.' Hosts Scanned'); //NEW
 DEFINE('_PSDETECTAMONG','%d unique alerts detected among %d alerts on %s'); //NEW
 DEFINE('_PSALLALERTSAS','all alerts with %s/%s as'); //NEW
 DEFINE('_PSSHOW','show'); //NEW
@@ -656,7 +656,7 @@ DEFINE('_SIPLDIRECTION','arah');
 DEFINE('_SIPLPROTO','Protokol');
 DEFINE('_SIPLUNIDSTPORTS','Port Sasaran Unik');
 DEFINE('_SIPLUNIEVENTS',$UI_CW_Event.' Unik');
-DEFINE('_SIPLTOTALEVENTS','Jumlah '.$UI_CW_Event);
+DEFINE('_SIPLTOTALEVENTS',$UI_CW_Total.' '.$UI_CW_Event);
 
 //base_stat_ports.php
 DEFINE('_UNIQ','Unik');

@@ -3,6 +3,31 @@ LC_CTYPE=C grep -lP "\xXX" *
 
 Sed patterns to fix invlaid utf-8 codepoints.
 
+8859-2 to utf-8
+---
+Ž
+sed 's/\xAE/\xC5\xBD/g'
+
+š
+sed 's/\xB9/\xC5\xA1/g'
+
+ž
+sed 's/\xBE/\xC5\xBE/g'
+
+Issue #56 Fix incorrect 8859-1 to utf-8 conversion
+
+Č
+sed 's/\xC8/\xC4\x8C/g'
+
+Ř
+sed 's/\xD8/\xC5\x98/g'
+
+ů
+sed 's/\xF9/\xC5\xAF/g'
+
+
+8859-1 to utf8
+---
 È
 sed 's/\xC8/\xC3\x88/g'
 
@@ -11,7 +36,7 @@ sed 's/\xD6/\xC3\x96/g'
 
 Ø
 sed 's/\xD8/\xC3\x98/g'
-
+MARK
 Ú
 sed 's/\xDA/\xC3\x9A/g'
 

@@ -30,7 +30,7 @@ $UI_Locales = array( 'eng_ENG.ISO8859-1', 'eng_ENG.utf-8', 'english' );
 // Time Format - See strftime() syntax.
 $UI_Timefmt = '%a %B %d, %Y %H:%M:%S';
 // UI Init.
-$UI_Charset = 'iso-8859-1';
+$UI_Charset = 'utf-8';
 $UI_Title = 'Basic Analysis and Security Engine';
 // Common Words.
 $UI_CW_Edit = 'Endre';
@@ -68,6 +68,7 @@ $UI_CW_ML11 = 'November';
 $UI_CW_ML12 = 'Desember';
 $UI_CW_Last = 'Siste';
 $UI_CW_First = 'Frste';
+$UI_CW_Total = 'Total';
 // Common Phrases.
 $UI_CP_SrcName = array($UI_CW_Src,$UI_CW_Name);
 $UI_CP_DstName = array('Dest.',$UI_CW_Name);
@@ -81,7 +82,6 @@ $UI_AD_RID = array($UI_CW_Role,$UI_CW_Id);
 $UI_AD_ASD = 'Aktivert';
 
 //common phrases
-DEFINE('_TOTAL','Total'); //NEW
 DEFINE('_ALERT','Hendelser');
 DEFINE('_ADDRESS','Adresse');
 DEFINE('_UNKNOWN','ukjent');
@@ -383,7 +383,7 @@ DEFINE('_ERRCRITELEM','Invalid criteria element');
 DEFINE('_VALIDCANNED','Valid Canned Query List');
 DEFINE('_DISPLAYING','Viser');
 DEFINE('_DISPACTION','{ action }'); //NEW
-DEFINE('_DISPLAYINGTOTAL','Viser hendelser %d-%d av %d totalt');
+DEFINE('_DISPLAYINGTOTAL','Viser hendelser %d-%d av %d '.$UI_CW_Total);
 DEFINE('_NOALERTS','Ingen hendelser funnet.');
 DEFINE('_QUERYRESULTS','Resultater fra oppslaget');
 DEFINE('_QUERYSTATE','Oppslagstatus');
@@ -529,7 +529,7 @@ DEFINE('_MNTDBALV','DB Abstraction Version:');
 DEFINE('_MNTDBALERTNAME','ALERT DB Name:');
 DEFINE('_MNTDBARCHNAME','ARCHIVE DB Name:');
 DEFINE('_MNTAIC','Hendelse Information Cache:');
-DEFINE('_MNTAICTE','Total Events:');
+DEFINE('_MNTAICTE',$UI_CW_Total.' Events:');
 DEFINE('_MNTAICCE','Cached Events:');
 DEFINE('_MNTIPAC','IP Address Cache');
 DEFINE('_MNTIPACUSIP','Unique Src IP:');
@@ -607,8 +607,8 @@ DEFINE('_ALERTTITLE','Hendelseliste');
 
 //base_stat_common.php
 DEFINE('_SCCATEGORIES','Kategorier:');
-DEFINE('_SCSENSORTOTAL','Sensorer/Totalt:');
-DEFINE('_SCTOTALNUMALERTS','Totalt antall hendelser:');
+DEFINE('_SCSENSORTOTAL','Sensorer/'.$UI_CW_Total.':');
+DEFINE('_SCTOTALNUMALERTS',$UI_CW_Total.' antall hendelser:');
 DEFINE('_SCSRCIP','Kilde IP addr:');
 DEFINE('_SCDSTIP','Dest. IP addr:');
 DEFINE('_SCUNILINKS','Unike IP linker');
@@ -631,7 +631,7 @@ DEFINE('_PSDSTIP','Destinasjon IP');
 DEFINE('_PSSRCPORT','Kildeport');
 DEFINE('_PSDSTPORT','Destinasjonsport');
 DEFINE('_PSTCPFLAGS','TCP flagg');
-DEFINE('_PSTOTALOCC','Hendelser<BR> totalt');
+DEFINE('_PSTOTALOCC','Hendelser<BR> '.$UI_CW_Total);
 DEFINE('_PSNUMSENSORS','Antall sensorer');
 DEFINE('_PSFIRSTOCC',$UI_CW_First.'<BR> hendelse');
 DEFINE('_PSLASTOCC',$UI_CW_Last.'<BR> hendelse');
@@ -639,7 +639,7 @@ DEFINE('_PSUNIALERTS','Unike hendelser');
 DEFINE('_PSPORTSCANEVE','Portscan hendelser');
 DEFINE('_PSREGWHOIS','Oppslag (whois) i');
 DEFINE('_PSNODNS','ingen DNS oppslag utfrt');
-DEFINE('_PSTOTALHOSTS','Total Hosts Scanned'); //NEW
+DEFINE('_PSTOTALHOSTS',$UI_CW_Total.' Hosts Scanned'); //NEW
 DEFINE('_PSDETECTAMONG','%d unique alerts detected among %d alerts on %s'); //NEW
 DEFINE('_PSALLALERTSAS','all alerts with %s/%s as'); //NEW
 DEFINE('_PSSHOW','show'); //NEW
@@ -657,13 +657,13 @@ DEFINE('_SIPLDIRECTION','Direction');
 DEFINE('_SIPLPROTO','Protocol');
 DEFINE('_SIPLUNIDSTPORTS','Unique Dst Ports');
 DEFINE('_SIPLUNIEVENTS','Unique Events');
-DEFINE('_SIPLTOTALEVENTS','Total Events');
+DEFINE('_SIPLTOTALEVENTS',$UI_CW_Total.' Events');
 
-DEFINE('_OCCURRENCES','Occurrences'); //NEW
 //base_stat_ports.php
 DEFINE('_UNIQ','Unike');
 DEFINE('_DSTPS','destinasjonsport(er)');
 DEFINE('_SRCPS','kildeport(er)');
+DEFINE('_OCCURRENCES','Occurrences'); //NEW
 
 //base_stat_sensor.php
 DEFINE('SPSENSORLIST','Sensorliste');

@@ -38,6 +38,7 @@ $CPSA = $UIL->CPA['SrcAddr'];
 $CPDA = $UIL->CPA['DstAddr'];
 $CPLast = $UIL->CWA['Last'];
 $CPFirst = $UIL->CWA['First'];
+$CPTotal = $UIL->CWA['Total'];
   $cs = new CriteriaState("base_stat_alerts.php");
   $submit = ImportHTTPVar("submit", VAR_ALPHA | VAR_SPACE, array(_SELECTED, _ALLONSCREEN, _ENTIREQUERY));
 
@@ -148,18 +149,17 @@ $qro->AddTitle( $CPSig,
 	"sig_a", " ", " ORDER BY sig_name ASC",
 	"sig_d", " ", " ORDER BY sig_name DESC"
 );
-  if ( $db->baseGetDBversion() >= 103 )
+if ( $db->baseGetDBversion() >= 103 ){
     $qro->AddTitle(_CHRTCLASS,
                    "class_a", ", MIN(sig_class_id) ",
                               " ORDER BY sig_class_id ASC ",
                    "class_d", ", MIN(sig_class_id) ",
                               " ORDER BY sig_class_id DESC "); 
-
-  $qro->AddTitle(_TOTAL."&nbsp;#", 
-                "occur_a", " ",
-                           " ORDER BY sig_cnt ASC",
-                "occur_d", " ",
-                           " ORDER BY sig_cnt DESC");
+}
+$qro->AddTitle( "$CPTotal&nbsp;#",
+	"occur_a", " ", " ORDER BY sig_cnt ASC",
+	"occur_d", " ", " ORDER BY sig_cnt DESC"
+);
 $qro->AddTitle( "$CPSensor&nbsp;#" );
 $qro->AddTitle( $CPSA,
 	"saddr_a", ", count(DISTINCT ip_src) AS saddr_cnt ",

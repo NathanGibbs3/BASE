@@ -69,6 +69,7 @@ $UI_CW_ML11 = 'Kasým';
 $UI_CW_ML12 = 'Aralýk';
 $UI_CW_Last = 'Son';
 $UI_CW_First = 'Ýlk';
+$UI_CW_Total = 'Toplam';
 // Common Phrases.
 $UI_CP_SrcName = array($UI_CW_Src,$UI_CW_Name);
 $UI_CP_DstName = array($UI_CW_Dst,$UI_CW_Name);
@@ -83,7 +84,6 @@ $UI_AD_RID = array($UI_CW_Role,$UI_CW_Id);
 $UI_AD_ASD = 'Se�ilir Kýlýnmýþ';
 
 //common phrases
-DEFINE('_TOTAL','Toplam');
 DEFINE('_ALERT','Uyarý');
 DEFINE('_ADDRESS','Adres');
 DEFINE('_UNKNOWN','bilinmeyen');
@@ -380,7 +380,7 @@ DEFINE('_ERRCRITELEM','Ge�ersiz öl�üt ö�esi');
 //base_state_query.inc.php
 DEFINE('_VALIDCANNED','Ge�erli Konservelenmiþ Sorgu Listesi');
 DEFINE('_DISPLAYING','Görüntüleniyor');
-DEFINE('_DISPLAYINGTOTAL','%d-%d uyarýlarý görüntüleniyor, %d toplamda');
+DEFINE('_DISPLAYINGTOTAL','%d-%d uyarýlarý görüntüleniyor, %d '.$UI_CW_Total);
 DEFINE('_NOALERTS','Hi�bir Uyarý bulunamadý.');
 DEFINE('_QUERYRESULTS','Sorgu Sonu�larý');
 DEFINE('_QUERYSTATE','Sorgu Durumu');
@@ -528,7 +528,7 @@ DEFINE('_MNTDBALV','DB Soyutlama Sürümü:');
 DEFINE('_MNTDBALERTNAME','UYARI DB Adý:');
 DEFINE('_MNTDBARCHNAME','AR�ÝV DB Adý:');
 DEFINE('_MNTAIC','Uyarý Bilgi Önbelle�i:');
-DEFINE('_MNTAICTE','Toplam '.$UI_CW_Event.'lar:');
+DEFINE('_MNTAICTE',$UI_CW_Total.' '.$UI_CW_Event.'lar:');
 DEFINE('_MNTAICCE','Önbellekteki '.$UI_CW_Event.'lar:');
 DEFINE('_MNTIPAC','IP Adres Önbelle�i');
 DEFINE('_MNTIPACUSIP','Benzersiz Kaynak IP:');
@@ -606,8 +606,8 @@ DEFINE('_ALERTTITLE','Uyarý Listeleme');
 
 //base_stat_common.php
 DEFINE('_SCCATEGORIES','Kategoriler:');
-DEFINE('_SCSENSORTOTAL','Sensorler/Toplam:');
-DEFINE('_SCTOTALNUMALERTS','Toplam Uyarý Sayýsý:');
+DEFINE('_SCSENSORTOTAL','Sensorler/'.$UI_CW_Total.':');
+DEFINE('_SCTOTALNUMALERTS',$UI_CW_Total.' Uyarý Sayýsý:');
 DEFINE('_SCSRCIP','Kaynak IP adresi:');
 DEFINE('_SCDSTIP','Varýþ IP adresi:');
 DEFINE('_SCUNILINKS','Benzersiz IP ba�lantýlarý');
@@ -630,7 +630,7 @@ DEFINE('_PSDSTIP','Varýþ IP');
 DEFINE('_PSSRCPORT','Kaynak Portu');
 DEFINE('_PSDSTPORT','Varýþ Portu');
 DEFINE('_PSTCPFLAGS','TCP Bayraklarý');
-DEFINE('_PSTOTALOCC','Toplam<BR> '.$UI_CW_Event.'lar');
+DEFINE('_PSTOTALOCC',$UI_CW_Total.'<BR> '.$UI_CW_Event.'lar');
 DEFINE('_PSNUMSENSORS','Sensor Sayýsý');
 DEFINE('_PSFIRSTOCC','Ýlk<BR> Ger�ekleþen '.$UI_CW_Event);
 DEFINE('_PSLASTOCC',$UI_CW_Last.'<BR> Ger�ekleþen '.$UI_CW_Event);
@@ -642,7 +642,7 @@ DEFINE('_PSNUMSENSORSBR','Sensor <BR>Sayýsý');
 DEFINE('_PSOCCASSRC','Kaynak olarak <BR>Ortaya �ýkanlar');
 DEFINE('_PSOCCASDST','Varýþ olarak <BR>Ortaya �ýkanlar');
 DEFINE('_PSWHOISINFO','Whois Bilgisi');
-DEFINE('_PSTOTALHOSTS','Toplam Taranan Hostlar');
+DEFINE('_PSTOTALHOSTS',$UI_CW_Total.' Taranan Hostlar');
 DEFINE('_PSDETECTAMONG','%d benzersiz uyarý saptandý, %d uyarý arasýnda, %s \'de');
 DEFINE('_PSALLALERTSAS','tüm uyarýlarla birlikte %s/%s olarak');
 DEFINE('_PSSHOW','göster');
@@ -656,7 +656,7 @@ DEFINE('_SIPLDIRECTION','Yön');
 DEFINE('_SIPLPROTO','Protokol');
 DEFINE('_SIPLUNIDSTPORTS','Benzersiz Varýþ Portlarý');
 DEFINE('_SIPLUNIEVENTS','Benzersiz '.$UI_CW_Event.'lar');
-DEFINE('_SIPLTOTALEVENTS','Toplam '.$UI_CW_Event.'lar');
+DEFINE('_SIPLTOTALEVENTS',$UI_CW_Total.' '.$UI_CW_Event.'lar');
 
 //base_stat_ports.php
 DEFINE('_UNIQ','Benzersiz');

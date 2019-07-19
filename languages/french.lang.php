@@ -69,6 +69,7 @@ $UI_CW_ML11 = 'novembre';
 $UI_CW_ML12 = 'décembre';
 $UI_CW_Last = 'Dernière';
 $UI_CW_First = 'Premier';
+$UI_CW_Total = 'Total';
 // Common Phrases.
 $UI_CP_SrcName = array($UI_CW_Name,'de la',$UI_CW_Src);
 $UI_CP_DstName = array($UI_CW_Name,'de la',$UI_CW_Dst);
@@ -444,7 +445,7 @@ DEFINE('_VALIDCANNED','Liste des requ�tes prédéfinies valides');
 // Valid Canned Query List
 DEFINE('_DISPLAYING','Affichage');
 // Displaying
-DEFINE('_DISPLAYINGTOTAL','Affichage des alertes %d-%d sur %d au total');
+DEFINE('_DISPLAYINGTOTAL','Affichage des alertes %d-%d sur %d au '.$UI_CW_Total);
 // Displaying alerts %d-%d of %d total
 DEFINE('_NOALERTS','Aucune Alerte trouvée.');
 // No Alerts were found.
@@ -684,7 +685,7 @@ DEFINE('_MNTDBARCHNAME','Nom de la base ARCHIVE :');
 // ARCHIVE DB Name:
 DEFINE('_MNTAIC','Cache des informations Alertes :');
 // Alert Information Cache:
-DEFINE('_MNTAICTE','Nombre total d\'Evénements :');
+DEFINE('_MNTAICTE','Nombre '.$UI_CW_Total.' d\'Evénements :');
 // Total Events:
 DEFINE('_MNTAICCE','Nombre d\'Evénements en cache :');
 // Cached Events:
@@ -818,9 +819,9 @@ DEFINE('_ALERTTITLE','Liste des Alertes');
 //base_stat_common.php
 DEFINE('_SCCATEGORIES','Catégories : ');
 // Categories:
-DEFINE('_SCSENSORTOTAL','Sondes / Total : ');
+DEFINE('_SCSENSORTOTAL','Sondes / '.$UI_CW_Total.' : ');
 // Sensors/Total:
-DEFINE('_SCTOTALNUMALERTS','Nombre Total d\'Alertes : ');
+DEFINE('_SCTOTALNUMALERTS','Nombre '.$UI_CW_Total.' d\'Alertes : ');
 // Total Number of Alerts:
 DEFINE('_SCSRCIP','Adresse(s) IP Source : ');
 // Src IP addrs:
@@ -864,7 +865,7 @@ DEFINE('_PSDSTPORT','Port de Destination');
 // Destination Port
 DEFINE('_PSTCPFLAGS','Indicateurs (flags) TCP');
 // TCP Flags
-DEFINE('_PSTOTALOCC','Total<BR> Occurrences');
+DEFINE('_PSTOTALOCC',$UI_CW_Total.'<BR> Occurrences');
 // Total<BR> Occurrences
 DEFINE('_PSNUMSENSORS','Nombre de sondes');
 // Num of Sensors
@@ -904,7 +905,7 @@ DEFINE('_SIPLUNIDSTPORTS','Ports Dst Uniques');
 // Unique Dst Ports
 DEFINE('_SIPLUNIEVENTS','Evénements uniques');
 // Unique Events
-DEFINE('_SIPLTOTALEVENTS','Nombre total d\'evénements');
+DEFINE('_SIPLTOTALEVENTS','Nombre '.$UI_CW_Total.' d\'evénements');
 // Total Events
 
 //base_stat_ports.php
@@ -969,7 +970,6 @@ DEFINE('_BASEUSERNEWPWDAGAIN','Confirmer le '.strtolower($UI_CW_Pw).' :');
 
 //New stuff:
 
-DEFINE('_TOTAL','Total'); //NEW
 DEFINE('_AND','AND'); //NEW
 DEFINE('_OR','OR'); //NEW
 DEFINE('_IS','is'); //NEW
@@ -1085,7 +1085,7 @@ DEFINE('_AXISCONTROLS','X / Y AXIS CONTROLS'); //NEW
 DEFINE('_GRAPHALERTDATA','Graph Alert Data'); //NEW
 DEFINE('_QCLAYER4CRIT','Layer 4 Criteria'); //NEW
 DEFINE('_QFRMSORTNONE','none'); //NEW
-DEFINE('_PSTOTALHOSTS','Total Hosts Scanned'); //NEW
+DEFINE('_PSTOTALHOSTS',$UI_CW_Total.' Hosts Scanned'); //NEW
 DEFINE('_PSDETECTAMONG','%d unique alerts detected among %d alerts on %s'); //NEW
 DEFINE('_PSALLALERTSAS','all alerts with %s/%s as'); //NEW
 DEFINE('_PSSHOW','show'); //NEW

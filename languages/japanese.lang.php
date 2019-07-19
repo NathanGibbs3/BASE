@@ -69,6 +69,7 @@ $UI_CW_ML11 = '１１月';
 $UI_CW_ML12 = '１２月';
 $UI_CW_Last = '最後の';
 $UI_CW_First = '最初の';
+$UI_CW_Total = '総';
 // Common Phrases.
 $UI_CP_SrcName = array($UI_CW_Src,$UI_CW_Name);
 $UI_CP_DstName = array($UI_CW_Dst,$UI_CW_Name);
@@ -83,7 +84,6 @@ $UI_AD_RID = array($UI_CW_Role,$UI_CW_Id);
 $UI_AD_ASD = '有効';
 
 //common phrases
-DEFINE('_TOTAL','Total'); //NEW
 DEFINE('_ALERT','アラート');
 DEFINE('_ADDRESS',$UI_CW_Addr);
 DEFINE('_UNKNOWN','不明');
@@ -380,7 +380,7 @@ DEFINE('_ERRCRITELEM','Invalid criteria element');
 //base_state_query.inc.php
 DEFINE('_VALIDCANNED','Valid Canned Query List');
 DEFINE('_DISPLAYING','Displaying');
-DEFINE('_DISPLAYINGTOTAL','アラート%d-%d件目 アラート総数 %d');
+DEFINE('_DISPLAYINGTOTAL','アラート%d-%d件目 アラート'.$UI_CW_Total.' %d');
 DEFINE('_NOALERTS','アラートは見つかりませんでした');
 DEFINE('_QUERYRESULTS','クエリ結果');
 DEFINE('_QUERYSTATE','Query State');
@@ -606,8 +606,8 @@ DEFINE('_ALERTTITLE','アラートのリスト');
 
 //base_stat_common.php
 DEFINE('_SCCATEGORIES','カテゴリー:');
-DEFINE('_SCSENSORTOTAL','センサー/トータル:');
-DEFINE('_SCTOTALNUMALERTS','アラート総数:');
+DEFINE('_SCSENSORTOTAL','センサー/'.$UI_CW_Total.':');
+DEFINE('_SCTOTALNUMALERTS','アラート'.$UI_CW_Total.'数:');
 DEFINE('_SCSRCIP',$UI_CW_Src.'IPの数:');
 DEFINE('_SCDSTIP','送信先IPの数:');
 DEFINE('_SCUNILINKS',$UI_CW_Src.'ー送信先の組み合わせ一覧');
@@ -630,7 +630,7 @@ DEFINE('_PSDSTIP','送信先 IP');
 DEFINE('_PSSRCPORT',$UI_CW_Src.' Port');
 DEFINE('_PSDSTPORT','送信先 Port');
 DEFINE('_PSTCPFLAGS','TCPフラグ');
-DEFINE('_PSTOTALOCC','発生<BR>総数');
+DEFINE('_PSTOTALOCC','発生<BR>'.$UI_CW_Total.'数');
 DEFINE('_PSNUMSENSORS','センサー数');
 DEFINE('_PSFIRSTOCC',$UI_CW_First.'<BR>発生時刻');
 DEFINE('_PSLASTOCC',$UI_CW_Last.'<BR>発生時刻');
@@ -642,7 +642,7 @@ DEFINE('_PSNUMSENSORSBR','センサー<BR>総数');
 DEFINE('_PSOCCASSRC',$UI_CW_Src.'<BR>発生回数');
 DEFINE('_PSOCCASDST','送信先<BR>発生回数');
 DEFINE('_PSWHOISINFO','Whois情報');
-DEFINE('_PSTOTALHOSTS','Total Hosts Scanned'); //NEW
+DEFINE('_PSTOTALHOSTS',$UI_CW_Total.' Hosts Scanned'); //NEW
 DEFINE('_PSDETECTAMONG','%d unique alerts detected among %d alerts on %s'); //NEW
 DEFINE('_PSALLALERTSAS','all alerts with %s/%s as'); //NEW
 DEFINE('_PSSHOW','show'); //NEW
@@ -650,13 +650,13 @@ DEFINE('_PSEXTERNAL','external'); //NEW
 
 //base_stat_iplink.php
 DEFINE('_SIPLTITLE',$UI_CW_Src.'ー送信先の組み合わせ');
-DEFINE('_SIPLSOURCEFGDN',"$UI_CW_Src FQDN");
+DEFINE('_SIPLSOURCEFGDN',$UI_CW_Src.' FQDN');
 DEFINE('_SIPLDESTFGDN','送信先 FQDN');
 DEFINE('_SIPLDIRECTION','方向');
 DEFINE('_SIPLPROTO','プロトコル');
 DEFINE('_SIPLUNIDSTPORTS','ユニーク送信先ポート');
 DEFINE('_SIPLUNIEVENTS','ユニーク'.$UI_CW_Event);
-DEFINE('_SIPLTOTALEVENTS',$UI_CW_Event.'総数');
+DEFINE('_SIPLTOTALEVENTS',$UI_CW_Event.$UI_CW_Total);
 
 //base_stat_ports.php
 DEFINE('_UNIQ','ユニーク');

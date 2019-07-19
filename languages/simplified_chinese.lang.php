@@ -69,6 +69,7 @@ $UI_CW_ML11 = '十一月';
 $UI_CW_ML12 = '十二月';
 $UI_CW_Last = '最后';
 $UI_CW_First = '首次';
+$UI_CW_Total = '总共';
 // Common Phrases.
 $UI_CP_SrcName = array($UI_CW_Src,$UI_CW_Name);
 $UI_CP_DstName = array($UI_CW_Dst,$UI_CW_Name);
@@ -83,7 +84,6 @@ $UI_AD_RID = array($UI_CW_Role,$UI_CW_Id);
 $UI_AD_ASD = '启用';
 
 //common phrases
-DEFINE('_TOTAL','Total'); //NEW
 DEFINE('_ALERT','警告数');
 DEFINE('_ADDRESS',$UI_CW_Addr);
 DEFINE('_UNKNOWN','未知');
@@ -395,7 +395,7 @@ DEFINE('_ERRCRITELEM','不可用的准则元素');
 //base_state_query.inc.php
 DEFINE('_VALIDCANNED','可用的固定查询列表');
 DEFINE('_DISPLAYING','显示');
-DEFINE('_DISPLAYINGTOTAL','显示警告 %d-%d 总数 %d ');
+DEFINE('_DISPLAYINGTOTAL','显示警告 %d-%d '.$UI_CW_Total.' %d ');
 DEFINE('_NOALERTS','没有警告。');
 DEFINE('_QUERYRESULTS','查询结果');
 DEFINE('_QUERYSTATE','查询状态');
@@ -636,7 +636,7 @@ DEFINE('_QSCSUMM','摘要统计');
 DEFINE('_QSCTIMEPROF','时间配置文件');
 DEFINE('_QSCOFALERTS','的警告');
 
-DEFINE('_PSTOTALHOSTS','Total Hosts Scanned'); //NEW
+DEFINE('_PSTOTALHOSTS',$UI_CW_Total.' Hosts Scanned'); //NEW
 DEFINE('_PSDETECTAMONG','%d unique alerts detected among %d alerts on %s'); //NEW
 DEFINE('_PSALLALERTSAS','all alerts with %s/%s as'); //NEW
 DEFINE('_PSSHOW','show'); //NEW
@@ -646,8 +646,8 @@ DEFINE('_ALERTTITLE','警告列表');
 
 //base_stat_common.php
 DEFINE('_SCCATEGORIES','分类:');
-DEFINE('_SCSENSORTOTAL','监测器/总共:');
-DEFINE('_SCTOTALNUMALERTS','警告总数量:');
+DEFINE('_SCSENSORTOTAL','监测器/'.$UI_CW_Total.':');
+DEFINE('_SCTOTALNUMALERTS','警告'.$UI_CW_Total.'量:');
 DEFINE('_SCSRCIP','源 IP '.$UI_CW_Addr.':');
 DEFINE('_SCDSTIP',$UI_CW_Dst.' IP '.$UI_CW_Addr.':');
 DEFINE('_SCUNILINKS','单项 IP 连接');
@@ -676,7 +676,7 @@ DEFINE('_PROFILEALERT','Profile Alert'); //NEW
 DEFINE('_PSSRCPORT','源 端口');
 DEFINE('_PSDSTPORT',$UI_CW_Dst.' 端口');
 DEFINE('_PSTCPFLAGS','TCP 标志');
-DEFINE('_PSTOTALOCC','总共<BR> 发生');
+DEFINE('_PSTOTALOCC',$UI_CW_Total.'<BR> 发生');
 DEFINE('_PSNUMSENSORS','监测器数量');
 DEFINE('_PSFIRSTOCC',$UI_CW_First.'<BR> 发生');
 DEFINE('_PSLASTOCC',$UI_CW_Last.'<BR> 发生');
@@ -697,7 +697,7 @@ DEFINE('_SIPLDIRECTION','方向');
 DEFINE('_SIPLPROTO','协议');
 DEFINE('_SIPLUNIDSTPORTS','单项'.$UI_CW_Dst.'端口');
 DEFINE('_SIPLUNIEVENTS','单项'.$UI_CW_Event);
-DEFINE('_SIPLTOTALEVENTS','总'.$UI_CW_Event);
+DEFINE('_SIPLTOTALEVENTS',$UI_CW_Total.$UI_CW_Event);
 
 //base_stat_ports.php
 DEFINE('_UNIQ','单项');

@@ -39,6 +39,7 @@ include_once("$BASE_path/includes/base_constants.inc.php");
 
 $UIL = new UILang($BASE_Language); // Create UI Language Object.
 $CPSensor = $UIL->CWA['Sensor'];
+$CPTotal = $UIL->CWA['Total'];
 
  $addr_type = ImportHTTPVar("addr_type", VAR_DIGIT);
  $submit = ImportHTTPVar("submit", VAR_ALPHA | VAR_SPACE, array(_SELECTED, _ALLONSCREEN, _ENTIREQUERY));
@@ -152,13 +153,11 @@ if ( $debug_mode > 0 )
 if ( $resolve_IP == 1 ){
 	$qro->AddTitle("FQDN");
 }
-$qro->AddTitle("$CPSensor&nbsp;#");
-  $qro->AddTitle(_TOTAL."&nbsp;#", 
-                "occur_a", " ",
-                           " ORDER BY num_events ASC",
-                "occur_d", " ",
-                           " ORDER BY num_events DESC");
-
+$qro->AddTitle( "$CPSensor&nbsp;#" );
+$qro->AddTitle( "$CPTotal&nbsp;#",
+	"occur_a", " ", " ORDER BY num_events ASC",
+	"occur_d", " ", " ORDER BY num_events DESC"
+);
   $qro->AddTitle(_SUAUNIALERTS, 
                 "sig_a", " ",
                            " ORDER BY num_sig ASC",

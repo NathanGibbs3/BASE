@@ -28,9 +28,6 @@ use PHPUnit\Framework\TestCase;
   * @preserveGlobalState disabled
   * A necessary evil for tests touching UILang during TD Transition.
   * @runTestsInSeparateProcesses
-  * Apparently the covers annotations are ignored whe the above necessary
-  * evil is in effect. Will Add covers annotations once we get rid of
-  * necessary evil.
   */
 class legacylangTest extends TestCase {
 	// Pre Test Setup.
@@ -717,6 +714,16 @@ class legacylangTest extends TestCase {
 		$file = $$tmp->TDF;
 		LogTC($tf,'TD file',$file);
 		$this->CWAHas($$tmp,'First','First');
+	}
+	public function testCWASetItemTotal() {
+		$lang = self::$langs;
+		$tf = __FUNCTION__;
+		$tmp = "UI$lang";
+		LogTC($tf,'language',$lang);
+		$$tmp = self::$UIL;
+		$file = $$tmp->TDF;
+		LogTC($tf,'TD file',$file);
+		$this->CWAHas($$tmp,'Total','Total');
 	}
 	// Test Common Phrase Items.
 	public function testCPASetItemSrcName() {

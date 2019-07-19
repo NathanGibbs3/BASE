@@ -31,7 +31,7 @@ $UI_Locales = array( 'eng_ENG.ISO8859-1', 'eng_ENG.utf-8', 'english' );
 // Time Format - See strftime() syntax.
 $UI_Timefmt = '%a %B %d, %Y %H:%M:%S';
 // UI Init.
-$UI_Charset = 'iso-8859-1';
+$UI_Charset = 'utf-8';
 $UI_Title = 'Basic Analysis and Security Engine';
 // Common Words.
 $UI_CW_Edit = 'Editar';
@@ -69,6 +69,7 @@ $UI_CW_ML11 = 'Noviembre';
 $UI_CW_ML12 = 'Diciembre';
 $UI_CW_Last = 'Ultimo';
 $UI_CW_First = 'Primer';
+$UI_CW_Total = 'Total';
 // Common Phrases.
 $UI_CP_SrcName = array($UI_CW_Name,'del','origen');
 $UI_CP_DstName = array($UI_CW_Name,'del','dest.');
@@ -84,7 +85,6 @@ $UI_AD_ASD = 'Activado';
 
 //common phrases
 DEFINE('_ALERT','Alertas');
-DEFINE('_TOTAL','Total'); //NEW
 DEFINE('_ADDRESS','Direcci&oacute;n');
 DEFINE('_UNKNOWN','desconocido');
 DEFINE('_AND','AND'); //NEW
@@ -380,7 +380,7 @@ DEFINE('_ERRCRITELEM','Criterio inv&aacute;lido');
 //base_state_query.inc.php
 DEFINE('_VALIDCANNED','Lista de consultas pre-hechas');
 DEFINE('_DISPLAYING','Mostrando');
-DEFINE('_DISPLAYINGTOTAL','Mostrando alertas %d-%d de %d en total');
+DEFINE('_DISPLAYINGTOTAL','Mostrando alertas %d-%d de %d en '.$UI_CW_Total);
 DEFINE('_NOALERTS','No hay alertas.');
 DEFINE('_QUERYRESULTS','Resultados de consulta');
 DEFINE('_QUERYSTATE','Estado de consulta');
@@ -528,7 +528,7 @@ DEFINE('_MNTDBALV','Versi&oacute;n de Abstracci&oacute;n DB:');
 DEFINE('_MNTDBALERTNAME','Nombre de DB de Alertas:');
 DEFINE('_MNTDBARCHNAME','Nombre de DB de Archivo:');
 DEFINE('_MNTAIC','Escondrijo de informaci&oacute;n de Alertas:');
-DEFINE('_MNTAICTE','Total de '.$UI_CW_Event.'s:');
+DEFINE('_MNTAICTE',$UI_CW_Total.' de '.$UI_CW_Event.'s:');
 DEFINE('_MNTAICCE',$UI_CW_Event.'s Escondrijidos:');
 DEFINE('_MNTIPAC','Escondrijo de Direcciones IP');
 DEFINE('_MNTIPACUSIP','IP Orig. &Uacute;nica:');
@@ -606,8 +606,8 @@ DEFINE('_ALERTTITLE','Lista de Alertas');
 
 //base_stat_common.php
 DEFINE('_SCCATEGORIES','Categorias:');
-DEFINE('_SCSENSORTOTAL','Sensores/Total:');
-DEFINE('_SCTOTALNUMALERTS','N&uacute;mero de Alertas en Total:');
+DEFINE('_SCSENSORTOTAL','Sensores/'.$UI_CW_Total.':');
+DEFINE('_SCTOTALNUMALERTS','N&uacute;mero de Alertas en '.$UI_CW_Total.':');
 DEFINE('_SCSRCIP','Orig. direcciones IP:');
 DEFINE('_SCDSTIP','Dest. direcciones IP:');
 DEFINE('_SCUNILINKS','Enlaces IP &Uacute;nicas');
@@ -630,7 +630,7 @@ DEFINE('_PSDSTIP','IP Destino');
 DEFINE('_PSSRCPORT','Puerto Origen');
 DEFINE('_PSDSTPORT','Puerto Destino');
 DEFINE('_PSTCPFLAGS','Banderas TCP');
-DEFINE('_PSTOTALOCC','Total<BR> de sucesos');
+DEFINE('_PSTOTALOCC',$UI_CW_Total.'<BR> de sucesos');
 DEFINE('_PSNUMSENSORS','Num. de Sensores');
 DEFINE('_PSFIRSTOCC',$UI_CW_First.'<BR> Suceso');
 DEFINE('_PSLASTOCC',$UI_CW_Last.'<BR> Suceso');
@@ -642,7 +642,7 @@ DEFINE('_PSNUMSENSORSBR','Num. de <BR>Sensores');
 DEFINE('_PSOCCASSRC','Sucesos <BR>como Orig.');
 DEFINE('_PSOCCASDST','Sucesos <BR>como Dest.');
 DEFINE('_PSWHOISINFO','Informaci&oacute;n Whois');
-DEFINE('_PSTOTALHOSTS','Total Hosts Scanned'); //NEW
+DEFINE('_PSTOTALHOSTS',$UI_CW_Total.' Hosts Scanned'); //NEW
 DEFINE('_PSDETECTAMONG','%d unique alerts detected among %d alerts on %s'); //NEW
 DEFINE('_PSALLALERTSAS','Todas las alertas con %s/%s como');
 DEFINE('_PSSHOW','Mostrar');
@@ -656,7 +656,7 @@ DEFINE('_SIPLDIRECTION','Sentido');
 DEFINE('_SIPLPROTO','Protocolo');
 DEFINE('_SIPLUNIDSTPORTS','Puertos Destino &uacute;nicos');
 DEFINE('_SIPLUNIEVENTS',$UI_CW_Event.'s &uacute;nicos');
-DEFINE('_SIPLTOTALEVENTS','Total de '.$UI_CW_Event.'s');
+DEFINE('_SIPLTOTALEVENTS',$UI_CW_Total.' de '.$UI_CW_Event.'s');
 
 //base_stat_ports.php
 DEFINE('_UNIQ','&Uacute;nico');

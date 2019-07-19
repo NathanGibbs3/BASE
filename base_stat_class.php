@@ -38,6 +38,7 @@ $CPSA = $UIL->CPA['SrcAddr'];
 $CPDA = $UIL->CPA['DstAddr'];
 $CPLast = $UIL->CWA['Last'];
 $CPFirst = $UIL->CWA['First'];
+$CPTotal = $UIL->CWA['Total'];
   $cs = new CriteriaState("base_stat_class.php");
   $cs->ReadState();
 
@@ -134,11 +135,10 @@ $CPFirst = $UIL->CWA['First'];
                 "class_d", " ",
                          " ORDER BY sig_class_id DESC");
 
-  $qro->AddTitle(_TOTAL."&nbsp;#", 
-                "occur_a", " ",
-                           " ORDER BY num_events ASC",
-                "occur_d", " ",
-                           " ORDER BY num_events DESC");
+$qro->AddTitle( "$CPTotal&nbsp;#",
+	"occur_a", " ", " ORDER BY num_events ASC",
+	"occur_d", " ", " ORDER BY num_events DESC"
+);
 $qro->AddTitle( "$CPSensor&nbsp;#",
 	"sensor_a", " ", " ORDER BY num_sensors ASC",
 	"sensor_d", " ", " ORDER BY num_sensors DESC"

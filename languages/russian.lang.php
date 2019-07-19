@@ -33,7 +33,7 @@ $UI_Locales = array( 'eng_ENG.ISO8859-1', 'eng_ENG.utf-8', 'english' );
 // Time Format - See strftime() syntax.
 $UI_Timefmt = '%a %B %d, %Y %H:%M:%S';
 // UI Init.
-$UI_Charset = 'UTF-8';
+$UI_Charset = 'utf-8';
 $UI_Title = 'Базовый движок анализа и безопасности';
 // Common Words.
 $UI_CW_Edit = 'Редактировать';
@@ -71,6 +71,7 @@ $UI_CW_ML11 = 'Ноябрь';
 $UI_CW_ML12 = 'Декабрь';
 $UI_CW_Last = 'Последний';
 $UI_CW_First = 'Первый';
+$UI_CW_Total = 'Всего';
 // Common Phrases.
 $UI_CP_SrcName = array($UI_CW_Name,$UI_CW_Src);
 $UI_CP_DstName = array($UI_CW_Name,$UI_CW_Dst);
@@ -85,7 +86,6 @@ $UI_AD_RID = array($UI_CW_Id,$UI_CW_Role);
 $UI_AD_ASD = 'Включено';
 
 // основные фразы
-DEFINE('_TOTAL','Total'); //NEW
 DEFINE('_ALERT','Предупреждения');
 DEFINE('_ADDRESS',$UI_CW_Addr);
 DEFINE('_UNKNOWN','неизвестно');
@@ -530,7 +530,7 @@ DEFINE('_MNTDBALV','Версия абстракции DB:');
 DEFINE('_MNTDBALERTNAME',"$UI_CW_Name БД предупреждений:");
 DEFINE('_MNTDBARCHNAME',"$UI_CW_Name БД архива:");
 DEFINE('_MNTAIC','Кэш информации о предупреждениях:');
-DEFINE('_MNTAICTE','Всего событий:');
+DEFINE('_MNTAICTE','$UI_CW_Total событий:');
 DEFINE('_MNTAICCE','Кэшировано событий:');
 DEFINE('_MNTIPAC','Кэш IP-'.$UI_CW_Addr.'ов');
 DEFINE('_MNTIPACUSIP',"Уникальные IP-$UI_CW_Src".'и:');
@@ -608,8 +608,8 @@ DEFINE('_ALERTTITLE','Список предупреждений');
 
 //base_stat_common.php
 DEFINE('_SCCATEGORIES','Категории:');
-DEFINE('_SCSENSORTOTAL',$UI_CW_Sensor.'ы/Всего:');
-DEFINE('_SCTOTALNUMALERTS','Общее количество предупреждений:');
+DEFINE('_SCSENSORTOTAL',$UI_CW_Sensor.'ы/$UI_CW_Total:');
+DEFINE('_SCTOTALNUMALERTS',$UI_CW_Total.' количество предупреждений:');
 DEFINE('_SCSRCIP',"IP-$UI_CW_Src:");
 DEFINE('_SCDSTIP',"IP-$UI_CW_Dst:");
 DEFINE('_SCUNILINKS','Уникальные IP связи');
@@ -632,7 +632,7 @@ DEFINE('_PSDSTIP',"IP-$UI_CW_Dst");
 DEFINE('_PSSRCPORT',"порт-$UI_CW_Src");
 DEFINE('_PSDSTPORT',"порт-$UI_CW_Dst");
 DEFINE('_PSTCPFLAGS','Флаги TCP');
-DEFINE('_PSTOTALOCC','Всего<BR> Случаев');
+DEFINE('_PSTOTALOCC',$UI_CW_Total.'<BR> Случаев');
 DEFINE('_PSNUMSENSORS',"Число $UI_CW_Sensor".'ов');
 DEFINE('_PSFIRSTOCC',$UI_CW_First.'<BR> Случай');
 DEFINE('_PSLASTOCC',$UI_CW_Last.'<BR> Случай');
@@ -644,7 +644,7 @@ DEFINE('_PSNUMSENSORSBR',"Число <BR>$UI_CW_Sensor".'ов');
 DEFINE('_PSOCCASSRC',"Случаи <BR>как $UI_CW_Src".'и.');
 DEFINE('_PSOCCASDST',"Случаи <BR>как $UI_CW_Dst");
 DEFINE('_PSWHOISINFO','Информация Whois');
-DEFINE('_PSTOTALHOSTS','Total Hosts Scanned'); //NEW
+DEFINE('_PSTOTALHOSTS',$UI_CW_Total.' Hosts Scanned'); //NEW
 DEFINE('_PSDETECTAMONG','%d unique alerts detected among %d alerts on %s'); //NEW
 DEFINE('_PSALLALERTSAS','all alerts with %s/%s as'); //NEW
 DEFINE('_PSSHOW','show'); //NEW
@@ -658,7 +658,7 @@ DEFINE('_SIPLDIRECTION','Направление');
 DEFINE('_SIPLPROTO',$UI_CW_Proto);
 DEFINE('_SIPLUNIDSTPORTS','Уникальные порты-'.$UI_CW_Dst);
 DEFINE('_SIPLUNIEVENTS','Уникальные '.$UI_CW_Event);
-DEFINE('_SIPLTOTALEVENTS','Всего событий');
+DEFINE('_SIPLTOTALEVENTS',$UI_CW_Total.' событий');
 
 //base_stat_ports.php
 DEFINE('_UNIQ','Уникальные');
