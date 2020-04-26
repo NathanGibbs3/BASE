@@ -36,12 +36,16 @@ matrix:
       dist: precise
       env: DB=postgres
     - php: 5.4
+      dist: trusty
       env: DB=mysql
     - php: 5.4
+      dist: trusty
       env: DB=postgres
     - php: 5.5
+      dist: trusty
       env: DB=mysql
     - php: 5.5
+      dist: trusty
       env: DB=postgres
     - php: 5.6
       env: DB=mysql
@@ -49,15 +53,19 @@ matrix:
       env: DB=postgres
     - php: 7.0
       if: branch != php5only
+      dist: trusty
       env: DB=mysql
     - php: 7.0
       if: branch != php5only
+      dist: trusty
       env: DB=postgres
     - php: 7.1
       if: branch != php5only
+      dist: trusty
       env: DB=mysql
     - php: 7.1
       if: branch != php5only
+      dist: trusty
       env: DB=postgres
     - php: 7.2
       if: branch != php5only
@@ -69,6 +77,12 @@ matrix:
       if: branch != php5only
       env: DB=mysql
     - php: 7.3
+      if: branch != php5only
+      env: DB=postgres
+    - php: 7.4
+      if: branch != php5only
+      env: DB=mysql
+    - php: 7.4
       if: branch != php5only
       env: DB=postgres
 #    - php: nightly
@@ -87,7 +101,7 @@ notifications:
   webhooks: https://coveralls.io/webhook
 
 before_install:
-  - sudo apt-get update > /dev/null
+  # - sudo apt-get update > /dev/null
   # Where to look if installed modules in PHP don't work. :-)
   # Like xdebug on PHP 5.2
   - php --ini
