@@ -71,6 +71,7 @@ $UI_CW_ML12 = 'Dezember';
 $UI_CW_Last = 'letztes';
 $UI_CW_First = 'Erstes';
 $UI_CW_Total = 'Insgesamt';
+$UI_CW_Alert = 'Alarm';
 // Common Phrases.
 $UI_CP_SrcName = array($UI_CW_Src,$UI_CW_Name);
 $UI_CP_DstName = array($UI_CW_Dst,$UI_CW_Name);
@@ -85,7 +86,6 @@ $UI_AD_RID = array($UI_CW_Role,$UI_CW_Id);
 $UI_AD_ASD = 'Aktiv';
 
 //common phrases
-DEFINE('_ALERT','Alarm');
 DEFINE('_ADDRESS',' Adressen');
 DEFINE('_UNKNOWN','unbekannt');
 DEFINE('_AND','AND'); //NEW
@@ -150,12 +150,12 @@ DEFINE('_PREVIOUS','Previous'); //NEW
 //Menu items
 DEFINE('_HOME','&Uuml;bersicht');
 DEFINE('_SEARCH','Suchen');
-DEFINE('_AGMAINT','Alarmgruppen');
+DEFINE('_AGMAINT',$UI_CW_Alert.'gruppen');
 DEFINE('_USERPREF','Benutzereinstellungen');
 DEFINE('_CACHE','Cache & Status');
 DEFINE('_ADMIN','Administration');
-DEFINE('_GALERTD','Alarmdaten grafisch aufbereiten');
-DEFINE('_GALERTDT','Zeitliche Alarmstatistik');
+DEFINE('_GALERTD',$UI_CW_Alert.'daten grafisch aufbereiten');
+DEFINE('_GALERTDT','Zeitliche '.$UI_CW_Alert.'statistik');
 DEFINE('_USERMAN','Benutzerverwaltung');
 DEFINE('_LISTU','Benutzer anzeigen');
 DEFINE('_CREATEU','Benutzer erstellen');
@@ -184,17 +184,17 @@ DEFINE('_LOGINERROR',"Benutzer bzw. $UI_CW_Pw nicht korrekt!<br>Bitte nochmal ve
 // base_main.php
 DEFINE('_MOSTRECENT','Letzten ');
 DEFINE('_MOSTFREQUENT','H&auml;ufigsten ');
-DEFINE('_ALERTS',' Alarme:');
+DEFINE('_ALERTS',' '.$UI_CW_Alert.'e:');
 DEFINE('_ADDRESSES',' Adressen:');
 DEFINE('_ANYPROTO','alle Protokolle');
 DEFINE('_UNI','unterschiedliche');
 DEFINE('_LISTING','alle');
-DEFINE('_TALERTS','Alarme heute: ');
+DEFINE('_TALERTS',$UI_CW_Alert.'e heute: ');
 DEFINE('_SOURCEIP','Source IP'); //NEW
 DEFINE('_DESTIP','Destination IP'); //NEW
-DEFINE('_L24ALERTS','Alarme der '.$UI_CW_Last.' 24 Stunden: ');
-DEFINE('_L72ALERTS','Alarme der '.$UI_CW_Last.' 72 Stunden: ');
-DEFINE('_UNIALERTS',' Alarmtypen');
+DEFINE('_L24ALERTS',$UI_CW_Alert.'e der '.$UI_CW_Last.' 24 Stunden: ');
+DEFINE('_L72ALERTS',$UI_CW_Alert.'e der '.$UI_CW_Last.' 72 Stunden: ');
+DEFINE('_UNIALERTS',' '.$UI_CW_Alert.'typen');
 DEFINE('_LSOURCEPORTS',$UI_CW_Last.' Quellports: ');
 DEFINE('_LDESTPORTS',$UI_CW_Last.' Zielports: ');
 DEFINE('_FREGSOURCEP','H&auml;ufigste Quellports: ');
@@ -203,7 +203,7 @@ DEFINE('_QUERIED','Stand:');
 DEFINE('_DATABASE','Datenbank:');
 DEFINE('_SCHEMAV','Schema Version:');
 DEFINE('_TIMEWIN','Zeitraum:');
-DEFINE('_NOALERTSDETECT','kein Alarm bemerkt');
+DEFINE('_NOALERTSDETECT','kein '.$UI_CW_Alert.' bemerkt');
 DEFINE('_USEALERTDB','Use Alert Database'); //NEW
 DEFINE('_USEARCHIDB','Use Archive Database'); //NEW
 DEFINE('_TRAFFICPROBPRO','Traffic Profile by Protocol'); //NEW
@@ -242,34 +242,34 @@ DEFINE('_BASEADMIN','BASE Administration');
 DEFINE('_BASEADMINTEXT','Bitte w&auml;hlen Sie eine Option.');
 
 //base_action.inc.php
-DEFINE('_NOACTION','Es wurde keine Aktion f&uuml;r die Alarme festgelegt.');
+DEFINE('_NOACTION','Es wurde keine Aktion f&uuml;r die '.$UI_CW_Alert.'e festgelegt.');
 DEFINE('_INVALIDACT',' ist eine ung&uuml;ltige Aktion');
-DEFINE('_ERRNOAG','Konnte keine Alarme hinzuf&uuml;gen, da keine Alarmgruppen festgelegt worden sind.');
-DEFINE('_ERRNOEMAIL','Konnte Alarmmeldungen nicht per eMail versenden, da keine eMail Adresse angegeben wurde.');
+DEFINE('_ERRNOAG','Konnte keine '.$UI_CW_Alert.'e hinzuf&uuml;gen, da keine '.$UI_CW_Alert.'gruppen festgelegt worden sind.');
+DEFINE('_ERRNOEMAIL','Konnte '.$UI_CW_Alert.'meldungen nicht per eMail versenden, da keine eMail Adresse angegeben wurde.');
 DEFINE('_ACTION','AKTION');
 DEFINE('_CONTEXT','Kontext');
-DEFINE('_ADDAGID','Zur Alarmgruppe hinzuf&uuml;gen (nach ID)');
-DEFINE('_ADDAG','Neue Alarmgruppe hinzuf&uuml;gen');
-DEFINE('_ADDAGNAME','Zur Alarmgruppe hinzuf&uuml;gen (nach Name)');
-DEFINE('_CREATEAG','Alarmgruppe erstellen (nach Name)');
-DEFINE('_CLEARAG','Aus Alarmgruppe l&ouml;schen');
-DEFINE('_DELETEALERT','Alarm(e) l&ouml;schen');
-DEFINE('_EMAILALERTSFULL','Alarm(e) per eMail versenden (vollst&auml;ndig) ');
-DEFINE('_EMAILALERTSSUMM','Alarm(e) per eMail versenden (Zusammenfassung)');
-DEFINE('_EMAILALERTSCSV', 'Alarm(e) per eMail versenden  (csv)');
-DEFINE('_ARCHIVEALERTSCOPY','Alarme-Archivieren (-Kopieren)');
-DEFINE('_ARCHIVEALERTSMOVE','Alarme-Archivieren (-Verschieben)');
+DEFINE('_ADDAGID','Zur '.$UI_CW_Alert.'gruppe hinzuf&uuml;gen (nach ID)');
+DEFINE('_ADDAG','Neue '.$UI_CW_Alert.'gruppe hinzuf&uuml;gen');
+DEFINE('_ADDAGNAME','Zur '.$UI_CW_Alert.'gruppe hinzuf&uuml;gen (nach Name)');
+DEFINE('_CREATEAG',$UI_CW_Alert.'gruppe erstellen (nach Name)');
+DEFINE('_CLEARAG','Aus '.$UI_CW_Alert.'gruppe l&ouml;schen');
+DEFINE('_DELETEALERT',$UI_CW_Alert.'(e) l&ouml;schen');
+DEFINE('_EMAILALERTSFULL',$UI_CW_Alert.'(e) per eMail versenden (vollst&auml;ndig) ');
+DEFINE('_EMAILALERTSSUMM',$UI_CW_Alert.'(e) per eMail versenden (Zusammenfassung)');
+DEFINE('_EMAILALERTSCSV', $UI_CW_Alert.'(e) per eMail versenden  (csv)');
+DEFINE('_ARCHIVEALERTSCOPY',$UI_CW_Alert.'e-Archivieren (-Kopieren)');
+DEFINE('_ARCHIVEALERTSMOVE',$UI_CW_Alert.'e-Archivieren (-Verschieben)');
 DEFINE('_IGNORED','Ignoriert ');
-DEFINE('_DUPALERTS',' doppelt vorhandener Alarm');
-DEFINE('_ALERTSPARA',' Alarme');
-DEFINE('_NOALERTSSELECT','Es wurde kein Alarm gew&auml;hlt oder ');
+DEFINE('_DUPALERTS',' doppelt vorhandener '.$UI_CW_Alert);
+DEFINE('_ALERTSPARA',' '.$UI_CW_Alert.'e');
+DEFINE('_NOALERTSSELECT','Es wurde kein '.$UI_CW_Alert.' gew&auml;hlt oder ');
 DEFINE('_NOTSUCCESSFUL','war nicht erfolgreich');
-DEFINE('_ERRUNKAGID','Es wurde eine unbekannte Alarmgruppen ID angegeben');
-DEFINE('_ERRREMOVEFAIL','Konnte neue Alarmgruppe nicht entfernen');
+DEFINE('_ERRUNKAGID','Es wurde eine unbekannte '.$UI_CW_Alert.'gruppen ID angegeben');
+DEFINE('_ERRREMOVEFAIL','Konnte neue '.$UI_CW_Alert.'gruppe nicht entfernen');
 DEFINE('_GENBASE','Erzeugt von BASE');
-DEFINE('_ERRNOEMAILEXP','EXPORT FEHLER: Konnte die exportierten Alarme nicht an folgende Adresse senden: ');
+DEFINE('_ERRNOEMAILEXP','EXPORT FEHLER: Konnte die exportierten '.$UI_CW_Alert.'e nicht an folgende Adresse senden: ');
 DEFINE('_ERRNOEMAILPHP','&Uuml;berpr&uuml;fen Sie die Mail Konfiguration in PHP.');
-DEFINE('_ERRDELALERT','Fehler beim l&ouml;schen des Alarms');
+DEFINE('_ERRDELALERT','Fehler beim l&ouml;schen des '.$UI_CW_Alert.'s');
 DEFINE('_ERRARCHIVE','ARCHIV FEHLER:');
 DEFINE('_ERRMAILNORECP','MAIL FEHLER: Es wurde kein Empf&auml;nger festgelegt');
 
@@ -280,14 +280,14 @@ DEFINE('_HOSTNAMESWHOIS',' Hostnames zum Whois Cache hinzugef&uuml;gt');
 DEFINE('_ERRCACHENULL','CACHE FEHLER: KEINE '.$UI_CW_Event.' Zeilen gefunden?');
 DEFINE('_ERRCACHEERROR',$UI_CW_Event.' CACHING FEHLER:');
 DEFINE('_ERRCACHEUPDATE','Konte den '.$UI_CW_Event.'cache nicht aktualisieren.');
-DEFINE('_ALERTSCACHE',' Alarm(e) hinzugef&uuml;gt');
+DEFINE('_ALERTSCACHE',' '.$UI_CW_Alert.'(e) hinzugef&uuml;gt');
 
 //base_db.inc.php
 DEFINE('_ERRSQLTRACE','Konnte die SQL Protokolldatei nicht &ouml;ffnen');
 DEFINE('_ERRSQLCONNECT','Fehler bei der Datenbankverbindung :');
 DEFINE('_ERRSQLCONNECTINFO','<P>&Uuml;berpr&uuml;fen Sie die Datenbankverbindungs-Variablen in der <I>base_conf.php</I>
               <PRE>
-               = $alert_dbname   : MySQL Datenbankname in der die Alarme gespeichert werden
+               = $alert_dbname   : MySQL Datenbankname in der die '.$UI_CW_Alert.'e gespeichert werden
                = $alert_host     : Host auf dem die Datenbank gespeichert ist
                = $alert_port     : Port where the database is stored ?
                = $alert_user     : Benutzername in der Datenbank
@@ -381,30 +381,30 @@ DEFINE('_ERRCRITELEM','Ung&uuml;ltiges Kriterium.');
 //base_state_query.inc.php
 DEFINE('_VALIDCANNED','G&uuml;ltige Abfrageliste');
 DEFINE('_DISPLAYING','Anzeigen');
-DEFINE('_DISPLAYINGTOTAL','Anzeigen der Alarme %d-%d von '.$UI_CW_Total.' %d');
-DEFINE('_NOALERTS','Keinen Alarm gefunden.');
+DEFINE('_DISPLAYINGTOTAL','Anzeigen der '.$UI_CW_Alert.'e %d-%d von '.$UI_CW_Total.' %d');
+DEFINE('_NOALERTS','Keinen '.$UI_CW_Alert.' gefunden.');
 DEFINE('_QUERYRESULTS','Abfrageergebnis');
 DEFINE('_QUERYSTATE','Abfragestatus');
 DEFINE('_DISPACTION','{ action }'); //NEW
 
 //base_ag_common.php
-DEFINE('_ERRAGNAMESEARCH','Die angegebene Alarmgruppen-Namenssuche ist ung&uuml;ltig.  Bitte nochmal versuchen!');
-DEFINE('_ERRAGNAMEEXIST','Die angegebene Alarmgruppe existiert nicht.');
-DEFINE('_ERRAGIDSEARCH','Die angegebene Alarmgruppen ID-Suche ist ung&uuml;ltig.  Bitte nochmal versuchen!');
-DEFINE('_ERRAGLOOKUP','Fehler beim Suchen einer Alarmgruppen ID');
-DEFINE('_ERRAGINSERT','Fehler beim Einf&uuml;gen der neuen Alarmgruppe');
+DEFINE('_ERRAGNAMESEARCH','Die angegebene '.$UI_CW_Alert.'gruppen-Namenssuche ist ung&uuml;ltig.  Bitte nochmal versuchen!');
+DEFINE('_ERRAGNAMEEXIST','Die angegebene '.$UI_CW_Alert.'gruppe existiert nicht.');
+DEFINE('_ERRAGIDSEARCH','Die angegebene '.$UI_CW_Alert.'gruppen ID-Suche ist ung&uuml;ltig.  Bitte nochmal versuchen!');
+DEFINE('_ERRAGLOOKUP','Fehler beim Suchen einer '.$UI_CW_Alert.'gruppen ID');
+DEFINE('_ERRAGINSERT','Fehler beim Einf&uuml;gen der neuen '.$UI_CW_Alert.'gruppe');
 
 //base_ag_main.php
-DEFINE('_AGMAINTTITLE','Alarmgruppen verwalten');
-DEFINE('_ERRAGUPDATE','Fehler beim Aktualisieren der Alarmgruppe');
-DEFINE('_ERRAGPACKETLIST','Fehler beim L&ouml;schen der Paketliste aus der Alarmgruppe:');
-DEFINE('_ERRAGDELETE','Fehler beim l&ouml;schen der Alarmgruppe');
+DEFINE('_AGMAINTTITLE',$UI_CW_Alert.'gruppen verwalten');
+DEFINE('_ERRAGUPDATE','Fehler beim Aktualisieren der '.$UI_CW_Alert.'gruppe');
+DEFINE('_ERRAGPACKETLIST','Fehler beim L&ouml;schen der Paketliste aus der '.$UI_CW_Alert.'gruppe:');
+DEFINE('_ERRAGDELETE','Fehler beim l&ouml;schen der '.$UI_CW_Alert.'gruppe');
 DEFINE('_AGDELETE','Erfolgreich gel&ouml;scht');
 DEFINE('_AGDELETEINFO','Information entfernt');
 DEFINE('_ERRAGSEARCHINV','Das eingegebene Suchkriterium ist ung&uuml;ltig. Bitte nochmal versuchen!');
-DEFINE('_ERRAGSEARCHNOTFOUND','Keine Alarmgruppe mit diesem Kriterium gefunden.');
-DEFINE('_NOALERTGOUPS','Es existieren keine Alarmgruppen');
-DEFINE('_NUMALERTS','# Alarme');
+DEFINE('_ERRAGSEARCHNOTFOUND','Keine '.$UI_CW_Alert.'gruppe mit diesem Kriterium gefunden.');
+DEFINE('_NOALERTGOUPS','Es existieren keine '.$UI_CW_Alert.'gruppen');
+DEFINE('_NUMALERTS','# '.$UI_CW_Alert.'e');
 DEFINE('_ACTIONS','Optionen');
 DEFINE('_NOTASSIGN','noch nicht zugeordnet');
 DEFINE('_SAVECHANGES','Save Changes'); //NEW
@@ -417,7 +417,7 @@ DEFINE('_PORTSCAN','Portscan Traffic');
 //base_db_common.php
 DEFINE('_ERRDBINDEXCREATE','Indexerzeugung nicht m&ouml;glich f&uuml;r');
 DEFINE('_DBINDEXCREATE','Index erfolgreich erzeugt f&uuml;r');
-DEFINE('_ERRSNORTVER','Das scheint eine &auml;ltere Version zu sein.  Nur \'Alarm-Datenbanken\' wie sie seit Snort-1.7-beta0 angelegt werden, werden unterst&uuml;tzt');
+DEFINE('_ERRSNORTVER','Das scheint eine &auml;ltere Version zu sein.  Nur \''.$UI_CW_Alert.'-Datenbanken\' wie sie seit Snort-1.7-beta0 angelegt werden, werden unterst&uuml;tzt');
 DEFINE('_ERRSNORTVER1','Die zugrundeliegende Datenbank');
 DEFINE('_ERRSNORTVER2','scheint unvollst&auml;ndig/ung&uuml;ltig zu sein.');
 DEFINE('_ERRDBSTRUCT1','Die Datenbankversion ist g&uuml;ltig, aber die BASE Datenbankstruktur');
@@ -426,14 +426,14 @@ DEFINE('_ERRPHPERROR','PHP FEHLER');
 DEFINE('_ERRPHPERROR1','Inkompatible Version');
 DEFINE('_ERRVERSION','Version');
 DEFINE('_ERRPHPERROR2','von PHP ist zu alt.  Bitte installieren Sie eine neuere Version ab 4.0.4');
-DEFINE('_ERRPHPMYSQLSUP','<B>PHP unvollst&auml;ndig</B>: <FONT>die MySQL Unterst&uuml;tzung, welche zum Auslesen der
-               Alarmdatenbank ben&ouml;tigt wird, wurde nicht in PHP aufgenommen.
+DEFINE('_ERRPHPMYSQLSUP','<B>PHP unvollst&auml;ndig</B>: <FONT>die MySQL Unterst&uuml;tzung, welche zum Auslesen der'.
+               $UI_CW_Alert.'datenbank ben&ouml;tigt wird, wurde nicht in PHP aufgenommen.
                Bitte kompilieren Sie PHP mit der ben&ouml;tigten Bibliothek (<CODE>--with-mysql</CODE>)</FONT> erneut');
-DEFINE('_ERRPHPPOSTGRESSUP','<B>PHP unvollst&auml;ndig</B>: <FONT>die PostgreSQL Unterst&uuml;tzung, welche zum Auslesen der
-               Alarmdatenbank ben&ouml;tigt wird, wurde nicht in PHP aufgenommen.
+DEFINE('_ERRPHPPOSTGRESSUP','<B>PHP unvollst&auml;ndig</B>: <FONT>die PostgreSQL Unterst&uuml;tzung, welche zum Auslesen der'.
+               $UI_CW_Alert.'datenbank ben&ouml;tigt wird, wurde nicht in PHP aufgenommen.
                Bitte kompilieren Sie PHP mit der ben&ouml;tigten Bibliothek (<CODE>--with-pgsql</CODE>)</FONT> erneut');
-DEFINE('_ERRPHPMSSQLSUP','<B>PHP unvollst&auml;ndig</B>: <FONT>die MS SQL Server Unterst&uuml;tzung, welche zum Auslesen der
-                   Alarmdatenbank ben&ouml;tigt wird, wurde nicht in PHP aufgenommen.
+DEFINE('_ERRPHPMSSQLSUP','<B>PHP unvollst&auml;ndig</B>: <FONT>die MS SQL Server Unterst&uuml;tzung, welche zum Auslesen der'.
+                   $UI_CW_Alert.'datenbank ben&ouml;tigt wird, wurde nicht in PHP aufgenommen.
                    Bitte kompilieren Sie PHP mit der ben&ouml;tigten Bibliothek (<CODE>--enable-mssql</CODE>)</FONT> erneut');
 DEFINE('_ERRPHPORACLESUP','<B>PHP build incomplete</B>: <FONT>the prerequisite Oracle support required to 
                    read the alert database was not built into PHP.  
@@ -459,19 +459,19 @@ DEFINE('_CHARTDAY','{Tag}'); //NEW
 DEFINE('_CHARTMONTH','{Monat}'); //NEW
 DEFINE('_GRAPHALERTS','Graph Alerts'); //NEW
 DEFINE('_AXISCONTROLS','X / Y AXIS CONTROLS'); //NEW
-DEFINE('_CHRTTYPEHOUR','Stunden und Alarmanzahl');
-DEFINE('_CHRTTYPEDAY','Tage und Alarmanzahl');
-DEFINE('_CHRTTYPEWEEK','Wochen und Alarmanzahl');
-DEFINE('_CHRTTYPEMONTH','Monate und Alarmanzahl');
-DEFINE('_CHRTTYPEYEAR','Jahre und Alarmanzahl');
-DEFINE('_CHRTTYPESRCIP','Quell IP Adressen und Alarmanzahl');
-DEFINE('_CHRTTYPEDSTIP','Ziel IP Adressen und Alarmanzahl');
-DEFINE('_CHRTTYPEDSTUDP','Ziel UDP Ports und Alarmanzahl');
-DEFINE('_CHRTTYPESRCUDP','Quell UDP Ports und Alarmanzahl');
-DEFINE('_CHRTTYPEDSTPORT','Ziel TCP Ports und Alarmanzahl');
-DEFINE('_CHRTTYPESRCPORT','Quell TCP Ports und Alarmanzahl');
-DEFINE('_CHRTTYPESIG','Signaturen und Alarmanzahl');
-DEFINE('_CHRTTYPESENSOR','Sensoren und Alarmanzahl');
+DEFINE('_CHRTTYPEHOUR','Stunden und '.$UI_CW_Alert.'anzahl');
+DEFINE('_CHRTTYPEDAY','Tage und '.$UI_CW_Alert.'anzahl');
+DEFINE('_CHRTTYPEWEEK','Wochen und '.$UI_CW_Alert.'anzahl');
+DEFINE('_CHRTTYPEMONTH','Monate und '.$UI_CW_Alert.'anzahl');
+DEFINE('_CHRTTYPEYEAR','Jahre und '.$UI_CW_Alert.'anzahl');
+DEFINE('_CHRTTYPESRCIP','Quell IP Adressen und '.$UI_CW_Alert.'anzahl');
+DEFINE('_CHRTTYPEDSTIP','Ziel IP Adressen und '.$UI_CW_Alert.'anzahl');
+DEFINE('_CHRTTYPEDSTUDP','Ziel UDP Ports und '.$UI_CW_Alert.'anzahl');
+DEFINE('_CHRTTYPESRCUDP','Quell UDP Ports und '.$UI_CW_Alert.'anzahl');
+DEFINE('_CHRTTYPEDSTPORT','Ziel TCP Ports und '.$UI_CW_Alert.'anzahl');
+DEFINE('_CHRTTYPESRCPORT','Quell TCP Ports und '.$UI_CW_Alert.'anzahl');
+DEFINE('_CHRTTYPESIG','Signaturen und '.$UI_CW_Alert.'anzahl');
+DEFINE('_CHRTTYPESENSOR','Sensoren und '.$UI_CW_Alert.'anzahl');
 DEFINE('_CHRTBEGIN','Diagrammanfang:');
 DEFINE('_CHRTEND','Diagrammende:');
 DEFINE('_CHRTDS','Datenquelle:');
@@ -488,26 +488,26 @@ DEFINE('_CHRTYGRID','Linieneinteilungen der Y-Achse anzeigen');
 //base_graph_main.php
 DEFINE('_CHRTTITLE','BASE Diagramm');
 DEFINE('_ERRCHRTNOTYPE','Es wurde kein Diagrammtyp festgelegt');
-DEFINE('_ERRNOAGSPEC','Es wurde keine Alarmgruppe festgelegt.  Benutze alle Alarmgruppen.');
+DEFINE('_ERRNOAGSPEC','Es wurde keine '.$UI_CW_Alert.'gruppe festgelegt.  Benutze alle '.$UI_CW_Alert.'gruppen.');
 DEFINE('_CHRTDATAIMPORT','Beginne mit dem Import der Daten');
-DEFINE('_CHRTTIMEVNUMBER','Zeit und Anzahl der Alarme');
+DEFINE('_CHRTTIMEVNUMBER','Zeit und Anzahl der '.$UI_CW_Alert.'e');
 DEFINE('_CHRTTIME','Zeit');
-DEFINE('_CHRTALERTOCCUR','Alarmvorkommen');
-DEFINE('_CHRTSIPNUMBER','Quell IP und Anzahl der Alarme');
+DEFINE('_CHRTALERTOCCUR',$UI_CW_Alert.'vorkommen');
+DEFINE('_CHRTSIPNUMBER','Quell IP und Anzahl der '.$UI_CW_Alert.'e');
 DEFINE('_CHRTSIP','Quell IP Adresse');
-DEFINE('_CHRTDIPALERTS','Ziel IP und Anzahl der Alarme');
+DEFINE('_CHRTDIPALERTS','Ziel IP und Anzahl der '.$UI_CW_Alert.'e');
 DEFINE('_CHRTDIP','Ziel IP Adresse');
-DEFINE('_CHRTUDPPORTNUMBER','UDP Port (Ziel) und Anzahl der Alarme');
+DEFINE('_CHRTUDPPORTNUMBER','UDP Port (Ziel) und Anzahl der '.$UI_CW_Alert.'e');
 DEFINE('_CHRTDUDPPORT','Ziel UDP Port');
-DEFINE('_CHRTSUDPPORTNUMBER','UDP Port (Quelle) und Anzahl der Alarme');
+DEFINE('_CHRTSUDPPORTNUMBER','UDP Port (Quelle) und Anzahl der '.$UI_CW_Alert.'e');
 DEFINE('_CHRTSUDPPORT','Quell UDP Port');
-DEFINE('_CHRTPORTDESTNUMBER','TCP Port (Ziel) und Anzahl der Alarme');
+DEFINE('_CHRTPORTDESTNUMBER','TCP Port (Ziel) und Anzahl der '.$UI_CW_Alert.'e');
 DEFINE('_CHRTPORTDEST','Ziel TCP Port');
-DEFINE('_CHRTPORTSRCNUMBER','TCP Port (Quelle) und Anzahl der Alarme');
+DEFINE('_CHRTPORTSRCNUMBER','TCP Port (Quelle) und Anzahl der '.$UI_CW_Alert.'e');
 DEFINE('_CHRTPORTSRC','Quell TCP Port');
-DEFINE('_CHRTSIGNUMBER',"$UI_CW_Sig und Anzahl der Alarme");
+DEFINE('_CHRTSIGNUMBER',$UI_CW_Sig.' und Anzahl der '.$UI_CW_Alert.'e');
 DEFINE('_CHRTCLASS','Klassifizierung');
-DEFINE('_CHRTSENSORNUMBER','Sensor und Anzahl der Alarme');
+DEFINE('_CHRTSENSORNUMBER','Sensor und Anzahl der '.$UI_CW_Alert.'e');
 DEFINE('_CHRTHANDLEPERIOD','Behandlungszeitraum, wenn n&ouml;tig');
 DEFINE('_CHRTDUMP','Ausgabe der Daten ... (schreibe nur jeden');
 DEFINE('_CHRTDRAW','Ausgabe der Grafik');
@@ -526,9 +526,9 @@ DEFINE('_MNTPHPLOGLVL','PHP Logging level:');
 DEFINE('_MNTPHPMODS','Geladene Module:');
 DEFINE('_MNTDBTYPE','DB '.$UI_CW_Type.':');
 DEFINE('_MNTDBALV','Version der DB Abstraktionsbibliothek:');
-DEFINE('_MNTDBALERTNAME','DB Name der Alarme:');
+DEFINE('_MNTDBALERTNAME','DB Name der '.$UI_CW_Alert.'e:');
 DEFINE('_MNTDBARCHNAME','DB Name des Archivs:');
-DEFINE('_MNTAIC','Alarme im Cache:');
+DEFINE('_MNTAIC',$UI_CW_Alert.'e im Cache:');
 DEFINE('_MNTAICTE','Anzahl '.$UI_CW_Event.'se:');
 DEFINE('_MNTAICCE','Gecachte '.$UI_CW_Event.'se:');
 DEFINE('_MNTIPAC','IP Adress-Cache');
@@ -539,7 +539,7 @@ DEFINE('_MNTIPACUDIP','Unterschiedliche Ziel IPs:');
 
 //base_qry_alert.php
 DEFINE('_QAINVPAIR','Ung&uuml;ltiges (sid,cid) Paar');
-DEFINE('_QAALERTDELET','Alarm gel&ouml;scht');
+DEFINE('_QAALERTDELET',$UI_CW_Alert.' gel&ouml;scht');
 DEFINE('_QATRIGGERSIG',"Ausl&ouml;sende $UI_CW_Sig");
 DEFINE('_QANORMALD','Normal Display'); //NEW
 DEFINE('_QAPLAIND','Plain Display'); //NEW
@@ -600,15 +600,15 @@ DEFINE('_QFRMDIP','Ziel IP');
 //base_qry_sqlcalls.php
 DEFINE('_QSCSUMM','Zusammenfassende Statistiken');
 DEFINE('_QSCTIMEPROF','Zeitprofil');
-DEFINE('_QSCOFALERTS','Alarme');
+DEFINE('_QSCOFALERTS',$UI_CW_Alert.'e');
 
 //base_stat_alerts.php
-DEFINE('_ALERTTITLE','Alarmliste');
+DEFINE('_ALERTTITLE',$UI_CW_Alert.'liste');
 
 //base_stat_common.php
 DEFINE('_SCCATEGORIES','Kategorien: ');
 DEFINE('_SCSENSORTOTAL','Sensoren/'.$UI_CW_Total.':');
-DEFINE('_SCTOTALNUMALERTS','Alarme '.$UI_CW_Total.':');
+DEFINE('_SCTOTALNUMALERTS',$UI_CW_Alert.'e '.$UI_CW_Total.':');
 DEFINE('_SCSRCIP','Quell IP Adressen:');
 DEFINE('_SCDSTIP','Ziel IP Adressen:');
 DEFINE('_SCUNILINKS','Unterschiedliche IP Verbindungen:');
@@ -635,7 +635,7 @@ DEFINE('_PSTOTALOCC',$UI_CW_Total.'<BR> Vorkommen');
 DEFINE('_PSNUMSENSORS','Anzahl Sensoren');
 DEFINE('_PSFIRSTOCC',$UI_CW_First.'<BR> Vorkommen');
 DEFINE('_PSLASTOCC',$UI_CW_Last.'<BR> Vorkommen');
-DEFINE('_PSUNIALERTS','Einheitliche Alarmtypen');
+DEFINE('_PSUNIALERTS','Einheitliche '.$UI_CW_Alert.'typen');
 DEFINE('_PSPORTSCANEVE','Portscan Events');
 DEFINE('_PSREGWHOIS','Verzeichnissuche (whois) in');
 DEFINE('_PSNODNS','keine DNS Aufl&ouml;sung erfolgt');
@@ -669,7 +669,7 @@ DEFINE('_OCCURRENCES','Occurrences'); //NEW
 DEFINE('SPSENSORLIST','Sensorenliste');
 
 //base_stat_time.php
-DEFINE('_BSTTITLE','Zeitliche Abfrage der Alarme');
+DEFINE('_BSTTITLE','Zeitliche Abfrage der '.$UI_CW_Alert.'e');
 DEFINE('_BSTTIMECRIT','Zeitangabe');
 DEFINE('_BSTERRPROFILECRIT','<FONT><B>Bitte geben Sie an, in welche Einheiten unterteilt werden soll!</B>  W&auml;hlen Sie "Stunden", "Tage", oder "Monate".</FONT>');
 DEFINE('_BSTERRTIMETYPE','<FONT><B>Bitte geben Sie an, wie die Datumsangabe behandelt werden soll!</B>  W&auml;hlen Sie "am", fr ein bestimmtes Datum, oder "zwischen" um einen Zeitraum anzugeben.</FONT>');
@@ -687,7 +687,7 @@ DEFINE('_SUASRCIP','Quell IP Adresse');
 DEFINE('_SUAERRCRITADDUNK','KRITERIUMFEHLER: unbekannter Adresstyp -- verwende Ziel Adresse');
 DEFINE('_UNIDADD','Unterschiedliche Zieladresse(n)');
 DEFINE('_SUADSTIP','Ziel IP Adresse');
-DEFINE('_SUAUNIALERTS','Einheitliche&nbsp;Alarmtypen');
+DEFINE('_SUAUNIALERTS','Einheitliche&nbsp;'.$UI_CW_Alert.'typen');
 DEFINE('_SUASRCADD','Quell&nbsp;Adr.');
 DEFINE('_SUADSTADD','Ziel&nbsp;Adr.');
 

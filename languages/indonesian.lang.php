@@ -70,6 +70,7 @@ $UI_CW_ML12 = 'Desember';
 $UI_CW_Last = 'terakhir';
 $UI_CW_First = 'Pertama';
 $UI_CW_Total = 'Jumlah';
+$UI_CW_Alert = 'Alarem';
 // Common Phrases.
 $UI_CP_SrcName = array($UI_CW_Name,$UI_CW_Src);
 $UI_CP_DstName = array($UI_CW_Name,$UI_CW_Dst);
@@ -84,7 +85,6 @@ $UI_AD_RID = array($UI_CW_Id,$UI_CW_Role);
 $UI_AD_ASD = 'Aktif';
 
 //common phrases
-DEFINE('_ALERT','Alarem');
 DEFINE('_ADDRESS','Alamat');
 DEFINE('_UNKNOWN','tak diketahui');
 DEFINE('_AND','AND'); //NEW
@@ -149,12 +149,12 @@ DEFINE('_PREVIOUS','Previous'); //NEW
 //Menu items
 DEFINE('_HOME','Home');
 DEFINE('_SEARCH','Cari');
-DEFINE('_AGMAINT','Pemel. Kelompok Alarem (AG)');
+DEFINE('_AGMAINT','Pemel. Kelompok '.$UI_CW_Alert.' (AG)');
 DEFINE('_USERPREF','Preferensi Pengguna');
 DEFINE('_CACHE','Cache & Status');
 DEFINE('_ADMIN','Administrasi');
-DEFINE('_GALERTD','Gambarkan Data Alarem');
-DEFINE('_GALERTDT','Gambarkan Waktu Alarem');
+DEFINE('_GALERTD','Gambarkan Data '.$UI_CW_Alert);
+DEFINE('_GALERTDT','Gambarkan Waktu '.$UI_CW_Alert);
 DEFINE('_USERMAN','Pengelolaan Pengguna');
 DEFINE('_LISTU','Tampilkan Pengguna');
 DEFINE('_CREATEU','Ciptakan Pengguna');
@@ -183,17 +183,17 @@ DEFINE('_LOGINERROR','Nama pengguna atau '.strtolower($UI_CW_Pw).' salah!<br>Sil
 // base_main.php
 DEFINE('_MOSTRECENT','Terbaru, ');
 DEFINE('_MOSTFREQUENT','Paling sering, ');
-DEFINE('_ALERTS',' alarem:');
+DEFINE('_ALERTS',' '.$UI_CW_Alert.':');
 DEFINE('_ADDRESSES',' Alamat');
 DEFINE('_ANYPROTO','Semua Protokol');
 DEFINE('_UNI','unik');
 DEFINE('_LISTING','seluruh');
-DEFINE('_TALERTS','Alarem hari ini: ');
+DEFINE('_TALERTS',$UI_CW_Alert.' hari ini: ');
 DEFINE('_SOURCEIP','Source IP'); //NEW
 DEFINE('_DESTIP','Destination IP'); //NEW
-DEFINE('_L24ALERTS','Alarem dalam 24 jam '.$UI_CW_Last.': ');
-DEFINE('_L72ALERTS','Alarem dalam 72 jam '.$UI_CW_Last.': ');
-DEFINE('_UNIALERTS',' Alarem Unik');
+DEFINE('_L24ALERTS',$UI_CW_Alert.' dalam 24 jam '.$UI_CW_Last.': ');
+DEFINE('_L72ALERTS',$UI_CW_Alert.' dalam 72 jam '.$UI_CW_Last.': ');
+DEFINE('_UNIALERTS',' '.$UI_CW_Alert.' Unik');
 DEFINE('_LSOURCEPORTS','Port sumber '.$UI_CW_Last.': ');
 DEFINE('_LDESTPORTS','Port sasaran '.$UI_CW_Last.': ');
 DEFINE('_FREGSOURCEP','Port sumber seringkali: ');
@@ -202,7 +202,7 @@ DEFINE('_QUERIED','Ditampilkan pada');
 DEFINE('_DATABASE','Database:');
 DEFINE('_SCHEMAV','Versi skema:');
 DEFINE('_TIMEWIN','Jarak Waktu:');
-DEFINE('_NOALERTSDETECT','Alarem tidak ditemukan');
+DEFINE('_NOALERTSDETECT',$UI_CW_Alert.' tidak ditemukan');
 DEFINE('_USEALERTDB','Use Alert Database'); //NEW
 DEFINE('_USEARCHIDB','Use Archive Database'); //NEW
 DEFINE('_TRAFFICPROBPRO','Traffic Profile by Protocol'); //NEW
@@ -241,9 +241,9 @@ DEFINE('_BASEADMIN','Administrasi BASE');
 DEFINE('_BASEADMINTEXT','Silakan gunakan salah satu pilihan di sebelah kiri.');
 
 //base_action.inc.php
-DEFINE('_NOACTION','Tidak ada aksi yang ditetapkan untuk alarem');
+DEFINE('_NOACTION','Tidak ada aksi yang ditetapkan untuk '.$UI_CW_Alert);
 DEFINE('_INVALIDACT',' adalah aksi yang tidak berlaku');
-DEFINE('_ERRNOAG','Gagal menambah alarem sehubungan KA belum ditetapkan');
+DEFINE('_ERRNOAG','Gagal menambah '.$UI_CW_Alert.' sehubungan KA belum ditetapkan');
 DEFINE('_ERRNOEMAIL','Gagal mengirim e-mail sehubungan alamat e-mail belum disebutkan');
 DEFINE('_ACTION','TINDAKAN');
 DEFINE('_CONTEXT','konteks');
@@ -252,23 +252,23 @@ DEFINE('_ADDAG','Tambahkan AG baru');
 DEFINE('_ADDAGNAME','Tambahkan ke AG (menurut nama)');
 DEFINE('_CREATEAG','Ciptakan AG (menurut nama)');
 DEFINE('_CLEARAG','Hapus dari AG');
-DEFINE('_DELETEALERT','Hapus alarem');
-DEFINE('_EMAILALERTSFULL','Kirim alarem melalui e-mail (semua)');
-DEFINE('_EMAILALERTSSUMM','Kirim alarem melalui e-mail (ringkasan)');
-DEFINE('_EMAILALERTSCSV','Kirim alarem melalui e-mail  (csv)');
-DEFINE('_ARCHIVEALERTSCOPY','Arsipkan alarem (salinkan)');
-DEFINE('_ARCHIVEALERTSMOVE','Arsipkan alarem (pindahkan)');
+DEFINE('_DELETEALERT','Hapus '.$UI_CW_Alert);
+DEFINE('_EMAILALERTSFULL','Kirim '.$UI_CW_Alert.' melalui e-mail (semua)');
+DEFINE('_EMAILALERTSSUMM','Kirim '.$UI_CW_Alert.' melalui e-mail (ringkasan)');
+DEFINE('_EMAILALERTSCSV','Kirim '.$UI_CW_Alert.' melalui e-mail  (csv)');
+DEFINE('_ARCHIVEALERTSCOPY','Arsipkan '.$UI_CW_Alert.' (salinkan)');
+DEFINE('_ARCHIVEALERTSMOVE','Arsipkan '.$UI_CW_Alert.' (pindahkan)');
 DEFINE('_IGNORED','Diabaikan ');
-DEFINE('_DUPALERTS',' alarem ganda');
-DEFINE('_ALERTSPARA',' alarem');
-DEFINE('_NOALERTSSELECT','Alarem tidak dipilihkan atau');
+DEFINE('_DUPALERTS',' '.$UI_CW_Alert.' ganda');
+DEFINE('_ALERTSPARA',' '.$UI_CW_Alert);
+DEFINE('_NOALERTSSELECT',$UI_CW_Alert.' tidak dipilihkan atau');
 DEFINE('_NOTSUCCESSFUL','tidak sukses');
 DEFINE('_ERRUNKAGID','Penetapan AG tidak diketahui (AG mungkin tidak ada)');
 DEFINE('_ERRREMOVEFAIL','Gagal menghapus KA baru');
 DEFINE('_GENBASE','Dihasilkan oleh BASE');
-DEFINE('_ERRNOEMAILEXP','KESALAHAN PADA EKSPOR: Gagal mengirim alarem yang diekspor kepada');
+DEFINE('_ERRNOEMAILEXP','KESALAHAN PADA EKSPOR: Gagal mengirim '.$UI_CW_Alert.' yang diekspor kepada');
 DEFINE('_ERRNOEMAILPHP','Periksalah kembali konfigurasi Mail pada PHP.');
-DEFINE('_ERRDELALERT','Gagal menghapus alarem');
+DEFINE('_ERRDELALERT','Gagal menghapus '.$UI_CW_Alert);
 DEFINE('_ERRARCHIVE','Gagal mengarsip:');
 DEFINE('_ERRMAILNORECP','MAIL ERROR: Penerima tidak ditentukan');
 
@@ -279,14 +279,14 @@ DEFINE('_HOSTNAMESWHOIS',' nama host pada cache Whois');
 DEFINE('_ERRCACHENULL','KESALAHAN pada Caching: Baris daftar '.$UI_CW_Event.' TIDAK DITEMUKAN?');
 DEFINE('_ERRCACHEERROR','KESALAHAN pada CACHING '.$UI_CW_Event.':');
 DEFINE('_ERRCACHEUPDATE','Gagal meng-update cache '.$UI_CW_Event);
-DEFINE('_ALERTSCACHE',' alarem dalam cache '.$UI_CW_Event.'<BR>');
+DEFINE('_ALERTSCACHE',' '.$UI_CW_Alert.' dalam cache '.$UI_CW_Event.'<BR>');
 
 //base_db.inc.php
 DEFINE('_ERRSQLTRACE','Gagal membuka file SQL catatan');
 DEFINE('_ERRSQLCONNECT','Koneksi ke DB gagal :');
 DEFINE('_ERRSQLCONNECTINFO','<P>Mohon periksa variabel koneksi ke DB pada file <I>base_conf.php</I> 
               <PRE>
-               = $alert_dbname   : nama database MySQL untuk menyimpan alarem 
+               = $alert_dbname   : nama database MySQL untuk menyimpan '.$UI_CW_Alert.'
                = $alert_host     : nama host yang menyimpan database
                = $alert_port     : nama port yang digunakan oleh database
                = $alert_user     : nama pengguna pada database
@@ -380,30 +380,30 @@ DEFINE('_ERRCRITELEM','Elemen kriteria tidak berlaku');
 //base_state_query.inc.php
 DEFINE('_VALIDCANNED','Daftar pencarian berlaku');
 DEFINE('_DISPLAYING','Tampilkan');
-DEFINE('_DISPLAYINGTOTAL','Tampilan alarem %d s/d. %d dari '.$UI_CW_Total.' %d');
-DEFINE('_NOALERTS','Tidak ada alarem ditemukan.');
+DEFINE('_DISPLAYINGTOTAL','Tampilan '.$UI_CW_Alert.' %d s/d. %d dari '.$UI_CW_Total.' %d');
+DEFINE('_NOALERTS','Tidak ada '.$UI_CW_Alert.' ditemukan.');
 DEFINE('_QUERYRESULTS','Halaman Pencarian');
 DEFINE('_QUERYSTATE','Status Pencarian');
 DEFINE('_DISPACTION','{ action }'); //NEW
 
 //base_ag_common.php
-DEFINE('_ERRAGNAMESEARCH','Nama kelompok alarem yang dirinci tidak berlaku.  Silakan dicoba ulang!');
-DEFINE('_ERRAGNAMEEXIST','Kelompok alarem yang dirinci tidak ada.');
-DEFINE('_ERRAGIDSEARCH','Pencarian ID kelompok alarem yang dirinci tidak valid.  Silakan dicoba ulang!');
-DEFINE('_ERRAGLOOKUP','Galal pada pencarian ID kelompok alarem');
-DEFINE('_ERRAGINSERT','Gagal menyisipkan kelompok alarem baru');
+DEFINE('_ERRAGNAMESEARCH','Nama kelompok '.$UI_CW_Alert.' yang dirinci tidak berlaku.  Silakan dicoba ulang!');
+DEFINE('_ERRAGNAMEEXIST','Kelompok '.$UI_CW_Alert.' yang dirinci tidak ada.');
+DEFINE('_ERRAGIDSEARCH','Pencarian ID kelompok '.$UI_CW_Alert.' yang dirinci tidak valid.  Silakan dicoba ulang!');
+DEFINE('_ERRAGLOOKUP','Galal pada pencarian ID kelompok '.$UI_CW_Alert);
+DEFINE('_ERRAGINSERT','Gagal menyisipkan kelompok '.$UI_CW_Alert.' baru');
 
 //base_ag_main.php
-DEFINE('_AGMAINTTITLE','Pemeliharaan kelompok alarem (AG)');
-DEFINE('_ERRAGUPDATE','Gagal meng-update kelompok alarem (AG)');
-DEFINE('_ERRAGPACKETLIST','Gagal menghapus daftar paket untuk kelompok alarem (AG):');
-DEFINE('_ERRAGDELETE','Gagal menghapus kelompok alarem (AG)');
+DEFINE('_AGMAINTTITLE','Pemeliharaan kelompok '.$UI_CW_Alert.' (AG)');
+DEFINE('_ERRAGUPDATE','Gagal meng-update kelompok '.$UI_CW_Alert.' (AG)');
+DEFINE('_ERRAGPACKETLIST','Gagal menghapus daftar paket untuk kelompok '.$UI_CW_Alert.' (AG):');
+DEFINE('_ERRAGDELETE','Gagal menghapus kelompok '.$UI_CW_Alert.' (AG)');
 DEFINE('_AGDELETE','DIHAPUS dengan sukses');
 DEFINE('_AGDELETEINFO','informasi dihapus');
 DEFINE('_ERRAGSEARCHINV','Kriteria pencarian tidak berlaku. Mohon dicoba ulang!');
-DEFINE('_ERRAGSEARCHNOTFOUND','Kelompok alarem (AG) dengan kriteria yang dimaksud tidak ditemukan.');
-DEFINE('_NOALERTGOUPS','Kelompok Alarem (AG) tidak ditemukan');
-DEFINE('_NUMALERTS','# Alarem');
+DEFINE('_ERRAGSEARCHNOTFOUND','Kelompok '.$UI_CW_Alert.' (AG) dengan kriteria yang dimaksud tidak ditemukan.');
+DEFINE('_NOALERTGOUPS','Kelompok '.$UI_CW_Alert.' (AG) tidak ditemukan');
+DEFINE('_NUMALERTS','# '.$UI_CW_Alert);
 DEFINE('_ACTIONS','Pilihan');
 DEFINE('_NOTASSIGN','belum digolongkan');
 DEFINE('_SAVECHANGES','Save Changes'); //NEW
@@ -416,7 +416,7 @@ DEFINE('_PORTSCAN','Lalu-Lintas Portscan');
 //base_db_common.php
 DEFINE('_ERRDBINDEXCREATE','Gagal menciptakan indeks untuk');
 DEFINE('_DBINDEXCREATE','Sukses menciptakan indeks untuk');
-DEFINE('_ERRSNORTVER','Mungkin Anda menggunakan versi yang lama.  Hanya database alarem yang diciptakan oleh Snort 1.7-beta0 atau lebih baru yang didukung');
+DEFINE('_ERRSNORTVER','Mungkin Anda menggunakan versi yang lama.  Hanya database '.$UI_CW_Alert.' yang diciptakan oleh Snort 1.7-beta0 atau lebih baru yang didukung');
 DEFINE('_ERRSNORTVER1','Database yang digunakan sebagai dasar');
 DEFINE('_ERRSNORTVER2','rupanya tidak lengkap/tidak berlaku');
 DEFINE('_ERRDBSTRUCT1','Versi database berlaku tetapi struktur DB BASE');
@@ -426,13 +426,13 @@ DEFINE('_ERRPHPERROR1','Versi tidak kompatibel');
 DEFINE('_ERRVERSION','Versi');
 DEFINE('_ERRPHPERROR2','PHP terlalu tua.  Mohon upgrade ke versi 4.0.4 atau lebih baru');
 DEFINE('_ERRPHPMYSQLSUP','<B>Build PHP tidak komplit</B>: <FONT>Dukungan MySQL diperlukan sebagai dasar untuk  
-               membaca alarem dari database. Dukungan MySQL tidak di-build dalam PHP. 
+               membaca '.$UI_CW_Alert.' dari database. Dukungan MySQL tidak di-build dalam PHP. 
                Mohon kompile ulang PHP dengan libari yang diperlukan (<CODE>--with-mysql</CODE>)</FONT>');
 DEFINE('_ERRPHPPOSTGRESSUP','<B>Build PHP tidak komplit</B>: <FONT>Dukungan PostgreSQL diperlukan sebagai dasar untuk 
-               membaca alarem dari database. Dukungan PostgreSQL tidak di-build dalam PHP.   
+               membaca '.$UI_CW_Alert.' dari database. Dukungan PostgreSQL tidak di-build dalam PHP.   
                Mohon kompile ulang PHP dengan libari yang diperlukan (<CODE>--with-pgsql</CODE>)</FONT>');
 DEFINE('_ERRPHPMSSQLSUP','<B>Build PHP tidak komplit</B>: <FONT>Dukungan MS SQL Server diperlukan sebagai dasar untuk 
-                   membaca alarem dari database. Dukungan MS SQL Server tidak di-build dalam PHP.  
+                   membaca '.$UI_CW_Alert.' dari database. Dukungan MS SQL Server tidak di-build dalam PHP.  
                    Mohon kompile ulang PHP dengan libari yang diperlukan (<CODE>--enable-mssql</CODE>)</FONT>');
 DEFINE('_ERRPHPORACLESUP','<B>PHP build incomplete</B>: <FONT>the prerequisite Oracle support required to 
                    read the alert database was not built into PHP.  
@@ -458,19 +458,19 @@ DEFINE('_CHARTDAY','{dia}'); //NEW
 DEFINE('_CHARTMONTH','{mês}'); //NEW
 DEFINE('_GRAPHALERTS','Graph Alerts'); //NEW
 DEFINE('_AXISCONTROLS','X / Y AXIS CONTROLS'); //NEW
-DEFINE('_CHRTTYPEHOUR','Waktu (jam) vs. '.$UI_CW_Total.' Alarem');
-DEFINE('_CHRTTYPEDAY','Waktu (hari) vs. '.$UI_CW_Total.' Alarem');
-DEFINE('_CHRTTYPEWEEK','Waktu (minggu) vs. '.$UI_CW_Total.' Alarem');
-DEFINE('_CHRTTYPEMONTH','Waktu (bulan) vs. '.$UI_CW_Total.' Alarem');
-DEFINE('_CHRTTYPEYEAR','Waktu (tahun) vs. '.$UI_CW_Total.' Alarem');
-DEFINE('_CHRTTYPESRCIP','Alamat IP sumber vs. '.$UI_CW_Total.' Alarem');
-DEFINE('_CHRTTYPEDSTIP','Alamat IP sasaran vs. '.$UI_CW_Total.' Alarem');
-DEFINE('_CHRTTYPEDSTUDP','Port UDP sasaran vs. '.$UI_CW_Total.' Alarem');
-DEFINE('_CHRTTYPESRCUDP','Port UDP sumber vs. '.$UI_CW_Total.' Alarem');
-DEFINE('_CHRTTYPEDSTPORT','Port TCP sasaran vs. '.$UI_CW_Total.' Alarem');
-DEFINE('_CHRTTYPESRCPORT','Port TCP sumber vs. '.$UI_CW_Total.' Alarem');
-DEFINE('_CHRTTYPESIG','Klasifikasi Sig. vs. '.$UI_CW_Total.' Alarem');
-DEFINE('_CHRTTYPESENSOR','Sensor vs. '.$UI_CW_Total.' Alarem');
+DEFINE('_CHRTTYPEHOUR','Waktu (jam) vs. '.$UI_CW_Total.' '.$UI_CW_Alert);
+DEFINE('_CHRTTYPEDAY','Waktu (hari) vs. '.$UI_CW_Total.' '.$UI_CW_Alert);
+DEFINE('_CHRTTYPEWEEK','Waktu (minggu) vs. '.$UI_CW_Total.' '.$UI_CW_Alert);
+DEFINE('_CHRTTYPEMONTH','Waktu (bulan) vs. '.$UI_CW_Total.' '.$UI_CW_Alert);
+DEFINE('_CHRTTYPEYEAR','Waktu (tahun) vs. '.$UI_CW_Total.' '.$UI_CW_Alert);
+DEFINE('_CHRTTYPESRCIP','Alamat IP sumber vs. '.$UI_CW_Total.' '.$UI_CW_Alert);
+DEFINE('_CHRTTYPEDSTIP','Alamat IP sasaran vs. '.$UI_CW_Total.' '.$UI_CW_Alert);
+DEFINE('_CHRTTYPEDSTUDP','Port UDP sasaran vs. '.$UI_CW_Total.' '.$UI_CW_Alert);
+DEFINE('_CHRTTYPESRCUDP','Port UDP sumber vs. '.$UI_CW_Total.' '.$UI_CW_Alert);
+DEFINE('_CHRTTYPEDSTPORT','Port TCP sasaran vs. '.$UI_CW_Total.' '.$UI_CW_Alert);
+DEFINE('_CHRTTYPESRCPORT','Port TCP sumber vs. '.$UI_CW_Total.' '.$UI_CW_Alert);
+DEFINE('_CHRTTYPESIG','Klasifikasi Sig. vs. '.$UI_CW_Total.' '.$UI_CW_Alert);
+DEFINE('_CHRTTYPESENSOR','Sensor vs. '.$UI_CW_Total.' '.$UI_CW_Alert);
 DEFINE('_CHRTBEGIN','Grafik dimulai:');
 DEFINE('_CHRTEND','Grafik diakhiri:');
 DEFINE('_CHRTDS','Sumber Data:');
@@ -487,26 +487,26 @@ DEFINE('_CHRTYGRID','Tampilkan garis pada koordinat Y');
 //base_graph_main.php
 DEFINE('_CHRTTITLE','Grafik BASE');
 DEFINE('_ERRCHRTNOTYPE',$UI_CW_Type.' grafik belum ditepatkan');
-DEFINE('_ERRNOAGSPEC','Kelompok alarem tidak ditepatkan.  Menggunakan semua alarem.');
+DEFINE('_ERRNOAGSPEC','Kelompok '.$UI_CW_Alert.' tidak ditepatkan.  Menggunakan semua '.$UI_CW_Alert);
 DEFINE('_CHRTDATAIMPORT','Memulai impor data');
-DEFINE('_CHRTTIMEVNUMBER','Waktu vs. '.$UI_CW_Total.' Alarem');
+DEFINE('_CHRTTIMEVNUMBER','Waktu vs. '.$UI_CW_Total.' '.$UI_CW_Alert);
 DEFINE('_CHRTTIME','Waktu');
-DEFINE('_CHRTALERTOCCUR',$UI_CW_Event.' Alarem');
-DEFINE('_CHRTSIPNUMBER','IP sumber vs. '.$UI_CW_Total.' Alarem');
+DEFINE('_CHRTALERTOCCUR',$UI_CW_Event.' '.$UI_CW_Alert);
+DEFINE('_CHRTSIPNUMBER','IP sumber vs. '.$UI_CW_Total.' '.$UI_CW_Alert);
 DEFINE('_CHRTSIP','Alamat IP sumber');
-DEFINE('_CHRTDIPALERTS','IP sasaran vs. '.$UI_CW_Total.' Alarem');
+DEFINE('_CHRTDIPALERTS','IP sasaran vs. '.$UI_CW_Total.' '.$UI_CW_Alert);
 DEFINE('_CHRTDIP','Alamat IP sasaran');
-DEFINE('_CHRTUDPPORTNUMBER','Port UDP (Sasaran) vs. '.$UI_CW_Total.' Alarem');
+DEFINE('_CHRTUDPPORTNUMBER','Port UDP (Sasaran) vs. '.$UI_CW_Total.' '.$UI_CW_Alert);
 DEFINE('_CHRTDUDPPORT','Port UDP sasaran');
-DEFINE('_CHRTSUDPPORTNUMBER','Port UDP (Sumber) vs. '.$UI_CW_Total.' Alarem');
+DEFINE('_CHRTSUDPPORTNUMBER','Port UDP (Sumber) vs. '.$UI_CW_Total.' '.$UI_CW_Alert);
 DEFINE('_CHRTSUDPPORT','Port UDP sumber');
-DEFINE('_CHRTPORTDESTNUMBER','Port TCP (Sasaran) vs. '.$UI_CW_Total.' Alarem');
+DEFINE('_CHRTPORTDESTNUMBER','Port TCP (Sasaran) vs. '.$UI_CW_Total.' '.$UI_CW_Alert);
 DEFINE('_CHRTPORTDEST','Port TCP sasaran');
-DEFINE('_CHRTPORTSRCNUMBER','Port TCP (Sumber) vs. '.$UI_CW_Total.' Alarem');
+DEFINE('_CHRTPORTSRCNUMBER','Port TCP (Sumber) vs. '.$UI_CW_Total.' '.$UI_CW_Alert);
 DEFINE('_CHRTPORTSRC','Port TCP sumber');
-DEFINE('_CHRTSIGNUMBER','Klasifikasi '.$UI_CW_Sig.' vs. '.$UI_CW_Total.' Alarem');
+DEFINE('_CHRTSIGNUMBER','Klasifikasi '.$UI_CW_Sig.' vs. '.$UI_CW_Total.' '.$UI_CW_Alert);
 DEFINE('_CHRTCLASS','Klasifikasi');
-DEFINE('_CHRTSENSORNUMBER','Sensor vs. '.$UI_CW_Total.' Alarem');
+DEFINE('_CHRTSENSORNUMBER','Sensor vs. '.$UI_CW_Total.' '.$UI_CW_Alert);
 DEFINE('_CHRTHANDLEPERIOD','Jangka waktu penanangan bila perlu');
 DEFINE('_CHRTDUMP','Menerbitkan data ... (hanya tulis setiap');
 DEFINE('_CHRTDRAW','Menciptakan grafik');
@@ -525,7 +525,7 @@ DEFINE('_MNTPHPLOGLVL','PHP Level Logging:');
 DEFINE('_MNTPHPMODS','Modul2 yang berjalan:');
 DEFINE('_MNTDBTYPE',$UI_CW_Type.' DB:');
 DEFINE('_MNTDBALV','Versi Niskala DB:');
-DEFINE('_MNTDBALERTNAME','Nama DB Alarem:');
+DEFINE('_MNTDBALERTNAME','Nama DB '.$UI_CW_Alert.':');
 DEFINE('_MNTDBARCHNAME','Nama DB Arsip:');
 DEFINE('_MNTAIC',$UI_CW_Event.' dalam Cache:');
 DEFINE('_MNTAICTE',$UI_CW_Total.' '.$UI_CW_Event.':');
@@ -538,8 +538,8 @@ DEFINE('_MNTIPACUDIP','Jml. IP sasaran unik:');
 
 //base_qry_alert.php
 DEFINE('_QAINVPAIR','Pasangan (sid,cid) yg. tdk. berlaku');
-DEFINE('_QAALERTDELET','Alarem TERHAPUS');
-DEFINE('_QATRIGGERSIG','Deskripsi Alarem');
+DEFINE('_QAALERTDELET',$UI_CW_Alert.' TERHAPUS');
+DEFINE('_QATRIGGERSIG','Deskripsi '.$UI_CW_Alert);
 DEFINE('_QANORMALD','Normal Display'); //NEW
 DEFINE('_QAPLAIND','Plain Display'); //NEW
 DEFINE('_QANOPAYLOAD','Fast logging used so payload was discarded'); //NEW
@@ -592,22 +592,22 @@ DEFINE('_QFRMSORTORDER','Urutan');
 DEFINE('_QFRMSORTNONE','none'); //NEW
 DEFINE('_QFRMTIMEA','waktu (menaik)');
 DEFINE('_QFRMTIMED','waktu (menurun)');
-DEFINE('_QFRMSIG','nama alarem');
+DEFINE('_QFRMSIG','nama '.$UI_CW_Alert);
 DEFINE('_QFRMSIP','IP sumber');
 DEFINE('_QFRMDIP','IP sasaran');
 
 //base_qry_sqlcalls.php
 DEFINE('_QSCSUMM','Rekapitulasi Statistik');
 DEFINE('_QSCTIMEPROF','Riwayat waktu');
-DEFINE('_QSCOFALERTS','dari alarem');
+DEFINE('_QSCOFALERTS','dari '.$UI_CW_Alert);
 
 //base_stat_alerts.php
-DEFINE('_ALERTTITLE','Daftar Alarem');
+DEFINE('_ALERTTITLE','Daftar '.$UI_CW_Alert);
 
 //base_stat_common.php
 DEFINE('_SCCATEGORIES','Kategori:');
 DEFINE('_SCSENSORTOTAL','Sensor/'.$UI_CW_Total.':');
-DEFINE('_SCTOTALNUMALERTS',$UI_CW_Total.' alarem:');
+DEFINE('_SCTOTALNUMALERTS',$UI_CW_Total.' '.$UI_CW_Alert.':');
 DEFINE('_SCSRCIP','Alamat IP sumber:');
 DEFINE('_SCDSTIP','Alamat IP sasaran:');
 DEFINE('_SCUNILINKS','IP unik berhubungan');
@@ -634,7 +634,7 @@ DEFINE('_PSTOTALOCC',$UI_CW_Total.'<BR> '.$UI_CW_Event);
 DEFINE('_PSNUMSENSORS','Jml. Sensor');
 DEFINE('_PSFIRSTOCC',$UI_CW_Event.'<BR> '.$UI_CW_First);
 DEFINE('_PSLASTOCC',$UI_CW_Event.'<BR> '.$UI_CW_Last);
-DEFINE('_PSUNIALERTS','Alarem Unik');
+DEFINE('_PSUNIALERTS',$UI_CW_Alert.' Unik');
 DEFINE('_PSPORTSCANEVE',$UI_CW_Event.' Portscan');
 DEFINE('_PSREGWHOIS','Periksa pendaftar (whois) di');
 DEFINE('_PSNODNS','pemecahan DNS tidak dilakukan');
@@ -668,7 +668,7 @@ DEFINE('_OCCURRENCES','Occurrences'); //NEW
 DEFINE('SPSENSORLIST','Daftar Sensor');
 
 //base_stat_time.php
-DEFINE('_BSTTITLE','Profil waktu Alarem');
+DEFINE('_BSTTITLE','Profil waktu '.$UI_CW_Alert);
 DEFINE('_BSTTIMECRIT','Kriteria Waktu');
 DEFINE('_BSTERRPROFILECRIT','<FONT><B>Penggolongan satuan belum ditetapkan!</B>  Silakan pilih "jam", "hari" atau "bulan" terlebih dahulu.</FONT>');
 DEFINE('_BSTERRTIMETYPE','<FONT><B>'.$UI_CW_Type.' parameter tentang waktu belum ditetapkan!</B>  Silakan pilih "pada" untuk suatu hari tertentu atau pilih "antara" untuk tentukan jangka waktu tertentu.</FONT>');
@@ -686,7 +686,7 @@ DEFINE('_SUASRCIP','Sumber alamat IP');
 DEFINE('_SUAERRCRITADDUNK','ERROR PADA CRITERIA: '.$UI_CW_Type.' alamat tidak dikenal -- menggunakan alamat sasaran');
 DEFINE('_UNIDADD','Alamat sasaran unik');
 DEFINE('_SUADSTIP','Alamat IP sasaran');
-DEFINE('_SUAUNIALERTS','Alarem&nbsp;Unik');
+DEFINE('_SUAUNIALERTS',$UI_CW_Alert.'&nbsp;Unik');
 DEFINE('_SUASRCADD','Sumber&nbsp;Alamat');
 DEFINE('_SUADSTADD','Sasaran&nbsp;Alamat');
 

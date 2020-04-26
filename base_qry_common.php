@@ -375,12 +375,14 @@ function DataRows2sql($field, $cnt, $data_encode, &$s_sql)
 function PrintCriteria($caller) {
 	GLOBAL $db, $cs, $last_num_alerts, $save_criteria, $UIL;
 	$CPLast = $UIL->CWA['Last'];
+	$CPAlert = $UIL->CWA['Alert'];
 	// Generate the Criteria entered into a human readable form.
 	$save_criteria =
 	NLI('<table cellspacing="1" cellpadding="2" border="0" bgcolor="#FFFFFF">',4).
 	NLI('<tr>',5).
 	NLI('<td class="metatitle">'._QCMETACRIT.'</td>',6).
-	NLI('<td>',6);
+	NLI('<td>',6).
+	NLI('',7);
 	// If printing any of the LAST-X stats then ignore all other criteria.
 	if (
 		$caller == "last_tcp" || $caller == "last_udp"
@@ -394,7 +396,8 @@ function PrintCriteria($caller) {
 		}elseif ( $caller == "last_icmp" ){
 			$save_criteria .= 'ICMP ';
 		}
-		$save_criteria .= _ALERT.'&nbsp;&nbsp;</td>'.
+		$save_criteria .= $CPAlert.'&nbsp;&nbsp;'.
+		NLI('</td>',6).
 		NLI('</tr>',5).
 		NLI('</table>',4);
 		print $save_criteria;

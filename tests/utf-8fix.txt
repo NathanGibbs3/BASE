@@ -3,87 +3,32 @@ LC_CTYPE=C grep -lP "\xXX" *
 
 Sed patterns to fix invlaid utf-8 codepoints.
 
-8859-2 to utf-8
----
-Ž
-sed 's/\xAE/\xC5\xBD/g'
-
-š
-sed 's/\xB9/\xC5\xA1/g'
-
-ž
-sed 's/\xBE/\xC5\xBE/g'
-
-Issue #56 Fix incorrect 8859-1 to utf-8 conversion
-
-Č
-sed 's/\xC8/\xC4\x8C/g'
-
-Ř
-sed 's/\xD8/\xC5\x98/g'
-
-ů
-sed 's/\xF9/\xC5\xAF/g'
-
-
-8859-1 to utf8
----
-È
-sed 's/\xC8/\xC3\x88/g'
-
-Ö
-sed 's/\xD6/\xC3\x96/g'
-
-Ø
-sed 's/\xD8/\xC3\x98/g'
-MARK
-Ú
-sed 's/\xDA/\xC3\x9A/g'
-
-Ý
-sed 's/\xDD/\xC3\x9D/g'
-
-à
-sed 's/\xE0/\xC3\xA0/g'
-
-á
-sed 's/\xE1/\xC3\xA1/g'
-
-ä
-sed 's/\xE4/\xC3\xA4/g'
-
-å
-sed 's/\xE5/\xC3\xA5/g'
-
-æ
-sed 's/\xE6/\xC3\xA6/g'
-
-è
-sed 's/\xE8/\xC3\xA8/g'
-
-é
-sed 's/\xE9/\xC3\xA9/g'
-
-ì
-sed 's/\xEc/\xC3\xAC/g'
-
-í
-sed 's/\xED/\xC3\xAD/g'
-
-ö
-sed 's/\xF6/\xC3\xB6/g'
-
-ø
-sed 's/\xF8/\xC3\xB8/g'
-
-ù
-sed 's/\xF9/\xC3\xB9/g'
-
-ü
-sed 's/\xFC/\xC3\xBC/g'
-
-ý
-sed 's/\xFD/\xC3\xBD/g'
-
-þ
-sed 's/\xFE/\xC3\xBE/g'
+Issue #1								Issue #1 & #56
+Ascii									Czech 8859-2					Turkish 8859-9
+Dec		Chr	8859-1 to utf8			GC	Chr	8859-2 to utf-8			GC	Chr	8859-9 to utf-8
+174									N	Ž	sed 's/\xAE/\xC5\xBD/g'	Y
+185									N	š	sed 's/\xB9/\xC5\xA1/g'	Y
+190									N	ž	sed 's/\xBE/\xC5\xBE/g'	Y
+200		È	sed 's/\xC8/\xC3\x88/g'	Y	Č	sed 's/\xC8/\xC4\x8C/g'	IC
+214		Ö	sed 's/\xD6/\xC3\x96/g'	Y
+216		Ø	sed 's/\xD8/\xC3\x98/g'	Y	Ř	sed 's/\xD8/\xC5\x98/g'	IC
+218		Ú	sed 's/\xDA/\xC3\x9A/g'	Y
+221		Ý	sed 's/\xDD/\xC3\x9D/g'	Y	N/A								
+224		à	sed 's/\xE0/\xC3\xA0/g'	Y
+225		á	sed 's/\xE1/\xC3\xA1/g'	Y
+228		ä	sed 's/\xE4/\xC3\xA4/g'	Y
+229		å	sed 's/\xE5/\xC3\xA5/g'	Y
+230		æ	sed 's/\xE6/\xC3\xA6/g'	Y
+232		è	sed 's/\xE8/\xC3\xA8/g'	Y	č	sed 's/\xE8/\xC4\x8D/g'	IC
+233		é	sed 's/\xE9/\xC3\xA9/g'	Y
+236		ì	sed 's/\xEC/\xC3\xAC/g'	Y	ě	sed 's/\xEc/\xC4\x9B/g'	IC
+237		í	sed 's/\xED/\xC3\xAD/g'	Y
+239		ï	sed 's/\xEF/\xC3\xAF/g'	N	ď	sed 's/\xEF/\xC4\x8F/g'	Y
+243		ó	sed 's/\xF3/\xC3\xB3/g'	Y
+246		ö	sed 's/\xF6/\xC3\xB6/g'	Y
+248		ø	sed 's/\xF8/\xC3\xB8/g'	Y	ř	sed 's/\xF8/\xC5\x99/g'	IC
+249		ù	sed 's/\xF9/\xC3\xB9/g'	Y	ů	sed 's/\xF9/\xC5\xAF/g'	IC
+250		ú	sed 's/\xFA/\xC3\xBA/g'	Y
+252		ü	sed 's/\xFC/\xC3\xBC/g'	Y
+253		ý	sed 's/\xFD/\xC3\xBD/g'	Y	N/A									ı	sed 's/\xFD/\xC4\xB1/g'	IC
+254		þ	sed 's/\xFE/\xC3\xBE/g'	Y

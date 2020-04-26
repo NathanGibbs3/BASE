@@ -68,9 +68,9 @@ function StoreAlertNum($sql, $label, $time_sep, $i_year, $i_month, $i_day, $i_ho
      $value_lst [ $cnt++ ] = 0;
 }
 
-function PrintTimeProfile()
-{
-   GLOBAL $cnt, $label_lst, $value_lst, $value_POST_lst;
+function PrintTimeProfile(){
+	GLOBAL $cnt, $label_lst, $value_lst, $value_POST_lst, $UIL;
+	$CPAlert = $UIL->CWA['Alert'];
 
    /* find max value */
    $max_cnt = $value_lst[0];
@@ -80,7 +80,7 @@ function PrintTimeProfile()
    echo '<TABLE BORDER=1 WIDTH="100%">
            <TR><TD CLASS="plfieldhdr" width="25%">'._CHRTTIME.'</TD>
                <TD CLASS="plfieldhdr" width="15%"># '._QSCOFALERTS.'</TD>
-               <TD CLASS="plfieldhdr">'._ALERT.'</TD></TR>';
+               <TD CLASS="plfieldhdr">'.$CPAlert.'</TD></TR>';
 
 
    for ($i = 0; $i < $cnt; $i++ )
@@ -376,9 +376,8 @@ for ( $i = 0; $i < 2; $i++ ){
   }   // end year
 
   echo '</TABLE>';
-  PrintTimeProfile();
-  }
-
-  PrintBASESubFooter();
-  echo "</body>\r\n</html>";
+	PrintTimeProfile();
+}
+PrintBASESubFooter();
+PageEnd();
 ?>

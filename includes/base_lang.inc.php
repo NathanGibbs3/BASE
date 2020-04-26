@@ -81,8 +81,12 @@ class UILang{
 		// Auto Generate Long/Short Month Names
 		$msg = "Auto Generate Month Names\nTD ISO Lang Code: ";
 		if ( !isset($UI_ILC) ){ // Legecy TDF
-			$msg .= "Unset. Using Legacy Shims";
-			// Compatibility Shimming
+			$msg .= 'Unset';
+			$tmp = 'Set via Legacy TD support';
+			// Set vars based on file name and sensible defaults for
+			// language in question.
+			// ILC from information in lagecy TD Files.
+			// IRC when defaults will most likely fail.
 			if ( preg_match("/portuguese/", $this->Lang) ){
 				$UI_ILC = 'pt';
 				if ( preg_match("/portuguese-PT/", $this->Lang) ){
@@ -92,13 +96,16 @@ class UILang{
 				}
 			}elseif (preg_match("/chinese/", $this->Lang) ){
 				$UI_ILC = 'zh';
+				$UI_IRC = 'CN';
 			}else{
 				switch ($this->Lang) {
 					case 'czech':
 						$UI_ILC = 'cs';
+						$UI_IRC = 'CZ';
 						break;
 					case 'danish':
 						$UI_ILC = 'da';
+						$UI_IRC = 'DK';
 						break;
 					case 'english':
 						$UI_ILC = 'en';
@@ -120,9 +127,11 @@ class UILang{
 						break;
 					case 'japanese':
 						$UI_ILC = 'ja';
+						$UI_IRC = 'JP';
 						break;
 					case 'norwegian':
-						$UI_ILC = 'no';
+						$UI_ILC = 'nb';
+						$UI_IRC = 'NO';
 						break;
 					case 'polish':
 						$UI_ILC = 'pl';
@@ -135,6 +144,7 @@ class UILang{
 						break;
 					case 'swedish':
 						$UI_ILC = 'sv';
+						$UI_IRC = 'SE';
 						break;
 					case 'turkish':
 						$UI_ILC = 'tr';
@@ -146,12 +156,15 @@ class UILang{
 		}else{ // New TDF
 			if ( strlen($UI_ILC) != 2 ) {
 				$UI_ILC = 'en'; // Default to english on invalid data.
-				$msg .= "Invalid. Default to 'en'";
+				$msg .= 'Invalid';
+				$tmp = 'Default';
 			}else{
 				$msg .= 'OK';
+				$tmp = 'Set';
 			}
 		}
-		$msg .= ".\nTD ISO Region Code: ";
+		$UI_ILC = strtolower($UI_ILC);
+		$msg .= ". $tmp to: '$UI_ILC'.\nTD ISO Region Code: ";
 		if ( !isset($UI_IRC) ) {
 			$tmp = 'Unset';
 		}elseif ( strlen($UI_IRC) != 2 ) {
@@ -159,27 +172,33 @@ class UILang{
 		}else{
 			$tmp = 'OK';
 		}
-		$msg .= $tmp.'.';
-		if ( $tmp != 'OK') { // Default to US on invalid data.
-			$msg .= " Default to 'US'.";
-			$UI_IRC = 'US';
+		$msg .= $tmp.'. ';
+		if ( $tmp != 'OK') {
+			$msg .= 'Default';
+			if ( $UI_ILC == 'en' ){ // Default English to US.
+				$UI_IRC = 'US';
+			}else{ // Default everything else to Upper Case ILC.
+				$UI_IRC = strtoupper($UI_ILC);
+			}
+		}else{
+			$msg .= 'Set';
 		}
-		$msg .= "\n";
-		$UI_ILC = strtolower($UI_ILC);
 		$UI_IRC = strtoupper($UI_IRC);
+		$msg .= " to: '$UI_IRC'.\n";
 		$msg .= 'TD Character Set: ';
-		$tmp = 'Present.';
+		$tmp = 'Present. Set';
 		if ( isset($UI_Charset) ){ // Var New TDF
 			$tcs = $UI_Charset;
 		}elseif (defined('_CHARSET')) { // Const Legacy TDF
 			$tcs = _CHARSET;
 		}else{ // Default to UTF-8
-			$tmp = "Unset. Default to 'utf-8'";
+			$tmp = 'Unset. Default';
 			$tcs = 'utf-8';
 		}
-		$msg .= $tmp."\n";
+		$tcs = strtolower($tcs);
+		$msg .= $tmp." to '$tcs'.\n";
 		$this->SetUICharset($tcs); // UI Content-Type charset.
-		$loc = $UI_ILC."_$UI_IRC.$tcs";
+		$loc = $UI_ILC.'_'.$UI_IRC;
 		$msg .= "Auto Generated Locale: $loc\n";
 		$this->ILocale = $loc; // Auto Generated Locale :-)
 		$tmp = '';
@@ -202,8 +221,11 @@ class UILang{
 		}else{
 			$tmplocale = setlocale(LC_TIME, "0"); // Snapshot Locale.
 			print "System Locale: $tmplocale\n";
-			print "Switch Locale: $loc - ";
-			if ( setlocale(LC_TIME,$loc) ){
+			print "Switch Locale: $loc.tcs or $loc - ";
+			$tla = array();
+			array_push( $tla, $loc.'.'.$tcs );
+			array_push( $tla, $loc );
+			if ( setlocale(LC_TIME,$tla) ){
 				// Set up Month format strings via Locale.
 				print 'Yes';
 				$MfS = '%b';
@@ -258,7 +280,7 @@ class UILang{
 			$msg .= "$TDG\n$GL";
 		}
 		if ($debug_mode > 1){
-			print $msg;
+			print XSSPrintSafe($msg);
 		}
 		// Init Misc Items.
 		if ( isset($UI_Locales) ) { // Var New TDF
@@ -445,10 +467,17 @@ class UILang{
 		}
 		if ( isset($UI_CW_Total) ) { // Var New TDF
 			$this->SetUICWItem('Total',$UI_CW_Total);
-		}elseif (defined('_FIRST')) { // Const Legacy TDF
+		}elseif (defined('_TOTAL')) { // Const Legacy TDF
 			$this->SetUICWItem('Total',_TOTAL);
 		}else{
 			$this->SetUICWItem('Total');
+		}
+		if ( isset($UI_CW_Alert) ) { // Var New TDF
+			$this->SetUICWItem('Alert',$UI_CW_Alert);
+		}elseif (defined('_ALERT')) { // Const Legacy TDF
+			$this->SetUICWItem('Alert',_ALERT);
+		}else{
+			$this->SetUICWItem('Alert');
 		}
 		// Init Common Phrases
 		if ( isset($UI_CP_SrcName) ) { // Var New TDF
@@ -534,6 +563,7 @@ class UILang{
 			$this->ADA = NULL;
 		}
 		// Check for unset/NULL TD, replace with default placeholder text.
+		// $this->Locale Inits Unset, not an Issue.
 		$this->Timefmt = $this->BlankProps('Timefmt',$this->Timefmt);
 		$this->Charset = $this->BlankProps('Charset',$this->Charset);
 		$this->Title = $this->BlankProps('Title',$this->Title);
@@ -543,15 +573,14 @@ class UILang{
 		$this->CWA = $this->BlankProps('CWA',$this->CWA);
 		$this->CPA = $this->BlankProps('CPA',$this->CPA);
 		$this->UAA = $this->BlankProps('UAA',$this->UAA);
-		// Anti XSS the Translation Data.
+		// Anti XSS Translation Data.
 		$this->Locale = XSSPrintSafe($this->Locale);
 		$this->Timefmt = XSSPrintSafe($this->Timefmt);
 		$this->Charset = XSSPrintSafe($this->Charset);
 		$this->Title = XSSPrintSafe($this->Title);
 		$this->ADA = XSSPrintSafe($this->ADA);
 		$this->CWA = XSSPrintSafe($this->CWA);
-		// $this->CPA Anti XXSed via Phrase() during construction.
-		// Necessary for &nbsp; support.
+		// $this->CPA Items Init Anti XXSed via Phrase().
 		$this->UAA = XSSPrintSafe($this->UAA);
 	}
 	// Notify about & Init unset/NULL TD Items.
@@ -580,8 +609,9 @@ class UILang{
 			$tmp = array();
 		}
 		// Fallback options if TD doesn't work.
-		// Auto generated Locale from class Init.
-		array_push( $tmp, $this->ILocale );
+		// Auto generated Locale with Charset.
+		array_push( $tmp, $this->ILocale.'.'.$this->Charset );
+		array_push( $tmp, $this->ILocale ); // Auto generated Locale.
 		array_push( $tmp, ""); // Locale from Environemnt.
 		$Ret = setlocale (LC_TIME, $tmp);
 		if ($Ret != FALSE) {
@@ -627,7 +657,7 @@ class UILang{
 			'Event', 'Type', 'ML1', 'ML2', 'ML3', 'ML4', 'ML5', 'ML6', 'ML7',
 			'ML8', 'ML9', 'ML10', 'ML11', 'ML12', 'MS1', 'MS2', 'MS3', 'MS4',
 			'MS5', 'MS6', 'MS7', 'MS8', 'MS9', 'MS10', 'MS11', 'MS12', 'Last',
-			'First', 'Total'
+			'First', 'Total', 'Alert'
 		);
 		if (in_array($Item, $Items)) {
 			$this->CWA[$Item] = $Value;
@@ -663,8 +693,7 @@ class UILang{
 		if ( !is_array($Words) ) {
 			$Words = array($Words);
 		}
-		// Anti XSS the Data.
-		$Words = XSSPrintSafe($Words);
+		$Words = XSSPrintSafe($Words); // Anti XSS Data.
 		if ($this->Spacing == 1){
 			if ($Nbs == 1){
 				$glue = '&nbsp;';

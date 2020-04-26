@@ -25,7 +25,7 @@
 
 $UI_Spacing = 1; // Inter Character Spacing.
 $UI_ILC = 'sv'; // ISO 639-1 Language Code.
-$UI_IRC = ''; // Region Code.
+$UI_IRC = 'SE'; // Region Code.
 // Locales.
 $UI_Locales = array( 'eng_ENG.ISO8859-1', 'eng_ENG.utf-8', 'english' );
 // Time Format - See strftime() syntax.
@@ -70,6 +70,7 @@ $UI_CW_ML12 = 'December';
 $UI_CW_Last = 'Sist';
 $UI_CW_First = 'Först';
 $UI_CW_Total = 'Total';
+$UI_CW_Alert = 'Varningar';
 // Common Phrases.
 $UI_CP_SrcName = array($UI_CW_Src,$UI_CW_Name);
 $UI_CP_DstName = array('Dest.',$UI_CW_Name);
@@ -84,7 +85,6 @@ $UI_AD_RID = array($UI_CW_Role,$UI_CW_Id);
 $UI_AD_ASD = 'Möjliggjord';
 
 //common phrases
-DEFINE('_ALERT','Varningar');
 DEFINE('_ADDRESS','Adress');
 DEFINE('_UNKNOWN','Okänd');
 DEFINE('_AND','OCH'); //NEW
@@ -124,7 +124,7 @@ DEFINE('_ADDUDPPORT','Lägg till UDP port'); //NEW
 DEFINE('_ADDUDPFIELD','Lägg till UDP fält'); //NEW
 DEFINE('_ADDICMPFIELD','Lägg till ICMP fält'); //NEW
 DEFINE('_ADDPAYLOAD','Lägg till Payload'); //NEW
-DEFINE('_MOSTFREQALERTS','Mest frekventa Varningar'); //NEW
+DEFINE('_MOSTFREQALERTS','Mest frekventa '.$UI_CW_Alert); //NEW
 DEFINE('_MOSTFREQPORTS','Mest frekventa Portar'); //NEW
 DEFINE('_MOSTFREQADDRS','Mest frekventa IP adresser'); //NEW
 DEFINE('_LASTALERTS','Last Alerts'); //NEW
@@ -184,17 +184,17 @@ DEFINE('_LOGINERROR','Användare finns inte kontrollera användarnamn och '.strt
 // base_main.php
 DEFINE('_MOSTRECENT','De senaste ');
 DEFINE('_MOSTFREQUENT','Ofta förkommande ');
-DEFINE('_ALERTS',' Varningar:');
+DEFINE('_ALERTS',' '.$UI_CW_Alert.':');
 DEFINE('_ADDRESSES',' Adresser:');
 DEFINE('_ANYPROTO','Protokoll');
 DEFINE('_UNI','Unik');
 DEFINE('_LISTING','Lista');
-DEFINE('_TALERTS','Dagens varningar: ');
+DEFINE('_TALERTS','Dagens '.$UI_CW_Alert.': ');
 DEFINE('_SOURCEIP','Käll IP'); //NEW
 DEFINE('_DESTIP','Destinations IP'); //NEW
-DEFINE('_L24ALERTS','Varningar dom '.$UI_CW_Last.' 24 timmarna  : ');
-DEFINE('_L72ALERTS','Varningar dom '.$UI_CW_Last.' 72 timmarna: ');
-DEFINE('_UNIALERTS',' Unika varningar');
+DEFINE('_L24ALERTS',$UI_CW_Alert.' dom '.$UI_CW_Last.' 24 timmarna: ');
+DEFINE('_L72ALERTS',$UI_CW_Alert.' dom '.$UI_CW_Last.' 72 timmarna: ');
+DEFINE('_UNIALERTS',' Unika '.$UI_CW_Alert);
 DEFINE('_LSOURCEPORTS',$UI_CW_Last.' käll Port(ar): ');
 DEFINE('_LDESTPORTS',$UI_CW_Last.' Destination Port(ar): ');
 DEFINE('_FREGSOURCEP','Mest förekommande käll Portar: ');
@@ -203,7 +203,7 @@ DEFINE('_QUERIED','Queried on'); //---------------------------------------------
 DEFINE('_DATABASE','Databas:');
 DEFINE('_SCHEMAV','Diagram Version:');
 DEFINE('_TIMEWIN','Tid Fönster:');
-DEFINE('_NOALERTSDETECT','Inga varningar hittades');
+DEFINE('_NOALERTSDETECT','Inga '.$UI_CW_Alert.' hittades');
 DEFINE('_USEALERTDB','Välj Alert Databasen'); //NEW
 DEFINE('_USEARCHIDB','Välj Archive Databasen'); //NEW
 DEFINE('_TRAFFICPROBPRO','Traffic Profile by Protocol'); //NEW
@@ -242,10 +242,10 @@ DEFINE('_BASEADMIN','BASE Administration');
 DEFINE('_BASEADMINTEXT','Vänligen välj en valmöjlighet från vänster.');
 
 //base_action.inc.php 
-DEFINE('_NOACTION','Inget agerande var specifierat på varningar');
+DEFINE('_NOACTION','Inget agerande var specifierat på '.$UI_CW_Alert);
 DEFINE('_INVALIDACT',' är ett felaktigt agerande');
-DEFINE('_ERRNOAG','Kunde inte lägga til varningar då ingen AG var specifierad');
-DEFINE('_ERRNOEMAIL','Kan inte e maila varningar då ingen email adress har specifierats');
+DEFINE('_ERRNOAG','Kunde inte lägga til '.$UI_CW_Alert.' då ingen AG var specifierad');
+DEFINE('_ERRNOEMAIL','Kan inte e maila '.$UI_CW_Alert.' då ingen email adress har specifierats');
 DEFINE('_ACTION','Handling');
 DEFINE('_CONTEXT','Innehål');
 DEFINE('_ADDAGID','Lägga till till AG (Genom ID)');
@@ -262,12 +262,12 @@ DEFINE('_ARCHIVEALERTSMOVE','Arkiv Varning(ar) (Flytta)');
 DEFINE('_IGNORED','Ignorerad ');
 DEFINE('_DUPALERTS',' Dubblet Varning(ar)');
 DEFINE('_ALERTSPARA',' Varning(ar)');
-DEFINE('_NOALERTSSELECT','Inga varningar var valda till');
+DEFINE('_NOALERTSSELECT','Inga '.$UI_CW_Alert.' var valda till');
 DEFINE('_NOTSUCCESSFUL','Gick inte utföra');
 DEFINE('_ERRUNKAGID','Okänd AG ID specifierad (AG finns förmodligen inte)');
 DEFINE('_ERRREMOVEFAIL','Kunde inte ta bort nya AG');
 DEFINE('_GENBASE','Genererad av BASE');
-DEFINE('_ERRNOEMAILEXP','EXPORT ERROR: Kunde inte skicka exporterade varningar till');
+DEFINE('_ERRNOEMAILEXP','EXPORT ERROR: Kunde inte skicka exporterade '.$UI_CW_Alert.' till');
 DEFINE('_ERRNOEMAILPHP','Kolla mail inställningar PHP.');
 DEFINE('_ERRDELALERT','Fel vid radering av varning');
 DEFINE('_ERRARCHIVE','Arkiv fel:');
@@ -287,7 +287,7 @@ DEFINE('_ERRSQLTRACE','Förhindrad till att öppna SQL spår filen');
 DEFINE('_ERRSQLCONNECT','Fel vid anslutande till DB :');
 DEFINE('_ERRSQLCONNECTINFO','<P>Kontrollera DB anslutnings variabler i  <I>base_conf.php</I>
               <PRE>
-               = $alert_dbname   : MySQL databas namn där varningar är sparade
+               = $alert_dbname   : MySQL databas namn där '.$UI_CW_Alert.' är sparade
                = $alert_host     : värd där databasen är sparad
                = $alert_port     : Port till databasen
                = $alert_user     : användarnamn till databasen
@@ -382,8 +382,8 @@ DEFINE('_ERRCRITELEM','Invalid criteria element');
 //base_state_query.inc.php
 DEFINE('_VALIDCANNED','Valid Canned Query List');
 DEFINE('_DISPLAYING','Visar');
-DEFINE('_DISPLAYINGTOTAL','Visar varningar %d-%d av %d '.$UI_CW_Total);
-DEFINE('_NOALERTS','Inga varningar funna.');
+DEFINE('_DISPLAYINGTOTAL','Visar '.$UI_CW_Alert.' %d-%d av %d '.$UI_CW_Total);
+DEFINE('_NOALERTS','Inga '.$UI_CW_Alert.' funna.');
 DEFINE('_QUERYRESULTS','Query Results'); //---------------
 DEFINE('_DISPACTION','{ att göra }'); //NEW
 DEFINE('_QUERYSTATE','Query State'); //--------------------
@@ -405,7 +405,7 @@ DEFINE('_AGDELETEINFO','information raderad');
 DEFINE('_ERRAGSEARCHINV','The entered search criteria is invalid.  Try again!');
 DEFINE('_ERRAGSEARCHNOTFOUND','No AG found with that criteria.');
 DEFINE('_NOALERTGOUPS','Det finns inga varnings grupper');
-DEFINE('_NUMALERTS','# Varningar');
+DEFINE('_NUMALERTS','# '.$UI_CW_Alert);
 DEFINE('_ACTIONS','Handlingar');
 DEFINE('_SAVECHANGES','Spara �ndringarna'); //NEW
 DEFINE('_CONFIRMDELETE','Bekräfta Delete'); //NEW
@@ -460,19 +460,19 @@ DEFINE('_CHARTMONTH','{månad}'); //NEW
 DEFINE('_GRAPHALERTS','Skapa Graf'); //NEW
 DEFINE('_AXISCONTROLS','X / Y Kontroller'); //NEW
 DEFINE('_CHARTTITLE','Graf Namn:');
-DEFINE('_CHRTTYPEHOUR','Tid (timme) vs. Nummer av varningar');
-DEFINE('_CHRTTYPEDAY','Tid (dag) vs. Nummer av varningar');
-DEFINE('_CHRTTYPEWEEK','Tid (vecka) vs. Nummer av varningar');
-DEFINE('_CHRTTYPEMONTH','Tid (månad) vs. Nummer av varningar');
-DEFINE('_CHRTTYPEYEAR','Tid (år) vs. Nummer av varningar');
-DEFINE('_CHRTTYPESRCIP','Src. IP address vs. Nummer av varningar');
-DEFINE('_CHRTTYPEDSTIP','Dst. IP address vs. Nummer av varningar');
-DEFINE('_CHRTTYPEDSTUDP','Dst. UDP Port vs. Nummer av varningar');
-DEFINE('_CHRTTYPESRCUDP','Src. UDP Port vs. Nummer av varningar');
-DEFINE('_CHRTTYPEDSTPORT','Dst. TCP Port vs. Nummer av varningar');
-DEFINE('_CHRTTYPESRCPORT','Src. TCP Port vs. Nummer av varningar');
-DEFINE('_CHRTTYPESIG','Sig. Classification vs. Nummer av varningar');
-DEFINE('_CHRTTYPESENSOR','Sensor vs. Nummer av varningar');
+DEFINE('_CHRTTYPEHOUR','Tid (timme) vs. Nummer av '.$UI_CW_Alert);
+DEFINE('_CHRTTYPEDAY','Tid (dag) vs. Nummer av '.$UI_CW_Alert);
+DEFINE('_CHRTTYPEWEEK','Tid (vecka) vs. Nummer av '.$UI_CW_Alert);
+DEFINE('_CHRTTYPEMONTH','Tid (månad) vs. Nummer av '.$UI_CW_Alert);
+DEFINE('_CHRTTYPEYEAR','Tid (år) vs. Nummer av '.$UI_CW_Alert);
+DEFINE('_CHRTTYPESRCIP','Src. IP address vs. Nummer av '.$UI_CW_Alert);
+DEFINE('_CHRTTYPEDSTIP','Dst. IP address vs. Nummer av '.$UI_CW_Alert);
+DEFINE('_CHRTTYPEDSTUDP','Dst. UDP Port vs. Nummer av '.$UI_CW_Alert);
+DEFINE('_CHRTTYPESRCUDP','Src. UDP Port vs. Nummer av '.$UI_CW_Alert);
+DEFINE('_CHRTTYPEDSTPORT','Dst. TCP Port vs. Nummer av '.$UI_CW_Alert);
+DEFINE('_CHRTTYPESRCPORT','Src. TCP Port vs. Nummer av '.$UI_CW_Alert);
+DEFINE('_CHRTTYPESIG','Sig. Classification vs. Nummer av '.$UI_CW_Alert);
+DEFINE('_CHRTTYPESENSOR','Sensor vs. Nummer av '.$UI_CW_Alert);
 DEFINE('_CHRTBEGIN','Chart Begin:');
 DEFINE('_CHRTEND','Chart End:');
 DEFINE('_CHRTDS','Data Source:');
@@ -601,10 +601,10 @@ DEFINE('_QFRMDIP','dest. IP');
 //base_qry_sqlcalls.php
 DEFINE('_QSCSUMM','Statistik sammanfattning');
 DEFINE('_QSCTIMEPROF','Tid profil');
-DEFINE('_QSCOFALERTS','Varningar');
+DEFINE('_QSCOFALERTS',$UI_CW_Alert);
 
 //base_stat_alerts.php
-DEFINE('_ALERTTITLE','listade varningar');
+DEFINE('_ALERTTITLE','listade '.$UI_CW_Alert);
 
 //base_stat_common.php
 DEFINE('_SCCATEGORIES','Kategorier:');
@@ -636,7 +636,7 @@ DEFINE('_PSTOTALOCC',$UI_CW_Total.'<BR> Occurrences');
 DEFINE('_PSNUMSENSORS','Antal Sensors');
 DEFINE('_PSFIRSTOCC',$UI_CW_First.'<BR> Occurrence');
 DEFINE('_PSLASTOCC',$UI_CW_Last.'<BR> Occurrence');
-DEFINE('_PSUNIALERTS','Unika Varningar');
+DEFINE('_PSUNIALERTS','Unika '.$UI_CW_Alert);
 DEFINE('_PSPORTSCANEVE','Portscan Events');
 DEFINE('_PSREGWHOIS','Registry lookup (whois) in');
 DEFINE('_PSNODNS','no DNS resolution attempted');
@@ -670,7 +670,7 @@ DEFINE('_SRCPS','Käll Port(ar)');
 DEFINE('SPSENSORLIST','Lista Sensorer ');
 
 //base_stat_time.php
-DEFINE('_BSTTITLE','Tid Profil av Varningar');
+DEFINE('_BSTTITLE','Tid Profil av '.$UI_CW_Alert);
 DEFINE('_BSTTIMECRIT','Time Criteria'); //Ingen profilering kriterium var specifierad
 DEFINE('_BSTERRPROFILECRIT','<FONT><B>Ingen profilering kriterium var specifierad</B>  Klicka på "timme", "dag", eller "månad" att välja kornighet av total statistik.</FONT>');
 DEFINE('_BSTERRTIMETYPE','<FONT><B>Arten av tid parameter vilken kommer att vara passerade var inte specifierad!</B>  .</FONT>'); //Välj antingen "på", för att specifiera ett  datum, eller "mellan" för att specifiera en intervall.
@@ -688,7 +688,7 @@ DEFINE('_SUASRCIP','Käll IP address');
 DEFINE('_SUAERRCRITADDUNK','CRITERIA ERROR: unknown address '.$UI_CW_Type.' -- assuming Dst address');
 DEFINE('_UNIDADD','Unik(a) Destination Adress(er)');
 DEFINE('_SUADSTIP','Dst IP adress');
-DEFINE('_SUAUNIALERTS','Unika&nbsp;Varningar');
+DEFINE('_SUAUNIALERTS','Unika&nbsp;'.$UI_CW_Alert);
 DEFINE('_SUASRCADD','Src.&nbsp;Addr.');
 DEFINE('_SUADSTADD','Dest.&nbsp;Addr.');
 

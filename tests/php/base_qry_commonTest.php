@@ -31,9 +31,10 @@ class base_qry_commonTest extends TestCase {
 		"bgcolor=\"#FFFFFF\">".
 		"\n\t\t\t\t\t<tr>".
 		"\n\t\t\t\t\t\t<td class=\"metatitle\">Meta Criteria</td>".
-		"\n\t\t\t\t\t\t<td>";
+		"\n\t\t\t\t\t\t<td>".
+		"\n\t\t\t\t\t\t\t";
 		self::$EOS =
-		"</td>\n\t\t\t\t\t</tr>\n\t\t\t\t</table>";
+		"\n\t\t\t\t\t\t</td>\n\t\t\t\t\t</tr>\n\t\t\t\t</table>";
 	}
 	public static function tearDownAfterClass() {
 		self::$EOS = null;

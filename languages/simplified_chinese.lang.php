@@ -70,6 +70,7 @@ $UI_CW_ML12 = '十二月';
 $UI_CW_Last = '最后';
 $UI_CW_First = '首次';
 $UI_CW_Total = '总共';
+$UI_CW_Alert = '警告数';
 // Common Phrases.
 $UI_CP_SrcName = array($UI_CW_Src,$UI_CW_Name);
 $UI_CP_DstName = array($UI_CW_Dst,$UI_CW_Name);
@@ -84,7 +85,6 @@ $UI_AD_RID = array($UI_CW_Role,$UI_CW_Id);
 $UI_AD_ASD = '启用';
 
 //common phrases
-DEFINE('_ALERT','警告数');
 DEFINE('_ADDRESS',$UI_CW_Addr);
 DEFINE('_UNKNOWN','未知');
 DEFINE('_AND','AND'); //NEW
@@ -153,7 +153,7 @@ DEFINE('_AGMAINT','警告群组维护');
 DEFINE('_USERPREF','用户参数设置');
 DEFINE('_CACHE','缓存 & 状态');
 DEFINE('_ADMIN','管理');
-DEFINE('_GALERTD','绘出警告数据');
+DEFINE('_GALERTD','绘出'.$UI_CW_Alert.'据');
 DEFINE('_GALERTDT','绘出警告侦测时间');
 DEFINE('_USERMAN','用户管理');
 DEFINE('_LISTU','用户列表');
@@ -187,17 +187,17 @@ DEFINE('_LOGINERROR',"用户不存在或者您输入的$UI_CW_Pw".'错误<br>请
 // base_main.php
 DEFINE('_MOSTRECENT','最近 ');
 DEFINE('_MOSTFREQUENT','最常出现 ');
-DEFINE('_ALERTS',' 警告数:');
+DEFINE('_ALERTS',' '.$UI_CW_Alert.':');
 DEFINE('_ADDRESSES'," $UI_CW_Addr");
 DEFINE('_SOURCEIP','Source IP'); //NEW
 DEFINE('_DESTIP','Destination IP'); //NEW
 DEFINE('_ANYPROTO','任何协议');
 DEFINE('_UNI','单项');
 DEFINE('_LISTING','列表');
-DEFINE('_TALERTS','今日警告数: ');
-DEFINE('_L24ALERTS','最近24小时警告数: ');
-DEFINE('_L72ALERTS','最近72小时警告数: ');
-DEFINE('_UNIALERTS',' 单项警告数');
+DEFINE('_TALERTS','今日'.$UI_CW_Alert.': ');
+DEFINE('_L24ALERTS','最近24小时'.$UI_CW_Alert.': ');
+DEFINE('_L72ALERTS','最近72小时'.$UI_CW_Alert.': ');
+DEFINE('_UNIALERTS',' 单项'.$UI_CW_Alert);
 DEFINE('_LSOURCEPORTS',$UI_CW_Last.$UI_CW_Src.'端口: ');
 DEFINE('_LDESTPORTS',$UI_CW_Last.$UI_CW_Dst.'端口: ');
 DEFINE('_FREGSOURCEP','出现频率最高源端口: ');
@@ -431,7 +431,7 @@ DEFINE('_PORTSCAN','端口扫描通信');
 DEFINE('_ERRDBINDEXCREATE','无法为之创建索引');
 DEFINE('_DBINDEXCREATE','成功为之创建索引');
 DEFINE('_ERRSNORTVER','这可能是个旧版本。只支持 Snort 1.7-beta0 
-或者更新的版本创建的警告数据库');
+或者更新的版本创建的'.$UI_CW_Alert.'据库');
 DEFINE('_ERRSNORTVER1','基础数据库');
 DEFINE('_ERRSNORTVER2','显示不完全/不可用');
 DEFINE('_ERRDBSTRUCT1','数据库版本可用，但是BASE DB 结构');
@@ -461,22 +461,22 @@ DEFINE('_ERRVERSION','版本号');
 DEFINE('_ERRPHPERROR2','的PHP 太老。请升级到 4.0.4 
 版本或更新。');
 DEFINE('_ERRPHPMYSQLSUP','<B>PHP 安装不完全</B>: 
-<FONT>用来读取警告数据库的先决条件
+<FONT>用来读取'.$UI_CW_Alert.'据库的先决条件
                MySQL 支持没有安装到 PHP里。
                请重新编译 PHP 
 添加必须的库(<CODE>--with-mysql</CODE>)</FONT>');
 DEFINE('_ERRPHPPOSTGRESSUP','<B>PHP 安装不完全</B>: 
-<FONT>用来读取警告数据库的先决条件 PostgreSQL 支持
+<FONT>用来读取'.$UI_CW_Alert.'据库的先决条件 PostgreSQL 支持
                没有安装到 PHP 里。
                请重新编译 PHP 
 添加必须的库(<CODE>--with-pgsql</CODE>)</FONT>');
 DEFINE('_ERRPHPMSSQLSUP','<B>PHP 安装不完全</B>: 
-<FONT>用来读取警告数据库的先决条件 MS SQL 服务支持
+<FONT>用来读取'.$UI_CW_Alert.'据库的先决条件 MS SQL 服务支持
                    没有安装到 PHP 里。
                    请重新编译 PHP 
 添加必须的库(<CODE>--enable-mssql</CODE>)</FONT>');
 DEFINE('_ERRPHPORACLESUP','<B>PHP 安装不完全</B>: 
-<FONT>用来读取警告数据库的先决条件 Oracle 支持
+<FONT>用来读取'.$UI_CW_Alert.'据库的先决条件 Oracle 支持
                    没有安装到 PHP 里。
                    请重新编译 PHP 
 添加必须的库(<CODE>--with-oci8</CODE>)</FONT>');
@@ -550,7 +550,7 @@ DEFINE('_MNTPHPLOGLVL','PHP 记录级别:');
 DEFINE('_MNTPHPMODS','已加载的模块:');
 DEFINE('_MNTDBTYPE','DB '.$UI_CW_Type.':');
 DEFINE('_MNTDBALV','DB 抽象版本:');
-DEFINE('_MNTDBALERTNAME','警告数据库名:');
+DEFINE('_MNTDBALERTNAME',$UI_CW_Alert.'据库名:');
 DEFINE('_MNTDBARCHNAME','存档数据库名:');
 DEFINE('_MNTAIC','警告信息缓存:');
 DEFINE('_MNTAICTE','全部的'.$UI_CW_Event.':');

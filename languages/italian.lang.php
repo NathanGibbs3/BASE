@@ -70,6 +70,7 @@ $UI_CW_ML12 = 'Dicembre';
 $UI_CW_Last = 'Ultimo';
 $UI_CW_First = 'Primo';
 $UI_CW_Total = 'Totale';
+$UI_CW_Alert = 'Avvisi';
 // Common Phrases.
 $UI_CP_SrcName = array($UI_CW_Name,$UI_CW_Src);
 $UI_CP_DstName = array($UI_CW_Name,$UI_CW_Dst);
@@ -84,7 +85,6 @@ $UI_AD_RID = array($UI_CW_Id,$UI_CW_Role);
 $UI_AD_ASD = 'Abilitato';
 
 //common phrases
-DEFINE('_ALERT','Avvisi');
 DEFINE('_ADDRESS','Indirizzo');
 DEFINE('_UNKNOWN','sconosciuto');
 DEFINE('_AND','AND'); //NEW
@@ -189,12 +189,12 @@ DEFINE('_ADDRESSES',' Indirizzi:');
 DEFINE('_ANYPROTO','qualsiasi protocollo');
 DEFINE('_UNI','unico');
 DEFINE('_LISTING','lista');
-DEFINE('_TALERTS','Avvisi di oggi: ');
+DEFINE('_TALERTS',$UI_CW_Alert.' di oggi: ');
 DEFINE('_SOURCEIP','Source IP'); //NEW
 DEFINE('_DESTIP','Destination IP'); //NEW
-DEFINE('_L24ALERTS','Avvisi ultime 24 ore: ');
-DEFINE('_L72ALERTS','Avvisi ultime 72 ore: ');
-DEFINE('_UNIALERTS',' Unici Avvisi');
+DEFINE('_L24ALERTS',$UI_CW_Alert.' ultime 24 ore: ');
+DEFINE('_L72ALERTS',$UI_CW_Alert.' ultime 72 ore: ');
+DEFINE('_UNIALERTS',' Unici '.$UI_CW_Alert);
 DEFINE('_LSOURCEPORTS','Ultime Porte Sorgente: ');
 DEFINE('_LDESTPORTS','Ultime Porte di Destinazione: ');
 DEFINE('_FREGSOURCEP','Porte Sorgenti più frequenti: ');
@@ -528,7 +528,7 @@ DEFINE('_MNTDBTYPE',$UI_CW_Type.' DB:');
 DEFINE('_MNTDBALV','Versione Astrazione DB:');
 DEFINE('_MNTDBALERTNAME','Nome DB AVVERTIMENTI:');
 DEFINE('_MNTDBARCHNAME','Nome DB ARCHIVIO:');
-DEFINE('_MNTAIC','Cache informazioni Avvisi:');
+DEFINE('_MNTAIC','Cache informazioni '.$UI_CW_Alert.':');
 DEFINE('_MNTAICTE','Eventi totali:');
 DEFINE('_MNTAICCE','Eventi nella cache:');
 DEFINE('_MNTIPAC','Cache indirizzi IP');
@@ -600,15 +600,15 @@ DEFINE('_QFRMDIP','IP destinazione');
 //base_qry_sqlcalls.php
 DEFINE('_QSCSUMM','Sommario Statistiche');
 DEFINE('_QSCTIMEPROF','Profilo tempo');
-DEFINE('_QSCOFALERTS','di avvisi');
+DEFINE('_QSCOFALERTS','di '.$UI_CW_Alert);
 
 //base_stat_alerts.php
-DEFINE('_ALERTTITLE','Lista Avvisi');
+DEFINE('_ALERTTITLE','Lista '.$UI_CW_Alert);
 
 //base_stat_common.php
 DEFINE('_SCCATEGORIES','Categorie:');
 DEFINE('_SCSENSORTOTAL','Sensori/'.$UI_CW_Total.':');
-DEFINE('_SCTOTALNUMALERTS',$UI_CW_Total.' Avvisi:');
+DEFINE('_SCTOTALNUMALERTS',$UI_CW_Total.' '.$UI_CW_Alert.':');
 DEFINE('_SCSRCIP','Srg. IP:');
 DEFINE('_SCDSTIP','Dest. IP:');
 DEFINE('_SCUNILINKS','Link IP unici');
@@ -635,7 +635,7 @@ DEFINE('_PSTOTALOCC','Occorrenze<BR> Totali');
 DEFINE('_PSNUMSENSORS','Num Sensori');
 DEFINE('_PSFIRSTOCC',$UI_CW_First.'<BR> Occorrenza');
 DEFINE('_PSLASTOCC',$UI_CW_Last.'<BR> Occorrenza');
-DEFINE('_PSUNIALERTS','Avvisi Unici');
+DEFINE('_PSUNIALERTS',$UI_CW_Alert.' Unici');
 DEFINE('_PSPORTSCANEVE','Eventi Portscan');
 DEFINE('_PSREGWHOIS','Lookup registro (whois) in');
 DEFINE('_PSNODNS','nessuna risoluzione DNS tentata');
@@ -687,7 +687,7 @@ DEFINE('_SUASRCIP','Indirizzi IP sorg.');
 DEFINE('_SUAERRCRITADDUNK','ERRORE CRITERI: '.$UI_CW_Type.' indirizzo sconosciuto -- si assume come Destinazione');
 DEFINE('_UNIDADD','Indirizzo/i IP Destinazione unico/i');
 DEFINE('_SUADSTIP','Indirizzi IP dest.');
-DEFINE('_SUAUNIALERTS','Avvisi&nbsp;unici');
+DEFINE('_SUAUNIALERTS',$UI_CW_Alert.'&nbsp;unici');
 DEFINE('_SUASRCADD','Indir.&nbsp;Sorg.');
 DEFINE('_SUADSTADD','Indir.&nbsp;Dest.');
 

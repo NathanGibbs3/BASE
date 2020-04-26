@@ -71,6 +71,7 @@ $UI_CW_ML12 = 'Grudzien';
 $UI_CW_Last = 'Ostatni';
 $UI_CW_First = 'Pierwszy';
 $UI_CW_Total = 'Całkowity';
+$UI_CW_Alert = 'Alarmy';
 // Common Phrases.
 $UI_CP_SrcName = array($UI_CW_Name,'Zrodlowa');
 $UI_CP_DstName = array($UI_CW_Name,'Docelowa');
@@ -85,7 +86,6 @@ $UI_AD_RID = array($UI_CW_Id,'Roli');
 $UI_AD_ASD = 'Wlaczony';
 
 //common phrases
-DEFINE('_ALERT','Alarmy');
 DEFINE('_ADDRESS','Adres');
 DEFINE('_UNKNOWN','nieznany');
 DEFINE('_AND','I'); //NEW
@@ -125,14 +125,14 @@ DEFINE('_ADDUDPPORT','DODAJ Port UDP'); //NEW
 DEFINE('_ADDUDPFIELD','DODAJ Pole UDP'); //NEW
 DEFINE('_ADDICMPFIELD','DODAJ Pole ICMP'); //NEW
 DEFINE('_ADDPAYLOAD','DODAJ Zawartosc'); //NEW
-DEFINE('_MOSTFREQALERTS','Najczestsze Alarmy'); //NEW
+DEFINE('_MOSTFREQALERTS','Najczestsze '.$UI_CW_Alert); //NEW
 DEFINE('_MOSTFREQPORTS','Najczestsze Porty'); //NEW
 DEFINE('_MOSTFREQADDRS','Najczestsze adresy IP'); //NEW
-DEFINE('_LASTALERTS',$UI_CW_Last.' Alarmy'); //NEW
+DEFINE('_LASTALERTS',$UI_CW_Last.' '.$UI_CW_Alert); //NEW
 DEFINE('_LASTPORTS',$UI_CW_Last.' Ports'); //NEW
-DEFINE('_LASTTCP',$UI_CW_Last.' Alarmy TCP'); //NEW
-DEFINE('_LASTUDP',$UI_CW_Last.' Alarmy UDP'); //NEW
-DEFINE('_LASTICMP',$UI_CW_Last.' Alarmy ICMP'); //NEW
+DEFINE('_LASTTCP',$UI_CW_Last.' '.$UI_CW_Alert.' TCP'); //NEW
+DEFINE('_LASTUDP',$UI_CW_Last.' '.$UI_CW_Alert.' UDP'); //NEW
+DEFINE('_LASTICMP',$UI_CW_Last.' '.$UI_CW_Alert.' ICMP'); //NEW
 DEFINE('_QUERYDB','Query DB'); //NEW
 DEFINE('_QUERYDBP','Query+DB'); //NEW - Equals to _QUERYDB where spaces are '+'s. 
                                 //Should be something like: DEFINE('_QUERYDBP',str_replace(" ", "+", _QUERYDB));
@@ -189,11 +189,11 @@ DEFINE('_ADDRESSES',' Adresow');
 DEFINE('_ANYPROTO','wszystkie protokoly');
 DEFINE('_UNI','unikalne');
 DEFINE('_LISTING','lista');
-DEFINE('_TALERTS','Dzisiejsze alarmy: ');
+DEFINE('_TALERTS','Dzisiejsze '.$UI_CW_Alert.': ');
 DEFINE('_SOURCEIP','IP Zrodlowy'); //NEW
 DEFINE('_DESTIP','IP Docelowy'); //NEW
-DEFINE('_L24ALERTS','Alarmy z '.$UI_CW_Last.' 24 godzin: ');
-DEFINE('_L72ALERTS','Alarmy z '.$UI_CW_Last.' 72 godzin: ');
+DEFINE('_L24ALERTS',$UI_CW_Alert.' z '.$UI_CW_Last.' 24 godzin: ');
+DEFINE('_L72ALERTS',$UI_CW_Alert.' z '.$UI_CW_Last.' 72 godzin: ');
 DEFINE('_UNIALERTS',' Unikalnych Alarmow');
 DEFINE('_LSOURCEPORTS',$UI_CW_Last.' Porty Zrodlowe: ');
 DEFINE('_LDESTPORTS',$UI_CW_Last.' Porty Docelowe: ');
@@ -381,7 +381,7 @@ DEFINE('_ERRCRITELEM','Niewlasciwy element kryteriow');
 //base_state_query.inc.php
 DEFINE('_VALIDCANNED','Valid Canned Query List');
 DEFINE('_DISPLAYING','Wyswietlono');
-DEFINE('_DISPLAYINGTOTAL','Wyswietlono alarmy od %d do %d na '.$UI_CW_Total.' %d');
+DEFINE('_DISPLAYINGTOTAL','Wyswietlono '.$UI_CW_Alert.' od %d do %d na '.$UI_CW_Total.' %d');
 DEFINE('_NOALERTS','Nie znaleziono alarmow.');
 DEFINE('_QUERYRESULTS','Wyniki Zapytania');
 DEFINE('_DISPACTION','{ action }'); //NEW
@@ -404,7 +404,7 @@ DEFINE('_AGDELETEINFO','informacja skasowana');
 DEFINE('_ERRAGSEARCHINV','Niepoprawne kryterium wyszukiwania. Sprobuj ponownie!');
 DEFINE('_ERRAGSEARCHNOTFOUND','Nie znaleziono GA spelniajacych kryterium.');
 DEFINE('_NOALERTGOUPS','Nie ma Grup Alarmow');
-DEFINE('_NUMALERTS','# Alarmy');
+DEFINE('_NUMALERTS','# '.$UI_CW_Alert);
 DEFINE('_ACTIONS','Actions');
 DEFINE('_SAVECHANGES','Zapisz Zmiany'); //NEW
 DEFINE('_CONFIRMDELETE','Potwierdz Kasowanie'); //NEW

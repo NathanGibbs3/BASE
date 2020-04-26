@@ -136,7 +136,7 @@ class commonlangSPTest extends TestCase {
 			"Unset: $TItem ."
 		);
 		$this->assertEquals(
-			'en_US.utf-8',
+			'en_US',
 			$$tmp->$TItem,
 			"Uninitialized: $TItem ."
 		);
@@ -164,7 +164,7 @@ class commonlangSPTest extends TestCase {
 			"Unset: $TItem ."
 		);
 		$this->assertEquals(
-			'en_US.utf-8',
+			'en_US',
 			$$tmp->$TItem,
 			"Uninitialized: $TItem ."
 		);

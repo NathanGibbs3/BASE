@@ -23,8 +23,8 @@
 */
 
 $UI_Spacing = 1; // Inter Character Spacing.
-$UI_ILC = 'no'; // ISO 639-1 Language Code.
-$UI_IRC = ''; // Region Code.
+$UI_ILC = 'nb'; // ISO 639-1 Language Code.
+$UI_IRC = 'NO'; // Region Code.
 // Locales.
 $UI_Locales = array( 'eng_ENG.ISO8859-1', 'eng_ENG.utf-8', 'english' );
 // Time Format - See strftime() syntax.
@@ -69,6 +69,7 @@ $UI_CW_ML12 = 'Desember';
 $UI_CW_Last = 'Siste';
 $UI_CW_First = 'Frste';
 $UI_CW_Total = 'Total';
+$UI_CW_Alert = 'Hendelser';
 // Common Phrases.
 $UI_CP_SrcName = array($UI_CW_Src,$UI_CW_Name);
 $UI_CP_DstName = array('Dest.',$UI_CW_Name);
@@ -82,7 +83,6 @@ $UI_AD_RID = array($UI_CW_Role,$UI_CW_Id);
 $UI_AD_ASD = 'Aktivert';
 
 //common phrases
-DEFINE('_ALERT','Hendelser');
 DEFINE('_ADDRESS','Adresse');
 DEFINE('_UNKNOWN','ukjent');
 DEFINE('_AND','AND'); //NEW
@@ -152,8 +152,8 @@ DEFINE('_AGMAINT','Hendelsesgruppe vedlikehold');
 DEFINE('_USERPREF','Brukerpreferanser');
 DEFINE('_CACHE','Cache & status');
 DEFINE('_ADMIN','Administrasjon');
-DEFINE('_GALERTD','Plott hendelser');
-DEFINE('_GALERTDT','Plott hendelser etter deteksjonstid');
+DEFINE('_GALERTD','Plott '.$UI_CW_Alert);
+DEFINE('_GALERTDT','Plott '.$UI_CW_Alert.' etter deteksjonstid');
 DEFINE('_USERMAN','Brukerbehandling');
 DEFINE('_LISTU','Vis brukere');
 DEFINE('_CREATEU','Opprett en bruker');
@@ -182,17 +182,17 @@ DEFINE('_LOGINERROR','Enten eksisterer ikke brukeren, ellers så var '.strtolowe
 // base_main.php
 DEFINE('_MOSTRECENT','Seneste ');
 DEFINE('_MOSTFREQUENT','Mest aktive ');
-DEFINE('_ALERTS',' hendelser:');
+DEFINE('_ALERTS',' '.$UI_CW_Alert.':');
 DEFINE('_ADDRESSES',' adresser:');
 DEFINE('_ANYPROTO','alle protokoller');
 DEFINE('_UNI','unike');
 DEFINE('_LISTING','listing');
 DEFINE('_SOURCEIP','Source IP'); //NEW
 DEFINE('_DESTIP','Destination IP'); //NEW
-DEFINE('_TALERTS','Dagens hendelser: ');
-DEFINE('_L24ALERTS','Hendelser de '.$UI_CW_Last.' 24 timene: ');
-DEFINE('_L72ALERTS','Hendelser de '.$UI_CW_Last.' 72 timene: ');
-DEFINE('_UNIALERTS',' unike hendelser');
+DEFINE('_TALERTS','Dagens '.$UI_CW_Alert.': ');
+DEFINE('_L24ALERTS',$UI_CW_Alert.' de '.$UI_CW_Last.' 24 timene: ');
+DEFINE('_L72ALERTS',$UI_CW_Alert.' de '.$UI_CW_Last.' 72 timene: ');
+DEFINE('_UNIALERTS',' unike '.$UI_CW_Alert);
 DEFINE('_LSOURCEPORTS',$UI_CW_Last.' kildeporter: ');
 DEFINE('_LDESTPORTS',$UI_CW_Last.' destinasjonsporter: ');
 DEFINE('_FREGSOURCEP','Mest aktive kildeporter: ');
@@ -205,7 +205,7 @@ DEFINE('_USEALERTDB','Use Alert Database'); //NEW
 DEFINE('_USEARCHIDB','Use Archive Database'); //NEW
 DEFINE('_TRAFFICPROBPRO','Traffic Profile by Protocol'); //NEW
 DEFINE('_TIMEWIN','Tidsvindu:');
-DEFINE('_NOALERTSDETECT','ingen hendelser detektert');
+DEFINE('_NOALERTSDETECT','ingen '.$UI_CW_Alert.' detektert');
 
 //base_auth.inc.php
 DEFINE('_ADDEDSF','Vellykket!');
@@ -383,8 +383,8 @@ DEFINE('_ERRCRITELEM','Invalid criteria element');
 DEFINE('_VALIDCANNED','Valid Canned Query List');
 DEFINE('_DISPLAYING','Viser');
 DEFINE('_DISPACTION','{ action }'); //NEW
-DEFINE('_DISPLAYINGTOTAL','Viser hendelser %d-%d av %d '.$UI_CW_Total);
-DEFINE('_NOALERTS','Ingen hendelser funnet.');
+DEFINE('_DISPLAYINGTOTAL','Viser '.$UI_CW_Alert.' %d-%d av %d '.$UI_CW_Total);
+DEFINE('_NOALERTS','Ingen '.$UI_CW_Alert.' funnet.');
 DEFINE('_QUERYRESULTS','Resultater fra oppslaget');
 DEFINE('_QUERYSTATE','Oppslagstatus');
 
@@ -408,7 +408,7 @@ DEFINE('_SAVECHANGES','Save Changes'); //NEW
 DEFINE('_CONFIRMDELETE','Confirm Delete'); //NEW
 DEFINE('_CONFIRMCLEAR','Confirm Clear'); //NEW
 DEFINE('_NOALERTGOUPS','Det finnes ingen hendelsesgrupper');
-DEFINE('_NUMALERTS','Antall hendelser');
+DEFINE('_NUMALERTS','Antall '.$UI_CW_Alert);
 DEFINE('_ACTIONS','Gjøremål');
 DEFINE('_NOTASSIGN','ikke lagt til enda');
 
@@ -600,7 +600,7 @@ DEFINE('_QFRMDIP','dest. IP');
 //base_qry_sqlcalls.php
 DEFINE('_QSCSUMM','Sammenlagt statistikk');
 DEFINE('_QSCTIMEPROF','Tidsprofil');
-DEFINE('_QSCOFALERTS','hendelser');
+DEFINE('_QSCOFALERTS',$UI_CW_Alert);
 
 //base_stat_alerts.php
 DEFINE('_ALERTTITLE','Hendelseliste');
@@ -608,7 +608,7 @@ DEFINE('_ALERTTITLE','Hendelseliste');
 //base_stat_common.php
 DEFINE('_SCCATEGORIES','Kategorier:');
 DEFINE('_SCSENSORTOTAL','Sensorer/'.$UI_CW_Total.':');
-DEFINE('_SCTOTALNUMALERTS',$UI_CW_Total.' antall hendelser:');
+DEFINE('_SCTOTALNUMALERTS',$UI_CW_Total.' antall '.$UI_CW_Alert.':');
 DEFINE('_SCSRCIP','Kilde IP addr:');
 DEFINE('_SCDSTIP','Dest. IP addr:');
 DEFINE('_SCUNILINKS','Unike IP linker');
@@ -631,12 +631,12 @@ DEFINE('_PSDSTIP','Destinasjon IP');
 DEFINE('_PSSRCPORT','Kildeport');
 DEFINE('_PSDSTPORT','Destinasjonsport');
 DEFINE('_PSTCPFLAGS','TCP flagg');
-DEFINE('_PSTOTALOCC','Hendelser<BR> '.$UI_CW_Total);
+DEFINE('_PSTOTALOCC',$UI_CW_Alert.'<BR> '.$UI_CW_Total);
 DEFINE('_PSNUMSENSORS','Antall sensorer');
 DEFINE('_PSFIRSTOCC',$UI_CW_First.'<BR> hendelse');
 DEFINE('_PSLASTOCC',$UI_CW_Last.'<BR> hendelse');
-DEFINE('_PSUNIALERTS','Unike hendelser');
-DEFINE('_PSPORTSCANEVE','Portscan hendelser');
+DEFINE('_PSUNIALERTS','Unike '.$UI_CW_Alert);
+DEFINE('_PSPORTSCANEVE','Portscan '.$UI_CW_Alert);
 DEFINE('_PSREGWHOIS','Oppslag (whois) i');
 DEFINE('_PSNODNS','ingen DNS oppslag utfrt');
 DEFINE('_PSTOTALHOSTS',$UI_CW_Total.' Hosts Scanned'); //NEW
@@ -645,8 +645,8 @@ DEFINE('_PSALLALERTSAS','all alerts with %s/%s as'); //NEW
 DEFINE('_PSSHOW','show'); //NEW
 DEFINE('_PSEXTERNAL','external'); //NEW
 DEFINE('_PSNUMSENSORSBR','Antall <BR>sensorer');
-DEFINE('_PSOCCASSRC','Hendelser <BR>som kilde');
-DEFINE('_PSOCCASDST','Hendelser <BR>som dest.');
+DEFINE('_PSOCCASSRC',$UI_CW_Alert.' <BR>som kilde');
+DEFINE('_PSOCCASDST',$UI_CW_Alert.' <BR>som dest.');
 DEFINE('_PSWHOISINFO','WHOIS informasjon');
 
 //base_stat_iplink.php
@@ -687,7 +687,7 @@ DEFINE('_SUASRCIP','Kilde IP adresse');
 DEFINE('_SUAERRCRITADDUNK','FEIL KRITERIE: ukjent adresse'.$UI_CW_Type.' -- benytter destinasjons adresse');
 DEFINE('_UNIDADD','Unik(e) destinasjonsadress(er)');
 DEFINE('_SUADSTIP','Dest. IP adresse');
-DEFINE('_SUAUNIALERTS','Unike&nbsp;hendelser');
+DEFINE('_SUAUNIALERTS','Unike&nbsp;'.$UI_CW_Alert);
 DEFINE('_SUASRCADD','Kilde&nbsp;Adr.');
 DEFINE('_SUADSTADD','Dest.&nbsp;Adr.');
 

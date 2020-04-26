@@ -25,7 +25,7 @@
 
 $UI_Spacing = 0; // Inter Character Spacing.
 $UI_ILC = 'zh'; // ISO 639-1 Language Code.
-$UI_IRC = ''; // Region Code.
+$UI_IRC = 'CN'; // Region Code.
 // Locales.
 $UI_Locales = array( 'eng_ENG.ISO8859-1', 'eng_ENG.utf-8', '繁體中文' );
 // Time Format - See strftime() syntax.
@@ -70,6 +70,7 @@ $UI_CW_ML12 = '十二月';
 $UI_CW_Last = '最後';
 $UI_CW_First = '最早';
 $UI_CW_Total = '總數';
+$UI_CW_Alert = '警告數';
 // Common Phrases.
 $UI_CP_SrcName = array($UI_CW_Src,$UI_CW_Name);
 $UI_CP_DstName = array($UI_CW_Dst,$UI_CW_Name);
@@ -84,7 +85,6 @@ $UI_AD_RID = array($UI_CW_Role,$UI_CW_Id);
 $UI_AD_ASD = '啟用';
 
 //common phrases
-DEFINE('_ALERT','警告數');
 DEFINE('_ADDRESS',$UI_CW_Addr);
 DEFINE('_UNKNOWN','未知');
 DEFINE('_AND','AND'); //NEW
@@ -124,7 +124,7 @@ DEFINE('_ADDUDPPORT','增加 UDP 通訊埠'); //NEW
 DEFINE('_ADDUDPFIELD','增加 UDP 攔位'); //NEW
 DEFINE('_ADDICMPFIELD','增加 ICMP 攔位'); //NEW
 DEFINE('_ADDPAYLOAD','增加 封包內容'); //NEW
-DEFINE('_MOSTFREQALERTS','最常發生的警告數'); //NEW
+DEFINE('_MOSTFREQALERTS','最常發生的'.$UI_CW_Alert); //NEW
 DEFINE('_MOSTFREQPORTS','最常發生的通訊埠'); //NEW
 DEFINE('_MOSTFREQADDRS','最常發生的 IP '.$UI_CW_Addr); //NEW
 DEFINE('_LASTALERTS',$UI_CW_Last.'的警告'); //NEW
@@ -183,17 +183,17 @@ DEFINE('_LOGINERROR',"使用者不存在或您的$UI_CW_Pw".'不正確!<br>請�
 // base_main.php
 DEFINE('_MOSTRECENT','最近 ');
 DEFINE('_MOSTFREQUENT','最常出現 ');
-DEFINE('_ALERTS',' 警告數:');
+DEFINE('_ALERTS',$UI_CW_Alert.':');
 DEFINE('_ADDRESSES',' '.$UI_CW_Addr);
 DEFINE('_ANYPROTO','任何通訊協定');
 DEFINE('_UNI','單一');
 DEFINE('_LISTING','列表');
-DEFINE('_TALERTS','今天的警告數: ');
+DEFINE('_TALERTS','今天的'.$UI_CW_Alert.': ');
 DEFINE('_SOURCEIP',$UI_CW_Src.' IP'); //NEW
 DEFINE('_DESTIP',$UI_CW_Dst.' IP'); //NEW
-DEFINE('_L24ALERTS','最近 24 小時警告數: ');
-DEFINE('_L72ALERTS','最近 72 小時警告數: ');
-DEFINE('_UNIALERTS',' 單項警告數');
+DEFINE('_L24ALERTS','最近 24 小時'.$UI_CW_Alert.': ');
+DEFINE('_L72ALERTS','最近 72 小時'.$UI_CW_Alert.': ');
+DEFINE('_UNIALERTS',' 單項'.$UI_CW_Alert);
 DEFINE('_LSOURCEPORTS','最近'.$UI_CW_Src.'通訊埠數: ');
 DEFINE('_LDESTPORTS','最近'.$UI_CW_Dst.'通訊埠數: ');
 DEFINE('_FREGSOURCEP','最常出現'.$UI_CW_Src.'通訊埠數: ');
@@ -241,9 +241,9 @@ DEFINE('_BASEADMIN','基本管理');
 DEFINE('_BASEADMINTEXT','請自左方選單選擇.');
 
 //base_action.inc.php
-DEFINE('_NOACTION','在警告數中沒有動作被指定');
+DEFINE('_NOACTION','在'.$UI_CW_Alert.'中沒有動作被指定');
 DEFINE('_INVALIDACT',' 是一個不合法的動作');
-DEFINE('_ERRNOAG','當沒有指定AG時不能增加警告數');
+DEFINE('_ERRNOAG','當沒有指定AG時不能增加'.$UI_CW_Alert);
 DEFINE('_ERRNOEMAIL','當電子郵件'.$UI_CW_Addr.'沒有指定時不能自郵件傳送警告');
 DEFINE('_ACTION','動作');
 DEFINE('_CONTEXT','內容');
@@ -260,7 +260,7 @@ DEFINE('_ARCHIVEALERTSCOPY','封存警告 (複製)');
 DEFINE('_ARCHIVEALERTSMOVE','封存警告 (搬移)');
 DEFINE('_IGNORED','已忽略 ');
 DEFINE('_DUPALERTS',' 警告重複');
-DEFINE('_ALERTSPARA',' 警告數');
+DEFINE('_ALERTSPARA',$UI_CW_Alert);
 DEFINE('_NOALERTSSELECT','沒有警報被選擇或');
 DEFINE('_NOTSUCCESSFUL','沒有成功 ');
 DEFINE('_ERRUNKAGID','未知警告群組識別碼被指定 (警告群組可能不存在)');
@@ -380,7 +380,7 @@ DEFINE('_ERRCRITELEM','不合法標準元件');
 //base_state_query.inc.php
 DEFINE('_VALIDCANNED','合法錄製查詢列表');
 DEFINE('_DISPLAYING','顯示中');
-DEFINE('_DISPLAYINGTOTAL','顯示警告數 %d-%d 中 %d '.$UI_CW_Total);
+DEFINE('_DISPLAYINGTOTAL','顯示'.$UI_CW_Alert.' %d-%d 中 %d '.$UI_CW_Total);
 DEFINE('_NOALERTS','找不到警告.');
 DEFINE('_QUERYRESULTS','查詢結果');
 DEFINE('_QUERYSTATE','查詢狀態');
@@ -403,7 +403,7 @@ DEFINE('_AGDELETEINFO','訊息已刪除');
 DEFINE('_ERRAGSEARCHINV','輸入的查詢標準是不合法.  請重試!');
 DEFINE('_ERRAGSEARCHNOTFOUND','用該標準在警告群組中找不到.');
 DEFINE('_NOALERTGOUPS','這裏沒有警告群組');
-DEFINE('_NUMALERTS','# 警告數');
+DEFINE('_NUMALERTS','# '.$UI_CW_Alert);
 DEFINE('_ACTIONS','動作');
 DEFINE('_NOTASSIGN','還未指定');
 DEFINE('_SAVECHANGES',' 儲存變更'); //NEW
@@ -456,21 +456,21 @@ DEFINE('_TYPEPIE','圓餅圖'); //NEW
 DEFINE('_CHARTHOUR','{時}'); //NEW
 DEFINE('_CHARTDAY','{日}'); //NEW
 DEFINE('_CHARTMONTH','{月}'); //NEW
-DEFINE('_GRAPHALERTS','警告數'); //NEW
+DEFINE('_GRAPHALERTS',$UI_CW_Alert); //NEW
 DEFINE('_AXISCONTROLS','X / Y 控制'); //NEW
-DEFINE('_CHRTTYPEHOUR','時間 (小時) vs. 警告數');
-DEFINE('_CHRTTYPEDAY','時間 (日) vs. 警告數');
-DEFINE('_CHRTTYPEWEEK','時間 (週) vs. 警告數');
-DEFINE('_CHRTTYPEMONTH','時間 (月) vs. 警告數');
-DEFINE('_CHRTTYPEYEAR','時間 (年) vs. 警告數');
-DEFINE('_CHRTTYPESRCIP',$UI_CW_Src.'. IP '.$UI_CW_Addr.' vs. 警告數');
-DEFINE('_CHRTTYPEDSTIP',$UI_CW_Dst.'. IP '.$UI_CW_Addr.' vs. 警告數');
-DEFINE('_CHRTTYPEDSTUDP',$UI_CW_Dst.'. UDP 通訊埠 vs. 警告數');
-DEFINE('_CHRTTYPESRCUDP',$UI_CW_Src.'. UDP 通訊埠 vs. 警告數');
-DEFINE('_CHRTTYPEDSTPORT',$UI_CW_Dst.'. TCP 通訊埠 vs. 警告數');
-DEFINE('_CHRTTYPESRCPORT',$UI_CW_Src.'. TCP 通訊埠 vs. 警告數');
-DEFINE('_CHRTTYPESIG',$UI_CW_Sig.'. 分類 vs. 警告數');
-DEFINE('_CHRTTYPESENSOR','偵測器 vs. 警告數');
+DEFINE('_CHRTTYPEHOUR','時間 (小時) vs. '.$UI_CW_Alert);
+DEFINE('_CHRTTYPEDAY','時間 (日) vs. '.$UI_CW_Alert);
+DEFINE('_CHRTTYPEWEEK','時間 (週) vs. '.$UI_CW_Alert);
+DEFINE('_CHRTTYPEMONTH','時間 (月) vs. '.$UI_CW_Alert);
+DEFINE('_CHRTTYPEYEAR','時間 (年) vs. '.$UI_CW_Alert);
+DEFINE('_CHRTTYPESRCIP',$UI_CW_Src.'. IP '.$UI_CW_Addr.' vs. '.$UI_CW_Alert);
+DEFINE('_CHRTTYPEDSTIP',$UI_CW_Dst.'. IP '.$UI_CW_Addr.' vs. '.$UI_CW_Alert);
+DEFINE('_CHRTTYPEDSTUDP',$UI_CW_Dst.'. UDP 通訊埠 vs. '.$UI_CW_Alert);
+DEFINE('_CHRTTYPESRCUDP',$UI_CW_Src.'. UDP 通訊埠 vs. '.$UI_CW_Alert);
+DEFINE('_CHRTTYPEDSTPORT',$UI_CW_Dst.'. TCP 通訊埠 vs. '.$UI_CW_Alert);
+DEFINE('_CHRTTYPESRCPORT',$UI_CW_Src.'. TCP 通訊埠 vs. '.$UI_CW_Alert);
+DEFINE('_CHRTTYPESIG',$UI_CW_Sig.'. 分類 vs. '.$UI_CW_Alert);
+DEFINE('_CHRTTYPESENSOR','偵測器 vs. '.$UI_CW_Alert);
 DEFINE('_CHRTBEGIN','圖形開始:');
 DEFINE('_CHRTEND','圖形結束:');
 DEFINE('_CHRTDS','資料'.$UI_CW_Src.':');
@@ -489,24 +489,24 @@ DEFINE('_CHRTTITLE','BASE 圖形');
 DEFINE('_ERRCHRTNOTYPE','沒有圖型'.$UI_CW_Type.'被指定');
 DEFINE('_ERRNOAGSPEC','沒有 AG 警告群組被指定.  使用全部警告.');
 DEFINE('_CHRTDATAIMPORT','開始資料轉入');
-DEFINE('_CHRTTIMEVNUMBER','時間 vs. 警告數');
+DEFINE('_CHRTTIMEVNUMBER','時間 vs. '.$UI_CW_Alert);
 DEFINE('_CHRTTIME','時間');
 DEFINE('_CHRTALERTOCCUR','警告'.$UI_CW_Event);
-DEFINE('_CHRTSIPNUMBER',$UI_CW_Src.' IP vs. N警告數s');
+DEFINE('_CHRTSIPNUMBER',$UI_CW_Src.' IP vs. N'.$UI_CW_Alert.'s');
 DEFINE('_CHRTSIP',$UI_CW_Src.' IP '.$UI_CW_Addr);
-DEFINE('_CHRTDIPALERTS',$UI_CW_Dst.' IP vs. 警告數');
+DEFINE('_CHRTDIPALERTS',$UI_CW_Dst.' IP vs. '.$UI_CW_Alert);
 DEFINE('_CHRTDIP',$UI_CW_Dst.' IP '.$UI_CW_Addr);
-DEFINE('_CHRTUDPPORTNUMBER','UDP 通訊埠 ('.$UI_CW_Dst.') vs. 警告數');
+DEFINE('_CHRTUDPPORTNUMBER','UDP 通訊埠 ('.$UI_CW_Dst.') vs. '.$UI_CW_Alert);
 DEFINE('_CHRTDUDPPORT','Dst. UDP 通訊埠');
-DEFINE('_CHRTSUDPPORTNUMBER','UDP 通訊埠 ('.$UI_CW_Src.') vs. 警告數');
+DEFINE('_CHRTSUDPPORTNUMBER','UDP 通訊埠 ('.$UI_CW_Src.') vs. '.$UI_CW_Alert);
 DEFINE('_CHRTSUDPPORT','Src. UDP 通訊埠');
-DEFINE('_CHRTPORTDESTNUMBER','TCP 通訊埠 ('.$UI_CW_Dst.') vs. 警告數');
+DEFINE('_CHRTPORTDESTNUMBER','TCP 通訊埠 ('.$UI_CW_Dst.') vs. '.$UI_CW_Alert);
 DEFINE('_CHRTPORTDEST','Dst. TCP 通訊埠');
-DEFINE('_CHRTPORTSRCNUMBER','TCP 通訊埠 ('.$UI_CW_Src.') vs. 警告數');
+DEFINE('_CHRTPORTSRCNUMBER','TCP 通訊埠 ('.$UI_CW_Src.') vs. '.$UI_CW_Alert);
 DEFINE('_CHRTPORTSRC','Src. TCP 通訊埠');
-DEFINE('_CHRTSIGNUMBER',$UI_CW_Sig.'分類 vs. 警告數');
+DEFINE('_CHRTSIGNUMBER',$UI_CW_Sig.'分類 vs. '.$UI_CW_Alert);
 DEFINE('_CHRTCLASS','分類');
-DEFINE('_CHRTSENSORNUMBER','偵測器 vs. 警告數');
+DEFINE('_CHRTSENSORNUMBER','偵測器 vs. '.$UI_CW_Alert);
 DEFINE('_CHRTHANDLEPERIOD','維持週期 如果需要');
 DEFINE('_CHRTDUMP','頃入資料中 ... (每次只寫入');
 DEFINE('_CHRTDRAW',' 繪製圖表');
@@ -599,7 +599,7 @@ DEFINE('_QFRMDIP',$UI_CW_Dst.' IP');
 //base_qry_sqlcalls.php
 DEFINE('_QSCSUMM','摘要狀態');
 DEFINE('_QSCTIMEPROF','時間數據');
-DEFINE('_QSCOFALERTS','警告數');
+DEFINE('_QSCOFALERTS',$UI_CW_Alert);
 
 //base_stat_alerts.php
 DEFINE('_ALERTTITLE','警告列表');
@@ -607,7 +607,7 @@ DEFINE('_ALERTTITLE','警告列表');
 //base_stat_common.php
 DEFINE('_SCCATEGORIES','目錄:');
 DEFINE('_SCSENSORTOTAL','偵測器/'.$UI_CW_Total.':');
-DEFINE('_SCTOTALNUMALERTS',$UI_CW_Total.'警告數:');
+DEFINE('_SCTOTALNUMALERTS',$UI_CW_Total.$UI_CW_Alert.':');
 DEFINE('_SCSRCIP',$UI_CW_Src.' IP '.$UI_CW_Addr.':');
 DEFINE('_SCDSTIP',$UI_CW_Dst.' IP '.$UI_CW_Addr.':');
 DEFINE('_SCUNILINKS','單一 IP 連結數');
@@ -634,7 +634,7 @@ DEFINE('_PSTOTALOCC',$UI_CW_Total.'<BR> '.$UI_CW_Event);
 DEFINE('_PSNUMSENSORS','偵測器數目');
 DEFINE('_PSFIRSTOCC',$UI_CW_First.'<BR> '.$UI_CW_Event);
 DEFINE('_PSLASTOCC',$UI_CW_Last.'<BR> '.$UI_CW_Event);
-DEFINE('_PSUNIALERTS','單一警告數');
+DEFINE('_PSUNIALERTS','單一'.$UI_CW_Alert);
 DEFINE('_PSPORTSCANEVE','通訊埠掃描'.$UI_CW_Event);
 DEFINE('_PSREGWHOIS','登入查詢 (whois) 於');
 DEFINE('_PSNODNS','沒有 DNS 解析企圖');
@@ -644,7 +644,7 @@ DEFINE('_PSOCCASDST','發生 <BR>做為'.$UI_CW_Dst);
 DEFINE('_PSWHOISINFO','Whois 資訊');
 DEFINE('_PSTOTALHOSTS',$UI_CW_Total.'掃描到主機'); //NEW
 DEFINE('_PSDETECTAMONG','%d 單項偵測到警告在 %d 之中為 %s'); //NEW
-DEFINE('_PSALLALERTSAS','全部警告數為 %s/%s as'); //NEW
+DEFINE('_PSALLALERTSAS','全部'.$UI_CW_Alert.'為 %s/%s as'); //NEW
 DEFINE('_PSSHOW',' 顯示'); //NEW
 DEFINE('_PSEXTERNAL','外部'); //NEW
 
@@ -686,7 +686,7 @@ DEFINE('_SUASRCIP',"$UI_CW_Src IP $UI_CW_Addr");
 DEFINE('_SUAERRCRITADDUNK','標準錯誤: 未知'.$UI_CW_Addr.$UI_CW_Type.' -- 表示'.$UI_CW_Dst.$UI_CW_Addr);
 DEFINE('_UNIDADD','單一'.$UI_CW_Dst.$UI_CW_Addr.'數');
 DEFINE('_SUADSTIP',"$UI_CW_Dst IP $UI_CW_Addr");
-DEFINE('_SUAUNIALERTS','單一&nbsp;警告數');
+DEFINE('_SUAUNIALERTS','單一&nbsp;'.$UI_CW_Alert);
 DEFINE('_SUASRCADD',$UI_CW_Src.'&nbsp;'.$UI_CW_Addr);
 DEFINE('_SUADSTADD',$UI_CW_Dst.'&nbsp;'.$UI_CW_Addr);
 

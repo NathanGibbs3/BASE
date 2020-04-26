@@ -1,4 +1,3 @@
-languages/czech.lang.new
 languages/czech.lang.php
 languages/danish.lang.php
 languages/french.lang.php

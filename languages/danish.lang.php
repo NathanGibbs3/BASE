@@ -25,7 +25,7 @@
 
 $UI_Spacing = 1; // Inter Character Spacing.
 $UI_ILC = 'da'; // ISO 639-1 Language Code.
-$UI_IRC = ''; // Region Code.
+$UI_IRC = 'DK'; // Region Code.
 // Locales.
 $UI_Locales = array( 'eng_ENG.ISO8859-1', 'eng_ENG.utf-8', 'english' );
 // Time Format - See strftime() syntax.
@@ -70,6 +70,7 @@ $UI_CW_ML12 = 'December';
 $UI_CW_Last = 'Sidste';
 $UI_CW_First = 'First';
 $UI_CW_Total = 'Total';
+$UI_CW_Alert = 'Alert';
 // Common Phrases.
 $UI_CP_SrcName = array($UI_CW_Src,$UI_CW_Name);
 $UI_CP_DstName = array('Dest.',$UI_CW_Name);
@@ -84,7 +85,6 @@ $UI_AD_RID = array($UI_CW_Role,$UI_CW_Id);
 $UI_AD_ASD = 'Enabled';
 
 //common phrases
-DEFINE('_ALERT','Alarmer');
 DEFINE('_ADDRESS','Adresse');
 DEFINE('_UNKNOWN','ukendt');
 DEFINE('_AND','AND'); //NEW
@@ -98,8 +98,8 @@ DEFINE('_HOUR','Hour'); //NEW
 DEFINE('_DAY','Day'); //NEW
 DEFINE('_MONTH','Month'); //NEW
 DEFINE('_YEAR','Year'); //NEW
-DEFINE('_ALERTGROUP','Alert Group'); //NEW
-DEFINE('_ALERTTIME','Alert Time'); //NEW
+DEFINE('_ALERTGROUP',$UI_CW_Alert.' Group'); //NEW
+DEFINE('_ALERTTIME',$UI_CW_Alert.' Time'); //NEW
 DEFINE('_CONTAINS','contains'); //NEW
 DEFINE('_DOESNTCONTAIN','does not contain'); //NEW
 DEFINE('_SOURCEPORT','source port'); //NEW
@@ -204,7 +204,7 @@ DEFINE('_DATABASE','Database:');
 DEFINE('_SCHEMAV','Schema Version:');
 DEFINE('_TIMEWIN','Tids Vindue:');
 DEFINE('_NOALERTSDETECT','ingen alarmer fundet');
-DEFINE('_USEALERTDB','Use Alert Database'); //NEW
+DEFINE('_USEALERTDB','Use '.$UI_CW_Alert.' Database'); //NEW
 DEFINE('_USEARCHIDB','Use Archive Database'); //NEW
 DEFINE('_TRAFFICPROBPRO','Traffic Profile by Protocol'); //NEW
 
@@ -353,7 +353,7 @@ DEFINE('_DISPFIELD','{ field }'); //NEW
 DEFINE('_DISPPORT','{ port }'); //NEW
 DEFINE('_DISPENCODING','{ encoding }'); //NEW
 DEFINE('_DISPCONVERT2','{ Convert To }'); //NEW
-DEFINE('_DISPANYAG','{ any Alert Group }'); //NEW
+DEFINE('_DISPANYAG','{ any '.$UI_CW_Alert.' Group }'); //NEW
 DEFINE('_DISPPAYLOAD','{ payload }'); //NEW
 DEFINE('_DISPFLAGS','{ flags }'); //NEW
 DEFINE('_SIGEXACTLY','exactly'); //NEW
@@ -395,7 +395,7 @@ DEFINE('_ERRAGLOOKUP','Error looking up an AG ID');
 DEFINE('_ERRAGINSERT','Error Inserting new AG');
 
 //base_ag_main.php
-DEFINE('_AGMAINTTITLE','Alert Group (AG) Maintenance');
+DEFINE('_AGMAINTTITLE',$UI_CW_Alert.' Group (AG) Maintenance');
 DEFINE('_ERRAGUPDATE','Error updating the AG');
 DEFINE('_ERRAGPACKETLIST','Error deleting packet list for the AG:');
 DEFINE('_ERRAGDELETE','Error deleting the AG');
@@ -403,7 +403,7 @@ DEFINE('_AGDELETE','DELETED successfully');
 DEFINE('_AGDELETEINFO','information deleted');
 DEFINE('_ERRAGSEARCHINV','The entered search criteria is invalid.  Try again!');
 DEFINE('_ERRAGSEARCHNOTFOUND','No AG found with that criteria.');
-DEFINE('_NOALERTGOUPS','There are no Alert Groups');
+DEFINE('_NOALERTGOUPS','There are no '.$UI_CW_Alert.' Groups');
 DEFINE('_NUMALERTS','# Alerts');
 DEFINE('_SAVECHANGES','Save Changes'); //NEW
 DEFINE('_CONFIRMDELETE','Confirm Delete'); //NEW
@@ -417,7 +417,7 @@ DEFINE('_PORTSCAN','Portscan Traffic');
 //base_db_common.php
 DEFINE('_ERRDBINDEXCREATE','Unable to CREATE INDEX for');
 DEFINE('_DBINDEXCREATE','Successfully created INDEX for');
-DEFINE('_ERRSNORTVER','It might be an older version.  Only alert databases created by Snort 1.7-beta0 or later are supported');
+DEFINE('_ERRSNORTVER','It might be an older version.  Only '.$UI_CW_Alert.' databases created by Snort 1.7-beta0 or later are supported');
 DEFINE('_ERRSNORTVER1','The underlying database');
 DEFINE('_ERRSNORTVER2','appears to be incomplete/invalid');
 DEFINE('_ERRDBSTRUCT1','The database version is valid, but the BASE DB structure');
@@ -427,16 +427,16 @@ DEFINE('_ERRPHPERROR1','Incompatible version');
 DEFINE('_ERRVERSION','Version');
 DEFINE('_ERRPHPERROR2','of PHP is too old.  Please upgrade to version 4.0.4 or later');
 DEFINE('_ERRPHPMYSQLSUP','<B>PHP build incomplete</B>: <FONT>the prerequisite MySQL support required to 
-               read the alert database was not built into PHP.  
+               read the '.$UI_CW_Alert.' database was not built into PHP.  
                Please recompile PHP with the necessary library (<CODE>--with-mysql</CODE>)</FONT>');
 DEFINE('_ERRPHPPOSTGRESSUP','<B>PHP build incomplete</B>: <FONT>the prerequisite PostgreSQL support required to 
-               read the alert database was not built into PHP.  
+               read the '.$UI_CW_Alert.' database was not built into PHP.  
                Please recompile PHP with the necessary library (<CODE>--with-pgsql</CODE>)</FONT>');
 DEFINE('_ERRPHPMSSQLSUP','<B>PHP build incomplete</B>: <FONT>the prerequisite MS SQL Server support required to 
-                   read the alert database was not built into PHP.  
+                   read the '.$UI_CW_Alert.' database was not built into PHP.  
                    Please recompile PHP with the necessary library (<CODE>--enable-mssql</CODE>)</FONT>');
 DEFINE('_ERRPHPORACLESUP','<B>PHP build incomplete</B>: <FONT>the prerequisite Oracle support required to 
-                   read the alert database was not built into PHP.  
+                   read the '.$UI_CW_Alert.' database was not built into PHP.  
                    Please recompile PHP with the necessary library (<CODE>--with-oci8</CODE>)</FONT>');
 DEFINE('_CHARTTYPE','Chart '.$UI_CW_Type.':'); //NEW
 DEFINE('_CHARTTYPES','{ chart '.$UI_CW_Type.' }'); //NEW
@@ -510,7 +510,7 @@ DEFINE('_CHRTCLASS','Classification');
 DEFINE('_CHRTSENSORNUMBER','Sensor vs. Number of Alerts');
 DEFINE('_CHRTHANDLEPERIOD','Handling Period if necessary');
 DEFINE('_CHRTDUMP','Dumping data ... (writing only every');
-DEFINE('_GRAPHALERTDATA','Graph Alert Data'); //NEW
+DEFINE('_GRAPHALERTDATA','Graph '.$UI_CW_Alert.' Data'); //NEW
 DEFINE('_CHRTDRAW','Drawing graph');
 DEFINE('_ERRCHRTNODATAPOINTS','No data points to plot');
 
@@ -526,9 +526,9 @@ DEFINE('_MNTPHPLOGLVL','PHP Logging level:');
 DEFINE('_MNTPHPMODS','Loaded Modules:');
 DEFINE('_MNTDBTYPE','DB '.$UI_CW_Type.':');
 DEFINE('_MNTDBALV','DB Abstraction Version:');
-DEFINE('_MNTDBALERTNAME','ALERT DB Name:');
+DEFINE('_MNTDBALERTNAME',$UI_CW_Alert.' DB Name:');
 DEFINE('_MNTDBARCHNAME','ARCHIVE DB Name:');
-DEFINE('_MNTAIC','Alert Information Cache:');
+DEFINE('_MNTAIC',$UI_CW_Alert.' Information Cache:');
 DEFINE('_MNTAICTE',$UI_CW_Total.' '.$UI_CW_Event.'s:');
 DEFINE('_MNTAICCE','Cached '.$UI_CW_Event.'s:');
 DEFINE('_MNTIPAC','IP Address Cache');
@@ -539,8 +539,8 @@ DEFINE('_MNTIPACUDIP','Unique Dst IP:');
 
 //base_qry_alert.php
 DEFINE('_QAINVPAIR','Invalid (sid,cid) pair');
-DEFINE('_QAALERTDELET','Alert DELETED');
-DEFINE('_QATRIGGERSIG',"Triggered $UI_CW_Sig");
+DEFINE('_QAALERTDELET',$UI_CW_Alert.' DELETED');
+DEFINE('_QATRIGGERSIG','Triggered '.$UI_CW_Sig);
 DEFINE('_QANORMALD','Normal Display'); //NEW
 DEFINE('_QAPLAIND','Plain Display'); //NEW
 DEFINE('_QANOPAYLOAD','Fast logging used so payload was discarded'); //NEW
@@ -603,7 +603,7 @@ DEFINE('_QSCTIMEPROF','Time profile');
 DEFINE('_QSCOFALERTS','of alerts');
 
 //base_stat_alerts.php
-DEFINE('_ALERTTITLE','Alert Listing');
+DEFINE('_ALERTTITLE',$UI_CW_Alert.' Listing');
 
 //base_stat_common.php
 DEFINE('_SCCATEGORIES','Categories:');
@@ -677,7 +677,7 @@ DEFINE('_BSTERRNOYEAR','<FONT><B>No Year parameter was specified!</B></FONT>');
 DEFINE('_BSTPROFILEBY','Profile by'); //NEW
 DEFINE('_TIMEON','on'); //NEW
 DEFINE('_TIMEBETWEEN','between'); //NEW
-DEFINE('_PROFILEALERT','Profile Alert'); //NEW
+DEFINE('_PROFILEALERT','Profile '.$UI_CW_Alert); //NEW
 DEFINE('_BSTERRNOMONTH','<FONT><B>No Month parameter was specified!</B></FONT>');
 DEFINE('_BSTERRNODAY','<FONT><B>No Day parameter was specified!</B></FONT>');
 

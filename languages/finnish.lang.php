@@ -75,6 +75,7 @@ $UI_CW_ML12 = 'joulukuu';
 $UI_CW_Last = 'Viimeinen';
 $UI_CW_First = 'Ensimmäinen';
 $UI_CW_Total = 'Yhteensä';
+$UI_CW_Alert = 'Hälytykset';
 // Common Phrases.
 $UI_CP_SrcName = array('Lähteen',$UI_CW_Name);
 $UI_CP_DstName = array('Kohteen',$UI_CW_Name);
@@ -89,7 +90,6 @@ $UI_AD_RID = array($UI_CW_Role,$UI_CW_Id);
 $UI_AD_ASD = 'Toiminnassa';
 
 //common phrases
-DEFINE('_ALERT','Hälytykset');
 DEFINE('_ADDRESS','Osoite');
 DEFINE('_UNKNOWN','tuntematon');
 DEFINE('_AND','AND'); //NEW
@@ -103,8 +103,8 @@ DEFINE('_HOUR','Hour'); //NEW
 DEFINE('_DAY','Day'); //NEW
 DEFINE('_MONTH','Month'); //NEW
 DEFINE('_YEAR','Year'); //NEW
-DEFINE('_ALERTGROUP','Alert Group'); //NEW
-DEFINE('_ALERTTIME','Alert Time'); //NEW
+DEFINE('_ALERTGROUP',$UI_CW_Alert.' Group'); //NEW
+DEFINE('_ALERTTIME',$UI_CW_Alert.' Time'); //NEW
 DEFINE('_CONTAINS','contains'); //NEW
 DEFINE('_DOESNTCONTAIN','does not contain'); //NEW
 DEFINE('_SOURCEPORT','source port'); //NEW
@@ -129,14 +129,14 @@ DEFINE('_ADDUDPPORT','ADD UDP Port'); //NEW
 DEFINE('_ADDUDPFIELD','ADD UDP Field'); //NEW
 DEFINE('_ADDICMPFIELD','ADD ICMP Field'); //NEW
 DEFINE('_ADDPAYLOAD','ADD Payload'); //NEW
-DEFINE('_MOSTFREQALERTS','Most Frequent Alerts'); //NEW
+DEFINE('_MOSTFREQALERTS','Most Frequent '.$UI_CW_Alert); //NEW
 DEFINE('_MOSTFREQPORTS','Most Frequent Ports'); //NEW
 DEFINE('_MOSTFREQADDRS','Most Frequent IP addresses'); //NEW
-DEFINE('_LASTALERTS','Last Alerts'); //NEW
+DEFINE('_LASTALERTS','Last '.$UI_CW_Alert); //NEW
 DEFINE('_LASTPORTS','Last Ports'); //NEW
-DEFINE('_LASTTCP','Last TCP Alerts'); //NEW
-DEFINE('_LASTUDP','Last UDP Alerts'); //NEW
-DEFINE('_LASTICMP','Last ICMP Alerts'); //NEW
+DEFINE('_LASTTCP','Last TCP '.$UI_CW_Alert); //NEW
+DEFINE('_LASTUDP','Last UDP '.$UI_CW_Alert); //NEW
+DEFINE('_LASTICMP','Last ICMP '.$UI_CW_Alert); //NEW
 DEFINE('_QUERYDB','Query DB'); //NEW
 DEFINE('_QUERYDBP','Query+DB'); //NEW - Equals to _QUERYDB where spaces are '+'s. 
                                 //Should be something like: DEFINE('_QUERYDBP',str_replace(" ", "+", _QUERYDB));
@@ -188,17 +188,17 @@ DEFINE('_LOGINERROR','Käyttäjää ei ole tai antamasi '.strtolower($UI_CW_Pw).
 // base_main.php
 DEFINE('_MOSTRECENT','Uusin ');
 DEFINE('_MOSTFREQUENT','Tiheiten Esiintyvä ');
-DEFINE('_ALERTS',' Hälytykset:');
+DEFINE('_ALERTS',' '.$UI_CW_Alert.':');
 DEFINE('_ADDRESSES',' Osoitteet');
 DEFINE('_ANYPROTO','mikä tahansa protokolla');
 DEFINE('_UNI','uniikki');
 DEFINE('_LISTING','listaus');
-DEFINE('_TALERTS','Tämänpäiväiset hälytykset: ');
+DEFINE('_TALERTS','Tämänpäiväiset '.$UI_CW_Alert.': ');
 DEFINE('_SOURCEIP','Source IP'); //NEW
 DEFINE('_DESTIP','Destination IP'); //NEW
-DEFINE('_L24ALERTS','Viimeisen 24 Tunnin hälytykset: ');
-DEFINE('_L72ALERTS','Viimeisen 72 Tunnin hälytykset: ');
-DEFINE('_UNIALERTS',' Uniikit hälytykset');
+DEFINE('_L24ALERTS','Viimeisen 24 Tunnin '.$UI_CW_Alert.': ');
+DEFINE('_L72ALERTS','Viimeisen 72 Tunnin '.$UI_CW_Alert.': ');
+DEFINE('_UNIALERTS',' Uniikit '.$UI_CW_Alert);
 DEFINE('_LSOURCEPORTS','Viimeisimmät Lähde-Portit: ');
 DEFINE('_LDESTPORTS','Viimeisimmät Kohde-Portit: ');
 DEFINE('_FREGSOURCEP','Tiheiten Esiintyvät Lähde-Portit: ');
@@ -208,7 +208,7 @@ DEFINE('_DATABASE','Tietokanta:');
 DEFINE('_SCHEMAV','Scheman Versio:');//#
 DEFINE('_TIMEWIN','Aika-ikkuna:');
 DEFINE('_NOALERTSDETECT','hälytyksiä ole havaittu');
-DEFINE('_USEALERTDB','Use Alert Database'); //NEW
+DEFINE('_USEALERTDB','Use '.$UI_CW_Alert.' Database'); //NEW
 DEFINE('_USEARCHIDB','Use Archive Database'); //NEW
 DEFINE('_TRAFFICPROBPRO','Traffic Profile by Protocol'); //NEW
 
@@ -246,7 +246,7 @@ DEFINE('_BASEADMIN','BASE Hallinta');
 DEFINE('_BASEADMINTEXT','Valitse yksi vaihtoehto vasemmalta.');
 
 //base_action.inc.php
-DEFINE('_NOACTION','Yhtään action ei määritelty on the alerts');//#
+DEFINE('_NOACTION','Yhtään action ei määritelty on the '.$UI_CW_Alert);//#
 DEFINE('_INVALIDACT',' on laiton(invalid) action');//#
 DEFINE('_ERRNOAG','Hälytyksen lisääminen ei onnistunut koska AG:a ei määritelty ');
 DEFINE('_ERRNOEMAIL','Hälytysten mailaaminen ei onnistunut koska email-osoitetta ei ole määritelty');
@@ -257,21 +257,21 @@ DEFINE('_ADDAG','Lisää uusi AG');//#
 DEFINE('_ADDAGNAME','Lisää AG:iin (Nimellä');
 DEFINE('_CREATEAG','Luo AG (Nimellä');
 DEFINE('_CLEARAG','Posta AG:sta');
-DEFINE('_DELETEALERT','Poista hälytykset');
-DEFINE('_EMAILALERTSFULL','Email hälytykset (täysi)');
-DEFINE('_EMAILALERTSSUMM','Email hälytykset (yhteenveto)');
-DEFINE('_EMAILALERTSCSV','Email hälytykset (csv)');//#
-DEFINE('_ARCHIVEALERTSCOPY','Arkistoi hälytykset (kopioi)');
-DEFINE('_ARCHIVEALERTSMOVE','Arkistoi hälytykset (siirr�');
+DEFINE('_DELETEALERT','Poista '.$UI_CW_Alert);
+DEFINE('_EMAILALERTSFULL','Email '.$UI_CW_Alert.' (täysi)');
+DEFINE('_EMAILALERTSSUMM','Email '.$UI_CW_Alert.' (yhteenveto)');
+DEFINE('_EMAILALERTSCSV','Email '.$UI_CW_Alert.' (csv)');//#
+DEFINE('_ARCHIVEALERTSCOPY','Arkistoi '.$UI_CW_Alert.' (kopioi)');
+DEFINE('_ARCHIVEALERTSMOVE','Arkistoi '.$UI_CW_Alert.' (siirr�');
 DEFINE('_IGNORED','Jätetty Huomiotta ');
-DEFINE('_DUPALERTS',' useasti esiintyvät hälytykset');
-DEFINE('_ALERTSPARA',' hälytykset');
+DEFINE('_DUPALERTS',' useasti esiintyvät '.$UI_CW_Alert);
+DEFINE('_ALERTSPARA',' '.$UI_CW_Alert);
 DEFINE('_NOALERTSSELECT','Yhtään hälytystä valittu tai');
 DEFINE('_NOTSUCCESSFUL','ei onnistunut');
 DEFINE('_ERRUNKAGID',"Tuntematon AG $UI_CW_Id annettu (AG:a ei luultavasti ole olemassa)");//#
 DEFINE('_ERRREMOVEFAIL','Uuden AG:n poistaminen ei onnistunut');
 DEFINE('_GENBASE','BASE:n generoima');
-DEFINE('_ERRNOEMAILEXP','EXPORT ERROR: Exported hälytykset lähettäminen to');//#
+DEFINE('_ERRNOEMAILEXP','EXPORT ERROR: Exported '.$UI_CW_Alert.' lähettäminen to');//#
 DEFINE('_ERRNOEMAILPHP','Tarkista PHP:n sähköpostiasetukset.');
 DEFINE('_ERRDELALERT','Error Poistettaessa Hälytystä');//#
 DEFINE('_ERRARCHIVE','Arkisto error:');//#
@@ -284,14 +284,14 @@ DEFINE('_HOSTNAMESWHOIS',' hostnames to the Whois cache');//#
 DEFINE('_ERRCACHENULL','Caching ERROR: NULL '.$UI_CW_Event.' row found?');//#
 DEFINE('_ERRCACHEERROR',$UI_CW_Event.' CACHING ERROR:');//#
 DEFINE('_ERRCACHEUPDATE',$UI_CW_Event.'välimuistin päivittäminen ei onnistunut');
-DEFINE('_ALERTSCACHE',' hälytykset Hälytysvälimuistiin');
+DEFINE('_ALERTSCACHE',' '.$UI_CW_Alert.' Hälytysvälimuistiin');
 
 //base_db.inc.php
 DEFINE('_ERRSQLTRACE','SQL trace tidoston avaminen ei onnistu');//#
 DEFINE('_ERRSQLCONNECT','Virhe yhdistettaessä tietokantaan :');
 DEFINE('_ERRSQLCONNECTINFO','<P>Tarkista DB connection variables(tietokantayhteyden muuttujat) tiedostosta <I>base_conf.php</I> 
               <PRE>
-               = $alert_dbname   : MySQL tietokannan nimi johon hälytykset on tallennettu 
+               = $alert_dbname   : MySQL tietokannan nimi johon '.$UI_CW_Alert.' on tallennettu 
                = $alert_host     : isäntä johon tietokanta on tallennettu
                = $alert_port     : portti johon tietokanta on tallennettu
                = $alert_user     : käyttäjänimi tietokantaan
@@ -357,7 +357,7 @@ DEFINE('_DISPFIELD','{ field }'); //NEW
 DEFINE('_DISPPORT','{ port }'); //NEW
 DEFINE('_DISPENCODING','{ encoding }'); //NEW
 DEFINE('_DISPCONVERT2','{ Convert To }'); //NEW
-DEFINE('_DISPANYAG','{ any Alert Group }'); //NEW
+DEFINE('_DISPANYAG','{ any '.$UI_CW_Alert.' Group }'); //NEW
 DEFINE('_DISPPAYLOAD','{ payload }'); //NEW
 DEFINE('_DISPFLAGS','{ flags }'); //NEW
 DEFINE('_SIGEXACTLY','exactly'); //NEW
@@ -385,7 +385,7 @@ DEFINE('_ERRCRITELEM','Invalid criteria element');//#
 //base_state_query.inc.php
 DEFINE('_VALIDCANNED','Valid Canned Query List');//#
 DEFINE('_DISPLAYING','Displaying');//#
-DEFINE('_DISPLAYINGTOTAL','Displaying alerts %d-%d of %d '.$UI_CW_Total);//#
+DEFINE('_DISPLAYINGTOTAL','Displaying '.$UI_CW_Alert.' %d-%d of %d '.$UI_CW_Total);//#
 DEFINE('_NOALERTS','Ei havaittuja hälytyksiä.');
 DEFINE('_QUERYRESULTS','Query Results');//#
 DEFINE('_QUERYSTATE','Query State');//#
@@ -399,7 +399,7 @@ DEFINE('_ERRAGLOOKUP','Error looking up an AG $UI_CW_Id:ta');//#
 DEFINE('_ERRAGINSERT','Error Asetettaessa uutta AG:a');//#
 
 //base_ag_main.php
-DEFINE('_AGMAINTTITLE','Hälytys-ryhmä (Alert Group - AG) Ylläpito');//#
+DEFINE('_AGMAINTTITLE','Hälytys-ryhmä ('.$UI_CW_Alert.' Group - AG) Ylläpito');//#
 DEFINE('_ERRAGUPDATE','Error päivitettäessä AG:a');//#
 DEFINE('_ERRAGPACKETLIST','Error poistettaessa AG:n paketti-listaa:');//#
 DEFINE('_ERRAGDELETE','Error poistettaessa AG:a');//#
@@ -408,7 +408,7 @@ DEFINE('_AGDELETEINFO','tieto poistettu');
 DEFINE('_ERRAGSEARCHINV','Annetty hakukriteeri ei ole laillinen(valid).  Yritä uudelleen!');
 DEFINE('_ERRAGSEARCHNOTFOUND','Yhtään AG:a ei löydetty tuolla kriteerillä.');
 DEFINE('_NOALERTGOUPS','Yhtään AG:a ei löydy');
-DEFINE('_NUMALERTS','# Hälytykset');
+DEFINE('_NUMALERTS','# '.$UI_CW_Alert);
 DEFINE('_ACTIONS','Actions');//#
 DEFINE('_NOTASSIGN','not assigned yet');//#
 DEFINE('_SAVECHANGES','Save Changes'); //NEW
@@ -437,7 +437,7 @@ DEFINE('_ERRPHPPOSTGRESSUP','<B>PHP käännös(build) epätäydellinen</B>: <FON
 DEFINE('_ERRPHPMSSQLSUP','<B>PHP käännös(build) epätäydellinen</B>: <FONT>the prerequisite MS SQL Serverin tuki joka vaaditaan hälytystietokannan lukemiseen ei ole käännetty PHP:n sisään.
                    Käännä PHP uudelleen tarvittavien kirjastojen kanssa (<CODE>--enable-mssql</CODE>)</FONT>');//#
 DEFINE('_ERRPHPORACLESUP','<B>PHP build incomplete</B>: <FONT>the prerequisite Oracle support required to 
-                   read the alert database was not built into PHP.  
+                   read the '.$UI_CW_Alert.' database was not built into PHP.  
                    Please recompile PHP with the necessary library (<CODE>--with-oci8</CODE>)</FONT>');
 
 //base_graph_form.php
@@ -461,7 +461,7 @@ DEFINE('_TYPEPIE','pie'); //NEW
 DEFINE('_CHARTHOUR','{hora}'); //NEW
 DEFINE('_CHARTDAY','{dia}'); //NEW
 DEFINE('_CHARTMONTH','{mês}'); //NEW
-DEFINE('_GRAPHALERTS','Graph Alerts'); //NEW
+DEFINE('_GRAPHALERTS','Graph '.$UI_CW_Alert); //NEW
 DEFINE('_AXISCONTROLS','X / Y AXIS CONTROLS'); //NEW
 DEFINE('_CHRTTYPEMONTH','Aika (kuukausi) vs. Hälytysten Määrä');
 DEFINE('_CHRTTYPEYEAR','Aika (vuosi) vs. Hälytysten Määrä');
@@ -516,7 +516,7 @@ DEFINE('_ERRCHRTNODATAPOINTS','No data points to plot');//#
 
 //base_maintenance.php
 DEFINE('_MAINTTITLE','Ylläito');
-DEFINE('_GRAPHALERTDATA','Graph Alert Data'); //NEW
+DEFINE('_GRAPHALERTDATA','Graph '.$UI_CW_Alert.' Data'); //NEW
 DEFINE('_MNTPHP','PHP käännös(build)versio:');
 DEFINE('_MNTCLIENT','ASIAKAS:');
 DEFINE('_MNTSERVER','SERVERI:');
@@ -527,7 +527,7 @@ DEFINE('_MNTPHPLOGLVL','PHP Logging level:');//#
 DEFINE('_MNTPHPMODS','Ladatutu Moduulit:');
 DEFINE('_MNTDBTYPE','Tietokannan Tyyppi:');
 DEFINE('_MNTDBALV','Tietokannan-abstrtaktio-versio:');
-DEFINE('_MNTDBALERTNAME','ALERT DB Name:');//#
+DEFINE('_MNTDBALERTNAME',$UI_CW_Alert.' DB Name:');//#
 DEFINE('_MNTDBARCHNAME','ARCHIVE DB Name:');//#
 DEFINE('_MNTAIC','Hälytystietojen Välimuisti:');
 DEFINE('_MNTAICTE','Tapahtumia Yhteensä:');
@@ -636,7 +636,7 @@ DEFINE('_PSTOTALOCC','Esiintymiä<BR> '.$UI_CW_Total);
 DEFINE('_PSNUMSENSORS','Sensorien Määrä');
 DEFINE('_PSFIRSTOCC',$UI_CW_First.'<BR> Esiintymä');
 DEFINE('_PSLASTOCC',$UI_CW_Last.'<BR> Esiintymä');
-DEFINE('_PSUNIALERTS','Uniikit Hälytykset');
+DEFINE('_PSUNIALERTS','Uniikit '.$UI_CW_Alert);
 DEFINE('_PSPORTSCANEVE','Porttiskannaukset');
 DEFINE('_PSREGWHOIS','Registry lookup (whois) in');//#
 DEFINE('_PSNODNS','yhtään DNS resolution ei yritetty');//#
@@ -648,8 +648,8 @@ DEFINE('_PSWHOISINFO','Whois Information');//#
 //base_stat_iplink.php
 DEFINE('_SIPLTITLE','IP Linkit');
 DEFINE('_PSTOTALHOSTS',$UI_CW_Total.' Hosts Scanned'); //NEW
-DEFINE('_PSDETECTAMONG','%d unique alerts detected among %d alerts on %s'); //NEW
-DEFINE('_PSALLALERTSAS','all alerts with %s/%s as'); //NEW
+DEFINE('_PSDETECTAMONG','%d unique '.$UI_CW_Alert.' detected among %d '.$UI_CW_Alert.' on %s'); //NEW
+DEFINE('_PSALLALERTSAS','all '.$UI_CW_Alert.' with %s/%s as'); //NEW
 DEFINE('_PSSHOW','show'); //NEW
 DEFINE('_PSEXTERNAL','external'); //NEW
 DEFINE('_SIPLSOURCEFGDN','Lähde FQDN');//#
@@ -683,12 +683,12 @@ DEFINE('_UNISADD','Uniikit Lähde-IP-osoitteet');
 DEFINE('_BSTPROFILEBY','Profile by'); //NEW
 DEFINE('_TIMEON','on'); //NEW
 DEFINE('_TIMEBETWEEN','between'); //NEW
-DEFINE('_PROFILEALERT','Profile Alert'); //NEW
+DEFINE('_PROFILEALERT','Profile '.$UI_CW_Alert); //NEW
 DEFINE('_SUASRCIP','Lähde-IP-osoitteet');
 DEFINE('_SUAERRCRITADDUNK','CRITERIA ERROR: tuntematon osoitteen tyyppi -- assuming Kohde osoite');//#
 DEFINE('_UNIDADD','Uniikit Kohde-IP-osoitteet');
 DEFINE('_SUADSTIP','Kohde-IP-osoitteet');
-DEFINE('_SUAUNIALERTS','Uniikite&nbsp;Hälytykset');
+DEFINE('_SUAUNIALERTS','Uniikite&nbsp;'.$UI_CW_Alert);
 DEFINE('_SUASRCADD','Lähde&nbsp;Osoite');
 DEFINE('_SUADSTADD','Kohde&nbsp;Osoite');
 

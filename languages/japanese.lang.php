@@ -25,7 +25,7 @@
 
 $UI_Spacing = 0; // Inter Character Spacing.
 $UI_ILC = 'ja'; // ISO 639-1 Language Code.
-$UI_IRC = ''; // Region Code.
+$UI_IRC = 'JP'; // Region Code.
 // Locales.
 $UI_Locales = array( 'eng_ENG.ISO8859-1', 'eng_ENG.utf-8', 'english' );
 // Time Format - See strftime() syntax.
@@ -70,6 +70,7 @@ $UI_CW_ML12 = '１２月';
 $UI_CW_Last = '最後の';
 $UI_CW_First = '最初の';
 $UI_CW_Total = '総';
+$UI_CW_Alert = 'アラート';
 // Common Phrases.
 $UI_CP_SrcName = array($UI_CW_Src,$UI_CW_Name);
 $UI_CP_DstName = array($UI_CW_Dst,$UI_CW_Name);
@@ -84,7 +85,6 @@ $UI_AD_RID = array($UI_CW_Role,$UI_CW_Id);
 $UI_AD_ASD = '有効';
 
 //common phrases
-DEFINE('_ALERT','アラート');
 DEFINE('_ADDRESS',$UI_CW_Addr);
 DEFINE('_UNKNOWN','不明');
 DEFINE('_AND','AND'); //NEW
@@ -149,7 +149,7 @@ DEFINE('_PREVIOUS','Previous'); //NEW
 //Menu items
 DEFINE('_HOME','ホーム');
 DEFINE('_SEARCH','検索');
-DEFINE('_AGMAINT','アラートグループ設定');
+DEFINE('_AGMAINT',$UI_CW_Alert.'グループ設定');
 DEFINE('_USERPREF','ユーザー設定');
 DEFINE('_CACHE','キャッシュ & ステータス');
 DEFINE('_ADMIN','管理');
@@ -183,17 +183,17 @@ DEFINE('_LOGINERROR','ユーザーが存在しないか、'.$UI_CW_Pw.'が間違
 // base_main.php
 DEFINE('_MOSTRECENT','最近');
 DEFINE('_MOSTFREQUENT','上位');
-DEFINE('_ALERTS',' アラート:');
+DEFINE('_ALERTS',' '.$UI_CW_Alert.':');
 DEFINE('_ADDRESSES',' '.$UI_CW_Addr.':');
 DEFINE('_ANYPROTO','すべて');
 DEFINE('_UNI','種類別');
 DEFINE('_LISTING','リスト');
-DEFINE('_TALERTS','今日のアラート: ');
+DEFINE('_TALERTS','今日の'.$UI_CW_Alert.': ');
 DEFINE('_SOURCEIP','Source IP'); //NEW
 DEFINE('_DESTIP','Destination IP'); //NEW
-DEFINE('_L24ALERTS','過去24時間のアラート: ');
-DEFINE('_L72ALERTS','過去72時間のアラート: ');
-DEFINE('_UNIALERTS','件のユニークアラート');
+DEFINE('_L24ALERTS','過去24時間の'.$UI_CW_Alert.': ');
+DEFINE('_L72ALERTS','過去72時間の'.$UI_CW_Alert.': ');
+DEFINE('_UNIALERTS','件のユニーク'.$UI_CW_Alert);
 DEFINE('_LSOURCEPORTS','最近の'.$UI_CW_Src.'ポート: ');
 DEFINE('_LDESTPORTS','最近の送信先ポート: ');
 DEFINE('_FREGSOURCEP',$UI_CW_Src.'ポートランキング: ');
@@ -202,7 +202,7 @@ DEFINE('_QUERIED','クエリ発行');
 DEFINE('_DATABASE','データベース:');
 DEFINE('_SCHEMAV','スキマバージョン:');
 DEFINE('_TIMEWIN','Time Window:');
-DEFINE('_NOALERTSDETECT','アラートは検知されませんでした');
+DEFINE('_NOALERTSDETECT',$UI_CW_Alert.'は検知されませんでした');
 DEFINE('_USEALERTDB','Use Alert Database'); //NEW
 DEFINE('_USEARCHIDB','Use Archive Database'); //NEW
 DEFINE('_TRAFFICPROBPRO','Traffic Profile by Protocol'); //NEW
@@ -241,45 +241,45 @@ DEFINE('_BASEADMIN','BASE管理');
 DEFINE('_BASEADMINTEXT','左のオプションから選択して下さい。');
 
 //base_action.inc.php
-DEFINE('_NOACTION','このアラートで設定されているアクションはありません。');
+DEFINE('_NOACTION','この'.$UI_CW_Alert.'で設定されているアクションはありません。');
 DEFINE('_INVALIDACT',' 無効なアクションです。');
-DEFINE('_ERRNOAG','AG を指定してからアラートを追加してください。');
+DEFINE('_ERRNOAG','AG を指定してから'.$UI_CW_Alert.'を追加してください。');
 DEFINE('_ERRNOEMAIL','メール'.$UI_CW_Addr.'が指定されていないため、メールは送信されませんでした。');
 DEFINE('_ACTION','アクション');
 DEFINE('_CONTEXT','コンテキスト');
-DEFINE('_ADDAGID','アラートグループに追加 (IDで指定)');
-DEFINE('_ADDAG','新しいアラートグループを追加');
-DEFINE('_ADDAGNAME','アラートグループに追加 (名前で指定)');
-DEFINE('_CREATEAG','アラートグループ作成 (名前で指定)');
-DEFINE('_CLEARAG','アラートグループを削除');
-DEFINE('_DELETEALERT','アラートを削除');
-DEFINE('_EMAILALERTSFULL','Email アラート (すべて)');
-DEFINE('_EMAILALERTSSUMM','Email アラート (完結)');
-DEFINE('_EMAILALERTSCSV','Email アラート (csv)');
-DEFINE('_ARCHIVEALERTSCOPY','アーカイブアラート(コピー)');
-DEFINE('_ARCHIVEALERTSMOVE','アーカイブアラート(移動)');
+DEFINE('_ADDAGID',$UI_CW_Alert.'グループに追加 (IDで指定)');
+DEFINE('_ADDAG','新しい'.$UI_CW_Alert.'グループを追加');
+DEFINE('_ADDAGNAME',$UI_CW_Alert.'グループに追加 (名前で指定)');
+DEFINE('_CREATEAG',$UI_CW_Alert.'グループ作成 (名前で指定)');
+DEFINE('_CLEARAG',$UI_CW_Alert.'グループを削除');
+DEFINE('_DELETEALERT',$UI_CW_Alert.'を削除');
+DEFINE('_EMAILALERTSFULL','Email '.$UI_CW_Alert.' (すべて)');
+DEFINE('_EMAILALERTSSUMM','Email '.$UI_CW_Alert.' (完結)');
+DEFINE('_EMAILALERTSCSV','Email '.$UI_CW_Alert.' (csv)');
+DEFINE('_ARCHIVEALERTSCOPY','アーカイブ'.$UI_CW_Alert.'(コピー)');
+DEFINE('_ARCHIVEALERTSMOVE','アーカイブ'.$UI_CW_Alert.'(移動)');
 DEFINE('_IGNORED','Ignored ');
-DEFINE('_DUPALERTS','アラートを複製');
-DEFINE('_ALERTSPARA',' アラート');
-DEFINE('_NOALERTSSELECT','アラートが選択されていません、または');
+DEFINE('_DUPALERTS',$UI_CW_Alert.'を複製');
+DEFINE('_ALERTSPARA',' '.$UI_CW_Alert);
+DEFINE('_NOALERTSSELECT',$UI_CW_Alert.'が選択されていません、または');
 DEFINE('_NOTSUCCESSFUL','失敗しました。');
-DEFINE('_ERRUNKAGID','不明なアラートグループIDです (おそらく存在しないAGです。)');
-DEFINE('_ERRREMOVEFAIL','アラートグループの削除に失敗しました。');
+DEFINE('_ERRUNKAGID','不明な'.$UI_CW_Alert.'グループIDです (おそらく存在しないAGです。)');
+DEFINE('_ERRREMOVEFAIL',$UI_CW_Alert.'グループの削除に失敗しました。');
 DEFINE('_GENBASE','BASEが生成');
 DEFINE('_ERRNOEMAILEXP','EXPORT ERROR:エクスポート出来ませんでした：');
 DEFINE('_ERRNOEMAILPHP','PHPのメール設定を確認してください。.');
-DEFINE('_ERRDELALERT','アラート削除エラー');
+DEFINE('_ERRDELALERT',$UI_CW_Alert.'削除エラー');
 DEFINE('_ERRARCHIVE','アーカイブエラー:');
 DEFINE('_ERRMAILNORECP','MAILエラー: あて先が設定されていません');
 
 //base_cache.inc.php
-DEFINE('_ADDED','新しいアラート');
+DEFINE('_ADDED','新しい'.$UI_CW_Alert);
 DEFINE('_HOSTNAMESDNS',' hostnames to the IP DNS cache');
 DEFINE('_HOSTNAMESWHOIS',' hostnames to the Whois cache');
 DEFINE('_ERRCACHENULL','Caching ERROR: NULL event row found?');
 DEFINE('_ERRCACHEERROR',$UI_CW_Event.'キャッシュエラー:');
 DEFINE('_ERRCACHEUPDATE',$UI_CW_Event.'キャッシュをアップデート出来ませんでした。');
-DEFINE('_ALERTSCACHE','件をアラートキャッシュへ追加');
+DEFINE('_ALERTSCACHE','件を'.$UI_CW_Alert.'キャッシュへ追加');
 
 //base_db.inc.php
 DEFINE('_ERRSQLTRACE','SQLのtraceが開けません');
@@ -380,30 +380,30 @@ DEFINE('_ERRCRITELEM','Invalid criteria element');
 //base_state_query.inc.php
 DEFINE('_VALIDCANNED','Valid Canned Query List');
 DEFINE('_DISPLAYING','Displaying');
-DEFINE('_DISPLAYINGTOTAL','アラート%d-%d件目 アラート'.$UI_CW_Total.' %d');
-DEFINE('_NOALERTS','アラートは見つかりませんでした');
+DEFINE('_DISPLAYINGTOTAL',$UI_CW_Alert.'%d-%d件目 '.$UI_CW_Alert.$UI_CW_Total.' %d');
+DEFINE('_NOALERTS',$UI_CW_Alert.'は見つかりませんでした');
 DEFINE('_QUERYRESULTS','クエリ結果');
 DEFINE('_QUERYSTATE','Query State');
 DEFINE('_DISPACTION','{ action }'); //NEW
 
 //base_ag_common.php
-DEFINE('_ERRAGNAMESEARCH','アラートグループ名が不正です。もう一度どうぞ！');
-DEFINE('_ERRAGNAMEEXIST','そのようなアラートグループはありません');
-DEFINE('_ERRAGIDSEARCH','アラートグループＩＤが不正です。もう一度どうぞ！');
-DEFINE('_ERRAGLOOKUP','アラートグループＩＤ検索エラー');
-DEFINE('_ERRAGINSERT','アラートグループ挿入エラー');
+DEFINE('_ERRAGNAMESEARCH',$UI_CW_Alert.'グループ名が不正です。もう一度どうぞ！');
+DEFINE('_ERRAGNAMEEXIST','そのような'.$UI_CW_Alert.'グループはありません');
+DEFINE('_ERRAGIDSEARCH',$UI_CW_Alert.'グループＩＤが不正です。もう一度どうぞ！');
+DEFINE('_ERRAGLOOKUP',$UI_CW_Alert.'グループＩＤ検索エラー');
+DEFINE('_ERRAGINSERT',$UI_CW_Alert.'グループ挿入エラー');
 
 //base_ag_main.php
-DEFINE('_AGMAINTTITLE','アラートグループメンテナンス');
-DEFINE('_ERRAGUPDATE','アラートグループの更新に失敗しました');
+DEFINE('_AGMAINTTITLE',$UI_CW_Alert.'グループメンテナンス');
+DEFINE('_ERRAGUPDATE',$UI_CW_Alert.'グループの更新に失敗しました');
 DEFINE('_ERRAGPACKETLIST','パケットリストの削除に失敗しました:');
-DEFINE('_ERRAGDELETE','アラートグループの削除に失敗しました');
+DEFINE('_ERRAGDELETE',$UI_CW_Alert.'グループの削除に失敗しました');
 DEFINE('_AGDELETE','削除しました！');
 DEFINE('_AGDELETEINFO','詳細情報は削除されました');
 DEFINE('_ERRAGSEARCHINV','検索キーワードが不正です。もう一度どうぞ！');
-DEFINE('_ERRAGSEARCHNOTFOUND','アラートグループが見つかりませんでした');
-DEFINE('_NOALERTGOUPS','アラートグループが一つもありません');
-DEFINE('_NUMALERTS','# アラート');
+DEFINE('_ERRAGSEARCHNOTFOUND',$UI_CW_Alert.'グループが見つかりませんでした');
+DEFINE('_NOALERTGOUPS',$UI_CW_Alert.'グループが一つもありません');
+DEFINE('_NUMALERTS','# '.$UI_CW_Alert);
 DEFINE('_ACTIONS','アクション');
 DEFINE('_NOTASSIGN','not assigned ');
 DEFINE('_SAVECHANGES','Save Changes'); //NEW
@@ -458,19 +458,19 @@ DEFINE('_CHARTDAY','{dia}'); //NEW
 DEFINE('_CHARTMONTH','{mês}'); //NEW
 DEFINE('_GRAPHALERTS','Graph Alerts'); //NEW
 DEFINE('_AXISCONTROLS','X / Y AXIS CONTROLS'); //NEW
-DEFINE('_CHRTTYPEHOUR',' 時間 vs. アラート数');
-DEFINE('_CHRTTYPEDAY','日 vs. アラート数');
-DEFINE('_CHRTTYPEWEEK','週 vs. アラート数');
-DEFINE('_CHRTTYPEMONTH','月 vs. アラート数');
-DEFINE('_CHRTTYPEYEAR','年 vs. アラート数');
-DEFINE('_CHRTTYPESRCIP',$UI_CW_Src.' IP vs. アラート数');
-DEFINE('_CHRTTYPEDSTIP','送信先 IP address vs. アラート数');
-DEFINE('_CHRTTYPEDSTUDP','送信先 UDP Port vs. アラート数');
-DEFINE('_CHRTTYPESRCUDP',$UI_CW_Src.' UDP Port vs. アラート数');
-DEFINE('_CHRTTYPEDSTPORT','送信先 TCP Port vs. アラート数');
-DEFINE('_CHRTTYPESRCPORT',$UI_CW_Src.' TCP Port vs. アラート数');
-DEFINE('_CHRTTYPESIG','Sig. Classification vs. アラート数');
-DEFINE('_CHRTTYPESENSOR','センサー vs. アラート数');
+DEFINE('_CHRTTYPEHOUR',' 時間 vs. '.$UI_CW_Alert.'数');
+DEFINE('_CHRTTYPEDAY','日 vs. '.$UI_CW_Alert.'数');
+DEFINE('_CHRTTYPEWEEK','週 vs. '.$UI_CW_Alert.'数');
+DEFINE('_CHRTTYPEMONTH','月 vs. '.$UI_CW_Alert.'数');
+DEFINE('_CHRTTYPEYEAR','年 vs. '.$UI_CW_Alert.'数');
+DEFINE('_CHRTTYPESRCIP',$UI_CW_Src.' IP vs. '.$UI_CW_Alert.'数');
+DEFINE('_CHRTTYPEDSTIP','送信先 IP address vs. '.$UI_CW_Alert.'数');
+DEFINE('_CHRTTYPEDSTUDP','送信先 UDP Port vs. '.$UI_CW_Alert.'数');
+DEFINE('_CHRTTYPESRCUDP',$UI_CW_Src.' UDP Port vs. '.$UI_CW_Alert.'数');
+DEFINE('_CHRTTYPEDSTPORT','送信先 TCP Port vs. '.$UI_CW_Alert.'数');
+DEFINE('_CHRTTYPESRCPORT',$UI_CW_Src.' TCP Port vs. '.$UI_CW_Alert.'数');
+DEFINE('_CHRTTYPESIG','Sig. Classification vs. '.$UI_CW_Alert.'数');
+DEFINE('_CHRTTYPESENSOR','センサー vs. '.$UI_CW_Alert.'数');
 DEFINE('_CHRTBEGIN','Chart Begin:');
 DEFINE('_CHRTEND','Chart End:');
 DEFINE('_CHRTDS','Data Source:');
@@ -487,26 +487,26 @@ DEFINE('_CHRTYGRID','Y軸のグリッドラインを表示');
 //base_graph_main.php
 DEFINE('_CHRTTITLE','BASEグラフ');
 DEFINE('_ERRCHRTNOTYPE','グラフ'.$UI_CW_Type.'を選択してください');
-DEFINE('_ERRNOAGSPEC','アラートグループが選択されていないため、すべてのアラートグループが使用されます');
+DEFINE('_ERRNOAGSPEC',$UI_CW_Alert.'グループが選択されていないため、すべての'.$UI_CW_Alert.'グループが使用されます');
 DEFINE('_CHRTDATAIMPORT','データインポート開始');
-DEFINE('_CHRTTIMEVNUMBER','時間　ｘ　アラート数');
+DEFINE('_CHRTTIMEVNUMBER','時間　ｘ　'.$UI_CW_Alert.'数');
 DEFINE('_CHRTTIME','時間');
-DEFINE('_CHRTALERTOCCUR','アラート発生数');
-DEFINE('_CHRTSIPNUMBER',$UI_CW_Src.'IP　ｘ　アラート数');
+DEFINE('_CHRTALERTOCCUR',$UI_CW_Alert.'発生数');
+DEFINE('_CHRTSIPNUMBER',$UI_CW_Src.'IP　ｘ　'.$UI_CW_Alert.'数');
 DEFINE('_CHRTSIP',$UI_CW_Src.'IP'.$UI_CW_Addr);
-DEFINE('_CHRTDIPALERTS','送信先IP'.$UI_CW_Addr.'　ｘ　アラート数');
+DEFINE('_CHRTDIPALERTS','送信先IP'.$UI_CW_Addr.'　ｘ　'.$UI_CW_Alert.'数');
 DEFINE('_CHRTDIP','送信先IP'.$UI_CW_Addr);
-DEFINE('_CHRTUDPPORTNUMBER','UDPポート (送信先)　ｘ　アラート数');
+DEFINE('_CHRTUDPPORTNUMBER','UDPポート (送信先)　ｘ　'.$UI_CW_Alert.'数');
 DEFINE('_CHRTDUDPPORT','Dst. UDP Port');
-DEFINE('_CHRTSUDPPORTNUMBER','UDP Port ('.$UI_CW_Src.')　ｘ　アラート数');
+DEFINE('_CHRTSUDPPORTNUMBER','UDP Port ('.$UI_CW_Src.')　ｘ　'.$UI_CW_Alert.'数');
 DEFINE('_CHRTSUDPPORT','Src. UDP Port');
-DEFINE('_CHRTPORTDESTNUMBER','TCP Port (送信先)　ｘ　アラート数');
+DEFINE('_CHRTPORTDESTNUMBER','TCP Port (送信先)　ｘ　'.$UI_CW_Alert.'数');
 DEFINE('_CHRTPORTDEST','Dst. TCP Port');
-DEFINE('_CHRTPORTSRCNUMBER','TCP Port ('.$UI_CW_Src.')　ｘ　アラート数');
+DEFINE('_CHRTPORTSRCNUMBER','TCP Port ('.$UI_CW_Src.')　ｘ　'.$UI_CW_Alert.'数');
 DEFINE('_CHRTPORTSRC','Src. TCP Port');
-DEFINE('_CHRTSIGNUMBER',$UI_CW_Sig.'クラス　ｘ　アラート数');
+DEFINE('_CHRTSIGNUMBER',$UI_CW_Sig.'クラス　ｘ　'.$UI_CW_Alert.'数');
 DEFINE('_CHRTCLASS','クラス');
-DEFINE('_CHRTSENSORNUMBER','センサー　ｘ　アラート数');
+DEFINE('_CHRTSENSORNUMBER','センサー　ｘ　'.$UI_CW_Alert.'数');
 DEFINE('_CHRTHANDLEPERIOD','Handling Period if necessary');
 DEFINE('_CHRTDUMP','Dumping data ... (writing only every');
 DEFINE('_CHRTDRAW','グラフを描画中');
@@ -525,9 +525,9 @@ DEFINE('_MNTPHPLOGLVL','PHP Logging level:');
 DEFINE('_MNTPHPMODS','ロードされたモジュール:');
 DEFINE('_MNTDBTYPE','DB'.$UI_CW_Type.':');
 DEFINE('_MNTDBALV','DBライブラリバージョン:');
-DEFINE('_MNTDBALERTNAME','アラートデータベース名:');
+DEFINE('_MNTDBALERTNAME',$UI_CW_Alert.'データベース名:');
 DEFINE('_MNTDBARCHNAME','アーカイブデータベース名:');
-DEFINE('_MNTAIC','アラート情報キャッシュ:');
+DEFINE('_MNTAIC',$UI_CW_Alert.'情報キャッシュ:');
 DEFINE('_MNTAICTE',$UI_CW_Event.'総数:');
 DEFINE('_MNTAICCE','キャッシュされた'.$UI_CW_Event.':');
 DEFINE('_MNTIPAC','キャッシュされたIP'.$UI_CW_Addr);
@@ -538,7 +538,7 @@ DEFINE('_MNTIPACUDIP','ユニーク送信先IP:');
 
 //base_qry_alert.php
 DEFINE('_QAINVPAIR','Invalid (sid,cid) pair');
-DEFINE('_QAALERTDELET','削除されたアラート');
+DEFINE('_QAALERTDELET','削除された'.$UI_CW_Alert);
 DEFINE('_QATRIGGERSIG',"Triggered$UI_CW_Sig");
 DEFINE('_QANORMALD','Normal Display'); //NEW
 DEFINE('_QAPLAIND','Plain Display'); //NEW
@@ -599,15 +599,15 @@ DEFINE('_QFRMDIP','送信先IP');
 //base_qry_sqlcalls.php
 DEFINE('_QSCSUMM','統計サマリ');
 DEFINE('_QSCTIMEPROF','時間プロファイル');
-DEFINE('_QSCOFALERTS','のアラート');
+DEFINE('_QSCOFALERTS','の'.$UI_CW_Alert);
 
 //base_stat_alerts.php
-DEFINE('_ALERTTITLE','アラートのリスト');
+DEFINE('_ALERTTITLE',$UI_CW_Alert.'のリスト');
 
 //base_stat_common.php
 DEFINE('_SCCATEGORIES','カテゴリー:');
 DEFINE('_SCSENSORTOTAL','センサー/'.$UI_CW_Total.':');
-DEFINE('_SCTOTALNUMALERTS','アラート'.$UI_CW_Total.'数:');
+DEFINE('_SCTOTALNUMALERTS',$UI_CW_Alert.$UI_CW_Total.'数:');
 DEFINE('_SCSRCIP',$UI_CW_Src.'IPの数:');
 DEFINE('_SCDSTIP','送信先IPの数:');
 DEFINE('_SCUNILINKS',$UI_CW_Src.'ー送信先の組み合わせ一覧');
@@ -634,7 +634,7 @@ DEFINE('_PSTOTALOCC','発生<BR>'.$UI_CW_Total.'数');
 DEFINE('_PSNUMSENSORS','センサー数');
 DEFINE('_PSFIRSTOCC',$UI_CW_First.'<BR>発生時刻');
 DEFINE('_PSLASTOCC',$UI_CW_Last.'<BR>発生時刻');
-DEFINE('_PSUNIALERTS','アラートの種類の数');
+DEFINE('_PSUNIALERTS',$UI_CW_Alert.'の種類の数');
 DEFINE('_PSPORTSCANEVE','ポートスキャン数');
 DEFINE('_PSREGWHOIS','Registry lookup (whois) in');
 DEFINE('_PSNODNS','no DNS resolution attempted');
@@ -668,7 +668,7 @@ DEFINE('_OCCURRENCES','Occurrences'); //NEW
 DEFINE('SPSENSORLIST','センサーリスト');
 
 //base_stat_time.php
-DEFINE('_BSTTITLE','アラートの時間プロファイル');
+DEFINE('_BSTTITLE',$UI_CW_Alert.'の時間プロファイル');
 DEFINE('_BSTTIMECRIT','Time Criteria');
 DEFINE('_BSTERRPROFILECRIT','<FONT><B>No profiling criteria was specified!</B>  Click on "hour", "day", or "month" to choose the granularity of the aggregate statistics.</FONT>');
 DEFINE('_BSTERRTIMETYPE','<FONT><B>The type of time parameter which will be passed was not specified!</B>  Choose either "on", to specify a single date, or "between" to specify an interval.</FONT>');
@@ -686,7 +686,7 @@ DEFINE('_SUASRCIP',$UI_CW_Src.'IP'.$UI_CW_Addr);
 DEFINE('_SUAERRCRITADDUNK','CRITERIA ERROR: unknown address type -- assuming Dst address');
 DEFINE('_UNIDADD','送信先IP'.$UI_CW_Addr.'（ユニーク）');
 DEFINE('_SUADSTIP','送信先IP'.$UI_CW_Addr);
-DEFINE('_SUAUNIALERTS','ユニーク&nbsp;アラート');
+DEFINE('_SUAUNIALERTS','ユニーク&nbsp;'.$UI_CW_Alert);
 DEFINE('_SUASRCADD',$UI_CW_Src.'&nbsp;'.$UI_CW_Addr);
 DEFINE('_SUADSTADD','送信先&nbsp;'.$UI_CW_Addr);
 

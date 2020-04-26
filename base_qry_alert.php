@@ -163,6 +163,7 @@ $CPDesc = $UIL->CWA['Desc'];
 $CPSensor = $UIL->CWA['Sensor'];
 $CPSrcAddr = $UIL->CPA['SrcAddr'];
 $CPDstAddr = $UIL->CPA['DstAddr'];
+$CPAlert = $UIL->CWA['Alert'];
 // Html Templates.
 $Thc = "<td class='plfieldhdr'>"; // Table header Class.
 $Tdc = "<td class='plfield'>"; // Table data Class.
@@ -177,8 +178,7 @@ $submit = ImportHTTPVar("submit", VAR_DIGIT | VAR_PUNC | VAR_LETTER, array(_SELE
   $cs->ReadState();
 
   $qs = new QueryState();
-
-  $page_title = _ALERT;
+$page_title = $CPAlert;
   PrintBASESubHeader($page_title, $page_title, $cs->GetBackLink(), $refresh_all_pages);
 
   /* Connect to the Alert database */
@@ -276,7 +276,7 @@ $submit = ImportHTTPVar("submit", VAR_DIGIT | VAR_PUNC | VAR_LETTER, array(_SELE
 	}
   echo "<FORM METHOD=\"GET\" ACTION=\"base_qry_alert.php\">\n"; 
   PrintPacketLookupBrowseButtons($seq, $save_sql, $db, $previous, $next);
-  echo "<CENTER>\n<B>"._ALERT." #".($seq)."</B><BR>\n$previous &nbsp&nbsp&nbsp\n$next\n</CENTER>\n";
+	print "<center>\n<b>".$CPAlert." #".($seq)."</b><br/>\n$previous &nbsp&nbsp&nbsp\n$next\n</center>\n";
   echo "<HR>\n";
 
   /* Make Selected */

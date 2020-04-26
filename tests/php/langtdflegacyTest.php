@@ -725,6 +725,16 @@ class legacylangTest extends TestCase {
 		LogTC($tf,'TD file',$file);
 		$this->CWAHas($$tmp,'Total','Total');
 	}
+	public function testCWASetItemAlert() {
+		$lang = self::$langs;
+		$tf = __FUNCTION__;
+		$tmp = "UI$lang";
+		LogTC($tf,'language',$lang);
+		$$tmp = self::$UIL;
+		$file = $$tmp->TDF;
+		LogTC($tf,'TD file',$file);
+		$this->CWAHas($$tmp,'Alert','Alert');
+	}
 	// Test Common Phrase Items.
 	public function testCPASetItemSrcName() {
 		$lang = self::$langs;

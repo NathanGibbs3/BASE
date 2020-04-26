@@ -72,6 +72,7 @@ $UI_CW_ML12 = 'Декабрь';
 $UI_CW_Last = 'Последний';
 $UI_CW_First = 'Первый';
 $UI_CW_Total = 'Всего';
+$UI_CW_Alert = 'Предупреждения';
 // Common Phrases.
 $UI_CP_SrcName = array($UI_CW_Name,$UI_CW_Src);
 $UI_CP_DstName = array($UI_CW_Name,$UI_CW_Dst);
@@ -86,7 +87,6 @@ $UI_AD_RID = array($UI_CW_Id,$UI_CW_Role);
 $UI_AD_ASD = 'Включено';
 
 // основные фразы
-DEFINE('_ALERT','Предупреждения');
 DEFINE('_ADDRESS',$UI_CW_Addr);
 DEFINE('_UNKNOWN','неизвестно');
 DEFINE('_AND','AND'); //NEW
@@ -185,17 +185,17 @@ DEFINE('_LOGINERROR',"Пользователь не существует или 
 // base_main.php
 DEFINE('_MOSTRECENT','Самые последние ');
 DEFINE('_MOSTFREQUENT','Самые частые ');
-DEFINE('_ALERTS',' Предупреждения:');
+DEFINE('_ALERTS',' '.$UI_CW_Alert.':');
 DEFINE('_ADDRESSES',' '.$UI_CW_Addr.'а');
 DEFINE('_ANYPROTO','любой протокол');
 DEFINE('_UNI','уникальный');
 DEFINE('_LISTING','листинг');
-DEFINE('_TALERTS','Сегодняшние предупреждения: ');
+DEFINE('_TALERTS','Сегодняшние '.$UI_CW_Alert.': ');
 DEFINE('_SOURCEIP','Source IP'); //NEW
 DEFINE('_DESTIP','Destination IP'); //NEW
-DEFINE('_L24ALERTS','Предупреждения за последние 24 часа: ');
-DEFINE('_L72ALERTS','Предупреждения за последние 72 часа: ');
-DEFINE('_UNIALERTS',' Уникальные предупреждения');
+DEFINE('_L24ALERTS',$UI_CW_Alert.' за последние 24 часа: ');
+DEFINE('_L72ALERTS',$UI_CW_Alert.' за последние 72 часа: ');
+DEFINE('_UNIALERTS',' Уникальные '.$UI_CW_Alert);
 DEFINE('_LSOURCEPORTS',"Последние порты-$UI_CW_Src".'и: ');
 DEFINE('_LDESTPORTS',"Последние порты-$UI_CW_Dst: ");
 DEFINE('_FREGSOURCEP',"Самые частые порты-$UI_CW_Src".'и: ');
@@ -245,8 +245,8 @@ DEFINE('_BASEADMINTEXT','Пожалуйста, выберите опцию сл�
 //base_action.inc.php
 DEFINE('_NOACTION','Дествие для предупреждений не указано');
 DEFINE('_INVALIDACT',' неверное действие');
-DEFINE('_ERRNOAG','Невозможно добавить предупреждения, ГП не указана');
-DEFINE('_ERRNOEMAIL','Невозможно отправить предупреждения по e-mail, не указан e-mail-'.$UI_CW_Addr);
+DEFINE('_ERRNOAG','Невозможно добавить '.$UI_CW_Alert.', ГП не указана');
+DEFINE('_ERRNOEMAIL','Невозможно отправить '.$UI_CW_Alert.' по e-mail, не указан e-mail-'.$UI_CW_Addr);
 DEFINE('_ACTION','ДЕЙСТВИЕ');
 DEFINE('_CONTEXT','контекст');
 DEFINE('_ADDAGID',"ДОБАВИТЬ в ГП (по $UI_CW_Id)");
@@ -263,14 +263,14 @@ DEFINE('_ARCHIVEALERTSMOVE','Архивировать предупреждени
 DEFINE('_IGNORED','Игнорированное ');
 DEFINE('_DUPALERTS',' дублирующееся(-иеся) предупреждение(-я)');
 DEFINE('_ALERTSPARA',' предупреждение(-я)');
-DEFINE('_NOALERTSSELECT','Предупреждения не выбраны или');
+DEFINE('_NOALERTSSELECT',$UI_CW_Alert.' не выбраны или');
 DEFINE('_NOTSUCCESSFUL','не был успешным');
 DEFINE('_ERRUNKAGID','Указан неизвестный идентификатор ГП (возможно, ГП не существует)');
 DEFINE('_ERRREMOVEFAIL',"Не удалось $UI_CW_Delete новый ГП");
 DEFINE('_GENBASE','Сгенерировано BASE');
-DEFINE('_ERRNOEMAILEXP','ОШИБКА ЭКСПОРТА: Не удалось отправить экспортированные предупреждения на');
+DEFINE('_ERRNOEMAILEXP','ОШИБКА ЭКСПОРТА: Не удалось отправить экспортированные '.$UI_CW_Alert.' на');
 DEFINE('_ERRNOEMAILPHP','Проверьте конфигурацию почты PHP.');
-DEFINE('_ERRDELALERT','Ошибка удаления предупреждения');
+DEFINE('_ERRDELALERT','Ошибка удаления '.$UI_CW_Alert);
 DEFINE('_ERRARCHIVE','Ошибка архивации:');
 DEFINE('_ERRMAILNORECP','ОШИБКА ПОЧТЫ: Получатель не указан');
 
@@ -288,7 +288,7 @@ DEFINE('_ERRSQLTRACE','Не удалось открыть файл трасси�
 DEFINE('_ERRSQLCONNECT','Ошибка подключения к БД :');
 DEFINE('_ERRSQLCONNECTINFO','<P>Проверьте переменные подключения к БД в файле <I>base_conf.php</I> 
               <PRE>
-               = $alert_dbname   : '.$UI_CW_Name.' БД MySQL, в которой хранятся предупреждения
+               = $alert_dbname   : '.$UI_CW_Name.' БД MySQL, в которой хранятся '.$UI_CW_Alert.'
                = $alert_host     : хост, на котором хранится БД
                = $alert_port     : порт, на котором хранится БД
                = $alert_user     : '.$UI_CW_Name.' пользователя БД
@@ -383,7 +383,7 @@ DEFINE('_ERRCRITELEM','Неверный элемент критериев');
 DEFINE('_VALIDCANNED','Верный список запросов');
 DEFINE('_DISPLAYING','Отображение');
 DEFINE('_DISPLAYINGTOTAL','Отображение предупреждений %d-%d из %d');
-DEFINE('_NOALERTS','Предупреждения не найдены.');
+DEFINE('_NOALERTS',$UI_CW_Alert.' не найдены.');
 DEFINE('_QUERYRESULTS','Результаты запроса');
 DEFINE('_QUERYSTATE','Состояние запроса');
 DEFINE('_DISPACTION','{ action }'); //NEW
@@ -489,7 +489,7 @@ DEFINE('_CHRTYGRID','Показывать сетку линий оси Y');
 //base_graph_main.php
 DEFINE('_CHRTTITLE','График BASE');
 DEFINE('_ERRCHRTNOTYPE','Не указан '.$UI_CW_Type.' графика');
-DEFINE('_ERRNOAGSPEC','ГП ну указана. Используются все предупреждения.');
+DEFINE('_ERRNOAGSPEC','ГП ну указана. Используются все '.$UI_CW_Alert);
 DEFINE('_CHRTDATAIMPORT','Начало импорта данных');
 DEFINE('_CHRTTIMEVNUMBER',$UI_CW_Ts.' и число предупреждений');
 DEFINE('_CHRTTIME',$UI_CW_Ts);
@@ -529,7 +529,7 @@ DEFINE('_MNTDBTYPE',$UI_CW_Type.' DB:');
 DEFINE('_MNTDBALV','Версия абстракции DB:');
 DEFINE('_MNTDBALERTNAME',"$UI_CW_Name БД предупреждений:");
 DEFINE('_MNTDBARCHNAME',"$UI_CW_Name БД архива:");
-DEFINE('_MNTAIC','Кэш информации о предупреждениях:');
+DEFINE('_MNTAIC','Кэш информации о '.$UI_CW_Alert.'х:');
 DEFINE('_MNTAICTE','$UI_CW_Total событий:');
 DEFINE('_MNTAICCE','Кэшировано событий:');
 DEFINE('_MNTIPAC','Кэш IP-'.$UI_CW_Addr.'ов');
@@ -636,7 +636,7 @@ DEFINE('_PSTOTALOCC',$UI_CW_Total.'<BR> Случаев');
 DEFINE('_PSNUMSENSORS',"Число $UI_CW_Sensor".'ов');
 DEFINE('_PSFIRSTOCC',$UI_CW_First.'<BR> Случай');
 DEFINE('_PSLASTOCC',$UI_CW_Last.'<BR> Случай');
-DEFINE('_PSUNIALERTS','Уникальные предупреждения');
+DEFINE('_PSUNIALERTS','Уникальные '.$UI_CW_Alert);
 DEFINE('_PSPORTSCANEVE',$UI_CW_Event.' сканирования портов');
 DEFINE('_PSREGWHOIS','Поиск (whois) в');
 DEFINE('_PSNODNS','не получено DNS-разрешения');
@@ -688,7 +688,7 @@ DEFINE('_SUASRCIP',"IP-$UI_CW_Src");
 DEFINE('_SUAERRCRITADDUNK','ОШИБКА КРИТЕРИЯ: неизвестный '.$UI_CW_Type.'а '.$UI_CW_Addr."а -- предполагается $UI_CW_Addr-$UI_CW_Dst");
 DEFINE('_UNIDADD','Уникальниые '.$UI_CW_Addr."а-$UI_CW_Dst");
 DEFINE('_SUADSTIP',"IP-$UI_CW_Dst");
-DEFINE('_SUAUNIALERTS','Уникальные&nbsp;предупреждения');
+DEFINE('_SUAUNIALERTS','Уникальные&nbsp;'.$UI_CW_Alert);
 DEFINE('_SUASRCADD',$UI_CW_Addr.'&nbsp;'.$UI_CW_Src);
 DEFINE('_SUADSTADD',$UI_CW_Addr.'&nbsp;'.$UI_CW_Dst);
 
