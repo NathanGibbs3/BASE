@@ -83,7 +83,6 @@ class authTest extends TestCase {
 			self::$PHPUV = 2;
 		}
 	}
-
 	public static function tearDownAfterClass() {
 		self::$user = null;
 		self::$PHPUV = null;
@@ -113,7 +112,7 @@ class authTest extends TestCase {
 		$msg = '<option value=\'1\' selected>Admin<\/option>';
 		$PHPUV = self::$PHPUV;
 		if ( $PHPUV > 1 ){ // PHPUnit 9+
-			$this->assertDoesNotMatchRegularExpression(
+			$this->assertMatchesRegularExpression(
 				'/'.$msg.'/',
 				$user->returnRoleNamesDropDown(1),
 				'Unexpected Return Value.'
@@ -131,7 +130,7 @@ class authTest extends TestCase {
 		$msg = '<option value=\'10\' selected>user<\/option>';
 		$PHPUV = self::$PHPUV;
 		if ( $PHPUV > 1 ){ // PHPUnit 9+
-			$this->assertDoesNotMatchRegularExpression(
+			$this->assertMatchesRegularExpression(
 				'/'.$msg.'/',
 				$user->returnRoleNamesDropDown(10),
 				'Unexpected Return Value.'
@@ -149,7 +148,7 @@ class authTest extends TestCase {
 		$msg = '<option value=\'10000\' selected>anonymous<\/option>';
 		$PHPUV = self::$PHPUV;
 		if ( $PHPUV > 1 ){ // PHPUnit 9+
-			$this->assertDoesNotMatchRegularExpression(
+			$this->assertMatchesRegularExpression(
 				'/'.$msg.'/',
 				$user->returnRoleNamesDropDown(10000),
 				'Unexpected Return Value.'
@@ -167,7 +166,7 @@ class authTest extends TestCase {
 		$msg = '<option value=\'50\' selected>ag_editor<\/option>';
 		$PHPUV = self::$PHPUV;
 		if ( $PHPUV > 1 ){ // PHPUnit 9+
-			$this->assertDoesNotMatchRegularExpression(
+			$this->assertMatchesRegularExpression(
 				'/'.$msg.'/',
 				$user->returnRoleNamesDropDown(50),
 				'Unexpected Return Value.'
