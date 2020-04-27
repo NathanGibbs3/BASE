@@ -133,6 +133,7 @@ if [ "$Composer" \< "1" ]; then # Can we install it?
 	# Travis Adjustments
 	if [ "$TRAVIS" == "true" ]; then
 		if [ "$Composer" \> "0" ]; then
+			export COMPOSER_MEMORY_LIMIT=2G
 			if [ "$SafeMode" == "1" ]; then # Safe mode.
 				# Install composer.
 				export Composer=1
