@@ -13,6 +13,7 @@ use PHPUnit\Framework\TestCase;
 class authTest extends TestCase {
 	// Pre Test Setup.
 	protected static $user;
+	protected static $PHPUV;
 
 	// Share class instance as common test fixture.
 	public static function setUpBeforeClass() {
@@ -74,56 +75,109 @@ class authTest extends TestCase {
 			);
 			self::$user = $user;
 		}
+		// PHPUnit Version
+		$PHPUV = GetPHPUV();
+		if (version_compare($PHPUV, '9.0', '<')) { // PHPUnit < 9x
+			self::$PHPUV = 1;
+		}else{ // PHPUnit 9+
+			self::$PHPUV = 2;
+		}
 	}
 	public static function tearDownAfterClass() {
 		self::$user = null;
+		self::$PHPUV = null;
 	}
 
 	// Tests go here.
 	public function testreturnRoleNamesDropDownNone() {
 		$user = self::$user;
 		$msg = 'selected';
-		$this->assertNotRegExp(
-			'/'.$msg.'/',
-			$user->returnRoleNamesDropDown(0),
-			'Unexpected Return Value.'
-		);
+		$PHPUV = self::$PHPUV;
+		if ( $PHPUV > 1 ){ // PHPUnit 9+
+			$this->assertDoesNotMatchRegularExpression(
+				'/'.$msg.'/',
+				$user->returnRoleNamesDropDown(0),
+				'Unexpected Return Value.'
+			);
+		}else{ // Legacy PHPUnit
+			$this->assertNotRegExp(
+				'/'.$msg.'/',
+				$user->returnRoleNamesDropDown(0),
+				'Unexpected Return Value.'
+			);
+		}
 	}
 	public function testreturnRoleNamesDropDownAdmin() {
 		$user = self::$user;
 		$msg = '<option value=\'1\' selected>Admin<\/option>';
-		$this->assertRegExp(
-			'/'.$msg.'/',
-			$user->returnRoleNamesDropDown(1),
-			'Unexpected Return Value.'
-		);
+		$PHPUV = self::$PHPUV;
+		if ( $PHPUV > 1 ){ // PHPUnit 9+
+			$this->assertMatchesRegularExpression(
+				'/'.$msg.'/',
+				$user->returnRoleNamesDropDown(1),
+				'Unexpected Return Value.'
+			);
+		}else{ // Legacy PHPUnit
+			$this->assertRegExp(
+				'/'.$msg.'/',
+				$user->returnRoleNamesDropDown(1),
+				'Unexpected Return Value.'
+			);
+		}
 	}
 	public function testreturnRoleNamesDropDownUser() {
 		$user = self::$user;
 		$msg = '<option value=\'10\' selected>user<\/option>';
-		$this->assertRegExp(
-			'/'.$msg.'/',
-			$user->returnRoleNamesDropDown(10),
-			'Unexpected Return Value.'
-		);
+		$PHPUV = self::$PHPUV;
+		if ( $PHPUV > 1 ){ // PHPUnit 9+
+			$this->assertMatchesRegularExpression(
+				'/'.$msg.'/',
+				$user->returnRoleNamesDropDown(10),
+				'Unexpected Return Value.'
+			);
+		}else{ // Legacy PHPUnit
+			$this->assertRegExp(
+				'/'.$msg.'/',
+				$user->returnRoleNamesDropDown(10),
+				'Unexpected Return Value.'
+			);
+		}
 	}
 	public function testreturnRoleNamesDropDownAnonymous() {
 		$user = self::$user;
 		$msg = '<option value=\'10000\' selected>anonymous<\/option>';
-		$this->assertRegExp(
-			'/'.$msg.'/',
-			$user->returnRoleNamesDropDown(10000),
-			'Unexpected Return Value.'
-		);
+		$PHPUV = self::$PHPUV;
+		if ( $PHPUV > 1 ){ // PHPUnit 9+
+			$this->assertMatchesRegularExpression(
+				'/'.$msg.'/',
+				$user->returnRoleNamesDropDown(10000),
+				'Unexpected Return Value.'
+			);
+		}else{ // Legacy PHPUnit
+			$this->assertRegExp(
+				'/'.$msg.'/',
+				$user->returnRoleNamesDropDown(10000),
+				'Unexpected Return Value.'
+			);
+		}
 	}
 	public function testreturnRoleNamesDropDownAGEditor() {
 		$user = self::$user;
 		$msg = '<option value=\'50\' selected>ag_editor<\/option>';
-		$this->assertRegExp(
-			'/'.$msg.'/',
-			$user->returnRoleNamesDropDown(50),
-			'Unexpected Return Value.'
-		);
+		$PHPUV = self::$PHPUV;
+		if ( $PHPUV > 1 ){ // PHPUnit 9+
+			$this->assertMatchesRegularExpression(
+				'/'.$msg.'/',
+				$user->returnRoleNamesDropDown(50),
+				'Unexpected Return Value.'
+			);
+		}else{ // Legacy PHPUnit
+			$this->assertRegExp(
+				'/'.$msg.'/',
+				$user->returnRoleNamesDropDown(50),
+				'Unexpected Return Value.'
+			);
+		}
 	}
 	/**
 	 * @backupGlobals disabled

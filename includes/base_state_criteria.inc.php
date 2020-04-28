@@ -292,7 +292,8 @@ function PushHistory(){
  *
  ************************************************************************/
 function PrintBackButton(){
-	if ( $GLOBALS['maintain_history'] == 1 && session_id() != '' ){
+	GLOBAL $maintain_history;
+	if ( $maintain_history == 1 && is_array($_SESSION) && session_id() != '' ){
 		// We have a session, so proceed.
 		$criteria_num = $_SESSION['back_list_cnt'] - 1;
 		if ( isset($_SESSION['back_list'][$criteria_num]["SCRIPT_NAME"]) ){
