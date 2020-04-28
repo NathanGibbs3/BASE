@@ -154,12 +154,34 @@ function qroReturnSelectALLCheck()
 }
 
 function qroPrintEntryHeader($prio=1, $color=0) {
- global $priority_colors;
- if($color == 1) {
-        echo '<TR BGCOLOR="#'.$priority_colors[$prio].'">';
- } else {
-        echo '<TR BGCOLOR="#'.((($prio % 2) == 0) ? "DDDDDD" : "FFFFFF").'">';
- }
+	GLOBAL $priority_colors;
+	$msg = '<tr bgcolor="#';
+	if($color != 1) { // Row colors alternating.
+		if ( $prio % 2 == 0 ){
+			$tmp = 'DDDDDD'; // Light Gray
+		}else{
+			$tmp = 'FFFFFF'; // White
+		}
+	}else{ // Row colors by alert priority.
+		$prio --; // Fix Issue #60
+		if ( // Fix Issue #59
+			array_key_exists('priority_colors',$GLOBALS)
+			&& is_array($priority_colors)
+			&& array_key_exists($prio,$priority_colors)
+		){
+			$tmp = $priority_colors[$prio];
+		}else{
+			$tmp ='';
+		}
+		// Fix Issue #57
+		// Expect 6 digit hex color code.
+		// Default to Dark Gray ( $prio=4 ), if something's odd.
+		if ( !preg_match("/^[0-9A-F]{6}$/i", $tmp) ){
+			$tmp = '999999';
+		}
+	}
+	$msg .= $tmp . '">';
+	print $msg;
 }
 
 function qroPrintEntry($value, $halign="center", $valign="top", $passthru="")
