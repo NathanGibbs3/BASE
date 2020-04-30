@@ -148,6 +148,20 @@ class output_htmlTest extends TestCase {
 			'Unexpected Return Value.'
 		);
 	}
+	public function testHBarGraphInvalidFGCReturnsExpected() {
+		$this->assertEquals(
+			'<td bgcolor="#ff0000" width="100%">&nbsp;</td>',
+			HBarGraph(1,1,'#yellow'),
+			'Unexpected Return Value.'
+		);
+	}
+	public function testHBarGraphInvalidBGCReturnsExpected() {
+		$this->assertEquals(
+			'<td bgcolor="#ff0000" width="100%">&nbsp;</td>',
+			HBarGraph(1,1,'ff0000','#yellow'),
+			'Unexpected Return Value.'
+		);
+	}
 	public function testHtmlPercentDefaultReturnsExpected() {
 		$sfx = '%';
 		$msg = '100' . $sfx;

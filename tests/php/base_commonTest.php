@@ -162,6 +162,14 @@ class base_commonTest extends TestCase {
 			'Unexpected Return Value.'
 		);
 	}
+	public function testPercentNegativeWholeReturnsExpected() {
+		$msg = 0;
+		$this->assertEquals(
+			$msg,
+			Percent(-2,-1),
+			'Unexpected Return Value.'
+		);
+	}
 
 	// Add code to a function if needed.
 	// Stop here and mark test incomplete.
