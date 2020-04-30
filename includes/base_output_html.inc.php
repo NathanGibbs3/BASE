@@ -21,9 +21,9 @@ function PageStart ($refresh = 0, $page_title = '') {
 	GLOBAL $BASE_VERSION, $BASE_installID, $base_style, $BASE_urlpath,
 	$html_no_cache, $refresh_stat_page, $stat_page_refresh_time, $UIL;
 	$MHE = '<meta http-equiv="';
+	// Backport Shim
 	$Charset = _CHARSET;
 	$title = _TITLE;
-	// Backport Shim
 	// Remove Info leaking suffix from title.
 	// We can safely remove this shim once we merge the Issue11 branch.
 	$title = preg_replace("/ ?\(BASE\) $BASE_installID/", '', $title);
@@ -87,31 +87,12 @@ function NLIO ($Item = '', $Count = 0) {
 }
 
 function PrintBASESubHeader($page_title, $page_name, $back_link, $refresh = 0, $page = "") {
-	GLOBAL $debug_mode, $BASE_VERSION, $BASE_path, $BASE_urlpath, $html_no_cache,
-         $max_script_runtime, $Use_Auth_System, $stat_page_refresh_time, $base_style, $refresh_stat_page;
+	GLOBAL $debug_mode, $BASE_installID, $BASE_path, $BASE_urlpath,
+	$html_no_cache, $max_script_runtime, $Use_Auth_System, $base_style, $UIL;
 	if ( ini_get("safe_mode") != true ) {
 		set_time_limit($max_script_runtime);
 	}
 	PageStart($refresh, $page_title);
-  echo '<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
-<!-- '. _TITLE . $BASE_VERSION .' -->
-<HTML>
-  <HEAD><meta http-equiv="Content-Type" content="text/html; charset='. _CHARSET .'">';
-
-  if ( $html_no_cache == 1 )
-     echo '<META HTTP-EQUIV="pragma" CONTENT="no-cache">';
-
-  if ( $refresh == 1 )
-     PrintFreshPage($refresh_stat_page, $stat_page_refresh_time);
-
-  if (@$_COOKIE['archive'] == 0)
-    echo '<TITLE>' . _TITLE .': '.$page_title.'</TITLE>';
-  else
-    echo '<TITLE>' . _TITLE .': '.$page_title.' -- ARCHIVE</TITLE>';
-    
-  echo '<LINK rel="stylesheet" type="text/css" HREF="'. $BASE_urlpath .'/styles/'. $base_style .'">
-        </HEAD>
-        <BODY>';
 	include("$BASE_path/base_hdr1.php");
 	include("$BASE_path/base_hdr2.php");
 	echo "<TABLE WIDTH=\"100%\"><TR><TD ALIGN=RIGHT>".$back_link."</TD></TR></TABLE><BR>";

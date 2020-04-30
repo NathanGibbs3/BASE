@@ -6,5 +6,5 @@ if ( !preg_match("/(base_denied|index).php/", $_SERVER['SCRIPT_NAME']) ) {
 		$title .= ' -- ARCHIVE';
 	}
 }
-print "\n".str_repeat("\t",2).'<div class="mainheadertitle">'.$title.'</div>';
+NLIO('<div class="mainheadertitle">'.$title.'</div>',2);
 ?>
