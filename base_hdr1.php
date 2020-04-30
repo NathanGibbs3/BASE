@@ -1,5 +1,10 @@
-<div class="mainheadertitle">&nbsp;<?php echo _TITLE;
-If (@$_COOKIE['archive'] == 1)
-    echo('-- ARCHIVE');
-?></div>
-
+<?php
+$title = _TITLE;
+if ( !preg_match("/(base_denied|index).php/", $_SERVER['SCRIPT_NAME']) ) {
+	$title .= " $BASE_installID";
+	if ( isset($_COOKIE['archive']) && $_COOKIE['archive'] == 1 ) {
+		$title .= ' -- ARCHIVE';
+	}
+}
+print "\n".str_repeat("\t",2).'<div class="mainheadertitle">'.$title.'</div>';
+?>

@@ -1,35 +1,98 @@
 <?php
-/*******************************************************************************
-** Basic Analysis and Security Engine (BASE)
-** Copyright (C) 2004 BASE Project Team
-** Copyright (C) 2000 Carnegie Mellon University
-**
-** (see the file 'base_main.php' for license details)
-**
-** Project Lead: Kevin Johnson <kjohnson@secureideas.net>
-** Built upon work by Roman Danyliw <rdd@cert.org>, <roman@danyliw.com>
-**
-** Purpose: Prints or generates HTML to display
-********************************************************************************
-** Authors:
-********************************************************************************
-** Kevin Johnson <kjohnson@secureideas.net
-**
-********************************************************************************
-*/
-/** The below check is to make sure that the conf file has been loaded before this one....
- **  This should prevent someone from accessing the page directly. -- Kevin
- **/
+// Basic Analysis and Security Engine (BASE)
+// Copyright (C) 2019-2020 Nathan Gibbs
+// Copyright (C) 2004 BASE Project Team
+// Copyright (C) 2000 Carnegie Mellon University
+//
+//   For license info: See the file 'base_main.php'
+//
+//       Project Lead: Nathan Gibbs
+// Built upon work by: Kevin Johnson & the BASE Project Team
+//                     Roman Danyliw <rdd@cert.org>, <roman@danyliw.com>
+//
+//            Purpose: Prints or generates HTML to display
+//
+//          Author(s): Nathan Gibbs
+//                     Kevin Johnson
+// Ensure the conf file has been loaded.  Prevent direct access to this file.
 defined( '_BASE_INC' ) or die( 'Accessing this file directly is not allowed.' );
 
-function PrintBASESubHeader($page_title, $page_name, $back_link, $refresh = 0, $page = "")
-{
-  GLOBAL $debug_mode, $BASE_VERSION, $BASE_path, $BASE_urlpath, $html_no_cache, 
+function PageStart ($refresh = 0, $page_title = '') {
+	GLOBAL $BASE_VERSION, $BASE_installID, $base_style, $BASE_urlpath,
+	$html_no_cache, $refresh_stat_page, $stat_page_refresh_time, $UIL;
+	$MHE = '<meta http-equiv="';
+	$Charset = _CHARSET;
+	$title = _TITLE;
+	// Backport Shim
+	// Remove Info leaking suffix from title.
+	// We can safely remove this shim once we merge the Issue11 branch.
+	$title = preg_replace("/ ?\(BASE\) $BASE_installID/", '', $title);
+	// End Backport Shim
+	$title .= " (BASE)";
+	if ( !preg_match("/(base_denied|index).php/", $_SERVER['SCRIPT_NAME']) ) {
+		$title .= " $BASE_installID $BASE_VERSION";
+		if ($page_title != ''){
+			$title .= ' : ' . $page_title;
+		}
+		if ( isset($_COOKIE['archive']) && $_COOKIE['archive'] == 1 ) {
+			$title .= ' -- ARCHIVE';
+		}
+	}
+	print '<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">';
+	NLIO('<!-- '. $title . ' -->');
+	NLIO('<html>');
+	NLIO('<head>', 1);
+	NLIO($MHE.'Content-Type" content="text/html; charset='. $Charset .'">', 2);
+	if ( $html_no_cache == 1 ) {
+		NLIO($MHE.'pragma" content="no-cache">', 2);
+	}
+	if ( $refresh == 1 ) {
+		if ( $refresh_stat_page ) {
+			if (isset($_SERVER["REQUEST_URI"])){
+				$URI = $_SERVER["REQUEST_URI"];
+			}else{
+				$URI = '/';
+			}
+			$tmp = CleanVariable(
+				$URI,
+				VAR_FSLASH | VAR_PERIOD | VAR_DIGIT | VAR_PUNC | VAR_LETTER
+			);
+			$tmp = htmlspecialchars($tmp,ENT_QUOTES);
+			NLIO(
+				$MHE.'refresh" content="'.$stat_page_refresh_time.'; URL='.
+				$tmp.'">', 2
+			);
+		}
+	}
+	NLIO("<title>$title</title>",2);
+	NLIO('<link rel="stylesheet" type="text/css" HREF="'. $BASE_urlpath .'/styles/'. $base_style .'">', 2);
+	NLIO('</head>', 1);
+	NLIO('<body>', 1);
+}
+
+function PageEnd () {
+	NLIO('</body>',1);
+	NLIO('</html>');
+}
+
+function NLI ($Item = '', $Count = 0) {
+	if ( !is_int($Count) ) {
+		$Count = 0;
+	}
+	return "\n".str_repeat ("\t", $Count).$Item;
+}
+
+function NLIO ($Item = '', $Count = 0) {
+	print NLI ($Item, $Count);
+}
+
+function PrintBASESubHeader($page_title, $page_name, $back_link, $refresh = 0, $page = "") {
+	GLOBAL $debug_mode, $BASE_VERSION, $BASE_path, $BASE_urlpath, $html_no_cache,
          $max_script_runtime, $Use_Auth_System, $stat_page_refresh_time, $base_style, $refresh_stat_page;
-
-  if ( ini_get("safe_mode") != true )
-     set_time_limit($max_script_runtime);
-
+	if ( ini_get("safe_mode") != true ) {
+		set_time_limit($max_script_runtime);
+	}
+	PageStart($refresh, $page_title);
   echo '<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <!-- '. _TITLE . $BASE_VERSION .' -->
 <HTML>
@@ -49,13 +112,12 @@ function PrintBASESubHeader($page_title, $page_name, $back_link, $refresh = 0, $
   echo '<LINK rel="stylesheet" type="text/css" HREF="'. $BASE_urlpath .'/styles/'. $base_style .'">
         </HEAD>
         <BODY>';
-
-  include("$BASE_path/base_hdr1.php");
-  include("$BASE_path/base_hdr2.php");
-
-  echo "<TABLE WIDTH=\"100%\"><TR><TD ALIGN=RIGHT>".$back_link."</TD></TR></TABLE><BR>";
-
-  if ( $debug_mode > 0 )  PrintPageHeader();
+	include("$BASE_path/base_hdr1.php");
+	include("$BASE_path/base_hdr2.php");
+	echo "<TABLE WIDTH=\"100%\"><TR><TD ALIGN=RIGHT>".$back_link."</TD></TR></TABLE><BR>";
+	if ( $debug_mode > 0 ) {
+		PrintPageHeader();
+	}
 }
 
 function PrintBASESubFooter()
@@ -85,33 +147,20 @@ function PrintFramedBoxFooter()
 </TD></TR></TABLE>';
 }
 
-function PrintFreshPage($refresh_stat_page, $stat_page_refresh_time)
-{
-   if ( $refresh_stat_page ){
-		if (isset($_SERVER["REQUEST_URI"])){
-			$URI = $_SERVER["REQUEST_URI"];
-		}else{
-			$URI = '/';
-		}
-      echo '<META HTTP-EQUIV="REFRESH" CONTENT="'.$stat_page_refresh_time.'; URL='.
-            htmlspecialchars(CleanVariable($URI, VAR_FSLASH | VAR_PERIOD | VAR_DIGIT | VAR_PUNC | VAR_LETTER), ENT_QUOTES).'">'."\n";
+function chk_select($stored_value, $current_value){
+	$msg = ' ';
+	if ( strnatcmp($stored_value,$current_value) == 0 ){
+		$msg .= 'selected';
 	}
+	return $msg;
 }
 
-function chk_select($stored_value, $current_value)
-{
-     if ( strnatcmp($stored_value,$current_value) == 0 )
-          return " SELECTED";
-     else
-          return " ";
-}
-
-function chk_check($stored_value, $current_value)
-{
-     if ( $stored_value == $current_value )
-          return " CHECKED";
-     else
-          return " ";
+function chk_check($stored_value, $current_value){
+	$msg = ' ';
+	if ( $stored_value == $current_value ){
+		$msg .= 'checked';
+	}
+	return $msg;
 }
 
 function dispYearOptions($stored_value)
@@ -159,7 +208,42 @@ function PrintBASEHelpLink($target)
     that will link to that target in a new window.
   */
 }
-  
-  
+
+// Generate Horizontal Bar Graph <td> tag set.
+function HBarGraph (
+	$Value = 1, $Count = 1, $color = "ff0000", $bgcolor = "ffffff"
+){
+	$pfx = '<td bgcolor="#';
+	// Input Validation.
+	if ( HtmlColor($color) == false ){
+		$color = 'ff0000';
+	}
+	if ( HtmlColor($bgcolor) == false ){
+		$bgcolor = 'ffffff';
+	}
+	$ent_pct = Percent($Value,$Count);
+	if ( $ent_pct > 0 ){
+		$ent_clr = $color;
+	}else{
+		$ent_pct = 100;
+		$ent_clr = $bgcolor;
+	}
+	$Ret = $pfx . $ent_clr . '" width="' . $ent_pct. '%">&nbsp;</td>';
+	if ( $ent_pct > 0 && $ent_pct < 100 ){
+		$Ret .= $pfx . $bgcolor.'"></td>';
+	}
+	return($Ret);
+}
+
+function HtmlPercent ( $Value = 1, $Count = 1 ){
+	$ent_pct = Percent($Value,$Count);
+	if ( $ent_pct == 0 ) {
+		$tmp = "&lt; 1";
+	}else{
+		$tmp = $ent_pct;
+	}
+	$Ret = $tmp . '%';
+	return($Ret);
+}
 
 ?>

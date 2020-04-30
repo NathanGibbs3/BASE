@@ -1,19 +1,21 @@
 <?php
-
-echo "	<div class='mainheadermenu'>"
-. "	<table width='90%' border='0'>"
-. "	<tr>"
-. "	<td class='menuitem'>"
-. "	<a class='menuitem' href='$BASE_urlpath/base_main.php'>"._HOME."</a>&nbsp;&nbsp;|&nbsp;&nbsp;"
-. "	<a class='menuitem' href='$BASE_urlpath/base_qry_main.php?new=1'>"._SEARCH."</a>&nbsp;&nbsp;";
-
+// Html Template
+$Hrst = "<a class='menuitem' href='$BASE_urlpath/base_"; // Href tag start.
+$Sep = ' | '; // Separator.
+NLIO ("<div class='mainheadermenu'>",2);
+NLIO ("<table width='90%' border='0'>",3);
+NLIO ('<tr>',4);
+NLIO ("<td class='menuitem'>",5);
+NLIO ($Hrst."main.php'>"._HOME.'</a>',6);
+NLIO ($Sep.$Hrst."qry_main.php?new=1'>"._SEARCH.'</a>',6);
 if($Use_Auth_System == 1) {
-	echo "|&nbsp;&nbsp;<a class='menuitem' href='$BASE_urlpath/base_user.php'>"._USERPREF."</a>";
-	echo "&nbsp;&nbsp;|&nbsp;&nbsp;<a class='menuitem' href='$BASE_urlpath/base_logout.php'>"._LOGOUT."</a>";
+	NLIO ($Sep.$Hrst."user.php'>"._USERPREF.'</a>',6);
+	NLIO ($Sep.$Hrst."logout.php'>"._LOGOUT.'</a>',6);
 }
-
-echo "</td>"
-. "</tr>"
-. "</table></div>";
-
+NLIO ('</td>',5);
+NLIO ('</tr>',4);
+NLIO ('</table>',3);
+NLIO ('</div>',2);
+unset($Hrst);
+unset($Sep);
 ?>
