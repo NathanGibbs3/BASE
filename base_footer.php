@@ -16,32 +16,39 @@
 //                     Kevin Johnson
 
 if (!isset($noDisplayMenu)) {
-	print "\n".str_repeat ( "\t",3 )."<div class='mainheadermenu'>";
-	print "\n".str_repeat ( "\t",4 )."<table width='90%' style='border:0'>";
-	print "\n".str_repeat ( "\t",5 )."<tr><td class='menuitem'>";
-    echo "
-                <a class='menuitem' href='". $BASE_urlpath ."/base_ag_main.php?ag_action=list'>". _AGMAINT."</a>&nbsp;&nbsp;|&nbsp;&nbsp;
-                <a class='menuitem' href='". $BASE_urlpath ."/base_maintenance.php'>". _CACHE."</a>&nbsp;&nbsp;|&nbsp;&nbsp;";
-    if ($Use_Auth_System == 1)
-    {
-        echo("<a class='menuitem' href='". $BASE_urlpath ."/base_user.php'>". _USERPREF ."</a>&nbsp;&nbsp;|&nbsp;&nbsp;");
-        echo("<a class='menuitem' href='". $BASE_urlpath ."/base_logout.php'>". _LOGOUT ."</a>&nbsp;&nbsp;|&nbsp;&nbsp;");
-    }
-    echo "<a class='menuitem' href='". $BASE_urlpath ."/admin/index.php'>". _ADMIN ."</a>";
-	print "\n".str_repeat ( "\t",5 ).'</td></tr>';
-	print "\n".str_repeat ( "\t",4 ).'</table>';
-	print "\n".str_repeat ( "\t",3 ).'</div>';
+	// Html Templates
+	$Hrst = "<a class='menuitem' href='$BASE_urlpath/"; // Href tag start.
+	$HrstTL = $Hrst . 'base_'; // Top Level Pages.
+	$Sep = ' | '; // Separator.
+	NLIO ("<div class='mainheadermenu'>",2);
+	NLIO ("<table width='90%' style='border:0'>",3);
+	NLIO ('<tr>',4);
+	NLIO ("<td class='menuitem'>",5);
+	NLIO ($HrstTL."ag_main.php?ag_action=list'>". _AGMAINT."</a>$Sep",6);
+	NLIO ($HrstTL."maintenance.php'>". _CACHE."</a>$Sep",6);
+	if ($Use_Auth_System == 1){
+		NLIO ($HrstTL."user.php'>". _USERPREF ."</a>$Sep",6);
+		NLIO ($HrstTL."logout.php'>". _LOGOUT ."</a>$Sep",6);
+	}
+	NLIO ($Hrst."admin/index.php'>". _ADMIN .'</a>',6);
+	NLIO ('</td>',5);
+	NLIO ('</tr>',4);
+	NLIO ('</table>',3);
+	NLIO ('</div>',2);
+	unset($Sep);
+	unset($Hrst);
+	unset($HrstTL);
 }
-print "\n".str_repeat ( "\t",3 ).'<div class="mainfootertext">';
-print "\n".str_repeat ( "\t",4 ).'<a';
-print "\n".str_repeat ( "\t",5 ).'class="largemenuitem"';
-print "\n".str_repeat ( "\t",5 ).'href="https://github.com/NathanGibbs3/BASE"';
-print "\n".str_repeat ( "\t",5 ).'target="_new"';
-print "\n".str_repeat ( "\t",4 ).'>BASE</a>';
+NLIO ("<div class='mainfootertext'>",2);
+NLIO (
+	"<a class='largemenuitem' href='https://github.com/NathanGibbs3/BASE' "
+	."target='_new'>BASE</a>'"
+	,3
+);
 if ( !preg_match("/(base_denied|index).php/", $_SERVER['SCRIPT_NAME']) ) {
-	print "\n".str_repeat ( "\t",4 ). $BASE_VERSION . _FOOTER;
+	NLIO ( $BASE_VERSION . _FOOTER,3);
 }else{
-	print "\n".str_repeat ( "\t",4 ). _FOOTER;
+	NLIO ( _FOOTER,3);
 }
-print "\n".str_repeat ( "\t",3 ).'</div>';
+NLIO ('</div>',2);
 ?>

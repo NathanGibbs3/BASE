@@ -1,6 +1,6 @@
 <?php
 // Basic Analysis and Security Engine (BASE)
-// Copyright (C) 2019 Nathan Gibbs
+// Copyright (C) 2019-2020 Nathan Gibbs
 // Copyright (C) 2004 BASE Project Team
 // Copyright (C) 2000 Carnegie Mellon University
 //
@@ -41,23 +41,20 @@ function PageStart ($refresh = 0, $page_title = '') {
 	if ( $html_no_cache == 1 ) {
 		NLIO($MHE.'pragma" content="no-cache">', 2);
 	}
-	if ( $refresh == 1 ) {
-		if ( $refresh_stat_page ) {
-			if (isset($_SERVER["REQUEST_URI"])){
-				$URI = $_SERVER["REQUEST_URI"];
-			}else{
-				$URI = '/';
-			}
-			$tmp = CleanVariable(
-				$URI,
-				VAR_FSLASH | VAR_PERIOD | VAR_DIGIT | VAR_PUNC | VAR_LETTER
-			);
-			$tmp = htmlspecialchars($tmp,ENT_QUOTES);
-			NLIO(
-				$MHE.'refresh" content="'.$stat_page_refresh_time.'; URL='.
-				$tmp.'">', 2
-			);
+	if ( $refresh == 1 && $refresh_stat_page == 1 ){
+		if (isset($_SERVER["REQUEST_URI"])){
+			$URI = $_SERVER["REQUEST_URI"];
+		}else{
+			$URI = '/';
 		}
+		$tmp = CleanVariable(
+			$URI, VAR_FSLASH | VAR_PERIOD | VAR_DIGIT | VAR_PUNC | VAR_LETTER
+		);
+		$tmp = htmlspecialchars($tmp,ENT_QUOTES);
+		NLIO(
+			$MHE.'refresh" content="'.$stat_page_refresh_time.'; URL='.$tmp.
+			'">', 2
+		);
 	}
 	NLIO("<title>$title</title>",2);
 	NLIO('<link rel="stylesheet" type="text/css" HREF="'. $BASE_urlpath .'/styles/'. $base_style .'">', 2);
@@ -199,7 +196,42 @@ function PrintBASEHelpLink($target)
     that will link to that target in a new window.
   */
 }
-  
-  
+
+// Generate Horizontal Bar Graph <td> tag set.
+function HBarGraph (
+	$Value = 1, $Count = 1, $color = "ff0000", $bgcolor = "ffffff"
+){
+	$pfx = '<td bgcolor="#';
+	// Input Validation.
+	if ( HtmlColor($color) == false ){
+		$color = 'ff0000';
+	}
+	if ( HtmlColor($bgcolor) == false ){
+		$bgcolor = 'ffffff';
+	}
+	$ent_pct = Percent($Value,$Count);
+	if ( $ent_pct > 0 ){
+		$ent_clr = $color;
+	}else{
+		$ent_pct = 100;
+		$ent_clr = $bgcolor;
+	}
+	$Ret = $pfx . $ent_clr . '" width="' . $ent_pct. '%">&nbsp;</td>';
+	if ( $ent_pct > 0 && $ent_pct < 100 ){
+		$Ret .= $pfx . $bgcolor.'"></td>';
+	}
+	return($Ret);
+}
+
+function HtmlPercent ( $Value = 1, $Count = 1 ){
+	$ent_pct = Percent($Value,$Count);
+	if ( $ent_pct == 0 ) {
+		$tmp = "&lt; 1";
+	}else{
+		$tmp = $ent_pct;
+	}
+	$Ret = $tmp . '%';
+	return($Ret);
+}
 
 ?>

@@ -1,6 +1,6 @@
 <?php
 // Basic Analysis and Security Engine (BASE)
-// Copyright (C) 2019 Nathan Gibbs
+// Copyright (C) 2019-2020 Nathan Gibbs
 // Copyright (C) 2004 BASE Project Team
 // Copyright (C) 2000 Carnegie Mellon University
 //
@@ -16,16 +16,16 @@
 //                     Kevin Johnson
 
 require("base_conf.php");
-include_once("$BASE_path/includes/base_lang.inc.php");
 include_once("$BASE_path/includes/base_output_html.inc.php");
+include_once("$BASE_path/includes/base_lang.inc.php");
 $UIL = new UILang($BASE_Language); // Create UI Language Abstraction Object.
 PageStart();
 include("$BASE_path/base_hdr1.php");
-print "\n".str_repeat ( "\t",2 ).'<p>';
+NLIO ('<p>',2);
 // Needs to be added to TD Files.
-print "\n".str_repeat ( "\t",3 ).'Authentication required.';
-print "\n".str_repeat ( "\t",3 ).'<a href="index.php">Login</a>';
-print "\n".str_repeat ( "\t",2 ).'</p>';
+NLIO ('Authentication required.',3);
+NLIO ("<a href='index.php'>Login</a>",3);
+NLIO ('</p>',2);
 $noDisplayMenu = 1;
 include("base_footer.php");
 PageEnd();

@@ -9,6 +9,10 @@ use PHPUnit\Framework\TestCase;
   * @covers ::PageEnd
   * @covers ::chk_select
   * @covers ::chk_check
+  * @covers ::HBarGraph
+  * @covers ::HtmlPercent
+  * @uses ::Htmlcolor
+  * @uses ::Percent
   */
 class output_htmlTest extends TestCase {
 	// Tests go here.
@@ -100,6 +104,101 @@ class output_htmlTest extends TestCase {
 		$this->assertEquals(
 			' checked',
 			chk_check(1,1),
+			'Unexpected Return Value.'
+		);
+	}
+	public function testHBarGraphDefaultReturnsExpected() {
+		$this->assertEquals(
+			'<td bgcolor="#ff0000" width="100%">&nbsp;</td>',
+			HBarGraph(),
+			'Unexpected Return Value.'
+		);
+	}
+	public function testHBarGraphPercentReturnsExpected() {
+		$pfx = '<td bgcolor="#ff0000" width="';
+		$sfx ='%">&nbsp;</td><td bgcolor="#ffffff"></td>';
+		for ($i = 1; $i < 100; $i++ ){
+			$msg = $pfx . $i . $sfx;
+			$this->assertEquals(
+				$msg,
+				HBarGraph($i,100),
+				'Unexpected Return Value.'
+			);
+		}
+	}
+	public function testHBarGraphZeroPercentReturnsExpected() {
+		$pfx = '<td bgcolor="#ffffff" width="';
+		$sfx ='%">&nbsp;</td>';
+		$i = 0;
+		$msg = $pfx . '100' . $sfx;
+		$this->assertEquals(
+			$msg,
+			HBarGraph($i,100),
+			'Unexpected Return Value.'
+		);
+	}
+	public function testHBarGraphOverPercentReturnsExpected() {
+		$pfx = '<td bgcolor="#ff0000" width="';
+		$sfx ='%">&nbsp;</td>';
+		$i = 101;
+		$msg = $pfx . '100' . $sfx;
+		$this->assertEquals(
+			$msg,
+			HBarGraph($i,100),
+			'Unexpected Return Value.'
+		);
+	}
+	public function testHBarGraphInvalidFGCReturnsExpected() {
+		$this->assertEquals(
+			'<td bgcolor="#ff0000" width="100%">&nbsp;</td>',
+			HBarGraph(1,1,'#yellow'),
+			'Unexpected Return Value.'
+		);
+	}
+	public function testHBarGraphInvalidBGCReturnsExpected() {
+		$this->assertEquals(
+			'<td bgcolor="#ff0000" width="100%">&nbsp;</td>',
+			HBarGraph(1,1,'ff0000','#yellow'),
+			'Unexpected Return Value.'
+		);
+	}
+	public function testHtmlPercentDefaultReturnsExpected() {
+		$sfx = '%';
+		$msg = '100' . $sfx;
+		$this->assertEquals(
+			$msg,
+			HtmlPercent(),
+			'Unexpected Return Value.'
+		);
+	}
+	public function testHtmlPercentPercentReturnsExpected() {
+		$sfx = '%';
+		for ($i = 1; $i < 100; $i++ ){
+			$msg = $i . $sfx;
+			$this->assertEquals(
+				$msg,
+				HtmlPercent($i,100),
+				'Unexpected Return Value.'
+			);
+		}
+	}
+	public function testHtmlPercentZeroPercentReturnsExpected() {
+		$sfx ='%';
+		$i = 0;
+		$msg = '&lt; 1' . $sfx;
+		$this->assertEquals(
+			$msg,
+			HtmlPercent($i,100),
+			'Unexpected Return Value.'
+		);
+	}
+	public function testHtmlPercentOverPercentReturnsExpected() {
+		$sfx ='%';
+		$i = 101;
+		$msg = '100' . $sfx;
+		$this->assertEquals(
+			$msg,
+			HtmlPercent($i,100),
 			'Unexpected Return Value.'
 		);
 	}

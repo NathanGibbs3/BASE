@@ -66,10 +66,8 @@ $UIL = new UILang($BASE_Language); // Create UI Language Object.
 // Check role out and redirect if needed -- Kevin
 $roleneeded = 10000;
 $BUser = new BaseUser();
-if ($Use_Auth_System == 1) {
-	if ($BUser->hasRole($roleneeded) == 0){
-		base_header("Location: $BASE_urlpath/index.php");
-	}
+if ( $Use_Auth_System == 1 && $BUser->hasRole($roleneeded) == 0 ){
+	base_header("Location: $BASE_urlpath/index.php");
 }
 
 if (isset($_GET['archive'])){ // Set cookie to use the correct db.
@@ -111,14 +109,15 @@ if ($tmp_str != "") {
     die();
 }
 
-print "\n".str_repeat("\t",2).'<table width="100%" style="border:0;padding:0">';
-print "\n".str_repeat("\t",3).'<tr>';
-print "\n".str_repeat("\t",4).'<td align="left" rowspan="2">';
+NLIO("<table width='100%' style='border:0;padding:0'>",2);
+NLIO('<tr>',2);
+NLIO("<td align='left' rowspan='2'>",3);
 
 // Various things for the snapshot functiuonality on the first page.... Kevin
 $tmp_month = date("m");
 $tmp_day = date("d");
 $tmp_year = date("Y");
+$tmp_DSO = '&amp;sort_order=occur_d';
 $today = '&amp;time%5B0%5D%5B0%5D=+&amp;time%5B0%5D%5B1%5D=%3E%3D'.
     '&amp;time%5B0%5D%5B2%5D='.$tmp_month.
     '&amp;time%5B0%5D%5B3%5D='.$tmp_day.
@@ -149,20 +148,19 @@ $last72 = '&amp;time%5B0%5D%5B0%5D=+&amp;time%5B0%5D%5B1%5D=%3E%3D'.
     '&amp;time%5B0%5D%5B8%5D=+&amp;time%5B0%5D%5B9%5D=+';
 $tmp_24hour        = 'base_qry_main.php?new=1'.$yesterday.'&amp;submit='._QUERYDBP.'&amp;num_result_rows=-1&amp;time_cnt=1';
 $tmp_24hour_unique = 'base_stat_alerts.php?time_cnt=1'.$yesterday;
-$tmp_24hour_sip    = 'base_stat_uaddr.php?addr_type=1&amp;sort_order=occur_d&amp;time_cnt=1'.$yesterday;
-$tmp_24hour_dip    = 'base_stat_uaddr.php?addr_type=2&amp;sort_order=occur_d&amp;time_cnt=1'.$yesterday;
+$tmp_24hour_sip    = 'base_stat_uaddr.php?addr_type=1'.$tmp_DSO.'&amp;time_cnt=1'.$yesterday;
+$tmp_24hour_dip    = 'base_stat_uaddr.php?addr_type=2'.$tmp_DSO.'&amp;time_cnt=1'.$yesterday;
 $tmp_72hour        = 'base_qry_main.php?new=1'.$last72.'&amp;submit='._QUERYDBP.'&amp;num_result_rows=-1&amp;time_cnt=1';
 $tmp_72hour_unique = 'base_stat_alerts.php?time_cnt=1'.$last72;
-$tmp_72hour_sip    = 'base_stat_uaddr.php?addr_type=1&amp;sort_order=occur_d&amp;time_cnt=1'.$last72;
-$tmp_72hour_dip    = 'base_stat_uaddr.php?addr_type=2&amp;sort_order=occur_d&amp;time_cnt=1'.$last72;
+$tmp_72hour_sip    = 'base_stat_uaddr.php?addr_type=1'.$tmp_DSO.'&amp;time_cnt=1'.$last72;
+$tmp_72hour_dip    = 'base_stat_uaddr.php?addr_type=2'.$tmp_DSO.'&amp;time_cnt=1'.$last72;
 $tmp_today         = 'base_qry_main.php?new=1'.$today.'&amp;submit='._QUERYDBP.'&amp;num_result_rows=-1&amp;time_cnt=1';
 $tmp_today_unique  = 'base_stat_alerts.php?time_cnt=1'.$today;
-$tmp_sip           = 'base_stat_uaddr.php?addr_type=1&amp;sort_order=occur_d&amp;time_cnt=1'.$today;
-$tmp_dip           = 'base_stat_uaddr.php?addr_type=2&amp;sort_order=occur_d&amp;time_cnt=1'.$today;
+$tmp_sip           = 'base_stat_uaddr.php?addr_type=1'.$tmp_DSO.'&amp;time_cnt=1'.$today;
+$tmp_dip           = 'base_stat_uaddr.php?addr_type=2'.$tmp_DSO.'&amp;time_cnt=1'.$today;
 
 $tmp_Source = $UIL->CWA['Src'];
 $tmp_Dest = $UIL->CWA['Dst'];
-$tmp_DSO = '&amp;sort_order=occur_d';
 
 echo '
           <div class="stats">
@@ -229,16 +227,12 @@ echo '
 
               <tr class="main_quick_surf">
 	            <td style="text-align:left;">- '._MOSTFREQUENT . $freq_num_uaddr . " " ._ADDRESSES.":".'</td>';
-print "\n".str_repeat("\t",5).'<td>';
-print "\n".str_repeat("\t",6).'<a href="base_stat_uaddr.php?caller=most_frequent&amp;addr_type=1'.$tmp_DSO.'">';
-print "\n".str_repeat("\t",7).$tmp_Source;
-print "\n".str_repeat("\t",6).'</a>';
-print "\n".str_repeat("\t",5).'</td><td>';
-print "\n".str_repeat("\t",6).'<a href="base_stat_uaddr.php?caller=most_frequent&amp;addr_type=2'.$tmp_DSO.'">';
-print "\n".str_repeat("\t",7).$tmp_Dest;
-print "\n".str_repeat("\t",6).'</a>';
-print "\n".str_repeat("\t",5).'</td>';
-print "\n".str_repeat("\t",4).'</tr><tr class="main_quick_surf_2">';
+NLIO ('<td>',4);
+NLIO ("<a href='base_stat_uaddr.php?caller=most_frequent&amp;addr_type=1".$tmp_DSO."'>".$tmp_Source.'</a>',5);
+NLIO ('</td><td>',4);
+NLIO ("<a href='base_stat_uaddr.php?caller=most_frequent&amp;addr_type=2".$tmp_DSO."'>".$tmp_Dest.'</a>',5);
+NLIO ('<td>',4);
+NLIO ("</tr><tr class='main_quick_surf_2'>",3);
 echo'	            <td colspan=2>- <a href="base_stat_alerts.php?caller=last_alerts&amp;sort_order=last_d">'._MOSTRECENT.$last_num_ualerts._UNIALERTS.'</a></td>
 	          </tr>
 
