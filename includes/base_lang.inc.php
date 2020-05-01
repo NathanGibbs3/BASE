@@ -245,7 +245,7 @@ class UILang{
 		if ( isset($Mgf) ){
 			$msg .= $tmp;
 			for ($i = 1; $i < 13; $i++){
-				$tts = mktime(0, 0, 0, $i);
+				$tts = mktime(0, 0, 0, $i, 1);
 				$this->SetUICWItem("ML$i",$Mgf($MfL,$tts)); // Set Long Month
 				$this->SetUICWItem("MS$i",$Mgf($MfS,$tts)); // Set Short Month
 			}
