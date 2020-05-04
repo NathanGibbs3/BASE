@@ -18,8 +18,7 @@
 require("base_conf.php");
 include_once("$BASE_path/includes/base_output_html.inc.php");
 
-PageStart();
-include("$BASE_path/base_hdr1.php");
+PrintBASESubHeader();
 NLIO ('<p>',2);
 // Needs to be added to TD Files.
 NLIO ('Authentication required.',3);

@@ -56,8 +56,8 @@ if (isset($_POST['submit'])) {
     $displayError = 1;
     $errorMsg     = _LOGINERROR;
 }
-PageStart();
-include("$BASE_path/base_hdr1.php");
+
+PrintBASESubHeader();
 if ($displayError == 1) {
 	NLIO ("<div class='errorMsg' align='center'>$errorMsg</div>",2);
 }

@@ -17,10 +17,14 @@
 // Ensure the conf file has been loaded.  Prevent direct access to this file.
 defined( '_BASE_INC' ) or die( 'Accessing this file directly is not allowed.' );
 
+include_once("$BASE_path/includes/base_state_common.inc.php");
+
 function PageStart ($refresh = 0, $page_title = '') {
 	GLOBAL $BASE_VERSION, $BASE_installID, $base_style, $BASE_urlpath,
 	$html_no_cache, $refresh_stat_page, $stat_page_refresh_time, $UIL;
-	$MHE = '<meta http-equiv="';
+	$MHE = "<meta http-equiv='";
+	$MNM = "<meta name='";
+	$GT = 'BASE'; // Generator Meta Attribute.
 	// Backport Shim
 	$Charset = _CHARSET;
 	$title = _TITLE;
@@ -28,23 +32,34 @@ function PageStart ($refresh = 0, $page_title = '') {
 	// We can safely remove this shim once we merge the Issue11 branch.
 	$title = preg_replace("/ ?\(BASE\) $BASE_installID/", '', $title);
 	// End Backport Shim
-	$title .= " (BASE)";
-	if ( !preg_match("/(base_denied|index).php/", $_SERVER['SCRIPT_NAME']) ) {
-		$title .= " $BASE_installID $BASE_VERSION";
+	$title .= " ($GT)";
+	$HT = $title; // Header Title
+	if ( !preg_match(
+		"/^\\$BASE_urlpath\/(base_denied|index)\.php$/",
+		$_SERVER['SCRIPT_NAME']
+	) ){ // Additional app info allowed everywhere but landing pages.
+		$GT .= " $BASE_VERSION";
+		if ( isset($BASE_installID) && $BASE_installID != ''){
+			$title .= " $BASE_installID";
+			$HT = $title;
+		}
+		$title .= " $BASE_VERSION";
 		if ($page_title != ''){
-			$title .= ' : ' . $page_title;
+			$title .= ': ' . XSSPrintSafe($page_title);;
 		}
 		if ( isset($_COOKIE['archive']) && $_COOKIE['archive'] == 1 ) {
-			$title .= ' -- ARCHIVE';
+			$SfxA = ' -- ARCHIVE';  // Need to add this to Translation Data.
+			$title .= $SfxA;
+			$HT .= $SfxA;
 		}
 	}
 	print '<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">';
 	NLIO('<!-- '. $title . ' -->');
 	NLIO('<html>');
 	NLIO('<head>', 1);
-	NLIO($MHE.'Content-Type" content="text/html; charset='. $Charset .'">', 2);
+	NLIO($MHE."Content-Type' content='text/html; charset=$Charset'>", 2);
 	if ( $html_no_cache == 1 ) {
-		NLIO($MHE.'pragma" content="no-cache">', 2);
+		NLIO($MHE."pragma' content='no-cache'>", 2);
 	}
 	if ( $refresh == 1 ) {
 		if ( $refresh_stat_page ) {
@@ -59,15 +74,18 @@ function PageStart ($refresh = 0, $page_title = '') {
 			);
 			$tmp = htmlspecialchars($tmp,ENT_QUOTES);
 			NLIO(
-				$MHE.'refresh" content="'.$stat_page_refresh_time.'; URL='.
-				$tmp.'">', 2
+				$MHE."refresh' content='$stat_page_refresh_time; URL=$tmp'>",2
 			);
 		}
 	}
+	NLIO($MNM."Author' content='Nathan Gibbs'>",2);
+	NLIO($MNM."Generator' content='$GT'>",2);
+	NLIO($MNM."viewport' content='width=device-width, initial-scale=1'>",2);
 	NLIO("<title>$title</title>",2);
 	NLIO('<link rel="stylesheet" type="text/css" HREF="'. $BASE_urlpath .'/styles/'. $base_style .'">', 2);
 	NLIO('</head>', 1);
 	NLIO('<body>', 1);
+	NLIO('<div class="mainheadertitle">'.$HT.'</div>',2);
 }
 
 function PageEnd () {
@@ -86,16 +104,30 @@ function NLIO ($Item = '', $Count = 0) {
 	print NLI ($Item, $Count);
 }
 
-function PrintBASESubHeader($page_title, $page_name, $back_link, $refresh = 0, $page = "") {
+function PrintBASESubHeader(
+	$page_title = '', $page_name = '', $back_link = '', $refresh = 0, $page = ''
+){
 	GLOBAL $debug_mode, $BASE_installID, $BASE_path, $BASE_urlpath,
 	$html_no_cache, $max_script_runtime, $Use_Auth_System, $base_style, $UIL;
 	if ( ini_get("safe_mode") != true ) {
 		set_time_limit($max_script_runtime);
 	}
 	PageStart($refresh, $page_title);
-	include("$BASE_path/base_hdr1.php");
-	include("$BASE_path/base_hdr2.php");
-	echo "<TABLE WIDTH=\"100%\"><TR><TD ALIGN=RIGHT>".$back_link."</TD></TR></TABLE><BR>";
+	if ( !preg_match(
+		"/^\\$BASE_urlpath\/(base_(denied|main)|index)\.php$/",
+		$_SERVER['SCRIPT_NAME']
+	) ){ // Header Menu allowed everywhere but main & landing pages.
+		include("$BASE_path/base_hdr2.php");
+		// Might be able to move include contents to here.
+	}
+	// Might be able to fold this into Menu Header.
+	if ( $back_link != '' ){
+		NLIO("<table width='100%'>",2);
+		NLIO('<tr>',3);
+		NLIO("<td align='right'>".$back_link.'</td>',4);
+		NLIO('</tr>',3);
+		NLIO('</table>',2);
+	}
 	if ( $debug_mode > 0 ) {
 		PrintPageHeader();
 	}

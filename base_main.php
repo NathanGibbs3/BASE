@@ -83,13 +83,9 @@ function DBLink(){ // generate the link to select the other database....
 	}
 }
 
-PageStart(1);
-include("$BASE_path/base_hdr1.php");
-if ($debug_mode > 0) {
-	PrintPageHeader();
-}
+PrintBASESubHeader('', '', '',1);
 
-/* Check that PHP was built correctly */
+// Check that PHP was built correctly.
 $tmp_str = verify_php_build($DBtype);
 if ($tmp_str != "") {
     echo $tmp_str;
