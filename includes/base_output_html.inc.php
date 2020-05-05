@@ -30,10 +30,10 @@ function PageStart ($refresh = 0, $page_title = '') {
 	$GT = 'BASE'; // Generator Meta Attribute.
 	$title .= " ($GT)";
 	$HT = $title; // Header Title
-	if ( !preg_match(
-		"/^\\$BASE_urlpath\/(base_denied|index)\.php$/",
-		$_SERVER['SCRIPT_NAME']
-	) ){ // Additional app info allowed everywhere but landing pages.
+	$ReqRE = preg_quote("$BASE_urlpath/",'/');
+	$ReqRE .= "(base_denied|index)\.php";
+	if ( !preg_match("/^" . $ReqRE ."$/", $_SERVER['SCRIPT_NAME']) ) {
+		// Additional app info allowed everywhere but landing pages.
 		$GT .= " $BASE_VERSION";
 		if ( isset($BASE_installID) && $BASE_installID != ''){
 			$title .= " $BASE_installID";

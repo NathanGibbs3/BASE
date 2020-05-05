@@ -36,35 +36,46 @@ class output_htmlSPTest extends TestCase {
 	// Tests go here.
 	public function testPageStartDefaults() {
 		GLOBAL $BASE_installID, $BASE_VERSION, $UIL, $base_style;
-		$MHE = '<meta http-equiv="';
+		$MHE = "<meta http-equiv='";
+		$MNM = "<meta name='";
 		$UIL = self::$UIL;
-		$ETitle = "$UIL->Title (BASE) $BASE_installID $BASE_VERSION";
+		$HTitle = "$UIL->Title (BASE) $BASE_installID";
+		$ETitle = $HTitle . " $BASE_VERSION";
 		$ECS = $UIL->Charset;
 		$expected =
 		'<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">'
 		. "\n<!-- $ETitle -->\n<html>\n\t<head>"
-		."\n\t\t$MHE"."Content-Type\" content=\"text/html; charset=$ECS\">"
+		."\n\t\t$MHE"."Content-Type' content='text/html; charset=$ECS'>"
+		."\n\t\t$MNM"."Author' content='Nathan Gibbs'>"
+		."\n\t\t$MNM"."Generator' content='BASE 0.0.0 (Joette)'>"
+		."\n\t\t$MNM"."viewport' content='width=device-width, initial-scale=1'>"
 		."\n\t\t<title>$ETitle</title>"
 		."\n\t\t<link rel=\"stylesheet\" type=\"text/css\""
-		." HREF=\"/styles/$base_style\">\n\t</head>\n\t<body>";
+		." HREF=\"/styles/$base_style\">\n\t</head>\n\t<body>"
+		."\n\t\t<div class=\"mainheadertitle\">$HTitle</div>"
 		;
 		$this->expectOutputString($expected);
 		PageStart();
 	}
 	public function testPageStartCustomTitle() {
 		GLOBAL $BASE_installID, $BASE_VERSION, $UIL, $base_style;
-		$MHE = '<meta http-equiv="';
+		$MHE = "<meta http-equiv='";
+		$MNM = "<meta name='";
 		$UIL = self::$UIL;
-		$ETitle = "$UIL->Title (BASE) $BASE_installID $BASE_VERSION : "
-		.'Custom Title';
+		$HTitle = "$UIL->Title (BASE) $BASE_installID";
+		$ETitle = $HTitle . " $BASE_VERSION: Custom Title";
 		$ECS = $UIL->Charset;
 		$expected =
 		'<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">'
 		. "\n<!-- $ETitle -->\n<html>\n\t<head>"
-		."\n\t\t$MHE"."Content-Type\" content=\"text/html; charset=$ECS\">"
+		."\n\t\t$MHE"."Content-Type' content='text/html; charset=$ECS'>"
+		."\n\t\t$MNM"."Author' content='Nathan Gibbs'>"
+		."\n\t\t$MNM"."Generator' content='BASE 0.0.0 (Joette)'>"
+		."\n\t\t$MNM"."viewport' content='width=device-width, initial-scale=1'>"
 		."\n\t\t<title>$ETitle</title>"
 		."\n\t\t<link rel=\"stylesheet\" type=\"text/css\""
-		." HREF=\"/styles/$base_style\">\n\t</head>\n\t<body>";
+		." HREF=\"/styles/$base_style\">\n\t</head>\n\t<body>"
+		."\n\t\t<div class=\"mainheadertitle\">$HTitle</div>"
 		;
 		$this->expectOutputString($expected);
 		PageStart(0,'Custom Title');
@@ -72,18 +83,25 @@ class output_htmlSPTest extends TestCase {
 	public function testPageStartArchiveTitle() {
 		GLOBAL $BASE_installID, $BASE_VERSION, $UIL, $base_style;
 		$_COOKIE['archive'] = 1;
-		$MHE = '<meta http-equiv="';
+		$MHE = "<meta http-equiv='";
+		$MNM = "<meta name='";
 		$UIL = self::$UIL;
-		$ETitle = "$UIL->Title (BASE) $BASE_installID $BASE_VERSION"
-		.' -- ARCHIVE';
+		$HTitle = "$UIL->Title (BASE) $BASE_installID";
+		$ETitle = $HTitle . " $BASE_VERSION";
+		$ETitle .= ' -- ARCHIVE';
+		$HTitle .= ' -- ARCHIVE';
 		$ECS = $UIL->Charset;
 		$expected =
 		'<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">'
 		. "\n<!-- $ETitle -->\n<html>\n\t<head>"
-		."\n\t\t$MHE"."Content-Type\" content=\"text/html; charset=$ECS\">"
+		."\n\t\t$MHE"."Content-Type' content='text/html; charset=$ECS'>"
+		."\n\t\t$MNM"."Author' content='Nathan Gibbs'>"
+		."\n\t\t$MNM"."Generator' content='BASE 0.0.0 (Joette)'>"
+		."\n\t\t$MNM"."viewport' content='width=device-width, initial-scale=1'>"
 		."\n\t\t<title>$ETitle</title>"
 		."\n\t\t<link rel=\"stylesheet\" type=\"text/css\""
-		." HREF=\"/styles/$base_style\">\n\t</head>\n\t<body>";
+		." HREF=\"/styles/$base_style\">\n\t</head>\n\t<body>"
+		."\n\t\t<div class=\"mainheadertitle\">$HTitle</div>"
 		;
 		$this->expectOutputString($expected);
 		PageStart();
@@ -93,18 +111,24 @@ class output_htmlSPTest extends TestCase {
 		GLOBAL $BASE_installID, $BASE_VERSION, $UIL, $base_style,
 		$html_no_cache;
 		$html_no_cache = 1;
-		$MHE = '<meta http-equiv="';
+		$MHE = "<meta http-equiv='";
+		$MNM = "<meta name='";
 		$UIL = self::$UIL;
-		$ETitle = "$UIL->Title (BASE) $BASE_installID $BASE_VERSION";
+		$HTitle = "$UIL->Title (BASE) $BASE_installID";
+		$ETitle = $HTitle . " $BASE_VERSION";
 		$ECS = $UIL->Charset;
 		$expected =
 		'<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">'
 		. "\n<!-- $ETitle -->\n<html>\n\t<head>"
-		."\n\t\t$MHE"."Content-Type\" content=\"text/html; charset=$ECS\">"
-		."\n\t\t$MHE"."pragma\" content=\"no-cache\">"
+		."\n\t\t$MHE"."Content-Type' content='text/html; charset=$ECS'>"
+		."\n\t\t$MHE"."pragma' content='no-cache'>"
+		."\n\t\t$MNM"."Author' content='Nathan Gibbs'>"
+		."\n\t\t$MNM"."Generator' content='BASE 0.0.0 (Joette)'>"
+		."\n\t\t$MNM"."viewport' content='width=device-width, initial-scale=1'>"
 		."\n\t\t<title>$ETitle</title>"
 		."\n\t\t<link rel=\"stylesheet\" type=\"text/css\""
-		." HREF=\"/styles/$base_style\">\n\t</head>\n\t<body>";
+		." HREF=\"/styles/$base_style\">\n\t</head>\n\t<body>"
+		."\n\t\t<div class=\"mainheadertitle\">$HTitle</div>"
 		;
 		$this->expectOutputString($expected);
 		PageStart();
@@ -113,18 +137,24 @@ class output_htmlSPTest extends TestCase {
 	public function testPageStartRefreshON() {
 		GLOBAL $BASE_installID, $BASE_VERSION, $UIL, $base_style,
 		$stat_page_refresh_time;
-		$MHE = '<meta http-equiv="';
+		$MHE = "<meta http-equiv='";
+		$MNM = "<meta name='";
 		$UIL = self::$UIL;
-		$ETitle = "$UIL->Title (BASE) $BASE_installID $BASE_VERSION";
+		$HTitle = "$UIL->Title (BASE) $BASE_installID";
+		$ETitle = $HTitle . " $BASE_VERSION";
 		$ECS = $UIL->Charset;
 		$expected =
 		'<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">'
 		. "\n<!-- $ETitle -->\n<html>\n\t<head>"
-		."\n\t\t$MHE"."Content-Type\" content=\"text/html; charset=$ECS\">"
-		."\n\t\t$MHE"."refresh\" content=\"180; URL=/\">"
+		."\n\t\t$MHE"."Content-Type' content='text/html; charset=$ECS'>"
+		."\n\t\t$MHE"."refresh' content='180; URL=/'>"
+		."\n\t\t$MNM"."Author' content='Nathan Gibbs'>"
+		."\n\t\t$MNM"."Generator' content='BASE 0.0.0 (Joette)'>"
+		."\n\t\t$MNM"."viewport' content='width=device-width, initial-scale=1'>"
 		."\n\t\t<title>$ETitle</title>"
 		."\n\t\t<link rel=\"stylesheet\" type=\"text/css\""
-		." HREF=\"/styles/$base_style\">\n\t</head>\n\t<body>";
+		." HREF=\"/styles/$base_style\">\n\t</head>\n\t<body>"
+		."\n\t\t<div class=\"mainheadertitle\">$HTitle</div>"
 		;
 		$this->expectOutputString($expected);
 		PageStart(1);
