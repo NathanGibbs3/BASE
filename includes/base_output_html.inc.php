@@ -106,10 +106,10 @@ function PrintBASESubHeader(
 		set_time_limit($max_script_runtime);
 	}
 	PageStart($refresh, $page_title);
-	if ( !preg_match(
-		"/^\\$BASE_urlpath\/(base_(denied|main)|index)\.php$/",
-		$_SERVER['SCRIPT_NAME']
-	) ){ // Header Menu allowed everywhere but main & landing pages.
+	$ReqRE = preg_quote("$BASE_urlpath/",'/');
+	$ReqRE .= "(base_(denied|main)|index)\.php";
+	if ( !preg_match("/^" . $ReqRE ."$/", $_SERVER['SCRIPT_NAME']) ) {
+		// Header Menu allowed everywhere but main & landing pages.
 		include("$BASE_path/base_hdr2.php");
 		// Might be able to move include contents to here.
 	}

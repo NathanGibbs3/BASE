@@ -6,6 +6,9 @@ use PHPUnit\Framework\TestCase;
 
 /**
   * @backupGlobals disabled
+  * A necessary evil for tests touching legacy TD.
+  * @preserveGlobalState disabled
+  * @runTestsInSeparateProcesses
   */
 class output_htmlSPTest extends TestCase {
 	// Pre Test Setup.
@@ -16,16 +19,33 @@ class output_htmlSPTest extends TestCase {
 	// We are using a single TD file.
 	// Share class instance as common test fixture.
 	public static function setUpBeforeClass() {
+		GLOBAL $BASE_path, $debug_mode;
+		// Issue #36 Cutout.
+		// See: https://github.com/NathanGibbs3/BASE/issues/36
+		$PHPV = GetPHPV();
+		$PSM = getenv('SafeMode');
+		if (version_compare($PHPV, '5.4', '<') && $PSM == 1){
+			self::markTestSkipped();
+		}
 		$ll = 'english';
 		self::$langs = $ll;
 		$lf = "$ll.lang.php";
 		self::$files = $lf;
-		// Setup UI Language Object
-		// Will throw error during TD transition.
-		// Use error suppression @ symbol.
-		self::assertInstanceOf('UILang',self::$UIL = @new UILang($ll),
-			"Class for $ll not created."
-		);
+		$file = "$BASE_path/languages/$lf";
+		if ($debug_mode > 1) {
+			LogTC($tf,'language',$ll);
+			LogTC($tf,'TD file',$file);
+		}
+		if ( class_exists('UILang') ){
+			// Setup UI Language Object
+			// Will throw error during TD transition.
+			// Use error suppression @ symbol.
+			self::assertInstanceOf('UILang',self::$UIL = @new UILang($ll),
+				"Class for $ll not created."
+			);
+		}else{
+			self::$files = $file;
+		}
 	}
 	public static function tearDownAfterClass() {
 		self::$UIL = null;
@@ -38,10 +58,16 @@ class output_htmlSPTest extends TestCase {
 		GLOBAL $BASE_installID, $BASE_VERSION, $UIL, $base_style;
 		$MHE = "<meta http-equiv='";
 		$MNM = "<meta name='";
-		$UIL = self::$UIL;
-		$HTitle = "$UIL->Title (BASE) $BASE_installID";
+		if ( is_object(self::$UIL) ){
+			$UIL = self::$UIL;
+			$HTitle = "$UIL->Title (BASE) $BASE_installID";
+			$ECS = $UIL->Charset;
+		}else{
+			include_once(self::$files);
+			$HTitle = _TITLE;
+			$ECS = _CHARSET;
+		}
 		$ETitle = $HTitle . " $BASE_VERSION";
-		$ECS = $UIL->Charset;
 		$expected =
 		'<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">'
 		. "\n<!-- $ETitle -->\n<html>\n\t<head>"
@@ -61,10 +87,16 @@ class output_htmlSPTest extends TestCase {
 		GLOBAL $BASE_installID, $BASE_VERSION, $UIL, $base_style;
 		$MHE = "<meta http-equiv='";
 		$MNM = "<meta name='";
-		$UIL = self::$UIL;
-		$HTitle = "$UIL->Title (BASE) $BASE_installID";
+		if ( is_object(self::$UIL) ){
+			$UIL = self::$UIL;
+			$HTitle = "$UIL->Title (BASE) $BASE_installID";
+			$ECS = $UIL->Charset;
+		}else{
+			include_once(self::$files);
+			$HTitle = _TITLE;
+			$ECS = _CHARSET;
+		}
 		$ETitle = $HTitle . " $BASE_VERSION: Custom Title";
-		$ECS = $UIL->Charset;
 		$expected =
 		'<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">'
 		. "\n<!-- $ETitle -->\n<html>\n\t<head>"
@@ -85,12 +117,18 @@ class output_htmlSPTest extends TestCase {
 		$_COOKIE['archive'] = 1;
 		$MHE = "<meta http-equiv='";
 		$MNM = "<meta name='";
-		$UIL = self::$UIL;
-		$HTitle = "$UIL->Title (BASE) $BASE_installID";
+		if ( is_object(self::$UIL) ){
+			$UIL = self::$UIL;
+			$HTitle = "$UIL->Title (BASE) $BASE_installID";
+			$ECS = $UIL->Charset;
+		}else{
+			include_once(self::$files);
+			$HTitle = _TITLE;
+			$ECS = _CHARSET;
+		}
 		$ETitle = $HTitle . " $BASE_VERSION";
 		$ETitle .= ' -- ARCHIVE';
 		$HTitle .= ' -- ARCHIVE';
-		$ECS = $UIL->Charset;
 		$expected =
 		'<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">'
 		. "\n<!-- $ETitle -->\n<html>\n\t<head>"
@@ -113,10 +151,16 @@ class output_htmlSPTest extends TestCase {
 		$html_no_cache = 1;
 		$MHE = "<meta http-equiv='";
 		$MNM = "<meta name='";
-		$UIL = self::$UIL;
-		$HTitle = "$UIL->Title (BASE) $BASE_installID";
+		if ( is_object(self::$UIL) ){
+			$UIL = self::$UIL;
+			$HTitle = "$UIL->Title (BASE) $BASE_installID";
+			$ECS = $UIL->Charset;
+		}else{
+			include_once(self::$files);
+			$HTitle = _TITLE;
+			$ECS = _CHARSET;
+		}
 		$ETitle = $HTitle . " $BASE_VERSION";
-		$ECS = $UIL->Charset;
 		$expected =
 		'<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">'
 		. "\n<!-- $ETitle -->\n<html>\n\t<head>"
@@ -139,10 +183,16 @@ class output_htmlSPTest extends TestCase {
 		$stat_page_refresh_time;
 		$MHE = "<meta http-equiv='";
 		$MNM = "<meta name='";
-		$UIL = self::$UIL;
-		$HTitle = "$UIL->Title (BASE) $BASE_installID";
+		if ( is_object(self::$UIL) ){
+			$UIL = self::$UIL;
+			$HTitle = "$UIL->Title (BASE) $BASE_installID";
+			$ECS = $UIL->Charset;
+		}else{
+			include_once(self::$files);
+			$HTitle = _TITLE;
+			$ECS = _CHARSET;
+		}
 		$ETitle = $HTitle . " $BASE_VERSION";
-		$ECS = $UIL->Charset;
 		$expected =
 		'<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">'
 		. "\n<!-- $ETitle -->\n<html>\n\t<head>"
@@ -161,45 +211,61 @@ class output_htmlSPTest extends TestCase {
 	}
 	public function testdispMonthOptionsReturnDefaults() {
 		GLOBAL $UIL;
-		$UIL = self::$UIL;
-		$expected ="\n".'<option value="01" >January</option>';
-		$expected .="\n".'<option value="02" >February</option>';
-		$expected .="\n".'<option value="03" >March</option>';
-		$expected .="\n".'<option value="04" >April</option>';
-		$expected .="\n".'<option value="05" >May</option>';
-		$expected .="\n".'<option value="06" >June</option>';
-		$expected .="\n".'<option value="07" >July</option>';
-		$expected .="\n".'<option value="08" >August</option>';
-		$expected .="\n".'<option value="09" >September</option>';
-		$expected .="\n".'<option value="10" >October</option>';
-		$expected .="\n".'<option value="11" >November</option>';
-		$expected .="\n".'<option value="12" >December</option>';
-		$this->assertEquals(
-			$expected,
-			dispMonthOptions(''),
-			'Unexpected Return Value.'
-		);
+		if ( function_exists('dispMonthOptions') ){
+			if ( is_object(self::$UIL) ){
+				$UIL = self::$UIL;
+			}else{
+				include_once(self::$files);
+			}
+			$expected ="\n".'<option value="01" >January</option>';
+			$expected .="\n".'<option value="02" >February</option>';
+			$expected .="\n".'<option value="03" >March</option>';
+			$expected .="\n".'<option value="04" >April</option>';
+			$expected .="\n".'<option value="05" >May</option>';
+			$expected .="\n".'<option value="06" >June</option>';
+			$expected .="\n".'<option value="07" >July</option>';
+			$expected .="\n".'<option value="08" >August</option>';
+			$expected .="\n".'<option value="09" >September</option>';
+			$expected .="\n".'<option value="10" >October</option>';
+			$expected .="\n".'<option value="11" >November</option>';
+			$expected .="\n".'<option value="12" >December</option>';
+			$this->assertEquals(
+				$expected,
+				dispMonthOptions(''),
+				'Unexpected Return Value.'
+			);
+		}else{
+			self::markTestSkipped();
+		}
 	}
 	public function testdispMonthOptionsReturnindents() {
 		GLOBAL $UIL;
-		$UIL = self::$UIL;
-		$expected ="\n\t".'<option value="01" >January</option>';
-		$expected .="\n\t".'<option value="02" >February</option>';
-		$expected .="\n\t".'<option value="03" >March</option>';
-		$expected .="\n\t".'<option value="04" >April</option>';
-		$expected .="\n\t".'<option value="05" >May</option>';
-		$expected .="\n\t".'<option value="06" >June</option>';
-		$expected .="\n\t".'<option value="07" >July</option>';
-		$expected .="\n\t".'<option value="08" >August</option>';
-		$expected .="\n\t".'<option value="09" >September</option>';
-		$expected .="\n\t".'<option value="10" >October</option>';
-		$expected .="\n\t".'<option value="11" >November</option>';
-		$expected .="\n\t".'<option value="12" >December</option>';
-		$this->assertEquals(
-			$expected,
-			dispMonthOptions('',1),
-			'Unexpected Return Value.'
-		);
+		if ( function_exists('dispMonthOptions') ){
+			if ( is_object(self::$UIL) ){
+				$UIL = self::$UIL;
+			}else{
+				include_once(self::$files);
+			}
+			$expected ="\n\t".'<option value="01" >January</option>';
+			$expected .="\n\t".'<option value="02" >February</option>';
+			$expected .="\n\t".'<option value="03" >March</option>';
+			$expected .="\n\t".'<option value="04" >April</option>';
+			$expected .="\n\t".'<option value="05" >May</option>';
+			$expected .="\n\t".'<option value="06" >June</option>';
+			$expected .="\n\t".'<option value="07" >July</option>';
+			$expected .="\n\t".'<option value="08" >August</option>';
+			$expected .="\n\t".'<option value="09" >September</option>';
+			$expected .="\n\t".'<option value="10" >October</option>';
+			$expected .="\n\t".'<option value="11" >November</option>';
+			$expected .="\n\t".'<option value="12" >December</option>';
+			$this->assertEquals(
+				$expected,
+				dispMonthOptions('',1),
+				'Unexpected Return Value.'
+			);
+		}else{
+			self::markTestSkipped();
+		}
 	}
 
 	// Add code to a function if needed.
