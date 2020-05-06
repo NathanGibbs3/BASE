@@ -20,6 +20,13 @@ class output_htmlSPTest extends TestCase {
 	// Share class instance as common test fixture.
 	public static function setUpBeforeClass() {
 		GLOBAL $BASE_path, $debug_mode;
+		// Issue #36 Cutout.
+		// See: https://github.com/NathanGibbs3/BASE/issues/36
+		$PHPV = GetPHPV();
+		$PSM = getenv('SafeMode');
+		if (version_compare($PHPV, '5.4', '<') && $PSM == 1){
+			self::markTestSkipped();
+		}
 		$ll = 'english';
 		self::$langs = $ll;
 		$lf = "$ll.lang.php";
