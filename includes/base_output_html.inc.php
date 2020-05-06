@@ -34,10 +34,10 @@ function PageStart ($refresh = 0, $page_title = '') {
 	// End Backport Shim
 	$title .= " ($GT)";
 	$HT = $title; // Header Title
-	if ( !preg_match(
-		"/^\\$BASE_urlpath\/(base_denied|index)\.php$/",
-		$_SERVER['SCRIPT_NAME']
-	) ){ // Additional app info allowed everywhere but landing pages.
+	$ReqRE = preg_quote("$BASE_urlpath/",'/');
+	$ReqRE .= "(base_denied|index)\.php";
+	if ( !preg_match("/^" . $ReqRE ."$/", $_SERVER['SCRIPT_NAME']) ) {
+		// Additional app info allowed everywhere but landing pages.
 		$GT .= " $BASE_VERSION";
 		if ( isset($BASE_installID) && $BASE_installID != ''){
 			$title .= " $BASE_installID";
@@ -61,22 +61,19 @@ function PageStart ($refresh = 0, $page_title = '') {
 	if ( $html_no_cache == 1 ) {
 		NLIO($MHE."pragma' content='no-cache'>", 2);
 	}
-	if ( $refresh == 1 ) {
-		if ( $refresh_stat_page ) {
-			if (isset($_SERVER["REQUEST_URI"])){
-				$URI = $_SERVER["REQUEST_URI"];
-			}else{
-				$URI = '/';
-			}
-			$tmp = CleanVariable(
-				$URI,
-				VAR_FSLASH | VAR_PERIOD | VAR_DIGIT | VAR_PUNC | VAR_LETTER
-			);
-			$tmp = htmlspecialchars($tmp,ENT_QUOTES);
-			NLIO(
-				$MHE."refresh' content='$stat_page_refresh_time; URL=$tmp'>",2
-			);
+	if ( $refresh == 1 && $refresh_stat_page == 1 ){
+		if (isset($_SERVER["REQUEST_URI"])){
+			$URI = $_SERVER["REQUEST_URI"];
+		}else{
+			$URI = '/';
 		}
+		$tmp = CleanVariable(
+			$URI, VAR_FSLASH | VAR_PERIOD | VAR_DIGIT | VAR_PUNC | VAR_LETTER
+		);
+		$tmp = htmlspecialchars($tmp,ENT_QUOTES);
+		NLIO(
+			$MHE."refresh' content='$stat_page_refresh_time; URL=$tmp'>",2
+		);
 	}
 	NLIO($MNM."Author' content='Nathan Gibbs'>",2);
 	NLIO($MNM."Generator' content='$GT'>",2);
@@ -113,10 +110,10 @@ function PrintBASESubHeader(
 		set_time_limit($max_script_runtime);
 	}
 	PageStart($refresh, $page_title);
-	if ( !preg_match(
-		"/^\\$BASE_urlpath\/(base_(denied|main)|index)\.php$/",
-		$_SERVER['SCRIPT_NAME']
-	) ){ // Header Menu allowed everywhere but main & landing pages.
+	$ReqRE = preg_quote("$BASE_urlpath/",'/');
+	$ReqRE .= "(base_(denied|main)|index)\.php";
+	if ( !preg_match("/^" . $ReqRE ."$/", $_SERVER['SCRIPT_NAME']) ) {
+		// Header Menu allowed everywhere but main & landing pages.
 		include("$BASE_path/base_hdr2.php");
 		// Might be able to move include contents to here.
 	}
