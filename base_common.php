@@ -76,116 +76,49 @@ function InputSafeSQL (&$SQLstr)
    $SQLstr = str_replace("\\\"", "\"", $SQLstr);
 }
 
-
-function PrintProtocolProfileGraphs ($db)
-{
-   $tcp_cnt = TCPPktCnt($db);
-   $udp_cnt = UDPPktCnt($db);
-   $icmp_cnt = ICMPPktCnt($db);
-   $portscan_cnt = PortscanPktCnt($db);
-   $layer4_cnt = $tcp_cnt + $udp_cnt + $icmp_cnt + $portscan_cnt;
-
-   if ( $tcp_cnt > 0 )
-   {  
-      $tcp_percent = round($tcp_cnt/$layer4_cnt*100);
-      if ( $tcp_percent == 0 )  
-         $tcp_percent_show = "&lt; 1";
-      else
-         $tcp_percent_show = $tcp_percent; 
-   }  
-   else 
-   {
-      $tcp_percent = 0;
-      $tcp_percent_show = "0";
-   }
-
-   if ( $udp_cnt > 0 )
-   {  
-      $udp_percent = round($udp_cnt/$layer4_cnt*100);
-      if ( $udp_percent == 0 )  
-         $udp_percent_show = "&lt; 1";  
-      else 
-         $udp_percent_show = $udp_percent;
-   }   
-   else
-   { 
-      $udp_percent = 0;
-      $udp_percent_show = "0";
-   }
-
-   if ( $icmp_cnt > 0 ) 
-   {
-      $icmp_percent = round($icmp_cnt/$layer4_cnt*100); 
-      if ( $icmp_percent == 0 )  
-         $icmp_percent_show = "&lt; 1";
-       else
-         $icmp_percent_show = $icmp_percent;
-   }
-   else
-   { 
-      $icmp_percent = 0;
-      $icmp_percent_show = 0;
-   }
-
-   if ( $portscan_cnt > 0 )
-   {  
-      $portscan_percent = round($portscan_cnt/$layer4_cnt*100);
-      if ( $portscan_percent == 0 )  
-         $portscan_percent_show = "&lt; 1";
-      else
-         $portscan_percent_show = $portscan_percent; 
-   }  
-   else 
-   {
-      $portscan_percent = 0;
-      $portscan_percent_show = "0";
-   }
-
-   if ( $tcp_percent > 0 )   $color = "#FF0000";  else  $color="#CCCCCC";
-   $rem_percent=100-$tcp_percent;
+function PrintProtocolProfileGraphs ($db){
+	$tcp_cnt = TCPPktCnt($db);
+	$udp_cnt = UDPPktCnt($db);
+	$icmp_cnt = ICMPPktCnt($db);
+	$portscan_cnt = PortscanPktCnt($db);
+	$layer4_cnt = $tcp_cnt + $udp_cnt + $icmp_cnt + $portscan_cnt;
+	$tcp_percent_show = HtmlPercent($tcp_cnt/$layer4_cnt);
+	$udp_percent_show = HtmlPercent($udp_cnt/$layer4_cnt);
+	$icmp_percent_show = HtmlPercent($icmp_cnt/$layer4_cnt);
+	$portscan_percent_show = HtmlPercent($portscan_cnt/$layer4_cnt);
    echo '<TABLE WIDTH="100%" BORDER=0>
          <TR><TD>TCP<A HREF="base_qry_main.php?new=1'.
                            '&amp;layer4=TCP&amp;num_result_rows=-1&amp;sort_order=time_d&amp;submit='._QUERYDBP.'">
-                           ('.$tcp_percent_show.'%)</A></TD><TD></TD></TR></TABLE>
-                  <TABLE class="summarygraph" WIDTH="100%" BORDER=1 CELLSPACING=0 CELLPADDING=0>
-                  <TR><TD ALIGN=CENTER BGCOLOR="'.$color.'" WIDTH="'.$tcp_percent.'%">&nbsp;</TD>';
-                      if ( $tcp_percent > 0 )  echo '<TD BGCOLOR="#CCCCCC" WIDTH="'.$rem_percent.'%">&nbsp;</TD>';
+                           ('.$tcp_percent_show.')</A></TD><TD></TD></TR></TABLE>
+                  <TABLE class="summarygraph" WIDTH="100%" BORDER=1 CELLSPACING=0 CELLPADDING=0>';
+	print '<tr>'. HBarGraph($tcp_cnt,$layer4_cnt,'ff0000','cccccc');
 		      echo '</TR></TABLE>';
 
-    if ( $udp_percent > 0 )   $color = "#FF0000";  else  $color="#CCCCCC";
-    $rem_percent=100-$udp_percent;
     echo '<TABLE WIDTH="100%" BORDER=0>
           <TR><TD>UDP<A HREF="base_qry_main.php?new=1'.
                             '&amp;layer4=UDP&amp;num_result_rows=-1&amp;sort_order=time_d&amp;submit='._QUERYDBP.'">
-                            ('.$udp_percent_show.'%)</A></TD><TD></TD></TR></TABLE>
-                  <TABLE class="summarygraph" WIDTH="100%" BORDER=1 CELLSPACING=0 CELLPADDING=0>
-                  <TR><TD ALIGN=CENTER BGCOLOR="'.$color.'" WIDTH="'.$udp_percent.'%">&nbsp;</TD>';
-                      if ( $udp_percent > 0 ) echo '<TD BGCOLOR="#CCCCCC" WIDTH="'.$rem_percent.'%">&nbsp;</TD>';
+                            ('.$udp_percent_show.')</A></TD><TD></TD></TR></TABLE>
+                  <TABLE class="summarygraph" WIDTH="100%" BORDER=1 CELLSPACING=0 CELLPADDING=0>';
+	print '<tr>'. HBarGraph($udp_cnt,$layer4_cnt,'ff0000','cccccc');
 		      echo '</TR></TABLE>';
 
-     if ( $icmp_percent > 0 )   $color = "#FF0000";  else  $color="#CCCCCC";
-     $rem_percent=100-$icmp_percent;
      echo '<TABLE WIDTH="100%" BORDER=0>
            <TR><TD>ICMP<A HREF="base_qry_main.php?new=1'.
                               '&amp;layer4=ICMP&amp;num_result_rows=-1&amp;sort_order=time_d&amp;submit='._QUERYDBP.'">
-                              ('.$icmp_percent_show.'%)</A></TD><TD></TD></TR></TABLE>
-                  <TABLE class="summarygraph" WIDTH="100%" BORDER=1 CELLSPACING=0 CELLPADDING=0>
-                  <TR><TD ALIGN=CENTER BGCOLOR="'.$color.'" WIDTH="'.$icmp_percent.'%">&nbsp;</TD>';
-                      if ( $icmp_percent > 0 ) echo '<TD BGCOLOR="#CCCCCC" WIDTH="'.$rem_percent.'%">&nbsp;</TD>';
+                              ('.$icmp_percent_show.')</A></TD><TD></TD></TR></TABLE>
+                  <TABLE class="summarygraph" WIDTH="100%" BORDER=1 CELLSPACING=0 CELLPADDING=0>';
+	print '<tr>'. HBarGraph($icmp_cnt,$layer4_cnt,'ff0000','cccccc');
 		      echo '</TR></TABLE>';
     
      echo '<CENTER><HR NOSHADE WIDTH="70%"></CENTER>';
 
-     if ( $portscan_percent > 0 )   $color = "#FF0000";  else  $color="#CCCCCC";
-     $rem_percent=100-$portscan_percent;
      echo '<TABLE WIDTH="100%" BORDER=0>
            <TR><TD>'._PORTSCAN.'
                <A HREF="base_qry_main.php?new=1'.
-'&amp;layer4=RawIP&amp;num_result_rows=-1&amp;sort_order=time_d&amp;submit='._QUERYDBP.'">('.$portscan_percent_show.'%)</A>
+'&amp;layer4=RawIP&amp;num_result_rows=-1&amp;sort_order=time_d&amp;submit='._QUERYDBP.'">('.$portscan_percent_show.')</A>
                     </TD><TD></TD></TR></TABLE>
-                  <TABLE class="summarygraph" WIDTH="100%" BORDER=1 CELLSPACING=0 CELLPADDING=0>
-                  <TR><TD ALIGN=CENTER BGCOLOR="'.$color.'" WIDTH="'.$portscan_percent.'%">&nbsp;</TD>';
-                      if ( $portscan_percent > 0 )  echo '<TD BGCOLOR="#CCCCCC" WIDTH="'.$rem_percent.'%">&nbsp;</TD>';
+                  <TABLE class="summarygraph" WIDTH="100%" BORDER=1 CELLSPACING=0 CELLPADDING=0>';
+	print '<tr>'. HBarGraph($portscan_cnt,$layer4_cnt,'ff0000','cccccc');
 		      echo '</TR></TABLE>';
 }
 
@@ -1085,3 +1018,37 @@ function base_microtime()
   list($usec, $sec) = explode(" ", microtime());
   return ((float)$usec + (float)$sec);
 }
+
+// Returns true if color is valid html color code.
+function HtmlColor ( $color ){
+	$color = strtolower($color);
+	$wsc = array(
+		'black', 'silver', 'gray', 'white', 'maroon', 'red', 'pruple',
+		'fuchsia', 'green', 'lime', 'olive', 'yellow', 'navy', 'blue', 'teal',
+		'aqua'
+	);
+	$Ret = false;
+	if (
+		in_array($color, $wsc) // Web Safe Color.
+		|| preg_match("/^#?[0-9A-F]{6}$/i", $color) // Hex RGB Color Code.
+	){
+			$Ret = true;
+	}
+	return ($Ret);
+}
+
+function Percent ( $Value = 1, $Count = 1 ){
+	if ( $Value > $Count ){
+		$Count = $Value;
+	}
+	if ( $Count <= 0 ){
+		$Count = 1;
+	}
+	if ( $Value <= 0 ){ // Set %
+		$Ret = 0;
+	}else{
+		$Ret = round($Value/$Count*100);
+	}
+	return ($Ret);
+}
+?>

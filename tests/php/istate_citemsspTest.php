@@ -90,6 +90,9 @@ class state_citemsSPTest extends TestCase {
 					"   Found ADODB in location: ".ADODB_DIR
 				);
 			}else{
+				if ($debug_mode > 1) {
+					LogTC($tf,'DB',"$alert_dbname@$alert_host:$alert_port");
+				}
 				$db->baseDBConnect(
 					$db_connect_method, $alert_dbname, $alert_host,
 					$alert_port, $alert_user, $alert_password

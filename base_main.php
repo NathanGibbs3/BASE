@@ -53,66 +53,39 @@
    include_once("$BASE_path/includes/base_log_error.inc.php");
    include_once("$BASE_path/includes/base_log_timing.inc.php");
 
-  RegisterGlobalState();
-  
-  /* Initialize the history */
-  $_SESSION = NULL;
-  InitArray($_SESSION['back_list'], 1, 3, "");
-  $_SESSION['back_list_cnt'] = 0;
+RegisterGlobalState();
 
-  PushHistory();
-  
-  // Check role out and redirect if needed -- Kevin
-  $roleneeded = 10000;
-  $BUser = new BaseUser();
-  //if (($Use_Auth_System == 1) && ($BUser->hasRole($roleneeded) == 0))
-  if ($Use_Auth_System == 1)
-  {
-      if ($BUser->hasRole($roleneeded) == 0)
-          base_header("Location: $BASE_urlpath/index.php");
-  }
+// Initialize the history
+$_SESSION = NULL;
+InitArray($_SESSION['back_list'], 1, 3, "");
+$_SESSION['back_list_cnt'] = 0;
+PushHistory();
 
-  // Set cookie to use the correct db.
-  if (isset($_GET['archive']))
-  {
-      "no" == $_GET['archive'] ? $value = 0 : $value = 1;
-      setcookie('archive', $value);
-      base_header("Location: $BASE_urlpath/base_main.php");
-  }
-  
-  function DBLink()
-  {
-      // generate the link to select the other database....
-      GLOBAL $archive_exists;
-   
-      if ( (isset($_COOKIE['archive']) && $_COOKIE['archive'] == 1) || (isset($_GET['archive']) && $_GET['archive'] == 1)) {
-          echo '<a href="base_main.php?archive=no">' . _USEALERTDB . '</a>';
-      } elseif ($archive_exists != 0) {
-          echo ('<a href="base_main.php?archive=1">' . _USEARCHIDB . '</a>');
-      }
-  }
-?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
-<!-- <?php echo _TITLE . $BASE_VERSION; ?> -->
-<html>
-<head>
-  <meta http-equiv="Content-Type" content="text/html; charset=<?php echo _CHARSET; ?>">
-  <meta http-equiv="pragma" content="no-cache">
-<?php
-PrintFreshPage($refresh_stat_page, $stat_page_refresh_time);
-$archiveDisplay = (isset($_COOKIE['archive']) && $_COOKIE['archive'] == 1) ? "-- ARCHIVE" : "";
-echo ('<title>' . _TITLE . $BASE_VERSION . $archiveDisplay . '</title>
-<link rel="stylesheet" type="text/css" href="styles/' . $base_style . '">');
-?>
-</head>
-<body>
-  <div class="mainheadertitle">&nbsp;<?php echo _TITLE . $archiveDisplay; ?></div>
-<?php
-if ($debug_mode > 0) {
-    PrintPageHeader();
+// Check role out and redirect if needed -- Kevin
+$roleneeded = 10000;
+$BUser = new BaseUser();
+if ( $Use_Auth_System == 1 && $BUser->hasRole($roleneeded) == 0 ){
+	base_header("Location: $BASE_urlpath/index.php");
 }
 
-/* Check that PHP was built correctly */
+if (isset($_GET['archive'])){ // Set cookie to use the correct db.
+	"no" == $_GET['archive'] ? $value = 0 : $value = 1;
+	setcookie('archive', $value);
+	base_header("Location: $BASE_urlpath/base_main.php");
+}
+
+function DBLink(){ // generate the link to select the other database....
+	GLOBAL $archive_exists;
+	if ( (isset($_COOKIE['archive']) && $_COOKIE['archive'] == 1) || (isset($_GET['archive']) && $_GET['archive'] == 1)) {
+		echo '<a href="base_main.php?archive=no">' . _USEALERTDB . '</a>';
+	}elseif ($archive_exists != 0) {
+		echo ('<a href="base_main.php?archive=1">' . _USEARCHIDB . '</a>');
+	}
+}
+
+PrintBASESubHeader('', '', '',1);
+
+// Check that PHP was built correctly.
 $tmp_str = verify_php_build($DBtype);
 if ($tmp_str != "") {
     echo $tmp_str;
@@ -129,15 +102,16 @@ if ($tmp_str != "") {
     echo $tmp_str;
     die();
 }
-?>
-<table width="100%" style="border:0;padding:0">
-  <tr>
-    <td align="left" rowspan="2">
-<?php
+
+NLIO("<table width='100%' style='border:0;padding:0'>",2);
+NLIO('<tr>',2);
+NLIO("<td align='left' rowspan='2'>",3);
+
 // Various things for the snapshot functiuonality on the first page.... Kevin
 $tmp_month = date("m");
 $tmp_day = date("d");
 $tmp_year = date("Y");
+$tmp_DSO = '&amp;sort_order=occur_d';
 $today = '&amp;time%5B0%5D%5B0%5D=+&amp;time%5B0%5D%5B1%5D=%3E%3D'.
     '&amp;time%5B0%5D%5B2%5D='.$tmp_month.
     '&amp;time%5B0%5D%5B3%5D='.$tmp_day.
@@ -168,16 +142,20 @@ $last72 = '&amp;time%5B0%5D%5B0%5D=+&amp;time%5B0%5D%5B1%5D=%3E%3D'.
     '&amp;time%5B0%5D%5B8%5D=+&amp;time%5B0%5D%5B9%5D=+';
 $tmp_24hour        = 'base_qry_main.php?new=1'.$yesterday.'&amp;submit='._QUERYDBP.'&amp;num_result_rows=-1&amp;time_cnt=1';
 $tmp_24hour_unique = 'base_stat_alerts.php?time_cnt=1'.$yesterday;
-$tmp_24hour_sip    = 'base_stat_uaddr.php?addr_type=1&amp;sort_order=occur_d&amp;time_cnt=1'.$yesterday;
-$tmp_24hour_dip    = 'base_stat_uaddr.php?addr_type=2&amp;sort_order=occur_d&amp;time_cnt=1'.$yesterday;
+$tmp_24hour_sip    = 'base_stat_uaddr.php?addr_type=1'.$tmp_DSO.'&amp;time_cnt=1'.$yesterday;
+$tmp_24hour_dip    = 'base_stat_uaddr.php?addr_type=2'.$tmp_DSO.'&amp;time_cnt=1'.$yesterday;
 $tmp_72hour        = 'base_qry_main.php?new=1'.$last72.'&amp;submit='._QUERYDBP.'&amp;num_result_rows=-1&amp;time_cnt=1';
 $tmp_72hour_unique = 'base_stat_alerts.php?time_cnt=1'.$last72;
-$tmp_72hour_sip    = 'base_stat_uaddr.php?addr_type=1&amp;sort_order=occur_d&amp;time_cnt=1'.$last72;
-$tmp_72hour_dip    = 'base_stat_uaddr.php?addr_type=2&amp;sort_order=occur_d&amp;time_cnt=1'.$last72;
+$tmp_72hour_sip    = 'base_stat_uaddr.php?addr_type=1'.$tmp_DSO.'&amp;time_cnt=1'.$last72;
+$tmp_72hour_dip    = 'base_stat_uaddr.php?addr_type=2'.$tmp_DSO.'&amp;time_cnt=1'.$last72;
 $tmp_today         = 'base_qry_main.php?new=1'.$today.'&amp;submit='._QUERYDBP.'&amp;num_result_rows=-1&amp;time_cnt=1';
 $tmp_today_unique  = 'base_stat_alerts.php?time_cnt=1'.$today;
-$tmp_sip           = 'base_stat_uaddr.php?addr_type=1&amp;sort_order=occur_d&amp;time_cnt=1'.$today;
-$tmp_dip           = 'base_stat_uaddr.php?addr_type=2&amp;sort_order=occur_d&amp;time_cnt=1'.$today;
+$tmp_sip           = 'base_stat_uaddr.php?addr_type=1'.$tmp_DSO.'&amp;time_cnt=1'.$today;
+$tmp_dip           = 'base_stat_uaddr.php?addr_type=2'.$tmp_DSO.'&amp;time_cnt=1'.$today;
+
+$tmp_Source = _SOURCE;
+$tmp_Dest = _DEST;
+
 echo '
           <div class="stats">
             <table width="100%" class="systemstats">
@@ -229,30 +207,31 @@ echo '
 
               <tr class="main_quick_surf">
 	            <td style="text-align:left;">- '._FREGSOURCEP.'</td>
-	            <td><a href="base_stat_ports.php?caller=most_frequent&amp;port_type=1&amp;proto=-1&amp;sort_order=occur_d">'._ANYPROTO.'</a></td>
-	            <td><a href="base_stat_ports.php?caller=most_frequent&amp;port_type=1&amp;proto=6&amp;sort_order=occur_d">TCP</a></td>
-	            <td><a href="base_stat_ports.php?caller=most_frequent&amp;port_type=1&amp;proto=17&amp;sort_order=occur_d">UDP</a></td>
+	            <td><a href="base_stat_ports.php?caller=most_frequent&amp;port_type=1&amp;proto=-1'.$tmp_DSO.'">'._ANYPROTO.'</a></td>
+	            <td><a href="base_stat_ports.php?caller=most_frequent&amp;port_type=1&amp;proto=6'.$tmp_DSO.'">TCP</a></td>
+	            <td><a href="base_stat_ports.php?caller=most_frequent&amp;port_type=1&amp;proto=17'.$tmp_DSO.'">UDP</a></td>
 	          </tr>
       
               <tr class="main_quick_surf">
 	            <td style="text-align:left;">- '._FREGDESTP.'</td>
-	            <td><a href="base_stat_ports.php?caller=most_frequent&amp;port_type=2&amp;proto=-1&amp;sort_order=occur_d">'._ANYPROTO.'</a></td>
-	            <td><a href="base_stat_ports.php?caller=most_frequent&amp;port_type=2&amp;proto=6&amp;sort_order=occur_d">TCP</a></td>
-	            <td><a href="base_stat_ports.php?caller=most_frequent&amp;port_type=2&amp;proto=17&amp;sort_order=occur_d">UDP</a></td>
+	            <td><a href="base_stat_ports.php?caller=most_frequent&amp;port_type=2&amp;proto=-1'.$tmp_DSO.'">'._ANYPROTO.'</a></td>
+	            <td><a href="base_stat_ports.php?caller=most_frequent&amp;port_type=2&amp;proto=6'.$tmp_DSO.'">TCP</a></td>
+	            <td><a href="base_stat_ports.php?caller=most_frequent&amp;port_type=2&amp;proto=17'.$tmp_DSO.'">UDP</a></td>
 	          </tr>
 
               <tr class="main_quick_surf">
-	            <td style="text-align:left;">- '._MOSTFREQUENT . $freq_num_uaddr . " " ._ADDRESSES.":".'</td>
-                <td><a href="base_stat_uaddr.php?caller=most_frequent&amp;addr_type=1&amp;sort_order=occur_d">'._SOURCE.'</a></td>
-                <td><a href="base_stat_uaddr.php?caller=most_frequent&amp;addr_type=2&amp;sort_order=occur_d">'._DEST.'</a></td>
-	          </tr>
-
-              <tr class="main_quick_surf_2">
-	            <td colspan=2>- <a href="base_stat_alerts.php?caller=last_alerts&amp;sort_order=last_d">'._MOSTRECENT.$last_num_ualerts._UNIALERTS.'</a></td>
+	            <td style="text-align:left;">- '._MOSTFREQUENT . $freq_num_uaddr . " " ._ADDRESSES.":".'</td>';
+NLIO ('<td>',4);
+NLIO ("<a href='base_stat_uaddr.php?caller=most_frequent&amp;addr_type=1".$tmp_DSO."'>".$tmp_Source.'</a>',5);
+NLIO ('</td><td>',4);
+NLIO ("<a href='base_stat_uaddr.php?caller=most_frequent&amp;addr_type=2".$tmp_DSO."'>".$tmp_Dest.'</a>',5);
+NLIO ('<td>',4);
+NLIO ("</tr><tr class='main_quick_surf_2'>",3);
+echo'              <td colspan=2>- <a href="base_stat_alerts.php?caller=last_alerts&amp;sort_order=last_d">'._MOSTRECENT.$last_num_ualerts._UNIALERTS.'</a></td>
 	          </tr>
 
 	          <tr class="main_quick_surf_2">
-	            <td colspan=2>- <a href="base_stat_alerts.php?caller=most_frequent&amp;sort_order=occur_d">'._MOSTFREQUENT . $freq_num_alerts . " " ._UNIALERTS.'</a></td>
+	            <td colspan=2>- <a href="base_stat_alerts.php?caller=most_frequent'.$tmp_DSO.'">'._MOSTFREQUENT . $freq_num_alerts . " " ._UNIALERTS.'</a></td>
 	          </tr>
 	        </table>
           </div>
@@ -335,6 +314,5 @@ $stop = time();
 if ($debug_time_mode > 0) {
     echo "<div class='systemdebug'>[" . _LOADEDIN . "&nbsp;" .($stop - $start)." seconds]</div>";
 }
+PageEnd();
 ?>
-</body>
-</html>

@@ -42,7 +42,8 @@ $noDisplayMenu = 1;
 if ( $Use_Auth_System == 0 ) {
     base_header("Location: base_main.php");
 }
-
+$LoginDesc = _FRMLOGIN;
+$PWDesc = _FRMPWD;
 if (isset($_POST['submit'])) {
     $debug_mode = 0; // wont login with debug_mode
     $BASEUSER   = new BaseUser();
@@ -55,47 +56,31 @@ if (isset($_POST['submit'])) {
     $displayError = 1;
     $errorMsg     = _LOGINERROR;
 }
-?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
-<!-- <?php echo _TITLE . $BASE_VERSION; ?> -->
-<html>
 
-<head>
-  <meta http-equiv="Content-Type" content="text/html; charset=<?php echo(_CHARSET); ?>" />
-  <meta http-equiv="pragma" content="no-cache" />
-  <title><?php echo(_TITLE . $BASE_VERSION); ?></title>
-  <link rel="stylesheet" type="text/css" href="./styles/<?php echo($base_style); ?>" />
-</head>
-<body onload="javascript:document.loginform.login.focus();">
-  <div class="mainheadertitle">&nbsp;
-<?php echo _TITLE; ?>
-  </div><br />
-<?php
-if ($displayError == 1)
-{
-    echo "<div class='errorMsg' align='center'>$errorMsg</div>";
+PrintBASESubHeader();
+if ($displayError == 1) {
+	NLIO ("<div class='errorMsg' align='center'>$errorMsg</div>",2);
 }
+NLIO ("<form action='index.php' method='post' name='loginform'>",2);
+NLIO ("<table width='75%' style='border:0;padding:0;margin:auto;'>",3);
+NLIO ('<tr>',4);
+NLIO ("<td align='right' width='50%'>$LoginDesc:&nbsp;</td>",5);
+NLIO ("<td align='left' width='50%'>",5);
+NLIO ("<input type='text' name='login' autofocus='autofocus' />",6);
+NLIO ('</td>',5);
+NLIO ('</tr><tr>',4);
+NLIO ("<td align='right'>$PWDesc:&nbsp;</td>",5);
+NLIO ("<td align='left'>",5);
+NLIO ("<input type='password' name='password' />",6);
+NLIO ('</td>',5);
+NLIO ('</tr><tr>',4);
+NLIO ("<td colspan='2' align='center'>",5);
+NLIO ("<input type='submit' name='submit' value='Login' />",6);
+NLIO ("<input type='reset' name='reset' />",6);
+NLIO ('</td>',5);
+NLIO ('</tr>',4);
+NLIO ('</table>',3);
+NLIO ('</form>',2);
+include("$BASE_path/base_footer.php");
+PageEnd();
 ?>
-<form action="index.php" method="post" name="loginform">
-  <table width="75%" style='border:0;padding:0;margin:auto;'>
-    <tr>
-      <td align="right" width="50%"><?php echo _FRMLOGIN; ?>&nbsp;</td>
-      <td align="left" width="50%"><input type="text" name="login"></td>
-    </tr>
-    <tr>
-      <td align="right"><?php echo _FRMPWD; ?>&nbsp;</td>
-      <td align="left"><input type="password" name="password" /></td>
-    </tr>
-    <tr>
-      <td colspan="2" align="center">
-        <input type="submit" name="submit" value="Login" />
-        <input type="reset" name="reset" />
-      </td>
-    </tr>
-  </table>
-</form>
-<?php
-  include("$BASE_path/base_footer.php");
-?>
-</body>
-</html>
