@@ -5,55 +5,60 @@ All notable changes to this project will be documented in this file using the
 ## [Unreleased]
 
 ## [1.4.5 (lilias)] - 2009-11-03
+### Added
+- Default Sort Order is Now "time_d" (= descending order) instead on "none".  
+Bug [reported](https://sourceforge.net/p/secureideas/bugs/234/)
+on sourceforge.net by Brian. Original ID: 2899177  
+- Added some debug code to take on bug #2880551  
+Bug [reported](https://sourceforge.net/p/secureideas/bugs/228/)
+on sourceforge.net by Brian. Original ID: 2880551   
+Contibutor(s): Juergen Leising
+### Changed
+- Snort SID lookup to match new functionality in the snort.org web site.
+Such a lookup needs a URL, such as http://www.snort.org/search/sid/1-2003 .
+Contibutor(s): 
+  - Shawn Jefferson from the "Snort-users" mailing list on Feb, 23rd 2010.
+  - Juergen Leising
+  - Kevin Johnson
+- Contrib code base-rss.  
+Contibutor(s): Dan Michitsch
 ### Fixed
-- **Display of archived Alerts:**  
+- Display of archived Alerts.  
 While the alerts have been archived correctly, any lookups of them in the 
 archive database have failed, because connecting to the archive database was 
 performed using the baseConnect() method only, and several sql queries in 
 `base_qry_alert()` are simply not compatible with `baseConnect()`. Using 
 `basePConnect()` fixes this. **Actually, more a workaround than a real fix.**  
-Bug [reported](https://sourceforge.net/forum/message.php?msg_id=7609952): on
-sourceforge.com.   
+Bug [reported](https://sourceforge.net/forum/message.php?msg_id=7609952)
+on sourceforge.net.   
+- Temporary fix for bug #2874199  
+Bug [reported](https://sourceforge.net/p/secureideas/bugs/226/)
+on sourceforge.net. Original ID: 2874199
+- Fixed pcap download for FLoP-extended databases on 64-bit platforms.  
+- Fixed "Call to undefined method
+ProtocolFieldCriteria::ProtocolFieldCriteria() in
+/usr/share/base-1.4.5/includes/base_state_citems.inc.php"  
+Bug [reported](https://sourceforge.net/p/secureideas/bugs/235/)
+on sourceforge.net.
+- Insufficient memory for the world map functions in base_graph_main.php.
+Increased it to 256MB.
+- Labelling of the x-axis with the signature classifications chart.  
+- The font system in the PEAR::Image::Graph and Canvas library is broken on
+fedora 12 with php-5.3. This can not be fixed from inside BASE, any more.
+However, a fix is possible, if the IMAGE_CANVAS_SYSTEM_FONT_PATH
+in /usr/share/pear/Image/Canvas.php from the PEAR::Image::Canvas library gets
+defined properly. The fontmap.txt file does NOT matter, any more.  
+See docs/README.graph_alert_data for details.
 Contibutor(s): Juergen Leising
-- **XSS flaws in base_local_rules.php:**  
-Contibutor(s): Dave Hull -- XSS Scan, Kevin Johnson -- Code
-- **IP address encoding problem in base_payload.php:**  
-Original Bug ID: bug #2889623.  
+- XSS flaws in base_local_rules.php:  
+Contibutor(s):
+  - Dave Hull -- XSS Scan
+  - Kevin Johnson
+- IP address encoding problem in base_payload.php:**  
 This refers to non-flop databases only.  
-Bug [reported](https://sourceforge.net/p/secureideas/bugs/233/): on 
-sourceforge.com.  
+Bug [reported](https://sourceforge.net/p/secureideas/bugs/233/)
+on sourceforge.net. Original ID: 2889623.  
 Contibutor(s): Brian Brzezicki & Brad Benson Discovery & patch.
-- **Temporary fix for bug #2874199**  
-Contibutor(s): Juergen Leising
-- **Fixed pcap download for FLoP-extended databases on 64-bit platforms.**  
-Contibutor(s): Juergen Leising
-
-
-### Changed
-- **Updated Snort SID lookup**
-New functionality in the snort.org web site.  
-Contibutor(s): Kevin Johnson
-- **Default Sort Order:**  
-Now "time_d" (= descending order) instead on "none".
-      as suggested by Brian in bug #2899177 -- Juergen Leising
-	  
-    - Added some debug code to take on bug #2880551 -- Juergen Leising
-    - Fixed "Call to undefined method ProtocolFieldCriteria::ProtocolFieldCriteria() in /usr/share/base-1.4.5/includes/base_state_citems.inc.php" -- Juergen Leising
-    - More memory seems to be necessary for the world map functions. 256MB
-      should be enough, for now. Cf. base_graph_main.php. -- Juergen Leising 
-    - The font system in the PEAR::Image::Graph and Canvas library is
-      broken on fedora 12 with php-5.3.  This can not be fixed from inside BASE,
-      any more.  However, a fix is possible, if the IMAGE_CANVAS_SYSTEM_FONT_PATH
-      in /usr/share/pear/Image/Canvas.php from the PEAR::Image::Canvas
-      library gets defined properly.  The fontmap.txt file does NOT matter,
-      any more.  See docs/README.graph_alert_data for details. -- Juergen Leising
-    - Fixed bug with the labelling of the x-axis with the signature 
-      classifications chart. -- Juergen Leising
-    - Updated base-rss in the contrib -- Dan Michitsch
-    - Fixed Snort SID lookup, as described by Shawn Jefferson on the
-      "Snort-users" mailing list on Feb, 23rd 2010.  Such a lookup needs a URL,
-      such as http://www.snort.org/search/sid/1-2003 -- Juergen Leising
-
 
 ---
 ## [1.4.4 (dawn)] - 2009-07-24
@@ -594,47 +599,71 @@ Contibutor(s): Kevin Johnson
     - Fixed issue with MSSQL tables creation commands
     - Added New Flow-Portscan functionality -- Scott Elgram & Jean-Marc
 
+---
+
 ## [0.9.9 (brenna)] - 2004-10-28
-    - Started PDF work
-    - Changed all acid functions to base functions -- Kevin
-      - base_db.inc.php
-      - base_net.inc.php
-    - Added GPL file -- Kevin
-    - Moved around the base_conf.php.dist -- Kevin
-    - Changed external links bug [1051873] -- Kevin
-      - Removed SamSpade links
-    - Added User Preferences page
-    - Completed Auth functions
-    - Fixed Sort bug [1051872] -- Chris Shepherd
-    - Added URL signature reference -- Thanks Joel Esler
-    - Fixed error in include on base_stat_common.php -- Thanks Justin Best
-    - Completed all of the $BASE_path/ for includes -- Kevin
-    - Added listing of users to admin pages. -- Kevin
+### Added
+- Start of PDF work.
+- GPL file.
+- User Preferences page.
+- Added listing of users to admin pages.
+Contibutor(s): Kevin Johnson
+- URL signature reference.  
+Contibutor(s): Joel Esler
+### Changed
+- All acid functions to base functions.
+  - base_db.inc.php
+  - base_net.inc.php
+- File base_conf.php.dist
+- External links.
+Bug [reported](https://sourceforge.net/p/secureideas/bugs/4/)
+on sourceforge.net. Original ID: 1051873
+- Auth functions are finished.
+- Completed all of the $BASE_path/ for includes.  
+Contibutor(s): Kevin Johnson
+### Removed
+- External links to SamSpade.
+Contibutor(s): Kevin Johnson
+### Fixed
+- Sort bug.  
+Bug [reported](https://sourceforge.net/p/secureideas/bugs/3/)
+on sourceforge.net. Original ID: 1051872  
+Contibutor(s): Chris Shepherd
+- Error in include on base_stat_common.php,
+Contibutor(s): Justin Best
 
 ## [0.9.8 (dhara)] - 2004-10-14
-    - PHP 5 support -- Chris Shepherd
-    - Fixed datetime to timestamp error in create_base_tbls_pgsql.sql [ 1025011 ]
-    - Changed comment banner
-    - Added start of the capabilities class -- Chris Shepard
-    - Changing ADODB to PEAR:DB -- Kevin Johnson
-    - Added header to prevent direct access to certain pages -- Kevin Johnson
-    - Changed title bar -- Kevin Johnson
-    - Changed Function names in HTML output file -- Kevin
-    - Changed Display of the summary graphs -- Kevin
-    - Created the user class -- Kevin
-    - Created the start of the auth system -- Kevin
-    - Created acid2base_tbls_mysql.sql -- Kevin
-    - Change html file to php in prep for the template system -- Kevin
-    - Various typos..... -- Kevin
-    - Added /admin/ and various files within it -- Kevin
-    - Expanded year dropdowns to 2010 -- Kevin
-    - Changed look to use Walter B's CSS and various tweaks -- Kevin
-    - Moved around the front page -- Kevin
-    - Added variables to base_conf.php.dist
-    - Created dispYearOptions() to handle the year issue (so ignore the expanded
-        change item above<grin)-- Kevin
-
----
+### Added
+- PHP 5 support
+- Start of the capabilities class.  
+Contibutor(s): Chris Shepherd
+- Header to prevent direct access to certain pages.
+- user class.
+- Start of the auth system.
+- File acid2base_tbls_mysql.sql.
+- admin/ and various files within it.
+- Added variables to base_conf.php.dist.  
+Contibutor(s): Kevin Johnson
+### Changed
+- Comment banner
+- Title bar
+- Function names in HTML output file.
+- Display of the summary graphs.
+- Rename html file to php in prep for the template system.
+- Moved around the front page.  
+Contibutor(s): Kevin Johnson
+- Look to use new CSS and various tweaks.  
+Contibutor(s): Walter B, Kevin Johnson
+### Deprecated
+- ADODB Supoort. Future transition to PEAR:DB.  
+Contibutor(s): Kevin Johnson
+### Fixed
+- Datetime to timestamp error in create_base_tbls_pgsql.sql   
+Bug [reported](https://sourceforge.net/p/secureideas/bugs/1/)
+on sourceforge.net. Original ID: 1025011
+- Various typos.....
+- Year dropdowns via dispYearOptions().  
+Contibutor(s): Kevin Johnson
 
 ## [0.9.7.1 (Francis)] - 2004-09-04
 ### Changed
@@ -644,17 +673,17 @@ Contibutor(s): Kevin Johnson
 ### Removed
 - Commented code that was floating around.
 ### Fixed
-- Whois entry for ARIN
+- Whois entry for ARIN.
 - ADODB information in the README... missed it there!<grin>
-- Various typos and display changes
+- Various typos and display changes.
 
 ## [0.9.7 (Initial Release)] - 2004-09-01
 ### Added
-- First Release
-- Packaged application as BASE
+- First Release.
+- Packaged application as BASE.
 - Code forked from [ACID project](http://www.andrew.cmu.edu/user/rdanyliw/snort/snortacid.html).
 ### Changed
 - Split individual files into a more manageable directory structure (more work
-necessary there)
+necessary there).
 ### Fixed
-- ADODB link and information
+- ADODB link and information.
