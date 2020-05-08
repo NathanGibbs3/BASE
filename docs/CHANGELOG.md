@@ -558,48 +558,63 @@ Contibutor(s): Kevin Johnson
     - Fixed the MSSQL setup scripts to correctly insert roles -- Alan Vallance
     - Fixed setup issues with postgres -- Jason Dixon
 
-## [1.0.0 (denise)] - 2004-11-21
-    - Added patch from nobody
-    - Finished the User stuff!
-      - This framework will continue to be built upon
-        but as of right now, I would consider it stable! -- Kevin
-    - base_stat_common.php changed sensorCnt to return sensors with no events
-      -created new function to handle this
-    - added images directory.
-    - Fixed issue where people couldn't add a user if UseAuth was off -- Kevin
-    - Change admin pages to match the naming of the rest of the project
-    - Role management system -- Kevin
-    - Minor look changes -- Joel and Kevin
-    - Created languages directory -- Kevin
-    - Started building the language files -- Kevin
-    - /setup/ program -- Kevin
-    - /help/ work
-    - moved app_faq to /help
-    - Built start of help icon system used in the setup system
-    - Added nessus ref to base_conf.dist -- Thanks Christian Svensson
-    - English -- Kevin Johnson
-    - Japanese -- Kenji
-    - French -- Maurice Lanselle and Sebastien Desse
-    - Norwegian -- Ole-Martin Bækkeli
-    - Swedish -- Jimmy Hansson
-    - German -- Menrath Johann
-    - Portuguese -- Pedro Walter
-    - Russian -- Dmitry Purgin
-    - Spanish -- Jason Santos
-    - Italian -- DJ Echelon
-    - Danish -- Kim Christensen
-    - Formatting change to base_signature.inc.php -- Randy McEoin
-    - Fixed error where menu appeared on the login page -- Kevin Johnson
-    - Fixed error with menus in the footer on any page but base_main.php
-    - Added check on each page to determine if you are logged in
-    - Added Refresh to multiple pages. RFE [1048873]
-    - Added BASE tables to the PostGRES and the MSSQL files
-    - Fixed password size in the database files
-    - Added Upgrade script for 0.9.x -> 1.0 for MYSQL
-    - Fixed issue with MSSQL tables creation commands
-    - Added New Flow-Portscan functionality -- Scott Elgram & Jean-Marc
-
 ---
+
+## [1.0.0 (denise)] - 2004-11-21
+### Added
+- Patch from nobody.
+- Functions in base_stat_common.php now return sensors with no events. New
+function SensorCnt() created to handle this.
+- images/ directory.
+- languages/ directory.
+- Start of the language files.
+- setup/ directory with  program.
+- help/ directory.
+- Start of help icon system used in the setup system.
+- Checks on each page to determine if you are logged in.
+- BASE tables to the PostGRES and the MSSQL files.
+- Added Upgrade script for 0.9.x -> 1.0 for MYSQL.  
+Contibutor(s): Kevin Johnson
+- Added Refresh to multiple pages.
+Bug [reported](https://sourceforge.net/p/secureideas/bugs/2/)
+on sourceforge.net. Original ID: 1048873   
+Contibutor(s): Arkadiusz Majer, Kevin Johnson
+- Translations
+  - English -- Kevin Johnson
+  - Japanese -- Kenji
+  - French -- Maurice Lanselle and Sebastien Desse
+  - Norwegian -- Ole-Martin Bækkeli
+  - Swedish -- Jimmy Hansson
+  - German -- Menrath Johann
+  - Portuguese -- Pedro Walter
+  - Russian -- Dmitry Purgin
+  - Spanish -- Jason Santos
+  - Italian -- DJ Echelon
+  - Danish -- Kim Christensen
+- Nessus ref to base_conf.dist.  
+Contibutor(s): Christian Svensson
+- New Flow-Portscan functionality.  
+Contibutor(s): Scott Elgram & Jean-Marc
+### Changed
+- Finished the User stuff! This framework will continue to be built upon but
+as of right now, I would consider it stable!
+- Naming of admin pages to match the rest of the project.
+- Role management system.
+- moved app_faq to help/.  
+Contibutor(s): Kevin Johnson
+- Minor UI changes.  
+Contibutor(s): Joel Esler, Kevin Johnson
+- Formatting for/in base_signature.inc.php  
+Contibutor(s): Randy McEoin
+### Fixed
+- Issue where people couldn't add a user if UseAuth was off.  
+Bug [reported](https://sourceforge.net/p/secureideas/bugs/6/)
+on sourceforge.net.
+- Error where menu appeared on the login page.
+- Error with menus in the footer on any page but base_main.php.
+- Fixed password size in the database files.
+- Fixed issue with MSSQL tables creation commands.  
+Contibutor(s): Kevin Johnson
 
 ## [0.9.9 (brenna)] - 2004-10-28
 ### Added
