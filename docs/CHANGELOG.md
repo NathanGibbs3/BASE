@@ -702,3 +702,34 @@ Contibutor(s): Kevin Johnson
 necessary there).
 ### Fixed
 - ADODB link and information.
+
+[unreleased]: https://github.com/NathanGibbs3/BASE/compare/v1.4.5...HEAD
+[1.4.5 (lilias)]: https://github.com/NathanGibbs3/BASE/releases/tag/v1.4.5
+[1.4.4 (dawn)]: https://sourceforge.net/projects/secureideas/files/BASE/base-1.4.4/
+[1.4.3.1 (zig)]: https://sourceforge.net/projects/secureideas/files/BASE/base-1.4.3.1/
+[1.4.3 (gabi)]: https://sourceforge.net/projects/secureideas/files/BASE/base-1.4.3/
+[1.4.2 (chandy)]: https://sourceforge.net/projects/secureideas/files/BASE/base-1.4.2/
+[1.4.1 (lara)]: https://sourceforge.net/projects/secureideas/files/BASE/base-1.4.1/
+[1.4.0 (katherine)]: https://sourceforge.net/projects/secureideas/files/BASE/base-1.4.0/
+[1.3.9 (anne)]: https://sourceforge.net/projects/secureideas/files/BASE/base-1.3.9/
+[1.3.8 (jodie)]: https://sourceforge.net/projects/secureideas/files/BASE/base-1.3.8/
+[1.3.6 (louise)]: https://sourceforge.net/projects/secureideas/files/BASE/base-1.3.6/
+[1.3.5 (marie)]: https://sourceforge.net/projects/secureideas/files/BASE/base-1.3.5/
+[1.2.7 (karen)]: https://sourceforge.net/projects/secureideas/files/BASE/base-1.2.7/
+[1.2.6 (christine)]: https://sourceforge.net/projects/secureideas/files/BASE/base-1.2.6/
+[1.2.5 (sarah)]: https://sourceforge.net/projects/secureideas/files/BASE/base-1.2.5/
+[1.2.4 (melissa)]: https://sourceforge.net/projects/secureideas/files/BASE/base-1.2.4/
+[1.2.2 (cindy)]: https://sourceforge.net/projects/secureideas/files/BASE/base-1.2.2/
+[1.2.1 (kris)]: https://sourceforge.net/projects/secureideas/files/BASE/base-1.2.1/
+[1.2.0 (betty)]: https://sourceforge.net/projects/secureideas/files/BASE/base-1.2/
+[1.1.4 (cheryl)]: https://sourceforge.net/projects/secureideas/files/BASE/base-1.1.4/
+[1.1.3 (lynn)]: https://sourceforge.net/projects/secureideas/files/BASE/base-1.1.3/
+[1.1.2 (zora)]: https://sourceforge.net/projects/secureideas/files/BASE/base-1.1.2/
+[1.1.0 (elizabeth)]: https://sourceforge.net/projects/secureideas/files/BASE/base-1.1/
+[1.0.2 (racquel)]: https://sourceforge.net/projects/secureideas/files/BASE/base-1.0.2/
+[1.0.1 (michelle)]: https://sourceforge.net/projects/secureideas/files/BASE/base-1.0.1/
+[1.0.0 (denise)]: https://sourceforge.net/projects/secureideas/files/BASE/base-1.0/
+[0.9.9 (brenna)]: https://sourceforge.net/projects/secureideas/files/BASE/base-0.9.9-RC1/
+[0.9.8 (dhara)]: https://sourceforge.net/projects/secureideas/files/BASE/base-0.9.8/
+[0.9.7.1 (Francis)]: https://sourceforge.net/projects/secureideas/files/BASE/base-0.9.7.1/
+[0.9.7 (Initial Release)]: https://sourceforge.net/projects/secureideas/files/BASE/base-0.9.7/
