@@ -3,18 +3,29 @@ All notable changes to this project will be documented in this file using the
 [Keep a CHANGELOG](http://keepachangelog.com) principles.
 
 ## [Unreleased]
+### Added
+ - PHP 7x Support.
+ - MariaDB Support.
+ - PHPUnit Tests.
+### Changed
+### Deprecated
+### Removed
+### Fixed
+### Security
 
 ## [1.4.5 (lilias)] - 2009-11-03
 ### Added
-- Default Sort Order is Now "time_d" (= descending order) instead on "none".  
+- Default Sort Order.  
+Now "time_d" (= descending order) instead on "none".  
 Bug [reported](https://sourceforge.net/p/secureideas/bugs/234/)
 on sourceforge.net by Brian. Original ID: 2899177  
 - Added some debug code to take on bug #2880551  
 Bug [reported](https://sourceforge.net/p/secureideas/bugs/228/)
-on sourceforge.net by Brian. Original ID: 2880551   
+on sourceforge.net. Original ID: 2880551   
 Contibutor(s): Juergen Leising
 ### Changed
-- Snort SID lookup to match new functionality in the snort.org web site.
+- Snort SID lookup.  
+Now matches new functionality in the snort.org web site.
 Such a lookup needs a URL, such as http://www.snort.org/search/sid/1-2003 .
 Contibutor(s): 
   - Shawn Jefferson from the "Snort-users" mailing list on Feb, 23rd 2010.
@@ -35,70 +46,96 @@ on sourceforge.net.
 Bug [reported](https://sourceforge.net/p/secureideas/bugs/226/)
 on sourceforge.net. Original ID: 2874199
 - Fixed pcap download for FLoP-extended databases on 64-bit platforms.  
-- Fixed "Call to undefined method
-ProtocolFieldCriteria::ProtocolFieldCriteria() in
+- Fixed Fatal error: Call to undefined method.  
+"Call to undefined method ProtocolFieldCriteria::ProtocolFieldCriteria() in
 /usr/share/base-1.4.5/includes/base_state_citems.inc.php"  
 Bug [reported](https://sourceforge.net/p/secureideas/bugs/235/)
-on sourceforge.net.
+on sourceforge.net. Original ID: 2919599
 - Insufficient memory for the world map functions in base_graph_main.php.
 Increased it to 256MB.
-- Labelling of the x-axis with the signature classifications chart.  
+- Labelling of the x-axis with the signature classifications chart.
 - The font system in the PEAR::Image::Graph and Canvas library is broken on
 fedora 12 with php-5.3. This can not be fixed from inside BASE, any more.
 However, a fix is possible, if the IMAGE_CANVAS_SYSTEM_FONT_PATH
 in /usr/share/pear/Image/Canvas.php from the PEAR::Image::Canvas library gets
 defined properly. The fontmap.txt file does NOT matter, any more.  
-See docs/README.graph_alert_data for details.
+See docs/README.graph_alert_data for details.  
 Contibutor(s): Juergen Leising
-- XSS flaws in base_local_rules.php:  
-Contibutor(s):
-  - Dave Hull -- XSS Scan
-  - Kevin Johnson
-- IP address encoding problem in base_payload.php:**  
+- IP address encoding problem in base_payload.php:  
 This refers to non-flop databases only.  
 Bug [reported](https://sourceforge.net/p/secureideas/bugs/233/)
 on sourceforge.net. Original ID: 2889623.  
 Contibutor(s): Brian Brzezicki & Brad Benson Discovery & patch.
+### Security
+- XSS flaws in base_local_rules.php:  
+Contibutor(s):
+  - Dave Hull -- XSS Scan
+  - Kevin Johnson
 
 ---
 ## [1.4.4 (dawn)] - 2009-07-24
-    - Fixed SQL injection flaw reported by Peter Österberg -- Kevin Johnson
-    - Removed debug code that has triggered "WARNING: The following query 
-      key has not been implemented, yet." - Bugs no. 2813925, 2808291,
-      2798983 and 2828709 -- Juergen Leising
-    - Signature names were displayed as raw html rather than as real names
-      with clickable URLs. Fix for bug no. 2803137. -- Juergen Leising
-    - Rewrote code that produces a link to a local directory with 
-      documentation for alerts in front of the signature names.  
-      Proposal for this was filed as bug no. 2808527.  
-      Thanks go to Akos Daniel. -- Juergen Leising
-    - Applied and roughly tested patch that was submitted anonymously 
-      under bug no. 2825018.  It affects the email feature. -- Juergen Leising
-    - Fix for PHP Warning:  array_count_values(): Can only count STRING and 
-      INTEGER values! in base_qry_common.php -- Juergen Leising
-    - Fix for Undefined variable: sf_portscan_flag -- Juergen Leising
-    - Fix for the link "local whois": 
-      -- IP addresses updated and moved to the configuration file
-      -- No storage to cache in case of negative whois responses
-      -- New search strings to find out when the whois query should be 
-         forwarded to some other whois server, other than the original one.
-      This bug has been casually mentioned at
-      http://sourceforge.net/forum/forum.php?thread_id=3331857&forum_id=404428  
-      -- Juergen Leising
-    - Fixed Cross site scripting and local file include in base_local_rules.php -- Kevin Johnson Reported by Clint Ruoho
-
+### Changed
+- Local signature documentation link generation.  
+Rewrote code that produces a link to a local directory with documentation for
+alerts in front of the signature names.  
+Bug [reported](https://sourceforge.net/p/secureideas/bugs/216/)
+on sourceforge.net. Original ID: 2808527
+Contibutor(s):
+  - Akos Daniel - Report
+  - Juergen Leising
+### Fixed
+- Warning display issue.  
+Warning displayed: "The following query key has not been implemented, yet."
+Debug code responsible for this has been removed.   
+Bug [reported](https://sourceforge.net/p/secureideas/bugs/218/)
+on sourceforge.net. Original ID: 2813925  
+Bug [reported](https://sourceforge.net/p/secureideas/bugs/215/)
+on sourceforge.net. Original ID: 2808291  
+Bug [reported](https://sourceforge.net/p/secureideas/bugs/211/)
+on sourceforge.net. Original ID: 2798983  
+Bug [reported](https://sourceforge.net/p/secureideas/bugs/221/)
+on sourceforge.net. Original ID: 2828709
+- Signature display error.  
+Signature names were displayed as raw html rather than as real names with
+clickable URLs.
+Bug [reported](https://sourceforge.net/p/secureideas/bugs/213/)
+on sourceforge.net. Original ID: 2803137
+- PHP Warning Issues.  
+  - array_count-values() in base_qry_common.php.  
+  - Undefined variable: sf_portscan_flag
+- "local whois" link issues.  
+Bug [reported](http://sourceforge.net/forum/forum.php?thread_id=3331857&forum_id=404428)
+on sourceforge.net.
+  - IP addresses updated and moved to the configuration file.
+  - No storage to cache in case of negative whois responses.
+  - New search strings to find out when the whois query should be forwarded to
+  some other whois server, other than the original one.
+- Email alert action issue.  
+Anonymously submitted patch applied and roughly tested.
+Bug [reported](https://sourceforge.net/p/secureideas/bugs/220/)
+on sourceforge.net. Original ID: 2825018  
+Contibutor(s): Juergen Leising
+### Security
+- SQLI flaw.  
+Contibutor(s):
+  - Peter Österberg - Report
+  - Kevin Johnson
+- XSS and LFI in base_local_rules.php  
+Contibutor(s):
+  - Clint Ruoho - Report
+  - Kevin Johnson
 
 ## [1.4.3.1 (zig)] - 2009-05-30
-### Fixed
-- **Multiple XSS flaws in User and Role management**  
+### Security
+- Multiple XSS flaws in User and Role management.  
 Contibutor(s): Kevin Johnson
 
 ## [1.4.3 (gabi)] - 2009-05-14
-### Fixed
- - **XSS Flaws in alert groups**
- - **Potential SQL injection flaw in AG**
- - **XSS Flaws in base_qry files**
- - **Multiple XSS flaws in citems**  
+### Security
+ - XSS Flaws in alert groups.
+ - Potential SQLI flaw in AG.
+ - XSS Flaws in base_qry files.
+ - Multiple XSS flaws in citems.  
 Contibutor(s): Kevin Johnson
 
 ## [1.4.2 (chandy)] - 2009-04-03
@@ -398,7 +435,10 @@ Contibutor(s): Kevin Johnson
 ## [1.2.3] - Missing from Legacy Changelog
 
 ## [1.2.2 (cindy)] - 2006-01-12
-    - Added Turkish -- Umut Nacak
+### Added
+- Translations:
+  - Turkish -- Umut Nacak
+
     - Changed login button to actually say login -- Jonathan W Minor
     - Fixed issue with signature names and MySQL 5.0 -- Kade P. Cole
     - Fixed Bug# 1347623 auto-refresh ignored for stat pages -- Shane Castle
@@ -519,6 +559,11 @@ Contibutor(s): Kevin Johnson
     - Fixed Search page "cannot use string as array offset" error again. Should be fixed for good now. -- Tim Rupp
 
 ## [1.0.2 (racquel)] - 2005-02-13
+### Added
+- DShield.org IP Info page.  
+Contibutor(s): Kevin Johnson
+### Fixed
+
     - Fixed host cache expiry issue -- Thanks to Michael Stone for the heads up
     - Fixed search issue with PHP 5 -- Tim Rupp
     - Added fix to increase performance on time based queries for MySQL -- Michael Stone
@@ -526,7 +571,6 @@ Contibutor(s): Kevin Johnson
     - All HTTP_*_VARS have been changed to newer superglobals -- Tim Rupp
     - Fixed bug #1114778, duplicate defines in lang files -- Tim Rupp
     - Fixed bug #1118792, Errors creating Postgres tables -- Kevin Johnson
-    - Added DShield.org IP Info page -- Kevin Johnson
     - External IP links open in a new window -- Kevin Johnson
     - Portuguese Translation fixes -- Thiago Martins
     - Fixed bug #1111841 -- Alejandro Flores
@@ -541,22 +585,42 @@ Contibutor(s): Kevin Johnson
     - New packaging directory structure -- Kevin Hoffman
 
 ## [1.0.1 (michelle)] - 2005-01-17
-    - Finnish -- Elmo Mäntynen
-    - Chinese -- Johnson Chiang
-    - Indonesian -- Rachim Tamsjadi
-    - Alert Group fixes -- Tim Rupp
-    - Fixed the postgres sql files -- Kevin
-    - Fixed various Postgress issues -- Kevin
-    - Working on limiting includes -- Kevin
-    - Fixed setup bugs -- Michiel Brendel
-    - Removed regex from base_db.inc.php and related WHERE clauses -- Kevin
-    - Added better display of the error messages -- Jason Dixon
-    - Fixed for "Duplicate Entry" errors -- pr00f at users.sourceforge.net
-    - Fixed issue with adding a user after deleting one that was not the last
-      user added. -- Kevin
-    - Fixed some graphing issues -- Kevin
-    - Fixed the MSSQL setup scripts to correctly insert roles -- Alan Vallance
-    - Fixed setup issues with postgres -- Jason Dixon
+### Added
+- Translations:
+  - Finnish -- Elmo Mäntynen
+  - Chinese -- Johnson Chiang
+  - Indonesian -- Rachim Tamsjadi
+- Better display of error messages.  
+Contibutor(s): Jason Dixon
+### Changed
+- Code Cleanup.
+  - Include code that limits number of includes per file.  
+Issue [opened](https://github.com/NathanGibbs3/BASE/issues/63)
+on github.com to failitate continued tracking of this.
+  - Removed regex from base_db.inc.php and related WHERE clauses.  
+Contibutor(s): Kevin Johnson
+### Fixed
+- Alert Group Issues.  
+Contibutor(s): Tim Rupp
+- Postgres sql files.
+Bug [reported](https://sourceforge.net/p/secureideas/bugs/9/)
+on sourceforge.net. Original ID: Unknown
+Contibutor(s):
+  - Jeff Balderson - Report & patch.
+  - Kevin Johnson
+- Postgress issues.
+- User add issue.  
+Adding a user after deleting one that was not the last user added caused this.  
+- Graphing issues.  
+Contibutor(s): Kevin Johnson
+- Setup bugs.  
+Contibutor(s): Michiel Brendel    
+- "Duplicate Entry" errors.  
+Contibutor(s): pr00f at users.sourceforge.net    
+- MSSQL setup scripts did not correctly insert roles.  
+Contibutor(s): Alan Vallance
+- Postgresql setup issues.  
+Contibutor(s): Jason Dixon
 
 ---
 
@@ -575,11 +639,11 @@ function SensorCnt() created to handle this.
 - BASE tables to the PostGRES and the MSSQL files.
 - Added Upgrade script for 0.9.x -> 1.0 for MYSQL.  
 Contibutor(s): Kevin Johnson
-- Added Refresh to multiple pages.
+- Added Refresh to multiple pages.  
 Bug [reported](https://sourceforge.net/p/secureideas/bugs/2/)
-on sourceforge.net. Original ID: 1048873   
+on sourceforge.net. Original ID: 1048873  
 Contibutor(s): Arkadiusz Majer, Kevin Johnson
-- Translations
+- Translations:
   - English -- Kevin Johnson
   - Japanese -- Kenji
   - French -- Maurice Lanselle and Sebastien Desse
@@ -665,8 +729,13 @@ Contibutor(s): Kevin Johnson
 - Function names in HTML output file.
 - Display of the summary graphs.
 - Rename html file to php in prep for the template system.
-- Moved around the front page.  
 Contibutor(s): Kevin Johnson
+- Moved around the front page.  
+Bug [reported](https://sourceforge.net/p/secureideas/discussion/404428/thread/43cd4a58/?limit=25#3364)
+on sourceforge.net.  
+Contibutor(s):
+  - Patchset submitted anonymously.
+  - Kevin Johnson
 - Look to use new CSS and various tweaks.  
 Contibutor(s): Walter B, Kevin Johnson
 ### Deprecated
