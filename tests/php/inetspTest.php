@@ -13,7 +13,7 @@ use PHPUnit\Framework\TestCase;
   */
 
 
-class netTest extends TestCase {
+class netSPTest extends TestCase {
 	// Pre Test Setup.
 	protected static $db;
 
@@ -97,9 +97,12 @@ class netTest extends TestCase {
 		}elseif (version_compare($PHPUV, '6.0', '<')) { // PHPUnit 5x
 			$this->expectException("PHPUnit_Framework_Error_Notice");
 			$this->expectExceptionMessage($EEM);
-		}else{ // PHPUnit 6+
+		}elseif (version_compare($PHPUV, '9.0', '<')) { // PHPUnit 6x - 8x
 			$this->expectException("PHPUnit\Framework\Error\Notice");
 			$this->expectExceptionMessage($EEM);
+		}else{ // PHPUnit 9+
+			$this->expectNotice();
+			$this->expectNoticeMessage($EEM);
 		}
 		baseGetHostByAddr('',$db,-10);
 	}
@@ -130,9 +133,12 @@ class netTest extends TestCase {
 		}elseif (version_compare($PHPUV, '6.0', '<')) { // PHPUnit 5x
 			$this->expectException("PHPUnit_Framework_Error_Notice");
 			$this->expectExceptionMessage($EEM);
-		}else{ // PHPUnit 6+
+		}elseif (version_compare($PHPUV, '9.0', '<')) { // PHPUnit 6x - 8x
 			$this->expectException("PHPUnit\Framework\Error\Notice");
 			$this->expectExceptionMessage($EEM);
+		}else{ // PHPUnit 9+
+			$this->expectNotice();
+			$this->expectNoticeMessage($EEM);
 		}
 		baseGetHostByAddr('github.com',$db,-10);
 	}
@@ -217,7 +223,7 @@ class netTest extends TestCase {
 		$result = $db->baseExecute($sql);
 		$ip_cache = $result->baseFetchRow();
 		$ots = $ip_cache[2];
-		baseGetHostByAddr($tip,$db,-10);
+		baseGetHostByAddr($tip,$db,10);
 		$result = $db->baseExecute($sql);
 		$ip_cache = $result->baseFetchRow();
 		$this->assertEquals(
@@ -261,9 +267,12 @@ class netTest extends TestCase {
 		}elseif (version_compare($PHPUV, '6.0', '<')) { // PHPUnit 5x
 			$this->expectException("PHPUnit_Framework_Error_Notice");
 			$this->expectExceptionMessage($EEM);
-		}else{ // PHPUnit 6+
+		}elseif (version_compare($PHPUV, '9.0', '<')) { // PHPUnit 6x - 8x
 			$this->expectException("PHPUnit\Framework\Error\Notice");
 			$this->expectExceptionMessage($EEM);
+		}else{ // PHPUnit 9+
+			$this->expectNotice();
+			$this->expectNoticeMessage($EEM);
 		}
 		$tip = '3.24.117.66';
 		$thn = '2-3-24-117-66.ap-southeast-2.compute.amazonaws.com';

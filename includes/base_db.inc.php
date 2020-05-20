@@ -864,7 +864,10 @@ function GetFieldLength($db,$table,$field) {
 	if ( $Emsg != ''){
 		trigger_error($Emsg);
 	}else{
-		$Ret = $db->DB->metacolumns($table)[strtoupper($field)]->max_length;
+		$wresult = $db->DB->metacolumns($table);
+		$wf = strtoupper($field);
+		$tmp = $wresult[$wf];
+		$Ret = $tmp->max_length;
 	}
 	return $Ret;
 }

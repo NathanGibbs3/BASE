@@ -162,9 +162,12 @@ class dbTest extends TestCase {
 		}elseif (version_compare($PHPUV, '6.0', '<')) { // PHPUnit 5x
 			$this->expectException("PHPUnit_Framework_Error_Notice");
 			$this->expectExceptionMessage($EEM);
-		}else{ // PHPUnit 6+
+		}elseif (version_compare($PHPUV, '9.0', '<')) { // PHPUnit 6x - 8x
 			$this->expectException("PHPUnit\Framework\Error\Notice");
 			$this->expectExceptionMessage($EEM);
+		}else{ // PHPUnit 9+
+			$this->expectNotice();
+			$this->expectNoticeMessage($EEM);
 		}
 		GetFieldLength('db','What','How');
 	}
@@ -190,9 +193,12 @@ class dbTest extends TestCase {
 		}elseif (version_compare($PHPUV, '6.0', '<')) { // PHPUnit 5x
 			$this->expectException("PHPUnit_Framework_Error_Notice");
 			$this->expectExceptionMessage($EEM);
-		}else{ // PHPUnit 6+
+		}elseif (version_compare($PHPUV, '9.0', '<')) { // PHPUnit 6x - 8x
 			$this->expectException("PHPUnit\Framework\Error\Notice");
 			$this->expectExceptionMessage($EEM);
+		}else{ // PHPUnit 9+
+			$this->expectNotice();
+			$this->expectNoticeMessage($EEM);
 		}
 		GetFieldLength($db, 1,2);
 	}
@@ -219,9 +225,12 @@ class dbTest extends TestCase {
 		}elseif (version_compare($PHPUV, '6.0', '<')) { // PHPUnit 5x
 			$this->expectException("PHPUnit_Framework_Error_Notice");
 			$this->expectExceptionMessage($EEM);
-		}else{ // PHPUnit 6+
+		}elseif (version_compare($PHPUV, '9.0', '<')) { // PHPUnit 6x - 8x
 			$this->expectException("PHPUnit\Framework\Error\Notice");
 			$this->expectExceptionMessage($EEM);
+		}else{ // PHPUnit 9+
+			$this->expectNotice();
+			$this->expectNoticeMessage($EEM);
 		}
 		GetFieldLength($db, 'acid_ip_cache',2);
 	}
@@ -248,9 +257,12 @@ class dbTest extends TestCase {
 		}elseif (version_compare($PHPUV, '6.0', '<')) { // PHPUnit 5x
 			$this->expectException("PHPUnit_Framework_Error_Notice");
 			$this->expectExceptionMessage($EEM);
-		}else{ // PHPUnit 6+
+		}elseif (version_compare($PHPUV, '9.0', '<')) { // PHPUnit 6x - 8x
 			$this->expectException("PHPUnit\Framework\Error\Notice");
 			$this->expectExceptionMessage($EEM);
+		}else{ // PHPUnit 9+
+			$this->expectNotice();
+			$this->expectNoticeMessage($EEM);
 		}
 		GetFieldLength($db, '',2);
 	}
@@ -277,9 +289,12 @@ class dbTest extends TestCase {
 		}elseif (version_compare($PHPUV, '6.0', '<')) { // PHPUnit 5x
 			$this->expectException("PHPUnit_Framework_Error_Notice");
 			$this->expectExceptionMessage($EEM);
-		}else{ // PHPUnit 6+
+		}elseif (version_compare($PHPUV, '9.0', '<')) { // PHPUnit 6x - 8x
 			$this->expectException("PHPUnit\Framework\Error\Notice");
 			$this->expectExceptionMessage($EEM);
+		}else{ // PHPUnit 9+
+			$this->expectNotice();
+			$this->expectNoticeMessage($EEM);
 		}
 		GetFieldLength($db, 'acid_ip_cache','');
 	}
@@ -306,9 +321,12 @@ class dbTest extends TestCase {
 		}elseif (version_compare($PHPUV, '6.0', '<')) { // PHPUnit 5x
 			$this->expectException("PHPUnit_Framework_Error_Notice");
 			$this->expectExceptionMessage($EEM);
-		}else{ // PHPUnit 6+
+		}elseif (version_compare($PHPUV, '9.0', '<')) { // PHPUnit 6x - 8x
 			$this->expectException("PHPUnit\Framework\Error\Notice");
 			$this->expectExceptionMessage($EEM);
+		}else{ // PHPUnit 9+
+			$this->expectNotice();
+			$this->expectNoticeMessage($EEM);
 		}
 		GetFieldLength($db, 'what','ipc_fqdn');
 	}
@@ -335,9 +353,12 @@ class dbTest extends TestCase {
 		}elseif (version_compare($PHPUV, '6.0', '<')) { // PHPUnit 5x
 			$this->expectException("PHPUnit_Framework_Error_Notice");
 			$this->expectExceptionMessage($EEM);
-		}else{ // PHPUnit 6+
+		}elseif (version_compare($PHPUV, '9.0', '<')) { // PHPUnit 6x - 8x
 			$this->expectException("PHPUnit\Framework\Error\Notice");
 			$this->expectExceptionMessage($EEM);
+		}else{ // PHPUnit 9+
+			$this->expectNotice();
+			$this->expectNoticeMessage($EEM);
 		}
 		GetFieldLength($db, 'acid_ip_cache','How');
 	}
