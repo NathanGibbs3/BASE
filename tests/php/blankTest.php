@@ -1,6 +1,11 @@
 <?php
 use PHPUnit\Framework\TestCase;
 
+// Test fucntions in: 
+/**
+  * Code Coverage Directives.
+  */
+
 class BlankTest extends TestCase {
 	// Tests go here.
 	public function testSomething() {

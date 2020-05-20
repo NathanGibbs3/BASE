@@ -60,15 +60,17 @@ class baseCon {
 			$this->DB_class = 0;
 		}
 	}
-  function baseDBConnect($method, $database, $host, $port, $username, $password, $force = 0)
-  {
-    GLOBAL $archive_dbname, $archive_host, $archive_port, $archive_user, $archive_password, $debug_mode;
-    
-    // Check archive cookie to see if they want to be using the archive tables
-    // and check - do we force to use specified database even if archive cookie is set
-    if ( (@$_COOKIE['archive'] == 1) && ($force != 1) )
-    {
-      // Connect to the archive tables
+	function baseDBConnect(
+		$method, $database, $host, $port, $username, $password, $force = 0
+	){
+		GLOBAL $archive_dbname, $archive_host, $archive_port, $archive_user,
+		$archive_password, $debug_mode;
+		// Check archive cookie to see if we need to use the archive tables.
+		// Only honnor cookie if not forced to use specified database.
+		if ( $force != 1 &&
+			( isset($_COOKIE['archive']) && $_COOKIE['archive'] == 1 )
+		){
+			// Connect to the archive tables.
       if ($debug_mode > 0)
       {
         print "<BR><BR>\n" . __FILE__ . ":" . __LINE__ . ": DEBUG: Connecting to archive db.<BR><BR>\n\n";
@@ -386,16 +388,28 @@ class baseCon {
 		}
 		return $msg;
 	}
-  function baseTableExists($table)
-  {
-     if ($this->DB_type == "oci8") $table=strtoupper($table);
-
-     if ( in_array($table, $this->DB->MetaTables()) )
-        return 1;
-     else 
-        return 0;
-  }
-
+	function baseFieldExists($table,$field){
+		$Ret = 0;
+		if ( $this->baseTableExists($table) ){
+			if ( in_array($field, $this->DB->metacolumnNames($table)) ){
+				$Ret = 1;
+			}
+		}
+		return $Ret;
+	}
+	function baseTableExists($table){
+		$Ret = 0;
+		// @codeCoverageIgnoreStart
+		// We hane no way of testing Oracle functionality.
+		if ( $this->DB_type == 'oci8' ){
+			$table=strtoupper($table);
+		}
+		// @codeCoverageIgnoreEnd
+		if ( in_array($table, $this->DB->MetaTables()) ){
+			$Ret = 1;
+		}
+		return $Ret;
+	}
   function baseIndexExists($table, $index_name)
   {
      if ( in_array($index_name, $this->DB->MetaIndexes($table)) )
@@ -547,8 +561,7 @@ class baseCon {
      return $this->version;
   }
 
-  function getSafeSQLString($str)
-  {
+	function getSafeSQLString($str){
    $t = str_replace("\\", "\\\\", $str);
    if ($this->DB_type != "mssql" && $this->DB_type != "oci8" )
      $t = str_replace("'", "\'", $t);
@@ -557,8 +570,7 @@ class baseCon {
    $t = str_replace("\"", "\\\\\"", $t);
 
    return $t;
-  }
-
+	}
 }
 
 class baseRS {
@@ -782,7 +794,7 @@ function NewBASEDBConnection($path, $type){
 		include($path.'adodb.inc.php');
 	}else{
 		$msg = _ERRSQLDBALLOAD1.'"'.XSSPrintSafe($path).'"'._ERRSQLDBALLOAD2;
-		if ( $version[0] > 5 || ( $version[0] == 5 && $version[1] > 2) ){
+		if ( $version[0] > 5 || ( $version[0] == 5 && $version[1] > 1) ){
 			$tmp = 'https://github.com/ADOdb/ADOdb';
 		}else{
 			$tmp = 'https://sourceforge.net/projects/adodb';
@@ -832,6 +844,28 @@ function ClearDataTables($db)
   $db->baseExecute("DELETE FROM signature");
   $db->baseExecute("DELETE FROM tcphdr");
   $db->baseExecute("DELETE FROM udphdr");
-} 
-// vim:tabstop=2:shiftwidth=2:expandtab
+}
+// Get Max Length of field in table.
+function GetFieldLength($db,$table,$field) {
+	$Epfx = 'BASE ' . __FUNCTION__ . '() ';
+	$Emsg = '';
+	$Ret = -1;
+	if ( !(is_object($db)) ){
+		$Emsg = $Epfx."Invalid DB Object.";
+	}else{
+		if ( !(LoadedString($table) && $db->baseTableExists($table)) ){
+			$Emsg = $Epfx."Invalid Table.";
+		}elseif (
+			!( LoadedString($field) && $db->baseFieldExists($table,$field))
+		){
+			$Emsg = $Epfx."Invalid Field.";
+		}
+	}
+	if ( $Emsg != ''){
+		trigger_error($Emsg);
+	}else{
+		$Ret = $db->DB->metacolumns($table)[strtoupper($field)]->max_length;
+	}
+	return $Ret;
+}
 ?>

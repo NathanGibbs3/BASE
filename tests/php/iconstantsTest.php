@@ -5,6 +5,7 @@ use PHPUnit\Framework\TestCase;
 
 /**
   * @covers ::SetConst
+  * @uses ::LoadedString
   */
 class constantsTest extends TestCase {
 

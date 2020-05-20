@@ -6,6 +6,7 @@ use PHPUnit\Framework\TestCase;
   * @covers ::GetQueryResultID
   * @covers ::GetVendor
   * @covers ::Htmlcolor
+  * @covers ::LoadedString
   * @covers ::Percent
   * @uses ::CleanVariable
   */
@@ -170,10 +171,27 @@ class base_commonTest extends TestCase {
 			'Unexpected Return Value.'
 		);
 	}
+	public function testLoadedStringNotString() {
+		$this->assertFalse(
+			LoadedString(1),
+			'Unexpected return SetConst().'
+		);
+	}
+	public function testLoadadStringEmpty() {
+		$this->assertFalse(
+			LoadedString(''),
+			'Unexpected return SetConst().'
+		);
+	}
+	public function testLoadedStringFull() {
+		$this->assertTrue(
+			LoadedString('Valid'),
+			'Unexpected return SetConst().'
+		);
+	}
 
 	// Add code to a function if needed.
 	// Stop here and mark test incomplete.
 	//$this->markTestIncomplete('Incomplete Test.');
 }
-
 ?>

@@ -20,6 +20,7 @@ class authTest extends TestCase {
 		GLOBAL $BASE_path, $DBlib_path, $DBtype, $debug_mode, $alert_dbname,
 		$alert_host, $alert_user, $alert_password, $alert_port,
 		$db_connect_method, $db;
+		$tf = __FUNCTION__;
 		// Setup DB System.
 		$TRAVIS = getenv('TRAVIS');
 		if (!$TRAVIS){ // Running on Local Test System.
@@ -58,6 +59,9 @@ class authTest extends TestCase {
 					"   Found ADODB in location: ".ADODB_DIR
 				);
 			}else{
+				if ($debug_mode > 1) {
+					LogTC($tf,'DB',"$alert_dbname@$alert_host:$alert_port");
+				}
 				$db->baseDBConnect(
 					$db_connect_method, $alert_dbname, $alert_host,
 					$alert_port, $alert_user, $alert_password
