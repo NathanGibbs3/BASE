@@ -182,21 +182,22 @@ function baseGetHostByAddr($ipaddr, $db, $cache_lifetime){
   $result = $db->baseExecute($sql);
   $ip_cache = $result->baseFetchRow();
 	// Fix Issue #58
-	// Get the length of the ipc-fqdn field from the DB.
-	$maxlength = GetFieldLength($db,'acid_ip_cache','ipc_fqdn');
-	$tmpfqdn = gethostbyaddr($ipaddr);
-	if ( strlen($tmpfqdn) > $maxlength) { // Concat data at to maxlength.
-		$tmp = substr($tmpfqdn, -$maxlength);
-		$Emsg = $Epfx;
-		$Emsg .= "DB Field Overflow, FQDN for $ipaddr concatenated to $tmp. ";
-		$Emsg .= 'See: https://github.com/NathanGibbs3/BASE/issues/58';
-//		error_log($Emsg);
-		// Using trigger_error, as error_log trips up the Unit tests that
-		// currently requirs process isolation. We should be able to fix this
-		// once we fix Issue #11.
-		trigger_error($Emsg);
-	}else{
-		$tmp = $tmpfqdn;
+	$tmp = gethostbyaddr($ipaddr);
+	// Doesn't affect postgresql. Only run on other DB engines.
+	if ( $db->DB_type != 'postgres' ){
+		// Get the length of the ipc-fqdn field from the DB.
+		$maxlength = GetFieldLength($db,'acid_ip_cache','ipc_fqdn');
+		if ( strlen($tmp) > $maxlength) { // Concat data at to maxlength.
+			$tmp = substr($tmp, -$maxlength);
+			$Emsg = $Epfx;
+			$Emsg .= "DB Field Overflow, FQDN for $ipaddr concatenated to $tmp. ";
+			$Emsg .= 'See: https://github.com/NathanGibbs3/BASE/issues/58';
+//			error_log($Emsg);
+			// Using trigger_error, as error_log trips up the Unit tests that
+			// currently requirs process isolation. We should be able to fix
+			// this once we fix Issue #11.
+			trigger_error($Emsg);
+		}
 	}
 	if ( $ip_cache == "" ){ // Cache miss. Add to cache.
      if( $db->DB_type == "oci8" )
