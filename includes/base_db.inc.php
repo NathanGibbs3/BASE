@@ -864,10 +864,30 @@ function GetFieldLength($db,$table,$field) {
 	if ( $Emsg != ''){
 		trigger_error($Emsg);
 	}else{
-		$wresult = $db->DB->metacolumns($table);
-		$wf = strtoupper($field);
-		$tmp = $wresult[$wf];
-		$Ret = $tmp->max_length;
+		$table = $db->getSafeSQLString ($table); // Some input cleanup.
+		$field = $db->getSafeSQLString ($field);
+		$wdbn = $db->DB_name; // Get current DB name.
+		$wdbt = $db->DB_type; // Get current DB type.
+		if ($wdbt == "oci8"){ // Oracle
+			// @codeCoverageIgnoreStart
+			// We hane no way of testing Oracle functionality.
+			$wist = "all_tab_";
+			$wcc = "char_length";
+			$wsm = "owner";
+			// @codeCoverageIgnoreEnd
+		}else{ // Mysql/MariaDB, MsSQL, PostGresql
+			$wist = "information_schema.";
+			$wcc = "character_maximum_length";
+			$wsm = "table_schema";
+		}
+		$wist .= "columns";
+		$wsql = "SELECT $wcc FROM $wist WHERE ".
+		"$wsm = '$wdbn' AND table_name = '$table' AND column_name = '$field' ";
+		$wresult = $db->baseExecute($wsql);
+		$wrow = $wresult->baseFetchRow();
+		if ( $wrow != '' ){
+			$Ret = $wrow[0];
+		}
 	}
 	return $Ret;
 }
