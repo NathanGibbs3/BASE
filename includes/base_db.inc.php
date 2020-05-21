@@ -849,7 +849,7 @@ function ClearDataTables($db)
 function GetFieldLength($db,$table,$field) {
 	$Epfx = 'BASE ' . __FUNCTION__ . '() ';
 	$Emsg = '';
-	$Ret = -1;
+	$Ret = 0;
 	if ( !(is_object($db)) ){
 		$Emsg = $Epfx."Invalid DB Object.";
 	}else{

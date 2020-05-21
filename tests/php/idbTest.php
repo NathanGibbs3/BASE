@@ -175,7 +175,7 @@ class dbTest extends TestCase {
 		// Test conditions will throw error.
 		// Use error suppression @ symbol.
 		$this->assertEquals(
-			-1,
+			0,
 			@GetFieldLength('db','What','How'),
 			'Unexpected return GetFieldLength().'
 		);
@@ -207,7 +207,7 @@ class dbTest extends TestCase {
 		// Test conditions will throw error.
 		// Use error suppression @ symbol.
 		$this->assertEquals(
-			-1,
+			0,
 			@GetFieldLength($db, 1,2),
 			'Unexpected return GetFieldLength().'
 		);
@@ -239,7 +239,7 @@ class dbTest extends TestCase {
 		// Test conditions will throw error.
 		// Use error suppression @ symbol.
 		$this->assertEquals(
-			-1,
+			0,
 			@GetFieldLength($db, 'acid_ip_cache',2),
 			'Unexpected return GetFieldLength().'
 		);
@@ -271,7 +271,7 @@ class dbTest extends TestCase {
 		// Test conditions will throw error.
 		// Use error suppression @ symbol.
 		$this->assertEquals(
-			-1,
+			0,
 			@GetFieldLength($db, '',2),
 			'Unexpected return GetFieldLength().'
 		);
@@ -303,7 +303,7 @@ class dbTest extends TestCase {
 		// Test conditions will throw error.
 		// Use error suppression @ symbol.
 		$this->assertEquals(
-			-1,
+			0,
 			@GetFieldLength($db, 'acid_ip_cache',''),
 			'Unexpected return GetFieldLength().'
 		);
@@ -335,7 +335,7 @@ class dbTest extends TestCase {
 		// Test conditions will throw error.
 		// Use error suppression @ symbol.
 		$this->assertEquals(
-			-1,
+			0,
 			@GetFieldLength($db, 'what','ipc_fqdn'),
 			'Unexpected return GetFieldLength().'
 		);
@@ -367,7 +367,7 @@ class dbTest extends TestCase {
 		// Test conditions will throw error.
 		// Use error suppression @ symbol.
 		$this->assertEquals(
-			-1,
+			0,
 			@GetFieldLength($db, 'acid_ip_cache','How'),
 			'Unexpected return GetFieldLength().'
 		);

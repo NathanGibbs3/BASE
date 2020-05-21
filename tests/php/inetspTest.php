@@ -22,6 +22,13 @@ class netSPTest extends TestCase {
 		GLOBAL $BASE_path, $DBlib_path, $DBtype, $debug_mode, $alert_dbname,
 			$alert_host, $alert_user, $alert_password, $alert_port,
 			$db_connect_method, $db;
+		// Issue #36 Cutout.
+		// See: https://github.com/NathanGibbs3/BASE/issues/36
+		$PHPV = GetPHPV();
+		$PSM = getenv('SafeMode');
+		if (version_compare($PHPV, '5.4', '<') && $PSM == 1){
+			self::markTestSkipped();
+		}
 		$tf = __FUNCTION__;
 		// Setup DB System.
 		$TRAVIS = getenv('TRAVIS');
@@ -191,6 +198,7 @@ class netSPTest extends TestCase {
 		$tip = '199.167.193.37';
 		$thn = 'cmpublishers.com';
 		$ip32 = baseIP2long($tip);
+		baseGetHostByAddr($tip,$db,-10);
 		$sql = "SELECT ipc_ip,ipc_fqdn,ipc_dns_timestamp".
 		" FROM acid_ip_cache  WHERE ipc_ip = '$ip32' ";
 		$result = $db->baseExecute($sql);
@@ -216,8 +224,8 @@ class netSPTest extends TestCase {
 		define('_ERRRESOLVEADDRESS','Unable to resolve address');
 		$tip = '127.0.0.254';
 		$thn = '<I>Unable to resolve address</I>';
-		baseGetHostByAddr($tip,$db,-10);
 		$ip32 = baseIP2long($tip);
+		baseGetHostByAddr($tip,$db,-10);
 		$sql = "SELECT ipc_ip,ipc_fqdn,ipc_dns_timestamp".
 		" FROM acid_ip_cache  WHERE ipc_ip = '$ip32' ";
 		$result = $db->baseExecute($sql);
