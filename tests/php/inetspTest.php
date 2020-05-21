@@ -259,46 +259,56 @@ class netSPTest extends TestCase {
 	}
 	public function testbaseGetHostByAddrValidIpOverflowFQDNThrowsError() {
 		$db = self::$db;
-		// Remove once we TD migrate this.
-		define('_ERRRESOLVEADDRESS','Unable to resolve address');
-		$EEM = "BASE baseGetHostByAddr() DB Field Overflow, FQDN for ";
-		$EEM .= "3.24.117.66 concatenated to ";
-		$EEM .= "2-3-24-117-66.ap-southeast-2.compute.amazonaws.com. ";
-		$EEM .= "See: https://github.com/NathanGibbs3/BASE/issues/58";
-		$PHPUV = GetPHPUV();
-		if (version_compare($PHPUV, '3.0', '<')) {
-			$this->markTestSkipped('Requires Phpunit 3+ to run.');
-		}elseif (version_compare($PHPUV, '5.0', '<')) { // PHPUnit 3x - 4x
-			$this->setExpectedException(
-				"PHPUnit_Framework_Error_Notice", $EEM
-			);
-		}elseif (version_compare($PHPUV, '6.0', '<')) { // PHPUnit 5x
-			$this->expectException("PHPUnit_Framework_Error_Notice");
-			$this->expectExceptionMessage($EEM);
-		}elseif (version_compare($PHPUV, '9.0', '<')) { // PHPUnit 6x - 8x
-			$this->expectException("PHPUnit\Framework\Error\Notice");
-			$this->expectExceptionMessage($EEM);
-		}else{ // PHPUnit 9+
-			$this->expectNotice();
-			$this->expectNoticeMessage($EEM);
+		if ($db->DB_type == 'postgres' ){
+			// Doesn't apply to postgresql, so Pass.
+			$this->assertTrue(true,'Passing Test.');
+		}else{
+			// Remove once we TD migrate this.
+			define('_ERRRESOLVEADDRESS','Unable to resolve address');
+			$EEM = "BASE baseGetHostByAddr() DB Field Overflow, FQDN for ";
+			$EEM .= "3.24.117.66 concatenated to ";
+			$EEM .= "2-3-24-117-66.ap-southeast-2.compute.amazonaws.com. ";
+			$EEM .= "See: https://github.com/NathanGibbs3/BASE/issues/58";
+			$PHPUV = GetPHPUV();
+			if (version_compare($PHPUV, '3.0', '<')) {
+				$this->markTestSkipped('Requires Phpunit 3+ to run.');
+			}elseif (version_compare($PHPUV, '5.0', '<')) { // PHPUnit 3x - 4x
+				$this->setExpectedException(
+					"PHPUnit_Framework_Error_Notice", $EEM
+				);
+			}elseif (version_compare($PHPUV, '6.0', '<')) { // PHPUnit 5x
+				$this->expectException("PHPUnit_Framework_Error_Notice");
+				$this->expectExceptionMessage($EEM);
+			}elseif (version_compare($PHPUV, '9.0', '<')) { // PHPUnit 6x - 8x
+				$this->expectException("PHPUnit\Framework\Error\Notice");
+				$this->expectExceptionMessage($EEM);
+			}else{ // PHPUnit 9+
+				$this->expectNotice();
+				$this->expectNoticeMessage($EEM);
+			}
+			$tip = '3.24.117.66';
+			$thn = '2-3-24-117-66.ap-southeast-2.compute.amazonaws.com';
+			baseGetHostByAddr($tip,$db,10);
 		}
-		$tip = '3.24.117.66';
-		$thn = '2-3-24-117-66.ap-southeast-2.compute.amazonaws.com';
-		baseGetHostByAddr($tip,$db,10);
 	}
 	public function testbaseGetHostByAddrValidIpOverflowFQDNReturnsExpected() {
 		$db = self::$db;
-		// Remove once we TD migrate this.
-		define('_ERRRESOLVEADDRESS','Unable to resolve address');
-		$tip = '3.24.117.66';
-		$thn = '2-3-24-117-66.ap-southeast-2.compute.amazonaws.com';
-		// Test conditions will throw error.
-		// Use error suppression @ symbol.
-		$this->assertEquals(
-			$thn,
-			@baseGetHostByAddr($tip,$db,10),
-			'Unexpected return baseGetHostByAddr().'
-		);
+		if ($db->DB_type == 'postgres' ){
+			// Doesn't apply to postgresql, so Pass.
+			$this->assertTrue(true,'Passing Test.');
+		}else{
+			// Remove once we TD migrate this.
+			define('_ERRRESOLVEADDRESS','Unable to resolve address');
+			$tip = '3.24.117.66';
+			$thn = '2-3-24-117-66.ap-southeast-2.compute.amazonaws.com';
+			// Test conditions will throw error.
+			// Use error suppression @ symbol.
+			$this->assertEquals(
+				$thn,
+				@baseGetHostByAddr($tip,$db,10),
+				'Unexpected return baseGetHostByAddr().'
+			);
+		}
 	}
 
 	// Add code to a function if needed.
