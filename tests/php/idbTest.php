@@ -374,18 +374,23 @@ class dbTest extends TestCase {
 	}
 	public function testGetFieldLengthFullSchemaSweep(){
 		$db = self::$db;
-		$wtds = array (
-			'key1' => 'acid_event,sig_name,255',
-			'key2' => 'acid_ag,ag_name,40',
-			'key3' => 'acid_ip_cache,ipc_fqdn,50'
-		);
-		foreach($wtds as $wtd){
-			$wtps = explode(',', $wtd);
-			$this->assertEquals(
-				$wtps[2],
-				GetFieldLength($db, $wtps[0],$wtps[1]),
-				'Unexpected return GetFieldLength().'
+		if ($db->DB_type == 'postgres' ){
+			// Doesn't apply to postgresql, so Pass.
+			$this->assertTrue(true,'Passing Test.');
+		}else{
+			$wtds = array (
+				'key1' => 'acid_event,sig_name,255',
+				'key2' => 'acid_ag,ag_name,40',
+				'key3' => 'acid_ip_cache,ipc_fqdn,50'
 			);
+			foreach($wtds as $wtd){
+				$wtps = explode(',', $wtd);
+				$this->assertEquals(
+					$wtps[2],
+					GetFieldLength($db, $wtps[0],$wtps[1]),
+					'Unexpected return GetFieldLength().'
+				);
+			}
 		}
 	}
 
@@ -393,5 +398,4 @@ class dbTest extends TestCase {
 	// Stop here and mark test incomplete.
 	//$this->markTestIncomplete('Incomplete Test.');
 }
-
 ?>
