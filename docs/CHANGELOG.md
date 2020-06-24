@@ -22,17 +22,17 @@ on sourceforge.net by Brian. Original ID: 2899177
 - Added some debug code to take on bug #2880551  
 Bug [reported](https://sourceforge.net/p/secureideas/bugs/228/)
 on sourceforge.net. Original ID: 2880551   
-Contibutor(s): Juergen Leising
+Contributor(s): Juergen Leising
 ### Changed
 - Snort SID lookup.  
 Now matches new functionality in the snort.org web site.
 Such a lookup needs a URL, such as http://www.snort.org/search/sid/1-2003 .
-Contibutor(s): 
+Contributor(s): 
   - Shawn Jefferson from the "Snort-users" mailing list on Feb, 23rd 2010.
   - Juergen Leising
   - Kevin Johnson
 - Contrib code base-rss.  
-Contibutor(s): Dan Michitsch
+Contributor(s): Dan Michitsch
 ### Fixed
 - Display of archived Alerts.  
 While the alerts have been archived correctly, any lookups of them in the 
@@ -60,15 +60,15 @@ However, a fix is possible, if the IMAGE_CANVAS_SYSTEM_FONT_PATH
 in /usr/share/pear/Image/Canvas.php from the PEAR::Image::Canvas library gets
 defined properly. The fontmap.txt file does NOT matter, any more.  
 See docs/README.graph_alert_data for details.  
-Contibutor(s): Juergen Leising
+Contributor(s): Juergen Leising
 - IP address encoding problem in base_payload.php:  
 This refers to non-flop databases only.  
 Bug [reported](https://sourceforge.net/p/secureideas/bugs/233/)
 on sourceforge.net. Original ID: 2889623.  
-Contibutor(s): Brian Brzezicki & Brad Benson Discovery & patch.
+Contributor(s): Brian Brzezicki & Brad Benson Discovery & patch.
 ### Security
 - XSS flaws in base_local_rules.php:  
-Contibutor(s):
+Contributor(s):
   - Dave Hull -- XSS Scan
   - Kevin Johnson
 
@@ -80,7 +80,7 @@ Rewrote code that produces a link to a local directory with documentation for
 alerts in front of the signature names.  
 Bug [reported](https://sourceforge.net/p/secureideas/bugs/216/)
 on sourceforge.net. Original ID: 2808527
-Contibutor(s):
+Contributor(s):
   - Akos Daniel - Report
   - Juergen Leising
 ### Fixed
@@ -114,21 +114,21 @@ on sourceforge.net.
 Anonymously submitted patch applied and roughly tested.
 Bug [reported](https://sourceforge.net/p/secureideas/bugs/220/)
 on sourceforge.net. Original ID: 2825018  
-Contibutor(s): Juergen Leising
+Contributor(s): Juergen Leising
 ### Security
 - SQLI flaw.  
-Contibutor(s):
+Contributor(s):
   - Peter Österberg - Report
   - Kevin Johnson
 - XSS and LFI in base_local_rules.php  
-Contibutor(s):
+Contributor(s):
   - Clint Ruoho - Report
   - Kevin Johnson
 
 ## [1.4.3.1 (zig)] - 2009-05-30
 ### Security
 - Multiple XSS flaws in User and Role management.  
-Contibutor(s): Kevin Johnson
+Contributor(s): Kevin Johnson
 
 ## [1.4.3 (gabi)] - 2009-05-14
 ### Security
@@ -136,45 +136,94 @@ Contibutor(s): Kevin Johnson
  - Potential SQLI flaw in AG.
  - XSS Flaws in base_qry files.
  - Multiple XSS flaws in citems.  
-Contibutor(s): Kevin Johnson
+Contributor(s): Kevin Johnson
 
 ## [1.4.2 (chandy)] - 2009-04-03
-    - EmThreats_link opens now in separate browser window -- Juergen Leising for Micah Gersten
-    - A new reference "[rule]" points now to base_local_rules.php, 
-      which displays a particular rule for a given rules id (sid).
-      Prerequisite for this is that "local_rules_dir" in base_conf.php
-      points to an actually existing and readable/searchable directory which 
-      contains the snort rules.  Please note, that a web server
-      is usually NOT allowed to access any files outside of its
-      document root.  Feature request by Chris Ryan, cf.
-      https://sourceforge.net/forum/message.php?msg_id=5310420
-      https://sourceforge.net/forum/message.php?msg_id=5311517
-      -- Juergen Leising
-    - Update of base.spec; works with fedora 10 -- Juergen Leising
-    - I have applied two patches submitted by asavenkov
-      with regard to the oci8 driver (oracle 10), cf.
-      https://sourceforge.net/forum/message.php?msg_id=5795641
-      https://sourceforge.net/forum/message.php?msg_id=5796556
-      -- Juergen Leising
-    - The "email-the-alerts"-variables were defined twice at different
-      locations in base_conf.php.  Fixed this.  -- Juergen Leising
-    - Emails from BASE containing one or more alerts include now a
-      "To:"-header, as well.  Bug report no. 2234733 -- Juergen Leising
-    - $sort_order, once it has been chosen, survives now a possible "action",
-      even in base_stat_uaddr.php, base_stat_ports.php, base_stat_iplink.php,
-      base_stat_class.php and base_stat_sensor.php. 
-      Bug no. 2234745. -- Juergen Leising
-    - The refresh-problem, when an "action" has been taken, is now fixed in
-      base_stat_uaddr.php, base_stat_ports.php, base_stat_iplink.php,
-      base_stat_class.php and base_stat_sensor.php, as well. 
-      Bug no. 1681012. -- Juergen Leising
-    - I have corrected the way ICMP redirect messages are displayed
-      by BASE, inspired by Bruno G. San Alejo. -- Juergen Leising
-    - Several preprocessor events that did not get stored in the acid_event
-      table, so far, are now processed and displayed by BASE.  This affects
-      all those preprocessors which have sig names that do NOT start with
-      a "spp_" prefix. -- Juergen Leising
-    - Fixed bug with archiving IP options. -- Juergen Leising
+### Added
+- A new reference "[rule]" now points to base_local_rules.php, which displays
+a particular rule for a given rules id (sid).
+  - Prerequisite for this is that "local_rules_dir" in base_conf.php points to
+an actually existing and readable/searchable directory which contain the
+snort rules.
+  - Please note, that a web server is usually **NOT** allowed to access any
+files outside of its document root.  
+Bug [reported](https://sourceforge.net/forum/message.php?msg_id=5310420)
+on sourceforge.net.  
+Bug [reported](https://sourceforge.net/forum/message.php?msg_id=5311517)
+on sourceforge.net.  
+Contributor(s):
+  - Chris Ryan - Feature Request
+  - Juergen Leising
+### Changed
+- EmThreats_link now opens in separate browser window/tab.
+Bug [reported](https://sourceforge.net/p/secureideas/bugs/199/)
+on sourceforge.net.  
+Contributor(s):
+  - Micah Gersten - Report & patch.
+  - Juergen Leising.
+- Update of base.spec; works with fedora 10.
+Contributor(s): Juergen Leising
+### Fixed
+- Oracle 10 DB Issues.  
+Bug [reported](https://sourceforge.net/forum/message.php?msg_id=5795641)
+on sourceforge.net.  
+Bug [reported](https://sourceforge.net/forum/message.php?msg_id=5796556)
+on sourceforge.net.  
+Contributor(s):
+  - asavenkov - Report & patches.
+  - Juergen Leising.
+- Duplicate variable defines in base_conf.php.  
+The "email-the-alerts"-variables were defined twice.
+- Archiving IP options Issue.
+Contributor(s): Juergen Leising
+- Email action empty recipient field.  
+Emails from BASE containing one or more alerts now include a "To:"-header, as
+well.  
+Bug [reported](https://sourceforge.net/p/secureideas/bugs/207/)
+on sourceforge.net. Original ID: 2234733
+- Loss of Sort Order when action applied to alerts.  
+$sort_order, once it has been chosen, now survives an "action".  
+Affected files:
+  - base_stat_uaddr.php
+  - base_stat_ports.php
+  - base_stat_iplink.php
+  - base_stat_class.php
+  - base_stat_sensor.php  
+Bug [reported](https://sourceforge.net/p/secureideas/bugs/208/)
+on sourceforge.net. Original ID: 2234745  
+Contributor(s):
+  - Reported anonymously.
+  - Juergen Leising
+- Page refresh issue.  
+All pages would refresh after an "action" has been taken. Even pages that
+didn't need to.  
+Affected files:
+  - base_stat_uaddr.php
+  - base_stat_ports.php
+  - base_stat_iplink.php
+  - base_stat_class.php
+  - base_stat_sensor.php  
+Bug [reported](https://sourceforge.net/p/secureideas/bugs/171/)
+on sourceforge.net. Original ID: 1681012  
+Contributor(s):
+  - Jordan Wiens - Report.
+  - Juergen Leising.
+- Display of ICMP redirect messages.  
+Contributor(s):
+  - Bruno G. San Alejo
+  - Juergen Leising
+- Preprocessor alert handling issue.  
+Several preprocessor events that did not get stored in the acid_event table,
+so far, are now processed and displayed by BASE. This affects all those
+preprocessors which have sig names that do NOT start with an "spp_" prefix.  
+Bug [reported](https://sourceforge.net/p/secureideas/discussion/404428/thread/a1df8608/)
+on sourceforge.net.  
+Contributor(s):
+  - Trey Beck - Report.
+  - Juergen Leising.
+    
+    
+    
 
 ## [1.4.1 (lara)] - 2008-06-29
     - Fixed moving alerts with empty sig_priority -- Kevin Johnson for Michel Lundell
@@ -561,7 +610,7 @@ Contibutor(s): Kevin Johnson
 ## [1.0.2 (racquel)] - 2005-02-13
 ### Added
 - DShield.org IP Info page.  
-Contibutor(s): Kevin Johnson
+Contributor(s): Kevin Johnson
 ### Fixed
 
     - Fixed host cache expiry issue -- Thanks to Michael Stone for the heads up
@@ -591,36 +640,36 @@ Contibutor(s): Kevin Johnson
   - Chinese -- Johnson Chiang
   - Indonesian -- Rachim Tamsjadi
 - Better display of error messages.  
-Contibutor(s): Jason Dixon
+Contributor(s): Jason Dixon
 ### Changed
 - Code Cleanup.
   - Include code that limits number of includes per file.  
 Issue [opened](https://github.com/NathanGibbs3/BASE/issues/63)
 on github.com to failitate continued tracking of this.
   - Removed regex from base_db.inc.php and related WHERE clauses.  
-Contibutor(s): Kevin Johnson
+Contributor(s): Kevin Johnson
 ### Fixed
 - Alert Group Issues.  
-Contibutor(s): Tim Rupp
+Contributor(s): Tim Rupp
 - Postgres sql files.
 Bug [reported](https://sourceforge.net/p/secureideas/bugs/9/)
 on sourceforge.net. Original ID: Unknown
-Contibutor(s):
+Contributor(s):
   - Jeff Balderson - Report & patch.
   - Kevin Johnson
 - Postgress issues.
 - User add issue.  
 Adding a user after deleting one that was not the last user added caused this.  
 - Graphing issues.  
-Contibutor(s): Kevin Johnson
+Contributor(s): Kevin Johnson
 - Setup bugs.  
-Contibutor(s): Michiel Brendel    
+Contributor(s): Michiel Brendel    
 - "Duplicate Entry" errors.  
-Contibutor(s): pr00f at users.sourceforge.net    
+Contributor(s): pr00f at users.sourceforge.net    
 - MSSQL setup scripts did not correctly insert roles.  
-Contibutor(s): Alan Vallance
+Contributor(s): Alan Vallance
 - Postgresql setup issues.  
-Contibutor(s): Jason Dixon
+Contributor(s): Jason Dixon
 
 ---
 
@@ -638,11 +687,11 @@ function SensorCnt() created to handle this.
 - Checks on each page to determine if you are logged in.
 - BASE tables to the PostGRES and the MSSQL files.
 - Added Upgrade script for 0.9.x -> 1.0 for MYSQL.  
-Contibutor(s): Kevin Johnson
+Contributor(s): Kevin Johnson
 - Added Refresh to multiple pages.  
 Bug [reported](https://sourceforge.net/p/secureideas/bugs/2/)
 on sourceforge.net. Original ID: 1048873  
-Contibutor(s): Arkadiusz Majer, Kevin Johnson
+Contributor(s): Arkadiusz Majer, Kevin Johnson
 - Translations:
   - English -- Kevin Johnson
   - Japanese -- Kenji
@@ -656,20 +705,20 @@ Contibutor(s): Arkadiusz Majer, Kevin Johnson
   - Italian -- DJ Echelon
   - Danish -- Kim Christensen
 - Nessus ref to base_conf.dist.  
-Contibutor(s): Christian Svensson
+Contributor(s): Christian Svensson
 - New Flow-Portscan functionality.  
-Contibutor(s): Scott Elgram & Jean-Marc
+Contributor(s): Scott Elgram & Jean-Marc
 ### Changed
 - Finished the User stuff! This framework will continue to be built upon but
 as of right now, I would consider it stable!
 - Naming of admin pages to match the rest of the project.
 - Role management system.
 - moved app_faq to help/.  
-Contibutor(s): Kevin Johnson
+Contributor(s): Kevin Johnson
 - Minor UI changes.  
-Contibutor(s): Joel Esler, Kevin Johnson
+Contributor(s): Joel Esler, Kevin Johnson
 - Formatting for/in base_signature.inc.php  
-Contibutor(s): Randy McEoin
+Contributor(s): Randy McEoin
 ### Fixed
 - Issue where people couldn't add a user if UseAuth was off.  
 Bug [reported](https://sourceforge.net/p/secureideas/bugs/6/)
@@ -678,7 +727,7 @@ on sourceforge.net.
 - Error with menus in the footer on any page but base_main.php.
 - Fixed password size in the database files.
 - Fixed issue with MSSQL tables creation commands.  
-Contibutor(s): Kevin Johnson
+Contributor(s): Kevin Johnson
 
 ## [0.9.9 (brenna)] - 2004-10-28
 ### Added
@@ -686,9 +735,9 @@ Contibutor(s): Kevin Johnson
 - GPL file.
 - User Preferences page.
 - Added listing of users to admin pages.
-Contibutor(s): Kevin Johnson
+Contributor(s): Kevin Johnson
 - URL signature reference.  
-Contibutor(s): Joel Esler
+Contributor(s): Joel Esler
 ### Changed
 - All acid functions to base functions.
   - base_db.inc.php
@@ -699,55 +748,55 @@ Bug [reported](https://sourceforge.net/p/secureideas/bugs/4/)
 on sourceforge.net. Original ID: 1051873
 - Auth functions are finished.
 - Completed all of the $BASE_path/ for includes.  
-Contibutor(s): Kevin Johnson
+Contributor(s): Kevin Johnson
 ### Removed
 - External links to SamSpade.
-Contibutor(s): Kevin Johnson
+Contributor(s): Kevin Johnson
 ### Fixed
 - Sort bug.  
 Bug [reported](https://sourceforge.net/p/secureideas/bugs/3/)
 on sourceforge.net. Original ID: 1051872  
-Contibutor(s): Chris Shepherd
+Contributor(s): Chris Shepherd
 - Error in include on base_stat_common.php,
-Contibutor(s): Justin Best
+Contributor(s): Justin Best
 
 ## [0.9.8 (dhara)] - 2004-10-14
 ### Added
 - PHP 5 support
 - Start of the capabilities class.  
-Contibutor(s): Chris Shepherd
+Contributor(s): Chris Shepherd
 - Header to prevent direct access to certain pages.
 - user class.
 - Start of the auth system.
 - File acid2base_tbls_mysql.sql.
 - admin/ and various files within it.
 - Added variables to base_conf.php.dist.  
-Contibutor(s): Kevin Johnson
+Contributor(s): Kevin Johnson
 ### Changed
 - Comment banner
 - Title bar
 - Function names in HTML output file.
 - Display of the summary graphs.
 - Rename html file to php in prep for the template system.
-Contibutor(s): Kevin Johnson
+Contributor(s): Kevin Johnson
 - Moved around the front page.  
 Bug [reported](https://sourceforge.net/p/secureideas/discussion/404428/thread/43cd4a58/?limit=25#3364)
 on sourceforge.net.  
-Contibutor(s):
+Contributor(s):
   - Patchset submitted anonymously.
   - Kevin Johnson
 - Look to use new CSS and various tweaks.  
-Contibutor(s): Walter B, Kevin Johnson
+Contributor(s): Walter B, Kevin Johnson
 ### Deprecated
 - ADODB Supoort. Future transition to PEAR:DB.  
-Contibutor(s): Kevin Johnson
+Contributor(s): Kevin Johnson
 ### Fixed
 - Datetime to timestamp error in create_base_tbls_pgsql.sql   
 Bug [reported](https://sourceforge.net/p/secureideas/bugs/1/)
 on sourceforge.net. Original ID: 1025011
 - Various typos.....
 - Year dropdowns via dispYearOptions().  
-Contibutor(s): Kevin Johnson
+Contributor(s): Kevin Johnson
 
 ## [0.9.7.1 (Francis)] - 2004-09-04
 ### Changed
