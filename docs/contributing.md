@@ -13,14 +13,14 @@ fixed the Issue. This can be found in either:
 sure to include a **title and clear description**, as much relevant
 information as possible, including the expected and current app behaviors.
 
-## Did you write a patch that fixes a Issue?
+## Did you write a patch that fixes an Issue?
 - Open a new GitHub pull request with the patch.
 - Ensure the PR description clearly describes the problem and solution.
 Include the relevant issue number if applicable.
 
 ## Did you write BASE related code or documentation?
 This means code or documentation that may not be suitable for inclusion in
-BASE itself; but may be useful to the BASE commnity.
+BASE itself; but may be useful to the BASE community.
 - Fork the [GitHub repo](https://github.com/NathanGibbs3/BASE).
 - Put contributed code in the contrib directory.
 - Put contributed documentation in the docs/contrib directory.

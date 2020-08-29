@@ -21,10 +21,11 @@ Bug [reported](https://sourceforge.net/p/secureideas/bugs/234/)
 on sourceforge.net by Brian. Original ID: 2899177  
 - Added some debug code to take on bug #2880551  
 Bug [reported](https://sourceforge.net/p/secureideas/bugs/228/)
-on sourceforge.net. Original ID: 2880551  
+on sourceforge.net. Original ID: 2880551
+
 Contributor(s): Juergen Leising
 ### Changed
-- Snort SID lookup.  
+- Snort,org SID lookup.  
 Now matches new functionality in the snort.org web site.
 Such a lookup needs a URL, such as http://www.snort.org/search/sid/1-2003 .  
 Contributor(s):
@@ -59,7 +60,8 @@ fedora 12 with php-5.3. This can not be fixed from inside BASE, any more.
 However, a fix is possible, if the IMAGE_CANVAS_SYSTEM_FONT_PATH
 in /usr/share/pear/Image/Canvas.php from the PEAR::Image::Canvas library gets
 defined properly. The fontmap.txt file does NOT matter, any more.  
-See docs/README.graph_alert_data for details.  
+See docs/README.graph_alert_data for details.
+
 Contributor(s): Juergen Leising
 - IP address encoding problem in base_payload.php:  
 This refers to non-flop databases only.  
@@ -110,11 +112,14 @@ on sourceforge.net.
   - No storage to cache in case of negative whois responses.
   - New search strings to find out when the whois query should be forwarded to
   some other whois server, other than the original one.
+
+Contributor(s): Juergen Leising
 - Email alert action issue.  
-Anonymously submitted patch applied and roughly tested.
 Bug [reported](https://sourceforge.net/p/secureideas/bugs/220/)
 on sourceforge.net. Original ID: 2825018  
-Contributor(s): Juergen Leising
+Contributor(s):
+  - Patch submitted anonymously.
+  - Juergen Leising
 ### Security
 - SQLI flaw.  
 Contributor(s):
@@ -132,21 +137,21 @@ Contributor(s): Kevin Johnson
 
 ## [1.4.3 (gabi)] - 2009-05-14
 ### Security
- - XSS Flaws in alert groups.
- - Potential SQLI flaw in AG.
- - XSS Flaws in base_qry files.
- - Multiple XSS flaws in citems.  
+- XSS Flaws in alert groups.
+- Potential SQLI flaw in AG.
+- XSS Flaws in base_qry files.
+- Multiple XSS flaws in citems.
+
 Contributor(s): Kevin Johnson
 
 ## [1.4.2 (chandy)] - 2009-04-03
 ### Added
 - A new reference "[rule]" now points to base_local_rules.php, which displays
-a particular rule for a given rules id (sid).
-  - Prerequisite for this is that "local_rules_dir" in base_conf.php points to
-an actually existing and readable/searchable directory which contain the
-snort rules.
-  - Please note, that a web server is usually **NOT** allowed to access any
-files outside of its document root.  
+a particular rule for a given rules id (sid).  
+The variable "local_rules_dir" in base_conf.php must point to an existing
+and readable/searchable directory which contain the snort rules.  
+NOTE: A web server is usually **NOT** allowed to access any files outside of
+its document root.  
 Bug [reported](https://sourceforge.net/forum/message.php?msg_id=5310420)
 on sourceforge.net.  
 Bug [reported](https://sourceforge.net/forum/message.php?msg_id=5311517)
@@ -155,7 +160,7 @@ Contributor(s):
   - Chris Ryan - Feature Request
   - Juergen Leising
 ### Changed
-- EmThreats_link now opens in separate browser window/tab.
+- EmThreats_link now opens in separate browser window/tab.  
 Bug [reported](https://sourceforge.net/p/secureideas/bugs/199/)
 on sourceforge.net.  
 Contributor(s):
@@ -174,7 +179,8 @@ Contributor(s):
   - Juergen Leising.
 - Duplicate variable defines in base_conf.php.  
 The "email-the-alerts"-variables were defined twice.
-- Archiving IP options Issue.  
+- Archiving IP options Issue.
+
 Contributor(s): Juergen Leising
 - Email action empty recipient field.  
 Emails from BASE containing one or more alerts now include a "To:"-header, as
@@ -183,31 +189,35 @@ Bug [reported](https://sourceforge.net/p/secureideas/bugs/207/)
 on sourceforge.net. Original ID: 2234733
 - Loss of Sort Order when action applied to alerts.  
 $sort_order, once it has been chosen, now survives an "action".  
-Affected files:
+Bug [reported](https://sourceforge.net/p/secureideas/bugs/208/)
+on sourceforge.net. Original ID: 2234745  
+Affected files:  
   - base_stat_uaddr.php
   - base_stat_ports.php
   - base_stat_iplink.php
   - base_stat_class.php
-  - base_stat_sensor.php  
-Bug [reported](https://sourceforge.net/p/secureideas/bugs/208/)
-on sourceforge.net. Original ID: 2234745  
-Contributor(s):
-  - Reported anonymously.
-  - Juergen Leising
+  - base_stat_sensor.php
+
+Contributor(s):  
+    - Reported anonymously.  
+    - Juergen Leising
+
 - Page refresh issue.  
 All pages would refresh after an "action" has been taken. Even pages that
 didn't need to.  
-Affected files:
+Bug [reported](https://sourceforge.net/p/secureideas/bugs/171/)
+on sourceforge.net. Original ID: 1681012
+Affected files:  
   - base_stat_uaddr.php
   - base_stat_ports.php
   - base_stat_iplink.php
   - base_stat_class.php
-  - base_stat_sensor.php  
-Bug [reported](https://sourceforge.net/p/secureideas/bugs/171/)
-on sourceforge.net. Original ID: 1681012  
-Contributor(s):
-  - Jordan Wiens - Report.
-  - Juergen Leising.
+  - base_stat_sensor.php
+
+Contributor(s):  
+    - Jordan Wiens - Report.  
+    - Juergen Leising.
+
 - Display of ICMP redirect messages.  
 Contributor(s):
   - Bruno G. San Alejo
@@ -231,7 +241,8 @@ on sourceforge.net. Original ID: 1659968
 preventing legends from being displayed with pie charts.
 - Information to the docs about how to fix a missing fonts problem.
 - A README about the usage of Jason Brvenik's SnortUnified plugin.
-- New coordinates file: world_map6.txt.  
+- New coordinates file: world_map6.txt.
+
 Contributor(s): Juergen Leising
 ### Changed
 - Translations:
@@ -242,10 +253,10 @@ Complete rewrite for building rpm packages of BASE. The base-contrib rpm
 should now be installable under fedora 9.
 - uf_csv.pl now generates IP addresses in human readable form.
 - Relative paths of the adodb library are converted to an absolute path.
-- Updates to Jason Brvenik's SnortUnified plugin.
-  - Fixed some smaller issues.
-  - Adjusted to work with perl-5.10 and Net::Packet-3.25, as shipped with
-  fedora 9.  
+- Updates to Jason Brvenik's SnortUnified plugin.  
+Fixed some smaller issues.  
+Adjusted to work with perl-5.10 and Net::Packet-3.25, as shipped with fedora 9.
+
 Contributor(s): Juergen Leising
 ### Fixed
 - Moving alerts with empty sig_priority.  
@@ -287,7 +298,8 @@ Same problem as in UpdateAlertCache() in base-php4/includes/base_cache.inc.php.
 - "Select Signature from List" issue in the query form.
 - Bug #2001211.  
 Bug [reported](https://sourceforge.net/p/secureideas/bugs/197/)
-on sourceforge.net. Original ID: 2001211  
+on sourceforge.net. Original ID: 2001211
+
 Contributor(s): Juergen Leising
 - Insufficient memory for the world map functions in base_graph_common.php.  
 Increased it from 50MB to 128MB.  
@@ -296,26 +308,26 @@ on sourceforge.net.
 Contributor(s):
   - Chris Ryan - Testing
   - Juergen Leising
-- Workarounds and fixes for:
-  1. "Fatal error: Call to a member function MoveNext() on a non-object in
-  /var/www/base-127/includes/base_db.inc.php on line 463". Workaround.
-  2. Improved error handling in base_action.inc.php: Errors are now shown in
+- Workarounds and fixes for:  
+1 "Fatal error: Call to a member function MoveNext() on a non-object in
+  /var/www/base-127/includes/base_db.inc.php on line 463". Workaround.  
+2 Improved error handling in base_action.inc.php: Errors are now shown in
   regular mode rather than with $debug_mode > 1.  Not every kind of error is a
-  duplicate error.
-  3. Fixed baseGetHostByAddr() in base_net.inc.php in cases, where it does not
-  get provided with a numerical ("dotted") IP address.
-  The "ERROR: invalid input syntax for integer is a rather late state", though.
-  4. Fixed a violation of referential integrity, that does not get accepted by
+  duplicate error.  
+3 Fixed baseGetHostByAddr() in base_net.inc.php in cases, where it does not
+  get provided with a numerical ("dotted") IP address. The "ERROR: invalid
+  input syntax for integer is a rather late state", though.  
+4 Fixed a violation of referential integrity, that does not get accepted by
   PostgreSQL, at least not by those ones of version 8.x.  
-  Cf. base_action.inc.php, where I have essentially moved the actions around
+NOTE: base_action.inc.php, where I have essentially moved the actions around
   the table "event" upwards, so that these lines get performed prior to lines
   that change/update any other tables.  
 Bug [reported](https://sourceforge.net/p/secureideas/bugs/174/)
 on sourceforge.net. Original ID: 1699443  
 Contributor(s):
-     - Jeff Balderson - Report & Testing.
-     - Chris Ryan - Testing.
-     - Juergen Leising.
+  - Jeff Balderson - Report & Testing.
+  - Chris Ryan - Testing.
+  - Juergen Leising.
 
 ---
 
@@ -572,56 +584,161 @@ Contributor(s): Jonathan W Minor
     - Fixed issue with TimeStamps -- Michael Stone
     - Fixed Fatal error in some installs -- Michael Stone
 
+---
+
 ## [1.1.1] - Missing from Legacy Changelog
 
 ## [1.1.0 (elizabeth)] - 2005-04-03
-    - Patch for PostgreSQL setup -- C. Bensend
-    - Added further comments to BASE_urlpath in base_conf -- Kevin Johnson for Jeff Kell
-    - Fixed bug #1123243 Call to undefined function in Whois Cache-- Tim Rupp
-    - Fixed a mixup that is on the Source and Destination Ports pages in the title -- Tim Rupp
-    - Fixed bug #1123247, Listing users with no users error -- Kevin Johnson
-    - Implemented RFE #1048868 Packet display -- Kevin Johnson
-    - Fixed bug #1123815. Applied patch submitted by anonymous user on SF  -- Tim Rupp
-    - Added $BASE_installID to base_conf.php to enable a unique install id -- Kevin Johnson for Al Reust
-    - Fixed bug #1116034 Lack of distinct results after clicking Src IP -- Tim Rupp for Alejandro Flores
-    - More fixes to the portuguese language file -- Thiago Martins
-    - Fixed bug #1143574 -- Tim Rupp
-    - Implemented RFE #1122502 Access to the archive database from the one BASE install -- Kevin Johnson
-    - Fixed bug #1144817 Pie charts not working -- Tim Rupp and Alejandro Flores
-    - Fixed Bug #1145254 Archive Database switching -- Kevin Johnson
-    - Fixed error in German language file -- Heinrich Lieker
-    - Added the FAQ to the docs/ -- Joel Esler
-    - Fixed Bug #1150681 Database summary display for the archives -- Kevin Johnson
-    - Put Archive in the title bar -- Kevin Johnson
-    - Fixed Bug #1150688 Archive Actions -- Kevin Johnson
-    - Implemented RFE #1150696 (Needs much more work) -- Kevin Johnson
-    - Implemented RFE #1150789 Adding Archive to the hdr -- Kevin Johnson
-    - Started Implementing RFE #1114443 Support for Oracle -- Kevin Johnson
-    - Moved Payload Display link to the Payload section of the display -- Kevin
-    - Fixed Signature lookup for new Snort.org web site -- Kevin
-    - Fixed Bug #1164491 IP Links sorting issue -- Kevin Johnson
-    - Created cookie so that if you had selected clean payload display it would stick -- Kevin
-    - Created stand alone maintenance program -- Kevin
-    - Fixed bug in base_maintenance.pl -- Doug Mackie
-    - Fixed bug #1166158 Search Criteria lost -- Kevin Johnson
-    - Added authentication support to base_maintenance.pl -- Kevin Johnson
-    - Made the default in base_conf.php to not resolve FQDN -- Kevin
-    - Moved FORM tag before Timing box -- Kevin Johnson
-    - Fixed error with emailing from the AG page -- Ethan Chai
-    - Simplified search form -- Thom Dosedel
-    - Fixed much of the search sort issues -- Bruce Briggs
-    - Fixed Bug #1168587 PHP safe mode breaks BASE -- Kevin Johnson
-    - Implemented RFE #1144818 Simplify the graph form -- Thom Dosedel
-    - Fixed error where setup would die silently -- Thanks Jeff Nathan
-    - Fixed error with actions again -- Alejandro Flores and Tim Rupp
-    - Replaced jpgraph with PEAR::Image_Graph -- Alejandro Flores
-    - Removed $ChartLib_path and updated docs -- Kevin Johnson
-    - Added check to verify that the archive DB exists before allowing use of it -- Kevin Johnson
-    - Updated Spanish language file -- Ricardo Montañana Gómez
-    - Implemented RFE #1150696 Themes -- Kevin Johnson
-    - Fixed Search page "cannot use string as array offset" error again. Should be fixed for good now. -- Tim Rupp
+### Added
+- Packet display.  
+RFE [submitted](https://sourceforge.net/p/secureideas/feature-requests/2/)
+on sourceforge.net. Original ID: 1048868  
+Contributor(s):  
+  - Patrick Harper - RFE
+  - Kevin Johnson
+- Unique install ID variable to base_conf.php.  
+Contributor(s):  
+  - Al Reust - RFE
+  - Kevin Johnson
+- Access to the archive DB from one BASE install.  
+RFE [submitted](https://sourceforge.net/p/secureideas/feature-requests/18/)
+on sourceforge.net. Original ID: 1122502  
+Contributor(s):  
+  - RFE submitted anonymously.
+  - Kevin Johnson
+- FAQ to documentation.  
+Contributor(s): Joel Esler
+- Themes (Needs much more work).  
+RFE [submitted](https://sourceforge.net/p/secureideas/feature-requests/22/)
+on sourceforge.net. Original ID: 1150696
+- Add Archive to the page header & title.  
+RFE [submitted](https://sourceforge.net/p/secureideas/feature-requests/23/)
+on sourceforge.net. Original ID: 1150789
+- Oracle DB support.  
+RFE [submitted](https://sourceforge.net/p/secureideas/feature-requests/11/)
+on sourceforge.net. Original ID: 1114443  
+RFE [submitted](https://sourceforge.net/p/secureideas/feature-requests/29/)
+on sourceforge.net. Original ID: Unknown
+- Cookie to make payload display persistent.
+- Stand alone maintenance program. base_maintenance.pl.
+- Authentication support to base_maintenance.pl.
+- Check to verify the existence of the archive DB before allowing it's use.
 
----
+Contributor(s): Kevin Johnson
+### Changed
+- Portuguese Translation.  
+Contributor(s): Thiago Martins
+- German Translation.  
+Contributor(s): Heinrich Lieker
+- Spanish Translation.  
+Contributor(s): Ricardo Montañana Gómez
+- Payload Display link moved to the Payload section of the display.
+- Snort,org SID lookup.  
+Now matches new functionality in the snort.org web site.
+- Default value of variable "$resolve_IP" in base_conf.php.  
+New default is 0.
+- Moved FORM tag before Timing box.
+- Docs to reflect removal of $ChartLib_path.
+
+Contributor(s): Kevin Johnson
+- Search form simplified.
+- Graph form simplified.  
+RFE [submitted](https://sourceforge.net/p/secureideas/feature-requests/21/)
+on sourceforge.net. Original ID: 1144818
+
+Contributor(s): Thom Dosedel
+
+- Replaced jpgraph with PEAR::Image_Graph.
+Contributor(s): Alejandro Flores
+
+### Removed
+- $ChartLib_path.  
+Contributor(s): Kevin Johnson
+
+### Fixed
+- PostgreSQL setup.  
+Contributor(s): C. Bensend
+- Clarified comments to BASE_urlpath in base_conf.  
+Bug [reported](https://sourceforge.net/p/secureideas/bugs/27/)
+on sourceforge.net. Original ID: Unknown  
+Contributor(s):
+  - Jeff Kell - Report
+  - Kevin Johnson
+- Call to undefined function in Whois Cache.  
+Bug [reported](https://sourceforge.net/p/secureideas/bugs/28/)
+on sourceforge.net. Original ID: 1123243
+- Mix up in the title of the Source and Destination Ports pages.  
+- Lack of distinct results after clicking Src IP.  
+Bug [reported](https://sourceforge.net/p/secureideas/bugs/31/)
+on sourceforge.net. Original ID: 1143574
+
+Contributor(s): Tim Rupp
+- Listing users with no users error.  
+Bug [reported](https://sourceforge.net/p/secureideas/bugs/29/)
+on sourceforge.net. Original ID: 1123247
+- Archive Database switching.  
+Bug [reported](https://sourceforge.net/p/secureideas/bugs/33/)
+on sourceforge.net. Original ID: 1145254
+- Summary display for the archive DB.  
+Bug [reported](https://sourceforge.net/p/secureideas/bugs/36/)
+on sourceforge.net. Original ID: 1150681
+- Incorrect display of Archive Actions.  
+Bug [reported](https://sourceforge.net/p/secureideas/bugs/37/)
+on sourceforge.net. Original ID: 1150688
+- IP Links sorting issue.
+Bug [reported](https://sourceforge.net/p/secureideas/bugs/44/)
+on sourceforge.net. Original ID: 1164491  
+- Search Criteria lost.  
+Bug [reported](https://sourceforge.net/p/secureideas/bugs/46/)
+on sourceforge.net. Original ID: 1166158  
+Bug introduced in BASE [1.0.2 (racquel)]
+
+Contributor(s): Kevin Johnson
+- Garbled Web UI messages due to hard coded charset.  
+Bug [reported](https://sourceforge.net/p/secureideas/bugs/30/)
+on sourceforge.net. Original ID: 1123815  
+Contributor(s):
+  - Patch submitted anonymously.
+  - Tim Rupp
+- Previous / Next Bug.  
+Bug [reported](https://sourceforge.net/p/secureideas/bugs/22/)
+on sourceforge.net. Original ID: 1116034  
+Contributor(s): Kevin Johnson for Alejandro Flores
+- Pie charts not working.  
+Bug [reported](https://sourceforge.net/p/secureideas/bugs/32/)
+on sourceforge.net. Original ID: 1144817  
+Contributor(s): 
+  - Alejandro Flores
+  - Tim Rupp
+- Fixed bug in new base_maintenance.pl.  
+Contributor(s): Doug Mackie
+- Error when emailing alerts from the AG page.  
+Bug [reported](https://sourceforge.net/p/secureideas/bugs/48/)
+on sourceforge.net. Original ID: UNKNOWN  
+Contributor(s):
+  - Ethan Chai - Report
+  - Kevin Johnson
+- Search sort issues, another fix.  
+Bug [reported](https://sourceforge.net/p/secureideas/bugs/3/)
+on sourceforge.net. Original ID: 1051872  
+Contributor(s):
+  - Chris Shepherd
+  - Thom Dosedel
+  - Bruce Briggs
+- PHP safe mode breaks BASE.  
+Bug [reported](https://sourceforge.net/p/secureideas/bugs/47/)
+on sourceforge.net. Original ID: 1168587  
+Contributor(s):
+  - Michael Scheidell - Report
+  - Kevin Johnson
+- Setup would die silently.
+Contributor(s): Jeff Nathan
+- Misc actions errors.  
+Contributor(s):
+  - Alejandro Flores
+  -  Tim Rupp
+- Error "cannot use string as array offset" in search page again.  
+Contributor(s): Tim Rupp
 
 ## [1.0.2 (racquel)] - 2005-02-13
 ### Added
@@ -629,6 +746,8 @@ Contributor(s): Jonathan W Minor
 - isc.sans.org port database for more information.  
 Contributor(s): Kevin Johnson
 - Summary Statistics box to base_stat_alerts page.  
+RFE [submitted](https://sourceforge.net/p/secureideas/feature-requests/9/)
+on sourceforge.net. Original ID: Unknown  
 Contributor(s):
   - Joel Esler - RFE
   - Tim Rupp
@@ -685,12 +804,12 @@ Contributor(s):
 - Better display of error messages.  
 Contributor(s): Jason Dixon
 ### Changed
-- Code Cleanup.
+- Code Cleanup.  
   - Include code that limits number of includes per file.  
 Issue [opened](https://github.com/NathanGibbs3/BASE/issues/63)
-on GitHub.com to facilitate continued tracking of this.
+on GitHub.com to facilitate continued tracking of this.  
   - Removed regex from base_db.inc.php and related WHERE clauses.  
-Contributor(s): Kevin Johnson
+  - Contributor(s): Kevin Johnson
 ### Fixed
 - Alert Group Issues.  
 Contributor(s): Tim Rupp
@@ -704,6 +823,7 @@ Contributor(s):
 - User add issue.  
 Adding a user after deleting one that was not the last user added caused this.  
 - Graphing issues.  
+
 Contributor(s): Kevin Johnson
 - Setup bugs.  
 Contributor(s): Michiel Brendel
@@ -728,6 +848,7 @@ function SensorCnt() created to handle this.
 - Checks on each page to determine if you are logged in.
 - BASE tables to the PostgreSQL and the MSSQL files.
 - Added Upgrade script for 0.9.x -> 1.0 for MySQL.  
+
 Contributor(s): Kevin Johnson
 - Added Refresh to multiple pages.  
 Bug [reported](https://sourceforge.net/p/secureideas/bugs/2/)
@@ -755,6 +876,7 @@ as of right now, I would consider it stable!
 - Naming of admin pages to match the rest of the project.
 - Role management system.
 - moved app_faq to help/.  
+
 Contributor(s): Kevin Johnson
 - Minor UI changes.  
 Contributor(s): Joel Esler, Kevin Johnson
@@ -768,6 +890,7 @@ on sourceforge.net.
 - Error with menus in the footer on any page but base_main.php.
 - Fixed password size in the database files.
 - Fixed issue with MSSQL tables creation commands.  
+
 Contributor(s): Kevin Johnson
 
 ## [0.9.9 (brenna)] - 2004-10-28
@@ -776,6 +899,7 @@ Contributor(s): Kevin Johnson
 - GPL file.
 - User Preferences page.
 - Added listing of users to admin pages.  
+
 Contributor(s): Kevin Johnson
 - URL signature reference.  
 Contributor(s): Joel Esler
@@ -789,6 +913,7 @@ Bug [reported](https://sourceforge.net/p/secureideas/bugs/4/)
 on sourceforge.net. Original ID: 1051873
 - Authentication functions are finished.
 - Completed all of the $BASE_path/ for includes.  
+
 Contributor(s): Kevin Johnson
 ### Removed
 - External links to SamSpade.  
@@ -805,6 +930,7 @@ Contributor(s): Justin Best
 ### Added
 - PHP 5 support
 - Start of the capabilities class.  
+
 Contributor(s): Chris Shepherd
 - Header to prevent direct access to certain pages.
 - user class.
@@ -812,6 +938,7 @@ Contributor(s): Chris Shepherd
 - File acid2base_tbls_mysql.sql.
 - admin/ and various files within it.
 - Added variables to base_conf.php.dist.  
+
 Contributor(s): Kevin Johnson
 ### Changed
 - Comment banner
@@ -819,6 +946,7 @@ Contributor(s): Kevin Johnson
 - Function names in HTML output file.
 - Display of the summary graphs.
 - Rename html file to php in prep for the template system.  
+
 Contributor(s): Kevin Johnson
 - Moved around the front page.  
 Bug [reported](https://sourceforge.net/p/secureideas/discussion/404428/thread/43cd4a58/?limit=25#3364)
@@ -837,6 +965,7 @@ Bug [reported](https://sourceforge.net/p/secureideas/bugs/1/)
 on sourceforge.net. Original ID: 1025011
 - Various typos.....
 - Year dropdowns via dispYearOptions().  
+
 Contributor(s): Kevin Johnson
 
 ## [0.9.7.1 (Francis)] - 2004-09-04
