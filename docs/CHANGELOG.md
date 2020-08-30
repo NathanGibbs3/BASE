@@ -578,13 +578,23 @@ Contributor(s): Jonathan W Minor
     - Fixed bug #1208972, Auto Refresh -- Tim Rupp
     - Fixed bug #1214307, icat.nist.gov link error -- Thinh Pham
 
-## [1.1.2 (zora)] - 2005-04-08
-    - Added setting the archive_exists var to the setup system -- Kevin Johnson
-    - Fixed sort order bug -- Jonathan W Miner
-    - Fixed issue with TimeStamps -- Michael Stone
-    - Fixed Fatal error in some installs -- Michael Stone
-
 ---
+
+## [1.1.2 (zora)] - 2005-04-08
+### Added
+- Added option to set the "archive_exists" conf var to the setup system.  
+Contributor(s): Kevin Johnson
+### Fixed
+- Sort order bug.  
+Bug [reported](https://sourceforge.net/p/secureideas/bugs/61/)
+on sourceforge.net. Original ID: UNKNOWN  
+Contributor(s): Jonathan W Miner
+- Issue with TimeStamps.  
+Bug [reported](https://sourceforge.net/p/secureideas/bugs/57/)
+on sourceforge.net. Original ID: UNKNOWN  
+- Fatal error in some installs.
+
+Contributor(s): Michael Stone
 
 ## [1.1.1] - Missing from Legacy Changelog
 
