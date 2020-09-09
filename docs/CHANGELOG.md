@@ -13,6 +13,7 @@ All notable changes to this project will be documented in this file using the
 ### Fixed
 ### Security
 
+---
 ## [1.4.5 (lilias)] - 2009-11-03
 ### Added
 - Default Sort Order.  
@@ -43,20 +44,21 @@ performed using the baseConnect() method only, and several sql queries in
 `basePConnect()` fixes this. **Actually, more a workaround than a real fix.**  
 Bug [reported](https://sourceforge.net/forum/message.php?msg_id=7609952)
 on sourceforge.net.   
-- Temporary fix for bug #2874199  
+- Changing packet display type shows error message Temporary fix.  
 Bug [reported](https://sourceforge.net/p/secureideas/bugs/226/)
 on sourceforge.net. Original ID: 2874199
 - Fixed pcap download for FLoP-extended databases on 64-bit platforms.  
 - Fixed Fatal error: Call to undefined method.  
 "Call to undefined method ProtocolFieldCriteria::ProtocolFieldCriteria() in
-/usr/share/base-1.4.5/includes/base_state_citems.inc.php"  
+includes/base_state_citems.inc.php"  
 Bug [reported](https://sourceforge.net/p/secureideas/bugs/235/)
 on sourceforge.net. Original ID: 2919599
-- Insufficient memory for the world map functions in base_graph_main.php.
+- Insufficient memory for the world map functions in base_graph_main.php.  
 Increased it to 256MB.
 - Labelling of the x-axis with the signature classifications chart.
 - The font system in the PEAR::Image::Graph and Canvas library is broken on
-fedora 12 with php-5.3. This can not be fixed from inside BASE, any more.
+fedora 12 with php-5.3.  
+This can not be fixed from inside BASE, any more.
 However, a fix is possible, if the IMAGE_CANVAS_SYSTEM_FONT_PATH
 in /usr/share/pear/Image/Canvas.php from the PEAR::Image::Canvas library gets
 defined properly. The fontmap.txt file does NOT matter, any more.  
@@ -99,7 +101,7 @@ Bug [reported](https://sourceforge.net/p/secureideas/bugs/221/)
 on sourceforge.net. Original ID: 2828709
 - Signature display error.  
 Signature names were displayed as raw html rather than as real names with
-clickable URLs.
+clickable URLs.  
 Bug [reported](https://sourceforge.net/p/secureideas/bugs/213/)
 on sourceforge.net. Original ID: 2803137
 - PHP Warning Issues.  
@@ -110,8 +112,7 @@ Bug [reported](http://sourceforge.net/forum/forum.php?thread_id=3331857&forum_id
 on sourceforge.net.
   - IP addresses updated and moved to the configuration file.
   - No storage to cache in case of negative whois responses.
-  - New search strings to find out when the whois query should be forwarded to
-  some other whois server, other than the original one.
+  - New search strings to determine if the query is forwarded to another whois server.
 
 Contributor(s): Juergen Leising
 - Email alert action issue.  
@@ -130,11 +131,13 @@ Contributor(s):
   - Clint Ruoho - Report
   - Kevin Johnson
 
+---
 ## [1.4.3.1 (zig)] - 2009-05-30
 ### Security
 - Multiple XSS flaws in User and Role management.  
 Contributor(s): Kevin Johnson
 
+---
 ## [1.4.3 (gabi)] - 2009-05-14
 ### Security
 - XSS Flaws in alert groups.
@@ -144,6 +147,7 @@ Contributor(s): Kevin Johnson
 
 Contributor(s): Kevin Johnson
 
+---
 ## [1.4.2 (chandy)] - 2009-04-03
 ### Added
 - A new reference "[rule]" now points to base_local_rules.php, which displays
@@ -206,7 +210,7 @@ Contributor(s):
 All pages would refresh after an "action" has been taken. Even pages that
 didn't need to.  
 Bug [reported](https://sourceforge.net/p/secureideas/bugs/171/)
-on sourceforge.net. Original ID: 1681012
+on sourceforge.net. Original ID: 1681012  
 Affected files:  
   - base_stat_uaddr.php
   - base_stat_ports.php
@@ -232,6 +236,7 @@ Contributor(s):
   - Trey Beck - Report.
   - Juergen Leising.
 
+---
 ## [1.4.1 (lara)] - 2008-06-29
 ### Added
 - Support for new chart type "unique alerts vs. number of alerts".  
@@ -330,27 +335,62 @@ Contributor(s):
   - Juergen Leising.
 
 ---
-
 ## [1.4.0 (katherine)] - 2008-04-25
-    - Fixed index.php redirect -- Kevin Johnson for Terry Burton
-    - Fixed Bug #1836274 base_qry_alert.php Showing corrupt HTML -- Kevin Johnson
-    - Fixed error in norwegian.lang.php with the SEARCH tag -- Kevin Johnson for Ronny Hansen
-    - Fixed Bug #1859481 You have an error in your SQL syntax -- Juergen Leising
-    - Fixed Bug #1846317 Paging does not work in base_stat_sensor.php -- Kevin Marion
-    - Updated Chinese language file -- Johnson Chiang
-    - Fixed Bug #1886513 Line Duplication -- Kevin Johnson
-    - Multiple graphing fixes -- Juergen Leising
-    - Added country support for source and destination ip in 
-      "graph alert data"; feature request no. 1399907 -- Juergen Leising
-    - Added Worldmap feature -- Juergen Leising
-    - Fixed Query bug regarding time -- Juergen Leising
-    - Added BASE64 support for TCP options -- Juergen Leising
-    - Added Vendor MAC Map -- Juergen Leising
-    - Added patch for Barnyard from University of Florida -- Kevin Johnson
-    - Updated INSTALL documents -- Sean Muller
-    - Added debug function calls -- Juergen Leising
-    - Fixed setup issues -- Juergen Leising
+### Added
+- Country support for source and destination ip in "graph alert data".  
+RFE [submitted](https://sourceforge.net/p/secureideas/feature-requests/52/)
+on sourceforge.net. Original ID: 1399907  
+Contributor(s):
+  - Axton Grams - Submission
+  - Juergen Leising
+- Worldmap feature.
+- BASE64 support for TCP options.
+- Vendor MAC Map.
+- Debug function calls.
 
+Contributor(s): Juergen Leising
+- Patch for Barnyard.  
+Contributor(s):
+  - University of Florida - Patch Submission
+  - Kevin Johnson
+### Changed
+- Translations:
+  - Norwegian SEARCH tag. -- Ronny Hansen & Kevin Johnson
+  - Chinese. -- Johnson Chiang
+- Updated INSTALL documents.  
+Contributor(s): Sean Muller
+### Fixed
+- index.php redirect issues.  
+Bug [reported](https://sourceforge.net/p/secureideas/bugs/185/)
+on sourceforge.net. Original ID: UNKNOWN  
+Contributor(s):  
+  - Terry Burton - Report.  
+  - Kevin Johnson
+- base_qry_alert.php Showing corrupt HTML.  
+Bug [reported](https://sourceforge.net/p/secureideas/bugs/183/)
+on sourceforge.net. Original ID: 1836274
+- Line Duplication.  
+Bug [reported](https://sourceforge.net/p/secureideas/bugs/190/)
+on sourceforge.net. Original ID: 1886513
+
+Contributor(s):  
+    - Reported anonymously.  
+    - Kevin Johnson
+
+- Error message "You have an error in your SQL syntax".  
+Bug [reported](https://sourceforge.net/p/secureideas/bugs/187/)
+on sourceforge.net. Original ID: 1859481  
+- Multiple graphing issues.
+- Query bug regarding time.
+- Setup issues.
+
+Contributor(s): Juergen Leising
+- Paging does not work in base_stat_sensor.php.  
+Bug [reported](https://sourceforge.net/p/secureideas/bugs/184/)
+on sourceforge.net. Original ID: 1846317  
+Contributor(s): Kevin Marion
+
+---
 ## [1.3.9 (anne)] - 2007-11-20
     - Update to Spanish -- David Gil
     - Bug #1750697 base_header() is undefined fixed -- Juergen and Kevin Johnson
@@ -552,37 +592,81 @@ Contributor(s): Jonathan W Minor
     - Translated most of the //NEW varibles in the swedish lang file -- Christian Svensson
     - Fixed bug #1253176, URL reference with BleedingSnort rules -- Kevin Johnson
 
+---
 ## [1.1.3 (lynn)] - 2005-06-13
-    - Many performance change for PostgreSQL -- Michael Stone
-    - Added options to base_conf.php to increase performance -- Michael Stone
-    - Fixed issue with show_stats (Need to change this based on Alejandro's change to the front page-- Kevin Johnson
-    - Changed default for $avoid_counts -- Kevin
-    - Czech language added -- Michal Mertl
-    - Oracle script work -- John Evans and Kevin Johnson
-    - Fixed off by one bug -- Jonathan W Miner
-    - Added custom footer option -- Jonathan W Miner
-    - Clean up of jpGraph leftovers -- Kevin Johnson
-    - Fixed ARIN lookup since their change -- Jonathan W Minor
-    - HTML Fixes for W3C.org compliance -- Jonathan W Minor
-    - Query change to speed up today queries -- Michael Stone
-    - Fixed README -- Kevin Johnson
-    - Oracle support -- Vladimir Anufriev
-    - Simplified Chinese language files -- Hai Xie (xxxss@msn.com)
-    - Form work -- Bruce Briggs and Kevin Johnson
-    - Table width changes -- Kevin Johnson for Thinh Pham
-    - Added Red theme -- Kevin Johnson
-    - Updated FAQ -- Joel Esler
-    - Typo in french.lang.php -- Dominik Gehl
-    - Fixed bug #1199128, Search with multiple Time criteria is broken -- Tim Rupp
-    - Fixed bug #1183916, Incorrect count/list of Unique alerts after deleting some -- Tim Rupp
-    - Fixed bug #1208972, Auto Refresh -- Tim Rupp
-    - Fixed bug #1214307, icat.nist.gov link error -- Thinh Pham
+### Added
+- Options to base_conf.php to increase performance.
+Contributor(s): Michael Stone
+- Translations:
+  - Czech. -- Michal Mertl
+  - Simplified Chinese. -- Hai Xie (xxxss@msn.com)
+- Custom footer option.   
+Patch [submitted](https://sourceforge.net/p/secureideas/patches/5/)
+on sourceforge.net. Original ID: UNKNOWN  
+Contributor(s): Jonathan W Miner
+- Oracle support.  
+Contributor(s): J Vladimir Anufriev
+- Red UI theme.  
+Contributor(s): Kevin Johnson
+### Changed
+- Default value of $avoid_counts conf var in base_conf.php.  
+Contributor(s): Kevin Johnson
+- Whois entry for ARIN.  
+Contributor(s): Jonathan W Miner
+- French translation.  
+Contributor(s): Dominik Gehl
+### Removed
+- jpGraph leftovers.  
+Contributor(s): Kevin Johnson
+### Fixed
+- PostgreSQL performance.  
+- Performance Issues with today queries.  
+Bug [reported](https://sourceforge.net/p/secureideas/bugs/65/)
+on sourceforge.net. Original ID: UNKNOWN
+
+Contributor(s): Michael Stone
+- Issue with show_stats.  
+Need to change this based on Alejandro's change to the front page.
+- Issues with README.
+
+Contributor(s): Kevin Johnson
+- Oracle DB Setup script.  
+Contributor(s):  
+  - John Evans
+  - Kevin Johnson
+- Off by one bug.
+- HTML code for W3C.org compliance.  
+Contributor(s): Jonathan W Miner
+- Form Issues.  
+Contributor(s):  
+  - Bruce Briggs
+  - Kevin Johnson
+- Table width issues.  
+Contributor(s):  
+  - Thinh Pham
+  - Kevin Johnson
+- FAQ Update.
+Contributor(s): Joel Esler
+- Search with multiple Time criteria is broken.  
+Bug [reported](https://sourceforge.net/p/secureideas/bugs/78/)
+on sourceforge.net. Original ID: 1199128  
+- Incorrect count/list of Unique alerts after deleting some.  
+Bug [reported](https://sourceforge.net/p/secureideas/bugs/67/)
+on sourceforge.net. Original ID: 1183916
+- Auto Refresh.  
+Bug [reported](https://sourceforge.net/p/secureideas/bugs/80/)
+on sourceforge.net. Original ID: 1208972
+
+Contributor(s): Tim Rupp
+- icat.nist.gov link error.  
+Bug [reported](https://sourceforge.net/p/secureideas/bugs/83/)
+on sourceforge.net. Original ID: 1214307  
+Contributor(s): Thinh Pham
 
 ---
-
 ## [1.1.2 (zora)] - 2005-04-08
 ### Added
-- Added option to set the "archive_exists" conf var to the setup system.  
+- Option to set the "archive_exists" conf var to the setup system.  
 Contributor(s): Kevin Johnson
 ### Fixed
 - Sort order bug.  
@@ -596,8 +680,10 @@ on sourceforge.net. Original ID: UNKNOWN
 
 Contributor(s): Michael Stone
 
+---
 ## [1.1.1] - Missing from Legacy Changelog
 
+---
 ## [1.1.0 (elizabeth)] - 2005-04-03
 ### Added
 - Packet display.  
@@ -668,7 +754,7 @@ Contributor(s): Kevin Johnson
 ### Fixed
 - PostgreSQL setup.  
 Contributor(s): C. Bensend
-- Clarified comments to BASE_urlpath in base_conf.  
+- Clarified comments to BASE_urlpath in base_conf.php.  
 Bug [reported](https://sourceforge.net/p/secureideas/bugs/27/)
 on sourceforge.net. Original ID: Unknown  
 Contributor(s):
@@ -732,6 +818,7 @@ Contributor(s):
 Bug [reported](https://sourceforge.net/p/secureideas/bugs/3/)
 on sourceforge.net. Original ID: 1051872  
 Contributor(s):
+  - Harry Bloomberg - Report
   - Chris Shepherd
   - Thom Dosedel
   - Bruce Briggs
@@ -749,7 +836,14 @@ Contributor(s):
   -  Tim Rupp
 - Error "cannot use string as array offset" in search page again.  
 Contributor(s): Tim Rupp
+- Unexpected Result Inconsistency.  
+Bug [reported](https://sourceforge.net/p/secureideas/bugs/51/)
+on sourceforge.net. Original ID: UNKNOWN  
+Contributor(s):
+  - Bruce Briggs - Report
+  - Joel Esler
 
+---
 ## [1.0.2 (racquel)] - 2005-02-13
 ### Added
 - DShield.org IP Info page.
@@ -805,6 +899,7 @@ Contributor(s):
   - Kevin Johnson
   - Joel Esler
 
+---
 ## [1.0.1 (michelle)] - 2005-01-17
 ### Added
 - Translations:
@@ -844,6 +939,7 @@ Contributor(s): Alan Vallance
 - PostgreSQL setup issues.  
 Contributor(s): Jason Dixon
 
+---
 ## [1.0.0 (denise)] - 2004-11-21
 ### Added
 - Patch from nobody.
@@ -903,6 +999,7 @@ on sourceforge.net.
 
 Contributor(s): Kevin Johnson
 
+---
 ## [0.9.9 (brenna)] - 2004-10-28
 ### Added
 - Start of PDF work.
@@ -936,6 +1033,7 @@ Contributor(s): Chris Shepherd
 - Error in include on base_stat_common.php,  
 Contributor(s): Justin Best
 
+---
 ## [0.9.8 (dhara)] - 2004-10-14
 ### Added
 - PHP 5 support
@@ -978,18 +1076,20 @@ on sourceforge.net. Original ID: 1025011
 
 Contributor(s): Kevin Johnson
 
+---
 ## [0.9.7.1 (Francis)] - 2004-09-04
 ### Changed
 - Credits
 - TODO
 - CSS file for different look (kinda) :)
+- Whois entry for ARIN.
 ### Removed
 - Commented code that was floating around.
 ### Fixed
-- Whois entry for ARIN.
 - ADODB information in the README... missed it there!<grin>
 - Various typos and display changes.
 
+---
 ## [0.9.7 (Initial Release)] - 2004-09-01
 ### Added
 - First Release.
