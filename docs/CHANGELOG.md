@@ -392,16 +392,46 @@ Contributor(s): Kevin Marion
 
 ---
 ## [1.3.9 (anne)] - 2007-11-20
-    - Update to Spanish -- David Gil
-    - Bug #1750697 base_header() is undefined fixed -- Juergen and Kevin Johnson
-    - Bug #1680965 sans lookup fails -- Jordan Wiens
-    - Updated Chinese language file -- Randy
-    - Added Sean Muller as the Project Manager -- Kevin Johnson
-    - Fixed error in contrib/base-rss.php -- Dan
-    - Added INSTALL and INSTALL.rtf files to docs directory -- Sean Muller
-    - Bug #1801192 XSS bug in BASE fixed -- Kevin Johnson and Sean Muller (Discovered by Daniel Medianero)
-    - Bug #1760615 Sort order ignored -- Kevin Johnson and Jordan Wiens
+### Added
+- Sean Muller as the BASE Project Manager. Welcome. :-)
+Approvals & Sign off(s): Kevin Johnson
+- INSTALL and INSTALL.rtf files to documentation.
+Contributor(s): Sean Muller
+### Changed
+- Translations:
+  - Spanish. -- David Gil
+  - Chinese. -- Randy
+### Fixed
+- Issue base_header() is undefined.  
+Bug [reported](https://sourceforge.net/p/secureideas/bugs/177/)
+on sourceforge.net. Original ID: 1750697
+Contributor(s):  
+  - Juergen Leising - Report.
+  - Kevin Johnson
+- Sans lookup fails.  
+Bug [reported](https://sourceforge.net/p/secureideas/bugs/169/)
+on sourceforge.net. Original ID: 1680965  
+Contributor(s): Jordan Wiens
+- Contrib code base-rss.  
+Contributor(s): Dan Michitsch
+- Sort order ignored in initial search request.  
+Bug [reported](https://sourceforge.net/p/secureideas/bugs/179/)
+on sourceforge.net. Original ID: 1760615
+Contributor(s):  
+  - Jordan Wiens - Report.
+  - Sean Muller
+  - Kevin Johnson
 
+### Security
+- XSS bug in BASE fixed.  
+Bug [reported](https://sourceforge.net/p/secureideas/bugs/182/)
+on sourceforge.net. Original ID: 1801192  
+Contributor(s):  
+  - Daniel Medianero - Discovery & Report.
+  - Sean Muller
+  - Kevin Johnson
+
+---
 ## [1.3.8 (jodie)] - 2007-07-08
     - Fixed base_conf_contents.php to include colored alerts -- Jonathan W Miner
     - Fixed base_main.php to remove an extra table and repair two column display -- Jonathan W Miner
@@ -580,17 +610,30 @@ Contributor(s): Jonathan W Minor
     - Fixed Portscan issue with emails -- Nikns Siankin
     - Added local reference to read sigs from a directory in the BASE install -- Kevin J for Juergen
 
+---
 ## [1.1.4 (cheryl)] - 2005-08-08
-    - Fixed bug #1220169 typo in create_base_tbls_mysql.sql -- Kevin Johnson
-    - This typo was in all of the sql files -- Kevin
-    - Changes to docs -- Kevin
-    - Added a bunch of translation stuff -- João
-    - Added Polish Language -- Michal Fraszek
-    - Fixed issue with lang files -- Kevin Johnson
-    - Updated Polish Language file -- Michal Fraszek
-    - Fixed issue with English lang file -- Christian Svensson
-    - Translated most of the //NEW varibles in the swedish lang file -- Christian Svensson
-    - Fixed bug #1253176, URL reference with BleedingSnort rules -- Kevin Johnson
+### Added
+- Translations:
+  - Polish. -- Michal Fraszek
+### Changed
+- Documentation.  
+Contributor(s): Kevin Johnson
+- Translations:
+  - Misc changes across entire TD set. -- João
+  - Misc issue across entire TD set. -- Kevin Johnson
+  - Polish. -- Michal Fraszek
+  - English. -- Christian Svensson
+  - Swedish most of the //NEW variables. -- Christian Svensson
+### Fixed
+- Typo in create_base_tbls_mysql.sql.  
+This typo was in all of the sql files.  
+Bug [reported](https://sourceforge.net/p/secureideas/bugs/89/)
+on sourceforge.net. Original ID: 1220169
+- URL reference with BleedingSnort rules.  
+Bug [reported](https://sourceforge.net/p/secureideas/bugs/96/)
+on sourceforge.net. Original ID: 1253176
+
+Contributor(s): Kevin Johnson
 
 ---
 ## [1.1.3 (lynn)] - 2005-06-13
@@ -613,8 +656,8 @@ Contributor(s): Kevin Johnson
 Contributor(s): Kevin Johnson
 - Whois entry for ARIN.  
 Contributor(s): Jonathan W Miner
-- French translation.  
-Contributor(s): Dominik Gehl
+- Translations:
+  - French. -- Dominik Gehl
 ### Removed
 - jpGraph leftovers.  
 Contributor(s): Kevin Johnson
