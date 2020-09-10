@@ -421,7 +421,6 @@ Contributor(s):
   - Jordan Wiens - Report.
   - Sean Muller
   - Kevin Johnson
-
 ### Security
 - XSS bug in BASE fixed.  
 Bug [reported](https://sourceforge.net/p/secureideas/bugs/182/)
@@ -433,20 +432,52 @@ Contributor(s):
 
 ---
 ## [1.3.8 (jodie)] - 2007-07-08
-    - Fixed base_conf_contents.php to include colored alerts -- Jonathan W Miner
-    - Fixed base_main.php to remove an extra table and repair two column display -- Jonathan W Miner
-    - Added exit() to the redirect to fix security hole -- Jon Hart
-    - removed fpdf file to save room since we are not using them. -- Kevin Johnson
-    - Fixed bug #1723928 Top Right, Database and User not shown -- Kevin Johnson
-    - Added base_header wrapper, please use it instead of header if you're not sure -- GaRaGeD
-    - Fixed Bug #1675094 snort signature information links broken (really a hack!) -- Kevin Johnson
-    - Fixed Bug #1689885 Maybe need count(DISTINCT ip_src) to sort by IP correctly -- Kevin Johnson
-    - Fixed Bug #1649659 Use of archive DB seems broken in "karen" release -- Kevin Johnson
-    - Cleaned a warning -- Marek Cruz
-    - Spanish install guide -- Daniel Medianero
+### Added
+- base_header wrapper.  
+Please use it instead of header if you're not sure.  
+Contributor(s): GaRaGeD
+- Spanish install guide.  
+Contributor(s): Daniel Medianero
+### Removed
+- PDF generation support.  
+Provided by fpdf library.  
+This will save space as we are not using it.  
+Contributor(s): Kevin Johnson
+### Fixed
+- "colored_alerts" missing from base_conf.php  
+Bug [reported](https://sourceforge.net/p/secureideas/patches/26/)
+on sourceforge.net. Original ID: UNKNOWN
+- HTML fixes in base_main.php  
+Remove an extra table and repair two column display.  
+Bug [reported](https://sourceforge.net/p/secureideas/patches/25/)
+on sourceforge.net. Original ID: UNKNOWN
 
+Contributor(s): Jonathan W Miner
+- Top Right, Database and User not shown.  
+Bug [reported](https://sourceforge.net/p/secureideas/bugs/175/)
+on sourceforge.net. Original ID: 1723928
+- Snort signature information links broken.  
+This fix is really a hack, as it works around bugs in snort & barnyard.
+Bug [reported](https://sourceforge.net/p/secureideas/bugs/167/)
+on sourceforge.net. Original ID: 1675094
+- Maybe need count(DISTINCT ip_src) to sort by IP correctly.  
+Bug [reported](https://sourceforge.net/p/secureideas/bugs/172/)
+on sourceforge.net. Original ID: 1689885
+- Use of archive DB seems broken in "karen" release -- Kevin Johnson
+Bug [reported](https://sourceforge.net/p/secureideas/bugs/161/)
+on sourceforge.net. Original ID: 1649659
+
+Contributor(s): Kevin Johnson
+- Cleaned a warning.  
+Contributor(s): Marek Cruz
+### Security
+- Call to exit() added to the redirect to fix security hole.  
+Contributor(s): Jon Hart
+
+---
 ## [1.3.7] - Missing from Legacy Changelog
 
+---
 ## [1.3.6 (louise)] - 2007-05-13
     - Fixed issues with graphing Bug#166596 -- Kevin J
     - Fixed Bug#1666340 MySQL Syntax error with base_net.inc.php -- Kevin J
@@ -598,17 +629,45 @@ Contributor(s): Jonathan W Minor
     - Fixed URL for sstats and display for the external port links (Patch #1333209) -- Jonathan W Minor
     - Added better erroring if some forms of SQL injection happen -- Doug Mackie
 
+---
 ## [1.2.0 (betty)] - 2005-10-09
-    - Fix for bugs #1256237 and #1254318 -- Tim Rupp
-    - Patch to add Binary download -- Juergen Leising
-    - Fixed bug #1249911, ASCII representation with base64 encoding -- Kevin Johnson (from anonymous)
-    - Fixed quote issue in base_stat_iplink.php -- Michael Stone
-    - Fixed sort of alerts by address -- Alex Butcher
-    - Added ISC Source/Subnet report -- Alex Butcher
-    - Added other sources of port information -- Alex Butcher
-    - Added TrustedSource IP lookup -- Alex Butcher
-    - Fixed Portscan issue with emails -- Nikns Siankin
-    - Added local reference to read sigs from a directory in the BASE install -- Kevin J for Juergen
+### Added
+- Binary download capability.  
+Patch [submitted](https://sourceforge.net/p/secureideas/patches/7/)
+on sourceforge.net. Original ID: UNKNOWN  
+Contributor(s): Juergen Leising
+- ISC Source/Subnet report.
+- Other sources of port information.
+- TrustedSource IP lookup.
+
+Contributor(s): Alex Butcher
+- Local reference to read sigs from a directory in the BASE install.
+Contributor(s):  
+  - Juergen Leising
+  - Kevin Johnson
+### Fixed
+- Error when performing search.  
+Bug [reported](https://sourceforge.net/p/secureideas/bugs/98/)
+on sourceforge.net. Original ID: 1256237
+- Rawip criteria in base_qry_common.php.  
+Bug [reported](https://sourceforge.net/p/secureideas/bugs/97/)
+on sourceforge.net. Original ID: 1254318
+
+Contributor(s): Tim Rupp
+- ASCII representation with base64 encoding.  
+Bug [reported](https://sourceforge.net/p/secureideas/bugs/94/)
+on sourceforge.net. Original ID: 1249911  
+Contributor(s):  
+  - Juergen Leising - Report & Patch
+  - Kevin Johnson
+- Quote issue in base_stat_iplink.php.  
+Contributor(s): Michael Stone
+- Sort of alerts by address.  
+Contributor(s): Alex Butcher
+- Fixed Portscan issue with emails.  
+Bug [reported](https://sourceforge.net/p/secureideas/bugs/104/)
+on sourceforge.net. Original ID: UNKNOWN  
+Contributor(s): Nikns Siankin
 
 ---
 ## [1.1.4 (cheryl)] - 2005-08-08
@@ -679,6 +738,9 @@ Contributor(s):
   - Kevin Johnson
 - Off by one bug.
 - HTML code for W3C.org compliance.  
+Patch [submitted](https://sourceforge.net/p/secureideas/patches/6/)
+on sourceforge.net. Original ID: UNKNOWN
+
 Contributor(s): Jonathan W Miner
 - Form Issues.  
 Contributor(s):  
