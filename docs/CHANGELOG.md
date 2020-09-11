@@ -520,20 +520,46 @@ Contributor(s): Marek Cruz
 
 ---
 ## [1.3.5 (marie)] - 2007-02-19
-    - Applied patch to fix bug #1602391 [IP Fragments] -- Juergen Leising
-    - Fix typo in setup4.php -- Jonathan W Miner
-    - Updated footer for site location -- Kevin Johnson
-    - Trivial patch to correct IPFieldCriteria::Description() on base_state_citems.inc.php -- GaRaGeD
-    - Another trivial check for ProtocolFieldCriteria::Description() array correctness -- GaRaGeD
-    - Patch to fix Bug#1550613 Payload queries fail due to inconsistent case -- Kevin J for "nobody"
-    - Patch to fix extra <table> in base_main.php -- Jonathan W Miner
-    - Added pcap download functionality for individual alerts -- Jon Hart
-    - Added logout functionality when internal authentication is used -- Jon Hart
-    - Updated README -- Kevin J
-    - Updated Ports list -- Kevin J
+### Added
+- Pcap download functionality for individual alerts.
+- Logout functionality when internal authentication is used.
 
+Contributor(s): Jon Hart
+### Changed
+- Updated README.
+- Updated Ports list.
+
+Contributor(s): Kevin Johnson
+### Fixed
+- [IP Fragments].  
+Patch [submitted](https://sourceforge.net/p/secureideas/bugs/156/)
+on sourceforge.net. Original ID: 1602391  
+Contributor(s): Juergen Leising
+- Typo in setup4.php.  
+Patch [submitted](https://sourceforge.net/p/secureideas/patches/20/)
+on sourceforge.net. Original ID: UNKNOWN  
+- Extra \<table\> in base_main.php.  
+Patch [submitted](https://sourceforge.net/p/secureideas/patches/23/)
+on sourceforge.net. Original ID: UNKNOWN  
+
+Contributor(s): Jonathan W Miner
+- Site location in footer.  
+Contributor(s): Kevin Johnson
+- Correction to IPFieldCriteria::Description() on base_state_citems.inc.php.
+- Check for ProtocolFieldCriteria::Description() array correctness.
+
+Contributor(s): GaRaGeD - Patch
+- Payload queries fail due to inconsistent case.  
+Patch [submitted](https://sourceforge.net/p/secureideas/bugs/149/)
+on sourceforge.net. Original ID: 1550613  
+Contributor(s):
+  - Patch submitted anonymously.
+  - Kevin Johnson
+
+---
 ## [1.2.8 - 1.3.4] - Missing from Legacy Changelog
 
+---
 ## [1.2.7 (karen)] - 2006-11-17
     - Improved HTML <table> output in "base_qry_alert.php" -- Jonathan W Miner
     - Remove message when 0 alerts -- Jonathan W Miner
@@ -632,25 +658,41 @@ Contributor(s): Marek Cruz
     - In plain display mode several sequential non-ASCII payload characters join together displaying their count -- Nikns
     - Changed input type of the password field in useradmin -- Kevin Johnson
 
+---
 ## [1.2.3] - Missing from Legacy Changelog
 
+---
 ## [1.2.2 (cindy)] - 2006-01-12
 ### Added
 - Translations:
   - Turkish -- Umut Nacak
+- Portscan Information.  
+Contributor(s):  
+  - Nikns
+  - Kevin Johnson
 ### Changed
 - Login button to actually say login.  
 Patch [submitted](https://sourceforge.net/p/secureideas/patches/9/)
 on sourceforge.net. Original ID: UNKNOWN  
 Contributor(s): Jonathan W Minor
+- Updated project lead comments.  
+Contributor(s): Kevin Johnson
 ### Fixed
-    
-    - Fixed issue with signature names and MySQL 5.0 -- Kade P. Cole
-    - Fixed Bug# 1347623 auto-refresh ignored for stat pages -- Shane Castle
-    - Fixed Sort order issues -- Timothy Doty
-    - Applied patch from Debian maintainer for final SQL injection fix -- Kevin
-    - Updated prject lead comments -- Kevin
-    - Added Portscan Information -- Kevin for Nikns
+- Issue with signature names and MySQL 5.0.  
+Contributor(s): Kade P. Cole
+- Auto-refresh ignored for stat pages.  
+Bug [reported](https://sourceforge.net/p/secureideas/bugs/116/)
+on sourceforge.net. Original ID: 1347623  
+Contributor(s): Shane Castle
+- Fixed Sort order issues.   
+Bug [reported](https://sourceforge.net/p/secureideas/bugs/119/)
+on sourceforge.net. Original ID: UNKNOWN  
+Contributor(s): Timothy Doty
+### Security
+- SQL Injection vulnerability.  
+Contributor(s):  
+  - Debian maintainer - Patch
+  - Kevin Johnson
 
 ---
 ## [1.2.1 (kris)] - 2005-10-30
