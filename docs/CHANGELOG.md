@@ -409,7 +409,7 @@ Contributor(s):
   - Juergen Leising - Report.
   - Kevin Johnson
 - Sans lookup fails.  
-Bug [reported](https://sourceforge.net/p/secureideas/bugs/169/)
+Patch [submitted](https://sourceforge.net/p/secureideas/bugs/169/)
 on sourceforge.net. Original ID: 1680965  
 Contributor(s): Jordan Wiens
 - Contrib code base-rss.  
@@ -479,19 +479,46 @@ Contributor(s): Jon Hart
 
 ---
 ## [1.3.6 (louise)] - 2007-05-13
-    - Fixed issues with graphing Bug#166596 -- Kevin J
-    - Fixed Bug#1666340 MySQL Syntax error with base_net.inc.php -- Kevin J
-    - Patch to fix display of index.php -- Jonathon W Miner
-    - Patch to fix Bug#1669265 Memory Leak in base_cache.inc.php -- Stephen Sadowski
-    - Fixed Bug#167508 BACK text not commented out when history disabled -- Kevin Johnson for Jordan Wiens
-    - Fixed Bug #1680965 - SANS IP Lookup fails -- Kevin Johnson for Jordan Wiens
-    = Fixed major amounts of errors with undefined vars. -- Marek Cruz
-    - Updated tons of HTML for complience -- Marek Cruz
-    - Fixed misspelled constants -- Marek Cruz
-    - Fixed CreateBASEAG function -- Marek Cruz
-    - Fixed check for Image_Graph -- Marek Cruz
-    - Removed portsdb.org as it is no longer valid -- Marek Cruz
+### Removed
+- Portsdb.org as it is no longer valid.  
+Contributor(s): Marek Cruz	
+### Fixed
+- Issues with graphing.  
+Bug [reported](https://sourceforge.net/p/secureideas/bugs/162/)
+on sourceforge.net. Original ID: 166596
+- MySQL Syntax error with base_net.inc.php.  
+Bug [reported](https://sourceforge.net/p/secureideas/bugs/163/)
+on sourceforge.net. Original ID: 1666340
 
+Contributor(s): Kevin Johnson
+- Patch to fix display of index.php -- Jonathon W Miner
+Patch [submitted](https://sourceforge.net/p/secureideas/patches/24/)
+on sourceforge.net. Original ID: UNKNOWN  
+Contributor(s): Jonathan W Minor
+- Memory Leak in base_cache.inc.php.  
+Patch [submitted](https://sourceforge.net/p/secureideas/bugs/164/)
+on sourceforge.net. Original ID: 1669265  
+Contributor(s): Stephen Sadowski
+- BACK text not commented out when history disabled.  
+Bug [reported](https://sourceforge.net/p/secureideas/bugs/166/)
+on sourceforge.net. Original ID: 1675086
+- SANS IP Lookup fails.  
+Bug [reported](https://sourceforge.net/p/secureideas/bugs/169/)
+on sourceforge.net. Original ID: 1680965
+
+Contributor(s):  
+    - Jordan Wiens - Report.  
+    - Kevin Johnson
+
+- Multiple errors related to undefined vars.
+- HTML code for W3C.org compliance.
+- Misspelled constants.
+- CreateBASEAG function.
+- Check for Image_Graph.
+
+Contributor(s): Marek Cruz
+
+---
 ## [1.3.5 (marie)] - 2007-02-19
     - Applied patch to fix bug #1602391 [IP Fragments] -- Juergen Leising
     - Fix typo in setup4.php -- Jonathan W Miner
@@ -613,6 +640,8 @@ Contributor(s): Jon Hart
   - Turkish -- Umut Nacak
 ### Changed
 - Login button to actually say login.  
+Patch [submitted](https://sourceforge.net/p/secureideas/patches/9/)
+on sourceforge.net. Original ID: UNKNOWN  
 Contributor(s): Jonathan W Minor
 ### Fixed
     
@@ -623,11 +652,23 @@ Contributor(s): Jonathan W Minor
     - Updated prject lead comments -- Kevin
     - Added Portscan Information -- Kevin for Nikns
 
+---
 ## [1.2.1 (kris)] - 2005-10-30
-    - Added black theme -- Nick Whitehill
-    - Fixed Bug #1338142 SQL Injection vulnerability -- Kevin Johnson
-    - Fixed URL for sstats and display for the external port links (Patch #1333209) -- Jonathan W Minor
-    - Added better erroring if some forms of SQL injection happen -- Doug Mackie
+### Added
+- Black theme.  
+Contributor(s): Nick Whitehill
+### Fixed
+- URL for sstats and display for the external port links.  
+Patch [submitted](https://sourceforge.net/p/secureideas/patches/8/)
+on sourceforge.net. Original ID: 1333209  
+Contributor(s): Jonathan W Miner
+### Security
+- SQL Injection vulnerability.  
+Bug [reported](https://sourceforge.net/p/secureideas/bugs/115/)
+on sourceforge.net. Original ID: 1338142  
+Contributor(s): Kevin Johnson
+- Better error reporting to catch some forms of SQL injection.
+Contributor(s): Doug Mackie
 
 ---
 ## [1.2.0 (betty)] - 2005-10-09
