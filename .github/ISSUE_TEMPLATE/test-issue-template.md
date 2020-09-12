@@ -7,13 +7,16 @@ assignees: ''
 
 ---
 
-**Link to example**:
-Optional link to CI build.
-**Build Environment**: ( Travis-CI or Local )
-**PHP Version**: 
-**PHPUnit Version**: 
-**Other Info**:
-What else might be helpful to know.
+Item | Description
+-----|-------------
+**Link to example**: | Optional link to CI build.
+**Build Environment**: | ( Travis-CI or Local )
+**PHP Version**: | 
+**PHPUnit Version**: |
+**Similar Issues:** | 
+**Depends on Issue(s):** | 
+**Dependency Type:** | 
+**Misc Info**: | What else might be helpful to know.
 ---
 **Expected Behavior**:
 **Current Behavior**:
