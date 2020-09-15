@@ -561,14 +561,33 @@ Contributor(s):
 
 ---
 ## [1.2.7 (karen)] - 2006-11-17
-    - Improved HTML <table> output in "base_qry_alert.php" -- Jonathan W Miner
-    - Remove message when 0 alerts -- Jonathan W Miner
-    - PrintBase64PacketPayload fix for payload lenght modulo = 0 -- Juergen Leising
-    - Added empty function to ProtocolFieldCriteria -- Kevin Johnson
-    - Fixed issue if sig_gid was empty -- Valter Santos
-    - Added SnortUnified, a perl replacement for Barnyard -- Jason Brvenik
-    - Updated base-rss.php -- Dan Michitsch
+### Added
+- Contrib code SnortUnified, a perl replacement for Barnyard.  
+Contributor(s): Jason Brvenik
+### Fixed
+- HTML \<table\> output in "base_qry_alert.php".  
+Patch [submitted](https://sourceforge.net/p/secureideas/patches/18/)
+on sourceforge.net. Original ID: UNKNOWN
+- Remove message when 0 alerts.  
+Patch [submitted](https://sourceforge.net/p/secureideas/patches/19/)
+on sourceforge.net. Original ID: UNKNOWN
 
+Contributor(s): Jonathan W Miner
+- PrintBase64PacketPayload fix for payload length modulo = 0.  
+Patch [submitted](https://sourceforge.net/p/secureideas/bugs/143/)
+on sourceforge.net. Original ID: UNKNOWN  
+Contributor(s): Juergen Leising
+- ProtocolFieldCriteria object constructors broken on PHP 5.1+.  
+Added empty PHP 5.1+ class constructor shim to ProtocolFieldCriteria.  
+Bug [reported](https://sourceforge.net/p/secureideas/bugs/141/)
+on sourceforge.net. Original ID: UNKNOWN  
+Contributor(s): Kevin Johnson
+- Issue if sig_gid was empty.  
+Contributor(s): Valter Santos
+- Contrib code base-rss.  
+Contributor(s): Dan Michitsch
+
+---
 ## [1.2.6 (christine)] - 2006-07-23
     - Added check for base_users and base_roles tables in base_main.php - Kevin Johnson
     - Added . to VAR_PUNC to fix query issue - Kevin johnson
@@ -613,50 +632,132 @@ Contributor(s):
     - add decoding support for ICMP source quench and ICMP parameter problem - Jon Hart
     - split up "flags" into DF and MF, much like tcp flags are currently handled - Jon Hart
 
+---
 ## [1.2.4 (melissa)] - 2006-03-19
-    - Fixed issue with PostgreSQL and schema in base_db.inc.php -- Kevin J and Nikns
-    - Fixed bug #1284695 Error in SQL with PostgreSQL -- Kevin J and Nikns
-    - Fixed issues displaying PortScans -- Nikns
-    - Fixed sig_class (bug #1407325) and sig_priority filter bug -- Nikns and Max Valdez (garaged)
-    - Fixed bug #1408387 Archive move and Email summary issues -- Nikns
-    - Fixed bug when, after setup, archive database wasn't used -- Nikns
-    - Fixed PostgreSQL archive database support -- Nikns
-    - Fixed bug #1313261 Unable to use actions in base_stat_sensor.php -- Nikns
-    - Fixed bug #1371532 First of month timestamp issue -- Nikns
-    - Fixed bug #1406945 Lost alert order when switching between payload display -- Nikns
-    - Fixed bug #1413712 base_conf.php file path issue under MS Windows -- garaged
-    - Fixed search by signature name -- Nikns
-    - Converted sql/create_base_tbls_mssql_extra.sql to CRLF line terminators -- Nikns
-    - Fixed broken auth system for MSSQL -- Nikns
-    - Changed MSSQL schema for table acid_event, sig_name now has type VARCHAR instead of TEXT -- Nikns
-    - Fixed bug #1307250 broken base_stat_alerts.php with MSSQL -- Nikns
-    - Fixed bug #1413594 Force to use alert database for auth system stuff -- Nikns
-    - Setup fix, on error form values are remembered, default language is English -- garaged  
-    - Uppercased name 'Archive' in base_main.php (in sync with base_hdr1.php) -- Nikns
-    - Fixed support for actions in base_stat_class.php -- Nikns 
-    - Fixed bug #1418660 Broken search by IP criteria -- Nikns
-    - Added checkboxes and fixed support for actions in base_stat_iplink.php -- Nikns
-    - Implemented RFE #1123382 support for actions in base_stat_uaddr.php -- Nikns
-    - Implemented support for actions in base_stat_ports.php -- Nikns
-    - Fixed bug #1422575 when empty email sent even if action unsuccessful -- Nikns
-    - Fixed bug #1424033 Unable to Graph Alert Detection Time -- Nikns
-    - Fixed bug #1426089 Score removed from email address -- Nikns
-    - Fixed bug #1210542 and #1288402 Packet display mode issues -- Nikns
-    - Detect archiving duplicates with select queries instead of catching db conflict error -- Nikns
-    - Fixed bug #1430686 Update alert cache for archived alert right after it is coppied to archive db -- Nikns
-    - Implemented archiving support for schema 107 -- Nikns
-    - Added sig_gid (signature generator id) to snort signature reference url for schema 107 -- Nikns
-    - session_start() on base_conf.php avoiding repetition, easier to handle with debug output -- garaged
-    - debug_mode needs to be off on login (index.php:45 ) -- garaged
-    - Fixed bug #1275536 Unable to download binary payload in Internet Explorer when using SSL -- Nikns
-    - Implemented archiving support for FLoP extended database schema -- Nikns
-    - Implemented rebuild of packet in pcap format for FLoP extended database -- Nikns
-    - Added display of MAC addresses in base_query_alert.php for FLoP extended database -- Nikns
-    - Fixed BASE authentication bypass in standalone mode for base_maintenance.php -- Nikns
-    - Added HTTP response codes on authentication failure in base_maintenance.php for standalone mode -- Nikns
-    - Fixed bug #1341286 Show IP header length in bytes, not words -- Juergen Leising
-    - In plain display mode several sequential non-ASCII payload characters join together displaying their count -- Nikns
-    - Changed input type of the password field in useradmin -- Kevin Johnson
+### Added
+- Checkboxes in base_stat_iplink.php.
+- Support for actions in base_stat_uaddr.php.  
+RFE [submitted](https://sourceforge.net/p/secureideas/feature-requests/19/)
+on sourceforge.net. Original ID: 1123382
+- Archive DB support for schema 107.
+- Sig_gid (signature generator id) to snort signature reference URL for
+schema 107.
+- Archive DB support for FLoP extended database schema.
+- Rebuild of packet in pcap format for FLoP extended database.
+- Display of MAC addresses in base_query_alert.php for FLoP extended database.
+- HTTP response codes in base_maintenance.php for standalone mode.  
+Indicating authentication failure.
+
+Contributor(s): Nikns
+### Changed
+- MSSQL schema for table acid_event.  
+Sig_name now has type VARCHAR instead of TEXT.  
+- Detection of attempts to archive duplicate alerts.  
+Now done via select queries instead of catching db conflict errors.
+
+Contributor(s): Nikns
+- Moved session_start() to base_conf.php.  
+Reasoning for this was avoiding repetition, easier to work with debug output.  
+Issue [opened](https://github.com/NathanGibbs3/BASE/issues/66)
+on GitHub.com to facilitate continued tracking of this.
+- Force conf variable $debug_mode to off on login in index.php.
+
+Contributor(s): Max Valdez (garaged)
+### Fixed
+- Issue with PostgreSQL and schema in base_db.inc.php.  
+Bug [reported](https://sourceforge.net/p/secureideas/bugs/124/)
+on sourceforge.net. Original ID: UNKNOWN  
+- Error in SQL with PostgreSQL.  
+Bug [reported](https://sourceforge.net/p/secureideas/bugs/107/)
+on sourceforge.net. Original ID: 1284695  
+
+Contributor(s):  
+    - Nikns  
+    - Kevin Johnson
+- Issues displaying PortScans.  
+- Archive move and Email summary issues.  
+Bug [reported](https://sourceforge.net/p/secureideas/bugs/123/)
+on sourceforge.net. Original ID: 1408387
+- Archive DB wasn't used after setup.
+- PostgreSQL archive database support.  
+Bug [reported](https://sourceforge.net/p/secureideas/bugs/105/)
+on sourceforge.net. Original ID: UNKNOWN
+- Unable to use actions in base_stat_sensor.php.  
+Bug [reported](https://sourceforge.net/p/secureideas/bugs/113/)
+on sourceforge.net. Original ID: 1313261
+- First of month timestamp issue.  
+Bug [reported](https://sourceforge.net/p/secureideas/bugs/118/)
+on sourceforge.net. Original ID: 1371532
+- Lost alert order when switching between payload display.  
+Bug [reported](https://sourceforge.net/p/secureideas/bugs/121/)
+on sourceforge.net. Original ID: 1406945
+- Search by signature name.  
+Bug [reported](https://sourceforge.net/p/secureideas/bugs/127/)
+on sourceforge.net. Original ID: 1418660
+- Incorrect line termination in sql/create_base_tbls_mssql_extra.sql.  
+Converted to CRLF line terminators.
+- Broken auth system for MSSQL.
+- Broken base_stat_alerts.php with MSSQL.  
+Bug [reported](https://sourceforge.net/p/secureideas/bugs/112/)
+on sourceforge.net. Original ID: 1307250
+- Force to use alert database for auth system stuff.  
+Bug [reported](https://sourceforge.net/p/secureideas/bugs/125/)
+on sourceforge.net. Original ID: 1413594
+- Case of name 'Archive' in base_main.php (in sync with base_hdr1.php).
+- Support for actions in base_stat_class.php.  
+- Broken search by IP criteria.  
+Bug [reported](https://sourceforge.net/p/secureideas/bugs/127/)
+on sourceforge.net. Original ID: 1418660
+- Support for actions in base_stat_iplink.php.
+- Support for actions in base_stat_ports.php.
+- Empty email sent even if action unsuccessful.  
+Bug [reported](https://sourceforge.net/p/secureideas/bugs/128/)
+on sourceforge.net. Original ID: 1422575
+- Unable to Graph Alert Detection Time.  
+Bug [reported](https://sourceforge.net/p/secureideas/bugs/129/)
+on sourceforge.net. Original ID: 1424033
+- Score removed from email address.  
+Bug [reported](https://sourceforge.net/p/secureideas/bugs/130/)
+on sourceforge.net. Original ID: 1426089
+- Packet display mode issues.  
+Bug [reported](https://sourceforge.net/p/secureideas/bugs/82/)
+on sourceforge.net. Original ID: 1210542  
+Bug [reported](https://sourceforge.net/p/secureideas/bugs/109/)
+on sourceforge.net. Original ID: 1288402  
+- Update alert cache for archived alert right after it is copied to archive db.  
+Bug [reported](https://sourceforge.net/p/secureideas/bugs/132/)
+on sourceforge.net. Original ID: 1430686
+- Unable to download binary payload in Internet Explorer when using SSL.  
+Bug [reported](https://sourceforge.net/p/secureideas/bugs/102/)
+on sourceforge.net. Original ID: 1275536
+- Sequential non-ASCII payload character display issue in plain display mode.  
+Several sequential non-ASCII payload characters join together displaying their
+count.
+
+Contributor(s): Nikns
+- Issues with filtering by sig_class and sig_priority.  
+Bug [reported](https://sourceforge.net/p/secureideas/bugs/122/)
+on sourceforge.net. Original ID: 1407325  
+Contributor(s):
+  - Nikns  
+  - Max Valdez (garaged)
+- Issues with file paths under MS Windows in base_conf.php.  
+Bug [reported](https://sourceforge.net/p/secureideas/bugs/126/)
+on sourceforge.net. Original ID: 1413712  
+- Issue when errors are encountered during setup.  
+Form values are remembered, except language which defaults back to English.
+
+Contributor(s): Max Valdez (garaged)
+- Show IP header length in bytes, not words.  
+Bug [reported](https://sourceforge.net/p/secureideas/bugs/133/)
+on sourceforge.net. Original ID: 1341286
+Contributor(s): Juergen Leising
+
+### Security
+- BASE authentication bypass in standalone mode for base_maintenance.php.  
+Contributor(s): Nikns
+- Changed input type of the password field in admin/useradmin.php.  
+Contributor(s): Kevin Johnson
 
 ---
 ## [1.2.3] - Missing from Legacy Changelog
@@ -867,6 +968,10 @@ on sourceforge.net. Original ID: UNKNOWN
 - Fatal error in some installs.
 
 Contributor(s): Michael Stone
+- Unable to check alerts.  
+Bug [reported](https://sourceforge.net/p/secureideas/bugs/58/)
+on sourceforge.net. Original ID: UNKNOWN  
+Contributor(s): Kevin Johnson
 
 ---
 ## [1.1.1] - Missing from Legacy Changelog
