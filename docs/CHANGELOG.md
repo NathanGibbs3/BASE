@@ -38,8 +38,8 @@ Contributor(s): Dan Michitsch
 ### Fixed
 - Display of archived Alerts.  
 While the alerts have been archived correctly, any lookups of them in the 
-archive database have failed, because connecting to the archive database was 
-performed using the baseConnect() method only, and several sql queries in 
+archive DB have failed, because connecting to the archive DB was 
+performed using the `baseConnect()` method only, and several sql queries in 
 `base_qry_alert()` are simply not compatible with `baseConnect()`. Using 
 `basePConnect()` fixes this. **Actually, more a workaround than a real fix.**  
 Bug [reported](https://sourceforge.net/forum/message.php?msg_id=7609952)
@@ -47,9 +47,9 @@ on sourceforge.net.
 - Changing packet display type shows error message Temporary fix.  
 Bug [reported](https://sourceforge.net/p/secureideas/bugs/226/)
 on sourceforge.net. Original ID: 2874199
-- Fixed pcap download for FLoP-extended databases on 64-bit platforms.  
+- Fixed pcap download for FLoP-extended DB's on 64-bit platforms.  
 - Fixed Fatal error: Call to undefined method.  
-"Call to undefined method ProtocolFieldCriteria::ProtocolFieldCriteria() in
+"Call to undefined method `ProtocolFieldCriteria::ProtocolFieldCriteria()` in
 includes/base_state_citems.inc.php"  
 Bug [reported](https://sourceforge.net/p/secureideas/bugs/235/)
 on sourceforge.net. Original ID: 2919599
@@ -66,7 +66,7 @@ See docs/README.graph_alert_data for details.
 
 Contributor(s): Juergen Leising
 - IP address encoding problem in base_payload.php:  
-This refers to non-flop databases only.  
+This refers to non-flop DB's only.  
 Bug [reported](https://sourceforge.net/p/secureideas/bugs/233/)
 on sourceforge.net. Original ID: 2889623.  
 Contributor(s): Brian Brzezicki & Brad Benson Discovery & patch.
@@ -105,7 +105,7 @@ clickable URLs.
 Bug [reported](https://sourceforge.net/p/secureideas/bugs/213/)
 on sourceforge.net. Original ID: 2803137
 - PHP Warning Issues.  
-  - array_count-values() in base_qry_common.php.  
+  - `array_count-values()` in base_qry_common.php.  
   - Undefined variable: sf_portscan_flag
 - "local whois" link issues.  
 Bug [reported](http://sourceforge.net/forum/forum.php?thread_id=3331857&forum_id=404428)
@@ -286,10 +286,10 @@ on sourceforge.net. Original ID: 1762491
 - Bug #1974990.  
 Bug [reported](https://sourceforge.net/p/secureideas/bugs/194/)
 on sourceforge.net. Original ID: 1974990
-- Issues in PrintPortscanEvents().  
+- Issues in `PrintPortscanEvents()`.  
 Bug [reported](https://sourceforge.net/p/secureideas/discussion/404428/thread/0783409a/)
 on sourceforge.net.  
-- Workaround for a potential bug in preg_replace().  
+- Workaround for a potential bug in `preg_replace()`.  
 Bug [reported](https://sourceforge.net/p/secureideas/discussion/404428/thread/de160eca/)
 on sourceforge.net.  
 - Missing signature classification names issue in base_graph_common.php.  
@@ -298,7 +298,7 @@ one.
 - Misc HTML bugs in the query form.
 - Syntax error in setup1.php in case of a wrong adodb path.
 - Sensor display issue in search form.
-Same problem as in UpdateAlertCache() in base-php4/includes/base_cache.inc.php.
+Same problem as in `UpdateAlertCache()` in base-php4/includes/base_cache.inc.php.
 - SQL error with sig_priority when queried from the query form.
 - "Select Signature from List" issue in the query form.
 - Bug #2001211.  
@@ -314,12 +314,12 @@ Contributor(s):
   - Chris Ryan - Testing
   - Juergen Leising
 - Workarounds and fixes for:  
-1 "Fatal error: Call to a member function MoveNext() on a non-object in
+1 "Fatal error: Call to a member function `MoveNext()` on a non-object in
   /var/www/base-127/includes/base_db.inc.php on line 463". Workaround.  
 2 Improved error handling in base_action.inc.php: Errors are now shown in
   regular mode rather than with $debug_mode > 1.  Not every kind of error is a
   duplicate error.  
-3 Fixed baseGetHostByAddr() in base_net.inc.php in cases, where it does not
+3 Fixed `baseGetHostByAddr()` in base_net.inc.php in cases, where it does not
   get provided with a numerical ("dotted") IP address. The "ERROR: invalid
   input syntax for integer is a rather late state", though.  
 4 Fixed a violation of referential integrity, that does not get accepted by
@@ -402,7 +402,7 @@ Contributor(s): Sean Muller
   - Spanish. -- David Gil
   - Chinese. -- Randy
 ### Fixed
-- Issue base_header() is undefined.  
+- Issue `base_header()` is undefined.  
 Bug [reported](https://sourceforge.net/p/secureideas/bugs/177/)
 on sourceforge.net. Original ID: 1750697
 Contributor(s):  
@@ -453,7 +453,7 @@ Bug [reported](https://sourceforge.net/p/secureideas/patches/25/)
 on sourceforge.net. Original ID: UNKNOWN
 
 Contributor(s): Jonathan W Miner
-- Top Right, Database and User not shown.  
+- Top Right, DB and User not shown.  
 Bug [reported](https://sourceforge.net/p/secureideas/bugs/175/)
 on sourceforge.net. Original ID: 1723928
 - Snort signature information links broken.  
@@ -471,7 +471,7 @@ Contributor(s): Kevin Johnson
 - Cleaned a warning.  
 Contributor(s): Marek Cruz
 ### Security
-- Call to exit() added to the redirect to fix security hole.  
+- Call to `exit()` added to the redirect to fix security hole.  
 Contributor(s): Jon Hart
 
 ---
@@ -513,7 +513,7 @@ Contributor(s):
 - Multiple errors related to undefined vars.
 - HTML code for W3C.org compliance.
 - Misspelled constants.
-- CreateBASEAG function.
+- `CreateBASEAG()` function.
 - Check for Image_Graph.
 
 Contributor(s): Marek Cruz
@@ -545,8 +545,8 @@ on sourceforge.net. Original ID: UNKNOWN
 Contributor(s): Jonathan W Miner
 - Site location in footer.  
 Contributor(s): Kevin Johnson
-- Correction to IPFieldCriteria::Description() on base_state_citems.inc.php.
-- Check for ProtocolFieldCriteria::Description() array correctness.
+- Correction to `IPFieldCriteria::Description()` on base_state_citems.inc.php.
+- Check for `ProtocolFieldCriteria::Description()` array correctness.
 
 Contributor(s): GaRaGeD - Patch
 - Payload queries fail due to inconsistent case.  
@@ -589,48 +589,129 @@ Contributor(s): Dan Michitsch
 
 ---
 ## [1.2.6 (christine)] - 2006-07-23
-    - Added check for base_users and base_roles tables in base_main.php - Kevin Johnson
-    - Added . to VAR_PUNC to fix query issue - Kevin johnson
-    - Fixed issue with base_users table being required - Kevin Johnson
-    - Added search punctuation fix - Bruce Briggs
-    - Added FQDN to display -- Jonathan W Miner
-    - PrintForm() fixes - Bruce Briggs
-    - Settings for automatic expansion of the IP and Payload Criteria on Search screen - Bruce Briggs
-    - Save the fields entered on the Search screen for Back button proper refilling - Bruce Briggs
-    - RFE #1520185 Add support for managing last_cid - Eric Jacobsen
-    - Changed show_rows to 49 in base_conf.php.dist to fix IE 6/7 bug - Bruce Briggs
-    - Fixed link to FAQ - Juergen Leising
-    - Fixed VAR_BOOLEAN error and some typos in the footer - Eric Jacobsen
-    - Trivial patch to make base_stat_time.php use GET insted of POST to avoid the 'resend data' warning on refresh - GaRaGeD
-    - Added base-rss.php to the contrib section - Dan Michitsch
+### Added
+- Check for base_users and base_roles tables in base_main.php.
+- A . to VAR_PUNC to fix query issue.
 
+Contributor(s): Kevin Johnson
+- FQDN to display.  
+Patch [submitted](https://sourceforge.net/p/secureideas/patches/15/)
+on sourceforge.net. Original ID: UNKNOWN  
+Contributor(s): Jonathan W Miner
+- Settings for automatic expansion of the IP and Payload Criteria on Search screen - Bruce Briggs
+RFE [submitted](https://sourceforge.net/p/secureideas/feature-requests/58/)
+on sourceforge.net. Original ID: UNKNOWN
+- Save the fields entered on the Search screen for Back button proper refilling - Bruce Briggs
+RFE [submitted](https://sourceforge.net/p/secureideas/feature-requests/58/)
+on sourceforge.net. Original ID: UNKNOWN
+
+Contributor(s): Bruce Briggs
+- Support for managing last_cid.  
+RFE [submitted](https://sourceforge.net/p/secureideas/feature-requests/54/)
+on sourceforge.net. Original ID: 1520185  
+Contributor(s): Eric Jacobsen
+- Contrib code base-rss.  
+Contributor(s): Dan Michitsch
+### Changed
+- Changed show_rows to 49 in base_conf.php.dist to fix IE 6/7 bug - Bruce Briggs
+RFE [submitted](https://sourceforge.net/p/secureideas/feature-requests/58/)
+on sourceforge.net. Original ID: UNKNOWN  
+Contributor(s): Bruce Briggs
+- Changed base_stat_time.php to use GET instead of POST to avoid the
+'resend data' warning on refresh.  
+Contributor(s): Max Valdez (garaged)
+### Fixed
+- Issue with base_users table being required.  
+Contributor(s): Kevin Johnson
+- Search punctuation fix.  
+Bug [reported](https://sourceforge.net/p/secureideas/bugs/134/)
+on sourceforge.net. Original ID: UNKNOWN  
+- `PrintForm()` Issues.
+
+Contributor(s): Bruce Briggs
+- Link to FAQ.  
+Patch [submitted](https://sourceforge.net/p/secureideas/patches/16/)
+on sourceforge.net. Original ID: UNKNOWN  
+Contributor(s): Juergen Leising
+- VAR_BOOLEAN error.
+- Typos in the footer.
+
+Contributor(s): Eric Jacobsen
+
+---
 ## [1.2.5 (sarah)] - 2006-06-04
-    - Added base64 encoding support for MAC addresses presented on the screen for FLoP extended database -- Juergen Leising
-    - Added base64 encoding support for rebuild of packet in pcap format for FLoP extended database -- Juergen Leising
-    - Fixed issue with Oracle and schema version in base_db.inc.php -- Nikns
-    - Fixed bug when alerts with sig references would fail to archive causing duplicates error -- Nikns
-    - Added base64 encoding support for ICMP payload additional table in base_qry_alert.php -- Juergen Leising
-    - Added check for PHP Logging Level against E_NOTICES in setup/index.php -- Nikns
-    - Fixed bug when certain preprocessor alerts would not be cached (for example arpspoof) -- Nikns
-    - Added setup/setup_db.inc.php with CreateBASEAG() to resolve redundancy in setup and base_db_setup.php -- Nikns
-    - Removed unnecessary and broken search index stuff from Create BASE AG, since schemas are already with them  -- Nikns
-    - Added XSSPrintSafe() (array safe htmlspecilchars() function) and made filterSql() use ADOdb qmagic() -- Nikns
-    - Changed input type of the password field to actually be password in setup3.php -- Nikns
-    - Filtered all unfiltred (mainly auth system stuff) $_POST and $_GET variables using filterSql() -- Nikns
-    - Santized all $_SERVER variables to be protected against XSS attacks -- Nikns
-    - Added "Clear Data Tables" option in base_maintenance.php and "Repair Tables" option to execute CreateBASEAG() -- Nikns
-    - Make use of FLoP's event reference. Signature name of alert which trigered "Tagged Packet" alert is shown too -- Nikns
-    - Updated chinese.lang.php -- Johnson Chiang
-    - Fixed Time error in searches -- Jeff Kell
-    - Fixed refresh issue with ~ directories -- Kevin Johnson
-    - Fixed cookie stored data and authentication scheme to correct Nikns' report on session forge issue -- GaRaGeD
-    - Updated link to the Nessus plug in DB -- Jonathan W Miner 
-    - Fixed display after deleting alerts -- Bruce Briggs
-    - Fixed Bug #1466392 - Back button doesn't work after refresh. -- Juergen Leising
-    - Patches from jhart@spoofed.org to add missing ICMP and TCP type and codes - GaRaGeD
-    - add support for ICMP redirect decoding. - Jon Hart
-    - add decoding support for ICMP source quench and ICMP parameter problem - Jon Hart
-    - split up "flags" into DF and MF, much like tcp flags are currently handled - Jon Hart
+### Added
+- Base64 support for MAC address display for FLoP extended DB.  
+Patch [submitted](https://sourceforge.net/p/secureideas/patches/11/)
+on sourceforge.net. Original ID: UNKNOWN
+- Base64 support for rebuild of packet in pcap format for FLoP extended DB.  
+Patch [submitted](https://sourceforge.net/p/secureideas/patches/13/)
+on sourceforge.net. Original ID: UNKNOWN
+- Base64 support for ICMP payload additional table in base_qry_alert.php.  
+Patch [submitted](https://sourceforge.net/p/secureideas/patches/12/)
+on sourceforge.net. Original ID: UNKNOWN
+
+Contributor(s): Juergen Leising
+- Check for PHP Logging Level against E_NOTICES in setup/index.php.  
+- Function `CreateBASEAG()` in setup/setup_db.inc.php to resolve redundancy in
+setup and base_db_setup.php.
+- "Clear Data Tables" option in base_maintenance.php.
+- "Repair Tables" option to execute `CreateBASEAG()`.
+
+Contributor(s): Nikns
+- Missing ICMP and TCP type and codes.  
+Contributor(s):  
+  - Jon Hart - Patch
+  - Max Valdez (garaged)
+- Support for ICMP redirect decoding.
+- Decoding support for ICMP source quench and ICMP parameter problem.
+
+Contributor(s): Jon Hart
+### Changed
+- Translations:
+  - Chinese -- Johnson Chiang
+- Use FLoP's event reference.  
+Signature name of alert which triggered "Tagged Packet" alert is shown too.  
+Contributor(s): Nikns
+- Nessus.org URL Updated.  
+Contributor(s): Jonathan W Miner
+- split up "flags" into DF and MF, much like tcp flags are currently handled.  
+Contributor(s): Jon Hart
+### Removed
+- Unnecessary or broken search index stuff from `CreateBASEAG()`.
+Since schemas are already included.  
+Contributor(s): Nikns
+### Fixed
+- Issue with Oracle and schema version in base_db.inc.php.
+- Failure of alerts with sig references to archive causing duplicates error.
+- Certain preprocessor alerts would not be cached (for example arpspoof).
+
+Contributor(s): Nikns
+- Time error in searches.  
+Bug [reported](https://sourceforge.net/p/secureideas/bugs/134/)
+on sourceforge.net. Original ID: UNKNOWN  
+Contributor(s): Jeff Kell
+- Refresh issue with ~ directories.  
+Contributor(s): Kevin Johnson
+- Display after deleting alerts.  
+Contributor(s): Bruce Briggs
+- Back button doesn't work after refresh.  
+Bug [reported](https://sourceforge.net/p/secureideas/bugs/135/)
+on sourceforge.net. Original ID: 1466392
+Contributor(s): Juergen Leising
+### Security
+- Function `XSSPrintSafe()` ( array safe `htmlspecilchars()`).
+- Made `filterSql()` use ADOdb `qmagic()`.
+- Changed input type of the password field setup3.php.
+- Filtered all $_POST and $_GET variables using `filterSql()`.  
+Mainly auth system stuff.
+- Sanitized all $_SERVER variables to be protected against XSS attacks.
+
+Contributor(s): Nikns
+- Session forgery issue with cookie data and authentication scheme.  
+Contributor(s):  
+  - Nikns - Report
+  - Max Valdez (garaged)
 
 ---
 ## [1.2.4 (melissa)] - 2006-03-19
@@ -642,9 +723,9 @@ on sourceforge.net. Original ID: 1123382
 - Archive DB support for schema 107.
 - Sig_gid (signature generator id) to snort signature reference URL for
 schema 107.
-- Archive DB support for FLoP extended database schema.
-- Rebuild of packet in pcap format for FLoP extended database.
-- Display of MAC addresses in base_query_alert.php for FLoP extended database.
+- Archive DB support for FLoP extended DB schema.
+- Rebuild of packet in pcap format for FLoP extended DB.
+- Display of MAC addresses in base_query_alert.php for FLoP extended DB.
 - HTTP response codes in base_maintenance.php for standalone mode.  
 Indicating authentication failure.
 
@@ -656,7 +737,7 @@ Sig_name now has type VARCHAR instead of TEXT.
 Now done via select queries instead of catching db conflict errors.
 
 Contributor(s): Nikns
-- Moved session_start() to base_conf.php.  
+- Moved `session_start()` to base_conf.php.  
 Reasoning for this was avoiding repetition, easier to work with debug output.  
 Issue [opened](https://github.com/NathanGibbs3/BASE/issues/66)
 on GitHub.com to facilitate continued tracking of this.
@@ -679,7 +760,7 @@ Contributor(s):
 Bug [reported](https://sourceforge.net/p/secureideas/bugs/123/)
 on sourceforge.net. Original ID: 1408387
 - Archive DB wasn't used after setup.
-- PostgreSQL archive database support.  
+- PostgreSQL archive DB support.  
 Bug [reported](https://sourceforge.net/p/secureideas/bugs/105/)
 on sourceforge.net. Original ID: UNKNOWN
 - Unable to use actions in base_stat_sensor.php.  
@@ -700,7 +781,7 @@ Converted to CRLF line terminators.
 - Broken base_stat_alerts.php with MSSQL.  
 Bug [reported](https://sourceforge.net/p/secureideas/bugs/112/)
 on sourceforge.net. Original ID: 1307250
-- Force to use alert database for auth system stuff.  
+- Force to use alert DB for auth system stuff.  
 Bug [reported](https://sourceforge.net/p/secureideas/bugs/125/)
 on sourceforge.net. Original ID: 1413594
 - Case of name 'Archive' in base_main.php (in sync with base_hdr1.php).
@@ -1065,7 +1146,7 @@ Contributor(s): Tim Rupp
 - Listing users with no users error.  
 Bug [reported](https://sourceforge.net/p/secureideas/bugs/29/)
 on sourceforge.net. Original ID: 1123247
-- Archive Database switching.  
+- Archive DB switching.  
 Bug [reported](https://sourceforge.net/p/secureideas/bugs/33/)
 on sourceforge.net. Original ID: 1145254
 - Summary display for the archive DB.  
@@ -1140,7 +1221,7 @@ Contributor(s):
 ## [1.0.2 (racquel)] - 2005-02-13
 ### Added
 - DShield.org IP Info page.
-- isc.sans.org port database for more information.  
+- isc.sans.org port DB for more information.  
 Contributor(s): Kevin Johnson
 - Summary Statistics box to base_stat_alerts page.  
 RFE [submitted](https://sourceforge.net/p/secureideas/feature-requests/9/)
@@ -1237,7 +1318,7 @@ Contributor(s): Jason Dixon
 ### Added
 - Patch from nobody.
 - Functions in base_stat_common.php now return sensors with no events. New
-function SensorCnt() created to handle this.
+function `SensorCnt()` created to handle this.
 - images/ directory.
 - languages/ directory.
 - Start of the language files.
@@ -1287,7 +1368,7 @@ Bug [reported](https://sourceforge.net/p/secureideas/bugs/6/)
 on sourceforge.net.
 - Error where menu appeared on the login page.
 - Error with menus in the footer on any page but base_main.php.
-- Fixed password size in the database files.
+- Fixed password size in the DB files.
 - Fixed issue with MSSQL tables creation commands.  
 
 Contributor(s): Kevin Johnson
@@ -1365,7 +1446,7 @@ Contributor(s): Kevin Johnson
 Bug [reported](https://sourceforge.net/p/secureideas/bugs/1/)
 on sourceforge.net. Original ID: 1025011
 - Various typos.....
-- Year dropdowns via dispYearOptions().  
+- Year dropdowns via `dispYearOptions()`.
 
 Contributor(s): Kevin Johnson
 
