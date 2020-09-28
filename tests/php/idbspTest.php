@@ -21,12 +21,20 @@ class dbspTest extends TestCase {
 	protected static $db;
 	protected static $DBlib_path;
 	protected static $dbt;
+	protected static $PHPUV;
 
 	// Share class instance as common test fixture.
 	public static function setUpBeforeClass() {
 		GLOBAL $BASE_path, $DBlib_path, $DBtype, $debug_mode, $alert_dbname,
 			$alert_host, $alert_user, $alert_password, $alert_port,
 			$db_connect_method, $db;
+		// Issue #36 Cutout.
+		// See: https://github.com/NathanGibbs3/BASE/issues/36
+		$PHPV = GetPHPV();
+		$PSM = getenv('SafeMode');
+		if (version_compare($PHPV, '5.4', '<') && $PSM == 1){
+			self::markTestSkipped();
+		}
 		$tf = __FUNCTION__;
 		// Setup DB System.
 		$TRAVIS = getenv('TRAVIS');
@@ -82,9 +90,17 @@ class dbspTest extends TestCase {
 			self::$DBlib_path = $DBlib_path;
 			self::$db = $db;
 			self::$dbt = $db->DB->databaseType; // DB Type from ADODB Object.
+			// PHPUnit Version
+			$PHPUV = GetPHPUV();
+			if (version_compare($PHPUV, '9.0', '<')) { // PHPUnit < 9x
+				self::$PHPUV = 1;
+			}else{ // PHPUnit 9+
+				self::$PHPUV = 2;
+			}
 		}
 	}
 	public static function tearDownAfterClass() {
+		self::$PHPUV = null;
 		self::$dbt = null;
 		self::$db = null;
 		self::$DBlib_path = null;
@@ -93,22 +109,34 @@ class dbspTest extends TestCase {
 	// Tests go here.
 	public function testbaseErrorMessageInvalidSQLReturnsExpected(){
 		$db = self::$db;
+		$PHPUV = self::$PHPUV;
 		$sql = 'SELEXT * FROM acid_event';
+		$msg = '<b>Database ERROR:<\/b>';
 		// Remove once we TD migrate this.
 		define('_ERRSQLDB','Database ERROR:');
 		// Test conditions will throw error.
 		// Use error suppression @ symbol.
 		@$db->baseExecute($sql, 0, -1, false);
-		$this->assertContains(
-			'<b>Database ERROR:</b>',
-			$db->baseErrorMessage(),
-			'Unexpected return baseErrorMessage().'
-		);
+		if ( $PHPUV > 1 ){ // PHPUnit 9+
+			$this->assertMatchesRegularExpression(
+				'/'.$msg.'/',
+				$db->baseErrorMessage(),
+				'Unexpected Return Value.'
+			);
+		}else{ // Legacy PHPUnit
+			$this->assertRegExp(
+				'/'.$msg.'/',
+				$db->baseErrorMessage(),
+				'Unexpected Return Value.'
+			);
+		}
 	}
 	public function testbaseErrorMessageInvalidSQLDebugReturnsExpected(){
 		GLOBAL $debug_mode;
 		$db = self::$db;
-		$sql = 'SELEXT * FROM acid_event';
+		$PHPUV = self::$PHPUV;
+		$sql = 'SELEXT x FROM acid_event';
+		$msg = "<p><code>$sql<\/code><\/p>";
 		// Remove once we TD migrate this.
 		define('_ERRSQLDB','Database ERROR:');
 		// Test conditions will throw error.
@@ -116,11 +144,19 @@ class dbspTest extends TestCase {
 		@$db->baseExecute($sql, 0, -1, false);
 		$odb = $debug_mode;
 		$debug_mode = 1;
-		$this->assertContains(
-			"<p><code>$sql</code></p>",
-			$db->baseErrorMessage(),
-			'Unexpected return baseErrorMessage().'
-		);
+		if ( $PHPUV > 1 ){ // PHPUnit 9+
+			$this->assertMatchesRegularExpression(
+				'/'.$msg.'/',
+				$db->baseErrorMessage(),
+				'Unexpected Return Value.'
+			);
+		}else{ // Legacy PHPUnit
+			$this->assertRegExp(
+				'/'.$msg.'/',
+				$db->baseErrorMessage(),
+				'Unexpected Return Value.'
+			);
+		}
 		$debug_mode = $odb;
 	}
 

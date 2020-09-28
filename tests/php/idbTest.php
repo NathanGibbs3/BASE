@@ -171,7 +171,7 @@ class dbTest extends TestCase {
 		$db = self::$db;
 		$this->assertEquals(
 			0,
-			$db->baseIndexExists( 'acid_ip_cache','How'),
+			$db->baseIndexExists( 'acid_ag_alert','How'),
 			'Unexpected return baseIndexExists().'
 		);
 	}
@@ -179,7 +179,7 @@ class dbTest extends TestCase {
 		$db = self::$db;
 		$this->assertEquals(
 			1,
-			$db->baseIndexExists( 'acid_ip_cache','ipc_ip'),
+			$db->baseIndexExists( 'acid_ag_alert','ag_id'),
 			'Unexpected return baseIndexExists().'
 		);
 	}

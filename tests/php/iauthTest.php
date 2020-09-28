@@ -89,8 +89,8 @@ class authTest extends TestCase {
 		}
 	}
 	public static function tearDownAfterClass() {
-		self::$user = null;
 		self::$PHPUV = null;
+		self::$user = null;
 	}
 
 	// Tests go here.
