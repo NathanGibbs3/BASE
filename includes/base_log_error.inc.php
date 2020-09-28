@@ -41,7 +41,7 @@ function returnErrorMessage ($message, $color = "#ff0000", $br = 0 ){
 
 // @codeCoverageIgnoreStart
 function FatalError ($message){
-	print returnErrorMessage('<b>'._ERRBASEFATAL.'</b>',0,1)."\n $message";
+	print returnErrorMessage('<b>'._ERRBASEFATAL.'</b>',0,1)."\n".$message;
 	$message = preg_replace("/\//", '', $message);
 	$message = preg_replace("/<br>/i", ' ', $message);
 	$message = strip_tags($message)."\n";

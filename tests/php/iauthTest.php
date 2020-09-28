@@ -19,7 +19,8 @@ class authTest extends TestCase {
 	public static function setUpBeforeClass() {
 		GLOBAL $BASE_path, $DBlib_path, $DBtype, $debug_mode, $alert_dbname,
 		$alert_host, $alert_user, $alert_password, $alert_port,
-		$db_connect_method, $db;
+		$db_connect_method, $db, $archive_dbname, $archive_host,
+		$archive_port, $archive_user, $archive_password;
 		$tf = __FUNCTION__;
 		// Setup DB System.
 		$TRAVIS = getenv('TRAVIS');

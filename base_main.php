@@ -111,7 +111,7 @@ NLIO("<td align='left' rowspan='2'>",3);
 $tmp_month = date("m");
 $tmp_day = date("d");
 $tmp_year = date("Y");
-$tmp_DSO = '&amp;sort_order=occur_d';
+$tmp_DSO = '&amp;sort_order=occur_d'; // Default Sort Order.
 $today = '&amp;time%5B0%5D%5B0%5D=+&amp;time%5B0%5D%5B1%5D=%3E%3D'.
     '&amp;time%5B0%5D%5B2%5D='.$tmp_month.
     '&amp;time%5B0%5D%5B3%5D='.$tmp_day.

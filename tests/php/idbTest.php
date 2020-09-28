@@ -6,20 +6,28 @@ use PHPUnit\Framework\TestCase;
 /**
   * @covers ::GetFieldLength
   * @covers ::VerifyDBAbstractionLib
+  * @covers baseCon::baseErrorMessage
+  * @covers baseCon::baseFieldExists
+  * @covers baseCon::baseTableExists
+  * @covers baseCon::baseIndexExists
+  * @covers baseCon::baseExecute
   * @uses ::LoadedString
-  * @uses baseCon
+  * @uses ::HtmlColor
+  * @uses ::returnErrorMessage
   * @uses baseRS
   */
 class dbTest extends TestCase {
 	// Pre Test Setup.
 	protected static $db;
 	protected static $DBlib_path;
+	protected static $dbt;
 
 	// Share class instance as common test fixture.
 	public static function setUpBeforeClass() {
 		GLOBAL $BASE_path, $DBlib_path, $DBtype, $debug_mode, $alert_dbname,
 			$alert_host, $alert_user, $alert_password, $alert_port,
-			$db_connect_method, $db;
+			$db_connect_method, $db, $archive_dbname, $archive_host,
+		$archive_port, $archive_user, $archive_password;
 		$tf = __FUNCTION__;
 		// Setup DB System.
 		$TRAVIS = getenv('TRAVIS');
@@ -74,9 +82,11 @@ class dbTest extends TestCase {
 			);
 			self::$DBlib_path = $DBlib_path;
 			self::$db = $db;
+			self::$dbt = $db->DB->databaseType; // DB Type from ADODB Object.
 		}
 	}
 	public static function tearDownAfterClass() {
+		self::$dbt = null;
 		self::$db = null;
 		self::$DBlib_path = null;
 	}
@@ -147,6 +157,30 @@ class dbTest extends TestCase {
 			1,
 			$db->baseTableExists( 'acid_ip_cache'),
 			'Unexpected return baseTableExists().'
+		);
+	}
+	public function testbaseIndexExistsNonExistantTableReturnsExpected(){
+		$db = self::$db;
+		$this->assertEquals(
+			0,
+			$db->baseIndexExists( 'what','ipc_ip'),
+			'Unexpected return baseIndexExists().'
+		);
+	}
+	public function testbaseIndexExistsNonExistantFieldReturnsExpected(){
+		$db = self::$db;
+		$this->assertEquals(
+			0,
+			$db->baseIndexExists( 'acid_ip_cache','How'),
+			'Unexpected return baseIndexExists().'
+		);
+	}
+	public function testbaseIndexExistsValidDataReturnsExpected(){
+		$db = self::$db;
+		$this->assertEquals(
+			1,
+			$db->baseIndexExists( 'acid_ip_cache','ipc_ip'),
+			'Unexpected return baseIndexExists().'
 		);
 	}
 
@@ -392,6 +426,116 @@ class dbTest extends TestCase {
 				);
 			}
 		}
+	}
+	public function testbaseErrorMessageValidSQLReturnsExpected(){
+		$db = self::$db;
+		$sql = 'SELECT * FROM acid_event WHERE 1=2';
+		$db->baseExecute($sql);
+		$this->assertEquals(
+			'',
+			$db->baseErrorMessage(),
+			'Unexpected return baseErrorMessage().'
+		);
+	}
+	public function testbaseErrorMessageNULLSQLReturnsExpected(){
+		$db = self::$db;
+		$sql = '';
+		// Test conditions will throw error.
+		// Use error suppression @ symbol.
+		@$db->baseExecute($sql,0,-1,false);
+		$this->assertEquals(
+			'',
+			$db->baseErrorMessage(),
+			'Unexpected return baseErrorMessage().'
+		);
+	}
+	public function testbaseExecuteValidSQLReturnsExpected(){
+		$db = self::$db;
+		$sql = 'SELECT * FROM acid_event WHERE 1=2';
+		$this->assertInstanceOf(
+			'baseRS',
+			$db->baseExecute($sql),
+			'Unexpected return baseExecute().'
+		);
+	}
+	public function testbaseExecuteSQLWithLimitReturnsExpected(){
+		$db = self::$db;
+		$sql = 'SELECT * FROM acid_event WHERE 1=2';
+		$this->assertInstanceOf(
+			'baseRS',
+			$db->baseExecute($sql,1,4),
+			'Unexpected return baseExecute().'
+		);
+	}
+	public function testbaseExecuteNULLSQLThrowsError(){
+		$db = self::$db;
+		$dbt = self::$dbt;
+		$sql = '';
+		$EEM = "$dbt error: [";
+		$PHPUV = GetPHPUV();
+		if (version_compare($PHPUV, '3.0', '<')) {
+			$this->markTestSkipped('Requires Phpunit 3+ to run.');
+		}elseif (version_compare($PHPUV, '5.0', '<')) { // PHPUnit 3x - 4x
+			$this->setExpectedException(
+				"PHPUnit_Framework_Error_Notice", $EEM
+			);
+		}elseif (version_compare($PHPUV, '6.0', '<')) { // PHPUnit 5x
+			$this->expectException("PHPUnit_Framework_Error_Notice");
+			$this->expectExceptionMessage($EEM);
+		}elseif (version_compare($PHPUV, '9.0', '<')) { // PHPUnit 6x - 8x
+			$this->expectException("PHPUnit\Framework\Error\Notice");
+			$this->expectExceptionMessage($EEM);
+		}else{ // PHPUnit 9+
+			$this->expectNotice();
+			$this->expectNoticeMessage($EEM);
+		}
+		$db->baseExecute($sql);
+	}
+	public function testbaseExecuteNULLSQLReturnsExpected(){
+		$db = self::$db;
+		$dbt = self::$dbt;
+		$sql = '';
+		// Test conditions will throw error.
+		// Use error suppression @ symbol.
+		$this->assertFalse(
+			@$db->baseExecute($sql,0,-1,false),
+			'Unexpected return baseExecute().'
+		);
+	}
+	public function testbaseExecuteInvalidSQLThrowsError(){
+		$db = self::$db;
+		$dbt = self::$dbt;
+		$sql = 'SELEXT * FROM acid_event';
+		$EEM = "$dbt error: [";
+		$PHPUV = GetPHPUV();
+		if (version_compare($PHPUV, '3.0', '<')) {
+			$this->markTestSkipped('Requires Phpunit 3+ to run.');
+		}elseif (version_compare($PHPUV, '5.0', '<')) { // PHPUnit 3x - 4x
+			$this->setExpectedException(
+				"PHPUnit_Framework_Error_Notice", $EEM
+			);
+		}elseif (version_compare($PHPUV, '6.0', '<')) { // PHPUnit 5x
+			$this->expectException("PHPUnit_Framework_Error_Notice");
+			$this->expectExceptionMessage($EEM);
+		}elseif (version_compare($PHPUV, '9.0', '<')) { // PHPUnit 6x - 8x
+			$this->expectException("PHPUnit\Framework\Error\Notice");
+			$this->expectExceptionMessage($EEM);
+		}else{ // PHPUnit 9+
+			$this->expectNotice();
+			$this->expectNoticeMessage($EEM);
+		}
+		$db->baseExecute($sql);
+	}
+	public function testbaseExecuteInvalidSQLReturnsExpected(){
+		$db = self::$db;
+		$dbt = self::$dbt;
+		$sql = 'SELEXT * FROM acid_event';
+		// Test conditions will throw error.
+		// Use error suppression @ symbol.
+		$this->assertFalse(
+			@$db->baseExecute($sql,0,-1,false),
+			'Unexpected return baseExecute().'
+		);
 	}
 
 	// Add code to a function if needed.
