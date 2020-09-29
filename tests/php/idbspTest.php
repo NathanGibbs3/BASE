@@ -108,11 +108,22 @@ class dbspTest extends TestCase {
 		// Test conditions will throw error.
 		// Use error suppression @ symbol.
 		@$db->baseExecute($sql,0,-1,false);
-		$this->assertEquals(
-			'',
-			$db->baseErrorMessage(),
-			'Unexpected return baseErrorMessage().'
-		);
+		$PHPV = GetPHPV();
+		if ( version_compare($PHPV, '5.5', '<') ){
+			// Empty SQL actually returns an error on PHP < 5.5x
+			$msg = '<b>Database ERROR:</b> Query was empty';
+			$this->assertRegExp(
+				'/'.$msg.'/',
+				$db->baseErrorMessage(),
+				'Unexpected Return Value.'
+			);
+		}else{
+			$this->assertEquals(
+				'',
+				$db->baseErrorMessage(),
+				'Unexpected Return Value.'
+			);
+		}
 	}
 	public function testbaseErrorMessageInvalidSQLReturnsExpected(){
 		$db = self::$db;
