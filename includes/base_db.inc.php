@@ -396,6 +396,12 @@ class baseCon {
 		$Ret = 0;
 		if ( $this->baseTableExists($table) ){
 			$tmp = $this->DB->MetaIndexes($table);
+			// CI Smoke Test Why is PostgreSQL failing?
+			if ( getenv('TRAVIS') ){
+				print "Smoke Test\n";
+				print_r($tmp);
+			}
+			// End CI Smoke Test
 			if ( $tmp != false ){
 					if ( in_array($index_name, array_keys($tmp)) ){
 					$Ret = 1;

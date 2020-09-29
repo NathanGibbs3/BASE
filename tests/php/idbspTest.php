@@ -4,14 +4,7 @@ use PHPUnit\Framework\TestCase;
 // Test fucntions in /includes/base_db.inc.php
 
 /**
-  * @covers ::GetFieldLength
-  * @covers ::VerifyDBAbstractionLib
   * @covers baseCon::baseErrorMessage
-  * @uses ::LoadedString
-  * @uses ::HtmlColor
-  * @uses ::returnErrorMessage
-  * @uses baseCon
-  * @uses baseRS
   * A necessary evil for tests touching legacy TD.
   * @preserveGlobalState disabled
   * @runTestsInSeparateProcesses
@@ -107,6 +100,20 @@ class dbspTest extends TestCase {
 	}
 
 	// Tests go here.
+	public function testbaseErrorMessageEmptySQLReturnsExpected(){
+		$db = self::$db;
+		$sql = '';
+		// Remove once we TD migrate this.
+		define('_ERRSQLDB','Database ERROR:');
+		// Test conditions will throw error.
+		// Use error suppression @ symbol.
+		@$db->baseExecute($sql,0,-1,false);
+		$this->assertEquals(
+			'',
+			$db->baseErrorMessage(),
+			'Unexpected return baseErrorMessage().'
+		);
+	}
 	public function testbaseErrorMessageInvalidSQLReturnsExpected(){
 		$db = self::$db;
 		$PHPUV = self::$PHPUV;

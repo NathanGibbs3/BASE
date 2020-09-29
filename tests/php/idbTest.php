@@ -437,18 +437,6 @@ class dbTest extends TestCase {
 			'Unexpected return baseErrorMessage().'
 		);
 	}
-	public function testbaseErrorMessageNULLSQLReturnsExpected(){
-		$db = self::$db;
-		$sql = '';
-		// Test conditions will throw error.
-		// Use error suppression @ symbol.
-		@$db->baseExecute($sql,0,-1,false);
-		$this->assertEquals(
-			'',
-			$db->baseErrorMessage(),
-			'Unexpected return baseErrorMessage().'
-		);
-	}
 	public function testbaseExecuteValidSQLReturnsExpected(){
 		$db = self::$db;
 		$sql = 'SELECT * FROM acid_event WHERE 1=2';
