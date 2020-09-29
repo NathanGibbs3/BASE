@@ -102,6 +102,7 @@ class dbspTest extends TestCase {
 	// Tests go here.
 	public function testbaseErrorMessageEmptySQLReturnsExpected(){
 		$db = self::$db;
+		$dbt = self::$dbt;
 		$sql = '';
 		// Remove once we TD migrate this.
 		define('_ERRSQLDB','Database ERROR:');
@@ -109,8 +110,12 @@ class dbspTest extends TestCase {
 		// Use error suppression @ symbol.
 		@$db->baseExecute($sql,0,-1,false);
 		$PHPV = GetPHPV();
-		if ( version_compare($PHPV, '5.5', '<') ){
-			// Empty SQL actually returns an error on PHP < 5.5x
+		if (
+			version_compare($PHPV, '5.5', '<')
+			&& ( $dbt == "mysql" || $dbt == "mysqlt" || $dbt == "maxsql" )
+		){
+			// Empty SQL actually returns an error.
+			// On PHP < 5.5x using the mysql driver.
 			$msg = '<b>Database ERROR:<\/b> Query was empty';
 			$this->assertRegExp(
 				'/'.$msg.'/',

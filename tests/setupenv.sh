@@ -171,7 +171,7 @@ ADOFilePfx=v
 ADOFileSfx=.tar.gz
 if [ "$pvM" \> "5" ]; then # PHP 7x
 	if [ "$pvm" \> "1" ]; then # PHP 7.2+
-		ADODBVer=5.20.10
+		ADODBVer=5.20.12
 	else
 		ADODBVer=5.20.0
 	fi
