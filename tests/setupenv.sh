@@ -170,21 +170,22 @@ ADODl=archive
 ADOFilePfx=v
 ADOFileSfx=.tar.gz
 if [ "$pvM" \> "5" ]; then # PHP 7x
-	ADODBVer=5.20.0
+	if [ "$pvm" \> "1" ]; then # PHP 7.2+
+		ADODBVer=5.20.10
+	else
+		ADODBVer=5.20.0
+	fi
 	if [ "$1" == "" ] && [ "$TRAVIS" == "true" ]; then
 		export ADODBPATH="ADOdb-$ADODBVer"
 	fi
 elif [ "$pvM" \> "4" ]; then # PHP 5x
 	if [ "$pvm" \> "2" ]; then # PHP 5.3+
 		ADODBVer=5.10
-		if [ "$1" == "" ] && [ "$TRAVIS" == "true" ]; then
-			export ADODBPATH="ADOdb-$ADODBVer/phplens/adodb5"
-		fi
 	else
 		ADODBVer=5.01beta
-		if [ "$1" == "" ] && [ "$TRAVIS" == "true" ]; then
-			export ADODBPATH="ADOdb-$ADODBVer/phplens/adodb5"
-		fi
+	fi
+	if [ "$1" == "" ] && [ "$TRAVIS" == "true" ]; then
+		export ADODBPATH="ADOdb-$ADODBVer/phplens/adodb5"
 	fi
 else # PHP 4x
 #	Legacy ADODB

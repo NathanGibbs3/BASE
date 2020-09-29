@@ -111,7 +111,7 @@ class dbspTest extends TestCase {
 		$PHPV = GetPHPV();
 		if ( version_compare($PHPV, '5.5', '<') ){
 			// Empty SQL actually returns an error on PHP < 5.5x
-			$msg = '<b>Database ERROR:</b> Query was empty';
+			$msg = '<b>Database ERROR:<\/b> Query was empty';
 			$this->assertRegExp(
 				'/'.$msg.'/',
 				$db->baseErrorMessage(),
