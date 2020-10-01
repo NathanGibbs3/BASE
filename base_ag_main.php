@@ -362,6 +362,5 @@ if ($debug_time_mode > 0) {
     $et->Mark("Get Query Elements");
     $et->PrintTiming();
 }
-
-echo "</body>\r\n</html>";
+PageEnd();
 ?>

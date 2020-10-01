@@ -29,8 +29,6 @@ include_once ("$BASE_path/includes/base_constants.inc.php");
   include_once ("$BASE_path/base_common.php");
   include_once ("$BASE_path/base_graph_common.php");
 
-
-
   function check_worldmap()
   {
     GLOBAL $debug_mode;
@@ -424,7 +422,7 @@ include_once ("$BASE_path/includes/base_constants.inc.php");
           ($debug_time_mode >= 1) ? $et->PrintTiming() : '';
 
           PrintBASESubFooter();
-          echo "</body>\r\n</html>";
+			PageEnd();
           return;
         }
 
@@ -624,10 +622,6 @@ include_once ("$BASE_path/includes/base_constants.inc.php");
   }
 
   ($debug_time_mode >= 1) ? $et->PrintTiming() : '';
-
-  PrintBASESubFooter();
-  echo "</body>\r\n</html>";
-
-// vim:shiftwidth=2:tabstop=2:expandtab 
+PrintBASESubFooter();
+PageEnd();
 ?>
-
