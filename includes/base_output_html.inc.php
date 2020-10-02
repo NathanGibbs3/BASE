@@ -43,7 +43,7 @@ function PageStart ($refresh = 0, $page_title = '') {
 		if ($page_title != ''){
 			$title .= ': ' . XSSPrintSafe($page_title);;
 		}
-		if ( isset($_COOKIE['archive']) && $_COOKIE['archive'] == 1 ) {
+		if ( isset($_COOKIE['archive']) && $_COOKIE['archive'] == 1 ){
 			$SfxA = ' -- ARCHIVE';  // Need to add this to Translation Data.
 			$title .= $SfxA;
 			$HT .= $SfxA;

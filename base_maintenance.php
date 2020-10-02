@@ -275,9 +275,7 @@ if ( array_key_exists('SERVER_SOFTWARE',$_SERVER) ){
         </TABLE><P>';
 
   echo "\n</FORM>\n";
-  
-  PrintBASESubFooter();
-
-  $et->PrintTiming();
-  echo "</body>\r\n</html>";
+PrintBASESubFooter();
+$et->PrintTiming();
+PageEnd();
 ?>

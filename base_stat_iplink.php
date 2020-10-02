@@ -239,10 +239,8 @@ $UIL = new UILang($BASE_Language); // Create UI Language Abstraction Object.
   $qs->SaveState();
 	ExportHTTPVar("sort_order", $sort_order);
   echo "\n</FORM>\n";
-  
-  PrintBASESubFooter();
-
-  $et->Mark("Get Query Elements");
-  $et->PrintTiming();
-  echo "</body>\r\n</html>";
+PrintBASESubFooter();
+$et->Mark("Get Query Elements");
+$et->PrintTiming();
+PageEnd();
 ?>

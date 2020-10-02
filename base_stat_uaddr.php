@@ -45,7 +45,6 @@ $CPTotal = $UIL->CWA['Total'];
  $submit = ImportHTTPVar("submit", VAR_ALPHA | VAR_SPACE, array(_SELECTED, _ALLONSCREEN, _ENTIREQUERY));
  $sort_order=ImportHTTPVar("sort_order", VAR_LETTER | VAR_USCORE);
  $action = ImportHTTPVar("action", VAR_ALPHA);
- $dst_ip = NULL;
 
    // Check role out and redirect if needed -- Kevin
   $roleneeded = 10000;
@@ -225,12 +224,18 @@ $qro->AddTitle( "$CPTotal&nbsp;#",
 
       if ( $myrow[0] == NULL ) $no_ip = true; else $no_ip = false;
 
-     qroPrintEntryHeader($i);
-
-     /* Generating checkbox value -- nikns */
-     ($addr_type == SOURCE_IP) ? ($src_ip = $myrow[0]) : ($dst_ip = $myrow[0]);
-     $tmp_rowid = $src_ip . "_" . $dst_ip;
-
+	qroPrintEntryHeader($i);
+	// Generating checkbox value. -- nikns
+	// Fix for Issue #69
+	// https://github.com/NathanGibbs3/BASE/issues/69
+	if ( $addr_type == SOURCE_IP ){
+		$src_ip = $myrow[0];
+		$dst_ip = '';
+	}else{
+		$src_ip = '';
+		$dst_ip = $myrow[0];
+	}
+	$tmp_rowid = $src_ip.'_'.$dst_ip;
      echo '    <TD><INPUT TYPE="checkbox" NAME="action_chk_lst['.$i.']" VALUE="'.$tmp_rowid.'">';
      echo '    <INPUT TYPE="hidden" NAME="action_lst['.$i.']" VALUE="'.$tmp_rowid.'"></TD>';
 

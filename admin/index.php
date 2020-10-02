@@ -49,9 +49,7 @@ $UIL = new UILang($BASE_Language); // Create UI Language Object.
     PrintBASEAdminMenuHeader();
   
     echo _BASEADMINTEXT;
-
-    PrintBASEAdminMenuFooter();
-
-    PrintBASESubFooter();
+PrintBASEAdminMenuFooter();
+PrintBASESubFooter();
 PageEnd();
 ?>

@@ -1051,4 +1051,13 @@ function Percent ( $Value = 1, $Count = 1 ){
 	}
 	return ($Ret);
 }
+
+// Returns true if var is a string containing data.
+function LoadedString ($var){
+	$Ret = false;
+	if ( is_string($var) && !empty($var)){
+		$Ret = true;
+	}
+	return $Ret;
+}
 ?>

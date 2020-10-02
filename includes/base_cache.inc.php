@@ -227,14 +227,14 @@ function CacheSensor($sid, $cid, $db) {
 
   $update_sql = array(4);
 
-  /* Preprocessor events only */
-  // The original "(sig_name LIKE '(spp_%')" is too limited. Cf.
-  // /usr/local/src/snort-2.8.3.1_unpatched/etc/gen-msg.map
-  // /usr/local/src/snort-2.8.3.1_unpatched/src/generators.h
-  // Currently I have included all the names that I have found in 
-  // these files.
-  // Note: Do always add '%' in LIKE-statements. Otherwise the entries
-  //       won't match.
+	// Preprocessor events only.
+	// The original "(sig_name LIKE '(spp_%')" is too limited. Cf.
+	// /usr/local/src/snort-2.8.3.1_unpatched/etc/gen-msg.map
+	// /usr/local/src/snort-2.8.3.1_unpatched/src/generators.h
+	// Currently I have included all the names that I have found in 
+	// these files.
+	// Note: Do always add '%' in LIKE-statements. Otherwise the entries
+	//       won't match.
   if ( $db->baseGetDBversion() >= 100 ) {
     $schema_specific[3] = " ( " . 
                           "(sig_name LIKE '(spp_%') OR " . 

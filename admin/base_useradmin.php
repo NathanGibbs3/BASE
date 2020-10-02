@@ -1,6 +1,6 @@
 <?php
 // Basic Analysis and Security Engine (BASE)
-// Copyright (C) 2019 Nathan Gibbs
+// Copyright (C) 2019-2020 Nathan Gibbs
 // Copyright (C) 2004 BASE Project Team
 // Copyright (C) 2000 Carnegie Mellon University
 //
@@ -44,7 +44,7 @@ if ( preg_match("/(create|add)/", $Action) || $Use_Auth_System == 1 ){
 	// Check role out and redirect if needed -- Kevin
 	$roleneeded = 1;
 	$BUser = new BaseUser();
-	if (($BUser->hasRole($roleneeded) == 0) && $Use_Auth_System == 1){
+	if ( $BUser->hasRole($roleneeded) == 0 && $Use_Auth_System == 1 ){
 		base_header("Location: ". $BASE_urlpath . "/base_main.php");
 	}else{
 		$page_title = _USERADMIN;
@@ -96,7 +96,7 @@ if ( preg_match("/(create|add)/", $Action) || $Use_Auth_System == 1 ){
 				$form .= $user->returnRoleNamesDropDown($defaultrole);
 				$form .= NLI('</td>'.$Trc,6);
 				$form .= NLI("<td colspan='2' align='center'>",6);
-				$form .= "<input type='submit' name='submit' value='"._SUBMITQUERY."'>";
+				$form .= "<input type='submit' name='submit' value='"._SUBMITQUERY."'/>";
 				$form .= NLI('</td>',6);
 				$form .= NLI('</tr>',5);
 				$form .= NLI('</table>',4);
@@ -145,7 +145,7 @@ if ( preg_match("/(create|add)/", $Action) || $Use_Auth_System == 1 ){
 				$form .= $user->returnRoleNamesDropDown($rid);
 				$form .= NLI('</td>'.$Trc,6);
 				$form .= NLI("<td colspan='2' align='center'>",6);
-				$form .= "<input type='submit' name='submit' value='"._UPDATEUSER."'>";
+				$form .= "<input type='submit' name='submit' value='"._UPDATEUSER."'/>";
 				$form .= NLI('</td>',6);
 				$form .= NLI('</tr>',5);
 				$form .= NLI('</table>',4);
@@ -199,16 +199,16 @@ if ( preg_match("/(create|add)/", $Action) || $Use_Auth_System == 1 ){
 				$tmpHTML .= NLI("$thc>$ufndesc</td>",4);
 				$tmpHTML .= NLI("$thc>$asdesc</td>",4);
 				$tmpHTML .= NLI('</tr>',3);
-				if ($users <> "") { // Verify we have a user in the db --Kevin;
+				if ( $users <> "" ){ // Verify we have a user in the db --Kevin;
 					$imgc = NLI('',6);
 					$imgc .= "<img border='0' src='".$BASE_urlpath ."/images/";
 					$tduma = $tdac.NLI($Hrst,5);
-					foreach ($users as $row) { // Iterate users & build table.
+					foreach ( $users as $row ){ // Iterate users & build table.
 						$tmpRow = explode("|", $row);
 						// Setup User ID URL param.
 						$uuid = "user&amp;userid=".urlencode($tmpRow[0]);
 						// Set up enable/disable action URL
-						if ($tmpRow[4] == 1) {
+						if ( $tmpRow[4] == 1 ){
 							$enabled = $tduma."disable$uuid'>";
 							$enabled .= $imgc."greencheck.png' alt='button_greencheck";
 						}else{
@@ -218,10 +218,11 @@ if ( preg_match("/(create|add)/", $Action) || $Use_Auth_System == 1 ){
 						$enabled .= "'/>";
 						$enabled .= NLI('</a>',5).NLI('</td>',4);
 						// Anti XSS Output Data
-						$uid = htmlspecialchars($tmpRow[0]);
-						$usn = htmlspecialchars($tmpRow[1]);
-						$rolename = htmlspecialchars($user->roleName($tmpRow[2]));
-						$ufn = htmlspecialchars($tmpRow[3]);
+						$tmpRow = XSSPrintSafe($tmpRow);
+						$uid = $tmpRow[0];
+						$usn = $tmpRow[1];
+						$rolename = XSSPrintSafe($user->roleName($tmpRow[2]));
+						$ufn = $tmpRow[3];
 						$tmpHTML .= NLI('<tr>',3);
 						$tmpHTML .= NLI($tduma."edit$uuid'>",4);
 						$tmpHTML .= $imgc."button_edit.png' alt='button_$AcEdit'/>";
@@ -230,12 +231,10 @@ if ( preg_match("/(create|add)/", $Action) || $Use_Auth_System == 1 ){
 						$tmpHTML .= $imgc."button_delete.png' alt='button_$AcDelete'/>";
 						$tmpHTML .= NLI('</a>',5).NLI('</td>',4);
 						$tmpHTML .= NLI("$tdac$uid</td>",4);
-						$tmpHTML .= NLI($tdac,4);
-						if ($tmpRow[2] == 1) { // Display Admin Users in red.
-							$tmpHTML .= "<font color='#ff0000'><b>$usn</b></font></td>";
-						}else{
-							$tmpHTML .= "$usn</td>";
+						if ( $tmpRow[2] == 1 ){ // Display Admin Users in red.
+							$usn = returnErrorMessage("<b>$usn</b>");
 						}
+						$tmpHTML .= NLI("$tdac$usn</td>",4);
 						$tmpHTML .= NLI("$tdac$rolename</td>",4);
 						$tmpHTML .= NLI("$tdac$ufn</td>",4);
 						$tmpHTML .= NLI($enabled,4);

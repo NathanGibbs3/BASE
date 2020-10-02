@@ -420,7 +420,7 @@ $UIL = new UILang($BASE_Language); // Create UI Language Abstraction Object.
           ($debug_time_mode >= 1) ? $et->PrintTiming() : '';
 
           PrintBASESubFooter();
-          echo "</body>\r\n</html>";
+			PageEnd();
           return;
         }
 
@@ -620,10 +620,6 @@ $UIL = new UILang($BASE_Language); // Create UI Language Abstraction Object.
   }
 
   ($debug_time_mode >= 1) ? $et->PrintTiming() : '';
-
-  PrintBASESubFooter();
-  echo "</body>\r\n</html>";
-
-// vim:shiftwidth=2:tabstop=2:expandtab 
+PrintBASESubFooter();
+PageEnd();
 ?>
-

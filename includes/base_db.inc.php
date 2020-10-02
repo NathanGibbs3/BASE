@@ -60,15 +60,17 @@ class baseCon {
 			$this->DB_class = 0;
 		}
 	}
-  function baseDBConnect($method, $database, $host, $port, $username, $password, $force = 0)
-  {
-    GLOBAL $archive_dbname, $archive_host, $archive_port, $archive_user, $archive_password, $debug_mode;
-    
-    // Check archive cookie to see if they want to be using the archive tables
-    // and check - do we force to use specified database even if archive cookie is set
-    if ( (@$_COOKIE['archive'] == 1) && ($force != 1) )
-    {
-      // Connect to the archive tables
+	function baseDBConnect(
+		$method, $database, $host, $port, $username, $password, $force = 0
+	){
+		GLOBAL $archive_dbname, $archive_host, $archive_port, $archive_user,
+		$archive_password, $debug_mode;
+		// Check archive cookie to see if we need to use the archive tables.
+		// Only honnor cookie if not forced to use specified database.
+		if ( $force != 1 &&
+			( isset($_COOKIE['archive']) && $_COOKIE['archive'] == 1 )
+		){
+			// Connect to the archive tables.
       if ($debug_mode > 0)
       {
         print "<BR><BR>\n" . __FILE__ . ":" . __LINE__ . ": DEBUG: Connecting to archive db.<BR><BR>\n\n";
@@ -221,40 +223,20 @@ class baseCon {
   {
      $this->DB->Close();
   }
-	function baseExecute(
-		$sql, $start_row=0, $num_rows=-1, $die_on_error=true
-	){
+	function baseExecute( $sql, $start_row=0, $num_rows=-1, $hard_error=true ){
 		GLOBAL $debug_mode, $sql_trace_mode, $db_connect_method,
-			$alert_password;
-		if ( array_key_exists('archive_dbname',$GLOBALS) ){
-			$archive_dbname = $GLOBALS['archive_dbname'];
-		}else{
-			$archive_dbname = '';
-		}
-		if ( array_key_exists('archive_host',$GLOBALS) ){
-			$archive_host = $GLOBALS['archive_host'];
-		}else{
-			$archive_host = '';
-		}
-		if ( array_key_exists('archive_port',$GLOBALS) ){
-			$archive_port = $GLOBALS['archive_port'];
-		}else{
-			$archive_port = '';
-		}
-		if ( array_key_exists('archive_password',$GLOBALS) ){
-			$archive_password = $GLOBALS['archive_password'];
-		}else{
-			$archive_password = '';
-		}
+			$alert_password, $archive_dbname, $archive_host, $archive_port,
+			$archive_user, $archive_password;
 		$EPfx = 'BASE DB ';
 		$tdt = $this->DB_type;
 		$tdn = $this->DB_name;
 		$DSN = $this->DB_host;
 		$tdp = $this->DB_port;
 		$tdu = $this->DB_username;
+		$rs = false; // Default returns failure.
 		if (
 			$DSN == $archive_host && $tdp == $archive_port
-			&& $tdn == $archive_dbname
+			&& $tdn == $archive_dbname && $tdu == $archive_user
 		){
 			$tdpw = $archive_password;
 		}else{
@@ -263,24 +245,20 @@ class baseCon {
 		if ( $tdp != '') {
 			$DSN = "$DSN:$tdp";
 		}
-     /* ** Begin DB specific SQL fix-up ** */
-     if ($this->DB_type == "mssql")
-     {
-        $sql = preg_replace("/''/i", "NULL", $sql);
-     }
-
-     if ($this->DB_type == "oci8")
-     {
-       if (!strpos($sql, 'TRIGGER'))
-       {
-         if (substr($sql, strlen($sql)-1, strlen($sql))==';')
-         {
-           $sql=substr($sql, 0, strlen($sql)-1);
-         }
-       }
-     }
-
-		if (!$this->DB->isConnected()){
+		// Begin DB specific SQL fix-up.
+		// @codeCoverageIgnoreStart
+		// We have no way of testing Oracle or Ms-SQL functionality.
+		if ( $this->DB_type == "mssql" ){
+			$sql = preg_replace("/''/i", "NULL", $sql);
+		}elseif ( $this->DB_type == "oci8" ){
+			if (!strpos($sql, 'TRIGGER')){
+				if (substr($sql, strlen($sql)-1, strlen($sql))==';'){
+					$sql=substr($sql, 0, strlen($sql)-1);
+				}
+			}
+		}
+		// @codeCoverageIgnoreEnd
+		if ( !$this->DB->isConnected() ){
 			// Check for connection before executing query.
 			// Try to reconnect of DB connection is down.
 			// Found via CI. Might be related to PHP 5.2x not supporting
@@ -292,75 +270,77 @@ class baseCon {
 			}else{
 				$db = $this->DB->PConnect( $DSN, $tdu, $tdpw, $tdn);
 			}
-			if (!$this->DB->isConnected()){
-				FatalError("$EPfx Reconnect Failed", E_USER_NOTICE);
+			if ( !$this->DB->isConnected() ){
+				FatalError("$EPfx Reconnect Failed");
 			}else{
 				error_log("$EPfx Reconnected");
 			}
 		}
-
-     $this->lastSQL = $sql;
-     $limit_str = "";
-
-     /* Check whether need to add a LIMIT / TOP / ROWNUM clause */
-     if ( $num_rows == -1 )
-        $rs = new baseRS($this->DB->Execute($sql), $this->DB_type);
-     else
-     {
-        if ( $this->DB_class == 1 ) {
-           $rs =  new baseRS($this->DB->Execute($sql." LIMIT ".$start_row.", ".$num_rows),
-                             $this->DB_type);
-           $limit_str = " LIMIT ".$start_row.", ".$num_rows;
-        }
-        else if ( $this->DB_type == "oci8" ) {
-           $rs =  new baseRS($this->DB->Execute($sql),
-                             $this->DB_type);
-           $limit_str = " LIMIT ".$start_row.", ".$num_rows;
-	}
-        else if ( $this->DB_type == "postgres" )
-        {
-           $rs = new baseRS($this->DB->Execute($sql." LIMIT ".$num_rows." OFFSET ".$start_row),
-                             $this->DB_type);
-           $limit_str = " LIMIT ".$num_rows." OFFSET ".$start_row;
-        }
-
-        /* Databases which do not support LIMIT (e.g. MS SQL) natively must emulated it */
-        else
-        {
-           $rs = new baseRS($this->DB->Execute($sql), $this->DB_type);
-           $i = 0;
-           while ( ($i < $start_row) && $rs)
-           {
-              if ( !$rs->row->EOF )
-                 $rs->row->MoveNext();
-              $i++;
-           }
-         }
-     } 
-
+		$this->lastSQL = $sql;
+		$limit_str = '';
+		// Check whether need to add a LIMIT / TOP / ROWNUM clause.
+		if ( $num_rows != -1 ){
+			if ( $this->DB_class == 1 ){
+				$limit_str = " LIMIT ".$start_row.", ".$num_rows;
+			// @codeCoverageIgnoreStart
+			// We have no way of testing Oracle functionality.
+			}elseif ( $this->DB_type == "oci8" ){
+				// $limit_str = " LIMIT ".$start_row.", ".$num_rows;
+				// Why, we don't use it.
+			// @codeCoverageIgnoreEnd
+			}elseif ( $this->DB_type == "postgres" ){
+				$limit_str = " LIMIT ".$num_rows." OFFSET ".$start_row;
+			}
+		}
+		$qry = $sql.$limit_str;
+		// See: https://github.com/NathanGibbs3/BASE/issues/67
+		// Legacy code assumed $this->DB->Execute() returns a valid recordset.
+		// It returns false on error. Catch it here.
+		$result = $this->DB->Execute($qry);
+		if ( $result ){
+			$rs = new baseRS($result, $this->DB_type);
+		}
+		// @codeCoverageIgnoreStart
+		// We have no way of testing this functionality on these DB's
+		if ( $num_rows != -1 && $limit_str == '' && $rs != false ){
+			// DB's which do not support LIMIT (e.g. MS SQL) natively must
+			// emulated it by walking the current row from the start of
+			// rowset to the desired start row.
+			$i = 0;
+			while ( ($i < $start_row) && $rs ){
+				if ( !$rs->row->EOF ){
+					$rs->row->MoveNext();
+				}
+				$i++;
+			}
+		}
+		// @codeCoverageIgnoreEnd
      if ( $sql_trace_mode > 0 )
      {
         fputs($this->sql_trace, $sql."\n");
         fflush($this->sql_trace);
      }
-		if ( (!$rs || $this->baseErrorMessage() != "") && $die_on_error ){
-			if (!$rs){
-				$msg = returnErrorMessage("$EPfx NULL Recordset",0,1);
+		$tmp = $this->baseErrorMessage();
+		if ( (!$rs || $tmp != '') && $hard_error ){
+			$msg = $EPfx;
+			if ( !$rs ){
+				$msg .= 'NULL Recordset ';
+			}
+			if ( $tmp !='' ){
+				$msg .= $tmp;
 			}else{
-				$msg = '';
+				$msg .= 'NO ADODB Error Msg';
 			}
-			$msg .= $this->baseErrorMessage();
-			// Fix how we setup $limit_str and execute the queries above so
-			// that we can get rid of this if block.
-			if ( $debug_mode > 0 && $limit_str != ''){
-				$msg .= '<p>SQL QUERY: <code>'.$this->lastSQL.$limit_str.
-				'</code></p>';
-			}
-			if ( getenv('TRAVIS') && version_compare(PHP_VERSION, "5.3.0", "<") ){
+			$msg = returnErrorMessage($msg,0,1);
+			if ( $debug_mode > 0
 				// Issue #5 Info Shim
+				|| (
+					getenv('TRAVIS')
+					&& version_compare(PHP_VERSION, "5.3.0", "<")
+				)
+			){
 				$msg .= "<p>DB Engine: $tdt DB: $tdn @ $DSN</p>";
-				$msg .= '<p>SQL QUERY: <code>'.$this->lastSQL.$limit_str.
-				'</code></p>';
+				$msg .= '<p>SQL QUERY: <code>'.$qry.'</code></p>';
 			}
 			FatalError ($msg);
 		}else{
@@ -369,41 +349,68 @@ class baseCon {
 	}
 	function baseErrorMessage(){
 		GLOBAL $debug_mode;
-		if ( $this->DB->ErrorMsg() && (
-			$this->DB_type != 'mssql' || (
-				!strstr($this->DB->ErrorMsg(), 'Changed database context to')
-				&& !strstr($this->DB->ErrorMsg(), 'Changed language setting to')
-			)
-		)){
-			// Whats with the 3 table closures? Verify that we need them.
-			$msg = '</TABLE></TABLE></TABLE>'.
-			returnErrorMessage('<B>'._ERRSQLDB.'</B> '). $this->DB->ErrorMsg();
+		$msg = '';
+		$tmp = $this->DB->ErrorMsg();
+		if ( $tmp ){
+			$msg = '<b>'._ERRSQLDB.'</b> ';
+			$msg .= $tmp;
 			if ( $debug_mode > 0 ){
 				$msg .= '<p><code>'.$this->lastSQL.'</code></p>';
 			}
-		}else{
-			$msg = '';
+			// @codeCoverageIgnoreStart
+			// We have no way of testing Ms-SQL functionality.
+			// MS-SQL Error messages that are not issues.
+			if ( $this->DB_type == 'mssql' && preg_match(
+				"/Changed (databas|languag)e (context|setting) to/", $tmp
+			)){
+				$msg = '';
+			}
+			// @codeCoverageIgnoreEnd
 		}
 		return $msg;
 	}
-  function baseTableExists($table)
-  {
-     if ($this->DB_type == "oci8") $table=strtoupper($table);
-
-     if ( in_array($table, $this->DB->MetaTables()) )
-        return 1;
-     else 
-        return 0;
-  }
-
-  function baseIndexExists($table, $index_name)
-  {
-     if ( in_array($index_name, $this->DB->MetaIndexes($table)) )
-        return 1;
-     else 
-        return 0;
-  }
-
+	function baseFieldExists($table,$field){
+		$Ret = 0;
+		if ( $this->baseTableExists($table) ){
+			if ( in_array($field, $this->DB->metacolumnNames($table)) ){
+				$Ret = 1;
+			}
+		}
+		return $Ret;
+	}
+	function baseTableExists($table){
+		$Ret = 0;
+		// @codeCoverageIgnoreStart
+		// We have no way of testing Oracle functionality.
+		if ( $this->DB_type == 'oci8' ){
+			$table=strtoupper($table);
+		}
+		// @codeCoverageIgnoreEnd
+		if ( in_array($table, $this->DB->MetaTables()) ){
+			$Ret = 1;
+		}
+		return $Ret;
+	}
+	// This function is not used anywhere.
+	function baseIndexExists($table, $index_name){
+		$Ret = 0;
+		if ( $this->baseTableExists($table) ){
+			$tmp = $this->DB->MetaIndexes($table);
+			if ( $tmp != false ){
+				foreach ($tmp as $key => $value) { // Iterate Index List
+					if ( array_key_exists('columns', $value) ){
+						if ( in_array(
+								$index_name,
+								array_values($value['columns'])
+						) ){
+							$Ret = 1;
+						}
+					}
+				}
+			}
+		}
+		return $Ret;
+	}
   function baseInsertID()
   {
   /* Getting the insert ID fails on certain databases (e.g. postgres), but we may use it on the once it works
@@ -547,8 +554,7 @@ class baseCon {
      return $this->version;
   }
 
-  function getSafeSQLString($str)
-  {
+	function getSafeSQLString($str){
    $t = str_replace("\\", "\\\\", $str);
    if ($this->DB_type != "mssql" && $this->DB_type != "oci8" )
      $t = str_replace("'", "\'", $t);
@@ -557,8 +563,7 @@ class baseCon {
    $t = str_replace("\"", "\\\\\"", $t);
 
    return $t;
-  }
-
+	}
 }
 
 class baseRS {
@@ -777,12 +782,16 @@ function NewBASEDBConnection($path, $type){
 	$version = explode( '.', phpversion() );
 	if (VerifyDBAbstractionLib($path."adodb.inc.php")){
 		SetConst('ADODB_ERROR_HANDLER_TYPE',E_USER_NOTICE);
-		SetConst('ADODB_ERROR_LOG_TYPE',0);
+//		Unit Tests had ADODB error logging in their output.
+//		Solution Make ADODB error logging configurable.
+//		See: https://github.com/NathanGibbs3/BASE/issues/68
+//		Commented out this line for now.
+//		SetConst('ADODB_ERROR_LOG_TYPE',0);
 		include_once($path.'adodb-errorhandler.inc.php');
 		include($path.'adodb.inc.php');
 	}else{
 		$msg = _ERRSQLDBALLOAD1.'"'.XSSPrintSafe($path).'"'._ERRSQLDBALLOAD2;
-		if ( $version[0] > 5 || ( $version[0] == 5 && $version[1] > 2) ){
+		if ( $version[0] > 5 || ( $version[0] == 5 && $version[1] > 1) ){
 			$tmp = 'https://github.com/ADOdb/ADOdb';
 		}else{
 			$tmp = 'https://sourceforge.net/projects/adodb';
@@ -832,6 +841,31 @@ function ClearDataTables($db)
   $db->baseExecute("DELETE FROM signature");
   $db->baseExecute("DELETE FROM tcphdr");
   $db->baseExecute("DELETE FROM udphdr");
-} 
-// vim:tabstop=2:shiftwidth=2:expandtab
+}
+// Get Max Length of field in table.
+function GetFieldLength($db,$table,$field){
+	$Epfx = 'BASE ' . __FUNCTION__ . '() ';
+	$Emsg = '';
+	$Ret = 0;
+	if ( !(is_object($db)) ){
+		$Emsg = $Epfx."Invalid DB Object.";
+	}else{
+		if ( !(LoadedString($table) && $db->baseTableExists($table)) ){
+			$Emsg = $Epfx."Invalid Table.";
+		}elseif (
+			!(LoadedString($field) && $db->baseFieldExists($table,$field))
+		){
+			$Emsg = $Epfx."Invalid Field.";
+		}
+	}
+	if ( $Emsg != ''){
+		trigger_error($Emsg);
+	}else{
+		$wresult = $db->DB->metacolumns($table);
+		$wf = strtoupper($field);
+		$tmp = $wresult[$wf];
+		$Ret = $tmp->max_length;
+	}
+	return $Ret;
+}
 ?>
