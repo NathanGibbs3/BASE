@@ -1,4 +1,5 @@
 # Changelog
+
 All notable changes to this project will be documented in this file using the
 [Keep a CHANGELOG](http://keepachangelog.com) principles.
 
@@ -7,11 +8,106 @@ All notable changes to this project will be documented in this file using the
  - PHP 7x Support.
  - MariaDB Support.
  - PHPUnit Tests.
+ - Whois support for LACNIC & Afrinic.
+ - Support for Travis-CI build checks on commit.
+ - Support for Coveralls.io & Codecov.io code coverage reports on commit.
+
+Contributor(s): [Nathan Gibbs]
 ### Changed
+- Update snort.org sid lookup URL.  
+Now matches new functionality in the snort.org web site.  
+Such a lookup needs a URL, such as https://snort.org/rule_docs/1-2003 .
+- Update isc.sans.org port lookup URL.
+
+Contributor(s): [Nathan Gibbs]
 ### Deprecated
 ### Removed
+- ports.tantalo.net port lookup URL.
+Contributor(s): [Nathan Gibbs]
 ### Fixed
+- [#2 Return value of function `GetVendor()`. ](
+https://github.com/NathanGibbs3/BASE/issues/2)
+- [#6 PHP Strict standards/Warning: Declaration Messages on Travis-CI & Local.](
+https://github.com/NathanGibbs3/BASE/issues/6)
+- [#7 PHP Deprecated: Messages on Travis-CI & Local.](
+https://github.com/NathanGibbs3/BASE/issues/7)
+- [#28 Change ADODB download URL in error message.](
+https://github.com/NathanGibbs3/BASE/issues/28)
+- [#34 `VerifyDBAbstractionLib()` Not operative under safe mode.](
+https://github.com/NathanGibbs3/BASE/issues/34)
+- [#38 BASE does not check for unset variables in admin pages before access.](
+https://github.com/NathanGibbs3/BASE/issues/38)
+- [#39 Function `base_header()` does not check if headers where sent before
+calling `header()` and exiting.](
+https://github.com/NathanGibbs3/BASE/issues/39)
+- [#40 `PrintFreshPage()` does not check for unset Superglobal variable
+`$_SERVER['REQUEST_URI']` before access.](
+https://github.com/NathanGibbs3/BASE/issues/40)
+- [#31 BASE does not check for unset conf variables external_*_link before
+access.](
+https://github.com/NathanGibbs3/BASE/issues/31)
+- [#44 `SignatureCriteria::PrintForm()` does not check for unset conf
+variable `$GLOBALS['use_sig_list']` before access.](
+https://github.com/NathanGibbs3/BASE/issues/44)
+- [#45 BASE does not check for unset conf variable `$show_expanded_query`
+before access.](
+https://github.com/NathanGibbs3/BASE/issues/45)
+- [#27 `BuildSigLookup()` does not check for unset conf variable
+`external_sig_link` before access.](
+https://github.com/NathanGibbs3/BASE/issues/27)
+- [#46 BASE does not check for unset conf variable `$show_summary_stats`
+before access.](
+https://github.com/NathanGibbs3/BASE/issues/46)
+- [#47 BASE does not check for unset conf variable `$show_previous_alert`
+before access.](
+https://github.com/NathanGibbs3/BASE/issues/47)
+- [#48 `QueryState::ExecuteOutputQuery()` does not check for unset conf
+variable `$show_rows` before access.](
+https://github.com/NathanGibbs3/BASE/issues/48)
+- [#49 BASE does not check for unset conf variable `$show_first_last_links`
+before access.](
+https://github.com/NathanGibbs3/BASE/issues/49)
+- [#50 BASE does not check for unset conf variable `$colored_alerts`
+before access.](
+https://github.com/NathanGibbs3/BASE/issues/50)
+- [#51 `returnUser()` does not check for set cookie before access.](
+https://github.com/NathanGibbs3/BASE/issues/51)
+- [#52 `Init()` does not check for unset conf variable `$MAX_ROWS`
+before access.](
+https://github.com/NathanGibbs3/BASE/issues/52)
+- [#53 'IPAddressCriteria::PrintForm()` does not check for unset conf
+variable `$ip_address_input` before access.](
+https://github.com/NathanGibbs3/BASE/issues/53)
+- [#59 BASE does not check for unset conf variable `$priority_colors`
+before access.](
+https://github.com/NathanGibbs3/BASE/issues/59)
+- [#60 BASE color alert severity information is downgraded by one.](
+https://github.com/NathanGibbs3/BASE/issues/60)
+- [#58 FQDN DB errors.](
+https://github.com/NathanGibbs3/BASE/issues/58)
+- [#67 `baseExecute()` returns invalid data structure.](
+https://github.com/NathanGibbs3/BASE/issues/67)
+- [#69 BASE does not check for unset variable `$src_ip` before access.](
+https://github.com/NathanGibbs3/BASE/issues/69)
+- [#70 Standardize HTML page closures.](
+https://github.com/NathanGibbs3/BASE/issues/70)
+- [#72 Incorrect Display of Admin Users.](
+https://github.com/NathanGibbs3/BASE/issues/72)
+
+Contributor(s): [Nathan Gibbs]
+- [#57 `tr bgcolor="#"` if `$prio` not in `$priority_colors`
+(unknown event class)](
+https://github.com/NathanGibbs3/BASE/issues/57)
+Contributor(s):
+  - [FalcoGer]
+  - [Nathan Gibbs]
 ### Security
+- [#32 Add Anti XSS code to CGI Action "display" in base_user.php.](
+https://github.com/NathanGibbs3/BASE/issues/32)
+- [#13 Add Anti XSS code to `returnRoleNamesDropDown()`.](
+https://github.com/NathanGibbs3/BASE/issues/13)
+
+Contributor(s): [Nathan Gibbs]
 
 ---
 ## [1.4.5 (lilias)] - 2009-11-03
@@ -32,7 +128,7 @@ Such a lookup needs a URL, such as http://www.snort.org/search/sid/1-2003 .
 Contributor(s):
   - Shawn Jefferson from the "Snort-users" mailing list on Feb, 23rd 2010.
   - Juergen Leising
-  - Kevin Johnson
+  - [Kevin Johnson]
 - Contrib code base-rss.  
 Contributor(s): Dan Michitsch
 ### Fixed
@@ -74,7 +170,7 @@ Contributor(s): Brian Brzezicki & Brad Benson Discovery & patch.
 - XSS flaws in base_local_rules.php:  
 Contributor(s):
   - Dave Hull -- XSS Scan
-  - Kevin Johnson
+  - [Kevin Johnson]
 
 ---
 ## [1.4.4 (dawn)] - 2009-07-24
@@ -125,17 +221,17 @@ Contributor(s):
 - SQLI flaw.  
 Contributor(s):
   - Peter Österberg - Report
-  - Kevin Johnson
+  - [Kevin Johnson]
 - XSS and LFI in base_local_rules.php  
 Contributor(s):
   - Clint Ruoho - Report
-  - Kevin Johnson
+  - [Kevin Johnson]
 
 ---
 ## [1.4.3.1 (zig)] - 2009-05-30
 ### Security
 - Multiple XSS flaws in User and Role management.  
-Contributor(s): Kevin Johnson
+Contributor(s): [Kevin Johnson]
 
 ---
 ## [1.4.3 (gabi)] - 2009-05-14
@@ -145,7 +241,7 @@ Contributor(s): Kevin Johnson
 - XSS Flaws in base_qry files.
 - Multiple XSS flaws in citems.
 
-Contributor(s): Kevin Johnson
+Contributor(s): [Kevin Johnson]
 
 ---
 ## [1.4.2 (chandy)] - 2009-04-03
@@ -267,7 +363,7 @@ Contributor(s): Juergen Leising
 - Moving alerts with empty sig_priority.  
 Contributor(s):
   - Michel Lundell.
-  - Kevin Johnson.
+  - [Kevin Johnson].
 - Further Issues in the setup procedure.  
 - Download of pcap for sfportscan alerts.  
 Now disabled as these are just pseudo packets rather than real packets from
@@ -352,10 +448,10 @@ Contributor(s): Juergen Leising
 - Patch for Barnyard.  
 Contributor(s):
   - University of Florida - Patch Submission
-  - Kevin Johnson
+  - [Kevin Johnson]
 ### Changed
 - Translations:
-  - Norwegian SEARCH tag. -- Ronny Hansen & Kevin Johnson
+  - Norwegian SEARCH tag. -- Ronny Hansen & [Kevin Johnson]
   - Chinese. -- Johnson Chiang
 - Updated INSTALL documents.  
 Contributor(s): Sean Muller
@@ -365,7 +461,7 @@ Bug [reported](https://sourceforge.net/p/secureideas/bugs/185/)
 on sourceforge.net. Original ID: UNKNOWN  
 Contributor(s):  
   - Terry Burton - Report.  
-  - Kevin Johnson
+  - [Kevin Johnson]
 - base_qry_alert.php Showing corrupt HTML.  
 Bug [reported](https://sourceforge.net/p/secureideas/bugs/183/)
 on sourceforge.net. Original ID: 1836274
@@ -375,7 +471,7 @@ on sourceforge.net. Original ID: 1886513
 
 Contributor(s):  
     - Reported anonymously.  
-    - Kevin Johnson
+    - [Kevin Johnson]
 
 - Error message "You have an error in your SQL syntax".  
 Bug [reported](https://sourceforge.net/p/secureideas/bugs/187/)
@@ -394,7 +490,7 @@ Contributor(s): Kevin Marion
 ## [1.3.9 (anne)] - 2007-11-20
 ### Added
 - Sean Muller as the BASE Project Manager. Welcome. :-)
-Approvals & Sign off(s): Kevin Johnson
+Approvals & Sign off(s): [Kevin Johnson]
 - INSTALL and INSTALL.rtf files to documentation.
 Contributor(s): Sean Muller
 ### Changed
@@ -407,7 +503,7 @@ Bug [reported](https://sourceforge.net/p/secureideas/bugs/177/)
 on sourceforge.net. Original ID: 1750697
 Contributor(s):  
   - Juergen Leising - Report.
-  - Kevin Johnson
+  - [Kevin Johnson]
 - Sans lookup fails.  
 Patch [submitted](https://sourceforge.net/p/secureideas/bugs/169/)
 on sourceforge.net. Original ID: 1680965  
@@ -420,7 +516,7 @@ on sourceforge.net. Original ID: 1760615
 Contributor(s):  
   - Jordan Wiens - Report.
   - Sean Muller
-  - Kevin Johnson
+  - [Kevin Johnson]
 ### Security
 - XSS bug in BASE fixed.  
 Bug [reported](https://sourceforge.net/p/secureideas/bugs/182/)
@@ -428,7 +524,7 @@ on sourceforge.net. Original ID: 1801192
 Contributor(s):  
   - Daniel Medianero - Discovery & Report.
   - Sean Muller
-  - Kevin Johnson
+  - [Kevin Johnson]
 
 ---
 ## [1.3.8 (jodie)] - 2007-07-08
@@ -442,7 +538,7 @@ Contributor(s): Daniel Medianero
 - PDF generation support.  
 Provided by fpdf library.  
 This will save space as we are not using it.  
-Contributor(s): Kevin Johnson
+Contributor(s): [Kevin Johnson]
 ### Fixed
 - "colored_alerts" missing from base_conf.php  
 Bug [reported](https://sourceforge.net/p/secureideas/patches/26/)
@@ -463,11 +559,11 @@ on sourceforge.net. Original ID: 1675094
 - Maybe need count(DISTINCT ip_src) to sort by IP correctly.  
 Bug [reported](https://sourceforge.net/p/secureideas/bugs/172/)
 on sourceforge.net. Original ID: 1689885
-- Use of archive DB seems broken in "karen" release -- Kevin Johnson
+- Use of archive DB seems broken in "karen" release -- [Kevin Johnson]
 Bug [reported](https://sourceforge.net/p/secureideas/bugs/161/)
 on sourceforge.net. Original ID: 1649659
 
-Contributor(s): Kevin Johnson
+Contributor(s): [Kevin Johnson]
 - Cleaned a warning.  
 Contributor(s): Marek Cruz
 ### Security
@@ -490,7 +586,7 @@ on sourceforge.net. Original ID: 166596
 Bug [reported](https://sourceforge.net/p/secureideas/bugs/163/)
 on sourceforge.net. Original ID: 1666340
 
-Contributor(s): Kevin Johnson
+Contributor(s): [Kevin Johnson]
 - Patch to fix display of index.php -- Jonathon W Miner
 Patch [submitted](https://sourceforge.net/p/secureideas/patches/24/)
 on sourceforge.net. Original ID: UNKNOWN  
@@ -508,7 +604,7 @@ on sourceforge.net. Original ID: 1680965
 
 Contributor(s):  
     - Jordan Wiens - Report.  
-    - Kevin Johnson
+    - [Kevin Johnson]
 
 - Multiple errors related to undefined vars.
 - HTML code for W3C.org compliance.
@@ -529,7 +625,7 @@ Contributor(s): Jon Hart
 - Updated README.
 - Updated Ports list.
 
-Contributor(s): Kevin Johnson
+Contributor(s): [Kevin Johnson]
 ### Fixed
 - [IP Fragments].  
 Patch [submitted](https://sourceforge.net/p/secureideas/bugs/156/)
@@ -544,7 +640,7 @@ on sourceforge.net. Original ID: UNKNOWN
 
 Contributor(s): Jonathan W Miner
 - Site location in footer.  
-Contributor(s): Kevin Johnson
+Contributor(s): [Kevin Johnson]
 - Correction to `IPFieldCriteria::Description()` on base_state_citems.inc.php.
 - Check for `ProtocolFieldCriteria::Description()` array correctness.
 
@@ -554,7 +650,7 @@ Patch [submitted](https://sourceforge.net/p/secureideas/bugs/149/)
 on sourceforge.net. Original ID: 1550613  
 Contributor(s):
   - Patch submitted anonymously.
-  - Kevin Johnson
+  - [Kevin Johnson]
 
 ---
 ## [1.2.8 - 1.3.4] - Missing from Legacy Changelog
@@ -581,7 +677,7 @@ Contributor(s): Juergen Leising
 Added empty PHP 5.1+ class constructor shim to ProtocolFieldCriteria.  
 Bug [reported](https://sourceforge.net/p/secureideas/bugs/141/)
 on sourceforge.net. Original ID: UNKNOWN  
-Contributor(s): Kevin Johnson
+Contributor(s): [Kevin Johnson]
 - Issue if sig_gid was empty.  
 Contributor(s): Valter Santos
 - Contrib code base-rss.  
@@ -593,7 +689,7 @@ Contributor(s): Dan Michitsch
 - Check for base_users and base_roles tables in base_main.php.
 - A . to VAR_PUNC to fix query issue.
 
-Contributor(s): Kevin Johnson
+Contributor(s): [Kevin Johnson]
 - FQDN to display.  
 Patch [submitted](https://sourceforge.net/p/secureideas/patches/15/)
 on sourceforge.net. Original ID: UNKNOWN  
@@ -622,7 +718,7 @@ Contributor(s): Bruce Briggs
 Contributor(s): Max Valdez (garaged)
 ### Fixed
 - Issue with base_users table being required.  
-Contributor(s): Kevin Johnson
+Contributor(s): [Kevin Johnson]
 - Search punctuation fix.  
 Bug [reported](https://sourceforge.net/p/secureideas/bugs/134/)
 on sourceforge.net. Original ID: UNKNOWN  
@@ -692,7 +788,7 @@ Bug [reported](https://sourceforge.net/p/secureideas/bugs/134/)
 on sourceforge.net. Original ID: UNKNOWN  
 Contributor(s): Jeff Kell
 - Refresh issue with ~ directories.  
-Contributor(s): Kevin Johnson
+Contributor(s): [Kevin Johnson]
 - Display after deleting alerts.  
 Contributor(s): Bruce Briggs
 - Back button doesn't work after refresh.  
@@ -754,7 +850,7 @@ on sourceforge.net. Original ID: 1284695
 
 Contributor(s):  
     - Nikns  
-    - Kevin Johnson
+    - [Kevin Johnson]
 - Issues displaying PortScans.  
 - Archive move and Email summary issues.  
 Bug [reported](https://sourceforge.net/p/secureideas/bugs/123/)
@@ -838,7 +934,7 @@ Contributor(s): Juergen Leising
 - BASE authentication bypass in standalone mode for base_maintenance.php.  
 Contributor(s): Nikns
 - Changed input type of the password field in admin/useradmin.php.  
-Contributor(s): Kevin Johnson
+Contributor(s): [Kevin Johnson]
 
 ---
 ## [1.2.3] - Missing from Legacy Changelog
@@ -851,14 +947,14 @@ Contributor(s): Kevin Johnson
 - Portscan Information.  
 Contributor(s):  
   - Nikns
-  - Kevin Johnson
+  - [Kevin Johnson]
 ### Changed
 - Login button to actually say login.  
 Patch [submitted](https://sourceforge.net/p/secureideas/patches/9/)
 on sourceforge.net. Original ID: UNKNOWN  
 Contributor(s): Jonathan W Minor
 - Updated project lead comments.  
-Contributor(s): Kevin Johnson
+Contributor(s): [Kevin Johnson]
 ### Fixed
 - Issue with signature names and MySQL 5.0.  
 Contributor(s): Kade P. Cole
@@ -874,7 +970,7 @@ Contributor(s): Timothy Doty
 - SQL Injection vulnerability.  
 Contributor(s):  
   - Debian maintainer - Patch
-  - Kevin Johnson
+  - [Kevin Johnson]
 
 ---
 ## [1.2.1 (kris)] - 2005-10-30
@@ -890,7 +986,7 @@ Contributor(s): Jonathan W Miner
 - SQL Injection vulnerability.  
 Bug [reported](https://sourceforge.net/p/secureideas/bugs/115/)
 on sourceforge.net. Original ID: 1338142  
-Contributor(s): Kevin Johnson
+Contributor(s): [Kevin Johnson]
 - Better error reporting to catch some forms of SQL injection.
 Contributor(s): Doug Mackie
 
@@ -909,7 +1005,7 @@ Contributor(s): Alex Butcher
 - Local reference to read sigs from a directory in the BASE install.
 Contributor(s):  
   - Juergen Leising
-  - Kevin Johnson
+  - [Kevin Johnson]
 ### Fixed
 - Error when performing search.  
 Bug [reported](https://sourceforge.net/p/secureideas/bugs/98/)
@@ -924,7 +1020,7 @@ Bug [reported](https://sourceforge.net/p/secureideas/bugs/94/)
 on sourceforge.net. Original ID: 1249911  
 Contributor(s):  
   - Juergen Leising - Report & Patch
-  - Kevin Johnson
+  - [Kevin Johnson]
 - Quote issue in base_stat_iplink.php.  
 Contributor(s): Michael Stone
 - Sort of alerts by address.  
@@ -941,10 +1037,10 @@ Contributor(s): Nikns Siankin
   - Polish. -- Michal Fraszek
 ### Changed
 - Documentation.  
-Contributor(s): Kevin Johnson
+Contributor(s): [Kevin Johnson]
 - Translations:
   - Misc changes across entire TD set. -- João
-  - Misc issue across entire TD set. -- Kevin Johnson
+  - Misc issue across entire TD set. -- [Kevin Johnson]
   - Polish. -- Michal Fraszek
   - English. -- Christian Svensson
   - Swedish most of the //NEW variables. -- Christian Svensson
@@ -957,7 +1053,7 @@ on sourceforge.net. Original ID: 1220169
 Bug [reported](https://sourceforge.net/p/secureideas/bugs/96/)
 on sourceforge.net. Original ID: 1253176
 
-Contributor(s): Kevin Johnson
+Contributor(s): [Kevin Johnson]
 
 ---
 ## [1.1.3 (lynn)] - 2005-06-13
@@ -974,17 +1070,17 @@ Contributor(s): Jonathan W Miner
 - Oracle support.  
 Contributor(s): J Vladimir Anufriev
 - Red UI theme.  
-Contributor(s): Kevin Johnson
+Contributor(s): [Kevin Johnson]
 ### Changed
 - Default value of $avoid_counts conf var in base_conf.php.  
-Contributor(s): Kevin Johnson
+Contributor(s): [Kevin Johnson]
 - Whois entry for ARIN.  
 Contributor(s): Jonathan W Miner
 - Translations:
   - French. -- Dominik Gehl
 ### Removed
 - jpGraph leftovers.  
-Contributor(s): Kevin Johnson
+Contributor(s): [Kevin Johnson]
 ### Fixed
 - PostgreSQL performance.  
 - Performance Issues with today queries.  
@@ -996,11 +1092,11 @@ Contributor(s): Michael Stone
 Need to change this based on Alejandro's change to the front page.
 - Issues with README.
 
-Contributor(s): Kevin Johnson
+Contributor(s): [Kevin Johnson]
 - Oracle DB Setup script.  
 Contributor(s):  
   - John Evans
-  - Kevin Johnson
+  - [Kevin Johnson]
 - Off by one bug.
 - HTML code for W3C.org compliance.  
 Patch [submitted](https://sourceforge.net/p/secureideas/patches/6/)
@@ -1010,11 +1106,11 @@ Contributor(s): Jonathan W Miner
 - Form Issues.  
 Contributor(s):  
   - Bruce Briggs
-  - Kevin Johnson
+  - [Kevin Johnson]
 - Table width issues.  
 Contributor(s):  
   - Thinh Pham
-  - Kevin Johnson
+  - [Kevin Johnson]
 - FAQ Update.
 Contributor(s): Joel Esler
 - Search with multiple Time criteria is broken.  
@@ -1037,7 +1133,7 @@ Contributor(s): Thinh Pham
 ## [1.1.2 (zora)] - 2005-04-08
 ### Added
 - Option to set the "archive_exists" conf var to the setup system.  
-Contributor(s): Kevin Johnson
+Contributor(s): [Kevin Johnson]
 ### Fixed
 - Sort order bug.  
 Bug [reported](https://sourceforge.net/p/secureideas/bugs/61/)
@@ -1052,7 +1148,7 @@ Contributor(s): Michael Stone
 - Unable to check alerts.  
 Bug [reported](https://sourceforge.net/p/secureideas/bugs/58/)
 on sourceforge.net. Original ID: UNKNOWN  
-Contributor(s): Kevin Johnson
+Contributor(s): [Kevin Johnson]
 
 ---
 ## [1.1.1] - Missing from Legacy Changelog
@@ -1065,17 +1161,17 @@ RFE [submitted](https://sourceforge.net/p/secureideas/feature-requests/2/)
 on sourceforge.net. Original ID: 1048868  
 Contributor(s):  
   - Patrick Harper - RFE
-  - Kevin Johnson
+  - [Kevin Johnson]
 - Unique install ID variable to base_conf.php.  
 Contributor(s):  
   - Al Reust - RFE
-  - Kevin Johnson
+  - [Kevin Johnson]
 - Access to the archive DB from one BASE install.  
 RFE [submitted](https://sourceforge.net/p/secureideas/feature-requests/18/)
 on sourceforge.net. Original ID: 1122502  
 Contributor(s):  
   - RFE submitted anonymously.
-  - Kevin Johnson
+  - [Kevin Johnson]
 - FAQ to documentation.  
 Contributor(s): Joel Esler
 - Themes (Needs much more work).  
@@ -1094,7 +1190,7 @@ on sourceforge.net. Original ID: Unknown
 - Authentication support to base_maintenance.pl.
 - Check to verify the existence of the archive DB before allowing it's use.
 
-Contributor(s): Kevin Johnson
+Contributor(s): [Kevin Johnson]
 ### Changed
 - Portuguese Translation.  
 Contributor(s): Thiago Martins
@@ -1110,7 +1206,7 @@ New default is 0.
 - Moved FORM tag before Timing box.
 - Docs to reflect removal of $ChartLib_path.
 
-Contributor(s): Kevin Johnson
+Contributor(s): [Kevin Johnson]
 - Search form simplified.
 - Graph form simplified.  
 RFE [submitted](https://sourceforge.net/p/secureideas/feature-requests/21/)
@@ -1123,7 +1219,7 @@ Contributor(s): Alejandro Flores
 
 ### Removed
 - $ChartLib_path.  
-Contributor(s): Kevin Johnson
+Contributor(s): [Kevin Johnson]
 
 ### Fixed
 - PostgreSQL setup.  
@@ -1133,7 +1229,7 @@ Bug [reported](https://sourceforge.net/p/secureideas/bugs/27/)
 on sourceforge.net. Original ID: Unknown  
 Contributor(s):
   - Jeff Kell - Report
-  - Kevin Johnson
+  - [Kevin Johnson]
 - Call to undefined function in Whois Cache.  
 Bug [reported](https://sourceforge.net/p/secureideas/bugs/28/)
 on sourceforge.net. Original ID: 1123243
@@ -1163,7 +1259,7 @@ Bug [reported](https://sourceforge.net/p/secureideas/bugs/46/)
 on sourceforge.net. Original ID: 1166158  
 Bug introduced in BASE [1.0.2 (racquel)]
 
-Contributor(s): Kevin Johnson
+Contributor(s): [Kevin Johnson]
 - Garbled Web UI messages due to hard coded charset.  
 Bug [reported](https://sourceforge.net/p/secureideas/bugs/30/)
 on sourceforge.net. Original ID: 1123815  
@@ -1173,7 +1269,7 @@ Contributor(s):
 - Previous / Next Bug.  
 Bug [reported](https://sourceforge.net/p/secureideas/bugs/22/)
 on sourceforge.net. Original ID: 1116034  
-Contributor(s): Kevin Johnson for Alejandro Flores
+Contributor(s): [Kevin Johnson] for Alejandro Flores
 - Pie charts not working.  
 Bug [reported](https://sourceforge.net/p/secureideas/bugs/32/)
 on sourceforge.net. Original ID: 1144817  
@@ -1187,7 +1283,7 @@ Bug [reported](https://sourceforge.net/p/secureideas/bugs/48/)
 on sourceforge.net. Original ID: UNKNOWN  
 Contributor(s):
   - Ethan Chai - Report
-  - Kevin Johnson
+  - [Kevin Johnson]
 - Search sort issues, another fix.  
 Bug [reported](https://sourceforge.net/p/secureideas/bugs/3/)
 on sourceforge.net. Original ID: 1051872  
@@ -1201,7 +1297,7 @@ Bug [reported](https://sourceforge.net/p/secureideas/bugs/47/)
 on sourceforge.net. Original ID: 1168587  
 Contributor(s):
   - Michael Scheidell - Report
-  - Kevin Johnson
+  - [Kevin Johnson]
 - Setup would die silently.
 Contributor(s): Jeff Nathan
 - Misc actions errors.  
@@ -1222,7 +1318,7 @@ Contributor(s):
 ### Added
 - DShield.org IP Info page.
 - isc.sans.org port DB for more information.  
-Contributor(s): Kevin Johnson
+Contributor(s): [Kevin Johnson]
 - Summary Statistics box to base_stat_alerts page.  
 RFE [submitted](https://sourceforge.net/p/secureideas/feature-requests/9/)
 on sourceforge.net. Original ID: Unknown  
@@ -1233,14 +1329,14 @@ Contributor(s):
 - Packaging directory structure.  
 Contributor(s): Kevin Hoffman
 - External IP links now open in a new window/tab.  
-Contributor(s): Kevin Johnson
+Contributor(s): [Kevin Johnson]
 - All HTTP_*_VARS have been changed to newer superglobals.  
 Contributor(s): Tim Rupp
 - Portuguese Translation.  
 Contributor(s): Thiago Martins
 - Setup only checks for indexes on MySQL.
 - Cleaned up conf files.  
-Contributor(s): Kevin Johnson
+Contributor(s): [Kevin Johnson]
 - All Language files now have proper spacing between items and links to
 Members list.  
 Contributor(s): Joel Esler
@@ -1259,7 +1355,7 @@ Contributor(s): Tim Rupp
 - Errors creating PostgreSQL tables.  
 Bug [reported](https://sourceforge.net/p/secureideas/bugs/23/)
 on sourceforge.net. Original ID: 1118792  
-Contributor(s): Kevin Johnson
+Contributor(s): [Kevin Johnson]
 - Bug #1111841.  
 Bug [reported](https://sourceforge.net/p/secureideas/bugs/11/)
 on sourceforge.net. Original ID: 1111841  
@@ -1270,7 +1366,7 @@ Contributor(s): Tim Rupp
 Bug [reported](https://sourceforge.net/p/secureideas/bugs/19/)
 on sourceforge.net. Original ID: Unknown  
 Contributor(s):
-  - Kevin Johnson
+  - [Kevin Johnson]
   - Joel Esler
 
 ---
@@ -1288,7 +1384,7 @@ Contributor(s): Jason Dixon
 Issue [opened](https://github.com/NathanGibbs3/BASE/issues/63)
 on GitHub.com to facilitate continued tracking of this.  
   - Removed regex from base_db.inc.php and related WHERE clauses.  
-  - Contributor(s): Kevin Johnson
+  - Contributor(s): [Kevin Johnson]
 ### Fixed
 - Alert Group Issues.  
 Contributor(s): Tim Rupp
@@ -1297,13 +1393,13 @@ Bug [reported](https://sourceforge.net/p/secureideas/bugs/9/)
 on sourceforge.net. Original ID: Unknown  
 Contributor(s):
   - Jeff Balderson - Report & patch.
-  - Kevin Johnson
+  - [Kevin Johnson]
 - PostgreSQL issues.
 - User add issue.  
 Adding a user after deleting one that was not the last user added caused this.  
 - Graphing issues.  
 
-Contributor(s): Kevin Johnson
+Contributor(s): [Kevin Johnson]
 - Setup bugs.  
 Contributor(s): Michiel Brendel
 - "Duplicate Entry" errors.  
@@ -1329,13 +1425,13 @@ function `SensorCnt()` created to handle this.
 - BASE tables to the PostgreSQL and the MSSQL files.
 - Added Upgrade script for 0.9.x -> 1.0 for MySQL.  
 
-Contributor(s): Kevin Johnson
+Contributor(s): [Kevin Johnson]
 - Added Refresh to multiple pages.  
 Bug [reported](https://sourceforge.net/p/secureideas/bugs/2/)
 on sourceforge.net. Original ID: 1048873  
-Contributor(s): Arkadiusz Majer, Kevin Johnson
+Contributor(s): Arkadiusz Majer, [Kevin Johnson]
 - Translations:
-  - English -- Kevin Johnson
+  - English -- [Kevin Johnson]
   - Japanese -- Kenji
   - French -- Maurice Lanselle and Sebastien Desse
   - Norwegian -- Ole-Martin Bækkeli
@@ -1357,9 +1453,9 @@ as of right now, I would consider it stable!
 - Role management system.
 - moved app_faq to help/.  
 
-Contributor(s): Kevin Johnson
+Contributor(s): [Kevin Johnson]
 - Minor UI changes.  
-Contributor(s): Joel Esler, Kevin Johnson
+Contributor(s): Joel Esler, [Kevin Johnson]
 - Formatting for/in base_signature.inc.php  
 Contributor(s): Randy McEoin
 ### Fixed
@@ -1371,7 +1467,7 @@ on sourceforge.net.
 - Fixed password size in the DB files.
 - Fixed issue with MSSQL tables creation commands.  
 
-Contributor(s): Kevin Johnson
+Contributor(s): [Kevin Johnson]
 
 ---
 ## [0.9.9 (brenna)] - 2004-10-28
@@ -1381,7 +1477,7 @@ Contributor(s): Kevin Johnson
 - User Preferences page.
 - Added listing of users to admin pages.  
 
-Contributor(s): Kevin Johnson
+Contributor(s): [Kevin Johnson]
 - URL signature reference.  
 Contributor(s): Joel Esler
 ### Changed
@@ -1395,10 +1491,10 @@ on sourceforge.net. Original ID: 1051873
 - Authentication functions are finished.
 - Completed all of the $BASE_path/ for includes.  
 
-Contributor(s): Kevin Johnson
+Contributor(s): [Kevin Johnson]
 ### Removed
 - External links to SamSpade.  
-Contributor(s): Kevin Johnson
+Contributor(s): [Kevin Johnson]
 ### Fixed
 - Sort bug.  
 Bug [reported](https://sourceforge.net/p/secureideas/bugs/3/)
@@ -1421,7 +1517,7 @@ Contributor(s): Chris Shepherd
 - admin/ and various files within it.
 - Added variables to base_conf.php.dist.  
 
-Contributor(s): Kevin Johnson
+Contributor(s): [Kevin Johnson]
 ### Changed
 - Comment banner
 - Title bar
@@ -1429,18 +1525,18 @@ Contributor(s): Kevin Johnson
 - Display of the summary graphs.
 - Rename html file to php in prep for the template system.  
 
-Contributor(s): Kevin Johnson
+Contributor(s): [Kevin Johnson]
 - Moved around the front page.  
 Bug [reported](https://sourceforge.net/p/secureideas/discussion/404428/thread/43cd4a58/?limit=25#3364)
 on sourceforge.net.  
 Contributor(s):
   - Patchset submitted anonymously.
-  - Kevin Johnson
+  - [Kevin Johnson]
 - Look to use new CSS and various tweaks.  
-Contributor(s): Walter B, Kevin Johnson
+Contributor(s): Walter B, [Kevin Johnson]
 ### Deprecated
 - ADODB Support. Future transition to PEAR:DB.  
-Contributor(s): Kevin Johnson
+Contributor(s): [Kevin Johnson]
 ### Fixed
 - Datetime to timestamp error in create_base_tbls_pgsql.sql   
 Bug [reported](https://sourceforge.net/p/secureideas/bugs/1/)
@@ -1448,7 +1544,7 @@ on sourceforge.net. Original ID: 1025011
 - Various typos.....
 - Year dropdowns via `dispYearOptions()`.
 
-Contributor(s): Kevin Johnson
+Contributor(s): [Kevin Johnson]
 
 ---
 ## [0.9.7.1 (Francis)] - 2004-09-04
@@ -1475,7 +1571,7 @@ necessary there).
 ### Fixed
 - ADODB link and information.
 
-[unreleased]: https://github.com/NathanGibbs3/BASE/compare/v1.4.5...HEAD
+[unreleased]: https://github.com/NathanGibbs3/BASE/compare/v1.4.5...devel
 [1.4.5 (lilias)]: https://github.com/NathanGibbs3/BASE/releases/tag/v1.4.5
 [1.4.4 (dawn)]: https://sourceforge.net/projects/secureideas/files/BASE/base-1.4.4/
 [1.4.3.1 (zig)]: https://sourceforge.net/projects/secureideas/files/BASE/base-1.4.3.1/
@@ -1505,3 +1601,7 @@ necessary there).
 [0.9.8 (dhara)]: https://sourceforge.net/projects/secureideas/files/BASE/base-0.9.8/
 [0.9.7.1 (Francis)]: https://sourceforge.net/projects/secureideas/files/BASE/base-0.9.7.1/
 [0.9.7 (Initial Release)]: https://sourceforge.net/projects/secureideas/files/BASE/base-0.9.7/
+
+[Kevin Johnson]: https://github.com/secureideas
+[Nathan Gibbs]: https://github.com/NathanGibbs3
+[FalcoGer]: https://github.com/FalcoGer
