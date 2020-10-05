@@ -81,9 +81,6 @@ include_once("$BASE_path/includes/base_constants.inc.php");
            Goto the <A HREF="base_main.php">Main page</A> to use the application.'; 
 
   echo "\n</FORM>\n";
-  
-  PrintBASESubFooter();
-  
-   $et->PrintTiming();
-  echo "</body>\r\n\</html>";
+$et->PrintTiming();
+PrintBASESubFooter();
 ?>

@@ -50,5 +50,4 @@ include_once("$BASE_path/includes/base_constants.inc.php");
     echo _BASEADMINTEXT;
 PrintBASEAdminMenuFooter();
 PrintBASESubFooter();
-PageEnd();
 ?>

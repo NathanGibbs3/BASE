@@ -1101,8 +1101,7 @@ function PrintPacketLookupBrowseButtons($seq, $save_sql, $db, &$previous_button,
   ExportHTTPVar("caller", $caller);
 
   echo "\n</FORM>\n";
-PrintBASESubFooter();
 $et->Mark("Get Query Elements");
 $et->PrintTiming();
-PageEnd();
+PrintBASESubFooter();
 ?>

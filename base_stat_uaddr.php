@@ -304,5 +304,4 @@ if ( $debug_mode > 0 )
 $et->Mark("Get Query Elements");
 $et->PrintTiming();
 PrintBASESubFooter();
-PageEnd();
 ?>

@@ -422,7 +422,6 @@ include_once ("$BASE_path/includes/base_constants.inc.php");
           ($debug_time_mode >= 1) ? $et->PrintTiming() : '';
 
           PrintBASESubFooter();
-			PageEnd();
           return;
         }
 
@@ -623,5 +622,4 @@ include_once ("$BASE_path/includes/base_constants.inc.php");
 
   ($debug_time_mode >= 1) ? $et->PrintTiming() : '';
 PrintBASESubFooter();
-PageEnd();
 ?>

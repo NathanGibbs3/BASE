@@ -269,6 +269,98 @@ class output_htmlSPTest extends TestCase {
 			$this->assertTrue(true,'Passing Test.');
 		}
 	}
+	public function testPrintBASEMenuDefaults() {
+		$expected = '';
+		$this->expectOutputString($expected);
+		PrintBASEMenu();
+	}
+	public function testPrintBASEMenuInvalid() {
+		$expected = '';
+		$this->expectOutputString($expected);
+		PrintBASEMenu('Invalid');
+	}
+	public function testPrintBASEMenuHeader() {
+		GLOBAL $BASE_installID;
+		if ( is_object(self::$UIL) ){
+			$UIL = self::$UIL;
+		}else{
+			include_once(self::$files);
+		}
+		$expected = "\n\t\t".'<div class=\'mainheadermenu\'>';
+		$expected .= "\n\t\t\t".'<table width=\'90%\' border=\'0\'>';
+		$expected .= "\n\t\t\t\t".'<tr>';
+		$expected .= "\n\t\t\t\t\t".'<td class=\'menuitem\'>';
+		$expected .= "\n\t\t\t\t\t\t".'<a class=\'menuitem\' ';
+		$expected .= 'href=\'/base_main.php\'>Home</a> | ';
+		$expected .= "\n\t\t\t\t\t\t".'<a class=\'menuitem\' ';
+		$expected .= 'href=\'/base_qry_main.php?new=1\'>Search</a> | ';
+		$expected .= "\n\t\t\t\t\t\t".'<a class=\'menuitem\' ';
+		$expected .= 'href=\'/base_user.php\'>User Preferences</a> | ';
+		$expected .= "\n\t\t\t\t\t\t".'<a class=\'menuitem\' ';
+		$expected .= 'href=\'/base_logout.php\'>Logout</a>';
+		$expected .= "\n\t\t\t\t\t".'</td>';
+		$expected .= "\n\t\t\t\t".'</tr>';
+		$expected .= "\n\t\t\t".'</table>';
+		$expected .= "\n\t\t".'</div>';
+		$this->expectOutputString($expected);
+		PrintBASEMenu('Header');
+	}
+	public function testPrintBASEMenuHeaderBackLink() {
+		GLOBAL $BASE_installID;
+		if ( is_object(self::$UIL) ){
+			$UIL = self::$UIL;
+		}else{
+			include_once(self::$files);
+		}
+		$expected = "\n\t\t".'<div class=\'mainheadermenu\'>';
+		$expected .= "\n\t\t\t".'<table width=\'90%\' border=\'0\'>';
+		$expected .= "\n\t\t\t\t".'<tr>';
+		$expected .= "\n\t\t\t\t\t".'<td class=\'menuitem\'>';
+		$expected .= "\n\t\t\t\t\t\t".'<a class=\'menuitem\' ';
+		$expected .= 'href=\'/base_main.php\'>Home</a> | ';
+		$expected .= "\n\t\t\t\t\t\t".'<a class=\'menuitem\' ';
+		$expected .= 'href=\'/base_qry_main.php?new=1\'>Search</a> | ';
+		$expected .= "\n\t\t\t\t\t\t".'<a class=\'menuitem\' ';
+		$expected .= 'href=\'/base_user.php\'>User Preferences</a> | ';
+		$expected .= "\n\t\t\t\t\t\t".'<a class=\'menuitem\' ';
+		$expected .= 'href=\'/base_logout.php\'>Logout</a> | ';
+		$expected .= "\n\t\t\t\t\t\t".'Test';
+		$expected .= "\n\t\t\t\t\t".'</td>';
+		$expected .= "\n\t\t\t\t".'</tr>';
+		$expected .= "\n\t\t\t".'</table>';
+		$expected .= "\n\t\t".'</div>';
+		$this->expectOutputString($expected);
+		PrintBASEMenu('Header', 'Test');
+	}
+	public function testPrintBASEMenuFooter() {
+		GLOBAL $BASE_installID;
+		if ( is_object(self::$UIL) ){
+			$UIL = self::$UIL;
+		}else{
+			include_once(self::$files);
+		}
+		$expected = "\n\t\t".'<div class=\'mainheadermenu\'>';
+		$expected .= "\n\t\t\t".'<table width=\'90%\' border=\'0\'>';
+		$expected .= "\n\t\t\t\t".'<tr>';
+		$expected .= "\n\t\t\t\t\t".'<td class=\'menuitem\'>';
+		$expected .= "\n\t\t\t\t\t\t".'<a class=\'menuitem\' ';
+		$expected .= 'href=\'/base_ag_main.php?ag_action=list\'>';
+		$expected .= 'Alert Group Maintenance</a> | ';
+		$expected .= "\n\t\t\t\t\t\t".'<a class=\'menuitem\' ';
+		$expected .= 'href=\'/base_maintenance.php\'>Cache & Status</a> | ';
+		$expected .= "\n\t\t\t\t\t\t".'<a class=\'menuitem\' ';
+		$expected .= 'href=\'/base_user.php\'>User Preferences</a> | ';
+		$expected .= "\n\t\t\t\t\t\t".'<a class=\'menuitem\' ';
+		$expected .= 'href=\'/base_logout.php\'>Logout</a> | ';
+		$expected .= "\n\t\t\t\t\t\t".'<a class=\'menuitem\' ';
+		$expected .= 'href=\'/admin/index.php\'>Administration</a>';
+		$expected .= "\n\t\t\t\t\t".'</td>';
+		$expected .= "\n\t\t\t\t".'</tr>';
+		$expected .= "\n\t\t\t".'</table>';
+		$expected .= "\n\t\t".'</div>';
+		$this->expectOutputString($expected);
+		PrintBASEMenu('Footer');
+	}
 
 	// Add code to a function if needed.
 	// Stop here and mark test incomplete.

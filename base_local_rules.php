@@ -232,6 +232,5 @@ if (file_exists($dir))
 }else{
 	echo "ERROR: Directory \"" . htmlspecialchars($dir) . "\" does not exist.\n<BR>";
 }
-echo "</BODY>";
-echo "</HTML>";
+PageEnd();
 ?>
