@@ -93,6 +93,12 @@ https://github.com/NathanGibbs3/BASE/issues/69)
 https://github.com/NathanGibbs3/BASE/issues/70)
 - [#72 Incorrect Display of Admin Users.](
 https://github.com/NathanGibbs3/BASE/issues/72)
+- [#62 Convert Changelog.](
+https://github.com/NathanGibbs3/BASE/issues/62)
+- [#75 Standardize generation of HTML for Header & Footer Menus.](
+https://github.com/NathanGibbs3/BASE/issues/75)
+- [#76 Merge Back Link into page header Menu.](
+https://github.com/NathanGibbs3/BASE/issues/76)
 
 Contributor(s): [Nathan Gibbs]
 - [#57 `tr bgcolor="#"` if `$prio` not in `$priority_colors`
