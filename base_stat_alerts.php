@@ -363,10 +363,9 @@ $qro->AddTitle( $CPLast,
   $qs->PrintAlertActionButtons();
   $qs->SaveState();
   echo "\n</FORM>\n";
-PrintBASESubFooter();
 if ($debug_time_mode >= 1) {
 	$et->Mark("Get Query Elements");
 	$et->PrintTiming();
 }
-PageEnd();
+PrintBASESubFooter();
 ?>

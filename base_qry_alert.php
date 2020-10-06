@@ -1092,8 +1092,7 @@ echo'                  <TD class="plfield">'.
   ExportHTTPVar("caller", $caller);
 
 NLIO('</form>',3);
-PrintBASESubFooter();
 $et->Mark("Get Query Elements");
 $et->PrintTiming();
-PageEnd();
+PrintBASESubFooter();
 ?>

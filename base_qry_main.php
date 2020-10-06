@@ -249,8 +249,7 @@ else
    $qs->SaveState();
 
   echo "\n</FORM>\n";
-PrintBASESubFooter();
 $et->Mark("Get Query Elements");
 $et->PrintTiming();
-PageEnd();
+PrintBASESubFooter();
 ?>

@@ -350,8 +350,7 @@ $qro->AddTitle( $CPLast,
 	ExportHTTPVar("sort_order", $sort_order);	
 
   echo "\n</FORM>\n";
-PrintBASESubFooter();
 $et->Mark("Get Query Elements");
 $et->PrintTiming();
-PageEnd();
+PrintBASESubFooter();
 ?>

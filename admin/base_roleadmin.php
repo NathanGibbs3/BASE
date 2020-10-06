@@ -209,7 +209,6 @@ if ($Use_Auth_System == 1) {
 		print $pagebody;
 		PrintBASEAdminMenuFooter();
 		PrintBASESubFooter();
-		PageEnd();
 	}
 }else{
 	base_header("Location: ". $BASE_urlpath . "/base_main.php");

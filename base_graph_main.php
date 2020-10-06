@@ -420,7 +420,6 @@ $UIL = new UILang($BASE_Language); // Create UI Language Abstraction Object.
           ($debug_time_mode >= 1) ? $et->PrintTiming() : '';
 
           PrintBASESubFooter();
-			PageEnd();
           return;
         }
 
@@ -621,5 +620,4 @@ $UIL = new UILang($BASE_Language); // Create UI Language Abstraction Object.
 
   ($debug_time_mode >= 1) ? $et->PrintTiming() : '';
 PrintBASESubFooter();
-PageEnd();
 ?>

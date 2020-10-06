@@ -305,5 +305,4 @@ $qro->AddTitle( "$CPTotal&nbsp;#",
 $et->Mark("Get Query Elements");
 $et->PrintTiming();
 PrintBASESubFooter();
-PageEnd();
 ?>

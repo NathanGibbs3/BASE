@@ -121,5 +121,4 @@ $tdc = "<td width='25%' align='right'>";
 </table></div>&nbsp;&nbsp;&nbsp;</td><td><?php echo($page_body); ?></td></tr></table>
 <?php
 PrintBASESubFooter();
-PageEnd();
 ?>

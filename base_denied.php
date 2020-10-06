@@ -26,7 +26,5 @@ NLIO ('<p>',2);
 NLIO ('Authentication required.',3);
 NLIO ("<a href='index.php'>Login</a>",3);
 NLIO ('</p>',2);
-$noDisplayMenu = 1;
-include("base_footer.php");
-PageEnd();
+PrintBASESubFooter();
 ?>

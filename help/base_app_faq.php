@@ -74,7 +74,5 @@ NLIO('<li>'."With manual intervention Alert Groups (AG) can be used to assign "
 ."severity level and manually moving the alerts as they arrive into the "
 ."appropriate group.</li>",3);
 NLIO('</ul>',2);
-
-include("$BASE_path/base_footer.php");
-PageEnd();
+PrintBASESubFooter();
 ?>

@@ -301,14 +301,9 @@ if ($main_page_detail == 1) {
 <p>
 <hr />
 <?php
-include("$BASE_path/base_footer.php");
-if (strlen($base_custom_footer) != 0) {
-    include($base_custom_footer);
-}
-
 $stop = time();
 if ($debug_time_mode > 0) {
     echo "<div class='systemdebug'>[" . _LOADEDIN . "&nbsp;" .($stop - $start)." seconds]</div>";
 }
-PageEnd();
+PrintBASESubFooter();
 ?>

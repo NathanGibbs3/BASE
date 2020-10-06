@@ -41,8 +41,8 @@ class state_criteriaSPTest extends TestCase {
 	public function testPrintBackButtonOK() {
 		define('_BACK','Back'); // Remove once we TD migrate this.
 		$this->assertEquals(
-			"\n\t\t\t\t\t".'[&nbsp;<a href="'.$_SERVER["SCRIPT_NAME"].
-			'?back=1&">Back</a>&nbsp;]'."\n",
+			"<a class='menuitem' href=\"".$_SERVER["SCRIPT_NAME"].
+			'?back=1&">Back</a>',
 			PrintBackButton(),
 			'Unexpected return PrintBackButton().'
 		);

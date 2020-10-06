@@ -106,36 +106,96 @@ function PrintBASESubHeader(
 		set_time_limit($max_script_runtime);
 	}
 	PageStart($refresh, $page_title);
-	$ReqRE = preg_quote("$BASE_urlpath/",'/');
-	$ReqRE .= "(base_(denied|main)|index)\.php";
-	if ( !preg_match("/^" . $ReqRE ."$/", $_SERVER['SCRIPT_NAME']) ) {
-		// Header Menu allowed everywhere but main & landing pages.
-		include("$BASE_path/base_hdr2.php");
-		// Might be able to move include contents to here.
-	}
-	// Might be able to fold this into Menu Header.
-	if ( $back_link != '' ){
-		NLIO("<table width='100%'>",2);
-		NLIO('<tr>',3);
-		NLIO("<td align='right'>".$back_link.'</td>',4);
-		NLIO('</tr>',3);
-		NLIO('</table>',2);
-	}
+	PrintBASEMenu( 'Header', $back_link);
 	if ( $debug_mode > 0 ) {
 		PrintPageHeader();
 	}
 }
 
-function PrintBASESubFooter()
-{
-  GLOBAL $BASE_VERSION, $BASE_path, $BASE_urlpath, $Use_Auth_System;
-  echo "\n\n<!-- BASE Footer -->\n".
-       "<P>\n";
-  include("$BASE_path/base_footer.php");
-  echo "\n\n";
+function PrintBASESubFooter(){
+	GLOBAL $BASE_VERSION, $BASE_path, $BASE_urlpath, $Use_Auth_System,
+	$base_custom_footer;
+	NLIO ('<!-- BASE Footer -->',2);
+	PrintBASEMenu( 'Footer' );
+	NLIO ("<div class='mainfootertext'>",2);
+	NLIO (
+		"<a class='largemenuitem' href='https://github.com/NathanGibbs3/BASE' "
+		."target='_blank'>BASE</a>'"
+		,3
+	);
+	$caller = $_SERVER['SCRIPT_NAME'];
+	$ReqRE = preg_quote("$BASE_urlpath/",'/');
+	$ReqRE .= "(base_denied|index)\.php";
+	if ( !preg_match("/^" . $ReqRE ."$/", $caller) ){
+		NLIO ( $BASE_VERSION . _FOOTER,3);
+	}else{
+		NLIO ( _FOOTER,3);
+	}
+	NLIO ('</div>',2);
+	$ReqRE = preg_quote("$BASE_urlpath/",'/');
+	$ReqRE .= "base_main\.php";
+	if ( preg_match("/^" . $ReqRE ."$/", $caller) ){
+		// Custom footer allowed on main page only.
+		if ( strlen($base_custom_footer) != 0 ){
+			include($base_custom_footer);
+		}
+	}
+	PageEnd();
 }
 
-      
+function PrintBASEMenu( $type='', $back_link = '' ){
+	GLOBAL $BASE_urlpath, $Use_Auth_System;
+	if ( $type != '' ){
+		// Common
+		$type = strtolower($type);
+		$ReqRE = preg_quote("$BASE_urlpath/",'/');
+		if ( $type == 'header' ){ // Header
+			$ReqRE .= "(base_(denied|main)|index)\.php";
+		}elseif ( $type == 'footer' ){ // Footer
+			$ReqRE .= "(base_denied|index)\.php";
+		}else{
+			$ReqRE = '';
+		}
+		if ( $ReqRE != '' ){
+			// Header Menu allowed everywhere but main & landing pages.
+			// Footer Menu allowed everywhere but landing pages.
+			if ( !preg_match("/^" . $ReqRE ."$/", $_SERVER['SCRIPT_NAME']) ){
+				// Html Template
+				$Hrst = "<a class='menuitem' href='$BASE_urlpath/";
+				// Href tag start.
+				$HrstTL = $Hrst . 'base_'; // Top Level Pages.
+				$Sep = ' | '; // Separator.
+				NLIO ("<div class='mainheadermenu'>",2);
+				NLIO ("<table width='90%' border='0'>",3);
+				NLIO ('<tr>',4);
+				NLIO ("<td class='menuitem'>",5);
+				if ( $type == 'header' ){ // Header
+					NLIO ($HrstTL."main.php'>"._HOME.'</a>'.$Sep,6);
+					NLIO ($HrstTL."qry_main.php?new=1'>"._SEARCH."</a>$Sep",6);
+				}elseif ( $type == 'footer' ){ // Footer
+					NLIO ($HrstTL."ag_main.php?ag_action=list'>". _AGMAINT."</a>$Sep",6);
+					NLIO ($HrstTL."maintenance.php'>". _CACHE."</a>$Sep",6);
+				}
+				if ($Use_Auth_System == 1){
+					NLIO ($HrstTL."user.php'>". _USERPREF ."</a>$Sep",6);
+					NLIO ($HrstTL."logout.php'>". _LOGOUT .'</a>',6);
+				}
+				if ( $type == 'header' && $back_link != '' ){ // Header
+					print $Sep;
+					NLIO($back_link,6);
+				}elseif ( $type == 'footer' ){ // Footer
+					print $Sep;
+					NLIO ($Hrst."admin/index.php'>". _ADMIN .'</a>',6);
+				}
+				NLIO ('</td>',5);
+				NLIO ('</tr>',4);
+				NLIO ('</table>',3);
+				NLIO ('</div>',2);
+			}
+		}
+	}
+}
+
 function PrintFramedBoxHeader($title, $fore, $back)
 {
   echo '
