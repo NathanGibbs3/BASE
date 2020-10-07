@@ -32,11 +32,9 @@ if (!file_exists('base_conf.php') || filesize('base_conf.php') < 10) {
 require("base_conf.php");
 include("$BASE_path/includes/base_include.inc.php");
 include_once("$BASE_path/base_db_common.php");
-include_once("$BASE_path/base_common.php");
 
-$errorMsg      = "";
+$errorMsg      = '';
 $displayError  = 0;
-$noDisplayMenu = 1;
 
 // Redirect to base_main.php if auth system is off
 if ( $Use_Auth_System == 0 ) {
@@ -81,6 +79,5 @@ NLIO ('</td>',5);
 NLIO ('</tr>',4);
 NLIO ('</table>',3);
 NLIO ('</form>',2);
-include("$BASE_path/base_footer.php");
-PageEnd();
+PrintBASESubFooter();
 ?>

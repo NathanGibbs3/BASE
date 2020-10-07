@@ -61,64 +61,54 @@ function verify_db($db, $alert_dbname, $alert_host)
 function verify_php_build($DBtype){
 	// Checks that the necessary libraries are built into PHP.
 	$ErrPfx = returnErrorMessage(_ERRPHPERROR);
-
-  /* Check PHP version >= 4.0.4 */
-  $current_php_version = phpversion();
-  $version = explode(".", $current_php_version);
-
-  /* account for x.x.xXX subversions possibly having text like 4.0.4pl1 */
-  if ( is_numeric(substr($version[2], 1, 1)) ) 
-     $version[2] = substr($version[2], 0, 2);
-  else
-     $version[2] = substr($version[2], 0, 1);
-
-  /* only version PHP 4.0.4+ or 4.1+.* are valid */ 
-  if ( !( ($version[0] >= 4) && ( ( ($version[1] == 0) && ($version[2] >= 4) ) ||
-          ($version[1] > 0) || ($version[0] > 4) ) ) )
-  {
-     return "<FONT COLOR=\"#FF0000\">"._ERRPHPERROR."</FONT>: ".
+	// Check PHP version >= 4.0.4
+	$current_php_version = phpversion();
+	$version = explode(".", $current_php_version);
+	// Account for x.x.xXX subversions possibly having text like 4.0.4pl1
+	if ( is_numeric(substr($version[2], 1, 1)) ){ // No Text
+		$version[2] = substr($version[2], 0, 2);
+	}else{
+		$version[2] = substr($version[2], 0, 1);
+	}
+	// Only version PHP 4.0.4+ or 4.1+.* are valid.
+	if ( !( ($version[0] >= 4) && ( ( ($version[1] == 0) && ($version[2] >= 4) ) ||
+          ($version[1] > 0) || ($version[0] > 4) ) )
+	){
+		return "$ErrPfx: ".
             "<B>"._ERRPHPERROR1."</B>: <FONT>"._ERRVERSION." ".$current_php_version.
             " "._ERRPHPERROR2."</FONT>";
-  }
-
+	}
 	if ( $DBtype == "mysql" || $DBtype == "mysqlt" || $DBtype == "maxsql" ){
 		// On PHP 5.5+, use mysqli ADODB driver & gracefully deprecate the
 		// mysql, mysqlt & maxsql drivers.
 		if ( $version[0] > 5 || ( $version[0] == 5 && $version[1] > 4) ){
 			if ( !(function_exists("mysqli_connect")) ){
 				return "$ErrPfx: "._ERRPHPMYSQLISUP;
+				// The Constant above does not exist.
+				// We need to fix that.
 			}
 		}else{
-     if ( !(function_exists("mysql_connect")) )
-     {
-        return "<FONT COLOR=\"#FF0000\">"._ERRPHPERROR."</FONT>: "._ERRPHPMYSQLSUP;
-     }
+			if ( !(function_exists("mysql_connect")) ){
+				return "$ErrPfx: "._ERRPHPMYSQLSUP;
+			}
+		}
+	}elseif ( $DBtype == "postgres" ){
+		if ( !(function_exists("pg_connect")) ){
+			return "$ErrPfx: "._ERRPHPPOSTGRESSUP;
+		}
+	}elseif ( $DBtype == "mssql" ){
+		if ( !(function_exists("mssql_connect")) ){
+			return "$ErrPfx: "._ERRPHPMSSQLSUP;
+		}
+	}elseif ( $DBtype == "oci8" ){
+		if ( !(function_exists("ocilogon")) ){
+			return "$ErrPfx: "._ERRPHPORACLESUP;
+		}
+	// Additional DB Support would tie in here.
+	}else{
+		return "<B>"._ERRSQLDBTYPE."</B>: "._ERRSQLDBTYPEINFO1."'$DBtype'.". _ERRSQLDBTYPEINFO2;
 	}
-  }
-  else if ( $DBtype == "postgres" )
-  {
-     if ( !(function_exists("pg_connect")) )
-     {
-        return "<FONT COLOR=\"#FF0000\">"._ERRPHPERROR."</FONT>: "._ERRPHPPOSTGRESSUP;
-     }
-  }
-  else if ( $DBtype == "mssql" )
-  {
-      if ( !(function_exists("mssql_connect")) )
-       {
-            return "<FONT COLOR=\"#FF0000\">"._ERRPHPERROR."</FONT>: "._ERRPHPMSSQLSUP;
-       }
-  }
-  else if ( $DBtype == "oci8" )
-  {
-      if ( !(function_exists("ocilogon")) )
-       {
-            return "<FONT COLOR=\"#FF0000\">"._ERRPHPERROR."</FONT>: "._ERRPHPORACLESUP;
-       }
-  }
-  else
-     return "<B>"._ERRSQLDBTYPE."</B>: "._ERRSQLDBTYPEINFO1."'$DBtype'.". _ERRSQLDBTYPEINFO2;
-  return "";
+	return "";
 }
 
 /* ******************* DB Query Routines ************************************ */

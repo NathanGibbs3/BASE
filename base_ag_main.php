@@ -357,11 +357,9 @@ $qs->SaveState();
 /* Export action_arg = current AG ID, so that Actions work */
 ExportHTTPVar($ag_id, "action_arg");
 echo "\n</form>\n";
-PrintBASESubFooter();
 if ($debug_time_mode > 0) {
     $et->Mark("Get Query Elements");
     $et->PrintTiming();
 }
-
-echo "</body>\r\n</html>";
+PrintBASESubFooter();
 ?>

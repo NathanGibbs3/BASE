@@ -1051,4 +1051,52 @@ function Percent ( $Value = 1, $Count = 1 ){
 	}
 	return ($Ret);
 }
+
+// Returns true if var is a string containing data.
+function LoadedString ( $var ){
+	$Ret = false;
+	if ( is_string($var) && !empty($var)){
+		$Ret = true;
+	}
+	return $Ret;
+}
+
+// Returns true if file passes include safety checks.
+// Also includes the file.
+function base_include ( $file='' ){
+	GLOBAL $BASE_path, $debug_mode;
+	$Ret = false;
+	$EMsg = '';
+	$tfile = "$BASE_path/custom/" . $file;
+	$ReqRE = preg_quote("$BASE_path/custom/",'/');
+	$ReqRE .= ".*\.htm(l)?";
+	if ( preg_match("/^" . $ReqRE ."$/i", $tfile) ){
+		// File must be in specific location with specific extension.
+		$Loc = realpath($tfile); // Final file must
+		if ( $Loc != false // exist and resolve to an absolute path.
+			&& fileowner($Loc) != false // not be owned by UID 0 (root).
+			&& is_file($Loc) // be a real file.
+			&& is_readable($Loc) // be readable.
+		){
+			if ( preg_match("/^" . $ReqRE ."$/i", $Loc) ){
+				// be in specific location with specific extension.
+				$Ret = true;
+				$EMsg = 'OK';
+				include_once($Loc);
+			}else{
+				$EMsg = 'Loc';
+				$tfile .= " -> $Loc";
+			}
+		}else{
+			$EMsg = 'Access';
+		}
+	}else{
+		$EMsg = 'File';
+	}
+	if ( $debug_mode > 0 ){
+		print "Test: $file\n";
+		print "$EMsg: $tfile\n";
+	}
+	return $Ret;
+}
 ?>

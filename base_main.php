@@ -111,7 +111,7 @@ NLIO("<td align='left' rowspan='2'>",3);
 $tmp_month = date("m");
 $tmp_day = date("d");
 $tmp_year = date("Y");
-$tmp_DSO = '&amp;sort_order=occur_d';
+$tmp_DSO = '&amp;sort_order=occur_d'; // Default Sort Order.
 $today = '&amp;time%5B0%5D%5B0%5D=+&amp;time%5B0%5D%5B1%5D=%3E%3D'.
     '&amp;time%5B0%5D%5B2%5D='.$tmp_month.
     '&amp;time%5B0%5D%5B3%5D='.$tmp_day.
@@ -305,14 +305,9 @@ if ($main_page_detail == 1) {
 <p>
 <hr />
 <?php
-include("$BASE_path/base_footer.php");
-if (strlen($base_custom_footer) != 0) {
-    include($base_custom_footer);
-}
-
 $stop = time();
 if ($debug_time_mode > 0) {
     echo "<div class='systemdebug'>[" . _LOADEDIN . "&nbsp;" .($stop - $start)." seconds]</div>";
 }
-PageEnd();
+PrintBASESubFooter();
 ?>

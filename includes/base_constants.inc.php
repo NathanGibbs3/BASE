@@ -18,6 +18,8 @@
 // Ensure the conf file has been loaded.  Prevent direct access to this file.
 defined( '_BASE_INC' ) or die( 'Accessing this file directly is not allowed.' );
 
+include_once("$BASE_path/base_common.php");
+
 /* IP encapsulated layer4 proto */
 SetConst("UDP", 17);
 SetConst("TCP", 6);
@@ -71,11 +73,9 @@ SetConst("VAR_BOOLEAN", 32768);
 
 function SetConst($var,$val){
 	$Ret = false;
-	if (is_string($var)){
-		if (!empty($var)){
-			if (!defined($var)){
-				$Ret = define($var, $val);
-			}
+	if ( LoadedString($var) ){
+		if (!defined($var)){
+			$Ret = define($var, $val);
 		}
 	}
 	return $Ret;

@@ -392,5 +392,4 @@ include_once ("$BASE_path/includes/base_constants.inc.php");
 	PrintTimeProfile();
 }
 PrintBASESubFooter();
-PageEnd();
 ?>
