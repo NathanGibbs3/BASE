@@ -99,8 +99,6 @@ https://github.com/NathanGibbs3/BASE/issues/62)
 https://github.com/NathanGibbs3/BASE/issues/75)
 - [#76 Merge Back Link into page header Menu.](
 https://github.com/NathanGibbs3/BASE/issues/76)
-- [#74 Local/Remote File Include Vulnerability in BASE custom footer code.](
-https://github.com/NathanGibbs3/BASE/issues/74)
 
 Contributor(s): [Nathan Gibbs]
 - [#57 `tr bgcolor="#"` if `$prio` not in `$priority_colors`
@@ -114,6 +112,8 @@ Contributor(s):
 https://github.com/NathanGibbs3/BASE/issues/32)
 - [#13 Add Anti XSS code to `returnRoleNamesDropDown()`.](
 https://github.com/NathanGibbs3/BASE/issues/13)
+- [#74 Local/Remote File Include Vulnerability in BASE custom footer code.](
+https://github.com/NathanGibbs3/BASE/issues/74)
 
 Contributor(s): [Nathan Gibbs]
 
