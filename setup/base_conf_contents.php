@@ -92,12 +92,16 @@ function returnContents()
     $sessionName = str_replace(\' \', \'_\', $BASE_installID . session_name());
     session_name($sessionName);
 
+// Name of custom footer file.
+// If set, will cause BASE to include the specified file as a custom footer to
+// the main page.  The custom footer file must:
+// 1. Be located in the /custom directory.
+// 2. End with an .html or .htm extension.
+// 3. Not be owned by root.
+// 4. Be readable.
+// A sample custom footer file is in the contrib directory
 
-    /* Custom footer addition.  The below variable, if set, will cause
-    *  base_main.php to include what ever file is specified.
-    *  A sample custom footer file is in the contrib directory
-    */
-   $base_custom_footer = \'\';
+$base_custom_footer = \'\';
 
     /* Path to the DB abstraction library 
      *  (Note: DO NOT include a trailing backslash after the directory)

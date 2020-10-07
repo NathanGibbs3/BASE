@@ -41,7 +41,7 @@ function PageStart ($refresh = 0, $page_title = '') {
 		}
 		$title .= " $BASE_VERSION";
 		if ($page_title != ''){
-			$title .= ': ' . XSSPrintSafe($page_title);;
+			$title .= ': ' . XSSPrintSafe($page_title);
 		}
 		if ( isset($_COOKIE['archive']) && $_COOKIE['archive'] == 1 ){
 			$SfxA = ' -- ARCHIVE';  // Need to add this to Translation Data.
@@ -137,7 +137,15 @@ function PrintBASESubFooter(){
 	if ( preg_match("/^" . $ReqRE ."$/", $caller) ){
 		// Custom footer allowed on main page only.
 		if ( strlen($base_custom_footer) != 0 ){
-			include($base_custom_footer);
+			NLIO ('<!-- BASE Custom Footer -->',2);
+			$tmp = base_include($base_custom_footer);
+			if ( $tmp == false ){
+				$tmp = XSSPrintSafe ( $base_custom_footer );
+				$tmp = returnErrorMessage (
+					"ERROR: Include custom footer file: $tmp"
+				);
+				NLIO ($tmp,2);
+			}
 		}
 	}
 	PageEnd();

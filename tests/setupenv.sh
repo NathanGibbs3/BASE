@@ -227,5 +227,18 @@ if [ "$1" == "" ]; then
 		echo "Current directory: `pwd`"
 		echo "Creating Build Log Directory: `pwd`/build/logs"
 		mkdir -p build/logs
+		echo "Creating custom footer Directory: `pwd`/custom"
+		mkdir -p custom/testdir.htm
+		touch custom/testext.php
+		touch custom/testhtm.htm
+		touch custom/testhtml.html
+		touch custom/testCASE.HTML
+		sudo chown -h nobody:nogroup custom/*
+		sudo touch /etc/BASEtestsym.htm
+		sudo chown 1000:nogroup /etc/BASEtestsym.htm
+		ln -s /etc/BASEtestsym.htm custom/testsym.htm
+		ln -s testhtm.htm custom/testsymok.htm
+		touch custom/testuser.htm
+		sudo chown root:root custom/testuser.htm
 	fi
 fi

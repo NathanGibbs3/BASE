@@ -127,6 +127,9 @@ script:
   - ./tests/utf-8lint.sh
   - ./tests/phpunit.sh
 
+after_script:
+  - source ./tests/teardownenv.sh
+
 after_success:
   # Submit Reports to Code Coverage services.
   - ./tests/sccr.sh
