@@ -58,7 +58,7 @@ if [ "$1" == "" ]; then
 	if [ "$td" != "tests" ]; then
 		echo "Current directory: `pwd`"
 		echo "Removing custom footer Directory: `pwd`/custom"
-		rm -rdf custom
-		rm -f /etc/BASEtestsym.htm
+		sudo rm -rdf custom
+		sudo rm -f /etc/BASEtestsym.htm
 	fi
 fi
