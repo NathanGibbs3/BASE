@@ -8,6 +8,7 @@ use PHPUnit\Framework\TestCase;
   * @covers ::Htmlcolor
   * @covers ::LoadedString
   * @covers ::Percent
+  * @covers ::base_include
   * @uses ::CleanVariable
   */
 class base_commonTest extends TestCase {
@@ -188,6 +189,226 @@ class base_commonTest extends TestCase {
 			LoadedString('Valid'),
 			'Unexpected return SetConst().'
 		);
+	}
+	public function testbase_includeEmpty() {
+		GLOBAL $BASE_path, $debug_mode;
+		$URV = 'Unexpected Return Value.';
+		$UOV = 'Unexpected Output.';
+		$file = '';
+		$expected = "Test: $file\n";
+		$expected .= "File: $BASE_path/custom/$file\n";
+		$this->assertFalse(
+			base_include($file),
+			$URV
+		);
+		$odb = $debug_mode;
+		$debug_mode = 1;
+		$this->expectOutputString(
+			$expected,
+			$UOV
+		);
+		base_include($file);
+		$debug_mode = $odb;
+	}
+	public function testbase_includeInvalidLoc() {
+		GLOBAL $BASE_path, $debug_mode;
+		$URV = 'Unexpected Return Value.';
+		$UOV = 'Unexpected Output.';
+		$file = '/etc/passwd';
+		$expected = "Test: $file\n";
+		$expected .= "File: $BASE_path/custom/$file\n";
+		$this->assertFalse(
+			base_include($file),
+			$URV
+		);
+		$odb = $debug_mode;
+		$debug_mode = 1;
+		$this->expectOutputString(
+			$expected,
+			$UOV
+		);
+		base_include($file);
+		$debug_mode = $odb;
+	}
+	public function testbase_includeInvalidExt() {
+		GLOBAL $BASE_path, $debug_mode;
+		$URV = 'Unexpected Return Value.';
+		$UOV = 'Unexpected Output.';
+		$file = 'testext.php';
+		$expected = "Test: $file\n";
+		$expected .= "File: $BASE_path/custom/$file\n";
+		$this->assertFalse(
+			base_include($file),
+			$URV
+		);
+		$odb = $debug_mode;
+		$debug_mode = 1;
+		$this->expectOutputString(
+			$expected,
+			$UOV
+		);
+		base_include($file);
+		$debug_mode = $odb;
+	}
+	public function testbase_includeInvalidUser() {
+		GLOBAL $BASE_path, $debug_mode;
+		$URV = 'Unexpected Return Value.';
+		$UOV = 'Unexpected Output.';
+		$file = 'testuser.htm';
+		$expected = "Test: $file\n";
+		$expected .= "Access: $BASE_path/custom/$file\n";
+		$this->assertFalse(
+			base_include($file),
+			$URV
+		);
+		$odb = $debug_mode;
+		$debug_mode = 1;
+		$this->expectOutputString(
+			$expected,
+			$UOV
+		);
+		base_include($file);
+		$debug_mode = $odb;
+	}
+	public function testbase_includeInvalidFile() {
+		GLOBAL $BASE_path, $debug_mode;
+		$URV = 'Unexpected Return Value.';
+		$UOV = 'Unexpected Output.';
+		$file = 'doesnotexist.htm';
+		$expected = "Test: $file\n";
+		$expected .= "Access: $BASE_path/custom/$file\n";
+		$this->assertFalse(
+			base_include($file),
+			$URV
+		);
+		$odb = $debug_mode;
+		$debug_mode = 1;
+		$this->expectOutputString(
+			$expected,
+			$UOV
+		);
+		base_include($file);
+		$debug_mode = $odb;
+	}
+	public function testbase_includeInvalidType() {
+		GLOBAL $BASE_path, $debug_mode;
+		$URV = 'Unexpected Return Value.';
+		$UOV = 'Unexpected Output.';
+		$file = 'testdir.htm';
+		$expected = "Test: $file\n";
+		$expected .= "Access: $BASE_path/custom/$file\n";
+		$this->assertFalse(
+			base_include($file),
+			$URV
+		);
+		$odb = $debug_mode;
+		$debug_mode = 1;
+		$this->expectOutputString(
+			$expected,
+			$UOV
+		);
+		base_include($file);
+		$debug_mode = $odb;
+	}
+	public function testbase_includeInvalidLocSym() {
+		GLOBAL $BASE_path, $debug_mode;
+		$URV = 'Unexpected Return Value.';
+		$UOV = 'Unexpected Output.';
+		$file = 'testsym.htm';
+		$expected = "Test: $file\n";
+		$expected .= "Loc: $BASE_path/custom/$file -> /etc/BASEtestsym.htm\n";
+		$this->assertFalse(
+			base_include($file),
+			$URV
+		);
+		$odb = $debug_mode;
+		$debug_mode = 1;
+		$this->expectOutputString(
+			$expected,
+			$UOV
+		);
+		base_include($file);
+		$debug_mode = $odb;
+	}
+	public function testbase_includeValidLoc() {
+		GLOBAL $BASE_path, $debug_mode;
+		$URV = 'Unexpected Return Value.';
+		$UOV = 'Unexpected Output.';
+		$file = 'testsymok.htm';
+		$expected = "Test: $file\n";
+		$expected .= "OK: $BASE_path/custom/$file\n";
+		$this->assertTrue(
+			base_include($file),
+			$URV
+		);
+		$odb = $debug_mode;
+		$debug_mode = 1;
+		$this->expectOutputString(
+			$expected,
+			$UOV
+		);
+		base_include($file);
+		$debug_mode = $odb;
+	}
+	public function testbase_includeValidExtHtm() {
+		GLOBAL $BASE_path, $debug_mode;
+		$URV = 'Unexpected Return Value.';
+		$UOV = 'Unexpected Output.';
+		$file = 'testhtm.htm';
+		$expected = "Test: $file\n";
+		$expected .= "OK: $BASE_path/custom/$file\n";
+		$this->assertTrue(
+			base_include($file),
+			$URV
+		);
+		$odb = $debug_mode;
+		$debug_mode = 1;
+		$this->expectOutputString(
+			$expected,
+			$UOV
+		);
+		base_include($file);
+		$debug_mode = $odb;
+	}
+	public function testbase_includeValidExtHtml() {
+		GLOBAL $BASE_path, $debug_mode;
+		$URV = 'Unexpected Return Value.';
+		$UOV = 'Unexpected Output.';
+		$file = 'testhtml.html';
+		$expected = "Test: $file\n";
+		$expected .= "OK: $BASE_path/custom/$file\n";
+		$this->assertTrue(
+			base_include($file),
+			$URV
+		);
+		$odb = $debug_mode;
+		$debug_mode = 1;
+		$this->expectOutputString(
+			$expected,
+			$UOV
+		);
+		base_include($file);
+		$debug_mode = $odb;
+	}
+	public function testbase_includeValidCase() {
+		GLOBAL $BASE_path, $debug_mode;
+		$URV = 'Unexpected Return Value.';
+		$UOV = 'Unexpected Output.';
+		$file = 'testCASE.HTML';
+		$expected = "Test: $file\n";
+		$expected .= "OK: $BASE_path/custom/$file\n";
+		$this->assertTrue(
+			base_include($file),
+			$URV
+		);
+		$odb = $debug_mode;
+		$debug_mode = 1;
+		$this->expectOutputString(
+			$expected,
+			$UOV
+		);
+		base_include($file);
+		$debug_mode = $odb;
 	}
 
 	// Add code to a function if needed.
