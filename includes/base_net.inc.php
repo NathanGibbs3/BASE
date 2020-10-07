@@ -144,38 +144,33 @@ function getIPMask($ipaddr, $mask)
    return array($ip_bottom_str, $ip_top_str);
 }
 
-/****************************************************************************
- *
- * Function: baseGetHostByAddr()
- *
- * Purpose: resolves (and caches) an IP address to a hostname
- *
- * Arguments: $ipaddr         => IPv4 address in dotted notation
- *            $db             => DB handle
- *            $cache_lifetime => lifetime of DNS resolution
- *
- * Returns: hostname of $ipaddr
- *          OR an error message indicating resolution was not possible
- *
- ***************************************************************************/
-function baseGetHostByAddr($ipaddr, $db, $cache_lifetime)
-{
-  if (empty($ipaddr) || ($ipaddr == ""))
-  {
-    error_log("WARNING: baseGetHostByAddr() has been provided with an empty string as \$ipaddr.  Returning with error."); 
-    return "&nbsp;<I>"._ERRRESOLVEADDRESS."</I>&nbsp;";
-  }
-
-  $pattern = '/(\d{1,3}\.){3}\d{1,3}/';
-  if (!preg_match($pattern, $ipaddr))
-  {
-    error_log("WARNING: baseGetHostByAddr() has been provided with something that is NOT a dotted IPv4 address.");
-    error_log("\$ipaddr = \"" . $ipaddr . "\"");
-    error_log("This is a " . gettype($ipaddr));
-    error_log("Returning right this string.");
-    return $ipaddr;
-  }
-
+//  Function: baseGetHostByAddr()
+//   Purpose: Caches, and if possible, resolves an IP address to a hostname.
+// Arguments: $ipaddr         => IPv4 address in dotted notation.
+//            $db             => DB handle.
+//            $cache_lifetime => lifetime of DNS resolution.
+//   Returns: hostname of $ipaddr
+//            OR an error message indicating resolution was not possible
+function baseGetHostByAddr($ipaddr, $db, $cache_lifetime){
+	$Epfx = 'BASE ' . __FUNCTION__ . '() ';
+	$Emsg = '';
+	// Need to extend this to support IPv6
+	$Validipv4 = '/(\d{1,3}\.){3}\d{1,3}/';
+	if ( !LoadedString($ipaddr) || ($ipaddr == '')){
+		$Emsg = $Epfx.'Invalid Parameter(s) $ipaddr.';
+		$Ret = "<I>"._ERRRESOLVEADDRESS."</I>";
+	}elseif (!preg_match($Validipv4, $ipaddr)){
+		$Emsg = $Epfx.'Invalid Parameter(s) $ipaddr.';
+		// Not sure why we are not returning the error message like above.
+		// The lagecy code returns the $ipaddr param in this isntance, so
+		// we left it here until we can verify that changing it won't break
+		// soemthing else.
+		$Ret = $ipaddr;
+	}
+	if ( $Emsg != ''){
+		trigger_error($Emsg);
+		return $Ret;
+	}
   $ip32 = baseIP2long($ipaddr);
 
   $current_unixtime = time();
@@ -186,13 +181,25 @@ function baseGetHostByAddr($ipaddr, $db, $cache_lifetime)
 
   $result = $db->baseExecute($sql);
   $ip_cache = $result->baseFetchRow();
-
-  /* cache miss */
-  if ( $ip_cache == "" ) 
-  {
-     $tmp = gethostbyaddr($ipaddr);
-
-     /* add to cache regardless of whether can resolve */
+	// Fix Issue #58
+	$tmp = gethostbyaddr($ipaddr);
+	// Doesn't affect postgresql. Only run on other DB engines.
+	if ( $db->DB_type != 'postgres' ){
+		// Get the length of the ipc-fqdn field from the DB.
+		$maxlength = GetFieldLength($db,'acid_ip_cache','ipc_fqdn');
+		if ( strlen($tmp) > $maxlength) { // Concat data at to maxlength.
+			$tmp = substr($tmp, -$maxlength);
+			$Emsg = $Epfx;
+			$Emsg .= "DB Field Overflow, FQDN for $ipaddr concatenated to $tmp. ";
+			$Emsg .= 'See: https://github.com/NathanGibbs3/BASE/issues/58';
+//			error_log($Emsg);
+			// Using trigger_error, as error_log trips up the Unit tests that
+			// currently requirs process isolation. We should be able to fix
+			// this once we fix Issue #11.
+			trigger_error($Emsg);
+		}
+	}
+	if ( $ip_cache == "" ){ // Cache miss. Add to cache.
      if( $db->DB_type == "oci8" )
        $sql= "INSERT INTO acid_ip_cache (ipc_ip, ipc_fqdn, ipc_dns_timestamp) ".
              "VALUES ($ip32, '$tmp', to_date( '$current_time', 'YYYY-MM-DD HH24:MI:SS' ) )";
@@ -200,12 +207,10 @@ function baseGetHostByAddr($ipaddr, $db, $cache_lifetime)
        $sql = "INSERT INTO acid_ip_cache (ipc_ip, ipc_fqdn, ipc_dns_timestamp) ".
               "VALUES ('$ip32', '$tmp', '$current_time')";
      $db->baseExecute($sql);
-  }
-  else     /* cache hit */
-  {
+	}else{ // Cache hit.
      if ($ip_cache[2] != "" && 
-         ( ( (strtotime($ip_cache[2]) / 60) + $cache_lifetime ) >= ($current_unixtime / 60) ) )
-     {
+         ( ( (strtotime($ip_cache[2]) / 60) + $cache_lifetime ) >= ($current_unixtime / 60) )
+		){
         /* valid entry */
         if ( ($ip_cache[2] != "") && ($ip_cache[2] != 0) )
         {
@@ -213,20 +218,16 @@ function baseGetHostByAddr($ipaddr, $db, $cache_lifetime)
         }
         else  /* name could not be resolved */
            $tmp = $ipaddr;
-     }
-     else  /* cache expired */
-     {
-        $tmp = gethostbyaddr($ipaddr);
-
+		}else{ // Cache expired.
         /* Update entry in cache regardless of whether can resolve */
         $sql = "UPDATE acid_ip_cache SET ipc_fqdn='$tmp', ".
                " ipc_dns_timestamp='$current_time' WHERE ipc_ip='$ip32'"; 
         $db->baseExecute($sql);
-     }
-  }
+		}
+	}
 
   if ( $tmp == $ipaddr )
-     return "&nbsp;<I>"._ERRRESOLVEADDRESS."</I>&nbsp;";
+     return "<I>"._ERRRESOLVEADDRESS."</I>";
   else
      return $tmp;
 }

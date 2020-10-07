@@ -6,6 +6,7 @@ use PHPUnit\Framework\TestCase;
 /**
   * @covers ::returnErrorMessage
   * @covers ::ErrorMessage
+  * @uses ::Htmlcolor
   */
 class log_errorTest extends TestCase {
 	// Tests go here.

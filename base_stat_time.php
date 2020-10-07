@@ -106,10 +106,9 @@ function PrintTimeProfile()
        echo     '</TD>
                  <TD ALIGN=CENTER>'.$value_lst[$i].'</TD>
                  <TD><TABLE WIDTH="100%">
-                      <TR>
-                       <TD BGCOLOR="'.$entry_color.'" WIDTH="'.$entry_width.'%">&nbsp;</TD>
-                       <TD></TD>
-                      </TR>
+                      <TR>';
+	print HBarGraph($value_lst[$i],$max_cnt,$entry_color);
+	echo '                      </TR>
                      </TABLE>
                  </TD>
              </TR>';
@@ -390,9 +389,7 @@ include_once ("$BASE_path/includes/base_constants.inc.php");
   }   // end year
 
   echo '</TABLE>';
-  PrintTimeProfile();
-  }
-
-  PrintBASESubFooter();
-  echo "</body>\r\n</html>";
+	PrintTimeProfile();
+}
+PrintBASESubFooter();
 ?>

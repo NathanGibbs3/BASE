@@ -297,11 +297,11 @@ function PrintBackButton(){
 		// We have a session, so proceed.
 		$criteria_num = $_SESSION['back_list_cnt'] - 1;
 		if ( isset($_SESSION['back_list'][$criteria_num]["SCRIPT_NAME"]) ){
-			return "\n\t\t\t\t\t[&nbsp;<a href=\"".
+			return "<a class='menuitem' href=\"".
 			$_SESSION['back_list'][$criteria_num]["SCRIPT_NAME"].
 			"?back=1&".
 			$_SESSION['back_list'][$criteria_num]["QUERY_STRING"].
-			"\">"._BACK."</a>&nbsp;]\n";
+			"\">"._BACK."</a>";
 		}else{
 			return '';
 		}

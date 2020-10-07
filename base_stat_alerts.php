@@ -356,13 +356,9 @@ if ( isset($show_previous_alert) && $show_previous_alert == 1 ){
   $qs->PrintAlertActionButtons();
   $qs->SaveState();
   echo "\n</FORM>\n";
-  
-  PrintBASESubFooter();
-
-  if ($debug_time_mode >= 1) {
+if ($debug_time_mode >= 1) {
 	$et->Mark("Get Query Elements");
 	$et->PrintTiming();
-  }
-
-  echo "</body>\r\n</html>";
+}
+PrintBASESubFooter();
 ?>

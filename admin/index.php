@@ -33,7 +33,7 @@ include_once("$BASE_path/includes/base_constants.inc.php");
   $et = new EventTiming($debug_time_mode);
   $cs = new CriteriaState("admin/index.php");
   $cs->ReadState();
-  
+
   // Check role out and redirect if needed -- Kevin
   $roleneeded = 1;
   $BUser = new BaseUser();
@@ -48,9 +48,6 @@ include_once("$BASE_path/includes/base_constants.inc.php");
     PrintBASEAdminMenuHeader();
   
     echo _BASEADMINTEXT;
-
-    PrintBASEAdminMenuFooter();
-
-    PrintBASESubFooter();
-    echo "</body>\r\n</html>";
+PrintBASEAdminMenuFooter();
+PrintBASESubFooter();
 ?>

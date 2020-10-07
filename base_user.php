@@ -115,6 +115,5 @@ include_once("$BASE_path/includes/base_constants.inc.php");
     </tr>
 </table></div>&nbsp;&nbsp;&nbsp;</td><td><?php echo($page_body); ?></td></tr></table>
 <?php
-    PrintBASESubFooter();
-    echo "</body>\r\n</html>";
+PrintBASESubFooter();
 ?>

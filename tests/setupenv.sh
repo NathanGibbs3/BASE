@@ -170,21 +170,22 @@ ADODl=archive
 ADOFilePfx=v
 ADOFileSfx=.tar.gz
 if [ "$pvM" \> "5" ]; then # PHP 7x
-	ADODBVer=5.20.0
+	if [ "$pvm" \> "1" ]; then # PHP 7.2+
+		ADODBVer=5.20.12
+	else
+		ADODBVer=5.20.0
+	fi
 	if [ "$1" == "" ] && [ "$TRAVIS" == "true" ]; then
 		export ADODBPATH="ADOdb-$ADODBVer"
 	fi
 elif [ "$pvM" \> "4" ]; then # PHP 5x
 	if [ "$pvm" \> "2" ]; then # PHP 5.3+
 		ADODBVer=5.10
-		if [ "$1" == "" ] && [ "$TRAVIS" == "true" ]; then
-			export ADODBPATH="ADOdb-$ADODBVer/phplens/adodb5"
-		fi
 	else
 		ADODBVer=5.01beta
-		if [ "$1" == "" ] && [ "$TRAVIS" == "true" ]; then
-			export ADODBPATH="ADOdb-$ADODBVer/phplens/adodb5"
-		fi
+	fi
+	if [ "$1" == "" ] && [ "$TRAVIS" == "true" ]; then
+		export ADODBPATH="ADOdb-$ADODBVer/phplens/adodb5"
 	fi
 else # PHP 4x
 #	Legacy ADODB
@@ -226,5 +227,18 @@ if [ "$1" == "" ]; then
 		echo "Current directory: `pwd`"
 		echo "Creating Build Log Directory: `pwd`/build/logs"
 		mkdir -p build/logs
+		echo "Creating custom footer Directory: `pwd`/custom"
+		mkdir -p custom/testdir.htm
+		touch custom/testext.php
+		touch custom/testhtm.htm
+		touch custom/testhtml.html
+		touch custom/testCASE.HTML
+		sudo chown -h nobody:nogroup custom/*
+		sudo touch /etc/BASEtestsym.htm
+		sudo chown 1000:nogroup /etc/BASEtestsym.htm
+		ln -s /etc/BASEtestsym.htm custom/testsym.htm
+		ln -s testhtm.htm custom/testsymok.htm
+		touch custom/testuser.htm
+		sudo chown root:root custom/testuser.htm
 	fi
 fi
