@@ -22,7 +22,7 @@ Such a lookup needs a URL, such as https://snort.org/rule_docs/1-2003 .
 Contributor(s): [Nathan Gibbs]
 ### Deprecated
 ### Removed
-- ports.tantalo.net port lookup URL.
+- ports.tantalo.net port lookup URL.  
 Contributor(s): [Nathan Gibbs]
 ### Fixed
 - [#2 Return value of function `GetVendor()`. ](
@@ -99,11 +99,13 @@ https://github.com/NathanGibbs3/BASE/issues/62)
 https://github.com/NathanGibbs3/BASE/issues/75)
 - [#76 Merge Back Link into page header Menu.](
 https://github.com/NathanGibbs3/BASE/issues/76)
+- [#74 Local/Remote File Include Vulnerability in BASE custom footer code.](
+https://github.com/NathanGibbs3/BASE/issues/74)
 
 Contributor(s): [Nathan Gibbs]
 - [#57 `tr bgcolor="#"` if `$prio` not in `$priority_colors`
 (unknown event class)](
-https://github.com/NathanGibbs3/BASE/issues/57)
+https://github.com/NathanGibbs3/BASE/issues/57)  
 Contributor(s):
   - [FalcoGer]
   - [Nathan Gibbs]
