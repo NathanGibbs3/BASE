@@ -235,7 +235,7 @@ if [ "$1" == "" ]; then
 		touch custom/testCASE.HTML
 		sudo chown -h nobody:nogroup custom/*
 		sudo touch /etc/BASEtestsym.htm
-		sudo chown nobody:nogroup /etc/BASEtestsym.htm
+		sudo chown 1000:nogroup /etc/BASEtestsym.htm
 		ln -s /etc/BASEtestsym.htm custom/testsym.htm
 		ln -s testhtm.htm custom/testsymok.htm
 		touch custom/testuser.htm
