@@ -99,6 +99,10 @@ https://github.com/NathanGibbs3/BASE/issues/62)
 https://github.com/NathanGibbs3/BASE/issues/75)
 - [#76 Merge Back Link into page header Menu.](
 https://github.com/NathanGibbs3/BASE/issues/76)
+- [#73 Standardize generation of HTML for Timing Display.](
+https://github.com/NathanGibbs3/BASE/issues/73)
+- [#77 PrintTiming() retuns parital event log.](
+https://github.com/NathanGibbs3/BASE/issues/77)
 
 Contributor(s): [Nathan Gibbs]
 - [#57 `tr bgcolor="#"` if `$prio` not in `$priority_colors`
