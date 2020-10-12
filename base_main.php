@@ -41,7 +41,6 @@
  *
  */
 
-  $start = time();
    require("base_conf.php");
    include_once("$BASE_path/includes/base_auth.inc.php");
    include_once("$BASE_path/includes/base_db.inc.php");
@@ -53,6 +52,7 @@
    include_once("$BASE_path/includes/base_log_error.inc.php");
    include_once("$BASE_path/includes/base_log_timing.inc.php");
 
+$et = new EventTiming($debug_time_mode);
 RegisterGlobalState();
 
 // Initialize the history
@@ -305,9 +305,5 @@ if ($main_page_detail == 1) {
 <p>
 <hr />
 <?php
-$stop = time();
-if ($debug_time_mode > 0) {
-    echo "<div class='systemdebug'>[" . _LOADEDIN . "&nbsp;" .($stop - $start)." seconds]</div>";
-}
 PrintBASESubFooter();
 ?>

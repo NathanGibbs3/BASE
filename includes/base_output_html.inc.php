@@ -156,7 +156,7 @@ function PrintBASESubFooter(){
 }
 
 function PrintBASEMenu( $type='', $back_link = '' ){
-	GLOBAL $BASE_urlpath, $Use_Auth_System;
+	GLOBAL $BASE_urlpath, $Use_Auth_System, $et;
 	if ( $type != '' ){
 		// Common
 		$type = strtolower($type);
@@ -178,7 +178,7 @@ function PrintBASEMenu( $type='', $back_link = '' ){
 				$HrstTL = $Hrst . 'base_'; // Top Level Pages.
 				$Sep = ' | '; // Separator.
 				NLIO ("<div class='mainheadermenu'>",2);
-				NLIO ("<table width='90%' border='0'>",3);
+				NLIO ("<table border='0'>",3);
 				NLIO ('<tr>',4);
 				NLIO ("<td class='menuitem'>",5);
 				if ( $type == 'header' ){ // Header
@@ -198,6 +198,11 @@ function PrintBASEMenu( $type='', $back_link = '' ){
 				}elseif ( $type == 'footer' ){ // Footer
 					print $Sep;
 					NLIO ($Hrst."admin/index.php'>". _ADMIN .'</a>',6);
+					if ( is_object($et) ){
+						print $Sep;
+						NLIO ('</td><td>',5);
+						$et->PrintTiming();
+					}
 				}
 				NLIO ('</td>',5);
 				NLIO ('</tr>',4);

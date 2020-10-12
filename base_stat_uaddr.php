@@ -302,6 +302,5 @@ if ( $debug_mode > 0 )
 
   echo "\n</FORM>\n";
 $et->Mark("Get Query Elements");
-$et->PrintTiming();
 PrintBASESubFooter();
 ?>

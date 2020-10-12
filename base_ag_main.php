@@ -32,7 +32,7 @@ include_once("$BASE_path/includes/base_constants.inc.php");
   include_once("$BASE_path/base_qry_common.php");
   include_once("$BASE_path/base_ag_common.php");
 
-  ($debug_time_mode >= 1) ? $et = new EventTiming($debug_time_mode) : '';
+$et = new EventTiming($debug_time_mode);
   $cs = new CriteriaState("base_ag_main.php");
   $cs->ReadState();
   
@@ -104,9 +104,9 @@ $qs->AddValidActionOp(_ALLONSCREEN);
 $qs->AddValidActionOp(_ENTIREQUERY);
 
 $qs->SetActionSQL("SELECT ag_sid, ag_cid FROM acid_ag_alert WHERE ag_id='".$ag_id."'"); 
-($debug_time_mode > 0) ? $et->Mark("Initialization") : '';
+$et->Mark("Initialization");
 $qs->RunAction($submit, PAGE_QRY_AG, $db);
-($debug_time_mode > 0) ? $et->Mark("Alert Action") : '';
+$et->Mark("Alert Action");
 switch ($ag_action) {
     case "create" :
         echo '<h3>'._CREATEGROUPS.'</h3>';
@@ -357,9 +357,6 @@ $qs->SaveState();
 /* Export action_arg = current AG ID, so that Actions work */
 ExportHTTPVar($ag_id, "action_arg");
 echo "\n</form>\n";
-if ($debug_time_mode > 0) {
-    $et->Mark("Get Query Elements");
-    $et->PrintTiming();
-}
+$et->Mark("Get Query Elements");
 PrintBASESubFooter();
 ?>

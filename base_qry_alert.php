@@ -1102,6 +1102,5 @@ function PrintPacketLookupBrowseButtons($seq, $save_sql, $db, &$previous_button,
 
   echo "\n</FORM>\n";
 $et->Mark("Get Query Elements");
-$et->PrintTiming();
 PrintBASESubFooter();
 ?>

@@ -204,6 +204,5 @@ include_once ("$BASE_path/includes/base_constants.inc.php");
 	ExportHTTPVar("sort_order", $sort_order);
   echo "\n</FORM>\n";
 $et->Mark("Get Query Elements");
-$et->PrintTiming();
 PrintBASESubFooter();
 ?>

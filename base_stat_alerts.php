@@ -30,7 +30,7 @@ include_once ("$BASE_path/includes/base_constants.inc.php");
   include_once ("$BASE_path/base_qry_common.php");
   include_once ("$BASE_path/base_stat_common.php");
 
-  ($debug_time_mode >= 1) ? $et = new EventTiming($debug_time_mode) : '';
+$et = new EventTiming($debug_time_mode);
   $cs = new CriteriaState("base_stat_alerts.php");
   $submit = ImportHTTPVar("submit", VAR_ALPHA | VAR_SPACE, array(_SELECTED, _ALLONSCREEN, _ENTIREQUERY));
 
@@ -116,30 +116,24 @@ if (is_object($cs)){ // Issue #5
   $qs->AddValidActionOp(_ALLONSCREEN);
 
   $qs->SetActionSQL($from.$where);
-  ($debug_time_mode >= 1) ? $et->Mark("Initialization") : '';
-
+$et->Mark("Initialization");
   $qs->RunAction($submit, PAGE_STAT_ALERTS, $db);
-  ($debug_time_mode >= 1) ? $et->Mark("Alert Action") : '';
-
-  /* Get total number of events */
-  /* mstone 20050309 this is expensive -- don't do it if we're avoiding count() */
-  if ($avoid_counts != 1) {
-  	$event_cnt = EventCnt($db);
-  }
-
-  /* create SQL to get Unique Alerts */
-  $cnt_sql = "SELECT count(DISTINCT signature) ".$from.$where;
-
-  /* Run the query to determine the number of rows (No LIMIT)*/
-  $qs->GetNumResultRows($cnt_sql, $db);
-  ($debug_time_mode >= 1) ? $et->Mark("Counting Result size") : '';
-
-  /* Setup the Query Results Table */
-  $qro = new QueryResultsOutput("base_stat_alerts.php?caller=".$caller);
-
-  $qro->AddTitle(" ");
-
-  $qro->AddTitle(_SIGNATURE, 
+$et->Mark("Alert Action");
+// Get total number of events.
+// This is expensive, don't do it if we're avoiding count().
+// Michael Stone 2005-03-09
+if ( $avoid_counts != 1 ){
+	$event_cnt = EventCnt($db);
+}
+// Create SQL to get Unique Alerts.
+$cnt_sql = "SELECT count(DISTINCT signature) ".$from.$where;
+// Run the query to determine the number of rows (No LIMIT).
+$qs->GetNumResultRows($cnt_sql, $db);
+$et->Mark("Counting Result size");
+// Setup the Query Results Table.
+$qro = new QueryResultsOutput("base_stat_alerts.php?caller=".$caller);
+$qro->AddTitle(" ");
+$qro->AddTitle(_SIGNATURE,
                 "sig_a", " ", " ORDER BY sig_name ASC",
                 "sig_d", " ", " ORDER BY sig_name DESC");
 
@@ -191,15 +185,12 @@ if ( isset($show_previous_alert) && $show_previous_alert == 1 ){
 
   /* Run the Query again for the actual data (with the LIMIT) */
   $result = $qs->ExecuteOutputQuery($sql, $db);
-  ($debug_time_mode >= 1) ? $et->Mark("Retrieve Query Data") : '';
-
-  if ( $debug_mode == 1 )
-  {
+$et->Mark("Retrieve Query Data");
+if ( $debug_mode == 1 ){
      $qs->PrintCannedQueryList();
      $qs->DumpState();
      echo "$sql<BR>";
-  }
-
+}
   /* Print the current view number and # of rows */
   $qs->PrintResultCnt();
 
@@ -356,9 +347,6 @@ if ( isset($show_previous_alert) && $show_previous_alert == 1 ){
   $qs->PrintAlertActionButtons();
   $qs->SaveState();
   echo "\n</FORM>\n";
-if ($debug_time_mode >= 1) {
-	$et->Mark("Get Query Elements");
-	$et->PrintTiming();
-}
+$et->Mark("Get Query Elements");
 PrintBASESubFooter();
 ?>

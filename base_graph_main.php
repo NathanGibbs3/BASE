@@ -98,9 +98,7 @@ include_once ("$BASE_path/includes/base_constants.inc.php");
     return 1;
   }
 
-
-
-  ($debug_time_mode >= 1) ? $et = new EventTiming($debug_time_mode) : '';
+$et = new EventTiming($debug_time_mode);
   $cs = new CriteriaState("base_stat_alerts.php");
   $cs->ReadState();
   
@@ -416,15 +414,10 @@ include_once ("$BASE_path/includes/base_constants.inc.php");
           {
             print "WARNING: i >= number_array_elements<BR>";
           }
-
           ErrorMessage(_ERRCHRTNODATAPOINTS);
-
-          ($debug_time_mode >= 1) ? $et->PrintTiming() : '';
-
           PrintBASESubFooter();
           return;
         }
-
 
         // From which element on should the "for"-loop start:
         if (
@@ -548,14 +541,10 @@ include_once ("$BASE_path/includes/base_constants.inc.php");
        }
        */
       }
-     
-
-      if ( $debug_mode > 0 ) 
-      {
+      if ( $debug_mode > 0 ){
         echo "<H3>"._CHRTDRAW." ($width x $height)</H3>";
       }
-
-      ($debug_time_mode >= 1) ? $et->Mark("Extracting data") : '';
+      $et->Mark("Extracting data");
       echo '<CENTER>
             <TABLE BGCOLOR="#000000" CELLSPACING=0 CELLPADDING=2 BORDER=0 SUMMARY="table from base_graph_main.php">
             <TR>
@@ -613,13 +602,10 @@ include_once ("$BASE_path/includes/base_constants.inc.php");
         echo '(click at the image or - after it has been reloaded - click at it for a second time to get a bigger size of it)<BR><BR>';
       }
       echo '</CENTER>';
-      
-      ($debug_time_mode >= 1) ? $et->Mark("Rendering graph") : '';
-    }
-    else
-       ErrorMessage(_ERRCHRTNODATAPOINTS);
-  }
-
-  ($debug_time_mode >= 1) ? $et->PrintTiming() : '';
+		$et->Mark("Rendering graph");
+	}else{
+		ErrorMessage(_ERRCHRTNODATAPOINTS);
+	}
+}
 PrintBASESubFooter();
 ?>

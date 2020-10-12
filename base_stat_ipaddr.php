@@ -487,6 +487,5 @@ function PrintEventsByIP($db, $ip)
 
 
   echo "\n</FORM>\n";
-$et->PrintTiming();
 PrintBASESubFooter();
 ?>
