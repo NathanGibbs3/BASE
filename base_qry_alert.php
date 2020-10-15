@@ -22,30 +22,20 @@
 ********************************************************************************
 */
 
-  include ("base_conf.php");
+include ("base_conf.php");
 include_once ("$BASE_path/includes/base_constants.inc.php");
-  include ("$BASE_path/includes/base_include.inc.php");
-  include_once ("$BASE_path/base_db_common.php");
-  include_once ("$BASE_path/base_qry_common.php");
-  include_once ("$BASE_path/base_stat_common.php");
+include ("$BASE_path/includes/base_include.inc.php");
+include_once ("$BASE_path/base_db_common.php");
+include_once ("$BASE_path/base_qry_common.php");
+include_once ("$BASE_path/base_stat_common.php");
 
-   // Check role out and redirect if needed -- Kevin
-  $roleneeded = 10000;
-  $payload = FALSE;
-  $offset  = 0;
-  $BUser = new BaseUser();
-  if (($BUser->hasRole($roleneeded) == 0) && ($Use_Auth_System == 1))
-    base_header("Location: ". $BASE_urlpath . "/index.php");
-
-  # set cookie for packet display
-  if (isset($_GET['asciiclean'])) {
-      1 == $_GET['asciiclean'] ? setcookie('asciiclean', 'clean') : setcookie('asciiclean', 'normal');   
-  }  
-
-	$sf_portscan_flag = 0;
-
-
-
+AuthorizedRole(10000);
+$payload = FALSE;
+$offset  = 0;
+if ( isset($_GET['asciiclean']) ){ // Set cookie for packet display
+	1 == $_GET['asciiclean'] ? setcookie('asciiclean', 'clean') : setcookie('asciiclean', 'normal');
+}
+$sf_portscan_flag = 0;
 
 function PrintCleanURL()
 {

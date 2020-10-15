@@ -25,30 +25,22 @@
 ********************************************************************************
 */
 
-  $start = time();
   $sig   = array();
   
-  include("base_conf.php");
+include("base_conf.php");
 include_once("$BASE_path/includes/base_constants.inc.php");
-  include("$BASE_path/includes/base_include.inc.php");
-  include_once("$BASE_path/base_db_common.php");
-  include_once("$BASE_path/base_common.php");
+include("$BASE_path/includes/base_include.inc.php");
+include_once("$BASE_path/base_db_common.php");
+include_once("$BASE_path/base_common.php");
 
-  $et = new EventTiming($debug_time_mode);
-  $cs = new CriteriaState("base_stat_ipaddr.php");
-  $cs->ReadState();
-
-  $ip = ImportHTTPVar("ip", VAR_DIGIT | VAR_PERIOD);
-  $netmask = ImportHTTPVar("netmask", VAR_DIGIT);
-  $action = ImportHTTPVar("action", VAR_ALPHA);
-  $submit = ImportHTTPVar("submit", VAR_ALPHA | VAR_SPACE);  
-
-   // Check role out and redirect if needed -- Kevin
-  $roleneeded = 10000;
-  $BUser = new BaseUser();
-  if (($BUser->hasRole($roleneeded) == 0) && ($Use_Auth_System == 1))
-    base_header("Location: ". $BASE_urlpath . "/index.php");
-
+AuthorizedRole(10000);
+$et = new EventTiming($debug_time_mode);
+$cs = new CriteriaState("base_stat_ipaddr.php");
+$cs->ReadState();
+$ip = ImportHTTPVar("ip", VAR_DIGIT | VAR_PERIOD);
+$netmask = ImportHTTPVar("netmask", VAR_DIGIT);
+$action = ImportHTTPVar("action", VAR_ALPHA);
+$submit = ImportHTTPVar("submit", VAR_ALPHA | VAR_SPACE);  
 if ( !isset($ip) || empty($ip) ){
 	$Epfx = __FILE__ . ":";
 	$page_title = 'ERROR';
@@ -483,9 +475,7 @@ function PrintEventsByIP($db, $ip)
             <CENTER><P>';
      PrintPortscanEvents($db, $ip);
      echo ' </CENTER>';	
-  }  
-
-
+  }
   echo "\n</FORM>\n";
 PrintBASESubFooter();
 ?>

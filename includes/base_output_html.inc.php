@@ -155,7 +155,7 @@ function PrintBASESubFooter(){
 	PageEnd();
 }
 
-function PrintBASEMenu( $type='', $back_link = '' ){
+function PrintBASEMenu( $type = '', $back_link = '' ){
 	GLOBAL $BASE_urlpath, $Use_Auth_System, $et;
 	if ( $type != '' ){
 		// Common

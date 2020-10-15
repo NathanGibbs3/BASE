@@ -247,14 +247,12 @@ class BaseUser {
         
         return _PWDDONE;
     }
-	function returnUser(){
-		// returns user login from role cookie
+	function returnUser(){ // returns user login from role cookie
+		$user = '';
 		if ( array_key_exists('BASERole',$_COOKIE) ){
 			$cookievalue = $_COOKIE['BASERole'];
 			$cookiearr = explode('|', $cookievalue);
 			$user = $cookiearr[1];
-		}else{
-			$user = '';
 		}
 		return $user;
 	}
@@ -484,5 +482,42 @@ class BaseRole {
         $result->baseFreeRows();
         return $rolearray;
     }
+}
+// Returns true if the role of current user is authorized.
+// Redirect if valid header is given.
+function AuthorizedRole( $roleneeded = 1, $header = '' ){
+	GLOBAL $BASE_urlpath, $Use_Auth_System;
+	$Ret = false;
+	if ( $Use_Auth_System != 1 ){ // Auth system off, always pass.
+		$Ret = true;
+	}else{ // Check role and possibly redirect.
+		$BUser = new BaseUser();
+		if ( $BUser->hasRole($roleneeded) == 0 ){ // Not Authorized
+			$user = $BUser->returnUser();
+			$msg = ' user access';
+			if ( $user == '' ){
+				$msg = "Unauthenticated$msg";
+			}else{
+				$msg = "Unauthorized$msg: $user";
+			}
+			trigger_error($msg);
+			if ( $roleneeded >= 10000 ){ // Lock redirect :-)
+				error_log('Redirect Lock Engaged');
+				$header = 'base_denied';
+			}
+			if ( $header != '' ){
+				$ReqRE = "(base_(denied|main)|index)";
+				if ( preg_match("/^" . $ReqRE ."$/", $header) ){
+					// Redirect to allowed locations only.
+					error_log('Attempt Redirect');
+					base_header("Location: $BASE_urlpath/$header.php");
+					error_log('Redirect failed');
+				}
+			}
+		}else{
+			$Ret = true;
+		}
+	}
+	return $Ret;
 }
 ?>

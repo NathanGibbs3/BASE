@@ -2,6 +2,7 @@
 use PHPUnit\Framework\TestCase;
 
 // Test fucntions in /includes/base_auth.inc.php
+// in the BaseUser class.
 
 /**
   * @covers BaseUser::returnRoleNamesDropDown
@@ -184,9 +185,6 @@ class authTest extends TestCase {
 			);
 		}
 	}
-	/**
-	 * @backupGlobals disabled
-	 */
 	public function testreturnUserCookie(){
 		$user = self::$user;
 		$_COOKIE['BASERole'] = 'passwd|user|';

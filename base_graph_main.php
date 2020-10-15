@@ -98,6 +98,7 @@ include_once ("$BASE_path/includes/base_constants.inc.php");
     return 1;
   }
 
+AuthorizedRole(10000);
 $et = new EventTiming($debug_time_mode);
   $cs = new CriteriaState("base_stat_alerts.php");
   $cs->ReadState();
@@ -160,18 +161,10 @@ $et = new EventTiming($debug_time_mode);
   $chart_end_year    = ImportHTTPVar("chart_end_year", VAR_DIGIT);
   $aggregate_type    = ImportHTTPVar("aggregate_type", VAR_DIGIT);
 
-   // Check role out and redirect if needed -- Kevin
-  $roleneeded = 10000;
-  $BUser = new BaseUser();
-  if (($BUser->hasRole($roleneeded) == 0) && ($Use_Auth_System == 1))
-    base_header("Location: ". $BASE_urlpath . "/index.php");
-
   $page_title = _GRAPHALERTDATA;
   PrintBASESubHeader($page_title, $page_title, $cs->GetBackLink(), $refresh_all_pages);
 
-  // Check if Image_Graph install is ok -- Alejandro
-  VerifyGraphingLib();  
-
+VerifyGraphingLib(); // Check if Image_Graph install is ok -- Alejandro
   /* Connect to the Alert database */
   $db = NewBASEDBConnection($DBlib_path, $DBtype);
   $db->baseDBConnect($db_connect_method,

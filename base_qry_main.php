@@ -76,14 +76,9 @@ include_once("$BASE_path/includes/base_constants.inc.php");
   include_once("$BASE_path/base_ag_common.php");
   include_once("$BASE_path/base_qry_common.php");
 
-  $et = new EventTiming($debug_time_mode);
-  $cs = new CriteriaState("base_qry_main.php", "&amp;new=1&amp;submit="._QUERYDBP);
-
-  // Check role out and redirect if needed -- Kevin
-  $roleneeded = 10000;
-  $BUser = new BaseUser();
-  if (($BUser->hasRole($roleneeded) == 0) && ($Use_Auth_System == 1))
-    base_header("Location: ". $BASE_urlpath . "/index.php");
+AuthorizedRole(10000);
+$et = new EventTiming($debug_time_mode);
+$cs = new CriteriaState("base_qry_main.php", "&amp;new=1&amp;submit="._QUERYDBP);
 
 if ( getenv('TRAVIS') && version_compare(PHP_VERSION, "5.3.0", "<") ){
 	// Issue #5 Test Shim
