@@ -287,7 +287,7 @@ class output_htmlSPTest extends TestCase {
 			include_once(self::$files);
 		}
 		$expected = "\n\t\t".'<div class=\'mainheadermenu\'>';
-		$expected .= "\n\t\t\t".'<table width=\'90%\' border=\'0\'>';
+		$expected .= "\n\t\t\t".'<table border=\'0\'>';
 		$expected .= "\n\t\t\t\t".'<tr>';
 		$expected .= "\n\t\t\t\t\t".'<td class=\'menuitem\'>';
 		$expected .= "\n\t\t\t\t\t\t".'<a class=\'menuitem\' ';
@@ -313,7 +313,7 @@ class output_htmlSPTest extends TestCase {
 			include_once(self::$files);
 		}
 		$expected = "\n\t\t".'<div class=\'mainheadermenu\'>';
-		$expected .= "\n\t\t\t".'<table width=\'90%\' border=\'0\'>';
+		$expected .= "\n\t\t\t".'<table border=\'0\'>';
 		$expected .= "\n\t\t\t\t".'<tr>';
 		$expected .= "\n\t\t\t\t\t".'<td class=\'menuitem\'>';
 		$expected .= "\n\t\t\t\t\t\t".'<a class=\'menuitem\' ';
@@ -340,7 +340,7 @@ class output_htmlSPTest extends TestCase {
 			include_once(self::$files);
 		}
 		$expected = "\n\t\t".'<div class=\'mainheadermenu\'>';
-		$expected .= "\n\t\t\t".'<table width=\'90%\' border=\'0\'>';
+		$expected .= "\n\t\t\t".'<table border=\'0\'>';
 		$expected .= "\n\t\t\t\t".'<tr>';
 		$expected .= "\n\t\t\t\t\t".'<td class=\'menuitem\'>';
 		$expected .= "\n\t\t\t\t\t\t".'<a class=\'menuitem\' ';
@@ -354,6 +354,41 @@ class output_htmlSPTest extends TestCase {
 		$expected .= 'href=\'/base_logout.php\'>Logout</a> | ';
 		$expected .= "\n\t\t\t\t\t\t".'<a class=\'menuitem\' ';
 		$expected .= 'href=\'/admin/index.php\'>Administration</a>';
+		$expected .= "\n\t\t\t\t\t".'</td>';
+		$expected .= "\n\t\t\t\t".'</tr>';
+		$expected .= "\n\t\t\t".'</table>';
+		$expected .= "\n\t\t".'</div>';
+		$this->expectOutputString($expected);
+		PrintBASEMenu('Footer');
+	}
+	public function testPrintBASEMenuFooterDebugTimeModeOn() {
+		GLOBAL $BASE_installID, $et;
+		$et = new EventTiming(1);
+		if ( is_object(self::$UIL) ){
+			$UIL = self::$UIL;
+		}else{
+			include_once(self::$files);
+		}
+		$expected = "\n\t\t".'<div class=\'mainheadermenu\'>';
+		$expected .= "\n\t\t\t".'<table border=\'0\'>';
+		$expected .= "\n\t\t\t\t".'<tr>';
+		$expected .= "\n\t\t\t\t\t".'<td class=\'menuitem\'>';
+		$expected .= "\n\t\t\t\t\t\t".'<a class=\'menuitem\' ';
+		$expected .= 'href=\'/base_ag_main.php?ag_action=list\'>';
+		$expected .= 'Alert Group Maintenance</a> | ';
+		$expected .= "\n\t\t\t\t\t\t".'<a class=\'menuitem\' ';
+		$expected .= 'href=\'/base_maintenance.php\'>Cache & Status</a> | ';
+		$expected .= "\n\t\t\t\t\t\t".'<a class=\'menuitem\' ';
+		$expected .= 'href=\'/base_user.php\'>User Preferences</a> | ';
+		$expected .= "\n\t\t\t\t\t\t".'<a class=\'menuitem\' ';
+		$expected .= 'href=\'/base_logout.php\'>Logout</a> | ';
+		$expected .= "\n\t\t\t\t\t\t".'<a class=\'menuitem\' ';
+		$expected .= 'href=\'/admin/index.php\'>Administration</a> | ';
+		$expected .= "\n\t\t\t\t\t".'</td><td>';
+		$expected .= "\n\t\t\t\t\t\t".'<!-- Timing Information -->';
+		$expected .= "\n\t\t\t\t\t\t".'<div class=\'systemdebug\'>';
+		$expected .= "\n\t\t\t\t\t\t\t".'[Loaded in 0 seconds]<br/>';
+		$expected .= "\n\t\t\t\t\t\t".'</div>';
 		$expected .= "\n\t\t\t\t\t".'</td>';
 		$expected .= "\n\t\t\t\t".'</tr>';
 		$expected .= "\n\t\t\t".'</table>';

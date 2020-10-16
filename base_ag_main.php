@@ -32,24 +32,16 @@ include_once("$BASE_path/includes/base_constants.inc.php");
   include_once("$BASE_path/base_qry_common.php");
   include_once("$BASE_path/base_ag_common.php");
 
-  ($debug_time_mode >= 1) ? $et = new EventTiming($debug_time_mode) : '';
+AuthorizedRole(10000);
+$et = new EventTiming($debug_time_mode);
   $cs = new CriteriaState("base_ag_main.php");
   $cs->ReadState();
-  
-
   $qs = new QueryState();
   $submit = ImportHTTPVar("submit", VAR_ALPHA | VAR_SPACE, array(_SELECTED, _ALLONSCREEN, _ENTIREQUERY));
   $ag_action = ImportHTTPVar("ag_action", VAR_ALPHA | VAR_USCORE);
   $ag_id = filterSql(ImportHTTPVar("ag_id", VAR_DIGIT));
   $ag_name = filterSql(ImportHTTPVar("ag_name"));
   $ag_desc = filterSql(ImportHTTPVar("ag_desc"));
-
-   // Check role out and redirect if needed -- Kevin
-  $roleneeded = 10000;
-  $BUser = new BaseUser();
-  if (($BUser->hasRole($roleneeded) == 0) && ($Use_Auth_System == 1))
-    base_header("Location: ". $BASE_urlpath . "/index.php");
-
   $page_title = _AGMAINTTITLE;
   PrintBASESubHeader($page_title, $page_title, $cs->GetBackLink(), $refresh_all_pages);
 
@@ -104,9 +96,9 @@ $qs->AddValidActionOp(_ALLONSCREEN);
 $qs->AddValidActionOp(_ENTIREQUERY);
 
 $qs->SetActionSQL("SELECT ag_sid, ag_cid FROM acid_ag_alert WHERE ag_id='".$ag_id."'"); 
-($debug_time_mode > 0) ? $et->Mark("Initialization") : '';
+$et->Mark("Initialization");
 $qs->RunAction($submit, PAGE_QRY_AG, $db);
-($debug_time_mode > 0) ? $et->Mark("Alert Action") : '';
+$et->Mark("Alert Action");
 switch ($ag_action) {
     case "create" :
         echo '<h3>'._CREATEGROUPS.'</h3>';
@@ -357,9 +349,6 @@ $qs->SaveState();
 /* Export action_arg = current AG ID, so that Actions work */
 ExportHTTPVar($ag_id, "action_arg");
 echo "\n</form>\n";
-if ($debug_time_mode > 0) {
-    $et->Mark("Get Query Elements");
-    $et->PrintTiming();
-}
+$et->Mark("Get Query Elements");
 PrintBASESubFooter();
 ?>

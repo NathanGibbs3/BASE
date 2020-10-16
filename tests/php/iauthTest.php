@@ -2,13 +2,16 @@
 use PHPUnit\Framework\TestCase;
 
 // Test fucntions in /includes/base_auth.inc.php
+// in the BaseUser class.
 
 /**
   * @covers BaseUser::returnRoleNamesDropDown
   * @covers BaseUser::returnUser
+  * @covers BaseUser::readRoleCookie
   * @uses ::XSSPrintSafe
   * @uses baseCon
   * @uses baseRS
+  * @uses BaseUser::cryptpassword
   */
 class authTest extends TestCase {
 	// Pre Test Setup.
@@ -184,9 +187,6 @@ class authTest extends TestCase {
 			);
 		}
 	}
-	/**
-	 * @backupGlobals disabled
-	 */
 	public function testreturnUserCookie(){
 		$user = self::$user;
 		$_COOKIE['BASERole'] = 'passwd|user|';
@@ -204,6 +204,79 @@ class authTest extends TestCase {
 			$user->returnUser(),
 			'Unexpected Return Value.'
 		);
+	}
+	public function testreadRoleCookieNone(){
+		$user = self::$user;
+		$this->assertEquals(
+			0,
+			$user->readRoleCookie(),
+			'Unexpected Return Value.'
+		);
+	}
+	public function testreadRoleCookieNull(){
+		$user = self::$user;
+		$_COOKIE['BASERole'] = NULL;
+		$this->assertEquals(
+			0,
+			$user->readRoleCookie(),
+			'Unexpected Return Value.'
+		);
+		unset ($_COOKIE['BASERole']);
+	}
+	public function testreadRoleCookiedeformed(){
+		$user = self::$user;
+		$_COOKIE['BASERole'] = 'pw';
+		$this->assertEquals(
+			0,
+			$user->readRoleCookie(),
+			'Unexpected Return Value.'
+		);
+		unset ($_COOKIE['BASERole']);
+	}
+	public function testreadRoleCookiedeformed2(){
+		$user = self::$user;
+		$_COOKIE['BASERole'] = 'pw|';
+		$this->assertEquals(
+			0,
+			$user->readRoleCookie(),
+			'Unexpected Return Value.'
+		);
+		unset ($_COOKIE['BASERole']);
+	}
+	public function testreadRoleCookiedeBadPW(){
+		$user = self::$user;
+		$_COOKIE['BASERole'] = 'pw|TestUser';
+		$this->assertEquals(
+			0,
+			$user->readRoleCookie(),
+			'Unexpected Return Value.'
+		);
+		unset ($_COOKIE['BASERole']);
+	}
+	public function testreadRoleCookiedeBadUser(){
+		$user = self::$user;
+		$pw = $user->cryptpassword('password');
+		$_COOKIE['BASERole'] = "$pw|Test";
+		$this->assertEquals(
+			0,
+			$user->readRoleCookie(),
+			'Unexpected Return Value.'
+		);
+		unset ($_COOKIE['BASERole']);
+	}
+	/**
+	 * @backupGlobals disabled
+	 */
+	public function testreadRoleCookiedeOK(){
+		$user = self::$user;
+		$pw = $user->cryptpassword('password');
+		$_COOKIE['BASERole'] = "$pw|TestAdmin";
+		$this->assertEquals(
+			1,
+			$user->readRoleCookie(),
+			'Unexpected Return Value.'
+		);
+		unset ($_COOKIE['BASERole']);
 	}
 
 	// Add code to a function if needed.

@@ -18,6 +18,12 @@ Contributor(s): [Nathan Gibbs]
 Now matches new functionality in the snort.org web site.  
 Such a lookup needs a URL, such as https://snort.org/rule_docs/1-2003 .
 - Update isc.sans.org port lookup URL.
+- [#76 Merge Back Link into page header Menu.](
+https://github.com/NathanGibbs3/BASE/issues/76)
+- [#73 Standardize generation of HTML for Timing Display.](
+https://github.com/NathanGibbs3/BASE/issues/73)
+- [#37 Use EventTiming class where page load timing info is displayed.](
+https://github.com/NathanGibbs3/BASE/issues/37)
 
 Contributor(s): [Nathan Gibbs]
 ### Deprecated
@@ -97,10 +103,8 @@ https://github.com/NathanGibbs3/BASE/issues/72)
 https://github.com/NathanGibbs3/BASE/issues/62)
 - [#75 Standardize generation of HTML for Header & Footer Menus.](
 https://github.com/NathanGibbs3/BASE/issues/75)
-- [#76 Merge Back Link into page header Menu.](
-https://github.com/NathanGibbs3/BASE/issues/76)
-- [#74 Local/Remote File Include Vulnerability in BASE custom footer code.](
-https://github.com/NathanGibbs3/BASE/issues/74)
+- [#77 PrintTiming() retuns parital event log.](
+https://github.com/NathanGibbs3/BASE/issues/77)
 
 Contributor(s): [Nathan Gibbs]
 - [#57 `tr bgcolor="#"` if `$prio` not in `$priority_colors`
@@ -114,6 +118,10 @@ Contributor(s):
 https://github.com/NathanGibbs3/BASE/issues/32)
 - [#13 Add Anti XSS code to `returnRoleNamesDropDown()`.](
 https://github.com/NathanGibbs3/BASE/issues/13)
+- [#74 Local/Remote File Include Vulnerability in BASE custom footer code.](
+https://github.com/NathanGibbs3/BASE/issues/74)
+- [#78 Standardize code to authorize page access via role, Page, & URI.](
+https://github.com/NathanGibbs3/BASE/issues/78)
 
 Contributor(s): [Nathan Gibbs]
 

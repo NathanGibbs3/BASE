@@ -46,8 +46,8 @@ if ($Use_Auth_System == 1){
             base_header('HTTP/1.0 401');
          if ($usrrole > $roleneeded)
             base_header('HTTP/1.0 403');
-	}elseif (($BUser->hasRole($roleneeded) == 0)){
-		base_header("Location: ". $BASE_urlpath . "/index.php");
+	}else{
+		AuthorizedRole(10000);
 	}
 }
 
@@ -274,6 +274,5 @@ if ( array_key_exists('SERVER_SOFTWARE',$_SERVER) ){
         </TABLE><P>';
 
   echo "\n</FORM>\n";
-$et->PrintTiming();
 PrintBASESubFooter();
 ?>

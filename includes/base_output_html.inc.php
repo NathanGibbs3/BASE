@@ -34,9 +34,7 @@ function PageStart ($refresh = 0, $page_title = '') {
 	// End Backport Shim
 	$title .= " ($GT)";
 	$HT = $title; // Header Title
-	$ReqRE = preg_quote("$BASE_urlpath/",'/');
-	$ReqRE .= "(base_denied|index)\.php";
-	if ( !preg_match("/^" . $ReqRE ."$/", $_SERVER['SCRIPT_NAME']) ) {
+	if ( !AuthorizedPage('(base_denied|index)') ){
 		// Additional app info allowed everywhere but landing pages.
 		$GT .= " $BASE_VERSION";
 		if ( isset($BASE_installID) && $BASE_installID != ''){
@@ -127,18 +125,13 @@ function PrintBASESubFooter(){
 		."target='_blank'>BASE</a>'"
 		,3
 	);
-	$caller = $_SERVER['SCRIPT_NAME'];
-	$ReqRE = preg_quote("$BASE_urlpath/",'/');
-	$ReqRE .= "(base_denied|index)\.php";
-	if ( !preg_match("/^" . $ReqRE ."$/", $caller) ){
+	if ( !AuthorizedPage('(base_denied|index)') ){
 		NLIO ( $BASE_VERSION . _FOOTER,3);
 	}else{
 		NLIO ( _FOOTER,3);
 	}
 	NLIO ('</div>',2);
-	$ReqRE = preg_quote("$BASE_urlpath/",'/');
-	$ReqRE .= "base_main\.php";
-	if ( preg_match("/^" . $ReqRE ."$/", $caller) ){
+	if ( AuthorizedPage('base_main') ){
 		// Custom footer allowed on main page only.
 		if ( strlen($base_custom_footer) != 0 ){
 			NLIO ('<!-- BASE Custom Footer -->',2);
@@ -155,55 +148,56 @@ function PrintBASESubFooter(){
 	PageEnd();
 }
 
-function PrintBASEMenu( $type='', $back_link = '' ){
-	GLOBAL $BASE_urlpath, $Use_Auth_System;
+function PrintBASEMenu( $type = '', $back_link = '' ){
+	GLOBAL $BASE_urlpath, $Use_Auth_System, $et;
 	if ( $type != '' ){
 		// Common
 		$type = strtolower($type);
-		$ReqRE = preg_quote("$BASE_urlpath/",'/');
+		$ReqRE = '';
 		if ( $type == 'header' ){ // Header
-			$ReqRE .= "(base_(denied|main)|index)\.php";
+			$ReqRE = "(base_(denied|main)|index)";
 		}elseif ( $type == 'footer' ){ // Footer
-			$ReqRE .= "(base_denied|index)\.php";
-		}else{
-			$ReqRE = '';
+			$ReqRE = "(base_denied|index)";
 		}
-		if ( $ReqRE != '' ){
-			// Header Menu allowed everywhere but main & landing pages.
-			// Footer Menu allowed everywhere but landing pages.
-			if ( !preg_match("/^" . $ReqRE ."$/", $_SERVER['SCRIPT_NAME']) ){
-				// Html Template
-				$Hrst = "<a class='menuitem' href='$BASE_urlpath/";
-				// Href tag start.
-				$HrstTL = $Hrst . 'base_'; // Top Level Pages.
-				$Sep = ' | '; // Separator.
-				NLIO ("<div class='mainheadermenu'>",2);
-				NLIO ("<table width='90%' border='0'>",3);
-				NLIO ('<tr>',4);
-				NLIO ("<td class='menuitem'>",5);
-				if ( $type == 'header' ){ // Header
-					NLIO ($HrstTL."main.php'>"._HOME.'</a>'.$Sep,6);
-					NLIO ($HrstTL."qry_main.php?new=1'>"._SEARCH."</a>$Sep",6);
-				}elseif ( $type == 'footer' ){ // Footer
-					NLIO ($HrstTL."ag_main.php?ag_action=list'>". _AGMAINT."</a>$Sep",6);
-					NLIO ($HrstTL."maintenance.php'>". _CACHE."</a>$Sep",6);
-				}
-				if ($Use_Auth_System == 1){
-					NLIO ($HrstTL."user.php'>". _USERPREF ."</a>$Sep",6);
-					NLIO ($HrstTL."logout.php'>". _LOGOUT .'</a>',6);
-				}
-				if ( $type == 'header' && $back_link != '' ){ // Header
-					print $Sep;
-					NLIO($back_link,6);
-				}elseif ( $type == 'footer' ){ // Footer
-					print $Sep;
-					NLIO ($Hrst."admin/index.php'>". _ADMIN .'</a>',6);
-				}
-				NLIO ('</td>',5);
-				NLIO ('</tr>',4);
-				NLIO ('</table>',3);
-				NLIO ('</div>',2);
+		// Header Menu allowed everywhere but main & landing pages.
+		// Footer Menu allowed everywhere but landing pages.
+		if ( $ReqRE != '' && !AuthorizedPage($ReqRE) ){
+			// Html Template
+			$Hrst = "<a class='menuitem' href='$BASE_urlpath/";
+			// Href tag start.
+			$HrstTL = $Hrst . 'base_'; // Top Level Pages.
+			$Sep = ' | '; // Separator.
+			NLIO ("<div class='mainheadermenu'>",2);
+			NLIO ("<table border='0'>",3);
+			NLIO ('<tr>',4);
+			NLIO ("<td class='menuitem'>",5);
+			if ( $type == 'header' ){ // Header
+				NLIO ($HrstTL."main.php'>"._HOME.'</a>'.$Sep,6);
+				NLIO ($HrstTL."qry_main.php?new=1'>"._SEARCH."</a>$Sep",6);
+			}elseif ( $type == 'footer' ){ // Footer
+				NLIO ($HrstTL."ag_main.php?ag_action=list'>". _AGMAINT."</a>$Sep",6);
+				NLIO ($HrstTL."maintenance.php'>". _CACHE."</a>$Sep",6);
 			}
+			if ($Use_Auth_System == 1){
+				NLIO ($HrstTL."user.php'>". _USERPREF ."</a>$Sep",6);
+				NLIO ($HrstTL."logout.php'>". _LOGOUT .'</a>',6);
+			}
+			if ( $type == 'header' && $back_link != '' ){ // Header
+				print $Sep;
+				NLIO($back_link,6);
+			}elseif ( $type == 'footer' ){ // Footer
+				print $Sep;
+				NLIO ($Hrst."admin/index.php'>". _ADMIN .'</a>',6);
+				if ( is_object($et) ){
+					print $Sep;
+					NLIO ('</td><td>',5);
+					$et->PrintTiming();
+				}
+			}
+			NLIO ('</td>',5);
+			NLIO ('</tr>',4);
+			NLIO ('</table>',3);
+			NLIO ('</div>',2);
 		}
 	}
 }
@@ -323,5 +317,4 @@ function HtmlPercent ( $Value = 1, $Count = 1 ){
 	$Ret = $tmp . '%';
 	return($Ret);
 }
-
 ?>

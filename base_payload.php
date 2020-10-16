@@ -30,23 +30,15 @@ include ("base_conf.php");
 include_once ("$BASE_path/includes/base_constants.inc.php");
 include ("$BASE_path/includes/base_include.inc.php");
 
-// Check role out and redirect if needed -- Kevin
-$roleneeded = 10000;
-$BUser = new BaseUser();
-if (($BUser->hasRole($roleneeded) == 0) && ($Use_Auth_System == 1)){
-	base_header("Location: ". $BASE_urlpath . "/index.php");
-}
-
+AuthorizedRole(10000);
 $cid = ImportHTTPVar("cid", VAR_DIGIT);
 $sid = ImportHTTPVar("sid", VAR_DIGIT);
 $download = ImportHTTPVar("download", VAR_DIGIT);
 
-
 /**********************************************************/
 /* 1 = binary download of just the payload. Nothing else. */
-if ($download == 1)
-{
-	/* Connect to the Alert database */
+if ( $download == 1 ){
+	// Connect to Alert DB.
 	$db = NewBASEDBConnection($DBlib_path, $DBtype);
 	$db->baseDBConnect($db_connect_method,
 	$alert_dbname, $alert_host, $alert_port, $alert_user, $alert_password);
