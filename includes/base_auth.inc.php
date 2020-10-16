@@ -369,7 +369,9 @@ class BaseUser {
 			$user = $this->db->DB->qstr($user,$Qh);
 			$sql = "SELECT role_id FROM base_users where usr_login=$user and usr_pwd=$passwd;";
 			$result = $this->db->baseExecute($sql);
-			$Ret = $result->row->fields['role_id'];
+			if ( $result != false ){ // Error Check
+				$Ret = $result->row->fields['role_id'];
+			}
 		}
 		return $Ret;
 	}
