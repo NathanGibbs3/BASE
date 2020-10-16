@@ -798,7 +798,7 @@ function UpdateAlertCache($db)
   
   $sensor_lst->baseFreeRows();
 	if ( $updated_cache_cnt != 0 ){
-		if ( preg_match("/base_main.php/", $_SERVER['SCRIPT_NAME']) ){
+		if ( AuthorizedPage('base_main') ){
 			ErrorMessage(_ADDED.$updated_cache_cnt._ALERTSCACHE, "yellow", 1);
 		}else{
 			ErrorMessage(_ADDED.$updated_cache_cnt._ALERTSCACHE);

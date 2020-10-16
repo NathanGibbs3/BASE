@@ -6,6 +6,7 @@ use PHPUnit\Framework\TestCase;
 
 /**
   * @covers ::AuthorizedRole
+  * @covers ::AuthorizedPage
   * @uses ::base_header
   * @uses ::LoadedString
   * @uses ::NewBASEDBConnection
@@ -207,9 +208,24 @@ class authTest2 extends TestCase {
 		);
 		unset ($_COOKIE['BASERole']);
 	}
+	public function testAuthorizedPageFail(){
+		$this->assertFalse(
+			AuthorizedPage(),
+			'Unexpected Return Value.'
+		);
+	}
+	public function testAuthorizedPageOK(){
+		$tmp = $_SERVER['SCRIPT_NAME'];
+		$_SERVER['SCRIPT_NAME'] = '/main.php';
+		$this->assertTrue(
+			AuthorizedPage('main'),
+			'Unexpected Return Value.'
+		);
+		$_SERVER['SCRIPT_NAME'] = $tmp;
+	}
+
 	// Add code to a function if needed.
 	// Stop here and mark test incomplete.
 	//$this->markTestIncomplete('Incomplete Test.');
 }
-
 ?>
