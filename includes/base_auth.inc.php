@@ -351,8 +351,8 @@ class BaseUser {
 		if ( isset($_COOKIE['BASERole']) ){
 			$cookievalue = $_COOKIE['BASERole'];
 			$cookiearr = explode('|', $cookievalue);
-			$user = NULL;
-			$passwd = NULL;
+			$user = '';
+			$passwd = '';
 			$version = explode('.', phpversion());
 			if ( $version[0] > 5 || ($version[0] == 5 && $version[1] > 3) ){
 				$Qh = 0;
@@ -369,7 +369,8 @@ class BaseUser {
 			$user = $this->db->DB->qstr($user,$Qh);
 			$sql = "SELECT role_id FROM base_users where usr_login=$user and usr_pwd=$passwd;";
 			$result = $this->db->baseExecute($sql);
-			if ( $result != false ){ // Error Check
+			// Error Check
+			if ( $result != false && is_array($result->row->fields) ){
 				$Ret = $result->row->fields['role_id'];
 			}
 		}
