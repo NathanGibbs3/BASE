@@ -540,7 +540,7 @@ function AuthorizedRole( $roleneeded = 1, $header = '' ){
 	}
 	return $Ret;
 }
-// Returns true if the passed value is part of the running script anme.
+// Returns true if the passed value is part of the running script name.
 function AuthorizedPage( $page = '' ){
 	GLOBAL $BASE_urlpath;
 	$Ret = false;
@@ -550,7 +550,7 @@ function AuthorizedPage( $page = '' ){
 	}
 	return $Ret;
 }
-// Returns true if URI is set & matches the URL path & the running script anme.
+// Returns true if URI is set & matches URL path & running script name.
 function AuthorizedURI(){
 	GLOBAL $BASE_urlpath;
 	$Ret = false;

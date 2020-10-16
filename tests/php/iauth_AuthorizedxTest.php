@@ -239,8 +239,19 @@ class authTest2 extends TestCase {
 		unset ($_SERVER['REQUEST_URI']);
 	}
 	public function testAuthorizedURISetOK(){
-		$_SERVER['REQUEST_URI'] = '/usr/bin/phpunit';
-		// Pretty sure this will fail with composer intalled PhpUnit in CI.
+		$TRAVIS = getenv('TRAVIS');
+		if (!$TRAVIS){ // Running on Local Test System.
+			$tmp = '/usr';
+		}else{ // Running in CI
+			$version = explode('.', phpversion());
+			if ( $version[0] == 5 && $version[1] == 3 ){
+				$tmp = 'vendor';
+			}else{
+				$tmp = "/home/travis/.phpenv/versions/$version[0].$version[1]";
+			}
+		}
+		$tmp .= '/bin/phpunit';
+		$_SERVER['REQUEST_URI'] = $tmp;
 		$this->assertTrue(
 			AuthorizedURI(),
 			'Unexpected Return Value.'
