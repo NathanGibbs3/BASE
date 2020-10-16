@@ -120,6 +120,8 @@ https://github.com/NathanGibbs3/BASE/issues/32)
 https://github.com/NathanGibbs3/BASE/issues/13)
 - [#74 Local/Remote File Include Vulnerability in BASE custom footer code.](
 https://github.com/NathanGibbs3/BASE/issues/74)
+- [#78 Standardize code to authorize page access via role, Page, & URI.](
+https://github.com/NathanGibbs3/BASE/issues/78)
 
 Contributor(s): [Nathan Gibbs]
 
