@@ -559,10 +559,6 @@ function AuthorizedURI(){
 		$ReqRE = preg_quote($BASE_urlpath.$_SERVER['SCRIPT_NAME'],'/');
 		if ( preg_match("/^" . $ReqRE ."/", $URI) ){
 			$Ret = true;
-		}else{ // Smoking Gun as this may fail in CI.
-			print "\n";
-			print "U $URI\n";
-			print "R $ReqRE\n";
 		}
 	}
 	return $Ret;

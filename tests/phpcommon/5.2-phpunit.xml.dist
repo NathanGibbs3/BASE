@@ -49,7 +49,7 @@
 		<ini name="xdebug.cli_color" value = "1" />
 		<ini name="display_errors" value = "1" />
 		<ini name="log_errors" value = "1" />
-		<ini name="error_log" value = "/dev/null" />
+		<ini name="error_log" value = "build/error.log" />
 		<ini name="docref_root" value="http://www.php.net/manual/en/" />
 	</php>
 	<logging>
