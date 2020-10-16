@@ -550,4 +550,21 @@ function AuthorizedPage( $page = '' ){
 	}
 	return $Ret;
 }
+// Returns true if URI is set & matches the URL path & the running script anme.
+function AuthorizedURI(){
+	GLOBAL $BASE_urlpath;
+	$Ret = false;
+	if (isset($_SERVER["REQUEST_URI"])){
+		$URI = $_SERVER["REQUEST_URI"];
+		$ReqRE = preg_quote($BASE_urlpath.$_SERVER['SCRIPT_NAME'],'/');
+		if ( preg_match("/^" . $ReqRE ."/", $URI) ){
+			$Ret = true;
+		}else{ // Smoking Gun as this may fail in CI.
+			print "\n";
+			print "U $URI\n";
+			print "R $ReqRE\n";
+		}
+	}
+	return $Ret;
+}
 ?>

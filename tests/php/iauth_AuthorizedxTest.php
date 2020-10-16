@@ -7,6 +7,7 @@ use PHPUnit\Framework\TestCase;
 /**
   * @covers ::AuthorizedRole
   * @covers ::AuthorizedPage
+  * @covers ::AuthorizedURI
   * @uses ::base_header
   * @uses ::LoadedString
   * @uses ::NewBASEDBConnection
@@ -222,6 +223,29 @@ class authTest2 extends TestCase {
 			'Unexpected Return Value.'
 		);
 		$_SERVER['SCRIPT_NAME'] = $tmp;
+	}
+	public function testAuthorizedURIUnsetFail(){
+		$this->assertFalse(
+			AuthorizedURI(),
+			'Unexpected Return Value.'
+		);
+	}
+	public function testAuthorizedURISetFail(){
+		$_SERVER['REQUEST_URI'] = '/base/index.php';
+		$this->assertFalse(
+			AuthorizedURI(),
+			'Unexpected Return Value.'
+		);
+		unset ($_SERVER['REQUEST_URI']);
+	}
+	public function testAuthorizedURISetOK(){
+		$_SERVER['REQUEST_URI'] = '/usr/bin/phpunit';
+		// Pretty sure this will fail with composer intalled PhpUnit in CI.
+		$this->assertTrue(
+			AuthorizedURI(),
+			'Unexpected Return Value.'
+		);
+		unset ($_SERVER['REQUEST_URI']);
 	}
 
 	// Add code to a function if needed.
