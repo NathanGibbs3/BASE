@@ -61,22 +61,23 @@ PrintBASESubHeader();
 if ($displayError == 1) {
 	NLIO ("<div class='errorMsg' align='center'>$errorMsg</div>",2);
 }
+$ipt = "<input type='";
 NLIO ("<form action='index.php' method='post' name='loginform'>",2);
 NLIO ("<table width='75%' style='border:0;padding:0;margin:auto;'>",3);
 NLIO ('<tr>',4);
 NLIO ("<td align='right' width='50%'>$LoginDesc:&nbsp;</td>",5);
 NLIO ("<td align='left' width='50%'>",5);
-NLIO ("<input type='text' name='login' autofocus='autofocus' />",6);
+NLIO ($ipt."text' name='login' autofocus='autofocus' />",6);
 NLIO ('</td>',5);
 NLIO ('</tr><tr>',4);
 NLIO ("<td align='right'>$PWDesc:&nbsp;</td>",5);
 NLIO ("<td align='left'>",5);
-NLIO ("<input type='password' name='password' />",6);
+NLIO ($ipt."password' name='password' />",6);
 NLIO ('</td>',5);
 NLIO ('</tr><tr>',4);
 NLIO ("<td colspan='2' align='center'>",5);
-NLIO ("<input type='submit' name='submit' value='Login' />",6);
-NLIO ("<input type='reset' name='reset' />",6);
+NLIO ($ipt."submit' name='submit' value='Login' />",6);
+NLIO ($ipt."reset' name='reset' />",6);
 NLIO ('</td>',5);
 NLIO ('</tr>',4);
 NLIO ('</table>',3);

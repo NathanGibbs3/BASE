@@ -241,4 +241,11 @@ if [ "$1" == "" ]; then
 		touch custom/testuser.htm
 		sudo chown root:root custom/testuser.htm
 	fi
+	if [ "$TRAVIS" != "true" ]; then
+		if [ "$td" == "tests" ]; then
+			php ./setuptestdb.php
+		else
+			php ./tests/setuptestdb.php
+		fi
+	fi
 fi

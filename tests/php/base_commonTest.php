@@ -173,6 +173,12 @@ class base_commonTest extends TestCase {
 			'Unexpected Return Value.'
 		);
 	}
+	public function testLoadedStringNotSet() {
+		$this->assertFalse(
+			LoadedString(null),
+			'Unexpected return SetConst().'
+		);
+	}
 	public function testLoadedStringNotString() {
 		$this->assertFalse(
 			LoadedString(1),

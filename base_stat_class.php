@@ -23,14 +23,15 @@
 ********************************************************************************
 */
 
-  include ("base_conf.php");
+include ("base_conf.php");
 include_once ("$BASE_path/includes/base_constants.inc.php");
-  include ("$BASE_path/includes/base_include.inc.php");
-  include_once ("$BASE_path/base_db_common.php");
-  include_once ("$BASE_path/base_qry_common.php");
-  include_once ("$BASE_path/base_stat_common.php");
+include ("$BASE_path/includes/base_include.inc.php");
+include_once ("$BASE_path/base_db_common.php");
+include_once ("$BASE_path/base_qry_common.php");
+include_once ("$BASE_path/base_stat_common.php");
 
-  $et = new EventTiming($debug_time_mode);
+AuthorizedRole(10000);
+$et = new EventTiming($debug_time_mode);
 $UIL = new UILang($BASE_Language); // Create UI Language Object.
 $CPSensor = $UIL->CWA['Sensor'];
 $CPSig = $UIL->CWA['Sig'];
@@ -39,25 +40,15 @@ $CPDA = $UIL->CPA['DstAddr'];
 $CPLast = $UIL->CWA['Last'];
 $CPFirst = $UIL->CWA['First'];
 $CPTotal = $UIL->CWA['Total'];
-  $cs = new CriteriaState("base_stat_class.php");
-  $cs->ReadState();
-
-  $qs = new QueryState();
-
-   // Check role out and redirect if needed -- Kevin
-  $roleneeded = 10000;
-  $BUser = new BaseUser();
-  if (($BUser->hasRole($roleneeded) == 0) && ($Use_Auth_System == 1))
-    base_header("Location: ". $BASE_urlpath . "/index.php");
-
-  $submit = ImportHTTPVar("submit", VAR_ALPHA | VAR_SPACE, array(_SELECTED, _ALLONSCREEN, _ENTIREQUERY));
-  $sort_order=ImportHTTPVar("sort_order", VAR_LETTER | VAR_USCORE);
-  $action = ImportHTTPVar("action", VAR_ALPHA); 
-  $qs->MoveView($submit);             /* increment the view if necessary */
-
-  $page_title = _CHRTCLASS;
-  if ( $qs->isCannedQuery() )
-	{
+$cs = new CriteriaState("base_stat_class.php");
+$cs->ReadState();
+$qs = new QueryState();
+$submit = ImportHTTPVar("submit", VAR_ALPHA | VAR_SPACE, array(_SELECTED, _ALLONSCREEN, _ENTIREQUERY));
+$sort_order=ImportHTTPVar("sort_order", VAR_LETTER | VAR_USCORE);
+$action = ImportHTTPVar("action", VAR_ALPHA); 
+$qs->MoveView($submit);             /* increment the view if necessary */
+$page_title = _CHRTCLASS;
+if ( $qs->isCannedQuery() ){
 		if ($action == "")
 		{
     	PrintBASESubHeader($page_title.": ".$qs->GetCurrentCannedQueryDesc(),
@@ -255,6 +246,5 @@ $qro->AddTitle( $CPLast,
 	ExportHTTPVar("sort_order", $sort_order);
   echo "\n</FORM>\n";
 $et->Mark("Get Query Elements");
-$et->PrintTiming();
 PrintBASESubFooter();
 ?>

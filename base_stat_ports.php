@@ -33,49 +33,38 @@
 ********************************************************************************
 */
 
-  include("base_conf.php");
+include("base_conf.php");
 include_once("$BASE_path/includes/base_constants.inc.php");
-  include("$BASE_path/includes/base_include.inc.php");
-  include_once("$BASE_path/base_db_common.php");
-  include_once("$BASE_path/base_common.php"); 
-  include_once("$BASE_path/base_qry_common.php");
+include("$BASE_path/includes/base_include.inc.php");
+include_once("$BASE_path/base_db_common.php");
+include_once("$BASE_path/base_common.php");
+include_once("$BASE_path/base_qry_common.php");
 
-  $et = new EventTiming($debug_time_mode);
-
-  /* Connect to the Alert database */
-  $db = NewBASEDBConnection($DBlib_path, $DBtype);
-  $db->baseDBConnect($db_connect_method,
-                     $alert_dbname, $alert_host, $alert_port, $alert_user, $alert_password);
+AuthorizedRole(10000);
+$et = new EventTiming($debug_time_mode);
+$db = NewBASEDBConnection($DBlib_path, $DBtype); // Connect to Alert DB.
+$db->baseDBConnect(
+	$db_connect_method, $alert_dbname, $alert_host, $alert_port, $alert_user,
+	$alert_password
+);
 $UIL = new UILang($BASE_Language); // Create UI Language Object.
 $CPSensor = $UIL->CWA['Sensor'];
 $CPLast = $UIL->CWA['Last'];
 $CPFirst = $UIL->CWA['First'];
-  $cs = new CriteriaState("base_stat_ports.php");
-  $cs->ReadState();
-
-   // Check role out and redirect if needed -- Kevin
-  $roleneeded = 10000;
-  $port_proto = "TCP";
-  $BUser = new BaseUser();
-  if (($BUser->hasRole($roleneeded) == 0) && ($Use_Auth_System == 1))
-    base_header("Location: ". $BASE_urlpath . "/index.php");
-
-  $qs = new QueryState();
-  $qs->AddCannedQuery("most_frequent", $freq_num_uports, _MOSTFREQPORTS, "occur_d");
-  $qs->AddCannedQuery("last_ports", $last_num_uports, _LASTPORTS, "last_d");
-
-  $submit = ImportHTTPVar("submit", VAR_ALPHA | VAR_SPACE, array(_SELECTED, _ALLONSCREEN, _ENTIREQUERY));
-  $port_type = ImportHTTPVar("port_type", VAR_DIGIT);
-  $proto = ImportHTTPVar("proto", VAR_DIGIT);
-	$sort_order=ImportHTTPVar("sort_order", VAR_LETTER | VAR_USCORE);
-  $action = ImportHTTPVar("action", VAR_ALPHA);
-
-
-  $qs->MoveView($submit);             /* increment the view if necessary */
-
-  $page_title = "";
-  switch ($proto)
-  {
+$cs = new CriteriaState("base_stat_ports.php");
+$cs->ReadState();
+$port_proto = 'TCP';
+$qs = new QueryState();
+$qs->AddCannedQuery("most_frequent", $freq_num_uports, _MOSTFREQPORTS, "occur_d");
+$qs->AddCannedQuery("last_ports", $last_num_uports, _LASTPORTS, "last_d");
+$submit = ImportHTTPVar("submit", VAR_ALPHA | VAR_SPACE, array(_SELECTED, _ALLONSCREEN, _ENTIREQUERY));
+$port_type = ImportHTTPVar("port_type", VAR_DIGIT);
+$proto = ImportHTTPVar("proto", VAR_DIGIT);
+$sort_order=ImportHTTPVar("sort_order", VAR_LETTER | VAR_USCORE);
+$action = ImportHTTPVar("action", VAR_ALPHA);
+$qs->MoveView($submit);             /* increment the view if necessary */
+$page_title = '';
+switch ( $proto ){
     case TCP:
        $page_title = _UNIQ." TCP ";
        break;
@@ -351,6 +340,5 @@ $qro->AddTitle( $CPLast,
 
   echo "\n</FORM>\n";
 $et->Mark("Get Query Elements");
-$et->PrintTiming();
 PrintBASESubFooter();
 ?>

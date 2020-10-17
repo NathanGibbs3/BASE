@@ -23,52 +23,40 @@
 ********************************************************************************
 */
 
-  include ("base_conf.php");
+include ("base_conf.php");
 include_once ("$BASE_path/includes/base_constants.inc.php");
-  include ("$BASE_path/includes/base_include.inc.php");
-  include_once ("$BASE_path/base_db_common.php");
-  include_once ("$BASE_path/base_common.php");
-  include_once ("$BASE_path/base_stat_common.php");
-  include_once ("$BASE_path/base_qry_common.php");
-  include_once ("$BASE_path/base_ag_common.php");
+include ("$BASE_path/includes/base_include.inc.php");
+include_once ("$BASE_path/base_db_common.php");
+include_once ("$BASE_path/base_common.php");
+include_once ("$BASE_path/base_stat_common.php");
+include_once ("$BASE_path/base_qry_common.php");
+include_once ("$BASE_path/base_ag_common.php");
 
-  $et = new EventTiming($debug_time_mode);
+AuthorizedRole(10000);
+$et = new EventTiming($debug_time_mode);
 $UIL = new UILang($BASE_Language); // Create UI Language Object.
 $CPName = $UIL->CWA['Name'];
 $CPSensor = $UIL->CWA['Sensor'];
 $CPLast = $UIL->CWA['Last'];
 $CPFirst = $UIL->CWA['First'];
-  $cs = new CriteriaState("base_stat_sensor.php");
-  $cs->ReadState();
-
-  $qs = new QueryState();
-
-   // Check role out and redirect if needed -- Kevin
-  $roleneeded = 10000;
-  $BUser = new BaseUser();
-  if (($BUser->hasRole($roleneeded) == 0) && ($Use_Auth_System == 1))
-    base_header("Location: ". $BASE_urlpath . "/index.php");
-
-  $submit = ImportHTTPVar("submit", VAR_ALPHA | VAR_SPACE, array(_SELECTED, _ALLONSCREEN, _ENTIREQUERY));
-	$sort_order=ImportHTTPVar("sort_order", VAR_LETTER | VAR_USCORE);
-  $action = ImportHTTPVar("action", VAR_ALPHA);
-  $qs->MoveView($submit);             /* increment the view if necessary */
-
-  $page_title = SPSENSORLIST;
-	if ($action == "")
-	{
-  	PrintBASESubHeader($page_title, $page_title, $cs->GetBackLink(), 1);
-	}
-	else
-	{
-		PrintBASESubHeader($page_title, $page_title, $cs->GetBackLink(), $refresh_all_pages);
-	}
-  
-  /* Connect to the Alert database */
-  $db = NewBASEDBConnection($DBlib_path, $DBtype);
-  $db->baseDBConnect($db_connect_method,
-                     $alert_dbname, $alert_host, $alert_port, $alert_user, $alert_password);
-
+$cs = new CriteriaState("base_stat_sensor.php");
+$cs->ReadState();
+$qs = new QueryState();
+$submit = ImportHTTPVar("submit", VAR_ALPHA | VAR_SPACE, array(_SELECTED, _ALLONSCREEN, _ENTIREQUERY));
+$sort_order=ImportHTTPVar("sort_order", VAR_LETTER | VAR_USCORE);
+$action = ImportHTTPVar("action", VAR_ALPHA);
+$qs->MoveView($submit);             /* increment the view if necessary */
+$page_title = SPSENSORLIST;
+if ( $action == '' ){
+	PrintBASESubHeader($page_title, $page_title, $cs->GetBackLink(), 1);
+}else{
+	PrintBASESubHeader($page_title, $page_title, $cs->GetBackLink(), $refresh_all_pages);
+}
+$db = NewBASEDBConnection($DBlib_path, $DBtype); // Connect to Alert DB.
+$db->baseDBConnect(
+	$db_connect_method,$alert_dbname, $alert_host, $alert_port, $alert_user,
+	$alert_password
+);
   if ( $event_cache_auto_update == 1 )  UpdateAlertCache($db);
 
   $criteria_clauses = ProcessCriteria();  
@@ -208,6 +196,5 @@ $qro->AddTitle( $CPLast,
 	ExportHTTPVar("sort_order", $sort_order);
   echo "\n</FORM>\n";
 $et->Mark("Get Query Elements");
-$et->PrintTiming();
 PrintBASESubFooter();
 ?>

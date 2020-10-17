@@ -23,39 +23,28 @@
 ********************************************************************************
 */
 
-  include ("base_conf.php");
+include ("base_conf.php");
 include_once ("$BASE_path/includes/base_constants.inc.php");
-  include ("$BASE_path/includes/base_include.inc.php");
-  include_once ("$BASE_path/base_db_common.php");
-  include_once ("$BASE_path/base_qry_common.php");
-  include_once ("$BASE_path/base_stat_common.php");
+include ("$BASE_path/includes/base_include.inc.php");
+include_once ("$BASE_path/base_db_common.php");
+include_once ("$BASE_path/base_qry_common.php");
+include_once ("$BASE_path/base_stat_common.php");
 
-  $submit = ImportHTTPVar("submit", VAR_ALPHA | VAR_SPACE, array(_SELECTED, _ALLONSCREEN, _ENTIREQUERY));
-	$sort_order=ImportHTTPVar("sort_order", VAR_LETTER | VAR_USCORE);
- 	$action = ImportHTTPVar("action", VAR_ALPHA);	
-
-  $et = new EventTiming($debug_time_mode);
+AuthorizedRole(10000);
+$et = new EventTiming($debug_time_mode);
 $UIL = new UILang($BASE_Language); // Create UI Language Abstraction Object.
-  $cs = new CriteriaState("base_stat_iplink.php");
-  $cs->ReadState();
-
-   // Check role out and redirect if needed -- Kevin
-  $roleneeded = 10000;
-  $BUser = new BaseUser();
-  if (($BUser->hasRole($roleneeded) == 0) && ($Use_Auth_System == 1))
-    base_header("Location: ". $BASE_urlpath . "/index.php");
-
-  $qs = new QueryState();
-  $qs->AddCannedQuery("most_frequent", $freq_num_alerts, _MOSTFREQALERTS, "occur_d"); 
-  $qs->AddCannedQuery("last_alerts", $last_num_ualerts, _LASTALERTS, "last_d");
-
-  $qs->MoveView($submit);             /* increment the view if necessary */
-
-  $page_title = _SIPLTITLE;
-  if ( $qs->isCannedQuery() )
-	{
-		if ($action == "")
-		{
+$submit = ImportHTTPVar("submit", VAR_ALPHA | VAR_SPACE, array(_SELECTED, _ALLONSCREEN, _ENTIREQUERY));
+$sort_order=ImportHTTPVar("sort_order", VAR_LETTER | VAR_USCORE);
+$action = ImportHTTPVar("action", VAR_ALPHA);	
+$cs = new CriteriaState("base_stat_iplink.php");
+$cs->ReadState();
+$qs = new QueryState();
+$qs->AddCannedQuery("most_frequent", $freq_num_alerts, _MOSTFREQALERTS, "occur_d"); 
+$qs->AddCannedQuery("last_alerts", $last_num_ualerts, _LASTALERTS, "last_d");
+$qs->MoveView($submit);             /* increment the view if necessary */
+$page_title = _SIPLTITLE;
+if ( $qs->isCannedQuery() ){
+	if ( $action == '' ){
     	PrintBASESubHeader($page_title.": ".$qs->GetCurrentCannedQueryDesc(),
      	                   $page_title.": ".$qs->GetCurrentCannedQueryDesc(), 
       	                 $cs->GetBackLink(), 1);
@@ -240,6 +229,5 @@ $UIL = new UILang($BASE_Language); // Create UI Language Abstraction Object.
 	ExportHTTPVar("sort_order", $sort_order);
   echo "\n</FORM>\n";
 $et->Mark("Get Query Elements");
-$et->PrintTiming();
 PrintBASESubFooter();
 ?>

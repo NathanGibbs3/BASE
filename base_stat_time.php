@@ -62,92 +62,82 @@ function StoreAlertNum($sql, $label, $time_sep, $i_year, $i_month, $i_day, $i_ho
      /* add no parentheses and no operator */
      $value_POST_lst[$cnt] = $value_POST_lst[$cnt].'&amp;time%5B0%5D%5B8%5D=+&amp;time%5B0%5D%5B9%5D=+';
  
-     $cnt++;
-  }
-  else
-     $value_lst [ $cnt++ ] = 0;
+		$cnt++;
+	}else{
+		$value_lst [ $cnt++ ] = 0;
+	}
 }
 
 function PrintTimeProfile(){
 	GLOBAL $cnt, $label_lst, $value_lst, $value_POST_lst, $UIL;
 	$CPAlert = $UIL->CWA['Alert'];
-
-   /* find max value */
-   $max_cnt = $value_lst[0];
-   for ( $i = 0; $i < $cnt; $i++ )
-       if ( $value_lst[$i] > $max_cnt )  $max_cnt = $value_lst[$i];
-
-   echo '<TABLE BORDER=1 WIDTH="100%">
-           <TR><TD CLASS="plfieldhdr" width="25%">'._CHRTTIME.'</TD>
-               <TD CLASS="plfieldhdr" width="15%"># '._QSCOFALERTS.'</TD>
-               <TD CLASS="plfieldhdr">'.$CPAlert.'</TD></TR>';
-
-
-   for ($i = 0; $i < $cnt; $i++ )
-   {
-       if ($value_lst[$i] == 0)
-          $entry_width = 0;
-       else
-          $entry_width = round($value_lst[$i]/$max_cnt*100);
-
-       if ($entry_width > 0 )
-          $entry_color = "#FF0000";
-       else
-          $entry_color = "#FFFFFF";
-
-       echo '<TR>
-                 <TD>';
-
-       if ( $value_lst[$i] == 0 ) 
-          echo $label_lst[$i];
-       else
-          echo '<A HREF="'.$value_POST_lst[$i].'">'.$label_lst[$i].'</A>';
-
-       echo     '</TD>
-                 <TD ALIGN=CENTER>'.$value_lst[$i].'</TD>
-                 <TD><TABLE WIDTH="100%">
-                      <TR>';
-	print HBarGraph($value_lst[$i],$max_cnt,$entry_color);
-	echo '                      </TR>
-                     </TABLE>
-                 </TD>
-             </TR>';
-    }
-    echo '</TABLE>';
+	// Find max value.
+	$max_cnt = $value_lst[0];
+	for ( $i = 0; $i < $cnt; $i++ ){
+		if ( $value_lst[$i] > $max_cnt ){
+			$max_cnt = $value_lst[$i];
+		}
+	}
+	NLIO('<!-- TimeProfile -->', 2);
+	$tmp ="<td class='plfieldhdr'";
+	NLIO("<table border='1' width='100%'>", 2);
+	NLIO('<tr>',3);
+	NLIO($tmp." width='25%'>"._CHRTTIME.'</td>',4);
+	NLIO($tmp." width='15%'># "._QSCOFALERTS.'</td>',4);
+	NLIO($tmp.'>'.$CPAlert.'</td>',4);
+	NLIO('</tr>',3);
+	for ($i = 0; $i < $cnt; $i++ ){
+		NLIO('<tr>',3);
+		if ( $value_lst[$i] == 0 ){
+			$tmp = $label_lst[$i];
+			$idx = 4;
+		}else{
+			$tmp = "<a href='$value_POST_lst[$i]'>$label_lst[$i]</a>";
+			$idx = 7;
+		}
+		NLIO("<td>$tmp</td>",4);
+		NLIO("<td align='center'>$value_lst[$i]</td>",4);
+		if ( $idx == 7 ){
+			NLIO('<td>',4);
+			NLIO("<table border='0' cellPadding='0' cellSpacing='0' width='100%'>",5);
+			NLIO('<tr>',6);
+		}
+		NLIO(HBarGraph($value_lst[$i],$max_cnt),$idx);
+		if ( $idx == 7 ){
+			NLIO('</tr>',6);
+			NLIO('</table>',5);
+			NLIO('</td>',4);
+		}
+		NLIO('</tr>',3);
+	}
+	NLIO('</table>',2);
 }
 
-  include ("base_conf.php");
+include ("base_conf.php");
 include_once ("$BASE_path/includes/base_constants.inc.php");
-  include ("$BASE_path/includes/base_include.inc.php");
-  include_once ("$BASE_path/base_db_common.php");
-  include_once ("$BASE_path/base_common.php");
-  include_once ("$BASE_path/base_stat_common.php");
-  include_once ("$BASE_path/base_qry_common.php");
+include ("$BASE_path/includes/base_include.inc.php");
+include_once ("$BASE_path/base_db_common.php");
+include_once ("$BASE_path/base_common.php");
+include_once ("$BASE_path/base_stat_common.php");
+include_once ("$BASE_path/base_qry_common.php");
 
-  $time_sep = ImportHTTPVar("time_sep", VAR_ALPHA);
-  $time = ImportHTTPVar("time", VAR_DIGIT);
-  $submit = ImportHTTPVar("submit", VAR_ALPHA | VAR_SPACE);
+AuthorizedRole(10000);
+$et = new EventTiming($debug_time_mode);
+$time_sep = ImportHTTPVar("time_sep", VAR_ALPHA);
+$time = ImportHTTPVar("time", VAR_DIGIT);
+$submit = ImportHTTPVar("submit", VAR_ALPHA | VAR_SPACE);
 $UIL = new UILang($BASE_Language); // Create UI Language Abstraction Object.
-  $cs = new CriteriaState("base_stat_alerts.php");
-  $cs->ReadState();
-
-   // Check role out and redirect if needed -- Kevin
-  $roleneeded = 10000;
-  $BUser = new BaseUser();
-  if (($BUser->hasRole($roleneeded) == 0) && ($Use_Auth_System == 1))
-    base_header("Location: ". $BASE_urlpath . "/index.php");
-
-  $page_title = _BSTTITLE;
-  PrintBASESubHeader($page_title, $page_title, $cs->GetBackLink(), 1);
-
-  /* Connect to the Alert database */
-  $db = NewBASEDBConnection($DBlib_path, $DBtype);
-  $db->baseDBConnect($db_connect_method,
-                     $alert_dbname, $alert_host, $alert_port, $alert_user, $alert_password);
-
-  $criteria_clauses = ProcessCriteria();
-  PrintCriteria("");
-
+$cs = new CriteriaState("base_stat_alerts.php");
+$cs->ReadState();
+$page_title = _BSTTITLE;
+PrintBASESubHeader($page_title, $page_title, $cs->GetBackLink(), 1);
+$db = NewBASEDBConnection($DBlib_path, $DBtype); // Connect to Alert DB.
+$db->baseDBConnect(
+	$db_connect_method, $alert_dbname, $alert_host, $alert_port, $alert_user,
+	$alert_password
+);
+$criteria_clauses = ProcessCriteria();
+PrintCriteria('');
   $from = " FROM acid_event ".$criteria_clauses[0];
   $where = " WHERE ".$criteria_clauses[1];
 

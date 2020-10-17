@@ -124,6 +124,7 @@ before_script:
 
 script:
   - ./tests/setupdb.sh
+  - php -f ./tests/setuptestdb.php
   - ./tests/utf-8lint.sh
   - ./tests/phpunit.sh
 

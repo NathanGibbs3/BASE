@@ -16,6 +16,7 @@
 //                     Kevin Johnson
 
 require("base_conf.php");
+include_once("$BASE_path/includes/base_auth.inc.php");
 include_once("$BASE_path/includes/base_output_html.inc.php");
 include_once("$BASE_path/includes/base_lang.inc.php");
 

@@ -30,51 +30,38 @@
 ********************************************************************************
 */
 
- include("base_conf.php");
+include("base_conf.php");
 include_once("$BASE_path/includes/base_constants.inc.php");
- include("$BASE_path/includes/base_include.inc.php");
- include_once("$BASE_path/base_db_common.php");
- include_once("$BASE_path/base_common.php");
- include_once("$BASE_path/base_qry_common.php");
+include("$BASE_path/includes/base_include.inc.php");
+include_once("$BASE_path/base_db_common.php");
+include_once("$BASE_path/base_common.php");
+include_once("$BASE_path/base_qry_common.php");
 
+AuthorizedRole(10000);
+$et = new EventTiming($debug_time_mode);
 $UIL = new UILang($BASE_Language); // Create UI Language Object.
 $CPSensor = $UIL->CWA['Sensor'];
 $CPTotal = $UIL->CWA['Total'];
-
- $addr_type = ImportHTTPVar("addr_type", VAR_DIGIT);
- $submit = ImportHTTPVar("submit", VAR_ALPHA | VAR_SPACE, array(_SELECTED, _ALLONSCREEN, _ENTIREQUERY));
- $sort_order=ImportHTTPVar("sort_order", VAR_LETTER | VAR_USCORE);
- $action = ImportHTTPVar("action", VAR_ALPHA);
-
-   // Check role out and redirect if needed -- Kevin
-  $roleneeded = 10000;
-  $BUser = new BaseUser();
-  if (($BUser->hasRole($roleneeded) == 0) && ($Use_Auth_System == 1))
-    base_header("Location: ". $BASE_urlpath . "/index.php");
-
- $et = new EventTiming($debug_time_mode);
-   // The below three lines were moved from line 87 because of the odd errors some users were having
-   /* Connect to the Alert database */
-  $db = NewBASEDBConnection($DBlib_path, $DBtype);
-  $db->baseDBConnect($db_connect_method,
-                     $alert_dbname, $alert_host, $alert_port, $alert_user, $alert_password);
+$addr_type = ImportHTTPVar("addr_type", VAR_DIGIT);
+$submit = ImportHTTPVar("submit", VAR_ALPHA | VAR_SPACE, array(_SELECTED, _ALLONSCREEN, _ENTIREQUERY));
+$sort_order=ImportHTTPVar("sort_order", VAR_LETTER | VAR_USCORE);
+$action = ImportHTTPVar("action", VAR_ALPHA);
+// The below two lines were moved from line 87 because of the odd errors
+// some users were having
+$db = NewBASEDBConnection($DBlib_path, $DBtype); // Connect to Alert DB.
+$db->baseDBConnect(
+	$db_connect_method, $alert_dbname, $alert_host, $alert_port, $alert_user,
+	$alert_password
+);
 $cs = new CriteriaState("base_stat_uaddr.php", "&amp;addr_type=$addr_type");
-
- $cs->ReadState();
-
-/* Dump some debugging information on the shared state */
-if ( $debug_mode > 0 )
-{
-   PrintCriteriaState();
+$cs->ReadState();
+if ( $debug_mode > 0 ){ // Dump debugging info on the shared state.
+	PrintCriteriaState();
 }
-
- $qs = new QueryState();
- $qs->AddCannedQuery("most_frequent", $freq_num_uaddr, _MOSTFREQADDRS, "occur_d"); 
-
- $qs->MoveView($submit);             /* increment the view if necessary */
-
-  if ( $addr_type == SOURCE_IP ) 
-  {
+$qs = new QueryState();
+$qs->AddCannedQuery("most_frequent", $freq_num_uaddr, _MOSTFREQADDRS, "occur_d"); 
+$qs->MoveView($submit);             /* increment the view if necessary */
+if ( $addr_type == SOURCE_IP ){
     $page_title = _UNISADD;
     $results_title = _SUASRCIP;
     $addr_type_name = "ip_src";
@@ -303,6 +290,5 @@ $qro->AddTitle( "$CPTotal&nbsp;#",
 
   echo "\n</FORM>\n";
 $et->Mark("Get Query Elements");
-$et->PrintTiming();
 PrintBASESubFooter();
 ?>
