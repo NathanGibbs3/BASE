@@ -29,13 +29,7 @@ include_once("$BASE_path/includes/base_output_html.inc.php");
 include_once("$BASE_path/includes/base_constants.inc.php");
 include_once("$BASE_path/base_common.php");
 
-// Check role out and redirect if needed -- Kevin
-$roleneeded = 10000;
-$BUser = new BaseUser();
-if ( $Use_Auth_System == 1 && $BUser->hasRole($roleneeded) == 0 ){
-	base_header("Location: $BASE_urlpath/index.php");
-}
-
+AuthorizedRole(10000);
 PrintBASESubHeader('Local FAQ');
 NLIO("<h1>For the latest FAQ: <a href='https://github.com/NathanGibbs3/BASE'>"
 	."Check the Github Repo</a>.</h1>",2);

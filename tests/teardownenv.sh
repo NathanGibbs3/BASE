@@ -61,4 +61,9 @@ if [ "$1" == "" ]; then
 		sudo rm -rdf custom
 		sudo rm -f /etc/BASEtestsym.htm
 	fi
+	if [ "$td" == "tests" ]; then
+		php ./teardowntestdb.php
+	else
+		php ./tests/teardowntestdb.php
+	fi
 fi

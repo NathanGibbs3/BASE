@@ -98,9 +98,8 @@ include_once ("$BASE_path/includes/base_constants.inc.php");
     return 1;
   }
 
-
-
-  ($debug_time_mode >= 1) ? $et = new EventTiming($debug_time_mode) : '';
+AuthorizedRole(10000);
+$et = new EventTiming($debug_time_mode);
   $cs = new CriteriaState("base_stat_alerts.php");
   $cs->ReadState();
   
@@ -162,18 +161,10 @@ include_once ("$BASE_path/includes/base_constants.inc.php");
   $chart_end_year    = ImportHTTPVar("chart_end_year", VAR_DIGIT);
   $aggregate_type    = ImportHTTPVar("aggregate_type", VAR_DIGIT);
 
-   // Check role out and redirect if needed -- Kevin
-  $roleneeded = 10000;
-  $BUser = new BaseUser();
-  if (($BUser->hasRole($roleneeded) == 0) && ($Use_Auth_System == 1))
-    base_header("Location: ". $BASE_urlpath . "/index.php");
-
   $page_title = _GRAPHALERTDATA;
   PrintBASESubHeader($page_title, $page_title, $cs->GetBackLink(), $refresh_all_pages);
 
-  // Check if Image_Graph install is ok -- Alejandro
-  VerifyGraphingLib();  
-
+VerifyGraphingLib(); // Check if Image_Graph install is ok -- Alejandro
   /* Connect to the Alert database */
   $db = NewBASEDBConnection($DBlib_path, $DBtype);
   $db->baseDBConnect($db_connect_method,
@@ -416,15 +407,10 @@ include_once ("$BASE_path/includes/base_constants.inc.php");
           {
             print "WARNING: i >= number_array_elements<BR>";
           }
-
           ErrorMessage(_ERRCHRTNODATAPOINTS);
-
-          ($debug_time_mode >= 1) ? $et->PrintTiming() : '';
-
           PrintBASESubFooter();
           return;
         }
-
 
         // From which element on should the "for"-loop start:
         if (
@@ -548,14 +534,10 @@ include_once ("$BASE_path/includes/base_constants.inc.php");
        }
        */
       }
-     
-
-      if ( $debug_mode > 0 ) 
-      {
+      if ( $debug_mode > 0 ){
         echo "<H3>"._CHRTDRAW." ($width x $height)</H3>";
       }
-
-      ($debug_time_mode >= 1) ? $et->Mark("Extracting data") : '';
+      $et->Mark("Extracting data");
       echo '<CENTER>
             <TABLE BGCOLOR="#000000" CELLSPACING=0 CELLPADDING=2 BORDER=0 SUMMARY="table from base_graph_main.php">
             <TR>
@@ -613,13 +595,10 @@ include_once ("$BASE_path/includes/base_constants.inc.php");
         echo '(click at the image or - after it has been reloaded - click at it for a second time to get a bigger size of it)<BR><BR>';
       }
       echo '</CENTER>';
-      
-      ($debug_time_mode >= 1) ? $et->Mark("Rendering graph") : '';
-    }
-    else
-       ErrorMessage(_ERRCHRTNODATAPOINTS);
-  }
-
-  ($debug_time_mode >= 1) ? $et->PrintTiming() : '';
+		$et->Mark("Rendering graph");
+	}else{
+		ErrorMessage(_ERRCHRTNODATAPOINTS);
+	}
+}
 PrintBASESubFooter();
 ?>

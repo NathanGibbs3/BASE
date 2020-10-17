@@ -41,7 +41,6 @@
  *
  */
 
-  $start = time();
    require("base_conf.php");
    include_once("$BASE_path/includes/base_auth.inc.php");
    include_once("$BASE_path/includes/base_db.inc.php");
@@ -53,21 +52,14 @@
    include_once("$BASE_path/includes/base_log_error.inc.php");
    include_once("$BASE_path/includes/base_log_timing.inc.php");
 
+AuthorizedRole(10000);
+$et = new EventTiming($debug_time_mode);
 RegisterGlobalState();
-
 // Initialize the history
 $_SESSION = NULL;
 InitArray($_SESSION['back_list'], 1, 3, "");
 $_SESSION['back_list_cnt'] = 0;
 PushHistory();
-
-// Check role out and redirect if needed -- Kevin
-$roleneeded = 10000;
-$BUser = new BaseUser();
-if ( $Use_Auth_System == 1 && $BUser->hasRole($roleneeded) == 0 ){
-	base_header("Location: $BASE_urlpath/index.php");
-}
-
 if (isset($_GET['archive'])){ // Set cookie to use the correct db.
 	"no" == $_GET['archive'] ? $value = 0 : $value = 1;
 	setcookie('archive', $value);
@@ -305,9 +297,5 @@ if ($main_page_detail == 1) {
 <p>
 <hr />
 <?php
-$stop = time();
-if ($debug_time_mode > 0) {
-    echo "<div class='systemdebug'>[" . _LOADEDIN . "&nbsp;" .($stop - $start)." seconds]</div>";
-}
 PrintBASESubFooter();
 ?>
