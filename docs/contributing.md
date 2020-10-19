@@ -34,7 +34,7 @@ BASE; but may be useful to the BASE community.
 
 ## New to Open Source development & contributing to projects?
 Welcome, check out this [awesome video](https://youtu.be/jTTf4oLkvaM) by
-[Dan Bader](https://dbader.org/python-tricks) that explains the process.
+Dan Bader [@dbader](https://github.com/dbader) that explains the process.
 
 Thank you.  
 BASE [Project Team](https://github.com/NathanGibbs3/BASE/wiki/Project-Team)
