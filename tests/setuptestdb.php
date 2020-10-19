@@ -44,6 +44,7 @@ if (!isset($DBtype)){
 	$alert_dbname='snort';
 	// Create Test User Set
 	$user = new BaseUser();
+	$role = new BaseRole();
 	$stat = $user->addUser('TestAdmin', '1', 'password', 'TestAdmin');
 	print "$stat\n";
 	$stat = $user->addUser('TestUser', '10', 'password', 'TestUser');
@@ -53,6 +54,10 @@ if (!isset($DBtype)){
 	$stat = $user->addUser('TestAnonUser', '10000', 'password', 'TestAnonUser');
 	print "$stat\n";
 	$stat = $user->addUser('TestOver', '20000', 'password', 'TestOverUser');
+	print "$stat\n";
+	$stat = $user->addUser('Test<br/>XSS', '10', 'password', 'Test<br/>XXS in Username');
+	print "$stat\n";
+	$stat = $role->addRole('30000', 'Test<br/>XSS', 'Test<br/>XXS in Rolename');
 	print "$stat\n";
 }
 

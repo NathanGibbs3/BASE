@@ -127,18 +127,22 @@ if ( getenv('TRAVIS') && version_compare(PHP_VERSION, "5.3.0", "<") ){
 		}
 		$cs->InitState();
 	}
-  /* is this a new query, invoked from the SEARCH screen ? */
-  /* if the query string if very long (> 700) then this must be from the Search screen  */
-  $back = ImportHTTPVar("back", VAR_DIGIT);
-  if ( ( $GLOBALS['maintain_history'] == 1 ) && ( $back != 1 ) &&  ( $submit == _QUERYDB ) && ( isset($_GET['search']) && $_GET['search']  == 1  )) {
+	// Is this a new query, invoked from the SEARCH screen ?
+	// If the query string if very long (> 700) then this must be from the
+	// Search screen.
+if ( isset($maintain_history) && $maintain_history == 1 ){
+	$back = ImportHTTPVar("back", VAR_DIGIT);
+	if ( $back != 1 && $submit == _QUERYDB
+		&& isset($_GET['search']) && $_GET['search']  == 1
+	){
     !empty($_SESSION['back_list_cnt']) ? $_SESSION['back_list_cnt']-- : $_SESSION['back_list_cnt'] = 0;    /* save on top of initial blank query screen   */
     $submit = "";          /*  save entered search criteria as if one hit Enter */
     $_POST['submit'] = $submit;
     $cs->ReadState();      /* save the search criteria       */
     $submit = _QUERYDB;    /* restore the real submit value  */
     $_POST['submit'] = $submit;
-  }
-
+	}
+}
   $cs->ReadState();
 
   $qs = new QueryState();

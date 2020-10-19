@@ -264,9 +264,7 @@ class BaseUser {
         $usrid = $rs->baseFetchRow();
         return $usrid[0];
     }
-    
-    function returnUsers()
-    {
+	function returnUsers(){
         /* returns an array of all users info
          * each array item is formatted as
          * array[] = usr_id|usr_login|role_id|usr_name|usr_enabled
@@ -286,25 +284,32 @@ class BaseUser {
         $result->baseFreeRows();
         return $userarray;
     }
-    
-    function returnEditUser($userid)
-    {
-        /* returns an array of all users info
-         * each array item is formatted as
-         * array[0] = usr_id|usr_login|role_id|usr_name|usr_enabled
-        */
-        
-        $db = $this->db;
-        $sql = "SELECT usr_id, usr_login, role_id, usr_name, usr_enabled ";
-        $sql = $sql . "FROM base_users WHERE usr_id = '" . $userid . "';";
-        $result = $db->baseExecute($sql);
-        
-        $myrow = $result->baseFetchRow();
-        $result->baseFreeRows();
-        return $myrow;
-        
-    }
-
+	function returnEditUser( $userid, $XSS = 1 ){
+		// Returns an array of user's info.
+		// Each array item is formatted as:
+		// array[0] = usr_id|usr_login|role_id|usr_name|usr_enabled
+		// Returns false on Error.
+		$Ret = false;
+		$userid = intval($userid); // Input Validation
+		if ( !is_numeric($XSS) ){
+			$XSS = 1;
+		}
+		if ( $userid > 0 ){
+			$db = $this->db;
+			$sql = "SELECT usr_id, usr_login, role_id, usr_name, usr_enabled ";
+			$sql .= "FROM base_users WHERE usr_id = '" . $userid . "';";
+			$result = $db->baseExecute($sql);
+			if ( $result != false ){ // Error Check
+				$myrow = $result->baseFetchRow();
+				$result->baseFreeRows();
+				if ( $XSS > 0 ){ // Anti XSS Output Data
+					$myrow = XSSPrintSafe($myrow);
+				}
+				$Ret = $myrow;
+			}
+		}
+		return $Ret;
+	}
     function roleName($roleID)
     {
         // returns rolename for a specified role id
@@ -437,25 +442,31 @@ class BaseRole {
         $db->baseExecute($sql, -1, -1, false);
         return _ROLEADDED;
     }
-    
-    function returnEditRole($roleid)
-    {
-        /* returns an array of all Role's info
-         * each array item is formatted as
-         * array[0] = role_id|role_name|role_desc
-        */
-        
-        $db = $this->db;
-        $sql = "SELECT role_id, role_name, role_desc ";
-        $sql = $sql . "FROM base_roles WHERE role_id = '" . $roleid . "';";
-        $result = $db->baseExecute($sql);
-        
-        $myrow = $result->baseFetchRow();
-        $result->baseFreeRows();
-        return $myrow;
-        
-    }
-    
+	function returnEditRole( $roleid, $XSS = 1 ){
+		// Returns an array of Role's info.
+		// Each array item is formatted as:
+		// array[0] = role_id|role_name|role_desc
+		$Ret = false;
+		$roleid = intval($roleid); // Input Validation
+		if ( !is_numeric($XSS) ){
+			$XSS = 1;
+		}
+		if ( $roleid > 0 ){
+			$db = $this->db;
+			$sql = "SELECT role_id, role_name, role_desc ";
+			$sql .= "FROM base_roles WHERE role_id = '" . $roleid . "';";
+			$result = $db->baseExecute($sql);
+			if ( $result != false ){ // Error Check
+				$myrow = $result->baseFetchRow();
+				$result->baseFreeRows();
+				if ( $XSS == 1 ){ // Anti XSS Output Data
+					$myrow = XSSPrintSafe($myrow);
+				}
+				$Ret = $myrow;
+			}
+		}
+		return $Ret;
+	}
     function updateRole($rolearray)
     {
         /* This function accepts an array in the following format

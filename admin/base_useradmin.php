@@ -117,8 +117,7 @@ if ( preg_match("/(create|add)/", $Action) || $Use_Auth_System == 1 ){
 			// $userinfo[2] = $rid // Role id
 			// $userinfo[3] = $ufn // Full Name
 			// $userinfo[4] = $uso // Operative
-			// Anti XSS Output Data
-			$userinfo = XSSPrintSafe($user->returnEditUser($userid));
+			$userinfo = $user->returnEditUser($userid); // Anti XSS by default.
 			$uid = $userinfo[0];
 			$usn = $userinfo[1];
 			$rid = $userinfo[2];
