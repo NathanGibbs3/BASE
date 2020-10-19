@@ -8,14 +8,18 @@ use PHPUnit\Framework\TestCase;
   * @covers BaseUser::returnRoleNamesDropDown
   * @covers BaseUser::returnUser
   * @covers BaseUser::readRoleCookie
+  * @covers BaseUser::returnEditUser
+  * @covers BaseRole::returnEditRole
   * @uses ::XSSPrintSafe
   * @uses baseCon
   * @uses baseRS
   * @uses BaseUser::cryptpassword
+  * @uses BaseUser::returnUserID
   */
 class authTest extends TestCase {
 	// Pre Test Setup.
 	protected static $user;
+	protected static $role;
 	protected static $PHPUV;
 
 	// Share class instance as common test fixture.
@@ -82,6 +86,12 @@ class authTest extends TestCase {
 				'User Object Not Initialized.'
 			);
 			self::$user = $user;
+			self::assertInstanceOf(
+				'BaseRole',
+				$role = new BaseRole(),
+				'Role Object Not Initialized.'
+			);
+			self::$role = $role;
 		}
 		// PHPUnit Version
 		$PHPUV = GetPHPUV();
@@ -94,6 +104,7 @@ class authTest extends TestCase {
 	public static function tearDownAfterClass() {
 		self::$PHPUV = null;
 		self::$user = null;
+		self::$role = null;
 	}
 
 	// Tests go here.
@@ -264,9 +275,6 @@ class authTest extends TestCase {
 		);
 		unset ($_COOKIE['BASERole']);
 	}
-	/**
-	 * @backupGlobals disabled
-	 */
 	public function testreadRoleCookiedeOK(){
 		$user = self::$user;
 		$pw = $user->cryptpassword('password');
@@ -278,10 +286,154 @@ class authTest extends TestCase {
 		);
 		unset ($_COOKIE['BASERole']);
 	}
+	public function testreturnEditUserInvalidType(){
+		$user = self::$user;
+		$uid = 'User';
+		$this->assertFalse(
+			$user->returnEditUser($uid),
+			'Unexpected Return Value.'
+		);
+	}
+	public function testreturnEditUserInvalidID(){
+		$user = self::$user;
+		$uid = 25000;
+		$expected = '';
+		$this->assertEquals(
+			$expected,
+			$user->returnEditUser($uid),
+			'Unexpected Return Value.'
+		);
+	}
+	public function testreturnEditUserValidreturnsarray(){
+		$user = self::$user;
+		$uid = $user->returnUserID('Test<br/>XSS');
+		$this->assertTrue(
+			is_array($user->returnEditUser($uid)),
+			'Unexpected Return Value.'
+		);
+	}
+	public function testreturnEditUserValidXSSOff(){
+		$user = self::$user;
+		$uid = $user->returnUserID('Test<br/>XSS');
+		$expected = array (
+			'Test<br/>XSS', 'Test<br/>XXS in Username',
+			'Test<br/>XSS', 'Test<br/>XXS in Username',
+		);
+		$users = $user->returnEditUser($uid,0);
+		$returned = array (
+			$users[1], $users[3], $users['usr_login'], $users['usr_name']
+		);
+		$this->assertEquals(
+			$expected,
+			$returned,
+			'Unexpected Return Value.'
+		);
+	}
+	public function testreturnEditUserValidXSSOn(){
+		$user = self::$user;
+		$uid = $user->returnUserID('Test<br/>XSS');
+		$expected = array (
+			'Test&lt;br/&gt;XSS', 'Test&lt;br/&gt;XXS in Username',
+			'Test&lt;br/&gt;XSS', 'Test&lt;br/&gt;XXS in Username',
+		);
+		$users = $user->returnEditUser($uid,1);
+		$returned = array (
+			$users[1], $users[3], $users['usr_login'], $users['usr_name']
+		);
+		$this->assertEquals(
+			$expected,
+			$returned,
+			'Unexpected Return Value.'
+		);
+	}
+	public function testreturnEditUserValidXSSInvalid(){
+		$user = self::$user;
+		$uid = $user->returnUserID('Test<br/>XSS');
+		$expected = array (
+			'Test&lt;br/&gt;XSS', 'Test&lt;br/&gt;XXS in Username',
+			'Test&lt;br/&gt;XSS', 'Test&lt;br/&gt;XXS in Username',
+		);
+		$users = $user->returnEditUser($uid,'What');
+		$returned = array (
+			$users[1], $users[3], $users['usr_login'], $users['usr_name']
+		);
+		$this->assertEquals(
+			$expected,
+			$returned,
+			'Unexpected Return Value.'
+		);
+	}
+	public function testreturnEditRoleInvalidType(){
+		$role = self::$role;
+		$uid = 'Role';
+		$this->assertFalse(
+			$role->returnEditRole($uid),
+			'Unexpected Return Value.'
+		);
+	}
+	public function testreturnEditRoleInvalidID(){
+		$role = self::$role;
+		$uid = 25000;
+		$expected = '';
+		$this->assertEquals(
+			$expected,
+			$role->returnEditRole($uid),
+			'Unexpected Return Value.'
+		);
+	}
+	public function testreturnEditRoleValidreturnsarray(){
+		$role = self::$role;
+		$uid = '30000';
+		$this->assertTrue(
+			is_array($role->returnEditRole($uid)),
+			'Unexpected Return Value.'
+		);
+	}
+	public function testreturnEditRoleValidXSSOff(){
+		$role = self::$role;
+		$uid = '30000';
+		$expected = array (
+			'30000', 'Test<br/>XSS', 'Test<br/>XXS in Rolename',
+			'role_name' => 'Test<br/>XSS', 'role_id' => '30000',
+			'role_desc' => 'Test<br/>XXS in Rolename'
+		);
+		$this->assertEquals(
+			$expected,
+			$role->returnEditRole($uid,0),
+			'Unexpected Return Value.'
+		);
+	}
+	public function testreturnEditRoleValidXSSOn(){
+		$role = self::$role;
+		$uid = '30000';
+		$expected = array (
+			'30000', 'Test&lt;br/&gt;XSS', 'Test&lt;br/&gt;XXS in Rolename',
+			'role_name' => 'Test&lt;br/&gt;XSS', 'role_id' => '30000',
+			'role_desc' => 'Test&lt;br/&gt;XXS in Rolename'
+		);
+		$this->assertEquals(
+			$expected,
+			$role->returnEditRole($uid,1),
+			'Unexpected Return Value.'
+		);
+	}
+	public function testreturnEditRoleValidXSSInvalid(){
+		$role = self::$role;
+		$uid = '30000';
+		$expected = array (
+			'30000', 'Test&lt;br/&gt;XSS', 'Test&lt;br/&gt;XXS in Rolename',
+			'role_name' => 'Test&lt;br/&gt;XSS', 'role_id' => '30000',
+			'role_desc' => 'Test&lt;br/&gt;XXS in Rolename'
+		);
+		$this->assertEquals(
+			$expected,
+			$role->returnEditRole($uid,'What'),
+			'Unexpected Return Value.'
+		);
+	}
 
 	// Add code to a function if needed.
 	// Stop here and mark test incomplete.
 	//$this->markTestIncomplete('Incomplete Test.');
 }
-
 ?>

@@ -68,8 +68,7 @@ if ( isset($_GET['action']) ){
         $user = new BaseUser();
         $userlogin = $user->returnUser();
         $userid = $user->returnUserID($userlogin);
-			// Anti XSS Output Data
-			$userinfo = XSSPrintSafe($user->returnEditUser($userid));
+			$userinfo = $user->returnEditUser($userid); // Anti XSS by default.
         $form = "<table border=1 class='query'>";
         $form = $form . "<tr><td width='25%' align='right'>"._FRMUID."</td>";
         $form = $form . "<td align='left'>". $userinfo[0] ."</td></tr>";

@@ -58,7 +58,7 @@ class log_timingSPTest extends TestCase {
 
 	// Tests go here.
 	// Test PrintTiming Function
-	public function testClassEventTimingPrintTimng1(){
+	public function testClassEventTimingPrintTiming1(){
 		GLOBAL $BASE_installID;
 		$UOV = 'Unexpected Output.';
 		$this->assertInstanceOf(
@@ -78,7 +78,7 @@ class log_timingSPTest extends TestCase {
 		$this->expectOutputString($expected);
 		$tc->PrintTiming();
 	}
-	public function testClassEventTimingPrintTimng2(){
+	public function testClassEventTimingPrintTiming2(){
 		GLOBAL $BASE_installID;
 		$UOV = 'Unexpected Output.';
 		$this->assertInstanceOf(

@@ -105,6 +105,12 @@ https://github.com/NathanGibbs3/BASE/issues/62)
 https://github.com/NathanGibbs3/BASE/issues/75)
 - [#77 PrintTiming() retuns parital event log.](
 https://github.com/NathanGibbs3/BASE/issues/77)
+- [#26 `CriteriaState::ReadState()` does not check for unset conf variable
+`$maintain_history` before access.](
+https://github.com/NathanGibbs3/BASE/issues/26)
+- [#81 BASE does not check for unset conf variable `$maintain_history` before
+access.](
+https://github.com/NathanGibbs3/BASE/issues/81)
 
 Contributor(s): [Nathan Gibbs]
 - [#57 `tr bgcolor="#"` if `$prio` not in `$priority_colors`
@@ -122,6 +128,14 @@ https://github.com/NathanGibbs3/BASE/issues/13)
 https://github.com/NathanGibbs3/BASE/issues/74)
 - [#78 Standardize code to authorize page access via role, Page, & URI.](
 https://github.com/NathanGibbs3/BASE/issues/78)
+- [#33 Add Anti XSS code to `returnEditUser()`.](
+https://github.com/NathanGibbs3/BASE/issues/33)
+- [#80 Add Anti XSS code to `returnEditRole()`.](
+https://github.com/NathanGibbs3/BASE/issues/80)
+- [#82 Add Input Validation code to `returnEditRole()`.](
+https://github.com/NathanGibbs3/BASE/issues/82)
+- [#83 Add Input Validation code to `returnEditUser()`.](
+https://github.com/NathanGibbs3/BASE/issues/83)
 
 Contributor(s): [Nathan Gibbs]
 
