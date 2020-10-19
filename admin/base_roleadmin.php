@@ -110,8 +110,7 @@ if ($Use_Auth_System == 1) {
 			// $roleinfo[0] = $rid
 			// $roleinfo[1] = $rname
 			// $roleinfo[2] = $rdesc
-			// Anti XSS Output Data
-			$roleinfo = XSSPrintSafe($role->returnEditRole($roleid));
+			$roleinfo = $role->returnEditRole($roleid); // Anti XSS by default.
 			$rid = $roleinfo[0];
 			$ron = $roleinfo[1];
 			$rod = $roleinfo[2];

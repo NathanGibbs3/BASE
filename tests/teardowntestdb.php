@@ -44,6 +44,7 @@ if (!isset($DBtype)){
 	$alert_dbname='snort';
 	// Create Test User Set
 	$user = new BaseUser();
+	$role = new BaseRole();
 	$uid = $user->returnUserID('TestAdmin');
 	$stat = $user->deleteUser($uid);
 	print "$stat\n";
@@ -58,6 +59,11 @@ if (!isset($DBtype)){
 	print "$stat\n";
 	$uid = $user->returnUserID('TestOver');
 	$stat = $user->deleteUser($uid);
+	print "$stat\n";
+	$uid = $user->returnUserID('Test<br/>XSS');
+	$stat = $user->deleteUser($uid);
+	print "$stat\n";
+	$stat = $role->deleteRole('30000');
 	print "$stat\n";
 }
 

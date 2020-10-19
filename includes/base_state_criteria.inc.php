@@ -86,51 +86,39 @@ class CriteriaState {
      foreach ( $valid_criteria_list as $cname )
          $this->criteria[$cname]->Init();
   }
-
-  function ReadState()
-  {
-     RegisterGlobalState();
-
-     /* 
-      * If the BACK button was clicked, shuffle the appropriate
-      * criteria variables from the $back_list (history) array into
-      * the current session ($_SESSION)
-      */
-     if ( ($GLOBALS['maintain_history'] == 1) &&
-          (ImportHTTPVar("back", VAR_DIGIT) == 1) )
-     {
-        PopHistory();
-     }
-
-     /* 
-      * Import, update and sanitize all persistant criteria variables 
-      */
-     $valid_criteria_list = array_keys($this->criteria);
-     foreach ( $valid_criteria_list as $cname )
-     {
-        $this->criteria[$cname]->Import();
-        $this->criteria[$cname]->Sanitize();
-     }
-
-     /* 
-      * Check whether criteria elements need to be cleared 
-      */
-     $this->clear_criteria_name = ImportHTTPVar("clear_criteria", "", 
-                                                array_keys($this->criteria));
-     $this->clear_criteria_element = ImportHTTPVar("clear_criteria_element", "", 
-                                                   array_keys($this->criteria));
-
-     if ( $this->clear_criteria_name != "" )
-        $this->ClearCriteriaStateElement($this->clear_criteria_name,
-                                         $this->clear_criteria_element);
-
-     /*
-      * Save the current criteria into $back_list (history)
-      */
-     if ( $GLOBALS['maintain_history'] == 1 )
-        PushHistory();
-  }
-
+	function ReadState(){
+		GLOBAL $maintain_history;
+		RegisterGlobalState();
+		// If the BACK button was clicked, shuffle the appropriate criteria
+		// variables from the $back_list (history) array into the current
+		// session ($_SESSION).
+		if ( $maintain_history == 1 && ImportHTTPVar("back", VAR_DIGIT) == 1 ){
+			PopHistory();
+		}
+		// Import, update and sanitize all persistant criteria variables.
+		$valid_criteria_list = array_keys($this->criteria);
+		foreach ( $valid_criteria_list as $cname ){
+			$this->criteria[$cname]->Import();
+			$this->criteria[$cname]->Sanitize();
+		}
+		// Check whether criteria elements need to be cleared.
+		$this->clear_criteria_name = ImportHTTPVar(
+			'clear_criteria', '', array_keys($this->criteria)
+		);
+		$this->clear_criteria_element = ImportHTTPVar(
+			'clear_criteria_element', '', array_keys($this->criteria)
+		);
+		if ( $this->clear_criteria_name != "" ){
+			$this->ClearCriteriaStateElement(
+				$this->clear_criteria_name,
+				$this->clear_criteria_element
+			);
+		}
+		// Save the current criteria into $back_list (history).
+		if ( $maintain_history == 1 ){
+			PushHistory();
+		}
+	}
   function GetBackLink()
   {
     return PrintBackButton();
