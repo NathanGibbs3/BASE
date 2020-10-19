@@ -316,13 +316,16 @@ class authTest extends TestCase {
 		$user = self::$user;
 		$uid = $user->returnUserID('Test<br/>XSS');
 		$expected = array (
-			'7', 'Test<br/>XSS', '10', 'Test<br/>XXS in Username', '1',
-			'usr_id' => '7', 'usr_login' => 'Test<br/>XSS', 'role_id' => '10',
-			'usr_name' => 'Test<br/>XXS in Username', 'usr_enabled' => '1'
+			'Test<br/>XSS', 'Test<br/>XXS in Username',
+			'Test<br/>XSS', 'Test<br/>XXS in Username',
+		);
+		$users = $user->returnEditUser($uid,0);
+		$returned = array (
+			$users[1], $users[3], $users['usr_login'], $users['usr_name']
 		);
 		$this->assertEquals(
 			$expected,
-			$user->returnEditUser($uid,0),
+			$returned,
 			'Unexpected Return Value.'
 		);
 	}
@@ -330,14 +333,16 @@ class authTest extends TestCase {
 		$user = self::$user;
 		$uid = $user->returnUserID('Test<br/>XSS');
 		$expected = array (
-			'7', 'Test&lt;br/&gt;XSS', '10', 'Test&lt;br/&gt;XXS in Username',
-			'1', 'usr_id' => '7', 'usr_login' => 'Test&lt;br/&gt;XSS',
-			'role_id' => '10', 'usr_name' => 'Test&lt;br/&gt;XXS in Username',
-			'usr_enabled' => '1'
+			'Test&lt;br/&gt;XSS', 'Test&lt;br/&gt;XXS in Username',
+			'Test&lt;br/&gt;XSS', 'Test&lt;br/&gt;XXS in Username',
+		);
+		$users = $user->returnEditUser($uid,1);
+		$returned = array (
+			$users[1], $users[3], $users['usr_login'], $users['usr_name']
 		);
 		$this->assertEquals(
 			$expected,
-			$user->returnEditUser($uid,1),
+			$returned,
 			'Unexpected Return Value.'
 		);
 	}
@@ -345,14 +350,16 @@ class authTest extends TestCase {
 		$user = self::$user;
 		$uid = $user->returnUserID('Test<br/>XSS');
 		$expected = array (
-			'7', 'Test&lt;br/&gt;XSS', '10', 'Test&lt;br/&gt;XXS in Username',
-			'1', 'usr_id' => '7', 'usr_login' => 'Test&lt;br/&gt;XSS',
-			'role_id' => '10', 'usr_name' => 'Test&lt;br/&gt;XXS in Username',
-			'usr_enabled' => '1'
+			'Test&lt;br/&gt;XSS', 'Test&lt;br/&gt;XXS in Username',
+			'Test&lt;br/&gt;XSS', 'Test&lt;br/&gt;XXS in Username',
+		);
+		$users = $user->returnEditUser($uid,'What');
+		$returned = array (
+			$users[1], $users[3], $users['usr_login'], $users['usr_name']
 		);
 		$this->assertEquals(
 			$expected,
-			$user->returnEditUser($uid,'What'),
+			$returned,
 			'Unexpected Return Value.'
 		);
 	}
@@ -429,5 +436,4 @@ class authTest extends TestCase {
 	// Stop here and mark test incomplete.
 	//$this->markTestIncomplete('Incomplete Test.');
 }
-
 ?>
