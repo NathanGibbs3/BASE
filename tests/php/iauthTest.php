@@ -10,6 +10,8 @@ use PHPUnit\Framework\TestCase;
   * @covers BaseUser::readRoleCookie
   * @covers BaseUser::returnEditUser
   * @covers BaseRole::returnEditRole
+  * @uses ::chk_select
+  * @uses ::NLI
   * @uses ::XSSPrintSafe
   * @uses baseCon
   * @uses baseRS

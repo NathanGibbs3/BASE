@@ -67,9 +67,7 @@ class baseCon {
 		$archive_password, $debug_mode;
 		// Check archive cookie to see if we need to use the archive tables.
 		// Only honnor cookie if not forced to use specified database.
-		if ( $force != 1 &&
-			( isset($_COOKIE['archive']) && $_COOKIE['archive'] == 1 )
-		){
+		if ( $force != 1 && ChkCookie ('archive', 1) ){
 			// Connect to the archive tables.
       if ($debug_mode > 0)
       {

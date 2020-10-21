@@ -696,7 +696,7 @@ function UpdateAlertCache($db)
     /* BEGIN LOCAL FIX */
  
     /* If there's an archive database, and this isn't it, get the MAX(cid) from there */
-    if ( ($archive_exists == 1) && (@$_COOKIE['archive'] != 1) ) { 
+	if ( $archive_exists == 1 && !ChkCookie ('archive', 1) ){
       $db2 = NewBASEDBConnection($DBlib_path, $DBtype);
       $db2->baseConnect($archive_dbname, $archive_host, $archive_port,
                         $archive_user, $archive_password);

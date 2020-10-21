@@ -20,18 +20,17 @@
 defined( '_BASE_INC' ) or die( 'Accessing this file directly is not allowed.' );
 include_once("$BASE_path/includes/base_signature.inc.php");
 
-function PrintCriteriaState()
-{
-   GLOBAL $layer4, $new, $submit, $sort_order, $num_result_rows,
-          $current_view, $caller, $action, $action_arg, $sort_order;
-
-   if ( $GLOBALS['debug_mode'] >= 2 )
-   {
+function PrintCriteriaState(){
+	GLOBAL $layer4, $new, $submit, $sort_order, $num_result_rows,
+	$current_view, $caller, $action, $action_arg, $sort_order, $debug_mode;
+	if ( $debug_mode >= 2 ){
       echo "<PRE>";
       echo "<B>"._SENSOR.":</B> ".$_SESSION['sensor']."<BR>\n".
            "<B>AG:</B> ".$_SESSION['ag']."<BR>\n".
            "<B>"._QCSIG."</B>\n";
-      print_r($_SESSION['sig']);
+		if ( isset($_SESSION['sig']) ){
+			print_r($_SESSION['sig']);
+		}
       echo "<BR><B>time struct (".$_SESSION['time_cnt']."):</B><BR>";
       print_r($_SESSION['time']);
       echo "<BR><B>"._QCIPADDR." (".$_SESSION['ip_addr_cnt']."):</B><BR>";
@@ -56,9 +55,7 @@ function PrintCriteriaState()
       print_r($_SESSION['data']);
       echo "</PRE>";
    }
-
-   if ( $GLOBALS['debug_mode'] >= 1 )
-   {
+	if ( $debug_mode >= 1 ){
       echo "<PRE>
             <B>new:</B> '$new'   
             <B>submit:</B> '$submit'
@@ -67,7 +64,7 @@ function PrintCriteriaState()
             <B>layer4:</B> '$layer4'  <B>caller:</B> '$caller'
             <B>action:</B> '$action'  <B>action_arg:</B> '$action_arg'
             </PRE>";
-   }
+	}
 }
 
 function FieldRows2sql($field, $cnt, &$s_sql)
@@ -588,20 +585,20 @@ function ProcessCriteria()
 		}
 	}
 	// Signature
-  /* xxx jl */
-  if ($debug_mode > 0)
-  { 
-    print "<BR>\n\$_SESSION['sig'] = <PRE>\n";
-    print_r($_SESSION['sig']);
-    print "</PRE>\n";
+	// xxx jl
+	if ($debug_mode > 0 ){
+		if ( isset($_SESSION['sig']) ){
+			print "<BR>\n\$_SESSION['sig'] = <PRE>\n";
+			print_r($_SESSION['sig']);
+			print "</PRE>\n";
+		}
     print "\$sig[0] = \"" . $sig[0] . "\"<BR>\n";
     print "\$sig[1] = \"" . $sig[1] . "\"<BR>\n";
     print "\$sig[2] = \"" . $sig[2] . "\"<BR>\n";
     print "\$sig[3] = \"" . $sig[3] . "\"<BR>\n";
     print "<BR>\n";
-  }
-
-  if ( 
+	}
+	if (
        (isset($sig[0]) && $sig[0] != " " && $sig[0] != "") && 
        (
          (isset($sig[1]) && $sig[1] != "" && $sig[1] != NULL) ||
