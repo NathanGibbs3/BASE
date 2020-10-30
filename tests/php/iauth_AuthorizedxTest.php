@@ -13,6 +13,7 @@ use PHPUnit\Framework\TestCase;
   * @uses ::NewBASEDBConnection
   * @uses ::SetConst
   * @uses ::VerifyDBAbstractionLib
+  * @uses ::XSSPrintSafe
   * @uses BaseUser
   * @uses baseCon
   * @uses baseRS

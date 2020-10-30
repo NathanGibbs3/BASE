@@ -127,7 +127,7 @@ function PrintBASESubFooter(){
 	);
 	$tmp = '';
 	if ( !AuthorizedPage('(base_denied|index)') ){
-		$tmp = $BASE_VERSION;
+		$tmp = "$BASE_VERSION ";
 	}
 	$tmp .= _FOOTER;
 	NLIO ($tmp,3);

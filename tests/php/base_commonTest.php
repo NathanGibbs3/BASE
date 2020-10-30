@@ -181,7 +181,13 @@ class base_commonTest extends TestCase {
 			'Unexpected return SetConst().'
 		);
 	}
-	public function testLoadedStringNotString() {
+	public function testLoadedStringBool() {
+		$this->assertFalse(
+			LoadedString(false),
+			'Unexpected return SetConst().'
+		);
+	}
+	public function testLoadedStringInt() {
 		$this->assertFalse(
 			LoadedString(1),
 			'Unexpected return SetConst().'

@@ -65,34 +65,31 @@ class baseCon {
 	){
 		GLOBAL $archive_dbname, $archive_host, $archive_port, $archive_user,
 		$archive_password, $debug_mode;
+		$EMPfx = __FUNCTION__ . ': ';
 		// Check archive cookie to see if we need to use the archive tables.
 		// Only honnor cookie if not forced to use specified database.
 		if ( $force != 1 && ChkCookie ('archive', 1) ){
 			// Connect to the archive tables.
-      if ($debug_mode > 0)
-      {
-        print "<BR><BR>\n" . __FILE__ . ":" . __LINE__ . ": DEBUG: Connecting to archive db.<BR><BR>\n\n";
-      }
+			if ($debug_mode > 0){
+				ErrorMessage($EMPfx .'DB Connect to archive.','black',1);
+			}
 
       if ( $method == DB_CONNECT )
         $this->baseConnect($archive_dbname, $archive_host, $archive_port, $archive_user, $archive_password);
       else
         $this->basePConnect($archive_dbname, $archive_host, $archive_port, $archive_user, $archive_password);
 
-    } else {
-      // Connect to the main alert tables
-      if ($debug_mode > 0)
-      {
-        print "<BR><BR>\n" . __FILE__ . ":" . __LINE__ . ": DEBUG: Connecting to alert db.<BR><BR>\n\n";
-      }
+		}else{ // Connect to the main alert tables
+			if ($debug_mode > 0){
+				ErrorMessage($EMPfx .'DB Connect to alert.','black',1);
+			}
 
       if ( $method == DB_CONNECT )
         $this->baseConnect($database, $host, $port, $username, $password);
       else
         $this->basePConnect($database, $host, $port, $username, $password);
-    }
-  }
-
+	}
+}
   function baseConnect($database, $host, $port, $username, $password)
   {
      GLOBAL $sql_trace_mode, $sql_trace_file;
@@ -724,9 +721,9 @@ function VerifyDBAbstractionLib($path){
 		|| ini_get("safe_mode") != true
 	){
 		if ( $debug_mode > 0 ){
-			print _DBALCHECK." '".XSSPrintSafe($path)."'<BR>";
+			ErrorMessage(_DBALCHECK." '".XSSPrintSafe($path)."'",0,1);
 		}
-		if ( is_readable($path) ){ // is_file
+		if ( is_readable($path) && is_file($path) ){
 			return true;
 		}else{
 			return false;
@@ -741,71 +738,99 @@ function VerifyDBAbstractionLib($path){
 }
 function NewBASEDBConnection($path, $type){
 	GLOBAL $debug_mode;
-	if ( !(
-		($type == "mysql")
-		|| ($type == "mysqlt")
-		|| ($type == "maxsql")
-		|| ($type == "postgres")
-		|| ($type == "mssql")
-		|| ($type == "oci8")
-	)){
-		$msg = "<b>"._ERRSQLDBTYPE."</b>"."<p>:"._ERRSQLDBTYPEINFO1.
-		"<code>'".XSSPrintSafe($type)."'</code>. "._ERRSQLDBTYPEINFO2;
-		FatalError ($msg);
-	}
-	// Export ADODB_DIR for use by ADODB.
-	// May already be defined, so check first. -- Tim Rupp
-	if (!defined('ADODB_DIR')) {
-		define('ADODB_DIR', $path);
-	}
-	$GLOBALS['ADODB_DIR'] = $path;
-	if ( $debug_mode > 1 ){
-		print "Original path = '".XSSPrintSafe($path)."'<BR>";
-	}
-	$last_char =  substr($path, strlen($path)-1, 1);
-	if ( $last_char != "\\" && $last_char != "/" ){
-		$tmppath = $path;
-		if ( strstr($path,"/") || $path == "" ){
-			$path .= "/";
-		}else if ( strstr($path,"\\") ){
-			$path .= "\\";
-		}
-		if ( $debug_mode > 1 && $tmppath != $path ) {
-			print "Modified path = '".XSSPrintSafe($path)."'<BR>";
-		}
-	}
-	if ( $debug_mode > 1 ){
-		print "Attempting to load: '".XSSPrintSafe($path)."adodb.inc.php'<BR>";
-	}
 	$version = explode( '.', phpversion() );
-	if (VerifyDBAbstractionLib($path."adodb.inc.php")){
-		SetConst('ADODB_ERROR_HANDLER_TYPE',E_USER_NOTICE);
-//		Unit Tests had ADODB error logging in their output.
-//		Solution Make ADODB error logging configurable.
-//		See: https://github.com/NathanGibbs3/BASE/issues/68
-//		Commented out this line for now.
-//		SetConst('ADODB_ERROR_LOG_TYPE',0);
-		include_once($path.'adodb-errorhandler.inc.php');
-		include($path.'adodb.inc.php');
-	}else{
-		$msg = _ERRSQLDBALLOAD1.'"'.XSSPrintSafe($path).'"'._ERRSQLDBALLOAD2;
-		if ( $version[0] > 5 || ( $version[0] == 5 && $version[1] > 1) ){
-			$tmp = 'https://github.com/ADOdb/ADOdb';
-		}else{
-			$tmp = 'https://sourceforge.net/projects/adodb';
+	$Wtype = NULL; // Working type.
+	$EMPfx = __FUNCTION__ . ': ';
+	$AXtype = XSSPrintSafe($type);
+	if ( LoadedString($type) ){ // Normalize DB type.
+		if ( $debug_mode > 1 ){
+			ErrorMessage($EMPfx . "Req DB type: $AXtype",'black',1);
 		}
-		$msg .= '<a href="'.$tmp.'"></a>';
+		$type = strtolower($type);
+		if ( preg_match("/^(postgres(s)?|(postgre(s)?|pg)sql)$/", $type) ){
+			$type = 'postgres';
+		}elseif ( preg_match("/^oracle/", $type) ){
+			$type = 'oci8';
+		}elseif ( preg_match("/^m(s|icrosoft)/", $type) ){
+			$type = 'mssql';
+		}
+		$AXtype = XSSPrintSafe($type);
+		// Set DB driver type.
+		$Wtype = $type;
+		if ( $type == "mysql" || $type == "mysqlt" || $type == "maxsql" ){
+			// On PHP 5.5+, use mysqli ADODB driver & gracefully deprecate
+			// the mysql, mysqlt & maxsql drivers.
+			if ( $version[0] > 5 || ( $version[0] == 5 && $version[1] > 4) ){
+				$Wtype = "mysqli";
+			}
+		}
+		if ( $debug_mode > 1 ){
+			ErrorMessage($EMPfx ."FIN DB type: $AXtype",0,1);
+			ErrorMessage($EMPfx ."DB Driver: $Wtype",0,1);
+		}
+	}
+	if (
+		!LoadedString($Wtype) ||
+		!preg_match("/^(m(y|s|ax)sql|mysqlt|postgres|oci8)$/", $type)
+	){
+		$msg = "<b>"._ERRSQLDBTYPE."</b>"."<p>:"._ERRSQLDBTYPEINFO1.
+		"<code>'$AXtype'</code>. "._ERRSQLDBTYPEINFO2;
 		FatalError ($msg);
 	}
-	// On PHP 5.5+, use mysqli ADODB driver & gracefully deprecate the mysql,
-	// mysqlt & maxsql drivers.
-	$tmptype = $type;
-	if ( $type == "mysql" || $type == "mysqlt" || $type == "maxsql" ){
-		if ( $version[0] > 5 || ( $version[0] == 5 && $version[1] > 4) ){
-			$tmptype = "mysqli";
+	$sc = DIRECTORY_SEPARATOR;
+	$DLV = true;
+	if ( !LoadedString($path) ){ // Setup default for PHP module include.
+		$path = "adodb$sc";
+		if ( $debug_mode > 1 ){
+			ErrorMessage($EMPfx ."Def DAL path = '$path'",0,1);
+		}
+	}else{ // We are given a path.
+		if ( $debug_mode > 1 ){
+			ErrorMessage (
+				$EMPfx ."Req DAL path = '".XSSPrintSafe($path)."'",'black',1
+			);
+		}
+		$tmppath = $path;
+		$last_char =  substr($path, strlen($path)-1, 1);
+		if ( $last_char != $sc && strstr($path,$sc) ){ // Are we a path?
+			$path .= $sc;
+			if ( $debug_mode > 1 && $tmppath != $path ) {
+				ErrorMessage (
+					$EMPfx ."Mod DAL path = '".XSSPrintSafe($path)."'",0,1
+				);
+			}
+		}
+		if ( $path != "adodb$sc" ){
+			// Export ADODB_DIR for use by ADODB.
+			SetConst('ADODB_DIR', $tmppath);
+			$DLV = VerifyDBAbstractionLib($path.'adodb.inc.php');
 		}
 	}
-	ADOLoadCode($tmptype);
+	$AXpath = XSSPrintSafe($path);
+	if ( $debug_mode > 1 ){
+		ErrorMessage($EMPfx ."DAL Load: '".$AXpath."adodb.inc.php'",0,1);
+	}
+	$GLOBALS['ADODB_DIR'] = ADODB_DIR;
+	SetConst('ADODB_ERROR_HANDLER_TYPE',E_USER_NOTICE);
+//	Unit Tests had ADODB error logging in their output.
+//	Solution Make ADODB error logging configurable.
+//	See: https://github.com/NathanGibbs3/BASE/issues/68
+//	Commented out this line for now.
+//	SetConst('ADODB_ERROR_LOG_TYPE',0);
+	$DEH = include_once($path.'adodb-errorhandler.inc.php');
+	$DAL = include($path.'adodb.inc.php');
+	if ( $DLV == false || $DEH == false || $DAL == false ){
+		$msg = _ERRSQLDBALLOAD1.'"'.$AXpath.'"'._ERRSQLDBALLOAD2;
+		$tmp = 'https://';
+		if ( $version[0] > 5 || ( $version[0] == 5 && $version[1] > 1) ){
+			$tmp .= 'github.com/ADOdb/ADOdb';
+		}else{
+			$tmp .= 'sourceforge.net/projects/adodb';
+		}
+		$msg .= "<a href='$tmp'>$tmp</a>";
+		FatalError ($msg);
+	}
+	ADOLoadCode($Wtype);
 	return new baseCon($type);
 }
 function MssqlKludgeValue($text)

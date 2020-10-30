@@ -20,106 +20,88 @@
 */
 
 include_once("base_conf.php");
+include_once("$BASE_path/includes/base_constants.inc.php");
 include_once("$BASE_path/base_qry_common.php");
+include_once("$BASE_path/includes/base_log_error.inc.php");
 include_once("$BASE_path/includes/base_signature.inc.php");
 include_once("$BASE_path/includes/base_iso3166.inc.php");
 
 // Some colors to be used in graphs.
 $named_colors = array('aliceblue','antiquewhite','aqua','aquamarine','azure','beige','bisque','black','blanchedalmond','blue','blueviolet','brown','burlywood','cadetblue','chartreuse','chocolate','coral','cornflowerblue','cornsilk','crimson','cyan','darkblue','darkcyan','darkgoldenrod','darkdray','darkgreen','darkhaki','darkorange','darkolivegreen','darkmagenta','darkorchid','darkred','darksalmon','darkseagreen','darkviolet','deeppink','deepskyblue','dimgray','dodgerblue','firebrick','floralwhite','forestgreen','fuchsia','gainsboro','ghostwhite','gold','goldenrod','gray','green','greenyellow','indianred','indigo','ivory');
 
-
 // Chart type constants:
-// No prepending underscore '_' in order to not to interfere with
-// the language define's.
-define('CHARTTYPE_DEFAULT', 0);
-define('CHARTTYPE_HOUR', 1);
-define('CHARTTYPE_DAY', 2);
-define('CHARTTYPE_WEEK', 3);
-define('CHARTTYPE_MONTH', 4);
-define('CHARTTYPE_YEAR', 5);
-define('CHARTTYPE_SRC_IP', 6);
-define('CHARTTYPE_DST_IP', 7);
-define('CHARTTYPE_DST_UDP_PORT', 8);
-define('CHARTTYPE_DST_TCP_PORT', 9);
-define('CHARTTYPE_SRC_UDP_PORT', 10);
-define('CHARTTYPE_SRC_TCP_PORT', 11);
-define('CHARTTYPE_CLASSIFICATION', 12);
-define('CHARTTYPE_SENSOR', 13);
-define('CHARTTYPE_SRC_COUNTRY', 14);
-define('CHARTTYPE_SRC_COUNTRY_ON_MAP', 15);
-define('CHARTTYPE_DST_COUNTRY', 16);
-define('CHARTTYPE_DST_COUNTRY_ON_MAP', 17);
-define('CHARTTYPE_UNIQUE_SIGNATURE', 18);
+// Not prefixed with '_' so we don't interfere with PHP define's.
+SetConst('CHARTTYPE_DEFAULT', 0);
+SetConst('CHARTTYPE_HOUR', 1);
+SetConst('CHARTTYPE_DAY', 2);
+SetConst('CHARTTYPE_WEEK', 3);
+SetConst('CHARTTYPE_MONTH', 4);
+SetConst('CHARTTYPE_YEAR', 5);
+SetConst('CHARTTYPE_SRC_IP', 6);
+SetConst('CHARTTYPE_DST_IP', 7);
+SetConst('CHARTTYPE_DST_UDP_PORT', 8);
+SetConst('CHARTTYPE_DST_TCP_PORT', 9);
+SetConst('CHARTTYPE_SRC_UDP_PORT', 10);
+SetConst('CHARTTYPE_SRC_TCP_PORT', 11);
+SetConst('CHARTTYPE_CLASSIFICATION', 12);
+SetConst('CHARTTYPE_SENSOR', 13);
+SetConst('CHARTTYPE_SRC_COUNTRY', 14);
+SetConst('CHARTTYPE_SRC_COUNTRY_ON_MAP', 15);
+SetConst('CHARTTYPE_DST_COUNTRY', 16);
+SetConst('CHARTTYPE_DST_COUNTRY_ON_MAP', 17);
+SetConst('CHARTTYPE_UNIQUE_SIGNATURE', 18);
 
-
-
-
-
-function VerifyGraphingLib()
-{
-  GLOBAL $debug_mode;
-   /* Check if GD is compiled into PHP */
-   if ( !(function_exists("ImageDestroy")) )
-   {
-      echo "<FONT COLOR=\"#FF0000\">"._ERRPHPERROR."</FONT>:
-            <B>PHP build incomplete</B>: <FONT>
-            the prerequisite GD support required to
-            generate graphs was not built into PHP.
-            Please recompile PHP with the necessary library 
-            (<CODE>--with-gd</CODE>)</FONT>";
-      die();
-   }
-
-    // PHP will search the default path and try to include the file
-    $file = "Image/Graph.php";    
-    $fileIncluded = @include_once($file);
-
-    // We have to locate Image/Graph.php -- Alejandro
-    if (!$fileIncluded) { // Will search in Path
-    	$found = false;
-    	$paths = explode(PATH_SEPARATOR, ini_get('include_path'));
-    	foreach ($paths as $path) {
-	        $fullpath = $path . DIRECTORY_SEPARATOR . $file; 
-    	    if (file_exists($fullpath)) {
-        	    $found = true;
-          	 break;         
-        	}
-    	}
-
-    	if ( $found ) {
-            	// Cool, file was found, so you have Image_Graph installed. -- Alejandro
-            	include_once($file);
-            	return true;
-    	} else {
-        	    // Sorry dude, you haven't finished your home work. -- Alejandro
-      	echo "<P><B>Error loading the Graphing library: </B>".
-        	   "<P>Check your Pear::Image_Graph installation!".
-            	"<P><UL>".
-            	"<LI>Image_Graph can be found here:".
-            	"at <A HREF=\"http://pear.veggerby.dk/\">http://pear.veggerby.dk/</A>.  Without this ".
-              "library no graphing operations can be performed.<BR>" .
-              "<LI>Make sure PEAR libraries can be found by php at all:<BR>" .
-              "<PRE>" .
-              "pear config-show | grep &quot;PEAR directory&quot;<BR>" .
-              "PEAR directory      php_dir     /usr/share/pear" .
-              "</PRE>" .
-              "This path must be part of the include path of php (cf. /etc/php.ini):<BR>" .
-              "<PRE>" .
-              "php -i | grep &quot;include_path&quot;<BR>" .
-              "include_path => .:/usr/share/pear:/usr/share/php => .:/usr/share/pear:/usr/share/php" .
-              "</PRE><BR>";
-        $rv = ini_get("safe_mode");
-        if ($rv == 1)
-        {
-          print "<LI>In &quot;safe_mode&quot; it must also be part of safe_mode_include_dir in /etc/php.ini";
-        }
-        echo "</UL>\n";
-
-      	die();
-    	}
-    } 
+function VerifyGraphingLib(){
+	GLOBAL $debug_mode;
+	if ( !(function_exists("ImageDestroy")) ){// Is GD compiled into PHP.
+		ErrorMessage(_ERRPHPERROR.':',0,1);
+		ErrorMessage('<b>PHP build incomplete</b>: GD support required.', 'black', 1);
+		ErrorMessage('Recompile PHP with GD support (<code>--with-gd</code>', 'black', 1);
+		FatalError('PHP build incomplete: GD support required.');
+	}
+	// PHP will search the default path and try to include the file.
+	$IGL = include_once('Image/Graph.php');
+	if (!$IGL) {
+		// Sorry dude, you haven't finished your home work. -- Alejandro
+		$Lib = 'Image_Graph';
+		$tmp = "https://pear.php.net/package/$Lib";
+		ErrorMessage('<b>Error loading the Graphing library:</b>',0,1);
+		ErrorMessage("Check your Pear::$Lib installation!",'black',1);
+		$msg = "The underlying Graphing library currently used is $Lib";
+		$msg .= ', that can be downloaded at ';
+		$msg .= "<a href='$tmp'>$tmp</a>";
+		ErrorMessage($msg,'black',1);
+		ErrorMessage(
+			'Without this library no graphing operations can be performed.',
+			0,1
+		);
+		ErrorMessage(
+			'Make sure PEAR libraries can be found by php at all.','black',1
+		);
+		ErrorMessage(
+			'<pre>pear config-show | grep &quot;PEAR directory&quot;','black',1
+		);
+		ErrorMessage(
+			'PEAR directory      php_dir     /usr/share/pear</pre>','black',1
+		);
+		ErrorMessage(
+			'This path must be part of the include path of php (cf. /etc/php.ini).',
+			0,1
+		);
+		ErrorMessage('<pre>php -i | grep &quot;include_path&quot;','black',1);
+		ErrorMessage(
+			'include_path => .:/usr/share/pear:/usr/share/php => .:/usr/share/pear:/usr/share/php</pre>',
+			'black',1
+		);
+		if ( ini_get("safe_mode") ){
+			ErrorMessage(
+				'In &quot;safe_mode&quot; it must also be part of safe_mode_include_dir in /etc/php.ini',
+				0,1
+			);
+		}
+		FatalError('<b>Error loading the Graphing library:</b>');
+	}
 }
-
 /* Generates the required SQL from the chart time criteria */
 function ProcessChartTimeConstraint($start_hour, $start_day, $start_month, $start_year,
                                     $stop_hour,  $stop_day,  $stop_month,  $stop_year ) 
@@ -814,8 +796,6 @@ function run_ip2cc($address_with_dots, &$country)
   return 1;
 }
 
-
-
 function IncreaseCountryValue(&$countries, $to_search, $number_of_alerts)
 {
   GLOBAL $db, $debug_mode;
@@ -1128,7 +1108,4 @@ function GetCountryDataSet(&$xdata, $chart_type, $data_source, $min_threshold, $
   // return number of countries rather than number of addresses!
   return $cnt2;
 }
-
-
-// vim: shiftwidth=2:tabstop=2:expandtab
 ?>
