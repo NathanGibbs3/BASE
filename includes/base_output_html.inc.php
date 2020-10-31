@@ -122,7 +122,7 @@ function PrintBASESubFooter(){
 	NLIO ("<div class='mainfootertext'>",2);
 	NLIO (
 		"<a class='largemenuitem' href='https://github.com/NathanGibbs3/BASE' "
-		."target='_blank'>BASE</a>'"
+		."target='_blank'>BASE</a>"
 		,3
 	);
 	$tmp = '';

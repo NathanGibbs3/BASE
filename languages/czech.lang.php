@@ -166,7 +166,7 @@ DEFINE('_CHNGPWD','Zmìnit heslo');
 DEFINE('_DISPLAYU','Zobraz u¾ivatele');
 
 //base_footer.php
-DEFINE('_FOOTER',' (by <A class="largemenuitem" href="mailto:base@secureideas.net">Kevin Johnson</A> and the <A class="largemenuitem" href="http://sourceforge.net/project/memberlist.php?group_id=103348">BASE Project Team</A><BR>Built on ACID by Roman Danyliw )');
+DEFINE('_FOOTER','(by <A class="largemenuitem" href="https://github.com/secureideas">Kevin Johnson</A> and the <A class="largemenuitem" href="https://github.com/NathanGibbs3/BASE/wiki/Project-Team">BASE Project Team</A><BR>Built on ACID by Roman Danyliw )');
 
 //index.php --Log in Page
 DEFINE('_LOGINERROR','U¾ivatel neexistuje nebo jste zadali ¹patné heslo!<br>Zkuste prosím znovu.');
