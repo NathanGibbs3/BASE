@@ -176,7 +176,7 @@ DEFINE('_CHNGPWD','Zmien '.strtolower($UI_CW_Pw));
 DEFINE('_DISPLAYU','Wyswietl uzytkownika');
 
 //base_footer.php
-DEFINE('_FOOTER',' (by <A class="largemenuitem" href="mailto:base@secureideas.net">Kevin Johnson</A> i <A class="largemenuitem" href="http://sourceforge.net/project/memberlist.php?group_id=103348">Zespol BASE Project</A><BR>Built on ACID by Roman Danyliw )');
+DEFINE('_FOOTER','(by <A class="largemenuitem" href="https://github.com/secureideas">Kevin Johnson</A> i <A class="largemenuitem" href="https://github.com/NathanGibbs3/BASE/wiki/Project-Team">Zespol BASE Project</A><BR>Built on ACID by Roman Danyliw )');
 
 //index.php --Log in Page
 DEFINE('_LOGINERROR','Uzytkownik nie istnieje lub nieprawidlowe '.strtolower($UI_CW_Pw).'!<br>Sprobuj ponownie');

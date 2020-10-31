@@ -249,7 +249,7 @@ class BaseUser {
     }
 	function returnUser(){ // returns user login from role cookie
 		$user = '';
-		if ( array_key_exists('BASERole',$_COOKIE) ){
+		if ( isset($_COOKIE['BASERole']) ){
 			$cookievalue = $_COOKIE['BASERole'];
 			$cookiearr = explode('|', $cookievalue);
 			$user = $cookiearr[1];
@@ -331,7 +331,7 @@ class BaseUser {
 			($myrow = $result->baseFetchRow())
 			&& ($i < $result->baseRecordCount())
 		){
-			$tmp = '<option value="'.$myrow[0].'"';
+			$tmp = "<option value='".$myrow[0]."'";
 			$tmp .= chk_select($roleid,$myrow[0]);
 			$tmp .= '>'.XSSPrintSafe($myrow[1]).'</option>';
 			$tmpHTML .= NLI($tmp,8);

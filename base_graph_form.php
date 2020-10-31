@@ -66,7 +66,6 @@ if (!isset($BASE_path)
 }
 include_once ("$BASE_path/base_graph_common.php");
 
-
   echo '<FORM ACTION="base_graph_main.php" METHOD="post">';
 
   echo '<TABLE WIDTH="100%" BORDER="2" class="query" cellpadding="20" summary="Outer table">
@@ -345,11 +344,4 @@ function showHide(){
 // ]]>
 </script>
 ';
-
-/*
-vim:shiftwidth=2:tabstop=2:expandtab
-*/
-
 ?>
-
-

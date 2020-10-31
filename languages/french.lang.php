@@ -145,7 +145,7 @@ DEFINE('_CHNGPWD','Modifier le '.strtolower($UI_CW_Pw)); // Change password
 DEFINE('_DISPLAYU','Afficher l\'utilisateur');
 // Display user
 //base_footer.php
-DEFINE('_FOOTER','( de <A class="largemenuitem" href="mailto:base@secureideas.net">Kevin Johnson</A> et <A class="largemenuitem" href="http://sourceforge.net/project/memberlist.php?group_id=103348">l\'Ã©quipe du projet BASE </A><BR>Bâtis sur ACID de Roman Danyliw )');
+DEFINE('_FOOTER','( de <A class="largemenuitem" href="https://github.com/secureideas">Kevin Johnson</A> et <A class="largemenuitem" href="https://github.com/NathanGibbs3/BASE/wiki/Project-Team">l\'Ã©quipe du projet BASE </A><BR>Bâtis sur ACID de Roman Danyliw )');
 
 /*( by <A class="largemenuitem" href="mailto:kjohnson@secureideas.net">Kevin Johnson</A> and the BASE Project Team<BR>Built on ACID by Roman Danyliw )
 */

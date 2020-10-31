@@ -176,7 +176,7 @@ DEFINE('_CHNGPWD','Cambia '.strtolower($UI_CW_Pw));
 DEFINE('_DISPLAYU','Visualizza Utente');
 
 //base_footer.php
-DEFINE('_FOOTER','( by <A class="largemenuitem" href="mailto:base@secureideas.net">Kevin Johnson</A> e il <A class="largemenuitem" href="http://sourceforge.net/project/memberlist.php?group_id=103348">team di sviluppo BASE Project</A><BR>Programmato grazie a ACID by Roman Danyliw )');
+DEFINE('_FOOTER','( by <A class="largemenuitem" href="https://github.com/secureideas">Kevin Johnson</A> e il <A class="largemenuitem" href="https://github.com/NathanGibbs3/BASE/wiki/Project-Team">team di sviluppo BASE Project</A><BR>Programmato grazie a ACID by Roman Danyliw )');
 
 //index.php --Log in Page
 DEFINE('_LOGINERROR','Dati di login errati!<br>Per favore riprova');

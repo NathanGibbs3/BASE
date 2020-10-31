@@ -175,10 +175,10 @@ DEFINE('_CHNGPWD',"修改$UI_CW_Pw");
 DEFINE('_DISPLAYU','显示用户');
 
 //base_footer.php
-DEFINE('_FOOTER',' (由 <A class="largemenuitem" 
-href="mailto:base@secureideas.net">Kevin Johnson</A> 和 <A 
+DEFINE('_FOOTER','(由 <A class="largemenuitem" 
+href="https://github.com/secureideas">Kevin Johnson</A> 和 <A 
 class="largemenuitem" 
-href="http://sourceforge.net/project/memberlist.php?group_id=103348">BASE 
+href="https://github.com/NathanGibbs3/BASE/wiki/Project-Team">BASE 
 项目组</A><BR> 基于 Roman Danyliw 的ACID 构建)');
 
 //index.php --Log in Page

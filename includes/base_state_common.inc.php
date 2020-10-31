@@ -58,41 +58,36 @@ function InitArray(&$a, $dim1 = 1, $dim2 = 0, $value = NULL ){
  *      PHP session handlers).
  *
  ************************************************************************/
-function RegisterGlobalState()
-{
-   /* Deal with user specified session handlers */
-   if (session_module_name() == "user" )
-   {
-      if ( $GLOBALS['use_user_session'] != 1 )
-      {
-         ErrorMessage(_PHPERRORCSESSION);
-         die();
-      }
-      else if ( $GLOBALS['user_session_path'] != "" )
-      {
-         if ( is_file($GLOBALS['user_session_path']) )
-         {
-            include_once($GLOBALS['user_session_path']);
-            if ( $GLOBALS['user_session_function'] != "" )
-               $GLOBALS['user_session_function']();
-         }
-         else
-         {
-            ErrorMessage(_PHPERRORCSESSIONCODE);
-            die();
-         }
-      }
-      else
-      {
-         ErrorMessage(_PHPERRORCSESSIONVAR);
-         die();
-      }
-   }
+function RegisterGlobalState(){
+	GLOBAL $use_user_session, $user_session_path, $user_session_function,
+	$debug_mode;
+	$EMsg = '';
+	// Deal with user specified session handlers.
+	if (session_module_name() == "user" ){
+		if ( $use_user_session != 1 ){
+			$EMsg = _PHPERRORCSESSION;
+		}elseif( $user_session_path != '' ){
+			if ( is_file($user_session_path) ){
+				include_once($user_session_path);
+				if ( $user_session_function != '' ){
+					$user_session_function();
+				}
+			}else{
+				$EMsg = _PHPERRORCSESSIONCODE;
+			}
+		}else{
+			$EMsg = _PHPERRORCSESSIONVAR;
+		}
+	}
+	if ( $EMsg != '' ){
+		FatalError($EMsg);
+	}
 
    //session_start();
 
-   if ( $GLOBALS['debug_mode'] > 0 )
-      echo '<FONT COLOR="#FF0000">'._PHPSESSREG.'</FONT><BR>';
+	if ( $debug_mode > 0 ){
+		ErrorMessage(_PHPSESSREG, '#ff0000', 1);
+	}
 }
 
 /* ***********************************************************************
@@ -202,6 +197,7 @@ function CleanVariable($item, $valid_data, $exception = "")
 // $var_name
 //
 function SetSessionVar($var_name){
+	GLOBAL $debug_mode;
 	if ( isset($_POST[$var_name]) ){
 		$msg = 'POST';
 		$Ret = $_POST[$var_name];
@@ -218,7 +214,7 @@ function SetSessionVar($var_name){
 		// Leaving it at the moment, so as not to break things.
 		$Ret = '';
 	}
-	if ( $GLOBALS['debug_mode'] > 0 && $msg != '' ){
+	if ( $debug_mode > 0 && $msg != '' ){
 		print "Importing $msg var '$var_name'<br/>\n";
 	}
 	return $Ret;

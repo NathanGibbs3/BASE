@@ -175,7 +175,7 @@ DEFINE('_CHNGPWD',$UI_CW_Pw.'変更');
 DEFINE('_DISPLAYU','ユーザー表示');
 
 //base_footer.php
-DEFINE('_FOOTER','(<A class="largemenuitem" href="mailto:base@secureideas.net">Kevin Johnson</A> BASEプロジェクトチーム) <A class="largemenuitem" href="mailto:kenji@pingu.zive.net">日本語訳に関してはこちら。</A>BASEはRoman Danyliw氏のACIDを引き継いで開発されています。 )');
+DEFINE('_FOOTER','(<A class="largemenuitem" href="https://github.com/secureideas">Kevin Johnson</A> BASEプロジェクトチーム) <A class="largemenuitem" href="mailto:kenji@pingu.zive.net">日本語訳に関してはこちら。</A>BASEはRoman Danyliw氏のACIDを引き継いで開発されています。 )');
 
 //index.php --Log in Page
 DEFINE('_LOGINERROR','ユーザーが存在しないか、'.$UI_CW_Pw.'が間違っています。!<br>Please try again');

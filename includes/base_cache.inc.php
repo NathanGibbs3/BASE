@@ -514,8 +514,7 @@ function dump_missing_events($db, $sid, $start_cid, $end_cid)
 
 
 
-function UpdateAlertCache($db)
-{
+function UpdateAlertCache($db){
   GLOBAL $debug_mode;
   GLOBAL $archive_exists;
   GLOBAL $DBlib_path, $DBtype, 
@@ -524,8 +523,8 @@ function UpdateAlertCache($db)
 
   $batch_sql = "";
   $batch_cnt = 0;
-
   $updated_cache_cnt = 0;
+	$EMPfx = __FUNCTION__ . ': ';
 
   // How many sensors do we have?
   $number_sensors_lst = $db->baseExecute("SELECT count(*) FROM sensor");
@@ -684,7 +683,7 @@ function UpdateAlertCache($db)
     /* BEGIN LOCAL FIX */
  
     /* If there's an archive database, and this isn't it, get the MAX(cid) from there */
-    if ( ($archive_exists == 1) && (@$_COOKIE['archive'] != 1) ) { 
+	if ( $archive_exists == 1 && !ChkCookie ('archive', 1) ){
       $db2 = NewBASEDBConnection($DBlib_path, $DBtype);
       $db2->baseConnect($archive_dbname, $archive_host, $archive_port,
                         $archive_user, $archive_password);
@@ -714,10 +713,9 @@ function UpdateAlertCache($db)
     ####### acid_event?
     if (isset($ccid)) {
 
-      if ($debug_mode > 1)
-      {
-        echo '<BR><BR>' . __FILE__ . ':' . __LINE__ . ": <BR>\nSensor no. $sid:<BR>\n<PRE>\n";
-        echo "Old max cid in acid_event: $ccid<BR>";    
+      if ($debug_mode > 1){
+		ErrorMessage($EMPfx ."Sensor no. $sid:",'black',1);
+		ErrorMessage($EMPfx ."Old max cid in acid_event: $ccid",'black',1);
       }
 
       $debug_new_ccid_lst = $db->baseExecute("SELECT MAX(cid) FROM acid_event WHERE sid='".$sid."'");
@@ -735,12 +733,13 @@ function UpdateAlertCache($db)
       
       $real_addition = (integer)($new_ccid - (integer)$ccid);
 
-      if ($debug_mode > 1)
-      {
-        echo "New max cid in acid_event: $new_ccid<BR>";
-        echo "This many events HAVE been added to acid_event: $real_addition<BR><BR>";
-    
-        echo "Max cid in event: $cid<BR>";
+      if ($debug_mode > 1){
+		ErrorMessage($EMPfx ."New max cid in acid_event: $new_ccid",'black',1);
+		ErrorMessage(
+			$EMPfx ."This many events HAVE been added to acid_event: $real_addition",
+			'black',1
+		);
+		ErrorMessage($EMPfx ."Max cid in event: $cid",'black',1);
       }
 
       if ($real_addition >= 0) 
@@ -752,9 +751,11 @@ function UpdateAlertCache($db)
           $expected_addition = 0;
         }
 
-        if ($debug_mode > 1)
-        {
-          echo "This many events SHOULD have been added to acid_event: $expected_addition<BR>";
+        if ($debug_mode > 1){
+		ErrorMessage(
+			$EMPfx ."This many events SHOULD have been added to acid_event: $expected_addition",
+			'black',1
+		);
         }
 
         if ($real_addition > 0 && $expected_addition > 0) 
@@ -779,7 +780,7 @@ function UpdateAlertCache($db)
 
       if ($debug_mode > 1) 
       {
-        echo "\n---------------<BR><PRE>\n";
+        echo "\n---------------<BR>\n";
       }
     }
   } // for ($n = 0; $n < $number_sensors; $n++)

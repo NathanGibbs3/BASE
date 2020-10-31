@@ -38,38 +38,37 @@ if ( isset($_GET['asciiclean']) ){ // Set cookie for packet display
 $sf_portscan_flag = 0;
 
 function PrintCleanURL() {
-  // This function creates the url to display the cleaned up payload -- Kevin
-  $query = CleanVariable($_SERVER["QUERY_STRING"], VAR_PERIOD | VAR_DIGIT | VAR_PUNC | VAR_LETTER);
-  $sort_order=ImportHTTPVar("sort_order", VAR_LETTER | VAR_USCORE);
-
-  if ( (isset($_GET['asciiclean']) && $_GET['asciiclean'] == 1) || ( isset($_COOKIE['asciiclean']) && ($_COOKIE['asciiclean'] == "clean") && (!isset($_GET['asciiclean'])) ) )
-  {
-		//create link to non-cleaned payload display
-		$url = '<center><a href="base_qry_alert.php?' . $query;
-    $url.= '&amp;sort_order='.urlencode($sort_order).'&amp;asciiclean=0">'._QANORMALD.'</a></center>';
-		return $url;
-	}else{
-		//create link to cleaned payload display
-		$url = '<center><a href="base_qry_alert.php?' . $query;
-    $url.= '&amp;sort_order='.urlencode($sort_order).'&amp;asciiclean=1">'._QAPLAIND.'</a></center>';
-		return $url;
-	}
-}
-
-function PrintBinDownload($db, $cid, $sid) {
-	// Offering a URL to a download possibility:
+	// This function creates the url to display the cleaned up payload -- Kevin
 	$query = CleanVariable($_SERVER["QUERY_STRING"], VAR_PERIOD | VAR_DIGIT | VAR_PUNC | VAR_LETTER);
-	if ( isset($_GET['asciiclean']) && ($_GET['asciiclean'] == 1) || ( (isset($_COOKIE['asciiclean']) && $_COOKIE['asciiclean'] == "clean") && (!isset($_GET['asciiclean'])) ) ){
-		$url = '<center><a href="base_payload.php?' . $query;
-		$url.= '&amp;download=1&amp;cid='.urlencode($cid).'&amp;sid='.urlencode($sid).'&amp;asciiclean=1">Download of Payload</a></center>';
-	}else{
-		$url = '<center><a href="base_payload.php?' . $query;
-		$url.= '&amp;download=1&amp;cid='.urlencode($cid).'&amp;sid='.urlencode($sid).'&amp;asciiclean=0">Download of Payload</a></center>';
+	$sort_order=ImportHTTPVar("sort_order", VAR_LETTER | VAR_USCORE);
+	$url = '<center><a href="base_qry_alert.php?' . $query;
+	$url .= '&amp;sort_order='.urlencode($sort_order).'&amp;asciiclean=';
+	if ( GetAsciiClean() ){ // Create link to non-cleaned payload display.
+		$url.= '0">'._QANORMALD;
+	}else{ // Create link to cleaned payload display.
+		$url.= '1">'._QAPLAIND;
 	}
+	$url.= '</a></center>';
 	return $url;
 }
 
-function PrintPcapDownload($db, $cid, $sid) {
+function PrintBinDownload( $db, $cid, $sid ){
+	// Offering a URL to a download possibility:
+	if ( GetAsciiClean() ){
+		$tmp = 1;
+	} else {
+		$tmp = 0;
+	}
+	$query = CleanVariable($_SERVER["QUERY_STRING"], VAR_PERIOD | VAR_DIGIT | VAR_PUNC | VAR_LETTER);
+	$url = '<center><a href="base_payload.php?' . $query;
+	$url .= '&amp;download=1';
+	$url .= '&amp;cid='.urlencode($cid).'&amp;sid='.urlencode($sid);
+	$url .= '&amp;asciiclean=' . $tmp;
+	$url.= '">Download of Payload</a></center>';
+	return $url;
+}
+
+function PrintPcapDownload( $db, $cid, $sid ){
 	if (!isset($db)) {
 		error_log("ERROR: \$db is NOT set.");
 		ErrorMessage(__FILE__ . ":" . __LINE__ . ": db is NOT set. Ignoring.");
@@ -97,14 +96,17 @@ function PrintPcapDownload($db, $cid, $sid) {
 	}else{
 		$type = 2;
 	}
-	$query = CleanVariable($_SERVER["QUERY_STRING"], VAR_PERIOD | VAR_DIGIT | VAR_PUNC | VAR_LETTER);
-	if ( (isset($_GET['asciiclean']) && $_GET['asciiclean'] == 1) || ( isset($_COOKIE['asciiclean']) && ($_COOKIE["asciiclean"] == "clean") && (!isset($_GET['asciiclean'])) ) ){
-		$url = '<center><a href="base_payload.php?' . $query;
-		$url.= '&amp;download='.urlencode($type).'&amp;cid='.urlencode($cid).'&amp;sid='.urlencode($sid).'&amp;asciiclean=1">Download in pcap format</a></center>';
-	}else{
-		$url = '<center><a href="base_payload.php?' . $query;
-		$url.= '&amp;download='.urlencode($type).'&amp;cid='.urlencode($cid).'&amp;sid='.urlencode($sid).'&amp;asciiclean=0">Download in pcap format</a></center>';
+	if ( GetAsciiClean() ){
+		$tmp = 1;
+	} else {
+		$tmp = 0;
 	}
+	$query = CleanVariable($_SERVER["QUERY_STRING"], VAR_PERIOD | VAR_DIGIT | VAR_PUNC | VAR_LETTER);
+	$url = '<center><a href="base_payload.php?' . $query;
+	$url .= '&amp;download='.urlencode($type);
+	$url .= '&amp;cid='.urlencode($cid).'&amp;sid='.urlencode($sid);
+	$url .= '&amp;asciiclean=' . $tmp;
+	$url .= '">Download in pcap format</a></center>';
 	return $url;
 }
 
@@ -352,8 +354,7 @@ echo'             <TD class="plfield">'.htmlspecialchars($Sensor_Name).'</TD>
                  </TABLE>     
           </TR>';
 
-  if ( $resolve_IP == 1 )
-  {
+	if ( isset($resolve_IP) && $resolve_IP == 1 ){
      echo '  <TR>
               <TD>
                 <TABLE BORDER=1 CELLPADDING=4>
@@ -375,10 +376,9 @@ echo '                  </TR>
                   </TR>
                  </TABLE>     
             </TR>';
-  }
-
-  $result4->baseFreeRows();
-// Alert Group Information
+	}
+	$result4->baseFreeRows();
+	// Alert Group Information
   $sql4 = "SELECT acid_ag_alert.ag_id, ag_name, ag_desc ".
           "FROM acid_ag_alert LEFT JOIN acid_ag ON acid_ag_alert.ag_id = acid_ag.ag_id ".
           "WHERE ag_sid='".$sid."' AND ag_cid='".$cid."'";
@@ -470,14 +470,14 @@ NLIO('</tr><tr>',3);
   echo '                 <TD class="plfield">'.htmlspecialchars($myrow2[10]).'<BR>= 0x'.dechex($myrow2[10]).'</TD></TR>';
   echo '         </TABLE>';
 
-if ( $resolve_IP == 1 ){
-	NLIO('<tr><td>',3);
-	NLIO("<table border='1' cellpadding='4'>",4);
-	NLIO('<tr>',5);
-	NLIO("<td class='iptitle' align='center' rowspan='2'>FQDN</td>",6);
-	NLIO("$Thc$SrcName</td>",6);
-	NLIO("$Thc$DstName</td>",6);
-	NLIO('</tr><tr>',5);
+	if ( isset($resolve_IP) && $resolve_IP == 1 ){
+		NLIO('<tr><td>',3);
+		NLIO("<table border='1' cellpadding='4'>",4);
+		NLIO('<tr>',5);
+		NLIO("<td class='iptitle' align='center' rowspan='2'>FQDN</td>",6);
+		NLIO("$Thc$SrcName</td>",6);
+		NLIO("$Thc$DstName</td>",6);
+		NLIO('</tr><tr>',5);
 echo'                  <TD class="plfield">'.
                       (baseGetHostByAddr(baseLong2IP($myrow2[0]),
                                         $db, $dns_cache_lifetime)).'</TD>
@@ -487,7 +487,7 @@ echo'                  <TD class="plfield">'.
                   </TR>
                  </TABLE>
             </TR>';
-}
+	}
   echo '  <TR>';
   echo '      <TD>';
   echo '         <TABLE BORDER=1 CELLPADDING=4>';

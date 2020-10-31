@@ -180,7 +180,7 @@ DEFINE('_CHNGPWD','Vaihda '.strtolower($UI_CW_Pw));
 DEFINE('_DISPLAYU','Näytä Käyttäjä');
 
 //base_footer.php
-DEFINE('_FOOTER','( <A class="largemenuitem" href="mailto:base@secureideas.net">Kevin Johnsonilta</A> ja <A class="largemenuitem" href="http://sourceforge.net/project/memberlist.php?group_id=103348">BASE Projektin Tiimiltä</A><BR>Rakennettu ACID:n(Roman Danyliw) päälle )');//#
+DEFINE('_FOOTER','( <A class="largemenuitem" href="https://github.com/secureideas">Kevin Johnsonilta</A> ja <A class="largemenuitem" href="https://github.com/NathanGibbs3/BASE/wiki/Project-Team">BASE Projektin Tiimiltä</A><BR>Rakennettu ACID:n(Roman Danyliw) päälle )');//#
 
 //index.php --Log in Page
 DEFINE('_LOGINERROR','Käyttäjää ei ole tai antamasi '.strtolower($UI_CW_Pw).' on väärä!<br>Yritä uudelleen');

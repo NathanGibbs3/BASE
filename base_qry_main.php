@@ -132,9 +132,7 @@ if ( getenv('TRAVIS') && version_compare(PHP_VERSION, "5.3.0", "<") ){
 	// Search screen.
 if ( isset($maintain_history) && $maintain_history == 1 ){
 	$back = ImportHTTPVar("back", VAR_DIGIT);
-	if ( $back != 1 && $submit == _QUERYDB
-		&& isset($_GET['search']) && $_GET['search']  == 1
-	){
+	if ( $back != 1 && $submit == _QUERYDB && ChkGet ('search', 1) ){
     !empty($_SESSION['back_list_cnt']) ? $_SESSION['back_list_cnt']-- : $_SESSION['back_list_cnt'] = 0;    /* save on top of initial blank query screen   */
     $submit = "";          /*  save entered search criteria as if one hit Enter */
     $_POST['submit'] = $submit;

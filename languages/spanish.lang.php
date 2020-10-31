@@ -176,7 +176,7 @@ DEFINE('_CHNGPWD','Cambiar '.strtolower($UI_CW_Pw));
 DEFINE('_DISPLAYU','Ver usuario');
 
 //base_footer.php
-DEFINE('_FOOTER','( por <A class="largemenuitem" href="mailto:base@secureideas.net">Kevin Johnson</A> y el equipo del <A class="largemenuitem" href="http://sourceforge.net/project/memberlist.php?group_id=103348">proyecto BASE </A><BR>Basado en ACID por Roman Danyliw )');
+DEFINE('_FOOTER','( por <A class="largemenuitem" href="https://github.com/secureideas">Kevin Johnson</A> y el equipo del <A class="largemenuitem" href="https://github.com/NathanGibbs3/BASE/wiki/Project-Team">proyecto BASE </A><BR>Basado en ACID por Roman Danyliw )');
 
 //index.php --Log in Page
 DEFINE('_LOGINERROR','Usuario no existe o su '.strtolower($UI_CW_Pw).' no fue reconocida!<br>Por favor intenta de nuevo');
@@ -696,5 +696,4 @@ DEFINE('_BASEUSERERRPWD','Su '.strtolower($UI_CW_Pw).' no puede estar vac&iacute
 DEFINE('_BASEUSEROLDPWD',"$UI_CW_Pw antigua:");
 DEFINE('_BASEUSERNEWPWD',"$UI_CW_Pw nueva:");
 DEFINE('_BASEUSERNEWPWDAGAIN',"$UI_CW_Pw nueva de nuevo:");
-
 ?>

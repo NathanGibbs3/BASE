@@ -176,7 +176,7 @@ DEFINE('_CHNGPWD',"$UI_CW_Pw &auml;ndern");
 DEFINE('_DISPLAYU','Benutzer anzeigen');
 
 //base_footer.php
-DEFINE('_FOOTER','( by <A class="largemenuitem" href="mailto:base@secureideas.net">Kevin Johnson</A> und das <A class="largemenuitem" href="http://sourceforge.net/project/memberlist.php?group_id=103348">BASE Project Team</A><BR>Erstellt mit ACID von Roman Danyliw )');
+DEFINE('_FOOTER','( by <A class="largemenuitem" href="https://github.com/secureideas">Kevin Johnson</A> und das <A class="largemenuitem" href="https://github.com/NathanGibbs3/BASE/wiki/Project-Team">BASE Project Team</A><BR>Erstellt mit ACID von Roman Danyliw )');
 
 //index.php --Log in Page
 DEFINE('_LOGINERROR',"Benutzer bzw. $UI_CW_Pw nicht korrekt!<br>Bitte nochmal versuchen");
@@ -699,5 +699,4 @@ DEFINE('_BASEUSERNEWPWD',"Neues $UI_CW_Pw".':');
 DEFINE('_BASEUSERNEWPWDAGAIN',"Neues $UI_CW_Pw (Best&auml;tigung):");
 
 DEFINE('_LOGOUT','Logout');
-
 ?>

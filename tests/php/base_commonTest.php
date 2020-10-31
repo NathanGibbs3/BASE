@@ -3,6 +3,9 @@ use PHPUnit\Framework\TestCase;
 
 // Test fucntions in base_common.php
 /**
+  * @covers ::ChkCookie
+  * @covers ::ChkGet
+  * @covers ::GetAsciiClean
   * @covers ::GetQueryResultID
   * @covers ::GetVendor
   * @covers ::Htmlcolor
@@ -179,7 +182,13 @@ class base_commonTest extends TestCase {
 			'Unexpected return SetConst().'
 		);
 	}
-	public function testLoadedStringNotString() {
+	public function testLoadedStringBool() {
+		$this->assertFalse(
+			LoadedString(false),
+			'Unexpected return SetConst().'
+		);
+	}
+	public function testLoadedStringInt() {
 		$this->assertFalse(
 			LoadedString(1),
 			'Unexpected return SetConst().'
@@ -416,6 +425,114 @@ class base_commonTest extends TestCase {
 		);
 		base_include($file);
 		$debug_mode = $odb;
+	}
+	public function testGetAsciiCleanDefault(){
+		$this->assertFalse(
+			GetAsciiClean(),
+			'Unexpected Return Value.'
+		);
+	}
+	public function testGetAsciiCleanGetOff(){
+		$_GET['asciiclean'] = 0;
+		$this->assertFalse(
+			GetAsciiClean(),
+			'Unexpected Return Value.'
+		);
+		unset ($_GET['asciiclean']);
+	}
+	public function testGetAsciiCleanGetOn(){
+		$_GET['asciiclean'] = 1;
+		$this->assertTrue(
+			GetAsciiClean(),
+			'Unexpected Return Value.'
+		);
+		unset ($_GET['asciiclean']);
+	}
+	public function testGetAsciiCleanCookieOff(){
+		$_COOKIE['asciiclean'] = 'dirty';
+		$this->assertFalse(
+			GetAsciiClean(),
+			'Unexpected Return Value.'
+		);
+		unset ($_COOKIE['asciiclean']);
+	}
+	public function testGetAsciiCleanCookieOn(){
+		$_COOKIE['asciiclean'] = 'clean';
+		$this->assertTrue(
+			GetAsciiClean(),
+			'Unexpected Return Value.'
+		);
+		unset ($_COOKIE['asciiclean']);
+	}
+	public function testGetAsciiCleanGetOffCookieOn(){
+		$_GET['asciiclean'] = 0;
+		$_COOKIE['asciiclean'] = 'clean';
+		$this->assertFalse(
+			GetAsciiClean(),
+			'Unexpected Return Value.'
+		);
+		unset ($_COOKIE['asciiclean']);
+		unset ($_GET['asciiclean']);
+	}
+	public function testChkCookieNotSet(){
+		$this->assertFalse(
+			ChkCookie('',0),
+			'Unexpected Return Value.'
+		);
+	}
+	public function testChkCookieSetWrongName(){
+		$_COOKIE['asciiclean'] = 0;
+		$this->assertFalse(
+			ChkCookie('test',0),
+			'Unexpected Return Value.'
+		);
+		unset ($_COOKIE['asciiclean']);
+	}
+	public function testChkCookieSetWrongValue(){
+		$_COOKIE['test'] = 1;
+		$this->assertFalse(
+			ChkCookie('test',0),
+			'Unexpected Return Value.'
+		);
+		unset ($_COOKIE['test']);
+	}
+	public function testChkCookieSetRightValue(){
+		$_COOKIE['test'] = 0;
+		$this->assertTrue(
+			ChkCookie('test',0),
+			'Unexpected Return Value.'
+		);
+		unset ($_COOKIE['test']);
+	}
+	public function testChkGetNotSet(){
+		$this->assertFalse(
+			ChkGet('',0),
+			'Unexpected Return Value.'
+		);
+	}
+	public function testChkGetSetWrongName(){
+		$_GET['asciiclean'] = 0;
+		$this->assertFalse(
+			ChkGet('test',0),
+			'Unexpected Return Value.'
+		);
+		unset ($_GET['asciiclean']);
+	}
+	public function testChkGetSetWrongValue(){
+		$_GET['test'] = 1;
+		$this->assertFalse(
+			ChkGet('test',0),
+			'Unexpected Return Value.'
+		);
+		unset ($_GET['test']);
+	}
+	public function testChkGetSetRightValue(){
+		$_GET['test'] = 0;
+		$this->assertTrue(
+			ChkGet('test',0),
+			'Unexpected Return Value.'
+		);
+		unset ($_GET['test']);
 	}
 
 	// Add code to a function if needed.

@@ -176,7 +176,7 @@ DEFINE('_CHNGPWD','Byta '.strtolower($UI_CW_Pw));
 DEFINE('_DISPLAYU','Se användare');
 
 //base_footer.php
-DEFINE('_FOOTER','( av <A class="largemenuitem" href="mailto:base@secureideas.net">Kevin Johnson</A> och <A class="largemenuitem" href="http://sourceforge.net/project/memberlist.php?group_id=103348">BASE Project Team</A><BR>Built on ACID by Roman Danyliw )'); //----
+DEFINE('_FOOTER','( av <A class="largemenuitem" href="https://github.com/secureideas">Kevin Johnson</A> och <A class="largemenuitem" href="https://github.com/NathanGibbs3/BASE/wiki/Project-Team">BASE Project Team</A><BR>Built on ACID by Roman Danyliw )'); //----
 
 //index.php --Log in Page
 DEFINE('_LOGINERROR','Användare finns inte kontrollera användarnamn och '.strtolower($UI_CW_Pw).'!<br>Var vänlig försök igen');
@@ -698,5 +698,4 @@ DEFINE('_BASEUSERERRPWD','Ditt '.strtolower($UI_CW_Pw).' kan inte vara blankt el
 DEFINE('_BASEUSEROLDPWD','Gammalt '.strtolower($UI_CW_Pw).':');
 DEFINE('_BASEUSERNEWPWD','Nytt '.strtolower($UI_CW_Pw).':');
 DEFINE('_BASEUSERNEWPWDAGAIN','Nytt '.strtolower($UI_CW_Pw).' igen:');
-
 ?>

@@ -155,6 +155,7 @@ class CriteriaState {
  *
  ************************************************************************/
 function PopHistory(){
+	GLOBAL $debug_mode;
 	if ( session_id() != '' ){
 		// We have a session, so proceed.
    if ( $_SESSION['back_list_cnt'] >= 0 )
@@ -179,10 +180,9 @@ function PopHistory(){
        *   - push saved back_list back into session
        */
       session_unset();
-
-      if ( $GLOBALS['debug_mode'] > 2 )
-         ErrorMessage("Popping a History Entry from #".$save_back_list_cnt);
-
+			if ( $debug_mode > 2 ){
+				ErrorMessage("Popping a History Entry from #".$save_back_list_cnt);
+			}
       session_decode($save_back_list[$save_back_list_cnt]["session"]);
       unset($save_back_list[$save_back_list_cnt]);
       --$save_back_list_cnt;
@@ -203,13 +203,12 @@ function PopHistory(){
  *
  ************************************************************************/
 function PushHistory(){
+	GLOBAL $debug_mode;
 	if ( session_id() != '' ){
 		// We have a session, so proceed.
-   if ( $GLOBALS['debug_mode'] > 1 )
-   {
-      ErrorMessage("Saving state (into ".$_SESSION['back_list_cnt'].")");
-   }
-
+		if ( $debug_mode > 1 ){
+			ErrorMessage("Saving state (into ".$_SESSION['back_list_cnt'].")");
+		}
    /* save the current session without the $back_list into the history 
     *   - make a temporary copy of the $back_list
     *   - NULL-out the $back_list in $_SESSION (so that 
@@ -257,13 +256,11 @@ function PushHistory(){
                  "QUERY_STRING" => $query_string, 
                  "session"      => $full_session );
 
-  if ( $GLOBALS['debug_mode'] > 1 )
-  {
-      ErrorMessage("Insert session into slot #".$_SESSION['back_list_cnt']);
-
-      echo "Back List (Cnt = ".$_SESSION['back_list_cnt'].") <PRE>";
-      print_r($_SESSION['back_list']);
-      echo "</PRE>";
+		if ( $debug_mode > 1 ){
+			ErrorMessage("Insert session into slot #".$_SESSION['back_list_cnt']);
+			echo "Back List (Cnt = ".$_SESSION['back_list_cnt'].") <PRE>";
+			print_r($_SESSION['back_list']);
+			echo "</PRE>";
 		}
 	}
 }
