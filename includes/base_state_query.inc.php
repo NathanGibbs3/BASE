@@ -137,18 +137,15 @@ class QueryState {
   {
     return $this->show_rows_on_screen;
   }
-
-  function AddValidAction($action)
-  {
-      if (($action == "archive_alert" || $action == "archive_alert2") && isset($_COOKIE['archive']) && $_COOKIE['archive'] == 1)
-      {
-        // We do nothing here because we are looking at the archive tables
-        // We do not want to add the archive actions to this list -- Kevin
-      } else {
-        $this->valid_action_list[ count($this->valid_action_list) ] = $action;
-      }
-  }
-
+	function AddValidAction( $action ){
+		// Add all actions on Alert DB. Skip Archive action on Archive DB.
+		if (
+			!ChkCookie ('archive', 1)
+			|| !preg_match("/^archive_alert(2)?$/", $action)
+		){
+			$this->valid_action_list[ count($this->valid_action_list) ] = $action;
+		}
+	}
   function AddValidActionOp($action_op)
   {
      $this->valid_action_op_list[ count($this->valid_action_op_list) ] = $action_op;

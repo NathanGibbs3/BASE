@@ -165,7 +165,7 @@ DEFINE('_CHNGPWD','Cambiar clave');
 DEFINE('_DISPLAYU','Ver usuario');
 
 //base_footer.php
-DEFINE('_FOOTER','( por <A class="largemenuitem" href="mailto:base@secureideas.net">Kevin Johnson</A> y el equipo del <A class="largemenuitem" href="http://sourceforge.net/project/memberlist.php?group_id=103348">proyecto BASE </A><BR>Basado en ACID por Roman Danyliw )');
+DEFINE('_FOOTER','( por <A class="largemenuitem" href="https://github.com/secureideas">Kevin Johnson</A> y el equipo del <A class="largemenuitem" href="https://github.com/NathanGibbs3/BASE/wiki/Project-Team">proyecto BASE </A><BR>Basado en ACID por Roman Danyliw )');
 
 //index.php --Log in Page
 DEFINE('_LOGINERROR','Usuario no existe o su clave no fue reconocida!<br>Por favor intenta de nuevo');
@@ -682,5 +682,4 @@ DEFINE('_BASEUSERERRPWD','Su clave no puede estar vac&iacute;a, o las dos claves
 DEFINE('_BASEUSEROLDPWD','Clave antigua:');
 DEFINE('_BASEUSERNEWPWD','Clave nueva:');
 DEFINE('_BASEUSERNEWPWDAGAIN','Clave nueva de nuevo:');
-
 ?>

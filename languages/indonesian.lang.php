@@ -165,7 +165,7 @@ DEFINE('_CHNGPWD','Ganti kata sandi');
 DEFINE('_DISPLAYU','Tampilkan pengguna');
 
 //base_footer.php
-DEFINE('_FOOTER','( oleh <A class="largemenuitem" href="mailto:base@secureideas.net">Kevin Johnson</A> dan kelompok <A class="largemenuitem" href="http://sourceforge.net/project/memberlist.php?group_id=103348">projek BASE</A><BR>Diciptakan dari sumber ACID oleh Roman Danyliw )');
+DEFINE('_FOOTER','( oleh <A class="largemenuitem" href="https://github.com/secureideas">Kevin Johnson</A> dan kelompok <A class="largemenuitem" href="https://github.com/NathanGibbs3/BASE/wiki/Project-Team">projek BASE</A><BR>Diciptakan dari sumber ACID oleh Roman Danyliw )');
 
 //index.php --Log in Page
 DEFINE('_LOGINERROR','Nama pengguna atau kata sandi salah!<br>Silakan dicoba ulang');

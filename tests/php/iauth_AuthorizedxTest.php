@@ -13,6 +13,7 @@ use PHPUnit\Framework\TestCase;
   * @uses ::NewBASEDBConnection
   * @uses ::SetConst
   * @uses ::VerifyDBAbstractionLib
+  * @uses ::XSSPrintSafe
   * @uses BaseUser
   * @uses baseCon
   * @uses baseRS
@@ -196,15 +197,12 @@ class authTest2 extends TestCase {
 		);
 		unset ($_COOKIE['BASERole']);
 	}
-	/**
-	 * @backupGlobals disabled
-	 */
 	public function testAuthorizedRolePass(){
 		$user = self::$user;
 		$pw = $user->cryptpassword('password');
 		$_COOKIE['BASERole'] = "$pw|TestOver|";
 		$this->assertTrue(
-			@AuthorizedRole(20000),
+			AuthorizedRole(20000),
 			'Unexpected Return Value.'
 		);
 		unset ($_COOKIE['BASERole']);

@@ -14,6 +14,8 @@ All notable changes to this project will be documented in this file using the
 
 Contributor(s): [Nathan Gibbs]
 ### Changed
+- [#28 Change ADODB download URL in error message.](
+https://github.com/NathanGibbs3/BASE/issues/28)
 - Update snort.org sid lookup URL.  
 Now matches new functionality in the snort.org web site.  
 Such a lookup needs a URL, such as https://snort.org/rule_docs/1-2003 .
@@ -24,6 +26,8 @@ https://github.com/NathanGibbs3/BASE/issues/76)
 https://github.com/NathanGibbs3/BASE/issues/73)
 - [#37 Use EventTiming class where page load timing info is displayed.](
 https://github.com/NathanGibbs3/BASE/issues/37)
+- [#86 Change Image_Graph download URL in error message.](
+https://github.com/NathanGibbs3/BASE/issues/86)
 
 Contributor(s): [Nathan Gibbs]
 ### Deprecated
@@ -37,8 +41,6 @@ https://github.com/NathanGibbs3/BASE/issues/2)
 https://github.com/NathanGibbs3/BASE/issues/6)
 - [#7 PHP Deprecated: Messages on Travis-CI & Local.](
 https://github.com/NathanGibbs3/BASE/issues/7)
-- [#28 Change ADODB download URL in error message.](
-https://github.com/NathanGibbs3/BASE/issues/28)
 - [#34 `VerifyDBAbstractionLib()` Not operative under safe mode.](
 https://github.com/NathanGibbs3/BASE/issues/34)
 - [#38 BASE does not check for unset variables in admin pages before access.](
@@ -103,7 +105,7 @@ https://github.com/NathanGibbs3/BASE/issues/72)
 https://github.com/NathanGibbs3/BASE/issues/62)
 - [#75 Standardize generation of HTML for Header & Footer Menus.](
 https://github.com/NathanGibbs3/BASE/issues/75)
-- [#77 PrintTiming() retuns parital event log.](
+- [#77 PrintTiming() returns partial event log.](
 https://github.com/NathanGibbs3/BASE/issues/77)
 - [#26 `CriteriaState::ReadState()` does not check for unset conf variable
 `$maintain_history` before access.](
@@ -111,6 +113,13 @@ https://github.com/NathanGibbs3/BASE/issues/26)
 - [#81 BASE does not check for unset conf variable `$maintain_history` before
 access.](
 https://github.com/NathanGibbs3/BASE/issues/81)
+- [#43 BASE does not check for unset conf variable $resolve_IP before access.](
+https://github.com/NathanGibbs3/BASE/issues/43)
+- [#61 BASE does not check for unset session variable $_SESSION['sig'] before
+access.](
+https://github.com/NathanGibbs3/BASE/issues/61)
+- [#85 BASE does not check for unset conf variable $debug_mode before access.](
+https://github.com/NathanGibbs3/BASE/issues/85)
 
 Contributor(s): [Nathan Gibbs]
 - [#57 `tr bgcolor="#"` if `$prio` not in `$priority_colors`
@@ -136,6 +145,8 @@ https://github.com/NathanGibbs3/BASE/issues/80)
 https://github.com/NathanGibbs3/BASE/issues/82)
 - [#83 Add Input Validation code to `returnEditUser()`.](
 https://github.com/NathanGibbs3/BASE/issues/83)
+- [#89 Debug Mode Information disclosure to unauthenticated users.](
+https://github.com/NathanGibbs3/BASE/issues/89)
 
 Contributor(s): [Nathan Gibbs]
 

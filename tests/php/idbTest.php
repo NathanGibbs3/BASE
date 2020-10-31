@@ -93,7 +93,8 @@ class dbTest extends TestCase {
 
 	// Tests go here.
 	public function testreturnVerifyDBAbstractionLibValid() {
-		$DBlib_path = self::$DBlib_path;
+		$sc = DIRECTORY_SEPARATOR;
+		$DBlib_path = self::$DBlib_path . $sc . 'adodb.inc.php';
 		$this->assertTrue(
 			VerifyDBAbstractionLib($DBlib_path),
 			'Unexpected return VerifyDBAbstractionLib().'
@@ -101,6 +102,14 @@ class dbTest extends TestCase {
 	}
 	public function testreturnVerifyDBAbstractionLibInValid() {
 		$DBlib_path = "invalid";
+		$this->assertFalse(
+			VerifyDBAbstractionLib($DBlib_path),
+			'Unexpected return VerifyDBAbstractionLib().'
+		);
+	}
+	public function testreturnVerifyDBAbstractionLibDirectory() {
+		GLOBAL $BASE_path;
+		$DBlib_path = "$BASE_path/custom";
 		$this->assertFalse(
 			VerifyDBAbstractionLib($DBlib_path),
 			'Unexpected return VerifyDBAbstractionLib().'

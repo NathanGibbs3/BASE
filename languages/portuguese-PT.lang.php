@@ -172,7 +172,7 @@ DEFINE('_CHNGPWD','Mudar Senha');
 DEFINE('_DISPLAYU','Mostrar Utilizador');
 
 //base_footer.php
-DEFINE('_FOOTER','( Por <A class="largemenuitem" href="mailto:base@secureideas.net">Kevin Johnson</A> e grupo <A class="largemenuitem" href="http://sourceforge.net/project/memberlist.php?group_id=103348">do projecto BASE</A><BR>Baseado no ACID de Roman Danyliw )');
+DEFINE('_FOOTER','( Por <A class="largemenuitem" href="https://github.com/secureideas">Kevin Johnson</A> e grupo <A class="largemenuitem" href="https://github.com/NathanGibbs3/BASE/wiki/Project-Team">do projecto BASE</A><BR>Baseado no ACID de Roman Danyliw )');
 
 //index.php --Log in Page
 DEFINE('_LOGINERROR','Utilizador inexistente ou senha incorreta!<br>Por favor tente novamente');
