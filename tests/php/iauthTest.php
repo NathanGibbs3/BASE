@@ -130,7 +130,7 @@ class authTest extends TestCase {
 	}
 	public function testreturnRoleNamesDropDownAdmin() {
 		$user = self::$user;
-		$msg = '<option value="1" selected>Admin<\/option>';
+		$msg = "<option value='1' selected>Admin<\/option>";
 		$PHPUV = self::$PHPUV;
 		if ( $PHPUV > 1 ){ // PHPUnit 9+
 			$this->assertMatchesRegularExpression(
@@ -148,7 +148,7 @@ class authTest extends TestCase {
 	}
 	public function testreturnRoleNamesDropDownUser() {
 		$user = self::$user;
-		$msg = '<option value="10" selected>user<\/option>';
+		$msg = "<option value='10' selected>user<\/option>";
 		$PHPUV = self::$PHPUV;
 		if ( $PHPUV > 1 ){ // PHPUnit 9+
 			$this->assertMatchesRegularExpression(
@@ -166,7 +166,7 @@ class authTest extends TestCase {
 	}
 	public function testreturnRoleNamesDropDownAnonymous() {
 		$user = self::$user;
-		$msg = '<option value="10000" selected>anonymous<\/option>';
+		$msg = "<option value='10000' selected>anonymous<\/option>";
 		$PHPUV = self::$PHPUV;
 		if ( $PHPUV > 1 ){ // PHPUnit 9+
 			$this->assertMatchesRegularExpression(
@@ -184,7 +184,7 @@ class authTest extends TestCase {
 	}
 	public function testreturnRoleNamesDropDownAGEditor() {
 		$user = self::$user;
-		$msg = '<option value="50" selected>ag_editor<\/option>';
+		$msg = "<option value='50' selected>ag_editor<\/option>";
 		$PHPUV = self::$PHPUV;
 		if ( $PHPUV > 1 ){ // PHPUnit 9+
 			$this->assertMatchesRegularExpression(
