@@ -167,7 +167,7 @@ DEFINE('_CHNGPWD','Поменять пароль');
 DEFINE('_DISPLAYU','Показать пользователя');
 
 //base_footer.php
-DEFINE('_FOOTER','( by <A class="largemenuitem" href="mailto:base@secureideas.net">Кевин Джонсон (Kevin Johnson)</A> и комманда проекта <A class="largemenuitem" href="http://sourceforge.net/project/memberlist.php?group_id=103348">BASE</A><BR>Основано на ACID Романа Данылива (Roman Danyliw)');
+DEFINE('_FOOTER','( by <A class="largemenuitem" href="https://github.com/secureideas">Кевин Джонсон (Kevin Johnson)</A> и комманда проекта <A class="largemenuitem" href="https://github.com/NathanGibbs3/BASE/wiki/Project-Team">BASE</A><BR>Основано на ACID Романа Данылива (Roman Danyliw)');
 
 //index.php --страница входа в систему
 DEFINE('_LOGINERROR','Пользователь не существует или Ваш пароль неверный!<br>Пожалуйста, попытайтесь еще раз');

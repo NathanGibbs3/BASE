@@ -165,7 +165,7 @@ DEFINE('_CHNGPWD',' 變更密碼');
 DEFINE('_DISPLAYU',' 顯示使用者');
 
 //base_footer.php
-DEFINE('_FOOTER','(by <A class="largemenuitem" href="mailto:base@secureideas.net">Kevin Johnson</A> and the <A class="largemenuitem" href="http://sourceforge.net/project/memberlist.php?group_id=103348">BASE Project Team</A><BR>Built on ACID by Roman Danyliw 中文 <a href="mailto:js547441@ms15.hinet.net">Johnson Chiang</a>  )');
+DEFINE('_FOOTER','(by <A class="largemenuitem" href="https://github.com/secureideas">Kevin Johnson</A> and the <A class="largemenuitem" href="https://github.com/NathanGibbs3/BASE/wiki/Project-Team">BASE Project Team</A><BR>Built on ACID by Roman Danyliw 中文 <a href="mailto:js547441@ms15.hinet.net">Johnson Chiang</a>  )');
 
 //index.php --Log in Page
 DEFINE('_LOGINERROR','使用者不存在或您的密碼不正確!<br>請再試一次');

@@ -68,7 +68,7 @@ if (isset($_GET['archive'])){ // Set cookie to use the correct db.
 
 function DBLink(){ // generate the link to select the other database....
 	GLOBAL $archive_exists;
-	if ( (isset($_COOKIE['archive']) && $_COOKIE['archive'] == 1) || (isset($_GET['archive']) && $_GET['archive'] == 1)) {
+	if ( ChkCookie ('archive', 1) || ChkGet ('archive', 1) ){
 		echo '<a href="base_main.php?archive=no">' . _USEALERTDB . '</a>';
 	}elseif ($archive_exists != 0) {
 		echo ('<a href="base_main.php?archive=1">' . _USEARCHIDB . '</a>');
@@ -240,18 +240,17 @@ if (!setlocale(LC_TIME, _LOCALESTR1)) {
     }
     
     printf("<strong>"._QUERIED." </strong> : %s<br />" , strftime(_STRFTIMEFORMAT));
-    if (isset($_COOKIE['archive']) && $_COOKIE['archive'] == 1) {
+if ( ChkCookie ('archive', 1) ){
         printf("<strong>"._DATABASE."</strong> %s &nbsp;&nbsp;&nbsp;(<strong>"._SCHEMAV."</strong> %d) \n<br />\n", 
 	    ($archive_dbname.'@'.$archive_host. ($archive_port != "" ? ':'.$archive_port : "") ),
             $db->baseGetDBversion()
         );
-    } else {
+}else{
         printf("<strong>"._DATABASE."</strong> %s &nbsp;&nbsp;&nbsp;(<strong>"._SCHEMAV."</strong> %d) \n<br />\n", 
 	    ( $alert_dbname.'@'.$alert_host. ($alert_port != "" ? ':'.$alert_port : "") ),
             $db->baseGetDBversion()
         );
-    }
-    
+}
     StartStopTime($start_time, $end_time, $db);
     if ($start_time != "") {
         printf("<strong>"._TIMEWIN."</strong> [%s] - [%s]\n", $start_time, $end_time);

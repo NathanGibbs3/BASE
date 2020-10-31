@@ -694,15 +694,11 @@ function PrintPacketPayload($data, $encode_type, $output_type)
          $payload = PrintBase64PacketPayload($data, $output_type);
      else if ($encode_type == "0" )
      {
-         if ( isset($_GET['asciiclean']) && ($_GET['asciiclean'] == 1) || ( (isset($_COOKIE['asciiclean']) && $_COOKIE['asciiclean'] == "clean") && (!isset($_GET['asciiclean'])) ) )
-	 {
-	    // Print clean ascii display
-            $payload = PrintCleanHexPacketPayload($data, $output_type);
-	 }
-	 else
-	 {
-	    $payload = PrintHexPacketPayload($data, $output_type);
-	 }
+		if ( GetAsciiClean() ){ // Print clean ascii display
+			$payload = PrintCleanHexPacketPayload($data, $output_type);
+		}else{
+			$payload = PrintHexPacketPayload($data, $output_type);
+		}
      }
      else if ($encode_type == "2" )
          $payload = PrintAsciiPacketPayload($data, $output_type); 
@@ -1096,6 +1092,40 @@ function base_include ( $file='' ){
 	if ( $debug_mode > 0 ){
 		print "Test: $file\n";
 		print "$EMsg: $tfile\n";
+	}
+	return $Ret;
+}
+
+// Returns true if asciiclean is set.
+// HTTP GET params take precedence over cookie values.
+function GetAsciiClean(){
+	$Ret = false;
+	if ( isset($_GET['asciiclean']) ){ // Check HTTP GET param.
+		$Ret = ChkGet('asciiclean', 1);
+	}else{ // No GET, check for cookie.
+		$Ret = ChkCookie('asciiclean', 'clean');
+	}
+	return $Ret;
+}
+
+// Returns true if cookie is set & contains value.
+function ChkCookie($var,$val){
+	$Ret = false;
+	if ( LoadedString($var) ){
+		if ( isset($_COOKIE[$var]) && $_COOKIE[$var] == $val ){
+			$Ret = true;
+		}
+	}
+	return $Ret;
+}
+
+// Returns true if HTTP GET param is set & contains value.
+function ChkGET($var,$val){
+	$Ret = false;
+	if ( LoadedString($var) ){
+		if ( isset($_GET[$var]) && $_GET[$var] == $val ){
+			$Ret = true;
+		}
 	}
 	return $Ret;
 }

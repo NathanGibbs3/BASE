@@ -170,7 +170,7 @@ DEFINE('_CHNGPWD','Vaihda salasana');
 DEFINE('_DISPLAYU','N‰yt‰ K‰ytt‰j‰');
 
 //base_footer.php
-DEFINE('_FOOTER','( <A class="largemenuitem" href="mailto:base@secureideas.net">Kevin Johnsonilta</A> ja <A class="largemenuitem" href="http://sourceforge.net/project/memberlist.php?group_id=103348">BASE Projektin Tiimilt‰</A><BR>Rakennettu ACID:n(Roman Danyliw) p‰‰lle )');//#
+DEFINE('_FOOTER','( <A class="largemenuitem" href="https://github.com/secureideas">Kevin Johnsonilta</A> ja <A class="largemenuitem" href="https://github.com/NathanGibbs3/BASE/wiki/Project-Team">BASE Projektin Tiimilt‰</A><BR>Rakennettu ACID:n(Roman Danyliw) p‰‰lle )');//#
 
 //index.php --Log in Page
 DEFINE('_LOGINERROR','K‰ytt‰j‰‰ ei ole tai antamasi salasana on v‰‰r‰!<br>Yrit‰ uudelleen');

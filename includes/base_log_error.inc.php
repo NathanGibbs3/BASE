@@ -55,47 +55,27 @@ function PrintServerInformation()
    echo '';
 }
 
-function PrintPageHeader()
-{
-     GLOBAL $DBtype, $ADODB_vers;
-
-     $tmp = session_encode();
-     $php_version = phpversion();
-     $ver = $php_version[0]; 
-
-     $request_uri = XSSPrintSafe($_SERVER['REQUEST_URI']);
-     if (
-          ($ver >= 5) ||
-          (
-            ($ver == 4) &&
-            ($php_version[1] >= 1)
-          )
-        )
-     {
-       if (array_key_exists("HTTP_REFERER", $_SERVER))
-       {
-         $http_referer = XSSPrintSafe($_SERVER['HTTP_REFERER']);
-       }
-       else
-       {
-         $http_referer = "";
-       }
-     }
-     else
-     {
-       if (key_exists("HTTP_REFERER", $_SERVER))
-       {
-         $http_referer = XSSPrintSafe($_SERVER['HTTP_REFERER']);
-       }
-       else
-       {
-         $http_referer = "";
-       }
-     }
-      $http_user_agent = XSSPrintSafe($_SERVER['HTTP_USER_AGENT']);
-      $server_software = XSSPrintSafe($_SERVER['SERVER_SOFTWARE']);
-      $query_string = XSSPrintSafe($_SERVER['QUERY_STRING']);
-
+function PrintPageHeader(){
+	GLOBAL $DBtype, $ADODB_vers;
+	if ( !AuthorizedPage('(base_denied|index)') ){
+		// Additional app info allowed everywhere but landing pages.
+		$tmp = session_encode();
+		$php_version = phpversion();
+		$ver = $php_version[0];
+		$request_uri = XSSPrintSafe($_SERVER['REQUEST_URI']);
+		$http_referer = '';
+		if ( $ver >= 5 || ( $ver == 4 && $php_version[1] >= 1 ) ){
+			if ( array_key_exists('HTTP_REFERER', $_SERVER) ){
+				$http_referer = XSSPrintSafe($_SERVER['HTTP_REFERER']);
+			}
+		}else{
+			if (key_exists('HTTP_REFERER', $_SERVER) ){
+				$http_referer = XSSPrintSafe($_SERVER['HTTP_REFERER']);
+			}
+		}
+		$http_user_agent = XSSPrintSafe($_SERVER['HTTP_USER_AGENT']);
+		$server_software = XSSPrintSafe($_SERVER['SERVER_SOFTWARE']);
+		$query_string = XSSPrintSafe($_SERVER['QUERY_STRING']);
    echo "<PRE>
          <B>URL:</B> '".$request_uri."'
          (<B>referred by:</B> '".$http_referer."')
@@ -108,6 +88,7 @@ function PrintPageHeader()
          <B>BASE VERSION:</B> ".$GLOBALS['BASE_VERSION']."
          <B>SESSION ID:</B> ".session_id()."( ".strlen($tmp)." bytes )
          </PRE>"; 
+	}
 }
 
 function PrintHTTPPost()
@@ -152,5 +133,4 @@ function SQLTraceLog($message)
     }
   }
 }
-// vim:tabstop=2:shiftwidth=2:expandtab
 ?>
