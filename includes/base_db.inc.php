@@ -705,36 +705,12 @@ class baseRS {
 }
 function VerifyDBAbstractionLib($path){
 	GLOBAL $debug_mode;
-	$version = explode('.', phpversion());
-	// PHP Safe Mode cutout.
-	//    Added: 2005-03-25 for compatabibility with PHP 4x & 5.0x
-	//      See: https://sourceforge.net/p/secureideas/bugs/47
-	// PHP Safe Mode w/o cutout successful.
-	// Verified: 2019-05-31 PHP 5.3.29 via CI & Unit Tests.
-	//      See: https://github.com/NathanGibbs3/BASE/issues/34
-	// May work: PHP > 5.1.4.
-	//      See: https://www.php.net/manual/en/function.is-readable.php
-	if (
-		$version[0] > 5
-		|| ($version[0] == 5 && $version[1] > 1)
-		|| ($version[0] == 5 && $version[1] == 1 && $version[2] > 4 )
-		|| ini_get("safe_mode") != true
-	){
-		if ( $debug_mode > 0 ){
-			ErrorMessage(_DBALCHECK." '".XSSPrintSafe($path)."'",0,1);
-		}
-		if ( is_readable($path) && is_file($path) ){
-			return true;
-		}else{
-			return false;
-		}
-	}else{
-		// @codeCoverageIgnoreStart
-		// PHPUnit test only covers this code path on PHP < 5.1.5
-		// Unable to validate in CI.
-		return true;
-		// @codeCoverageIgnoreEnd
+	$Ret = false;
+	if ( $debug_mode > 0 ){
+		ErrorMessage(_DBALCHECK." '".XSSPrintSafe($path)."'",0,1);
 	}
+	$Ret = ChkAccess($path);
+	return $Ret;
 }
 function NewBASEDBConnection($path, $type){
 	GLOBAL $debug_mode;
@@ -778,7 +754,7 @@ function NewBASEDBConnection($path, $type){
 		FatalError ($msg);
 	}
 	$sc = DIRECTORY_SEPARATOR;
-	$DLV = true;
+	$DLV = 1;
 	if ( !LoadedString($path) ){ // Setup default for PHP module include.
 		$path = "adodb$sc";
 		if ( $debug_mode > 1 ){
@@ -819,7 +795,7 @@ function NewBASEDBConnection($path, $type){
 //	SetConst('ADODB_ERROR_LOG_TYPE',0);
 	$DEH = include_once($path.'adodb-errorhandler.inc.php');
 	$DAL = include($path.'adodb.inc.php');
-	if ( $DLV == false || $DEH == false || $DAL == false ){
+	if ( $DLV != 1 || $DEH == false || $DAL == false ){
 		$msg = _ERRSQLDBALLOAD1.'"'.$AXpath.'"'._ERRSQLDBALLOAD2;
 		$tmp = 'https://';
 		if ( $version[0] > 5 || ( $version[0] == 5 && $version[1] > 1) ){

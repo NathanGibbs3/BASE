@@ -5,6 +5,7 @@ use PHPUnit\Framework\TestCase;
 /**
   * @covers ::ChkCookie
   * @covers ::ChkGet
+  * @covers ::ChkAccess
   * @covers ::GetAsciiClean
   * @covers ::GetQueryResultID
   * @covers ::GetVendor
@@ -532,6 +533,81 @@ class base_commonTest extends TestCase {
 			'Unexpected Return Value.'
 		);
 		unset ($_GET['test']);
+	}
+	public function testreturnChkAccessDirectoryTypeInvalid() {
+		GLOBAL $BASE_path;
+		$sc = DIRECTORY_SEPARATOR;
+		$Testfile = "$BASE_path$sc" . 'custom';
+		$this->assertEquals(
+			-1,
+			ChkAccess($Testfile),
+			'Unexpected return ChkAccess().'
+		);
+	}
+	public function testreturnChkAccessDirectoryTypeValid() {
+		GLOBAL $BASE_path;
+		$sc = DIRECTORY_SEPARATOR;
+		$Testfile = "$BASE_path$sc" . 'custom';
+		$this->assertEquals(
+			1,
+			ChkAccess($Testfile,'d'),
+			'Unexpected return ChkAccess().'
+		);
+	}
+	public function testreturnChkAccessInValid() {
+		GLOBAL $BASE_path;
+		$sc = DIRECTORY_SEPARATOR;
+		$file = 'doesnotexist.htm';
+		$Testfile = "$BASE_path$sc" . "custom$sc$file";
+		$this->assertEquals(
+			-1,
+			ChkAccess($Testfile),
+			'Unexpected return ChkAccess().'
+		);
+	}
+	public function testreturnChkAccessValid() {
+		GLOBAL $BASE_path;
+		$sc = DIRECTORY_SEPARATOR;
+		$file = 'testCASE.HTML';
+		$Testfile = "$BASE_path$sc" . "custom$sc$file";
+		$this->assertEquals(
+			1,
+			ChkAccess($Testfile),
+			'Unexpected return ChkAccess().'
+		);
+	}
+	public function testreturnChkAccessSafeModeCutouDirectory() {
+		GLOBAL $BASE_path;
+		$sc = DIRECTORY_SEPARATOR;
+		$Testfile = "$BASE_path$sc" . 'custom';
+		$PHPV = GetPHPV();
+		if (version_compare($PHPV, '5.1.4', '>')){
+			$this->assertTrue(true,'Passing Test.');
+		}else{
+			$this->assertTrue(ini_get("safe_mode"),'PHP SafeMode: Off');
+			$this->assertEquals(
+				1,
+				ChkAccess($Testfile,'d'),
+				'Unexpected return ChkAccess().'
+			);
+		}
+	}
+	public function testreturnChkAccessSafeModeCutoutValid() {
+		GLOBAL $BASE_path;
+		$sc = DIRECTORY_SEPARATOR;
+		$file = 'testCASE.HTML';
+		$Testfile = "$BASE_path$sc" . "custom$sc$file";
+		$PHPV = GetPHPV();
+		if (version_compare($PHPV, '5.1.4', '>')){
+			$this->assertTrue(true,'Passing Test.');
+		}else{
+			$this->assertTrue(ini_get("safe_mode"),'PHP SafeMode: Off');
+			$this->assertEquals(
+				1,
+				ChkAccess($Testfile),
+				'Unexpected return ChkAccess().'
+			);
+		}
 	}
 
 	// Add code to a function if needed.

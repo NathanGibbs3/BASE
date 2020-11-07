@@ -1071,8 +1071,7 @@ function base_include ( $file='' ){
 		$Loc = realpath($tfile); // Final file must
 		if ( $Loc != false // exist and resolve to an absolute path.
 			&& fileowner($Loc) != false // not be owned by UID 0 (root).
-			&& is_file($Loc) // be a real file.
-			&& is_readable($Loc) // be readable.
+			&& ChkAccess($Loc) == 1 // be a real file & be readable.
 		){
 			if ( preg_match("/^" . $ReqRE ."$/i", $Loc) ){
 				// be in specific location with specific extension.
@@ -1104,6 +1103,55 @@ function GetAsciiClean(){
 		$Ret = ChkGet('asciiclean', 1);
 	}else{ // No GET, check for cookie.
 		$Ret = ChkCookie('asciiclean', 'clean');
+	}
+	return $Ret;
+}
+
+// Returns 1 if file or directory passes access checks.
+// Returns < 1 error code otherwise.
+function ChkAccess( $path, $type='f' ){
+	$Ret = 0; // Path Error
+	if ( LoadedString($path) ){
+		$type = strtolower($type);
+		$rcf = 0;
+		$Ret = -1; // Type Error
+		if ( $type == 'f' ){
+			if ( is_file($path) ){
+				$rcf = 1;
+			}
+		}elseif ( $type == 'd' ){
+			if ( is_dir($path) ){
+				$rcf = 1;
+			}
+		}
+		if ( $rcf == 1 ){
+			$Ret = -2; // Readable Error
+			$version = explode('.', phpversion());
+			// PHP Safe Mode cutout.
+			//    Added: 2005-03-25 for compatabibility with PHP 4x & 5.0x
+			//      See: https://sourceforge.net/p/secureideas/bugs/47
+			// PHP Safe Mode w/o cutout successful.
+			// Verified: 2019-05-31 PHP 5.3.29 via CI & Unit Tests.
+			//      See: https://github.com/NathanGibbs3/BASE/issues/34
+			// May work: PHP > 5.1.4.
+			//      See: https://www.php.net/manual/en/function.is-readable.php
+			if (
+				$version[0] > 5
+				|| ($version[0] == 5 && $version[1] > 1)
+				|| ($version[0] == 5 && $version[1] == 1 && $version[2] > 4 )
+				|| ini_get("safe_mode") != true
+			){
+				if ( is_readable($path) ){
+					$Ret = 1;
+				}
+			}else{
+				// @codeCoverageIgnoreStart
+				// PHPUnit test only covers this code path on PHP < 5.1.5
+				// Unable to validate in CI.
+				$Ret = 1;
+				// @codeCoverageIgnoreEnd
+			}
+		}
 	}
 	return $Ret;
 }

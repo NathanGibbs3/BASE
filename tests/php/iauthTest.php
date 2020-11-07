@@ -10,13 +10,14 @@ use PHPUnit\Framework\TestCase;
   * @covers BaseUser::readRoleCookie
   * @covers BaseUser::returnEditUser
   * @covers BaseRole::returnEditRole
+  * @covers BaseUser::returnUserID
   * @uses ::chk_select
+  * @uses ::LoadedString
   * @uses ::NLI
   * @uses ::XSSPrintSafe
   * @uses baseCon
   * @uses baseRS
   * @uses BaseUser::cryptpassword
-  * @uses BaseUser::returnUserID
   */
 class authTest extends TestCase {
 	// Pre Test Setup.
@@ -362,6 +363,32 @@ class authTest extends TestCase {
 		$this->assertEquals(
 			$expected,
 			$returned,
+			'Unexpected Return Value.'
+		);
+	}
+	public function testreturnUserIDInvalidType(){
+		$user = self::$user;
+		$uid = 1;
+		$this->assertFalse(
+			$user->returnUserID($uid),
+			'Unexpected Return Value.'
+		);
+	}
+	public function testreturnUserIDInvalidID(){
+		$user = self::$user;
+		$uid = 'Test';
+		$expected = '';
+		$this->assertEquals(
+			$expected,
+			$user->returnUserID($uid),
+			'Unexpected Return Value.'
+		);
+	}
+	public function testreturnUserIDValidreturnsInt(){
+		$user = self::$user;
+		$uid = 'TestUser';
+		$this->assertTrue(
+			is_int($user->returnUserID($uid)),
 			'Unexpected Return Value.'
 		);
 	}

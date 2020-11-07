@@ -11,6 +11,7 @@ use PHPUnit\Framework\TestCase;
   * @covers baseCon::baseTableExists
   * @covers baseCon::baseIndexExists
   * @covers baseCon::baseExecute
+  * @uses ::ChkAccess
   * @uses ::LoadedString
   * @uses ::HtmlColor
   * @uses ::returnErrorMessage
@@ -95,38 +96,20 @@ class dbTest extends TestCase {
 	public function testreturnVerifyDBAbstractionLibValid() {
 		$sc = DIRECTORY_SEPARATOR;
 		$DBlib_path = self::$DBlib_path . $sc . 'adodb.inc.php';
-		$this->assertTrue(
+		$this->assertEquals(
+			1,
 			VerifyDBAbstractionLib($DBlib_path),
 			'Unexpected return VerifyDBAbstractionLib().'
 		);
 	}
 	public function testreturnVerifyDBAbstractionLibInValid() {
-		$DBlib_path = "invalid";
-		$this->assertFalse(
+		$sc = DIRECTORY_SEPARATOR;
+		$DBlib_path = self::$DBlib_path . $sc . 'invalid';
+		$this->assertEquals(
+			-1,
 			VerifyDBAbstractionLib($DBlib_path),
 			'Unexpected return VerifyDBAbstractionLib().'
 		);
-	}
-	public function testreturnVerifyDBAbstractionLibDirectory() {
-		GLOBAL $BASE_path;
-		$DBlib_path = "$BASE_path/custom";
-		$this->assertFalse(
-			VerifyDBAbstractionLib($DBlib_path),
-			'Unexpected return VerifyDBAbstractionLib().'
-		);
-	}
-	public function testreturnVerifyDBAbstractionLibSafeModeCutout() {
-		$DBlib_path = "invalid";
-		$PHPV = GetPHPV();
-		if (version_compare($PHPV, '5.1.4', '>')){
-			$this->assertTrue(true,'Passing Test.');
-		}else{
-			$this->assertTrue(ini_get("safe_mode"),'PHP SafeMode: Off');
-			$this->assertTrue(
-				VerifyDBAbstractionLib($DBlib_path),
-				'Unexpected return VerifyDBAbstractionLib().'
-			);
-		}
 	}
 	public function testbaseFieldExistsNonExistantTableReturnsExpected(){
 		$db = self::$db;

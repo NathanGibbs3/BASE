@@ -9,6 +9,7 @@ use PHPUnit\Framework\TestCase;
   * @covers ::AuthorizedPage
   * @covers ::AuthorizedURI
   * @uses ::base_header
+  * @uses ::ChkAccess
   * @uses ::LoadedString
   * @uses ::NewBASEDBConnection
   * @uses ::SetConst

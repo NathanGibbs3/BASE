@@ -53,30 +53,45 @@ SetConst('CHARTTYPE_UNIQUE_SIGNATURE', 18);
 
 function VerifyGraphingLib(){
 	GLOBAL $debug_mode;
+	$EMPfx = __FUNCTION__ . ': ';
+	$IGL = false;
 	if ( !(function_exists("ImageDestroy")) ){// Is GD compiled into PHP.
 		ErrorMessage(_ERRPHPERROR.':',0,1);
 		ErrorMessage('<b>PHP build incomplete</b>: GD support required.', 'black', 1);
 		ErrorMessage('Recompile PHP with GD support (<code>--with-gd</code>', 'black', 1);
 		FatalError('PHP build incomplete: GD support required.');
 	}
-	// PHP will search the default path and try to include the file.
-	$IGL = include_once('Image/Graph.php');
-	if (!$IGL) {
+	$sc = DIRECTORY_SEPARATOR;
+	$LibLoc = 'Image';
+	$LibFile = 'Graph.php';
+	$Lib = implode( $sc, array($LibLoc, $LibFile) );
+	$tmp = ChkAccess($Lib);
+	if ( $tmp == 1 ){
+		// PHP will search the default path and try to include the file.
+		$IGL = include_once($Lib);
+	}
+	if ( $tmp != 1 || $IGL == false ){
+		$EMsg = "$EMPfx ERROR: Graphing Lib: $Lib not ";
+		if ( $tmp == -1 ){
+			$EMsg .= 'found';
+		}elseif ( $tmp == -2 ){
+			$EMsg .= 'readable';
+		}elseif ( !$IGL ){
+			$EMsg .= 'loaded';
+		}
+		$$EMsg .= '.';
+		ErrorMessage($EMsg, 0, 1);
 		// Sorry dude, you haven't finished your home work. -- Alejandro
 		$Lib = 'Image_Graph';
 		$tmp = "https://pear.php.net/package/$Lib";
-		ErrorMessage('<b>Error loading the Graphing library:</b>',0,1);
 		ErrorMessage("Check your Pear::$Lib installation!",'black',1);
 		$msg = "The underlying Graphing library currently used is $Lib";
 		$msg .= ', that can be downloaded at ';
 		$msg .= "<a href='$tmp'>$tmp</a>";
 		ErrorMessage($msg,'black',1);
+		ErrorMessage("PHP setup incomplete: $Lib required.", 0,1);
 		ErrorMessage(
-			'Without this library no graphing operations can be performed.',
-			0,1
-		);
-		ErrorMessage(
-			'Make sure PEAR libraries can be found by php at all.','black',1
+			'Make sure PEAR libraries can be found by PHP.','black',1
 		);
 		ErrorMessage(
 			'<pre>pear config-show | grep &quot;PEAR directory&quot;','black',1
@@ -99,7 +114,7 @@ function VerifyGraphingLib(){
 				0,1
 			);
 		}
-		FatalError('<b>Error loading the Graphing library:</b>');
+		FatalError($EMsg);
 	}
 }
 /* Generates the required SQL from the chart time criteria */
@@ -602,21 +617,16 @@ function GetSensorDataSet(&$xdata, $chart_type, $data_source, $min_threshold, $c
    return $cnt;
 }
 
-
-
 // xxx jl
-function ReadGeoIPfreeFileAscii(&$Geo_IPfree_array)
-{
-  GLOBAL $Geo_IPfree_file_ascii, $db, $debug_mode, $iso_3166;
-
-
-  if (empty($Geo_IPfree_file_ascii) || !is_file($Geo_IPfree_file_ascii) || !is_readable($Geo_IPfree_file_ascii))
-  {
-    return 0;
-  }
-
-  ini_set("memory_limit", "256M");
-
+function ReadGeoIPfreeFileAscii(&$Geo_IPfree_array){
+	GLOBAL $Geo_IPfree_file_ascii, $db, $debug_mode, $iso_3166;
+	if (
+		empty($Geo_IPfree_file_ascii)
+		|| !ChkAccess($Geo_IPfree_file_ascii)
+	){
+		return 0;
+	}
+	ini_set("memory_limit", "256M");
   $lines = file($Geo_IPfree_file_ascii);
   if ($lines == FALSE)
   {
@@ -858,15 +868,12 @@ function IncreaseCountryValue(&$countries, $to_search, $number_of_alerts)
   }
 }
 
-
-
-
-function GetCountryDataSet(&$xdata, $chart_type, $data_source, $min_threshold, $criteria)
-{
-  GLOBAL $db, $debug_mode, $Geo_IPfree_file_ascii, $IP2CC;
-  $country_method = 0;
-
-
+function GetCountryDataSet(
+	&$xdata, $chart_type, $data_source, $min_threshold, $criteria
+){
+	GLOBAL $db, $debug_mode, $Geo_IPfree_file_ascii, $IP2CC;
+	$country_method = 0;
+	$EMPfx = __FUNCTION__ . ': ';
   if (($chart_type == 14) || ($chart_type == 15))
   // 14 =  Src Countries vs. Num Alerts
   // 15 = dto., but on worldmap
@@ -890,110 +897,71 @@ function GetCountryDataSet(&$xdata, $chart_type, $data_source, $min_threshold, $
    
   $result = $db->baseExecute($sql);
 
-
-  if (!isset($Geo_IPfree_file_ascii) && !isset($IP2CC))
-  {
-    ErrorMessage("ERROR: Neither \$Geo_IPfree_file_ascii nor \$IP2CC has been configured in base_conf.php.<BR>\n");
-    return 0;
-  }
-  else
-  {
-    if (isset($Geo_IPfree_file_ascii))
-    {
-      if (empty($Geo_IPfree_file_ascii))
-	    {
-	      ErrorMessage("ERROR: \$Geo_IPfree_file_ascii is an empty string.<BR>\n");
-    	  return 0;
-	    }
-	    else
-	    {
-        if (!is_file($Geo_IPfree_file_ascii))
-	      {
-	        ErrorMessage("ERROR: " . $Geo_IPfree_file_ascii . " could not be found. Wrong path, perhaps?<BR>\n");
-	        return 0;
-	      }
-	      else
-	      {
-          if (!is_readable($Geo_IPfree_file_ascii))
-	        {
-            ErrorMessage("ERROR: " . $Geo_IPfree_file_ascii . " does exist, but is not readable. Wrong permissions, perhaps?<BR>\n");
- 	          return 0;
-	        }
-	        else
-	        {
-            $country_method = 1;
-
-            if ($debug_mode > 0)
-            {
-              print "<BR>\ncountry method 1: We use the database of Geo::IPfree<BR>\n<BR>\n";
-            }
-
-            // Read in database with country data for ip addresses
-            ReadGeoIPfreeFileAscii($Geo_IPfree_array);
-	        }
-	      }
-	    }
-    }
-    else if (isset($IP2CC))
-    {
-      if (empty($IP2CC))
-	    { 
-        ErrorMessage("ERROR: \$IP2CC is an empty string.<BR>\n");
-	      return 0;
-	    }
-	    else
-	    {
-        if (!is_file($IP2CC))
-	      {
+	if ( LoadedString($Geo_IPfree_file_ascii) ){
+		$tmp = ChkAccess($Geo_IPfree_file_ascii);
+		if ( $tmp != 1 ){
+			$EMsg = $EMPfx . "ERROR: $Geo_IPfree_file_ascii not ";
+			if ( $tmp == -1 ){
+				$EMsg .= 'found';
+			}elseif ( $tmp == -2 ){
+				$EMsg .= 'readable';
+			}
+			$$EMsg .= '.';
+			ErrorMessage($EMsg, 0, 1);
+			return 0;
+		}else{
+			$country_method = 1;
+			if ( $debug_mode > 0 ){
+				ErrorMessage(
+					$EMPfx . 'Country method 1: We use the database of Geo::IPfree.',
+					0, 1
+				);
+			}
+			// Read in database with country data for ip addresses
+			ReadGeoIPfreeFileAscii($Geo_IPfree_array);
+		}
+	}elseif( LoadedString($IP2CC) ){
+		$rv = ini_get("safe_mode");
+		if ( !is_file($IP2CC) ){
           ErrorMessage("ERROR: " . $IP2CC . " could not be found. Wrong path, perhaps?<BR>\n");
-          $rv = ini_get("safe_mode");
-          if ($rv == 1)
-          {
+			if ($rv == 1){
             print "In &quot;safe_mode&quot; &quot; the file " . $Geo_IPfree_file_ascii . "&quot; must be owned by the user under which the web server is running. Adding it to both safe_mode_exec_dir and to include_path in /etc/php.ini does NOT seem to be sufficient.<BR>\n";
-          }
-
-
-	        return 0;
-	      }
-	      else
-	      {
-          if (!is_executable($IP2CC))
-	        {
+			}
+			return 0;
+		}else{
+			if (!is_executable($IP2CC)){
             ErrorMessage("ERROR: " . $IP2CC . " does exist, but is not executable. Wrong permissions, perhaps?<BR>\n");
-            $rv = ini_get("safe_mode");
-            if ($rv == 1)
-            {
+				if ($rv == 1){
               ErrorMessage("In &quot;safe_mode&quot; the path &quot;" . 
               dirname($IP2CC) . 
               "&quot; must also be part of safe_mode_exec_dir in /etc/php.ini:<BR><BR>\n" .
               "safe_mode_exec_dir = &quot;" . dirname($IP2CC) . 
               "&quot;<BR><BR>" .
               "It seems that not more than ONE SINGLE directory may be assigned to safe_mode_exec_dir.<BR>\n");
-            }
-	          return 0;
-	        }
-	        else
-          {
-            if ($debug_mode > 0)
-            {
-              print "<BR>\ncountry_method 2: We make use of ip2cc<BR>\n<BR>\n";
-            }
-
-            $country_method = 2;
-	        }
-	      }
-	    }
-    }
-  }
-
+				}
+				return 0;
+			}else{
+				$country_method = 2;
+				if ( $debug_mode > 0 ){
+					ErrorMessage(
+						$EMPfx . 'Country method 2: We use ip2cc.', 0, 1
+					);
+				}
+			}
+		}
+	}else{
+		ErrorMessage(
+			$EMPfx . "ERROR: Conf Var \$Geo_IPfree_file_ascii or \$IP2CC not configured.",
+			0, 1
+		);
+		return 0;
+	}
   if ($country_method == 0)
   {
     // should not be reached
     ErrorMessage("ERROR: No \$country_method available.<BR>\n");
     return 0;
   }
-
-
   // Loop through all the ip addresses returned by the sql query
   $cnt = 0;
   $not_an_array = 0;

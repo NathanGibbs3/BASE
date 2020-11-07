@@ -233,6 +233,8 @@ if [ "$1" == "" ]; then
 		touch custom/testhtm.htm
 		touch custom/testhtml.html
 		touch custom/testCASE.HTML
+		touch custom/readTestOK.txt
+		touch custom/readTestFail.txt
 		sudo chown -h nobody:nogroup custom/*
 		sudo touch /etc/BASEtestsym.htm
 		sudo chown 1000:nogroup /etc/BASEtestsym.htm
@@ -240,6 +242,8 @@ if [ "$1" == "" ]; then
 		ln -s testhtm.htm custom/testsymok.htm
 		touch custom/testuser.htm
 		sudo chown root:root custom/testuser.htm
+		sudo chown root:root custom/readTestFail.txt
+		sudo chmod 000 custom/readTestFail.txt
 	fi
 	if [ "$TRAVIS" != "true" ]; then
 		if [ "$td" == "tests" ]; then
