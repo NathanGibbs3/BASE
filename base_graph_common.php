@@ -63,23 +63,20 @@ function VerifyGraphingLib(){
 	}
 	$sc = DIRECTORY_SEPARATOR;
 	$LibLoc = 'Image';
-	$LibFile = 'Graph.php';
-	$Lib = implode( $sc, array($LibLoc, $LibFile) );
-	$tmp = ChkAccess($Lib);
-	if ( $tmp == 1 ){
-		// PHP will search the default path and try to include the file.
-		$IGL = include_once($Lib);
+	$LibFile = 'Graph';
+	$tmp = ChkLib('', $LibLoc , $LibFile);
+	if ( LoadedString($tmp) == true ){
+		$IGL = include_once($tmp);
 	}
-	if ( $tmp != 1 || $IGL == false ){
+	if ( $tmp == '' || $IGL == false){
+		$Lib = implode( $sc, array($LibLoc, $LibFile) ).'.php';
 		$EMsg = "$EMPfx ERROR: Graphing Lib: $Lib not ";
-		if ( $tmp == -1 ){
-			$EMsg .= 'found';
-		}elseif ( $tmp == -2 ){
-			$EMsg .= 'readable';
-		}elseif ( !$IGL ){
+		if ( $tmp == '' ){
+			$EMsg .= 'accessable';
+		}elseif ( $IGL == false ){
 			$EMsg .= 'loaded';
 		}
-		$$EMsg .= '.';
+		$EMsg .= '.';
 		ErrorMessage($EMsg, 0, 1);
 		// Sorry dude, you haven't finished your home work. -- Alejandro
 		$Lib = 'Image_Graph';

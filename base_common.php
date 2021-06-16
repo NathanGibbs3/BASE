@@ -1002,7 +1002,7 @@ function ExportPacket_summary($sid, $cid, $db, $export_type = 0)
   return $s; 
 }
 
-function base_header($url) {
+function base_header($url){
 	if (!headers_sent()) {
 		header($url);
 		exit;
@@ -1151,6 +1151,88 @@ function ChkAccess( $path, $type='f' ){
 				$Ret = 1;
 				// @codeCoverageIgnoreEnd
 			}
+		}
+	}
+	return $Ret;
+}
+
+// Returns Library if found & file passes access checks.
+// Returns empty string otherwise.
+function ChkLib ( $path='', $LibLoc='', $LibFile='' ){
+	GLOBAL $debug_mode;
+	$EMPfx = __FUNCTION__ . ': ';
+	$Ret = '';
+	if ( LoadedString($LibFile) ){
+		$sc = DIRECTORY_SEPARATOR;
+		$tmp = $LibFile;
+		// Strip leading or trailing seperators from Lib file.
+		$ReqRE = "(^\\$sc|\\$sc\$)";
+		$LibFile = preg_replace("/".$ReqRE."/", '', $LibFile);
+		if ( $debug_mode > 0 && $tmp != $LibFile ){
+			ErrorMessage('Req Lib: ' . XSSPrintSafe($tmp), 0, 1);
+			ErrorMessage('Mod Lib: ' . XSSPrintSafe($LibFile), 0, 1);
+		}
+		if ( LoadedString($path) ){ // Path to Lib
+			$tmp = $path; // Strip trailing seperator from path.
+			$ReqRE = "\\$sc\$";
+			$path = preg_replace("/".$ReqRE."/", '', $path);
+			if ( $debug_mode > 0 && $tmp != $path ){
+				ErrorMessage('Req Loc: ' . XSSPrintSafe($tmp), 0, 1);
+				ErrorMessage('Mod Loc: ' . XSSPrintSafe($path), 0, 1);
+			}
+			$LibFile .= '.php';
+			$FinalLib = implode( $sc, array($path, $LibFile) );
+			if ( $debug_mode > 0 ){
+				ErrorMessage(
+					XSSPrintSafe($EMPfx . "Chk: $FinalLib"),'black',1
+				);
+			}
+			$tmp = ChkAccess($FinalLib);
+			$Msg = $EMPfx . "Lib: $FinalLib ";
+			$clr = 'red';
+			if ( $tmp == 1 ){
+				$Msg .= 'found';
+				$clr = 'black';
+				$Ret = $FinalLib;
+			}else{
+				$Msg .= 'not ';
+			}
+			if ( $tmp == -1 ){
+				$Msg .= 'found';
+			}elseif ( $tmp == -2 ){
+				$Msg .= 'readable';
+			}
+			$Msg .= '.';
+			if ( $debug_mode > 0 ){
+				ErrorMessage($Msg, $clr, 1);
+			}
+		}else{ // Relative path to Lib.
+			if ( LoadedString($LibLoc) ){
+				$tmp = $LibLoc; // Strip leading seperators from Loc.
+				$ReqRE = "^\\$sc";
+				$LibLoc = preg_replace("/".$ReqRE."/", '', $LibLoc);
+				if ( $debug_mode > 0 && $tmp != $LibLoc ){
+					ErrorMessage('Req Loc: ' . XSSPrintSafe($tmp), 0, 1);
+					ErrorMessage('Mod Loc: ' . XSSPrintSafe($LibLoc), 0, 1);
+				}
+			}
+			$PSPath = explode(PATH_SEPARATOR, ini_get('include_path'));
+			foreach( $PSPath as $single_path ){
+				if ( LoadedString($LibLoc) ){
+					$FinalLoc = implode( $sc, array($single_path, $LibLoc) );
+				}else{
+					$FinalLoc = $single_path;
+				}
+				$tmp = ChkLib( $FinalLoc, '', $LibFile);
+				if ( LoadedString($tmp) ){
+					$Ret = $tmp;
+					break;
+				}
+			}
+		}
+	}else{
+		if ( $debug_mode > 0 ){
+			ErrorMessage($EMPfx . 'No Lib specified.', 0, 1);
 		}
 	}
 	return $Ret;

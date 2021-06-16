@@ -3,9 +3,10 @@ use PHPUnit\Framework\TestCase;
 
 // Test fucntions in /base_common.php
 /**
+  * @covers ::ChkAccess
   * @covers ::ChkCookie
   * @covers ::ChkGet
-  * @covers ::ChkAccess
+  * @covers ::ChkLib
   * @covers ::GetAsciiClean
   * @covers ::GetQueryResultID
   * @covers ::GetVendor
@@ -14,6 +15,9 @@ use PHPUnit\Framework\TestCase;
   * @covers ::Percent
   * @covers ::base_include
   * @uses ::CleanVariable
+  * @uses ::XSSPrintSafe
+  * @uses ::ErrorMessage
+  * @uses ::returnErrorMessage
   */
 class base_commonTest extends TestCase {
 	// Tests go here.
@@ -608,6 +612,153 @@ class base_commonTest extends TestCase {
 				'Unexpected return ChkAccess().'
 			);
 		}
+	}
+	public function testreturnChkLibEmpty() {
+		GLOBAL $debug_mode;
+		$expected ='<font color="#ff0000">ChkLib: No Lib specified.</font><br/>';
+		$this->assertEquals(
+			'',
+			ChkLib('','',''),
+			'Unexpected return ChkLib().'
+		);
+		$odb = $debug_mode;
+		$debug_mode = 1;
+		$this->expectOutputString(
+			$expected,
+			'Unexpected Output.'
+		);
+		ChkLib('','','');
+		$debug_mode = $odb;
+	}
+	public function testreturnChkLibSepinFile() {
+		GLOBAL $debug_mode;
+		$sc = DIRECTORY_SEPARATOR;
+		$Lib = $sc . 'Graph' . $sc;
+		$expected = "Req Lib: ". preg_quote($Lib,'/'). '.*';
+		$expected .= 'Mod Lib: Graph';
+		$odb = $debug_mode;
+		$debug_mode = 1;
+		$this->expectOutputRegex(
+			"/".$expected."/",
+			'Unexpected Output.'
+		);
+		ChkLib('','',$Lib);
+		$debug_mode = $odb;
+	}
+	public function testreturnChkLibSepinLoc() {
+		GLOBAL $debug_mode;
+		$sc = DIRECTORY_SEPARATOR;
+		$Loc = $sc . 'Image' . $sc;
+		$Lib = 'Graph';
+		$expected = "Req Loc: ". preg_quote($Loc,'/'). '.*';
+		$expected .= "Mod Loc: Image\\$sc";
+		$odb = $debug_mode;
+		$debug_mode = 1;
+		$this->expectOutputRegex(
+			"/".$expected."/",
+			'Unexpected Output.'
+		);
+		ChkLib('',$Loc,$Lib);
+		$debug_mode = $odb;
+	}
+	public function testreturnChkLibSepinPath() {
+		GLOBAL $debug_mode;
+		$sc = DIRECTORY_SEPARATOR;
+		// Setup DB Lib Path.
+		$TRAVIS = getenv('TRAVIS');
+		if (!$TRAVIS){ // Running on Local Test System.
+			// Default Debian/Ubuntu location.
+			$DBlib_path = '/usr/share/php/adodb';
+		}else{
+			$ADO = getenv('ADODBPATH');
+			if (!$ADO) {
+				self::markTestIncomplete('Unable to setup ADODB');
+			}else{
+				$DBlib_path = "build/adodb/$ADO";
+			}
+		}
+		$path =  $DBlib_path . $sc;
+		$Lib = 'adodb.inc';
+		$expected = "Req Loc: ". preg_quote($path,'/'). '.*';
+		$expected .= "Mod Loc: ". preg_quote($DBlib_path,'/');
+		$odb = $debug_mode;
+		$debug_mode = 1;
+		$this->expectOutputRegex(
+			"/".$expected."/",
+			'Unexpected Output.'
+		);
+		ChkLib($path,'',$Lib);
+		$debug_mode = $odb;
+	}
+	public function testreturnChkLibValid() {
+		GLOBAL $debug_mode;
+		$sc = DIRECTORY_SEPARATOR;
+		// Setup DB Lib Path.
+		$TRAVIS = getenv('TRAVIS');
+		if (!$TRAVIS){ // Running on Local Test System.
+			// Default Debian/Ubuntu location.
+			$DBlib_path = '/usr/share/php/adodb';
+		}else{
+			$ADO = getenv('ADODBPATH');
+			if (!$ADO) {
+				self::markTestIncomplete('Unable to setup ADODB');
+			}else{
+				$DBlib_path = "build/adodb/$ADO";
+			}
+		}
+		$path =  $DBlib_path;
+		$Lib = 'adodb.inc';
+		$expected = '<font color="black">ChkLib: Chk: '."$path$sc$Lib".'.php';
+		$expected .= '</font><br/><font color="black">ChkLib: Lib: ';
+		$expected .= "$path$sc$Lib".'.php found.</font><br/>';
+		$this->assertEquals(
+			"$path$sc$Lib".'.php',
+			ChkLib($path,'',$Lib),
+			'Unexpected return ChkLib().'
+		);
+		$odb = $debug_mode;
+		$debug_mode = 1;
+		$this->expectOutputString(
+			$expected,
+			'Unexpected Output.'
+		);
+		ChkLib($path,'',$Lib);
+		$debug_mode = $odb;
+	}
+	public function testreturnChkLibNotFound() {
+		GLOBAL $debug_mode;
+		$sc = DIRECTORY_SEPARATOR;
+		// Setup DB Lib Path.
+		$TRAVIS = getenv('TRAVIS');
+		if (!$TRAVIS){ // Running on Local Test System.
+			// Default Debian/Ubuntu location.
+			$DBlib_path = '/usr/share/php/adodb';
+		}else{
+			$ADO = getenv('ADODBPATH');
+			if (!$ADO) {
+				self::markTestIncomplete('Unable to setup ADODB');
+			}else{
+				$DBlib_path = "build/adodb/$ADO";
+			}
+		}
+		$path =  $DBlib_path;
+		$Lib = 'notthere';
+		$expected = '<font color="black">ChkLib: Chk: '."$path$sc$Lib".'.php';
+		$expected .= '</font><br/><font color="red">ChkLib: Lib: ';
+		$expected .= "$path$sc$Lib".'.php not found.</font><br/>';
+		$this->assertEquals(
+			'',
+			ChkLib($path,'',$Lib),
+			'Unexpected return ChkLib().'
+		);
+		$odb = $debug_mode;
+		$debug_mode = 1;
+		$this->expectOutputString(
+			$expected,
+			'Unexpected Output.'
+		);
+		ChkLib($path,'',$Lib);
+		$debug_mode = $odb;
 	}
 
 	// Add code to a function if needed.

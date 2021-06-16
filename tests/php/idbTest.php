@@ -5,7 +5,6 @@ use PHPUnit\Framework\TestCase;
 
 /**
   * @covers ::GetFieldLength
-  * @covers ::VerifyDBAbstractionLib
   * @covers baseCon::baseErrorMessage
   * @covers baseCon::baseFieldExists
   * @covers baseCon::baseTableExists
@@ -93,24 +92,6 @@ class dbTest extends TestCase {
 	}
 
 	// Tests go here.
-	public function testreturnVerifyDBAbstractionLibValid() {
-		$sc = DIRECTORY_SEPARATOR;
-		$DBlib_path = self::$DBlib_path . $sc . 'adodb.inc.php';
-		$this->assertEquals(
-			1,
-			VerifyDBAbstractionLib($DBlib_path),
-			'Unexpected return VerifyDBAbstractionLib().'
-		);
-	}
-	public function testreturnVerifyDBAbstractionLibInValid() {
-		$sc = DIRECTORY_SEPARATOR;
-		$DBlib_path = self::$DBlib_path . $sc . 'invalid';
-		$this->assertEquals(
-			-1,
-			VerifyDBAbstractionLib($DBlib_path),
-			'Unexpected return VerifyDBAbstractionLib().'
-		);
-	}
 	public function testbaseFieldExistsNonExistantTableReturnsExpected(){
 		$db = self::$db;
 		$this->assertEquals(

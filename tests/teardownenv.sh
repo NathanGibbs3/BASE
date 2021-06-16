@@ -60,6 +60,12 @@ if [ "$1" == "" ]; then
 		echo "Removing custom footer Directory: `pwd`/custom"
 		sudo rm -rdf custom
 		sudo rm -f /etc/BASEtestsym.htm
+		if [ "$TRAVIS" != "true" ]; then
+			# Running on Local Test System.
+			# Default Debian/Ubuntu location.
+			ADODBPATH='/usr/share/php/adodb'
+		fi
+		sudo rm -f $ADODBPATH/readTestFail.php
 	fi
 	if [ "$td" == "tests" ]; then
 		php ./teardowntestdb.php

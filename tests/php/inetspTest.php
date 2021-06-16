@@ -165,8 +165,8 @@ class netSPTest extends TestCase {
 		$db = self::$db;
 		// Remove once we TD migrate this.
 		define('_ERRRESOLVEADDRESS','Unable to resolve address');
-		$tip = '199.167.193.37';
-		$thn = 'cmpublishers.com';
+		$tip = '167.99.172.230';
+		$thn = 'dr1.cmpublishers.com';
 		$ip32 = baseIP2long($tip);
 		$sql = "SELECT ipc_ip,ipc_fqdn,ipc_dns_timestamp".
 		" FROM acid_ip_cache  WHERE ipc_ip = '$ip32' ";
@@ -195,8 +195,8 @@ class netSPTest extends TestCase {
 		$db = self::$db;
 		// Remove once we TD migrate this.
 		define('_ERRRESOLVEADDRESS','Unable to resolve address');
-		$tip = '199.167.193.37';
-		$thn = 'cmpublishers.com';
+		$tip = '167.99.172.230';
+		$thn = 'dr1.cmpublishers.com';
 		$ip32 = baseIP2long($tip);
 		baseGetHostByAddr($tip,$db,-10);
 		$sql = "SELECT ipc_ip,ipc_fqdn,ipc_dns_timestamp".
@@ -249,8 +249,8 @@ class netSPTest extends TestCase {
 		$db = self::$db;
 		// Remove once we TD migrate this.
 		define('_ERRRESOLVEADDRESS','Unable to resolve address');
-		$tip = '199.167.193.37';
-		$thn = 'cmpublishers.com';
+		$tip = '167.99.172.230';
+		$thn = 'dr1.cmpublishers.com';
 		$this->assertEquals(
 			$thn,
 			baseGetHostByAddr($tip,$db,10),

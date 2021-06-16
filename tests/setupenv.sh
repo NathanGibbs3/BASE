@@ -219,6 +219,7 @@ if [ "$1" == "" ] && [ "$TRAVIS" == "true" ]; then
 	wget -nv https://$ADOSrc/$ADODl/$ADOFile -O build/adodb.tgz
 	tar -C build/adodb -zxf build/adodb.tgz
 else
+	ADODBPATH='/usr/share/php/adodb'
 	echo "Would Download https://$ADOSrc/$ADODl/$ADOFile"
 fi
 
@@ -244,6 +245,9 @@ if [ "$1" == "" ]; then
 		sudo chown root:root custom/testuser.htm
 		sudo chown root:root custom/readTestFail.txt
 		sudo chmod 000 custom/readTestFail.txt
+		sudo touch $ADODBPATH/readTestFail.php
+		sudo chown root:root $ADODBPATH/readTestFail.php
+		sudo chmod 000 $ADODBPATH/readTestFail.php
 	fi
 	if [ "$TRAVIS" != "true" ]; then
 		if [ "$td" == "tests" ]; then
