@@ -212,7 +212,7 @@ else # PHP 4x
 		ADODBPATH="ADOdb-$ADODBVer/phplens/adodb"
 	fi
 fi
-if [ "$TRAVIS" != "true" ]; then
+if [ "$TRAVIS" == "true" ]; then
 	export ADODBPATH=$ADODBPATH
 fi
 ADOFile=$ADOFilePfx$ADODBVer$ADOFileSfx
