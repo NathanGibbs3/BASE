@@ -176,7 +176,7 @@ if [ "$pvM" \> "5" ]; then # PHP 7x
 		ADODBVer=5.20.0
 	fi
 	if [ "$1" == "" ] && [ "$TRAVIS" == "true" ]; then
-		export ADODBPATH="ADOdb-$ADODBVer"
+		ADODBPATH="ADOdb-$ADODBVer"
 	fi
 elif [ "$pvM" \> "4" ]; then # PHP 5x
 	if [ "$pvm" \> "2" ]; then # PHP 5.3+
@@ -185,7 +185,7 @@ elif [ "$pvM" \> "4" ]; then # PHP 5x
 		ADODBVer=5.01beta
 	fi
 	if [ "$1" == "" ] && [ "$TRAVIS" == "true" ]; then
-		export ADODBPATH="ADOdb-$ADODBVer/phplens/adodb5"
+		ADODBPATH="ADOdb-$ADODBVer/phplens/adodb5"
 	fi
 else # PHP 4x
 #	Legacy ADODB
@@ -209,8 +209,11 @@ else # PHP 4x
 #	fi
 	ADODBVer=5.01beta
 	if [ "$1" == "" ] && [ "$TRAVIS" == "true" ]; then
-		export ADODBPATH="ADOdb-$ADODBVer/phplens/adodb"
+		ADODBPATH="ADOdb-$ADODBVer/phplens/adodb"
 	fi
+fi
+if [ "$TRAVIS" != "true" ]; then
+	export ADODBPATH=$ADODBPATH
 fi
 ADOFile=$ADOFilePfx$ADODBVer$ADOFileSfx
 echo "Setup PHP ADODB: $ADODBVer from: https://$ADOSrc"
