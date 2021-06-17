@@ -212,15 +212,14 @@ else # PHP 4x
 		ADODBPATH="ADOdb-$ADODBVer/phplens/adodb"
 	fi
 fi
-if [ "$TRAVIS" == "true" ]; then
-	export ADODBPATH=$ADODBPATH
-fi
 ADOFile=$ADOFilePfx$ADODBVer$ADOFileSfx
 echo "Setup PHP ADODB: $ADODBVer from: https://$ADOSrc"
 if [ "$1" == "" ] && [ "$TRAVIS" == "true" ]; then
 	mkdir -p build/adodb
 	wget -nv https://$ADOSrc/$ADODl/$ADOFile -O build/adodb.tgz
 	tar -C build/adodb -zxf build/adodb.tgz
+	export ADODBPATH=$ADODBPATH
+	ADODBPATH="build/adodb/$ADODBPATH"
 else
 	ADODBPATH='/usr/share/php/adodb'
 	echo "Would Download https://$ADOSrc/$ADODl/$ADOFile"
