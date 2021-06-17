@@ -212,21 +212,18 @@ else # PHP 4x
 		ADODBPATH="ADOdb-$ADODBVer/phplens/adodb"
 	fi
 fi
-if [ "$TRAVIS" == "true" ]; then
-	export ADODBPATH=$ADODBPATH
-fi
 ADOFile=$ADOFilePfx$ADODBVer$ADOFileSfx
 echo "Setup PHP ADODB: $ADODBVer from: https://$ADOSrc"
 if [ "$1" == "" ] && [ "$TRAVIS" == "true" ]; then
 	mkdir -p build/adodb
 	wget -nv https://$ADOSrc/$ADODl/$ADOFile -O build/adodb.tgz
 	tar -C build/adodb -zxf build/adodb.tgz
-	ADODBPATH="build/adodb/$ADODBPATH"
+	export ADODBPATH=$ADODBPATH
+	RFADODBPATH="build/adodb/$ADODBPATH"
 else
-	ADODBPATH='/usr/share/php/adodb'
+	RFADODBPATH='/usr/share/php/adodb'
 	echo "Would Download https://$ADOSrc/$ADODl/$ADOFile"
 fi
-
 if [ "$1" == "" ]; then
 	if [ "$td" != "tests" ]; then
 		echo "Current directory: `pwd`"
@@ -249,9 +246,9 @@ if [ "$1" == "" ]; then
 		sudo chown root:root custom/testuser.htm
 		sudo chown root:root custom/readTestFail.txt
 		sudo chmod 000 custom/readTestFail.txt
-		sudo touch $ADODBPATH/readTestFail.php
-		sudo chown root:root $ADODBPATH/readTestFail.php
-		sudo chmod 000 $ADODBPATH/readTestFail.php
+		sudo touch $RFADODBPATH/readTestFail.php
+		sudo chown root:root $RFADODBPATH/readTestFail.php
+		sudo chmod 000 $RFADODBPATH/readTestFail.php
 	fi
 	if [ "$TRAVIS" != "true" ]; then
 		if [ "$td" == "tests" ]; then
