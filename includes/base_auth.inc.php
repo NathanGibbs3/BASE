@@ -162,8 +162,8 @@ class BaseUser {
         $usercount = $db->baseExecute($sql);
         $usercnt = $usercount->baseFetchRow();
         $userid = $usercnt[0] + 1;
-        $sql ="INSERT INTO base_users (usr_id, usr_login, usr_pwd, role_id, usr_name, usr_enabled)";
-        $sql = $sql . "VALUES (".$userid .", '".$user."','".$cryptpassword."',".$role.",'".$name."', 1);";
+        $sql = "INSERT INTO base_users (usr_id, usr_login, usr_pwd, role_id, usr_name, usr_enabled)";
+        $sql .= "VALUES (".$userid .", '".$user."','".$cryptpassword."',".$role.",'".$name."', 1);";
         $db->baseExecute($sql, -1, -1, false);
         return _ADDEDSF;
     }
@@ -256,14 +256,22 @@ class BaseUser {
 		}
 		return $user;
 	}
-    function returnUserID($login)
-    {
-        $db = $this->db;
-        $sql = "SELECT usr_id FROM base_users WHERE usr_login = '" . $login . "';";
-        $rs = $db->baseExecute($sql);
-        $usrid = $rs->baseFetchRow();
-        return $usrid[0];
-    }
+	function returnUserID($user){ // Returns uid of user, false on Error.
+		$Ret = false;
+		if ( LoadedString($user) ){ // Input Validation
+			$db = $this->db;
+			$sql = "SELECT usr_id FROM base_users WHERE usr_login = '" . $user . "';";
+			$rs = $db->baseExecute($sql);
+			if ( $rs != false ){ // Error Check
+				$usrid = $rs->baseFetchRow();
+				$rs->baseFreeRows();
+				if ( isset($usrid[0]) ){
+					$Ret = intval($usrid[0]);
+				}
+			}
+		}
+		return $Ret;
+	}
 	function returnUsers(){
         /* returns an array of all users info
          * each array item is formatted as
@@ -319,7 +327,7 @@ class BaseUser {
         $rolename = $result->baseFetchRow();
         return $rolename[0];
     }
-	function returnRoleNamesDropDown($roleid) {
+	function returnRoleNamesDropDown($roleid){
 		// Returns an HTML drop down list with all of the role names.
 		// The passed $roleid will be selected if it exists.
 		$db = $this->db;

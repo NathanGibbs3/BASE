@@ -1002,7 +1002,7 @@ function ExportPacket_summary($sid, $cid, $db, $export_type = 0)
   return $s; 
 }
 
-function base_header($url) {
+function base_header($url){
 	if (!headers_sent()) {
 		header($url);
 		exit;
@@ -1071,8 +1071,7 @@ function base_include ( $file='' ){
 		$Loc = realpath($tfile); // Final file must
 		if ( $Loc != false // exist and resolve to an absolute path.
 			&& fileowner($Loc) != false // not be owned by UID 0 (root).
-			&& is_file($Loc) // be a real file.
-			&& is_readable($Loc) // be readable.
+			&& ChkAccess($Loc) == 1 // be a real file & be readable.
 		){
 			if ( preg_match("/^" . $ReqRE ."$/i", $Loc) ){
 				// be in specific location with specific extension.
@@ -1104,6 +1103,137 @@ function GetAsciiClean(){
 		$Ret = ChkGet('asciiclean', 1);
 	}else{ // No GET, check for cookie.
 		$Ret = ChkCookie('asciiclean', 'clean');
+	}
+	return $Ret;
+}
+
+// Returns 1 if file or directory passes access checks.
+// Returns < 1 error code otherwise.
+function ChkAccess( $path, $type='f' ){
+	$Ret = 0; // Path Error
+	if ( LoadedString($path) ){
+		$type = strtolower($type);
+		$rcf = 0;
+		$Ret = -1; // Type Error
+		if ( $type == 'f' ){
+			if ( is_file($path) ){
+				$rcf = 1;
+			}
+		}elseif ( $type == 'd' ){
+			if ( is_dir($path) ){
+				$rcf = 1;
+			}
+		}
+		if ( $rcf == 1 ){
+			$Ret = -2; // Readable Error
+			$version = explode('.', phpversion());
+			// PHP Safe Mode cutout.
+			//    Added: 2005-03-25 for compatabibility with PHP 4x & 5.0x
+			//      See: https://sourceforge.net/p/secureideas/bugs/47
+			// PHP Safe Mode w/o cutout successful.
+			// Verified: 2019-05-31 PHP 5.3.29 via CI & Unit Tests.
+			//      See: https://github.com/NathanGibbs3/BASE/issues/34
+			// May work: PHP > 5.1.4.
+			//      See: https://www.php.net/manual/en/function.is-readable.php
+			if (
+				$version[0] > 5
+				|| ($version[0] == 5 && $version[1] > 1)
+				|| ($version[0] == 5 && $version[1] == 1 && $version[2] > 4 )
+				|| ini_get("safe_mode") != true
+			){
+				if ( is_readable($path) ){
+					$Ret = 1;
+				}
+			}else{
+				// @codeCoverageIgnoreStart
+				// PHPUnit test only covers this code path on PHP < 5.1.5
+				// Unable to validate in CI.
+				$Ret = 1;
+				// @codeCoverageIgnoreEnd
+			}
+		}
+	}
+	return $Ret;
+}
+
+// Returns Library if found & file passes access checks.
+// Returns empty string otherwise.
+function ChkLib ( $path='', $LibLoc='', $LibFile='' ){
+	GLOBAL $debug_mode;
+	$EMPfx = __FUNCTION__ . ': ';
+	$Ret = '';
+	if ( LoadedString($LibFile) ){
+		$sc = DIRECTORY_SEPARATOR;
+		$tmp = $LibFile;
+		// Strip leading or trailing seperators from Lib file.
+		$ReqRE = "(^\\$sc|\\$sc\$)";
+		$LibFile = preg_replace("/".$ReqRE."/", '', $LibFile);
+		if ( $debug_mode > 0 && $tmp != $LibFile ){
+			ErrorMessage('Req Lib: ' . XSSPrintSafe($tmp), 0, 1);
+			ErrorMessage('Mod Lib: ' . XSSPrintSafe($LibFile), 0, 1);
+		}
+		if ( LoadedString($path) ){ // Path to Lib
+			$tmp = $path; // Strip trailing seperator from path.
+			$ReqRE = "\\$sc\$";
+			$path = preg_replace("/".$ReqRE."/", '', $path);
+			if ( $debug_mode > 0 && $tmp != $path ){
+				ErrorMessage('Req Loc: ' . XSSPrintSafe($tmp), 0, 1);
+				ErrorMessage('Mod Loc: ' . XSSPrintSafe($path), 0, 1);
+			}
+			$LibFile .= '.php';
+			$FinalLib = implode( $sc, array($path, $LibFile) );
+			if ( $debug_mode > 0 ){
+				ErrorMessage(
+					XSSPrintSafe($EMPfx . "Chk: $FinalLib"),'black',1
+				);
+			}
+			$tmp = ChkAccess($FinalLib);
+			$Msg = $EMPfx . "Lib: $FinalLib ";
+			$clr = 'red';
+			if ( $tmp == 1 ){
+				$Msg .= 'found';
+				$clr = 'black';
+				$Ret = $FinalLib;
+			}else{
+				$Msg .= 'not ';
+			}
+			if ( $tmp == -1 ){
+				$Msg .= 'found';
+			}elseif ( $tmp == -2 ){
+				$Msg .= 'readable';
+			}
+			$Msg .= '.';
+			if ( $debug_mode > 0 ){
+				ErrorMessage($Msg, $clr, 1);
+			}
+		}else{ // Relative path to Lib.
+			if ( LoadedString($LibLoc) ){
+				$tmp = $LibLoc; // Strip leading seperators from Loc.
+				$ReqRE = "^\\$sc";
+				$LibLoc = preg_replace("/".$ReqRE."/", '', $LibLoc);
+				if ( $debug_mode > 0 && $tmp != $LibLoc ){
+					ErrorMessage('Req Loc: ' . XSSPrintSafe($tmp), 0, 1);
+					ErrorMessage('Mod Loc: ' . XSSPrintSafe($LibLoc), 0, 1);
+				}
+			}
+			$PSPath = explode(PATH_SEPARATOR, ini_get('include_path'));
+			foreach( $PSPath as $single_path ){
+				if ( LoadedString($LibLoc) ){
+					$FinalLoc = implode( $sc, array($single_path, $LibLoc) );
+				}else{
+					$FinalLoc = $single_path;
+				}
+				$tmp = ChkLib( $FinalLoc, '', $LibFile);
+				if ( LoadedString($tmp) ){
+					$Ret = $tmp;
+					break;
+				}
+			}
+		}
+	}else{
+		if ( $debug_mode > 0 ){
+			ErrorMessage($EMPfx . 'No Lib specified.', 0, 1);
+		}
 	}
 	return $Ret;
 }
