@@ -176,7 +176,7 @@ if [ "$pvM" \> "5" ]; then # PHP 7x
 		ADODBVer=5.20.0
 	fi
 	if [ "$1" == "" ] && [ "$TRAVIS" == "true" ]; then
-		export ADODBPATH="ADOdb-$ADODBVer"
+		ADODBPATH="ADOdb-$ADODBVer"
 	fi
 elif [ "$pvM" \> "4" ]; then # PHP 5x
 	if [ "$pvm" \> "2" ]; then # PHP 5.3+
@@ -185,7 +185,7 @@ elif [ "$pvM" \> "4" ]; then # PHP 5x
 		ADODBVer=5.01beta
 	fi
 	if [ "$1" == "" ] && [ "$TRAVIS" == "true" ]; then
-		export ADODBPATH="ADOdb-$ADODBVer/phplens/adodb5"
+		ADODBPATH="ADOdb-$ADODBVer/phplens/adodb5"
 	fi
 else # PHP 4x
 #	Legacy ADODB
@@ -209,7 +209,7 @@ else # PHP 4x
 #	fi
 	ADODBVer=5.01beta
 	if [ "$1" == "" ] && [ "$TRAVIS" == "true" ]; then
-		export ADODBPATH="ADOdb-$ADODBVer/phplens/adodb"
+		ADODBPATH="ADOdb-$ADODBVer/phplens/adodb"
 	fi
 fi
 ADOFile=$ADOFilePfx$ADODBVer$ADOFileSfx
@@ -218,10 +218,12 @@ if [ "$1" == "" ] && [ "$TRAVIS" == "true" ]; then
 	mkdir -p build/adodb
 	wget -nv https://$ADOSrc/$ADODl/$ADOFile -O build/adodb.tgz
 	tar -C build/adodb -zxf build/adodb.tgz
+	export ADODBPATH=$ADODBPATH
+	RFADODBPATH="build/adodb/$ADODBPATH"
 else
+	RFADODBPATH='/usr/share/php/adodb'
 	echo "Would Download https://$ADOSrc/$ADODl/$ADOFile"
 fi
-
 if [ "$1" == "" ]; then
 	if [ "$td" != "tests" ]; then
 		echo "Current directory: `pwd`"
@@ -233,6 +235,8 @@ if [ "$1" == "" ]; then
 		touch custom/testhtm.htm
 		touch custom/testhtml.html
 		touch custom/testCASE.HTML
+		touch custom/readTestOK.txt
+		touch custom/readTestFail.txt
 		sudo chown -h nobody:nogroup custom/*
 		sudo touch /etc/BASEtestsym.htm
 		sudo chown 1000:nogroup /etc/BASEtestsym.htm
@@ -240,6 +244,11 @@ if [ "$1" == "" ]; then
 		ln -s testhtm.htm custom/testsymok.htm
 		touch custom/testuser.htm
 		sudo chown root:root custom/testuser.htm
+		sudo chown root:root custom/readTestFail.txt
+		sudo chmod 000 custom/readTestFail.txt
+		sudo touch $RFADODBPATH/readTestFail.php
+		sudo chown root:root $RFADODBPATH/readTestFail.php
+		sudo chmod 000 $RFADODBPATH/readTestFail.php
 	fi
 	if [ "$TRAVIS" != "true" ]; then
 		if [ "$td" == "tests" ]; then

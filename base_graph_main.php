@@ -35,61 +35,68 @@ function check_worldmap(){
 	$ok = 0;
 	$php_path_array = explode(PATH_SEPARATOR, ini_get('include_path'));
 	if ( $debug_mode > 0 ){
-      print "Where is the worldmap?<BR>\n";
-    }
-    foreach($php_path_array as $single_path)
-    {
-      $where_is_it = "$single_path/Image/Graph/Images/Maps/world_map6.png";
-      if ($debug_mode > 0)
-      {
-        print "&quot;" . $where_is_it . "&quot;<BR>\n";
-      }
-      if (file_exists($where_is_it))
-      // then we ASSUME, that this is the correct worldmap file. Not necessarily true, though. A simplification, therefore.
-      {
-        if (is_readable($where_is_it))
-        {
-    		  $where_is_it2 = "$single_path/Image/Graph/Images/Maps/world_map6.txt";
-    		  if (file_exists($where_is_it2))
-          {
-            if (is_readable($where_is_it2))
-            {
-    			    $ok = 1;
-    			    break;
-            }
-            else
-            {
-              ErrorMessage("ERROR: $where_is_it2 does exist, but it is NOT READABLE.<BR>\n");
-            }
-    		  }
-    		  else
-    		  {
-            ErrorMessage("ERROR: $where_is_it could be found, but $where_is_it2 does NOT exist.<BR>\n");
-
-            $rv = ini_get("safe_mode");
-            if ($rv == 1)
-            {
-              ErrorMessage("In &quot;safe_mode&quot; both world_map6.png and world_map6.txt must be owned by the user under which the web server is running.<BR>\n");
-            }
-          }
-        }
-        else
-        {
-          ErrorMessage("ERROR: $where_is_it does exist, but it is NOT READABLE.<BR>\n");
-        }
-    	}
-    }
-    
-    if ($ok != 1)
-    {
-      ErrorMessage("ERROR: The worldmap function is not available, because world_map6.png and world_map6.txt could not be found. Go into the \"PEAR directory\", as can be found by \"pear config-show\", and then into the subdirectory Image/Graph/Images/Maps/. This is the location where world_map6.png and world_map6.txt must be installed.<BR>\n");
-      $rv = ini_get("safe_mode");
-      if ($rv == 1)
-      {
-        ErrorMessage("In &quot;safe_mode&quot; both world_map6.png and world_map6.txt must be owned by the user under which the web server is running.<BR>\n");
-      }
-      return 0;
-    }
+		ErrorMessage( $EMPfx . 'Find the worldmap?','black',1);
+	}
+	$EMPfx .= 'ERROR: ';
+	$sc = DIRECTORY_SEPARATOR;
+	$MapLoc = implode( $sc, array('Image','Graph','Images','Maps') );
+	$WMif = 'world_map6.png';
+	$WMcf = 'world_map6.txt';
+	foreach( $php_path_array as $single_path ){
+		$WMapImg = implode( $sc, array($single_path, $MapLoc, $WMif) );
+		if ( $debug_mode > 0 ){
+			ErrorMessage( "&quot;" . $WMapImg . "&quot;",'black',1);
+		}
+		$tmp = ChkAccess($WMapImg);
+		$EMsg = '';
+		if ( $tmp == 1 ){
+			// We ASSUME, that this is the correct worldmap file.
+			// Not necessarily true, though. A simplification, therefore.
+			$WMapCsf = implode( $sc, array($single_path, $MapLoc, $WMcf) );
+			$tmp = ChkAccess($WMapCsf);
+			if ( $tmp == 1 ){
+					$ok = 1;
+					break;
+			}else{
+				$EMsg = "$EMPfx Coordinates: $WMapCsf not ";
+				if ( $tmp == -1 ){
+					$EMsg .= 'found';
+				}elseif ( $tmp == -2 ){
+					$EMsg .= 'readable';
+				}
+				$$EMsg .= '.';
+				ErrorMessage($EMsg, 0, 1);
+			}
+		}else{
+			if ( $tmp == -2 ){
+				$EMsg = "$EMPfx Image: $WMapImg not readable.";
+				ErrorMessage($EMsg, 0, 1);
+			}
+		}
+		if ( $EMsg != '' ){
+			$rv = ini_get("safe_mode");
+			if ( $rv == 1 ){
+				ErrorMessage(
+					"In &quot;safe_mode&quot; both $WMif and $WMcf must be owned by the user under which the web server is running.",
+					0, 1
+				);
+			}
+		}
+	}
+	if ( $ok != 1 ){
+		ErrorMessage(
+			$EMPfx . "Worldmap functions not available. Go into the \"PEAR directory\", as can be found by \"pear config-show\", and then into the subdirectory $MapLoc$sc. This is the location where $WMif and $WMcf must be installed.",
+			0, 1
+		);
+		$rv = ini_get("safe_mode");
+		if ( $rv == 1 ){
+			ErrorMessage(
+				"In &quot;safe_mode&quot; both $WMif and $WMcf must be owned by the user under which the web server is running.",
+				0, 1
+			);
+		}
+		return 0;
+	}
 	return 1;
 }
 
@@ -198,6 +205,11 @@ if ( $submit != '' && $chart_type == ' ' ){ // Error Conditions.
        print_r($criteria);
        echo "</PRE>";
 	}
+	$WorldMap = false;
+	if ( $chart_type == 15 || $chart_type == 17 ){
+		// CHARTTYPE_*_COUNTRY_ON_MAP
+		$WorldMap = true;
+	}
 	switch ($chart_type){
 		case CHARTTYPE_HOUR; // hours vs num of alerts
 		case CHARTTYPE_DAY; // days vs num of alerts
@@ -264,13 +276,12 @@ if ( $submit != '' && $chart_type == ' ' ){ // Error Conditions.
             break;
 		case CHARTTYPE_SRC_COUNTRY; // Src Countries vs. Num Alerts
 		case CHARTTYPE_SRC_COUNTRY_ON_MAP; // dto., but on worldmap
-         if ($chart_type == CHARTTYPE_SRC_COUNTRY_ON_MAP)
-         {
+			if ( $WorldMap ){
            if (!check_worldmap())
            {
              return 0;
            }
-         }
+			}
          $chart_title = "Countries of origin vs. number of alerts";
          $xaxis_label = "Src countries";
          $yaxis_label = "Number of alerts";
@@ -279,13 +290,12 @@ if ( $submit != '' && $chart_type == ' ' ){ // Error Conditions.
          break;
 		case CHARTTYPE_DST_COUNTRY; // Dst Countries vs. Num Alerts
 		case CHARTTYPE_DST_COUNTRY_ON_MAP; // dto., but on worldmap
-         if ($chart_type == CHARTTYPE_DST_COUNTRY_ON_MAP)
-         {
+			if ( $WorldMap ){
            if (!check_worldmap())
            {
              return 0;
            }
-         }
+			}
          $chart_title = "Destination Countries vs. number of alerts";
          $xaxis_label = "Dst countries";
          $yaxis_label = "Number of alerts";
@@ -416,10 +426,6 @@ if ( $submit != '' && $chart_type == ' ' ){ // Error Conditions.
 
       $_SESSION['xdata'] = $xdata;
       echo "<CENTER>";
-		$WorldMap = false;
-		if ( $chart_type == 15 || $chart_type == 17 ){
-			$WorldMap = true;
-		}
 		if ( $WorldMap ){
         echo "<A HREF=\"base_graph_display.php?";
         echo "&amp;pmargin0=$pmargin0&pmargin1=$pmargin1".
