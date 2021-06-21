@@ -120,6 +120,10 @@ access.](
 https://github.com/NathanGibbs3/BASE/issues/61)
 - [#85 BASE does not check for unset conf variable $debug_mode before access.](
 https://github.com/NathanGibbs3/BASE/issues/85)
+- [#88 Standardize code to check file information before inclusion.](
+https://github.com/NathanGibbs3/BASE/issues/88)
+- [#91 Standardize code to check library before inclusion.](
+https://github.com/NathanGibbs3/BASE/issues/91)
 
 Contributor(s): [Nathan Gibbs]
 - [#57 `tr bgcolor="#"` if `$prio` not in `$priority_colors`
@@ -147,6 +151,8 @@ https://github.com/NathanGibbs3/BASE/issues/82)
 https://github.com/NathanGibbs3/BASE/issues/83)
 - [#89 Debug Mode Information disclosure to unauthenticated users.](
 https://github.com/NathanGibbs3/BASE/issues/89)
+- [#90 Add Input Validation code to `returnUserID()`.](
+https://github.com/NathanGibbs3/BASE/issues/90)
 
 Contributor(s): [Nathan Gibbs]
 

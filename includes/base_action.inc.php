@@ -259,8 +259,7 @@ function ActOnSelectedAlerts($action, $valid_action, &$action_op, $valid_action_
    } 
 }
 
-function GetActionDesc($action_name)
-{
+function GetActionDesc($action_name){
   $action_desc["ag_by_id"] = _ADDAGID;
   $action_desc["ag_by_name"] = _ADDAGNAME;
   $action_desc["add_new_ag"] = _CREATEAG;
@@ -271,8 +270,6 @@ function GetActionDesc($action_name)
   $action_desc["csv_alert"] = _EMAILALERTSCSV;
   $action_desc["archive_alert"] = _ARCHIVEALERTSCOPY;
   $action_desc["archive_alert2"] = _ARCHIVEALERTSMOVE;
-
-
   return $action_desc[$action_name];
 }
 
@@ -896,8 +893,6 @@ function Action_archive_alert_pre($action_arg, $action_param, $db)
   return $db2;
 }
 
-
-
 function Action_archive_alert_op($sid, $cid, &$db, $action_arg, &$ctx)
 {
   GLOBAL $DBlib_path, $DBtype, $db_connect_method,
@@ -1072,9 +1067,6 @@ function Action_archive_alert_op($sid, $cid, &$db, $action_arg, &$ctx)
       }
    }
 
-
-
-
   /********************* xxx jl: <event> ********************/
 
   $archive_cnt = 0;
@@ -1190,9 +1182,6 @@ function Action_archive_alert_op($sid, $cid, &$db, $action_arg, &$ctx)
 
         /*********** xxx jl: </signature> *************/
      }
-
-
-
 
      /************* xxx jl: <reference> **************/
      /* add reference information */
@@ -1657,7 +1646,6 @@ function Action_archive_alert_op($sid, $cid, &$db, $action_arg, &$ctx)
   return $archive_cnt;  
 }
 
-
 function Action_archive_alert_post($action_arg, &$action_ctx, $db, &$num_alert, $action_cnt)
 {
    /* BEGIN LOCAL FIX */
@@ -1672,7 +1660,6 @@ function Action_archive_alert2_pre($action_arg, $action_param, $db)
 {
   return Action_archive_alert_pre($action_arg, $action_param, $db);
 }
-
 
 function Action_archive_alert2_op($sid, $cid, &$db, $action_arg, &$ctx)
 {
@@ -1750,38 +1737,30 @@ function PurgeAlert($sid, $cid, $db)
   return $del_cnt;  
 }
 
-/* RETURNS: boolean on success of sending message 
- *
- */
-
-function send_email($smtp_host, $smtp_auth, $smtp_user, $smtp_pw, $to, $hdrs, $body, $smtp_localhost='localhost')
-{
-  if ($to != "")
-  {
-	$smtp =& Mail::factory('smtp', 
-				array ('host'     => $smtp_host, 
-				       'auth'     => $smtp_auth, 
-				       'username' => $smtp_user, 
-				       'password' => $smtp_pw,
-                                       'localhost' => $smtp_localhost
-				)
-			      );
-	$rv = $smtp->send($to, $hdrs, $body);
-        if (is_bool($rv) && $rv)
-        {
-          return true;
-        }
-        else
-        {
+// Returns true on success of sending message, false on failure.
+function send_email(
+	$smtp_host, $smtp_auth, $smtp_user, $smtp_pw, $to, $hdrs, $body,
+	$smtp_localhost='localhost'
+){
+	$Ret = false;
+	if ( $to != '' ){
+		$smtp =& Mail::factory('smtp',
+			array ('host'     => $smtp_host,
+				'auth'     => $smtp_auth,
+				'username' => $smtp_user,
+				'password' => $smtp_pw,
+				'localhost' => $smtp_localhost
+			)
+		);
+		$rv = $smtp->send($to, $hdrs, $body);
+		if (is_bool($rv) && $rv){
+			$Ret = true;
+		}else{
           ErrorMessage($rv);
-          return false;
-        }
-  }
-  else
-  {
+		}
+	}else{
      ErrorMessage(_ERRMAILNORECP);
-     return false;
-  }
-} 
-
+	}
+	return $Ret;
+}
 ?>

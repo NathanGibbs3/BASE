@@ -703,39 +703,6 @@ class baseRS {
     }
   }
 }
-function VerifyDBAbstractionLib($path){
-	GLOBAL $debug_mode;
-	$version = explode('.', phpversion());
-	// PHP Safe Mode cutout.
-	//    Added: 2005-03-25 for compatabibility with PHP 4x & 5.0x
-	//      See: https://sourceforge.net/p/secureideas/bugs/47
-	// PHP Safe Mode w/o cutout successful.
-	// Verified: 2019-05-31 PHP 5.3.29 via CI & Unit Tests.
-	//      See: https://github.com/NathanGibbs3/BASE/issues/34
-	// May work: PHP > 5.1.4.
-	//      See: https://www.php.net/manual/en/function.is-readable.php
-	if (
-		$version[0] > 5
-		|| ($version[0] == 5 && $version[1] > 1)
-		|| ($version[0] == 5 && $version[1] == 1 && $version[2] > 4 )
-		|| ini_get("safe_mode") != true
-	){
-		if ( $debug_mode > 0 ){
-			ErrorMessage(_DBALCHECK." '".XSSPrintSafe($path)."'",0,1);
-		}
-		if ( is_readable($path) && is_file($path) ){
-			return true;
-		}else{
-			return false;
-		}
-	}else{
-		// @codeCoverageIgnoreStart
-		// PHPUnit test only covers this code path on PHP < 5.1.5
-		// Unable to validate in CI.
-		return true;
-		// @codeCoverageIgnoreEnd
-	}
-}
 function NewBASEDBConnection($path, $type){
 	GLOBAL $debug_mode;
 	$version = explode( '.', phpversion() );
@@ -778,9 +745,8 @@ function NewBASEDBConnection($path, $type){
 		FatalError ($msg);
 	}
 	$sc = DIRECTORY_SEPARATOR;
-	$DLV = true;
 	if ( !LoadedString($path) ){ // Setup default for PHP module include.
-		$path = "adodb$sc";
+		$path = 'adodb';
 		if ( $debug_mode > 1 ){
 			ErrorMessage($EMPfx ."Def DAL path = '$path'",0,1);
 		}
@@ -790,20 +756,8 @@ function NewBASEDBConnection($path, $type){
 				$EMPfx ."Req DAL path = '".XSSPrintSafe($path)."'",'black',1
 			);
 		}
-		$tmppath = $path;
-		$last_char =  substr($path, strlen($path)-1, 1);
-		if ( $last_char != $sc && strstr($path,$sc) ){ // Are we a path?
-			$path .= $sc;
-			if ( $debug_mode > 1 && $tmppath != $path ) {
-				ErrorMessage (
-					$EMPfx ."Mod DAL path = '".XSSPrintSafe($path)."'",0,1
-				);
-			}
-		}
-		if ( $path != "adodb$sc" ){
-			// Export ADODB_DIR for use by ADODB.
-			SetConst('ADODB_DIR', $tmppath);
-			$DLV = VerifyDBAbstractionLib($path.'adodb.inc.php');
+		if ( $path != 'adodb' ){ // Export ADODB_DIR for use by ADODB.
+			SetConst('ADODB_DIR', $path);
 		}
 	}
 	$AXpath = XSSPrintSafe($path);
@@ -817,9 +771,35 @@ function NewBASEDBConnection($path, $type){
 //	See: https://github.com/NathanGibbs3/BASE/issues/68
 //	Commented out this line for now.
 //	SetConst('ADODB_ERROR_LOG_TYPE',0);
-	$DEH = include_once($path.'adodb-errorhandler.inc.php');
-	$DAL = include($path.'adodb.inc.php');
-	if ( $DLV == false || $DEH == false || $DAL == false ){
+	// Load ADODB Error Handler.
+	$LibFile = 'adodb-errorhandler.inc';
+	if ( $path != 'adodb' ){
+		$tmp = ChkLib($path, '' , $LibFile);
+	}else{
+		$tmp = ChkLib('', $path , $LibFile);
+	}
+	$DEH = false;
+	if ( LoadedString($tmp) == true ){
+		$DEH = include_once($tmp);
+	}
+	// Load ADODB Library.
+	$LibFile = 'adodb.inc';
+	if ( $debug_mode > 0 ){
+		$Lib = implode( $sc, array($path, $LibFile) ).'.php';
+		ErrorMessage(
+			$EMPfx . _DBALCHECK." '".XSSPrintSafe($Lib)."'",'black',1
+		);
+	}
+	if ( $path != 'adodb' ){
+		$tmp = ChkLib($path, '' , $LibFile);
+	}else{
+		$tmp = ChkLib('', $path , $LibFile);
+	}
+	$DAL = false;
+	if ( LoadedString($tmp) == true ){
+		$DAL = include_once($tmp);
+	}
+	if ( $DEH == false || $DAL == false ){
 		$msg = _ERRSQLDBALLOAD1.'"'.$AXpath.'"'._ERRSQLDBALLOAD2;
 		$tmp = 'https://';
 		if ( $version[0] > 5 || ( $version[0] == 5 && $version[1] > 1) ){

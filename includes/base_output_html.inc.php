@@ -152,9 +152,9 @@ function PrintBASEMenu( $type = '', $back_link = '' ){
 		$type = strtolower($type);
 		$ReqRE = '';
 		if ( $type == 'header' ){ // Header
-			$ReqRE = "(base_(denied|main)|index)";
+			$ReqRE = "(base_(denied|local_rules|main)|index)";
 		}elseif ( $type == 'footer' ){ // Footer
-			$ReqRE = "(base_denied|index)";
+			$ReqRE = "(base_(denied|local_rules)|index)";
 		}
 		// Header Menu allowed everywhere but main & landing pages.
 		// Footer Menu allowed everywhere but landing pages.

@@ -9,10 +9,11 @@ use PHPUnit\Framework\TestCase;
   * @covers ::AuthorizedPage
   * @covers ::AuthorizedURI
   * @uses ::base_header
+  * @uses ::ChkAccess
+  * @uses ::ChkLib
   * @uses ::LoadedString
   * @uses ::NewBASEDBConnection
   * @uses ::SetConst
-  * @uses ::VerifyDBAbstractionLib
   * @uses ::XSSPrintSafe
   * @uses BaseUser
   * @uses baseCon
