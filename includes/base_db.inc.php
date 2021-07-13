@@ -784,8 +784,8 @@ function NewBASEDBConnection($path, $type){
 	}
 	// Load ADODB Library.
 	$LibFile = 'adodb.inc';
+	$Lib = implode( $sc, array($path, $LibFile) ).'.php';
 	if ( $debug_mode > 0 ){
-		$Lib = implode( $sc, array($path, $LibFile) ).'.php';
 		ErrorMessage(
 			$EMPfx . _DBALCHECK." '".XSSPrintSafe($Lib)."'",'black',1
 		);
@@ -800,15 +800,19 @@ function NewBASEDBConnection($path, $type){
 		$DAL = include_once($tmp);
 	}
 	if ( $DEH == false || $DAL == false ){
-		$msg = _ERRSQLDBALLOAD1.'"'.$AXpath.'"'._ERRSQLDBALLOAD2;
+		// @codeCoverageIgnoreStart
 		$tmp = 'https://';
 		if ( $version[0] > 5 || ( $version[0] == 5 && $version[1] > 1) ){
 			$tmp .= 'github.com/ADOdb/ADOdb';
 		}else{
 			$tmp .= 'sourceforge.net/projects/adodb';
 		}
-		$msg .= "<a href='$tmp'>$tmp</a>";
-		FatalError ($msg);
+		// Translation data this msg when we get to _ERRSQLDBALLOAD2 on Issue#11
+		$msg = 'Check the DB abstraction library variable <code>$DBlib_path</code> in <code>base_conf.php</code>.';
+		// Translation data the first param when we get to _ERRSQLDBALLOAD1
+		// on Issue#11
+		LibIncError ('DB Abstraction', $AXpath, $Lib, $msg, 'ADODB', $tmp, 1 );
+		// @codeCoverageIgnoreEnd
 	}
 	ADOLoadCode($Wtype);
 	return new baseCon($type);
