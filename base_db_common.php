@@ -30,8 +30,7 @@ function createDBIndex($db, $table, $field, $index_name)
       ErrorMessage(_DBINDEXCREATE." '".$field."'");
 }
 
-function verify_db($db, $alert_dbname, $alert_host)
-{
+function verify_db($db, $alert_dbname, $alert_host){
   $msg = '<B>'._ERRSNORTVER1.' '.$alert_dbname.'@'.$alert_host.' '._ERRSNORTVER2.'</B>';
 
   $sql = "SELECT ip_src FROM iphdr";
@@ -54,13 +53,11 @@ function verify_db($db, $alert_dbname, $alert_host)
        return $msg.'.  <P>'._ERRDBSTRUCT1.' 
               (table: '.$base_table[$i].')'._ERRDBSTRUCT2;
   }
-  
-  return "";
+	return '';
 }
 
 function verify_php_build($DBtype){
 	// Checks that the necessary libraries are built into PHP.
-	$ErrPfx = returnErrorMessage(_ERRPHPERROR);
 	// Check PHP version >= 4.0.4
 	$current_php_version = phpversion();
 	$version = explode(".", $current_php_version);
@@ -71,44 +68,45 @@ function verify_php_build($DBtype){
 		$version[2] = substr($version[2], 0, 1);
 	}
 	// Only version PHP 4.0.4+ or 4.1+.* are valid.
-	if ( !( ($version[0] >= 4) && ( ( ($version[1] == 0) && ($version[2] >= 4) ) ||
-          ($version[1] > 0) || ($version[0] > 4) ) )
+	// @codeCoverageIgnoreStart
+	if ( $version[0] < 4 ||
+		( $version[0] == 4 && $version[1] == 0 && $version[2] < 4 )
 	){
-		return "$ErrPfx: ".
-            "<B>"._ERRPHPERROR1."</B>: <FONT>"._ERRVERSION." ".$current_php_version.
-            " "._ERRPHPERROR2."</FONT>";
+		return '<b>'._ERRPHPERROR1.'</b>: '._ERRVERSION.
+		" $current_php_version "._ERRPHPERROR2;
 	}
+	// @codeCoverageIgnoreEnd
 	if ( $DBtype == "mysql" || $DBtype == "mysqlt" || $DBtype == "maxsql" ){
 		// On PHP 5.5+, use mysqli ADODB driver & gracefully deprecate the
 		// mysql, mysqlt & maxsql drivers.
 		if ( $version[0] > 5 || ( $version[0] == 5 && $version[1] > 4) ){
 			if ( !(function_exists("mysqli_connect")) ){
-				return "$ErrPfx: "._ERRPHPMYSQLISUP;
+				return _ERRPHPMYSQLISUP;
 				// The Constant above does not exist.
 				// We need to fix that.
 			}
 		}else{
 			if ( !(function_exists("mysql_connect")) ){
-				return "$ErrPfx: "._ERRPHPMYSQLSUP;
+				return _ERRPHPMYSQLSUP;
 			}
 		}
 	}elseif ( $DBtype == "postgres" ){
 		if ( !(function_exists("pg_connect")) ){
-			return "$ErrPfx: "._ERRPHPPOSTGRESSUP;
+			return _ERRPHPPOSTGRESSUP;
 		}
 	}elseif ( $DBtype == "mssql" ){
 		if ( !(function_exists("mssql_connect")) ){
-			return "$ErrPfx: "._ERRPHPMSSQLSUP;
+			return _ERRPHPMSSQLSUP;
 		}
 	}elseif ( $DBtype == "oci8" ){
 		if ( !(function_exists("ocilogon")) ){
-			return "$ErrPfx: "._ERRPHPORACLESUP;
+			return _ERRPHPORACLESUP;
 		}
 	// Additional DB Support would tie in here.
 	}else{
-		return "<B>"._ERRSQLDBTYPE."</B>: "._ERRSQLDBTYPEINFO1."'$DBtype'.". _ERRSQLDBTYPEINFO2;
+		return '<b>'._ERRSQLDBTYPE.'</b>: '._ERRSQLDBTYPEINFO1."'$DBtype'.". _ERRSQLDBTYPEINFO2;
 	}
-	return "";
+	return '';
 }
 
 /* ******************* DB Query Routines ************************************ */
