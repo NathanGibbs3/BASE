@@ -20,14 +20,12 @@
 ********************************************************************************
 */
 
-/**
- *  Check to see if the base_conf.php file exists and is big enough...
- *  if not redirect to the setup/index.php page
-*/
-if (!file_exists('base_conf.php') || filesize('base_conf.php') < 10) {
-    header( 'Location: setup/index.php' );
-    die();
-    }
+// Check if the base_conf.php file exists and is big enough...
+// if not redirect to the setup/index.php page
+if (!file_exists('base_conf.php') || filesize('base_conf.php') < 10){
+	header( 'Location: setup/index.php' );
+	die();
+}
 
 require("base_conf.php");
 include("$BASE_path/includes/base_include.inc.php");
@@ -58,29 +56,34 @@ if (isset($_POST['submit'])) {
 }
 
 PrintBASESubHeader();
-if ($displayError == 1) {
-	NLIO ("<div class='errorMsg' align='center'>$errorMsg</div>",2);
+$tmp_str = verify_php_build($DBtype); // Check that PHP was built correctly.
+if ($tmp_str != ''){
+	BuildError ($tmp_str);
+}else{
+	if ($displayError == 1) {
+		NLIO ("<div class='errorMsg' align='center'>$errorMsg</div>",2);
+	}
+	$ipt = "<input type='";
+	NLIO ("<form action='index.php' method='post' name='loginform'>",2);
+	NLIO ("<table width='75%' style='border:0;padding:0;margin:auto;'>",3);
+	NLIO ('<tr>',4);
+	NLIO ("<td align='right' width='50%'>$LoginDesc:&nbsp;</td>",5);
+	NLIO ("<td align='left' width='50%'>",5);
+	NLIO ($ipt."text' name='login' autofocus='autofocus' />",6);
+	NLIO ('</td>',5);
+	NLIO ('</tr><tr>',4);
+	NLIO ("<td align='right'>$PWDesc:&nbsp;</td>",5);
+	NLIO ("<td align='left'>",5);
+	NLIO ($ipt."password' name='password' />",6);
+	NLIO ('</td>',5);
+	NLIO ('</tr><tr>',4);
+	NLIO ("<td colspan='2' align='center'>",5);
+	NLIO ($ipt."submit' name='submit' value='Login' />",6);
+	NLIO ($ipt."reset' name='reset' />",6);
+	NLIO ('</td>',5);
+	NLIO ('</tr>',4);
+	NLIO ('</table>',3);
+	NLIO ('</form>',2);
 }
-$ipt = "<input type='";
-NLIO ("<form action='index.php' method='post' name='loginform'>",2);
-NLIO ("<table width='75%' style='border:0;padding:0;margin:auto;'>",3);
-NLIO ('<tr>',4);
-NLIO ("<td align='right' width='50%'>$LoginDesc:&nbsp;</td>",5);
-NLIO ("<td align='left' width='50%'>",5);
-NLIO ($ipt."text' name='login' autofocus='autofocus' />",6);
-NLIO ('</td>',5);
-NLIO ('</tr><tr>',4);
-NLIO ("<td align='right'>$PWDesc:&nbsp;</td>",5);
-NLIO ("<td align='left'>",5);
-NLIO ($ipt."password' name='password' />",6);
-NLIO ('</td>',5);
-NLIO ('</tr><tr>',4);
-NLIO ("<td colspan='2' align='center'>",5);
-NLIO ($ipt."submit' name='submit' value='Login' />",6);
-NLIO ($ipt."reset' name='reset' />",6);
-NLIO ('</td>',5);
-NLIO ('</tr>',4);
-NLIO ('</table>',3);
-NLIO ('</form>',2);
 PrintBASESubFooter();
 ?>

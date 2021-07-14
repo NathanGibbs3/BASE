@@ -78,15 +78,13 @@ function DBLink(){ // generate the link to select the other database....
 }
 
 PrintBASESubHeader('', '', '',1);
-
-// Check that PHP was built correctly.
-$tmp_str = verify_php_build($DBtype);
-if ($tmp_str != "") {
-    echo $tmp_str;
-    die();
+$tmp_str = verify_php_build($DBtype); // Check that PHP was built correctly.
+// @codeCoverageIgnoreStart
+if ($tmp_str != ''){
+	BuildError ($tmp_str, $tmp_str);
 }
-
-/* Connect to the Alert database */
+// @codeCoverageIgnoreEnd
+// Connect to the Alert DB
 $db = NewBASEDBConnection($DBlib_path, $DBtype);
 $db->baseDBConnect($db_connect_method, $alert_dbname, $alert_host, $alert_port, $alert_user, $alert_password);
 

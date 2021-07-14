@@ -3,6 +3,7 @@ use PHPUnit\Framework\TestCase;
 
 // Test fucntions in base_common.php
 /**
+  * Code Coverage Directives.
   * @covers ::ChkAccess
   * @covers ::ChkCookie
   * @covers ::ChkGet
@@ -581,7 +582,7 @@ class base_commonTest extends TestCase {
 			'Unexpected return ChkAccess().'
 		);
 	}
-	public function testreturnChkAccessSafeModeCutouDirectory() {
+	public function testreturnChkAccessSafeModeCutoutDirectory() {
 		GLOBAL $BASE_path;
 		$sc = DIRECTORY_SEPARATOR;
 		$Testfile = "$BASE_path$sc" . 'custom';

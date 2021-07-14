@@ -124,6 +124,12 @@ https://github.com/NathanGibbs3/BASE/issues/85)
 https://github.com/NathanGibbs3/BASE/issues/88)
 - [#91 Standardize code to check library before inclusion.](
 https://github.com/NathanGibbs3/BASE/issues/91)
+- [#93 Standardize code to handle PHP build errors.](
+https://github.com/NathanGibbs3/BASE/issues/93)
+- [#99 Missing call to verify_php_build() in index.php.](
+https://github.com/NathanGibbs3/BASE/issues/99)
+- [#100 Failure to display debugging info for a meaningful amount of time.](
+https://github.com/NathanGibbs3/BASE/issues/100)
 
 Contributor(s): [Nathan Gibbs]
 - [#57 `tr bgcolor="#"` if `$prio` not in `$priority_colors`

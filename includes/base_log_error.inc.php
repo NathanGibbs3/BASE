@@ -39,6 +39,73 @@ function returnErrorMessage ($message, $color = "#ff0000", $br = 0 ){
 	return $error;
 }
 
+function BuildError ($message = '', $fmessage = '' ){
+	if ( LoadedString($message) == true ){
+		ErrorMessage(_ERRPHPERROR.':',0,1);
+		ErrorMessage($message, 'black', 1);
+		print '<br/>';
+	}
+	// @codeCoverageIgnoreStart
+	if ( LoadedString($fmessage) == true ){
+		FatalError($fmessage);
+	}
+	// @codeCoverageIgnoreEnd
+}
+
+function LibIncError (
+		$Desc, $Loc, $Lib, $message = '', $LibName = '', $URL = '', $Fatal = 0,
+		$Pear = 0
+	){
+	// Translation data this msg when we get to _ERRSQLDBALLOAD1 on Issue#11
+	$msg = "<b>Error loading the $Desc library:</b> ".
+	XSSPrintSafe('from "'.$Loc.'".');
+	if ( LoadedString($LibName) == true ){
+		$msg .= '<br/>';
+		// Translation data this msg when we get to _ERRSQLDBALLOAD2 on Issue#11
+		$msg .= "The underlying $Desc library currently used is $LibName";
+		if ( LoadedString($URL) == true ){
+			$msg .= ', that can be downloaded at ';
+			$msg .= '<a href="'.$URL.'">'.$URL.'</a>';
+		}
+		$msg .= '.';
+	}
+	ErrorMessage($msg,'black',1);
+	if ( LoadedString($message) == true ){
+		ErrorMessage($message,'black',1);
+	}
+	$FLib = $Lib;
+	if ($Pear == 1){
+		$EMsg = "Check your Pear::$LibName installation!<br/>";
+		$EMsg .= 'Make sure PEAR libraries can be found by PHP.';
+		$EMsg .= '<pre>';
+		$EMsg .= XSSPrintSafe('pear config-show | grep "PEAR directory"'."\n");
+		$EMsg .= XSSPrintSafe('PEAR directory      php_dir     /usr/share/pear');
+		$EMsg .= '</pre>';
+		$EMsg .= 'This path must be part of the include path of php (cf. /etc/php.ini).';
+		$EMsg .= '<pre>';
+		$EMsg .= XSSPrintSafe('php -i | grep "include_path"');
+		$EMsg .= XSSPrintSafe(
+			'include_path => .:/usr/share/pear:/usr/share/php => .:/usr/share/pear:/usr/share/php'
+		);
+		$EMsg .= '</pre>';
+		if ( ini_get('safe_mode') ){
+			$EMsg .= XSSPrintSafe(
+				'In "safe_mode" it must also be part of safe_mode_include_dir in /etc/php.ini'
+			);
+		}
+		ErrorMessage($EMsg,'black',1);
+		$FLib = $LibName;
+	}
+	$tmp = "PHP setup incomplete: $FLib required.";
+	if ($Fatal == 0){
+		ErrorMessage($tmp, 0,1);
+	}else{
+		// @codeCoverageIgnoreStart
+		FatalError($tmp);
+		// @codeCoverageIgnoreEnd
+	}
+}
+
 // @codeCoverageIgnoreStart
 function FatalError ($message){
 	print returnErrorMessage('<b>'._ERRBASEFATAL.'</b>',0,1)."\n".$message;

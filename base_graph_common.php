@@ -52,14 +52,14 @@ SetConst('CHARTTYPE_DST_COUNTRY_ON_MAP', 17);
 SetConst('CHARTTYPE_UNIQUE_SIGNATURE', 18);
 
 function VerifyGraphingLib(){
-	GLOBAL $debug_mode;
 	$EMPfx = __FUNCTION__ . ': ';
 	$IGL = false;
 	if ( !(function_exists("ImageDestroy")) ){// Is GD compiled into PHP.
-		ErrorMessage(_ERRPHPERROR.':',0,1);
-		ErrorMessage('<b>PHP build incomplete</b>: GD support required.', 'black', 1);
-		ErrorMessage('Recompile PHP with GD support (<code>--with-gd</code>', 'black', 1);
-		FatalError('PHP build incomplete: GD support required.');
+		BuildError (
+			'<b>PHP build incomplete</b>: GD support required.<br/>'."\n".
+			'Recompile PHP with GD support (<code>--with-gd</code>)',
+			'PHP build incomplete: GD support required.'
+		);
 	}
 	$sc = DIRECTORY_SEPARATOR;
 	$LibLoc = 'Image';
@@ -70,48 +70,17 @@ function VerifyGraphingLib(){
 	}
 	if ( $tmp == '' || $IGL == false){
 		$Lib = implode( $sc, array($LibLoc, $LibFile) ).'.php';
-		$EMsg = "$EMPfx ERROR: Graphing Lib: $Lib not ";
+		$EMsg = "Graphing Lib: $Lib not ";
 		if ( $tmp == '' ){
 			$EMsg .= 'accessable';
 		}elseif ( $IGL == false ){
 			$EMsg .= 'loaded';
 		}
-		$EMsg .= '.';
-		ErrorMessage($EMsg, 0, 1);
+		$EMsg .= '.<br/>';
 		// Sorry dude, you haven't finished your home work. -- Alejandro
-		$Lib = 'Image_Graph';
-		$tmp = "https://pear.php.net/package/$Lib";
-		ErrorMessage("Check your Pear::$Lib installation!",'black',1);
-		$msg = "The underlying Graphing library currently used is $Lib";
-		$msg .= ', that can be downloaded at ';
-		$msg .= "<a href='$tmp'>$tmp</a>";
-		ErrorMessage($msg,'black',1);
-		ErrorMessage("PHP setup incomplete: $Lib required.", 0,1);
-		ErrorMessage(
-			'Make sure PEAR libraries can be found by PHP.','black',1
-		);
-		ErrorMessage(
-			'<pre>pear config-show | grep &quot;PEAR directory&quot;','black',1
-		);
-		ErrorMessage(
-			'PEAR directory      php_dir     /usr/share/pear</pre>','black',1
-		);
-		ErrorMessage(
-			'This path must be part of the include path of php (cf. /etc/php.ini).',
-			0,1
-		);
-		ErrorMessage('<pre>php -i | grep &quot;include_path&quot;','black',1);
-		ErrorMessage(
-			'include_path => .:/usr/share/pear:/usr/share/php => .:/usr/share/pear:/usr/share/php</pre>',
-			'black',1
-		);
-		if ( ini_get("safe_mode") ){
-			ErrorMessage(
-				'In &quot;safe_mode&quot; it must also be part of safe_mode_include_dir in /etc/php.ini',
-				0,1
-			);
-		}
-		FatalError($EMsg);
+		$LibName = 'Image_Graph';
+		$tmp = "https://pear.php.net/package/$LibName";
+		LibIncError ('Graphing', $LibLoc, $Lib, $EMsg, $LibName, $tmp, 1, 1 );
 	}
 }
 /* Generates the required SQL from the chart time criteria */
