@@ -99,8 +99,10 @@ class langTest extends TestCase {
 				$this->setExpectedException("PHPUnit_Framework_Error");
 			}elseif (version_compare($PHPUV, '6.0', '<')) { // PHPUnit 5x
 				$this->expectException("PHPUnit_Framework_Error");
-			}else{ // PHPUnit 6+
+			}elseif (version_compare($PHPUV, '9.0', '<')) { // PHPUnit 6x - 8x
 				$this->expectException("PHPUnit\Framework\Error\Error");
+			}else{ // PHPUnit 9+
+				$this->expectError();
 			}
 			$this->assertInstanceOf(
 				'UILang', $this->UIL[$tmp] = new UILang($lang), "Class for $lang not created."
@@ -121,8 +123,10 @@ class langTest extends TestCase {
 				$this->setExpectedException("PHPUnit_Framework_Error");
 			}elseif (version_compare($PHPUV, '6.0', '<')) { // PHPUnit 5x
 				$this->expectException("PHPUnit_Framework_Error");
-			}else{ // PHPUnit 6+
+			}elseif (version_compare($PHPUV, '9.0', '<')) { // PHPUnit 6x - 8x
 				$this->expectException("PHPUnit\Framework\Error\Error");
+			}else{ // PHPUnit 9+
+				$this->expectError();
 			}
 			$$tmp = new UILang($lang);
 			// $$tmp = $this->UIL[$tmp];
@@ -155,8 +159,10 @@ class langTest extends TestCase {
 				$this->setExpectedException("PHPUnit_Framework_Error");
 			}elseif (version_compare($PHPUV, '6.0', '<')) { // PHPUnit 5x
 				$this->expectException("PHPUnit_Framework_Error");
-			}else{ // PHPUnit 6+
+			}elseif (version_compare($PHPUV, '9.0', '<')) { // PHPUnit 6x - 8x
 				$this->expectException("PHPUnit\Framework\Error\Error");
+			}else{ // PHPUnit 9+
+				$this->expectError();
 			}
 			$$tmp = new UILang($lang);
 			// $$tmp = $this->UIL[$tmp];
@@ -183,8 +189,10 @@ class langTest extends TestCase {
 				$this->setExpectedException("PHPUnit_Framework_Error");
 			}elseif (version_compare($PHPUV, '6.0', '<')) { // PHPUnit 5x
 				$this->expectException("PHPUnit_Framework_Error");
-			}else{ // PHPUnit 6+
+			}elseif (version_compare($PHPUV, '9.0', '<')) { // PHPUnit 6x - 8x
 				$this->expectException("PHPUnit\Framework\Error\Error");
+			}else{ // PHPUnit 9+
+				$this->expectError();
 			}
 			$$tmp = new UILang($lang);
 			// $$tmp = $this->UIL[$tmp];
@@ -211,8 +219,10 @@ class langTest extends TestCase {
 				$this->setExpectedException("PHPUnit_Framework_Error");
 			}elseif (version_compare($PHPUV, '6.0', '<')) { // PHPUnit 5x
 				$this->expectException("PHPUnit_Framework_Error");
-			}else{ // PHPUnit 6+
+			}elseif (version_compare($PHPUV, '9.0', '<')) { // PHPUnit 6x - 8x
 				$this->expectException("PHPUnit\Framework\Error\Error");
+			}else{ // PHPUnit 9+
+				$this->expectError();
 			}
 			$$tmp = new UILang($lang);
 			// $$tmp = $this->UIL[$tmp];
@@ -239,8 +249,10 @@ class langTest extends TestCase {
 				$this->setExpectedException("PHPUnit_Framework_Error");
 			}elseif (version_compare($PHPUV, '6.0', '<')) { // PHPUnit 5x
 				$this->expectException("PHPUnit_Framework_Error");
-			}else{ // PHPUnit 6+
+			}elseif (version_compare($PHPUV, '9.0', '<')) { // PHPUnit 6x - 8x
 				$this->expectException("PHPUnit\Framework\Error\Error");
+			}else{ // PHPUnit 9+
+				$this->expectError();
 			}
 			$$tmp = new UILang($lang);
 			// $$tmp = $this->UIL[$tmp];
@@ -269,8 +281,10 @@ class langTest extends TestCase {
 				$this->setExpectedException("PHPUnit_Framework_Error");
 			}elseif (version_compare($PHPUV, '6.0', '<')) { // PHPUnit 5x
 				$this->expectException("PHPUnit_Framework_Error");
-			}else{ // PHPUnit 6+
+			}elseif (version_compare($PHPUV, '9.0', '<')) { // PHPUnit 6x - 8x
 				$this->expectException("PHPUnit\Framework\Error\Error");
+			}else{ // PHPUnit 9+
+				$this->expectError();
 			}
 			$$tmp = new UILang($lang);
 			// $$tmp = $this->UIL[$tmp];
@@ -305,8 +319,10 @@ class langTest extends TestCase {
 				$this->setExpectedException("PHPUnit_Framework_Error");
 			}elseif (version_compare($PHPUV, '6.0', '<')) { // PHPUnit 5x
 				$this->expectException("PHPUnit_Framework_Error");
-			}else{ // PHPUnit 6+
+			}elseif (version_compare($PHPUV, '9.0', '<')) { // PHPUnit 6x - 8x
 				$this->expectException("PHPUnit\Framework\Error\Error");
+			}else{ // PHPUnit 9+
+				$this->expectError();
 			}
 			$$tmp = new UILang($lang);
 			// $$tmp = $this->UIL[$tmp];
@@ -341,8 +357,10 @@ class langTest extends TestCase {
 				$this->setExpectedException("PHPUnit_Framework_Error");
 			}elseif (version_compare($PHPUV, '6.0', '<')) { // PHPUnit 5x
 				$this->expectException("PHPUnit_Framework_Error");
-			}else{ // PHPUnit 6+
+			}elseif (version_compare($PHPUV, '9.0', '<')) { // PHPUnit 6x - 8x
 				$this->expectException("PHPUnit\Framework\Error\Error");
+			}else{ // PHPUnit 9+
+				$this->expectError();
 			}
 			$$tmp = new UILang($lang);
 			// $$tmp = $this->UIL[$tmp];
@@ -377,8 +395,10 @@ class langTest extends TestCase {
 				$this->setExpectedException("PHPUnit_Framework_Error");
 			}elseif (version_compare($PHPUV, '6.0', '<')) { // PHPUnit 5x
 				$this->expectException("PHPUnit_Framework_Error");
-			}else{ // PHPUnit 6+
+			}elseif (version_compare($PHPUV, '9.0', '<')) { // PHPUnit 6x - 8x
 				$this->expectException("PHPUnit\Framework\Error\Error");
+			}else{ // PHPUnit 9+
+				$this->expectError();
 			}
 			$$tmp = new UILang($lang);
 			// $$tmp = $this->UIL[$tmp];
@@ -413,8 +433,10 @@ class langTest extends TestCase {
 				$this->setExpectedException("PHPUnit_Framework_Error");
 			}elseif (version_compare($PHPUV, '6.0', '<')) { // PHPUnit 5x
 				$this->expectException("PHPUnit_Framework_Error");
-			}else{ // PHPUnit 6+
+			}elseif (version_compare($PHPUV, '9.0', '<')) { // PHPUnit 6x - 8x
 				$this->expectException("PHPUnit\Framework\Error\Error");
+			}else{ // PHPUnit 9+
+				$this->expectError();
 			}
 			$$tmp = new UILang($lang);
 			// $$tmp = $this->UIL[$tmp];
@@ -438,8 +460,10 @@ class langTest extends TestCase {
 				$this->setExpectedException("PHPUnit_Framework_Error");
 			}elseif (version_compare($PHPUV, '6.0', '<')) { // PHPUnit 5x
 				$this->expectException("PHPUnit_Framework_Error");
-			}else{ // PHPUnit 6+
+			}elseif (version_compare($PHPUV, '9.0', '<')) { // PHPUnit 6x - 8x
 				$this->expectException("PHPUnit\Framework\Error\Error");
+			}else{ // PHPUnit 9+
+				$this->expectError();
 			}
 			$$tmp = new UILang($lang);
 			// $$tmp = $this->UIL[$tmp];
@@ -463,8 +487,10 @@ class langTest extends TestCase {
 				$this->setExpectedException("PHPUnit_Framework_Error");
 			}elseif (version_compare($PHPUV, '6.0', '<')) { // PHPUnit 5x
 				$this->expectException("PHPUnit_Framework_Error");
-			}else{ // PHPUnit 6+
+			}elseif (version_compare($PHPUV, '9.0', '<')) { // PHPUnit 6x - 8x
 				$this->expectException("PHPUnit\Framework\Error\Error");
+			}else{ // PHPUnit 9+
+				$this->expectError();
 			}
 			$$tmp = new UILang($lang);
 			// $$tmp = $this->UIL[$tmp];
@@ -488,8 +514,10 @@ class langTest extends TestCase {
 				$this->setExpectedException("PHPUnit_Framework_Error");
 			}elseif (version_compare($PHPUV, '6.0', '<')) { // PHPUnit 5x
 				$this->expectException("PHPUnit_Framework_Error");
-			}else{ // PHPUnit 6+
+			}elseif (version_compare($PHPUV, '9.0', '<')) { // PHPUnit 6x - 8x
 				$this->expectException("PHPUnit\Framework\Error\Error");
+			}else{ // PHPUnit 9+
+				$this->expectError();
 			}
 			$$tmp = new UILang($lang);
 			// $$tmp = $this->UIL[$tmp];
@@ -513,8 +541,10 @@ class langTest extends TestCase {
 				$this->setExpectedException("PHPUnit_Framework_Error");
 			}elseif (version_compare($PHPUV, '6.0', '<')) { // PHPUnit 5x
 				$this->expectException("PHPUnit_Framework_Error");
-			}else{ // PHPUnit 6+
+			}elseif (version_compare($PHPUV, '9.0', '<')) { // PHPUnit 6x - 8x
 				$this->expectException("PHPUnit\Framework\Error\Error");
+			}else{ // PHPUnit 9+
+				$this->expectError();
 			}
 			$$tmp = new UILang($lang);
 			// $$tmp = $this->UIL[$tmp];
@@ -538,8 +568,10 @@ class langTest extends TestCase {
 				$this->setExpectedException("PHPUnit_Framework_Error");
 			}elseif (version_compare($PHPUV, '6.0', '<')) { // PHPUnit 5x
 				$this->expectException("PHPUnit_Framework_Error");
-			}else{ // PHPUnit 6+
+			}elseif (version_compare($PHPUV, '9.0', '<')) { // PHPUnit 6x - 8x
 				$this->expectException("PHPUnit\Framework\Error\Error");
+			}else{ // PHPUnit 9+
+				$this->expectError();
 			}
 			$$tmp = new UILang($lang);
 			// $$tmp = $this->UIL[$tmp];
@@ -563,8 +595,10 @@ class langTest extends TestCase {
 				$this->setExpectedException("PHPUnit_Framework_Error");
 			}elseif (version_compare($PHPUV, '6.0', '<')) { // PHPUnit 5x
 				$this->expectException("PHPUnit_Framework_Error");
-			}else{ // PHPUnit 6+
+			}elseif (version_compare($PHPUV, '9.0', '<')) { // PHPUnit 6x - 8x
 				$this->expectException("PHPUnit\Framework\Error\Error");
+			}else{ // PHPUnit 9+
+				$this->expectError();
 			}
 			$$tmp = new UILang($lang);
 			// $$tmp = $this->UIL[$tmp];
@@ -588,8 +622,10 @@ class langTest extends TestCase {
 				$this->setExpectedException("PHPUnit_Framework_Error");
 			}elseif (version_compare($PHPUV, '6.0', '<')) { // PHPUnit 5x
 				$this->expectException("PHPUnit_Framework_Error");
-			}else{ // PHPUnit 6+
+			}elseif (version_compare($PHPUV, '9.0', '<')) { // PHPUnit 6x - 8x
 				$this->expectException("PHPUnit\Framework\Error\Error");
+			}else{ // PHPUnit 9+
+				$this->expectError();
 			}
 			$$tmp = new UILang($lang);
 			// $$tmp = $this->UIL[$tmp];
@@ -613,8 +649,10 @@ class langTest extends TestCase {
 				$this->setExpectedException("PHPUnit_Framework_Error");
 			}elseif (version_compare($PHPUV, '6.0', '<')) { // PHPUnit 5x
 				$this->expectException("PHPUnit_Framework_Error");
-			}else{ // PHPUnit 6+
+			}elseif (version_compare($PHPUV, '9.0', '<')) { // PHPUnit 6x - 8x
 				$this->expectException("PHPUnit\Framework\Error\Error");
+			}else{ // PHPUnit 9+
+				$this->expectError();
 			}
 			$$tmp = new UILang($lang);
 			// $$tmp = $this->UIL[$tmp];
@@ -638,8 +676,10 @@ class langTest extends TestCase {
 				$this->setExpectedException("PHPUnit_Framework_Error");
 			}elseif (version_compare($PHPUV, '6.0', '<')) { // PHPUnit 5x
 				$this->expectException("PHPUnit_Framework_Error");
-			}else{ // PHPUnit 6+
+			}elseif (version_compare($PHPUV, '9.0', '<')) { // PHPUnit 6x - 8x
 				$this->expectException("PHPUnit\Framework\Error\Error");
+			}else{ // PHPUnit 9+
+				$this->expectError();
 			}
 			$$tmp = new UILang($lang);
 			// $$tmp = $this->UIL[$tmp];
@@ -663,8 +703,10 @@ class langTest extends TestCase {
 				$this->setExpectedException("PHPUnit_Framework_Error");
 			}elseif (version_compare($PHPUV, '6.0', '<')) { // PHPUnit 5x
 				$this->expectException("PHPUnit_Framework_Error");
-			}else{ // PHPUnit 6+
+			}elseif (version_compare($PHPUV, '9.0', '<')) { // PHPUnit 6x - 8x
 				$this->expectException("PHPUnit\Framework\Error\Error");
+			}else{ // PHPUnit 9+
+				$this->expectError();
 			}
 			$$tmp = new UILang($lang);
 			// $$tmp = $this->UIL[$tmp];
@@ -688,8 +730,10 @@ class langTest extends TestCase {
 				$this->setExpectedException("PHPUnit_Framework_Error");
 			}elseif (version_compare($PHPUV, '6.0', '<')) { // PHPUnit 5x
 				$this->expectException("PHPUnit_Framework_Error");
-			}else{ // PHPUnit 6+
+			}elseif (version_compare($PHPUV, '9.0', '<')) { // PHPUnit 6x - 8x
 				$this->expectException("PHPUnit\Framework\Error\Error");
+			}else{ // PHPUnit 9+
+				$this->expectError();
 			}
 			$$tmp = new UILang($lang);
 			// $$tmp = $this->UIL[$tmp];
@@ -713,8 +757,10 @@ class langTest extends TestCase {
 				$this->setExpectedException("PHPUnit_Framework_Error");
 			}elseif (version_compare($PHPUV, '6.0', '<')) { // PHPUnit 5x
 				$this->expectException("PHPUnit_Framework_Error");
-			}else{ // PHPUnit 6+
+			}elseif (version_compare($PHPUV, '9.0', '<')) { // PHPUnit 6x - 8x
 				$this->expectException("PHPUnit\Framework\Error\Error");
+			}else{ // PHPUnit 9+
+				$this->expectError();
 			}
 			$$tmp = new UILang($lang);
 			// $$tmp = $this->UIL[$tmp];
@@ -738,8 +784,10 @@ class langTest extends TestCase {
 				$this->setExpectedException("PHPUnit_Framework_Error");
 			}elseif (version_compare($PHPUV, '6.0', '<')) { // PHPUnit 5x
 				$this->expectException("PHPUnit_Framework_Error");
-			}else{ // PHPUnit 6+
+			}elseif (version_compare($PHPUV, '9.0', '<')) { // PHPUnit 6x - 8x
 				$this->expectException("PHPUnit\Framework\Error\Error");
+			}else{ // PHPUnit 9+
+				$this->expectError();
 			}
 			$$tmp = new UILang($lang);
 			// $$tmp = $this->UIL[$tmp];
@@ -763,8 +811,10 @@ class langTest extends TestCase {
 				$this->setExpectedException("PHPUnit_Framework_Error");
 			}elseif (version_compare($PHPUV, '6.0', '<')) { // PHPUnit 5x
 				$this->expectException("PHPUnit_Framework_Error");
-			}else{ // PHPUnit 6+
+			}elseif (version_compare($PHPUV, '9.0', '<')) { // PHPUnit 6x - 8x
 				$this->expectException("PHPUnit\Framework\Error\Error");
+			}else{ // PHPUnit 9+
+				$this->expectError();
 			}
 			$$tmp = new UILang($lang);
 			// $$tmp = $this->UIL[$tmp];
@@ -788,8 +838,10 @@ class langTest extends TestCase {
 				$this->setExpectedException("PHPUnit_Framework_Error");
 			}elseif (version_compare($PHPUV, '6.0', '<')) { // PHPUnit 5x
 				$this->expectException("PHPUnit_Framework_Error");
-			}else{ // PHPUnit 6+
+			}elseif (version_compare($PHPUV, '9.0', '<')) { // PHPUnit 6x - 8x
 				$this->expectException("PHPUnit\Framework\Error\Error");
+			}else{ // PHPUnit 9+
+				$this->expectError();
 			}
 			$$tmp = new UILang($lang);
 			// $$tmp = $this->UIL[$tmp];
@@ -813,8 +865,10 @@ class langTest extends TestCase {
 				$this->setExpectedException("PHPUnit_Framework_Error");
 			}elseif (version_compare($PHPUV, '6.0', '<')) { // PHPUnit 5x
 				$this->expectException("PHPUnit_Framework_Error");
-			}else{ // PHPUnit 6+
+			}elseif (version_compare($PHPUV, '9.0', '<')) { // PHPUnit 6x - 8x
 				$this->expectException("PHPUnit\Framework\Error\Error");
+			}else{ // PHPUnit 9+
+				$this->expectError();
 			}
 			$$tmp = new UILang($lang);
 			// $$tmp = $this->UIL[$tmp];
@@ -838,8 +892,10 @@ class langTest extends TestCase {
 				$this->setExpectedException("PHPUnit_Framework_Error");
 			}elseif (version_compare($PHPUV, '6.0', '<')) { // PHPUnit 5x
 				$this->expectException("PHPUnit_Framework_Error");
-			}else{ // PHPUnit 6+
+			}elseif (version_compare($PHPUV, '9.0', '<')) { // PHPUnit 6x - 8x
 				$this->expectException("PHPUnit\Framework\Error\Error");
+			}else{ // PHPUnit 9+
+				$this->expectError();
 			}
 			$$tmp = new UILang($lang);
 			// $$tmp = $this->UIL[$tmp];
@@ -863,8 +919,10 @@ class langTest extends TestCase {
 				$this->setExpectedException("PHPUnit_Framework_Error");
 			}elseif (version_compare($PHPUV, '6.0', '<')) { // PHPUnit 5x
 				$this->expectException("PHPUnit_Framework_Error");
-			}else{ // PHPUnit 6+
+			}elseif (version_compare($PHPUV, '9.0', '<')) { // PHPUnit 6x - 8x
 				$this->expectException("PHPUnit\Framework\Error\Error");
+			}else{ // PHPUnit 9+
+				$this->expectError();
 			}
 			$$tmp = new UILang($lang);
 			// $$tmp = $this->UIL[$tmp];
@@ -891,8 +949,10 @@ class langTest extends TestCase {
 				$this->setExpectedException("PHPUnit_Framework_Error");
 			}elseif (version_compare($PHPUV, '6.0', '<')) { // PHPUnit 5x
 				$this->expectException("PHPUnit_Framework_Error");
-			}else{ // PHPUnit 6+
+			}elseif (version_compare($PHPUV, '9.0', '<')) { // PHPUnit 6x - 8x
 				$this->expectException("PHPUnit\Framework\Error\Error");
+			}else{ // PHPUnit 9+
+				$this->expectError();
 			}
 			$$tmp = new UILang($lang);
 			// $$tmp = $this->UIL[$tmp];
@@ -916,8 +976,10 @@ class langTest extends TestCase {
 				$this->setExpectedException("PHPUnit_Framework_Error");
 			}elseif (version_compare($PHPUV, '6.0', '<')) { // PHPUnit 5x
 				$this->expectException("PHPUnit_Framework_Error");
-			}else{ // PHPUnit 6+
+			}elseif (version_compare($PHPUV, '9.0', '<')) { // PHPUnit 6x - 8x
 				$this->expectException("PHPUnit\Framework\Error\Error");
+			}else{ // PHPUnit 9+
+				$this->expectError();
 			}
 			$$tmp = new UILang($lang);
 			// $$tmp = $this->UIL[$tmp];
@@ -941,8 +1003,10 @@ class langTest extends TestCase {
 				$this->setExpectedException("PHPUnit_Framework_Error");
 			}elseif (version_compare($PHPUV, '6.0', '<')) { // PHPUnit 5x
 				$this->expectException("PHPUnit_Framework_Error");
-			}else{ // PHPUnit 6+
+			}elseif (version_compare($PHPUV, '9.0', '<')) { // PHPUnit 6x - 8x
 				$this->expectException("PHPUnit\Framework\Error\Error");
+			}else{ // PHPUnit 9+
+				$this->expectError();
 			}
 			$$tmp = new UILang($lang);
 			// $$tmp = $this->UIL[$tmp];
@@ -966,8 +1030,10 @@ class langTest extends TestCase {
 				$this->setExpectedException("PHPUnit_Framework_Error");
 			}elseif (version_compare($PHPUV, '6.0', '<')) { // PHPUnit 5x
 				$this->expectException("PHPUnit_Framework_Error");
-			}else{ // PHPUnit 6+
+			}elseif (version_compare($PHPUV, '9.0', '<')) { // PHPUnit 6x - 8x
 				$this->expectException("PHPUnit\Framework\Error\Error");
+			}else{ // PHPUnit 9+
+				$this->expectError();
 			}
 			$$tmp = new UILang($lang);
 			// $$tmp = $this->UIL[$tmp];
@@ -992,8 +1058,10 @@ class langTest extends TestCase {
 				$this->setExpectedException("PHPUnit_Framework_Error");
 			}elseif (version_compare($PHPUV, '6.0', '<')) { // PHPUnit 5x
 				$this->expectException("PHPUnit_Framework_Error");
-			}else{ // PHPUnit 6+
+			}elseif (version_compare($PHPUV, '9.0', '<')) { // PHPUnit 6x - 8x
 				$this->expectException("PHPUnit\Framework\Error\Error");
+			}else{ // PHPUnit 9+
+				$this->expectError();
 			}
 			$$tmp = new UILang($lang);
 			// $$tmp = $this->UIL[$tmp];
@@ -1017,8 +1085,10 @@ class langTest extends TestCase {
 				$this->setExpectedException("PHPUnit_Framework_Error");
 			}elseif (version_compare($PHPUV, '6.0', '<')) { // PHPUnit 5x
 				$this->expectException("PHPUnit_Framework_Error");
-			}else{ // PHPUnit 6+
+			}elseif (version_compare($PHPUV, '9.0', '<')) { // PHPUnit 6x - 8x
 				$this->expectException("PHPUnit\Framework\Error\Error");
+			}else{ // PHPUnit 9+
+				$this->expectError();
 			}
 			$$tmp = new UILang($lang);
 			// $$tmp = $this->UIL[$tmp];
@@ -1042,8 +1112,10 @@ class langTest extends TestCase {
 				$this->setExpectedException("PHPUnit_Framework_Error");
 			}elseif (version_compare($PHPUV, '6.0', '<')) { // PHPUnit 5x
 				$this->expectException("PHPUnit_Framework_Error");
-			}else{ // PHPUnit 6+
+			}elseif (version_compare($PHPUV, '9.0', '<')) { // PHPUnit 6x - 8x
 				$this->expectException("PHPUnit\Framework\Error\Error");
+			}else{ // PHPUnit 9+
+				$this->expectError();
 			}
 			$$tmp = new UILang($lang);
 			// $$tmp = $this->UIL[$tmp];
@@ -1067,8 +1139,10 @@ class langTest extends TestCase {
 				$this->setExpectedException("PHPUnit_Framework_Error");
 			}elseif (version_compare($PHPUV, '6.0', '<')) { // PHPUnit 5x
 				$this->expectException("PHPUnit_Framework_Error");
-			}else{ // PHPUnit 6+
+			}elseif (version_compare($PHPUV, '9.0', '<')) { // PHPUnit 6x - 8x
 				$this->expectException("PHPUnit\Framework\Error\Error");
+			}else{ // PHPUnit 9+
+				$this->expectError();
 			}
 			$$tmp = new UILang($lang);
 			// $$tmp = $this->UIL[$tmp];
@@ -1092,8 +1166,10 @@ class langTest extends TestCase {
 				$this->setExpectedException("PHPUnit_Framework_Error");
 			}elseif (version_compare($PHPUV, '6.0', '<')) { // PHPUnit 5x
 				$this->expectException("PHPUnit_Framework_Error");
-			}else{ // PHPUnit 6+
+			}elseif (version_compare($PHPUV, '9.0', '<')) { // PHPUnit 6x - 8x
 				$this->expectException("PHPUnit\Framework\Error\Error");
+			}else{ // PHPUnit 9+
+				$this->expectError();
 			}
 			$$tmp = new UILang($lang);
 			// $$tmp = $this->UIL[$tmp];
@@ -1117,8 +1193,10 @@ class langTest extends TestCase {
 				$this->setExpectedException("PHPUnit_Framework_Error");
 			}elseif (version_compare($PHPUV, '6.0', '<')) { // PHPUnit 5x
 				$this->expectException("PHPUnit_Framework_Error");
-			}else{ // PHPUnit 6+
+			}elseif (version_compare($PHPUV, '9.0', '<')) { // PHPUnit 6x - 8x
 				$this->expectException("PHPUnit\Framework\Error\Error");
+			}else{ // PHPUnit 9+
+				$this->expectError();
 			}
 			$$tmp = new UILang($lang);
 			// $$tmp = $this->UIL[$tmp];
@@ -1142,8 +1220,10 @@ class langTest extends TestCase {
 				$this->setExpectedException("PHPUnit_Framework_Error");
 			}elseif (version_compare($PHPUV, '6.0', '<')) { // PHPUnit 5x
 				$this->expectException("PHPUnit_Framework_Error");
-			}else{ // PHPUnit 6+
+			}elseif (version_compare($PHPUV, '9.0', '<')) { // PHPUnit 6x - 8x
 				$this->expectException("PHPUnit\Framework\Error\Error");
+			}else{ // PHPUnit 9+
+				$this->expectError();
 			}
 			$$tmp = new UILang($lang);
 			// $$tmp = $this->UIL[$tmp];
@@ -1168,8 +1248,10 @@ class langTest extends TestCase {
 				$this->setExpectedException("PHPUnit_Framework_Error");
 			}elseif (version_compare($PHPUV, '6.0', '<')) { // PHPUnit 5x
 				$this->expectException("PHPUnit_Framework_Error");
-			}else{ // PHPUnit 6+
+			}elseif (version_compare($PHPUV, '9.0', '<')) { // PHPUnit 6x - 8x
 				$this->expectException("PHPUnit\Framework\Error\Error");
+			}else{ // PHPUnit 9+
+				$this->expectError();
 			}
 			$$tmp = new UILang($lang);
 			// $$tmp = $this->UIL[$tmp];
@@ -1193,8 +1275,10 @@ class langTest extends TestCase {
 				$this->setExpectedException("PHPUnit_Framework_Error");
 			}elseif (version_compare($PHPUV, '6.0', '<')) { // PHPUnit 5x
 				$this->expectException("PHPUnit_Framework_Error");
-			}else{ // PHPUnit 6+
+			}elseif (version_compare($PHPUV, '9.0', '<')) { // PHPUnit 6x - 8x
 				$this->expectException("PHPUnit\Framework\Error\Error");
+			}else{ // PHPUnit 9+
+				$this->expectError();
 			}
 			$$tmp = new UILang($lang);
 			// $$tmp = $this->UIL[$tmp];
@@ -1221,8 +1305,10 @@ class langTest extends TestCase {
 				$this->setExpectedException("PHPUnit_Framework_Error");
 			}elseif (version_compare($PHPUV, '6.0', '<')) { // PHPUnit 5x
 				$this->expectException("PHPUnit_Framework_Error");
-			}else{ // PHPUnit 6+
+			}elseif (version_compare($PHPUV, '9.0', '<')) { // PHPUnit 6x - 8x
 				$this->expectException("PHPUnit\Framework\Error\Error");
+			}else{ // PHPUnit 9+
+				$this->expectError();
 			}
 			include_once("$BASE_path/languages/$file");
 			// Test common phrases
@@ -1362,8 +1448,10 @@ class langTest extends TestCase {
 				$this->setExpectedException("PHPUnit_Framework_Error");
 			}elseif (version_compare($PHPUV, '6.0', '<')) { // PHPUnit 5x
 				$this->expectException("PHPUnit_Framework_Error");
-			}else{ // PHPUnit 6+
+			}elseif (version_compare($PHPUV, '9.0', '<')) { // PHPUnit 6x - 8x
 				$this->expectException("PHPUnit\Framework\Error\Error");
+			}else{ // PHPUnit 9+
+				$this->expectError();
 			}
 			include_once("$BASE_path/languages/$file");
 			// Test Menu items
@@ -1436,8 +1524,10 @@ class langTest extends TestCase {
 				$this->setExpectedException("PHPUnit_Framework_Error");
 			}elseif (version_compare($PHPUV, '6.0', '<')) { // PHPUnit 5x
 				$this->expectException("PHPUnit_Framework_Error");
-			}else{ // PHPUnit 6+
+			}elseif (version_compare($PHPUV, '9.0', '<')) { // PHPUnit 6x - 8x
 				$this->expectException("PHPUnit\Framework\Error\Error");
+			}else{ // PHPUnit 9+
+				$this->expectError();
 			}
 			include_once("$BASE_path/languages/$file");
 			// Test Files with one line of translation data.
@@ -1464,8 +1554,10 @@ class langTest extends TestCase {
 				$this->setExpectedException("PHPUnit_Framework_Error");
 			}elseif (version_compare($PHPUV, '6.0', '<')) { // PHPUnit 5x
 				$this->expectException("PHPUnit_Framework_Error");
-			}else{ // PHPUnit 6+
+			}elseif (version_compare($PHPUV, '9.0', '<')) { // PHPUnit 6x - 8x
 				$this->expectException("PHPUnit\Framework\Error\Error");
+			}else{ // PHPUnit 9+
+				$this->expectError();
 			}
 			include_once("$BASE_path/languages/$file");
 			// Test base_main.php

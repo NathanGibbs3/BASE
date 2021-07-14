@@ -80,9 +80,12 @@ class commonlangSPTest extends TestCase {
 		}elseif (version_compare($PHPUV, '6.0', '<')) { // PHPUnit 5x
 			$this->expectException("PHPUnit_Framework_Error_Notice");
 			$this->expectExceptionMessage($EEM);
-		}else{ // PHPUnit 6+
+		}elseif (version_compare($PHPUV, '9.0', '<')) { // PHPUnit 6x - 8x
 			$this->expectException("PHPUnit\Framework\Error\Notice");
 			$this->expectExceptionMessage($EEM);
+		}else{ // PHPUnit 9+
+			$this->expectNotice();
+			$this->expectNoticeMessage($EEM);
 		}
 		$this->assertInstanceOf('UILang',self::$UIL = new UILang($lang),
 			"Class for $lang not created."

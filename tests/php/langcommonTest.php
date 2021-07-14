@@ -130,9 +130,12 @@ class commonlangTest extends TestCase {
 		}elseif (version_compare($PHPUV, '6.0', '<')) { // PHPUnit 5x
 			$this->expectException("PHPUnit_Framework_Error_Notice");
 			$this->expectExceptionMessage($EEM);
-		}else{ // PHPUnit 6+
+		}elseif (version_compare($PHPUV, '9.0', '<')) { // PHPUnit 6x - 8x
 			$this->expectException("PHPUnit\Framework\Error\Notice");
 			$this->expectExceptionMessage($EEM);
+		}else{ // PHPUnit 9+
+			$this->expectNotice();
+			$this->expectNoticeMessage($EEM);
 		}
 		$$tmp->BlankProps('NULL',NULL);
 	}
@@ -224,9 +227,12 @@ class commonlangTest extends TestCase {
 			}elseif (version_compare($PHPUV, '6.0', '<')) { // PHPUnit 5x
 				$this->expectException("PHPUnit_Framework_Error_Notice");
 				$this->expectExceptionMessage($EEM);
-			}else{ // PHPUnit 6+
+			}elseif (version_compare($PHPUV, '9.0', '<')) { // PHPUnit 6x - 8x
 				$this->expectException("PHPUnit\Framework\Error\Notice");
 				$this->expectExceptionMessage($EEM);
+			}else{ // PHPUnit 9+
+				$this->expectNotice();
+				$this->expectNoticeMessage($EEM);
 			}
 			$$tmp->SetUIADItem($key,$kD);
 		}else{
@@ -256,9 +262,12 @@ class commonlangTest extends TestCase {
 		}elseif (version_compare($PHPUV, '6.0', '<')) { // PHPUnit 5x
 			$this->expectException("PHPUnit_Framework_Error_Notice");
 			$this->expectExceptionMessage($EEM);
-		}else{ // PHPUnit 6+
+		}elseif (version_compare($PHPUV, '9.0', '<')) { // PHPUnit 6x - 8x
 			$this->expectException("PHPUnit\Framework\Error\Notice");
 			$this->expectExceptionMessage($EEM);
+		}else{ // PHPUnit 9+
+			$this->expectNotice();
+			$this->expectNoticeMessage($EEM);
 		}
 		$$tmp->SetUICWItem($key,$kD);
 	}
@@ -283,9 +292,12 @@ class commonlangTest extends TestCase {
 		}elseif (version_compare($PHPUV, '6.0', '<')) { // PHPUnit 5x
 			$this->expectException("PHPUnit_Framework_Error_Notice");
 			$this->expectExceptionMessage($EEM);
-		}else{ // PHPUnit 6+
+		}elseif (version_compare($PHPUV, '9.0', '<')) { // PHPUnit 6x - 8x
 			$this->expectException("PHPUnit\Framework\Error\Notice");
 			$this->expectExceptionMessage($EEM);
+		}else{ // PHPUnit 9+
+			$this->expectNotice();
+			$this->expectNoticeMessage($EEM);
 		}
 		$$tmp->SetUICPItem($key,$kD);
 	}
@@ -310,9 +322,12 @@ class commonlangTest extends TestCase {
 		}elseif (version_compare($PHPUV, '6.0', '<')) { // PHPUnit 5x
 			$this->expectException("PHPUnit_Framework_Error_Notice");
 			$this->expectExceptionMessage($EEM);
-		}else{ // PHPUnit 6+
+		}elseif (version_compare($PHPUV, '9.0', '<')) { // PHPUnit 6x - 8x
 			$this->expectException("PHPUnit\Framework\Error\Notice");
 			$this->expectExceptionMessage($EEM);
+		}else{ // PHPUnit 9+
+			$this->expectNotice();
+			$this->expectNoticeMessage($EEM);
 		}
 		$$tmp->SetUIUAItem($key,$kD);
 	}
