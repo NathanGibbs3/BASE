@@ -4,10 +4,15 @@ use PHPUnit\Framework\TestCase;
 // Test fucntions in /includes/base_log_error.inc.php
 
 /**
-  * @covers ::returnErrorMessage
+  * Code Coverage Directives.
   * @covers ::ErrorMessage
+  * @covers ::LibIncError
+  * @covers ::returnErrorMessage
   * @uses ::Htmlcolor
+  * @uses ::LoadedString
+  * @uses ::XSSPrintSafe
   */
+
 class log_errorTest extends TestCase {
 	// Tests go here.
 	public function testreturnErrorMessageDefault() {
@@ -80,7 +85,71 @@ class log_errorTest extends TestCase {
 			'Unexpected Return Value.'
 		);
 	}
-
+	public function testLibIncErrorDefault() {
+		$expected = '<font color="black"><b>Error loading the Desc library:'.
+		'</b> from &quot;Loc&quot;.</font><br/>'.
+		'<font color="#ff0000">PHP setup incomplete: Lib required.</font><br/>';
+		$this->expectOutputString(
+			$expected, LibIncError('Desc', 'Loc', 'Lib'), 'Unexpected Output.'
+		);
+	}
+	public function testLibIncErrorPear() {
+		$expected = '<font color="black"><b>Error loading the Desc library:'.
+		'</b> from &quot;Loc&quot;.<br/>The underlying Desc library '.
+		'currently used is LibName.</font><br/>'.
+		'<font color="black">Check your Pear::LibName installation!<br/>Make '.
+		'sure PEAR libraries can be found by PHP.<pre>pear config-show | grep '.
+		'&quot;PEAR directory&quot;'."\n".'PEAR directory      php_dir     '.
+		'/usr/share/pear</pre>This path must be part of the include path of '.
+		'php (cf. /etc/php.ini).<pre>php -i | '.
+		'grep &quot;include_path&quot;include_path =&gt; '.
+		'.:/usr/share/pear:/usr/share/php =&gt; '.
+		'.:/usr/share/pear:/usr/share/php</pre>';
+		if ( ini_get('safe_mode') ){
+			$expected .= 'In &quot;safe_mode&quot; it must also be part of '.
+			'safe_mode_include_dir in /etc/php.ini';
+		};
+		$expected .= '</font><br/>'.
+		'<font color="#ff0000">PHP setup incomplete: LibName required.'.
+		'</font><br/>';
+		$this->expectOutputString(
+			$expected, LibIncError(
+				'Desc', 'Loc', 'Lib', '', 'LibName', '', 0, 1
+			),
+			'Unexpected Output.'
+		);
+	}
+	public function testLibIncErrorMsg() {
+		$expected = '<font color="black"><b>Error loading the Desc library:'.
+		'</b> from &quot;Loc&quot;.</font><br/><font color="black">Msg'.
+		'</font><br/>'.
+		'<font color="#ff0000">PHP setup incomplete: Lib required.</font><br/>';
+		$this->expectOutputString(
+			$expected, LibIncError('Desc', 'Loc', 'Lib', 'Msg'),
+			'Unexpected Output.'
+		);
+	}
+	public function testLibIncErrorLibName() {
+		$expected = '<font color="black"><b>Error loading the Desc library:'.
+		'</b> from &quot;Loc&quot;.<br/>The underlying Desc library '.
+		'currently used is LibName.</font><br/>'.
+		'<font color="#ff0000">PHP setup incomplete: Lib required.</font><br/>';
+		$this->expectOutputString(
+			$expected, LibIncError('Desc', 'Loc', 'Lib', '', 'LibName'),
+			'Unexpected Output.'
+		);
+	}
+	public function testLibIncErrorURL() {
+		$expected = '<font color="black"><b>Error loading the Desc library:'.
+		'</b> from &quot;Loc&quot;.<br/>The underlying Desc library '.
+		'currently used is LibName, that can be downloaded at '.
+		'<a href="URL">URL</a>.</font><br/>'.
+		'<font color="#ff0000">PHP setup incomplete: Lib required.</font><br/>';
+		$this->expectOutputString(
+			$expected, LibIncError('Desc', 'Loc', 'Lib', '', 'LibName', 'URL'),
+			'Unexpected Output.'
+		);
+	}
 	// Add code to a function if needed.
 	// Stop here and mark test incomplete.
 	//$this->markTestIncomplete('Incomplete Test.');
