@@ -23,6 +23,13 @@ class base_qry_commonTest extends TestCase {
 	public static function setUpBeforeClass() {
 		GLOBAL $BASE_path, $debug_mode;
 		$tf = __FUNCTION__;
+		// Issue #36 Cutout.
+		// See: https://github.com/NathanGibbs3/BASE/issues/36
+		$PHPV = GetPHPV();
+		$PSM = getenv('SafeMode');
+		if (version_compare($PHPV, '5.4', '<') && $PSM == 1){
+			self::markTestSkipped();
+		}
 		$ll = 'english';
 		self::$langs = $ll;
 		$lf = "$ll.lang.php";
