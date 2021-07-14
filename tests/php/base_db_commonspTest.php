@@ -20,6 +20,7 @@ class base_db_commonTest extends TestCase {
 	// Share class instance as common test fixture.
 	public static function setUpBeforeClass() {
 		GLOBAL $BASE_path, $debug_mode;
+		$tf = __FUNCTION__;
 		// Issue #36 Cutout.
 		// See: https://github.com/NathanGibbs3/BASE/issues/36
 		$PHPV = GetPHPV();

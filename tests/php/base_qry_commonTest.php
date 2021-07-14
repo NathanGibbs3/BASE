@@ -3,9 +3,11 @@ use PHPUnit\Framework\TestCase;
 
 // Test fucntions in base_qry_common.php
 /**
-  * @backupGlobals disabled
   * @covers ::PrintCriteria
   * @uses ::NLI
+  * A necessary evil for tests touching legacy TD.
+  * @preserveGlobalState disabled
+  * @runTestsInSeparateProcesses
   */
 
 class base_qry_commonTest extends TestCase {
@@ -19,13 +21,27 @@ class base_qry_commonTest extends TestCase {
 	// We are using a single TD file.
 	// Share class instance as common test fixture.
 	public static function setUpBeforeClass() {
+		GLOBAL $BASE_path, $debug_mode;
+		$tf = __FUNCTION__;
 		$ll = 'english';
 		self::$langs = $ll;
 		$lf = "$ll.lang.php";
 		self::$files = $lf;
-		self::assertInstanceOf('UILang',self::$UIL = new UILang($ll),
-			"Class for $ll not created."
-		);
+		$file = "$BASE_path/languages/$lf";
+		if ($debug_mode > 1) {
+			LogTC($tf,'language',$ll);
+			LogTC($tf,'TD file',$file);
+		}
+		if ( class_exists('UILang') ){
+			// Setup UI Language Object
+			// Will throw error during TD transition.
+			// Use error suppression @ symbol.
+			self::assertInstanceOf('UILang',self::$UIL = @new UILang($ll),
+				"Class for $ll not created."
+			);
+		}else{
+			self::$files = $file;
+		}
 		self::$EOP =
 		"\n\t\t\t\t<table cellspacing=\"1\" cellpadding=\"2\" border=\"0\" ".
 		"bgcolor=\"#FFFFFF\">".
