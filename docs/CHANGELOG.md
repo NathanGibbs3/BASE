@@ -1456,6 +1456,8 @@ Contributor(s): [Kevin Johnson]
 - Setup bugs.  
 Contributor(s): Michiel Brendel
 - "Duplicate Entry" errors.  
+Patch [submitted](https://sourceforge.net/p/secureideas/patches/1/)
+on sourceforge.net. Original ID: Unknown  
 Contributor(s): pr00f at users.sourceforge.net    
 - MSSQL setup scripts did not correctly insert roles.  
 Contributor(s): Alan Vallance
