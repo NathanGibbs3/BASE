@@ -41,8 +41,12 @@ if ( isset($join_sql) ){ // Issue #5
 	$et->Mark("Counting Result size");
 	// Setup the Query Results Table.
 	$qro = new QueryResultsOutput("$page".$qs->SaveStateGET().$tmp_page_get);
-	$qro->AddTitle(qroReturnSelectALLCheck());
-	$qro->AddTitle("ID");
+	if ( !is_null($qro->JavaScript) ){ // Issue #109 Check
+		$qro->AddTitle(qroReturnSelectALLCheck());
+	}else{
+		$qro->AddTitle('');
+	}
+	$qro->AddTitle('ID');
 	$qro->AddTitle($CPSig,
 		"sig_a", " ", " ORDER BY sig_name ASC",
 		"sig_d", " ", " ORDER BY sig_name DESC"
@@ -117,30 +121,22 @@ if ( isset($join_sql) ){ // Issue #5
      $qs->DumpState();
      echo "$sql<BR>";
   }
-
-  if ( !$printing_ag )
-  {
-     /* ***** Generate and print the criteria in human readable form */
-     echo '<TABLE WIDTH="100%">
-           <TR>
-             <TD WIDTH="60%" VALIGN=TOP>';
-
-     PrintCriteria($caller);
-
-     echo '</TD>
-           <TD WIDTH="40%" VALIGN=TOP>';
-      
-     PrintFramedBoxHeader(_QSCSUMM, "#669999", "#FFFFFF");
+	if ( !$printing_ag ){
+		// Generate and print the criteria in human readable form.
+		// Issue #114 fix
+		NLIO ("<div style='overflow:hidden'>",2);
+		NLIO ("<div style='float: left; width: 60%;'>",3);
+		PrintCriteria($caller);
+		NLIO ('</div>',3);
+		NLIO ("<div style='float: right; width: 40%;'>",3);
+		PrintFramedBoxHeader(_QSCSUMM, '#669999', 1, 4);
      PrintGeneralStats($db, 1, $show_summary_stats, 
                        "$join_sql ", "$where_sql $criteria_sql"); 
      echo('<BR><LI><A HREF="base_stat_time.php">'._QSCTIMEPROF.'</A> '._QSCOFALERTS . "</LI>");
-     PrintFramedBoxFooter();
-
-     echo ' </TD>
-           </TR>
-          </TABLE>';
-  }
-
+		PrintFramedBoxFooter(1,4);
+		NLIO ('</div>',3);
+		NLIO ('</div>',2);
+	}
     /* Clear the old checked positions */
     for ( $i = 0; $i < $show_rows; $i++)  
     { 

@@ -32,7 +32,7 @@ function returnErrorMessage ($message, $color = "#ff0000", $br = 0 ){
 		// Default to Red if we are passed something odd.
 		$color = "#ff0000";
 	}
-	$error = '<font color="'.$color.'">'.$message.'</font>';
+	$error = "<font color='$color'>$message</font>";
 	if ($br != 0){
 		$error .= '<br/>';
 	}
@@ -64,8 +64,9 @@ function LibIncError (
 		// Translation data this msg when we get to _ERRSQLDBALLOAD2 on Issue#11
 		$msg .= "The underlying $Desc library currently used is $LibName";
 		if ( LoadedString($URL) == true ){
+			$URL = XSSPrintSafe($URL);
 			$msg .= ', that can be downloaded at ';
-			$msg .= '<a href="'.$URL.'">'.$URL.'</a>';
+			$msg .= "<a href='$URL'>$URL</a>";
 		}
 		$msg .= '.';
 	}

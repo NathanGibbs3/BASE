@@ -86,37 +86,28 @@ switch ( $proto ){
        break;
   }
 
-  if ( $qs->isCannedQuery() )
-	{
-		if ($action == "")
-		{
-     	PrintBASESubHeader($page_title.": ".$qs->GetCurrentCannedQueryDesc(),
+if ( $qs->isCannedQuery() ){
+	if ($action == ''){
+		PrintBASESubHeader($page_title.": ".$qs->GetCurrentCannedQueryDesc(),
                          $page_title.": ".$qs->GetCurrentCannedQueryDesc(), 
                          $cs->GetBackLink(), 1);
-		}
-		else
-		{
-			PrintBASESubHeader($page_title.": ".$qs->GetCurrentCannedQueryDesc(),
+	}else{
+		PrintBASESubHeader($page_title.": ".$qs->GetCurrentCannedQueryDesc(),
                          $page_title.": ".$qs->GetCurrentCannedQueryDesc(), 
                          $cs->GetBackLink(), $refresh_all_pages);
-		}
 	}
-  else
-	{
-		if ($action == "")
-		{
-     	PrintBASESubHeader($page_title, $page_title, $cs->GetBackLink(), 1);
-		}
-		else
-		{
-			PrintBASESubHeader($page_title, $page_title, $cs->GetBackLink(), $refresh_all_pages);
-		}
+}else{
+	if ($action == ''){
+		PrintBASESubHeader($page_title, $page_title, $cs->GetBackLink(), 1);
+	}else{
+		PrintBASESubHeader($page_title, $page_title, $cs->GetBackLink(), $refresh_all_pages);
 	}
-
-  if ( $event_cache_auto_update == 1 )  UpdateAlertCache($db);
-
-  $criteria_clauses = ProcessCriteria();
-  PrintCriteria("");
+}
+if ( $event_cache_auto_update == 1 ){
+	UpdateAlertCache($db);
+}
+$criteria_clauses = ProcessCriteria();
+PrintCriteria('');
 
   $criteria = $criteria_clauses[0]." ".$criteria_clauses[1];
 
@@ -178,27 +169,31 @@ switch ( $proto ){
   $qro = new QueryResultsOutput("base_stat_ports.php?caller=$caller".
                                 "&amp;sort_order=".$sort_order.
                                 "&amp;port_type=$port_type&amp;proto=$proto");
-
-  $qro->AddTitle(" ");
-  $qro->AddTitle(_PORT, 
-                "port_a", " ", " ORDER BY $port_type_sql ASC",
-                "port_d", " ", " ORDER BY $port_type_sql DESC");
+$qro->AddTitle('');
+$qro->AddTitle( _PORT,
+	"port_a", " ", " ORDER BY $port_type_sql ASC",
+	"port_d", " ", " ORDER BY $port_type_sql DESC", 'right'
+);
 $qro->AddTitle( "$CPSensor&nbsp;#",
 	"sensor_a", " ", " ORDER BY num_sensors ASC",
 	"sensor_d", " ", " ORDER BY num_sensors DESC"
 );
-  $qro->AddTitle(_OCCURRENCES, 
-                "occur_a", " ", " ORDER BY num_events ASC",
-                "occur_d", " ", " ORDER BY num_events DESC");
-  $qro->AddTitle(_UNIALERTS, 
-                "alerts_a", " ", " ORDER BY num_sig ASC",
-                "alerts_d", " ", " ORDER BY num_sig DESC");
-  $qro->AddTitle(_SUASRCADD, 
-                "sip_a", " ", " ORDER BY num_sip ASC",
-                "sip_d", " ", " ORDER BY num_sip DESC");
-  $qro->AddTitle(_SUADSTADD, 
-                "dip_a", " ", " ORDER BY num_dip ASC",
-                "dip_d", " ", " ORDER BY num_dip DESC");
+$qro->AddTitle( _OCCURRENCES,
+	"occur_a", " ", " ORDER BY num_events ASC",
+	"occur_d", " ", " ORDER BY num_events DESC", 'right'
+);
+$qro->AddTitle( _UNIALERTS,
+	"alerts_a", " ", " ORDER BY num_sig ASC",
+	"alerts_d", " ", " ORDER BY num_sig DESC", 'right'
+);
+$qro->AddTitle( _SUASRCADD,
+	"sip_a", " ", " ORDER BY num_sip ASC",
+	"sip_d", " ", " ORDER BY num_sip DESC", 'right'
+);
+$qro->AddTitle( _SUADSTADD,
+	"dip_a", " ", " ORDER BY num_dip ASC",
+	"dip_d", " ", " ORDER BY num_dip DESC", 'right'
+);
 $qro->AddTitle( $CPFirst,
 	"first_a", " ", " ORDER BY first_timestamp ASC",
 	"first_d", " ", " ORDER BY first_timestamp DESC"
@@ -224,9 +219,7 @@ $qro->AddTitle( $CPLast,
   /* Run the Query again for the actual data (with the LIMIT) */
   $result = $qs->ExecuteOutputQuery($sql, $db);
   $et->Mark("Retrieve Query Data");
-
-  if ( $debug_mode == 1 )
-  {
+if ( $debug_mode == 1 ){
      $qs->PrintCannedQueryList();
      $qs->DumpState();
      echo "$sql<BR>";
@@ -236,9 +229,8 @@ $qro->AddTitle( $CPLast,
              <TR><TD>'.$port_type.'</TD>
                  <TD>'.$proto.'</TD></TR>
            </TABLE>';
-  }
-
-  /* Print the current view number and # of rows */
+}
+// Print the current view number and # of rows.
   $qs->PrintResultCnt();
 
   echo '<FORM METHOD="post" NAME="PacketForm" ACTION="base_stat_ports.php">'."\n";
@@ -248,8 +240,10 @@ $qro->AddTitle( $CPLast,
   echo "<input type='hidden' name='port_type' value='$port_type'>\n"; 
 
    $i = 0;
-   while ( ($myrow = $result->baseFetchRow()) && ($i < $qs->GetDisplayRowCnt()) )
-   {
+while ( ($myrow = $result->baseFetchRow()) && ($i < $qs->GetDisplayRowCnt()) ){
+	if ( is_null($myrow[0]) ){
+		continue; // Issue #112 Interim fix.
+	}
       $currentPort = $url_port = $myrow[0].' ';
       if ( $port_proto == TCP )
       {
@@ -310,26 +304,23 @@ $qro->AddTitle( $CPLast,
       echo '    <TD><INPUT TYPE="checkbox" NAME="action_chk_lst['.$i.']" VALUE="'.$tmp_rowid.'"></TD>';
       echo '        <INPUT TYPE="hidden" NAME="action_lst['.$i.']" VALUE="'.$tmp_rowid.'">';
 
-      qroPrintEntry($currentPort);
+	qroPrintEntry($currentPort,'right');
       qroPrintEntry('<A HREF="base_stat_sensor.php?'.$url_param.'">'.$num_sensors.'</A>');
-      qroPrintEntry('<A HREF="base_qry_main.php?'.$url_param.'&amp;new=1&amp;submit='._QUERYDBP.
-                    '&amp;sort_order=sig_a">'.$num_events.'</A>');
-      qroPrintEntry('<A HREF="base_stat_alerts.php?'.$url_param.'&amp;sort_order=sig_a">'.
-                    $num_sig.'</A>');
-      qroPrintEntry('<A HREF="base_stat_uaddr.php?'.$url_param.'&amp;addr_type=1'.
-                    '&amp;sort_order=addr_a">'.$num_sip);
-      qroPrintEntry('<A HREF="base_stat_uaddr.php?'.$url_param.'&amp;addr_type=2'.
-                    '&amp;sort_order=addr_a">'.$num_dip);
+	qroPrintEntry('<A HREF="base_qry_main.php?'.$url_param.'&amp;new=1&amp;submit='._QUERYDBP.
+                    '&amp;sort_order=sig_a">'.$num_events.'</A>','right');
+	qroPrintEntry('<A HREF="base_stat_alerts.php?'.$url_param.'&amp;sort_order=sig_a">'.
+                    $num_sig.'</A>','right');
+	qroPrintEntry('<A HREF="base_stat_uaddr.php?'.$url_param.'&amp;addr_type=1'.
+                    '&amp;sort_order=addr_a">'.$num_sip,'right');
+	qroPrintEntry('<A HREF="base_stat_uaddr.php?'.$url_param.'&amp;addr_type=2'.
+                    '&amp;sort_order=addr_a">'.$num_dip,'right');
       qroPrintEntry($first_time);
       qroPrintEntry($last_time);
-
       qroPrintEntryFooter();
       ++$i;
-   }
-
-  $result->baseFreeRows();     
-
-  $qro->PrintFooter();
+}
+$result->baseFreeRows();
+$qro->PrintFooter();
 
   $qs->PrintBrowseButtons();
   $qs->PrintAlertActionButtons();

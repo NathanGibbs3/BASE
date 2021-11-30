@@ -57,10 +57,11 @@ $db->baseDBConnect(
 	$db_connect_method,$alert_dbname, $alert_host, $alert_port, $alert_user,
 	$alert_password
 );
-  if ( $event_cache_auto_update == 1 )  UpdateAlertCache($db);
-
-  $criteria_clauses = ProcessCriteria();  
-  PrintCriteria("");
+if ( $event_cache_auto_update == 1 ){
+	UpdateAlertCache($db);
+}
+$criteria_clauses = ProcessCriteria();
+PrintCriteria('');
 
   $from = " FROM acid_event ".$criteria_clauses[0];
   $where = " WHERE ".$criteria_clauses[1];
@@ -90,34 +91,32 @@ $db->baseDBConnect(
   /* Run the query to determine the number of rows (No LIMIT)*/
   $qs->GetNumResultRows($cnt_sql, $db);
   $et->Mark("Counting Result size");
-
-  /* Setup the Query Results Table */
-  $qro = new QueryResultsOutput("base_stat_sensor.php?x=x");
-
-  $qro->AddTitle(" ");
+// Setup the Query Results Table */
+$qro = new QueryResultsOutput("base_stat_sensor.php?x=x");
+$qro->AddTitle('');
 $qro->AddTitle( "$CPSensor&nbsp;#",
 	"sid_a", " ", " ORDER BY acid_event.sid ASC",
 	"sid_d", " ", " ORDER BY acid_event.sid DESC"
 );
 $qro->AddTitle( $CPName,
 	"sname_a", " ", " ORDER BY sensor.name ASC",
-	"sname_d", " ", " ORDER BY sensor.name DESC"
+	"sname_d", " ", " ORDER BY sensor.name DESC", 'left'
 );
-  $qro->AddTitle(_SIPLTOTALEVENTS, 
-                "occur_a", " ",
-                         " ",
-                "occur_d", " ",
-                         " ");  
-
-  $qro->AddTitle(_SIPLUNIEVENTS, 
-                "occur_a", "", " ORDER BY sig_cnt ASC",
-                "occur_d", "", " ORDER BY sig_cnt DESC");
-  $qro->AddTitle(_SUASRCADD, 
-                "saddr_a", "", " ORDER BY saddr_cnt ASC",
-                "saddr_d", "", " ORDER BY saddr_cnt DESC");
-  $qro->AddTitle(_SUADSTADD, 
-                "daddr_a", "", " ORDER BY daddr_cnt ASC",
-                "daddr_d", "", " ORDER BY daddr_cnt DESC");
+$qro->AddTitle(
+	_SIPLTOTALEVENTS, "occur_a", " ", " ", "occur_d", " ", " ", 'right'
+);
+$qro->AddTitle( _SIPLUNIEVENTS,
+	"occur_a", "", " ORDER BY sig_cnt ASC",
+	"occur_d", "", " ORDER BY sig_cnt DESC", 'right'
+);
+$qro->AddTitle( _SUASRCADD,
+	"saddr_a", "", " ORDER BY saddr_cnt ASC",
+	"saddr_d", "", " ORDER BY saddr_cnt DESC", 'right'
+);
+$qro->AddTitle( _SUADSTADD,
+	"daddr_a", "", " ORDER BY daddr_cnt ASC",
+	"daddr_d", "", " ORDER BY daddr_cnt DESC", 'right'
+);
 $qro->AddTitle( $CPFirst,
 	"first_a", "", " ORDER BY first_timestamp ASC",
 	"first_d", "", " ORDER BY first_timestamp DESC"
@@ -170,14 +169,24 @@ $qro->AddTitle( $CPLast,
     echo '        <INPUT TYPE="hidden" NAME="action_lst['.$i.']" VALUE="'.$tmp_rowid.'"></TD>';
 
     qroPrintEntry($sensor_id);
-    qroPrintEntry(GetSensorName($sensor_id, $db));
-    qroPrintEntry('<A HREF="base_qry_main.php?new=1&amp;sensor='.$sensor_id.
-                  '&amp;num_result_rows=-1&amp;submit='._QUERYDBP.'">'.
-                  $event_cnt.'</A>');
-
-     qroPrintEntry(BuildUniqueAlertLink("?sensor=".$sensor_id).$unique_event_cnt.'</A>');
-     qroPrintEntry(BuildUniqueAddressLink(1, "&amp;sensor=".$sensor_id).$num_src_ip.'</A>');
-     qroPrintEntry(BuildUniqueAddressLink(2, "&amp;sensor=".$sensor_id).$num_dst_ip.'</A>');
+	qroPrintEntry(GetSensorName($sensor_id, $db),'left');
+	qroPrintEntry(
+		"<a href='base_qry_main.php?new=1&amp;sensor=$sensor_id".
+		"&amp;num_result_rows=-1&amp;submit="._QUERYDBP."'>$event_cnt</a>",
+		'right'
+	);
+	qroPrintEntry(
+		BuildUniqueAlertLink("?sensor=".$sensor_id)."$unique_event_cnt</a>",
+		'right'
+	);
+	qroPrintEntry(
+		BuildUniqueAddressLink(1, "&amp;sensor=".$sensor_id)."$num_src_ip</a>",
+		'right'
+	);
+	qroPrintEntry(
+		BuildUniqueAddressLink(2, "&amp;sensor=".$sensor_id)."$num_dst_ip</a>",
+		'right'
+	);
      qroPrintEntry($start_time);
      qroPrintEntry($stop_time);
 

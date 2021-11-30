@@ -617,7 +617,7 @@ class base_commonTest extends TestCase {
 	}
 	public function testreturnChkLibEmpty() {
 		GLOBAL $debug_mode;
-		$expected ='<font color="#ff0000">ChkLib: No Lib specified.</font><br/>';
+		$expected ="<font color='#ff0000'>ChkLib: No Lib specified.</font><br/>";
 		$this->assertEquals(
 			'',
 			ChkLib('','',''),
@@ -710,8 +710,8 @@ class base_commonTest extends TestCase {
 		}
 		$path =  $DBlib_path;
 		$Lib = 'adodb.inc';
-		$expected = '<font color="black">ChkLib: Chk: '."$path$sc$Lib".'.php';
-		$expected .= '</font><br/><font color="black">ChkLib: Lib: ';
+		$expected = "<font color='black'>ChkLib: Chk: $path$sc$Lib".'.php';
+		$expected .= "</font><br/><font color='black'>ChkLib: Lib: ";
 		$expected .= "$path$sc$Lib".'.php found.</font><br/>';
 		$this->assertEquals(
 			"$path$sc$Lib".'.php',
@@ -745,8 +745,8 @@ class base_commonTest extends TestCase {
 		}
 		$path =  $DBlib_path;
 		$Lib = 'notthere';
-		$expected = '<font color="black">ChkLib: Chk: '."$path$sc$Lib".'.php';
-		$expected .= '</font><br/><font color="red">ChkLib: Lib: ';
+		$expected = "<font color='black'>ChkLib: Chk: $path$sc$Lib".'.php';
+		$expected .= "</font><br/><font color='red'>ChkLib: Lib: ";
 		$expected .= "$path$sc$Lib".'.php not found.</font><br/>';
 		$this->assertEquals(
 			'',

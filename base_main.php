@@ -84,9 +84,12 @@ if ($tmp_str != ''){
 	BuildError ($tmp_str, $tmp_str);
 }
 // @codeCoverageIgnoreEnd
-// Connect to the Alert DB
+// Connect to the Alert DB.
 $db = NewBASEDBConnection($DBlib_path, $DBtype);
-$db->baseDBConnect($db_connect_method, $alert_dbname, $alert_host, $alert_port, $alert_user, $alert_password);
+$db->baseDBConnect(
+	$db_connect_method, $alert_dbname, $alert_host, $alert_port, $alert_user,
+	$alert_password
+);
 
 /* Check that the DB schema is recent */
 $tmp_str = verify_db($db, $alert_dbname, $alert_host);
@@ -234,7 +237,7 @@ if ($event_cache_auto_update == 1) {
     UpdateAlertCache($db);
 }
 if ($UIL->SetUILocale()) {
-	printf("<strong>"._QUERIED." </strong> : %s<br />" , strftime($UIL->Timefmt));
+	printf("<b>"._QUERIED." </b> : %s<br />" , strftime($UIL->Timefmt));
 	if ( ChkCookie ('archive', 1) ){
         printf("<strong>"._DATABASE."</strong> %s &nbsp;&nbsp;&nbsp;(<strong>"._SCHEMAV."</strong> %d) \n<br />\n", 
 	    ($archive_dbname.'@'.$archive_host. ($archive_port != "" ? ':'.$archive_port : "") ),
@@ -283,13 +286,7 @@ if ($main_page_detail == 1) {
     <strong>'._TRAFFICPROBPRO.'</strong>';
     PrintProtocolProfileGraphs($db);
 }
-?>
-    </td>
-  </tr>
-</table>
-
-<p>
-<hr />
-<?php
+PrintFramedBoxFooter(1,2);
+NLIO('<hr/>',2);
 PrintBASESubFooter();
 ?>

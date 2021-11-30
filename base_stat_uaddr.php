@@ -74,30 +74,22 @@ if ( $addr_type == SOURCE_IP ){
     $results_title = _SUADSTIP;
     $addr_type_name = "ip_dst";
   }
-
-  if ( $qs->isCannedQuery() )
-	{
+if ( $qs->isCannedQuery() ){
      PrintBASESubHeader($page_title.": ".$qs->GetCurrentCannedQueryDesc(),
                         $page_title.": ".$qs->GetCurrentCannedQueryDesc(), 
                         $cs->GetBackLink(), 1);
+}else{
+	if ($action != '' ){
+		PrintBASESubHeader($page_title, $page_title, $cs->GetBackLink(), $refresh_all_pages);
+	}else{
+		PrintBASESubHeader($page_title, $page_title, $cs->GetBackLink(), 1);
 	}
-  else
-	{
-		if ($action != "")
-		{
-			PrintBASESubHeader($page_title, $page_title, $cs->GetBackLink(), $refresh_all_pages);
-		}
-		else
-		{
-    	PrintBASESubHeader($page_title, $page_title, $cs->GetBackLink(), 1);
-		}
-	}
-  
-  if ( $event_cache_auto_update == 1 )  UpdateAlertCache($db);
-
-  $criteria_clauses = ProcessCriteria();
-  PrintCriteria("");
-
+}
+if ( $event_cache_auto_update == 1 ){
+	UpdateAlertCache($db);
+}
+$criteria_clauses = ProcessCriteria();
+PrintCriteria('');
   $criteria = $criteria_clauses[0]." ".$criteria_clauses[1];
   $from = " FROM acid_event ".$criteria_clauses[0];
   $where = " WHERE ".$criteria_clauses[1];
@@ -128,45 +120,36 @@ if ( $addr_type == SOURCE_IP ){
 
   /* Setup the Query Results Table */
   $qro = new QueryResultsOutput("base_stat_uaddr.php?caller=".$caller."&amp;addr_type=".$addr_type);
-
-  $qro->AddTitle(" "); 
-  $qro->AddTitle($results_title, 
-                "addr_a", " ",
-                         " ORDER BY $addr_type_name ASC",
-                "addr_d", " ",
-                         " ORDER BY $addr_type_name DESC");
-
+$qro->AddTitle('');
+$qro->AddTitle( $results_title,
+	"addr_a", " ", " ORDER BY $addr_type_name ASC",
+	"addr_d", " ", " ORDER BY $addr_type_name DESC", 'right'
+);
 if ( $resolve_IP == 1 ){
-	$qro->AddTitle("FQDN");
+	$qro->AddTitle('FQDN');
 }
 $qro->AddTitle( "$CPSensor&nbsp;#" );
 $qro->AddTitle( "$CPTotal&nbsp;#",
 	"occur_a", " ", " ORDER BY num_events ASC",
-	"occur_d", " ", " ORDER BY num_events DESC"
+	"occur_d", " ", " ORDER BY num_events DESC", 'right'
 );
-  $qro->AddTitle(_SUAUNIALERTS, 
-                "sig_a", " ",
-                           " ORDER BY num_sig ASC",
-                "sig_d", " ",
-                           " ORDER BY num_sig DESC");
-
-  if ( $addr_type == DEST_IP )
-  {
+$qro->AddTitle(_SUAUNIALERTS,
+	"sig_a", " ", " ORDER BY num_sig ASC",
+	"sig_d", " ", " ORDER BY num_sig DESC", 'right'
+);
+if ( $addr_type == DEST_IP ){
     $qro->AddTitle(_SUASRCADD, 
                    "saddr_a", " ",
                            " ORDER BY num_sip ASC",
                    "saddr_d", " ",
                            " ORDER BY num_sip DESC");
-  }
-  else
-  {
+}else{
     $qro->AddTitle(_SUADSTADD, 
                   "daddr_a", "  ",
                            " ORDER BY num_dip ASC",
                   "daddr_d", " ",
                            " ORDER BY num_dip DESC");
-  }
-
+}
   $sort_sql = $qro->GetSortSQL($qs->GetCurrentSort(), $qs->GetCurrentCannedQuerySort());
 
   $sql = "SELECT DISTINCT $addr_type_name, ".
@@ -213,8 +196,7 @@ $qro->AddTitle( "$CPTotal&nbsp;#",
 
 	qroPrintEntryHeader($i);
 	// Generating checkbox value. -- nikns
-	// Fix for Issue #69
-	// https://github.com/NathanGibbs3/BASE/issues/69
+	// Fix for Issue #69 https://github.com/NathanGibbs3/BASE/issues/69
 	if ( $addr_type == SOURCE_IP ){
 		$src_ip = $myrow[0];
 		$dst_ip = '';
@@ -225,59 +207,51 @@ $qro->AddTitle( "$CPTotal&nbsp;#",
 	$tmp_rowid = $src_ip.'_'.$dst_ip;
      echo '    <TD><INPUT TYPE="checkbox" NAME="action_chk_lst['.$i.']" VALUE="'.$tmp_rowid.'">';
      echo '    <INPUT TYPE="hidden" NAME="action_lst['.$i.']" VALUE="'.$tmp_rowid.'"></TD>';
-
-     /* Check for a NULL IP which indicates an event (e.g. portscan)
-      * which has no IP
-      */
-     if ( $no_ip )
-        qroPrintEntry('<A HREF="'.$BASE_urlpath.'/help/base_app_faq.php#1">'._UNKNOWN.'</A>');
-     else
-        qroPrintEntry('&nbsp;&nbsp;'.
-                      BuildAddressLink($currentIP, 32).$currentIP.'</A>&nbsp;&nbsp');
-    
-      if ( $resolve_IP == 1 )
-         qroPrintEntry('&nbsp;&nbsp;'.
-                        baseGetHostByAddr($currentIP, $db, $dns_cache_lifetime).
-                       '&nbsp;&nbsp;');
-
+	// Check for a NULL IP which indicates an event (e.g. portscan) which has
+	// no IP.
+	if ( $no_ip ){
+		$tmp = '<A HREF="'.$BASE_urlpath.'/help/base_app_faq.php#1">'._UNKNOWN;
+	}else{
+		$tmp = BuildAddressLink($currentIP, 32).$currentIP;
+	}
+	$tmp .= '</a>';
+	qroPrintEntry($tmp,'right');
+	if ( $resolve_IP == 1 ){
+		qroPrintEntry(
+			baseGetHostByAddr($currentIP, $db, $dns_cache_lifetime), 'right'
+		);
+	}
       /* Print # of Occurances */
       $tmp_iplookup = 'base_qry_main.php?new=1'.
                       '&amp;num_result_rows=-1'.
                       '&amp;sort_order='.$sort_order.
                       '&amp;submit='._QUERYDBP.'&amp;current_view=-1&amp;ip_addr_cnt=1';
-
       $tmp_iplookup2 = 'base_stat_alerts.php?new=1'.   
                        '&amp;num_result_rows=-1'.
                        '&amp;sort_order='.$sort_order.
                        '&amp;submit='._QUERYDBP.'&amp;current_view=-1&amp;ip_addr_cnt=1';
-
-      if ( $addr_type == 1 )
-      {
+	if ( $addr_type == 1 ){
          if ( $no_ip )
             $url_criteria = BuildSrcIPFormVars(NULL_IP);
          else
             $url_criteria = BuildSrcIPFormVars($currentIP);
-      }
-      else if ( $addr_type == 2 )
-      {
+	}elseif ( $addr_type == 2 ){
          if ( $no_ip )
            $url_criteria = BuildDstIpFormVars(NULL_IP);
          else 
            $url_criteria = BuildDstIPFormVars($currentIP);
-      }
-
-      qroPrintEntry($num_sensors);
-      qroPrintEntry('<A HREF="'.$tmp_iplookup.$url_criteria.'">'.
-                                $num_events.'</A>');
-      qroPrintEntry('<A HREF="'.$tmp_iplookup2.$url_criteria.'">'.
-                                $num_sig.'</A>');
-
-      qroPrintEntry($num_ip);
-
-      qroPrintEntryFooter();
+	}
+	qroPrintEntry($num_sensors);
+	qroPrintEntry(
+		'<A HREF="'.$tmp_iplookup.$url_criteria.'">'.$num_events.'</A>','right'
+	);
+	qroPrintEntry(
+		'<A HREF="'.$tmp_iplookup2.$url_criteria.'">'.$num_sig.'</A>','right'
+	);
+	qroPrintEntry($num_ip);
+	qroPrintEntryFooter();
       ++$i;
-   }
-
+}
   $result->baseFreeRows();     
 
   $qro->PrintFooter();
