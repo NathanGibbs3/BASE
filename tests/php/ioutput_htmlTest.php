@@ -4,15 +4,22 @@ use PHPUnit\Framework\TestCase;
 // Test fucntions in /includes/base_output_html.inc.php
 
 /**
+  * Code Coverage Directives.
+  * @covers ::FramedBoxFooter
+  * @covers ::FramedBoxHeader
+  * @covers ::HBarGraph
+  * @covers ::HtmlPercent
   * @covers ::NLI
   * @covers ::NLIO
   * @covers ::PageEnd
-  * @covers ::chk_select
+  * @covers ::PrintFramedBoxFooter
+  * @covers ::PrintFramedBoxHeader
   * @covers ::chk_check
-  * @covers ::HBarGraph
-  * @covers ::HtmlPercent
+  * @covers ::chk_select
   * @uses ::Htmlcolor
+  * @uses ::LoadedString
   * @uses ::Percent
+  * @uses ::XSSPrintSafe
   */
 class output_htmlTest extends TestCase {
 	// Tests go here.
@@ -202,7 +209,128 @@ class output_htmlTest extends TestCase {
 			'Unexpected Return Value.'
 		);
 	}
-
+	public function testFramedBoxHeaderBlankReturnsExpected() {
+		$msg = "\n\t\t\t<table style = ".
+		"'border: 2px solid black; border-collapse: collapse; width:100%;'>".
+		"\n\t\t\t\t<tr>";
+		$this->assertEquals(
+			$msg,
+			FramedBoxHeader(),
+			'Unexpected Return Value.'
+		);
+	}
+	public function testFramedBoxHeaderInvalidReturnsExpected() {
+		$msg = "\n\t\t\t<table style = ".
+		"'border: 2px solid black; border-collapse: collapse; width:100%;' ".
+		"summary='&lt;XXS Code&gt;'>".
+		"\n\t\t\t\t<tr>".
+		"\n\t\t\t\t\t<td class='sectiontitle' style='text-align: center;' ".
+		"colspan='2'>&lt;XXS Code&gt;</td>".
+		"\n\t\t\t\t</tr><tr>";
+		$this->assertEquals(
+			$msg,
+			FramedBoxHeader(
+				'<XXS Code>','InvaldColor','InvalidNtd>Flag','InvaldiTAB',
+				'InvlaidWdith'
+			),
+			'Unexpected Return Value.'
+		);
+	}
+	public function testFramedBoxHeaderTDReturnsExpected() {
+		$msg = "\n\t\t\t<table style = ".
+		"'border: 2px solid black; border-collapse: collapse; width:100%;'>".
+		"\n\t\t\t\t<tr>\n\t\t\t\t\t<td>";
+		$this->assertEquals(
+			$msg,
+			FramedBoxHeader('','',1),
+			'Unexpected Return Value.'
+		);
+	}
+	public function testPrintFramedBoxHeaderBlankOutputsExpected() {
+		$msg = "\n\t\t\t<table style = ".
+		"'border: 2px solid black; border-collapse: collapse; width:100%;'>".
+		"\n\t\t\t\t<tr>";
+		$this->expectOutputString(
+			$msg,
+			PrintFramedBoxHeader(),
+			'Unexpected Output Value.'
+		);
+	}
+	public function testPrintFramedBoxHeaderInvalidOutputsExpected() {
+		$msg = "\n\t\t\t<table style = ".
+		"'border: 2px solid black; border-collapse: collapse; width:100%;' ".
+		"summary='&lt;XXS Code&gt;'>".
+		"\n\t\t\t\t<tr>".
+		"\n\t\t\t\t\t<td class='sectiontitle' style='text-align: center;' ".
+		"colspan='2'>&lt;XXS Code&gt;</td>".
+		"\n\t\t\t\t</tr><tr>";
+		$this->expectOutputString(
+			$msg,
+			PrintFramedBoxHeader(
+				'<XXS Code>','InvaldColor','InvalidNtd>Flag','InvaldiTAB',
+				'InvlaidWdith'
+			),
+			'Unexpected Output Value.'
+		);
+	}
+	public function testPrintFramedBoxHeaderTDOutputsExpected() {
+		$msg = "\n\t\t\t<table style = ".
+		"'border: 2px solid black; border-collapse: collapse; width:100%;'>".
+		"\n\t\t\t\t<tr>\n\t\t\t\t\t<td>";
+		$this->expectOutputString(
+			$msg,
+			PrintFramedBoxHeader('','',1),
+			'Unexpected Output Value.'
+		);
+	}
+	public function testFramedBoxFooterBlankReturnsExpected() {
+		$msg = "\n\t\t\t\t</tr>\n\t\t\t</table>";
+		$this->assertEquals(
+			$msg,
+			FramedBoxFooter(),
+			'Unexpected Return Value.'
+		);
+	}
+	public function testFramedBoxFooterInvalidReturnsExpected() {
+		$msg = "\n\t\t\t\t</tr>\n\t\t\t</table>";
+		$this->assertEquals(
+			$msg,
+			FramedBoxFooter('InvalidNtd>Flag','InvaldiTAB'),
+			'Unexpected Return Value.'
+		);
+	}
+	public function testFramedBoxFooterTDReturnsExpected() {
+		$msg = "\n\t\t\t\t\t</td>\n\t\t\t\t</tr>\n\t\t\t</table>";
+		$this->assertEquals(
+			$msg,
+			FramedBoxFooter(1),
+			'Unexpected Return Value.'
+		);
+	}
+	public function testPrintFramedBoxFooterBlankOutputsExpected() {
+		$msg = "\n\t\t\t\t</tr>\n\t\t\t</table>";
+		$this->expectOutputString(
+			$msg,
+			PrintFramedBoxFooter(),
+			'Unexpected Output Value.'
+		);
+	}
+	public function testPrintFramedBoxFooterInvalidOutputsExpected() {
+		$msg = "\n\t\t\t\t</tr>\n\t\t\t</table>";
+		$this->expectOutputString(
+			$msg,
+			PrintFramedBoxFooter('InvalidNtd>Flag','InvaldiTAB'),
+			'Unexpected Output Value.'
+		);
+	}
+	public function testPrintFramedBoxFooterTDOutputsExpected() {
+		$msg = "\n\t\t\t\t\t</td>\n\t\t\t\t</tr>\n\t\t\t</table>";
+		$this->expectOutputString(
+			$msg,
+			PrintFramedBoxFooter(1),
+			'Unexpected Output Value.'
+		);
+	}
 	// Add code to a function if needed.
 	// Stop here and mark test incomplete.
 	//$this->markTestIncomplete('Incomplete Test.');

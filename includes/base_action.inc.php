@@ -226,7 +226,7 @@ function GetActionDesc($action_name){
 }
 
 function ProcessSelectedAlerts(
-	$action, &$action_op, $action_arg, $action_param,$context, $action_lst,
+	$action, &$action_op, $action_arg, $action_param, $context, $action_lst,
 	&$num_alert, $action_sql, $db, $limit_start=-1, $limit_offset=-1
 ){
 	GLOBAL $debug_mode;

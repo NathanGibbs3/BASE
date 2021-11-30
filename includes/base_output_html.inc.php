@@ -1,6 +1,6 @@
 <?php
 // Basic Analysis and Security Engine (BASE)
-// Copyright (C) 2019-2020 Nathan Gibbs
+// Copyright (C) 2019-2021 Nathan Gibbs
 // Copyright (C) 2004 BASE Project Team
 // Copyright (C) 2000 Carnegie Mellon University
 //
@@ -19,7 +19,7 @@ defined( '_BASE_INC' ) or die( 'Accessing this file directly is not allowed.' );
 
 include_once("$BASE_path/includes/base_state_common.inc.php");
 
-function PageStart ($refresh = 0, $page_title = '') {
+function PageStart ( $refresh = 0, $page_title = '' ){
 	GLOBAL $BASE_VERSION, $BASE_installID, $base_style, $BASE_urlpath,
 	$html_no_cache, $refresh_stat_page, $stat_page_refresh_time, $UIL;
 	$MHE = "<meta http-equiv='";
@@ -82,38 +82,33 @@ function PageStart ($refresh = 0, $page_title = '') {
 	NLIO('<body>', 1);
 	NLIO('<div class="mainheadertitle">'.$HT.'</div>',2);
 }
-
-function PageEnd () {
+function PageEnd (){
 	NLIO('</body>',1);
 	NLIO('</html>');
 }
-
-function NLI ($Item = '', $Count = 0) {
-	if ( !is_int($Count) ) {
+function NLI ( $Item = '', $Count = 0 ){
+	if ( !is_int($Count) ){
 		$Count = 0;
 	}
 	return "\n".str_repeat ("\t", $Count).$Item;
 }
-
-function NLIO ($Item = '', $Count = 0) {
+function NLIO ( $Item = '', $Count = 0 ){
 	print NLI ($Item, $Count);
 }
-
 function PrintBASESubHeader(
 	$page_title = '', $page_name = '', $back_link = '', $refresh = 0, $page = ''
 ){
 	GLOBAL $debug_mode, $BASE_installID, $BASE_path, $BASE_urlpath,
 	$html_no_cache, $max_script_runtime, $Use_Auth_System, $base_style, $UIL;
-	if ( ini_get("safe_mode") != true ) {
+	if ( ini_get("safe_mode") != true ){
 		set_time_limit($max_script_runtime);
 	}
 	PageStart($refresh, $page_title);
 	PrintBASEMenu( 'Header', $back_link);
-	if ( $debug_mode > 0 ) {
+	if ( $debug_mode > 0 ){
 		PrintPageHeader();
 	}
 }
-
 function PrintBASESubFooter(){
 	GLOBAL $BASE_VERSION, $BASE_path, $BASE_urlpath, $Use_Auth_System,
 	$base_custom_footer;
@@ -148,10 +143,9 @@ function PrintBASESubFooter(){
 	}
 	PageEnd();
 }
-
 function PrintBASEMenu( $type = '', $back_link = '' ){
 	GLOBAL $BASE_urlpath, $Use_Auth_System, $et;
-	if ( $type != '' ){
+	if ( LoadedString( $type ) == true ){
 		// Common
 		$type = strtolower($type);
 		$ReqRE = '';
@@ -195,29 +189,73 @@ function PrintBASEMenu( $type = '', $back_link = '' ){
 					$et->PrintTiming();
 				}
 			}
-			NLIO ('</td>',5);
-			NLIO ('</tr>',4);
-			NLIO ('</table>',3);
+			PrintFramedBoxFooter(1);
 			NLIO ('</div>',2);
 		}
 	}
 }
-
-function PrintFramedBoxHeader($title, $fore, $back)
-{
-  echo '
-<TABLE WIDTH="100%" CELLSPACING=0 CELLPADDING=2 BORDER=0 BGCOLOR="'.$fore.'">
-<TR><TD>
-  <TABLE WIDTH="100%" CELLSPACING=0 CELLPADDING=2 BORDER=0 BGCOLOR="'.$back.'">
-  <TR><TD class="sectiontitle">&nbsp;'.$title.'&nbsp;</TD></TR>
-    <TR><TD>';
-} 
-
-function PrintFramedBoxFooter()
-{
-  echo '
-  </TD></TR></TABLE>
-</TD></TR></TABLE>';
+function PrintFramedBoxHeader(
+	$title = '', $cc = 'black' , $td = 0, $tab = 3, $wd = 100
+){
+	print FramedBoxHeader( $title, $cc, $td, $tab, $wd);
+}
+function FramedBoxHeader(
+	$title = '', $cc = 'black' , $td = 0, $tab = 3, $wd = 100
+){
+	$Ret = '';
+	// Input Validation
+	$title = XSSPrintSafe($title);
+	if ( HtmlColor($cc) == false ){
+		$cc = 'black';
+	}
+	if ( !is_int($td) ){
+		$td = 0;
+	}
+	if ( !is_int($tab) ){
+		$tab = 3;
+	}
+	if ( !is_int($wd) ){
+		$wd = 100;
+	}
+	// Input Validation End
+	$style = "'border: 2px solid $cc; border-collapse: collapse; width:$wd%;'";
+	$tmp = "<table style = $style";
+	if ( LoadedString($title) == true ){
+		$tmp .= " summary='$title'";
+	}
+	$tmp .= '>';
+	$Ret .= NLI($tmp, $tab) . NLI('<tr>',$tab + 1);
+	if ( LoadedString($title) == true ){
+		$Ret .= NLI(
+			"<td class='sectiontitle' style='text-align: center;' colspan='2'>$title</td>",
+			$tab + 2
+		).
+		NLI('</tr><tr>',$tab + 1);
+	}
+	if ( $td != 0 ){
+		$Ret .= NLI('<td>',$tab + 2);
+	}
+	return $Ret;
+}
+function PrintFramedBoxFooter( $td = 0, $tab = 3 ){
+	print FramedBoxFooter( $td, $tab);
+}
+function FramedBoxFooter( $td = 0, $tab = 3 ){
+	$Ret = '';
+	// Input Validation
+	if ( !is_int($td) ){
+		$td = 0;
+	}
+	if ( !is_int($tab) ){
+		$tab = 3;
+	}
+	// Input Validation End
+	if ( $td != 0 ){
+		$Ret .= NLI('</td>',$tab + 2);
+	}
+	$Ret .= NLI('</tr>',$tab + 1);
+	$Ret .= NLI('</table>',$tab);
+	return $Ret;
 }
 
 function chk_select($stored_value, $current_value){
@@ -265,14 +303,9 @@ function PrintBASEAdminMenuHeader()
   
   echo($menu);
 }
-  
-function PrintBASEAdminMenuFooter()
-{
-  $footer = "</td></tr></table>";
-  
-  echo($footer);
+function PrintBASEAdminMenuFooter(){
+	PrintFramedBoxFooter(1);
 }
-
 function PrintBASEHelpLink($target)
 {
   /*
@@ -294,7 +327,8 @@ function HBarGraph (
 	if ( HtmlColor($bgcolor) == false ){
 		$bgcolor = 'ffffff';
 	}
-	$ent_pct = Percent($Value,$Count);
+	// Input End.
+	$ent_pct = Percent( $Value, $Count );
 	if ( $ent_pct > 0 ){
 		$ent_clr = $color;
 	}else{
@@ -307,10 +341,9 @@ function HBarGraph (
 	}
 	return($Ret);
 }
-
 function HtmlPercent ( $Value = 1, $Count = 1 ){
-	$ent_pct = Percent($Value,$Count);
-	if ( $ent_pct == 0 ) {
+	$ent_pct = Percent( $Value, $Count );
+	if ( $ent_pct == 0 ){
 		$tmp = "&lt; 1";
 	}else{
 		$tmp = $ent_pct;

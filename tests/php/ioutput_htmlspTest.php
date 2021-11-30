@@ -5,6 +5,7 @@ use PHPUnit\Framework\TestCase;
 // Tests that need Globals isolation.
 
 /**
+  * Code Coverage Directives.
   * @backupGlobals disabled
   * A necessary evil for tests touching legacy TD.
   * @preserveGlobalState disabled
