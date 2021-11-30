@@ -1,23 +1,19 @@
 <?php
-/*******************************************************************************
-** Basic Analysis and Security Engine (BASE)
-** Copyright (C) 2004 BASE Project Team
-** Copyright (C) 2000 Carnegie Mellon University
-**
-** (see the file 'base_main.php' for license details)
-**
-** Project Leads: Kevin Johnson <kjohnson@secureideas.net>
-**                Sean Muller <samwise_diver@users.sourceforge.net>
-** Built upon work by Roman Danyliw <rdd@cert.org>, <roman@danyliw.com>
-**
-** Purpose: database schema manipulation
-********************************************************************************
-** Authors:
-********************************************************************************
-** Kevin Johnson <kjohnson@secureideas.net
-**
-********************************************************************************
-*/
+// Basic Analysis and Security Engine (BASE)
+// Copyright (C) 2019-2021 Nathan Gibbs
+// Copyright (C) 2004 BASE Project Team
+// Copyright (C) 2000 Carnegie Mellon University
+//
+//   For license info: See the file 'base_main.php'
+//
+//       Project Lead: Nathan Gibbs
+// Built upon work by: Kevin Johnson & the BASE Project Team
+//                     Roman Danyliw <rdd@cert.org>, <roman@danyliw.com>
+//
+//            Purpose: database schema manipulation
+//
+//          Author(s): Nathan Gibbs
+//                     Kevin Johnson
 
 function createDBIndex($db, $table, $field, $index_name)
 {
@@ -58,6 +54,7 @@ function verify_db($db, $alert_dbname, $alert_host){
 
 function verify_php_build($DBtype){
 	// Checks that the necessary libraries are built into PHP.
+	// @codeCoverageIgnoreStart
 	// Check PHP version >= 4.0.4
 	$current_php_version = phpversion();
 	$version = explode(".", $current_php_version);
@@ -68,7 +65,6 @@ function verify_php_build($DBtype){
 		$version[2] = substr($version[2], 0, 1);
 	}
 	// Only version PHP 4.0.4+ or 4.1+.* are valid.
-	// @codeCoverageIgnoreStart
 	if ( $version[0] < 4 ||
 		( $version[0] == 4 && $version[1] == 0 && $version[2] < 4 )
 	){

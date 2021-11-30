@@ -47,35 +47,28 @@ if ( $qs->isCannedQuery() ){
     	PrintBASESubHeader($page_title.": ".$qs->GetCurrentCannedQueryDesc(),
      	                   $page_title.": ".$qs->GetCurrentCannedQueryDesc(), 
       	                 $cs->GetBackLink(), 1);
-		}
-		else
-		{
+	}else{
 			PrintBASESubHeader($page_title.": ".$qs->GetCurrentCannedQueryDesc(),
      	                   $page_title.": ".$qs->GetCurrentCannedQueryDesc(), 
       	                 $cs->GetBackLink(), $refresh_all_pages);
-		}
 	}
-  else
-	{
-		if ($action == "")
-		{
-    	PrintBASESubHeader($page_title, $page_title, $cs->GetBackLink(), 1);
-		}
-		else
-		{
-			PrintBASESubHeader($page_title, $page_title, $cs->GetBackLink(), $refresh_all_pages);
-		}
+}else{
+	if ($action ==  '' ){
+		PrintBASESubHeader($page_title, $page_title, $cs->GetBackLink(), 1);
+	}else{
+		PrintBASESubHeader($page_title, $page_title, $cs->GetBackLink(), $refresh_all_pages);
 	}
-  
-  /* Connect to the Alert database */
-  $db = NewBASEDBConnection($DBlib_path, $DBtype);
-  $db->baseDBConnect($db_connect_method,
-                     $alert_dbname, $alert_host, $alert_port, $alert_user, $alert_password);
-
-  if ( $event_cache_auto_update == 1 )  UpdateAlertCache($db);
-
-  $criteria_clauses = ProcessCriteria();  
-  PrintCriteria("");
+}
+$db = NewBASEDBConnection($DBlib_path, $DBtype); // Connect to the Alert DB.
+$db->baseDBConnect(
+	$db_connect_method, $alert_dbname, $alert_host, $alert_port, $alert_user,
+	$alert_password
+);
+if ( $event_cache_auto_update == 1 ){
+	UpdateAlertCache($db);
+}
+$criteria_clauses = ProcessCriteria();
+PrintCriteria('');
 
   $from = " FROM acid_event ".$criteria_clauses[0];
   $where = " WHERE ".$criteria_clauses[1];
@@ -103,24 +96,24 @@ if ( $qs->isCannedQuery() ){
   $qs->current_view = 0;
   $qs->num_result_rows = UniqueLinkCnt($db, $criteria_clauses[0], $criteria_clauses[1]);
   $et->Mark("Counting Result size");
-
-  /* Setup the Query Results Table */
-  $qro = new QueryResultsOutput("base_stat_iplink.php?caller=".$caller);
-
-  $qro->AddTitle(" "); 
-  $qro->AddTitle(_SIPLSOURCEFGDN); 
-  $qro->AddTitle(_PSSRCIP,
-                 "sip_a", "", " ORDER BY ip_src ASC",
-                 "sip_d", "", " ORDER BY ip_src DESC");
-  $qro->AddTitle(_SIPLDIRECTION);
-  $qro->AddTitle(_PSDSTIP,
-                 "dip_a", "", " ORDER BY ip_dst ASC",
-                 "dip_d", "", " ORDER BY ip_dst DESC");
-  $qro->AddTitle(_SIPLDESTFGDN);
-  $qro->AddTitle(_SIPLPROTO);
-  $qro->AddTitle(_SIPLUNIDSTPORTS);
-  $qro->AddTitle(_SIPLUNIEVENTS);
-  $qro->AddTitle(_SIPLTOTALEVENTS);
+// Setup the Query Results Table */
+$qro = new QueryResultsOutput("base_stat_iplink.php?caller=".$caller);
+$qro->AddTitle('');
+$qro->AddTitle(_SIPLSOURCEFGDN);
+$qro->AddTitle( _PSSRCIP,
+	"sip_a", "", " ORDER BY ip_src ASC",
+	"sip_d", "", " ORDER BY ip_src DESC", 'right'
+);
+$qro->AddTitle(_SIPLDIRECTION);
+$qro->AddTitle( _PSDSTIP,
+	"dip_a", "", " ORDER BY ip_dst ASC",
+	"dip_d", "", " ORDER BY ip_dst DESC", 'right'
+);
+$qro->AddTitle(_SIPLDESTFGDN);
+$qro->AddTitle( _SIPLPROTO, '','','','','','','left' );
+$qro->AddTitle(_SIPLUNIDSTPORTS, '','','','','','','right');
+$qro->AddTitle(_SIPLUNIEVENTS, '','','','','','','right');
+$qro->AddTitle(_SIPLTOTALEVENTS, '','','','','','','right');
 
   $sort_sql = $qro->GetSortSQL($qs->GetCurrentSort(), $qs->GetCurrentCannedQuerySort());
 
@@ -152,21 +145,14 @@ if ( $qs->isCannedQuery() ){
      $sip = $myrow[0];
      $dip = $myrow[1];
      $proto = $myrow[2];  
-
-		if ($resolve_IP == 1)
-		{
-    	$sip_fqdn = baseGetHostByAddr(baseLong2IP($sip), $db, $dns_cache_lifetime);
-     	$dip_fqdn = baseGetHostByAddr(baseLong2IP($dip), $db, $dns_cache_lifetime);
-		}
-		else
-		{
-			$sip_fqdn =_PSNODNS; 
-			$sip_fqdn =_PSNODNS;
-		}
-
-     /* Get stats on the link */
-     if ( $sip && $dip )
-     {
+	if ( $resolve_IP == 1 ){
+		$sip_fqdn = baseGetHostByAddr(baseLong2IP($sip), $db, $dns_cache_lifetime);
+		$dip_fqdn = baseGetHostByAddr(baseLong2IP($dip), $db, $dns_cache_lifetime);
+	}else{
+		$sip_fqdn =_PSNODNS;
+		$sip_fqdn =_PSNODNS;
+	}
+	if ( $sip && $dip ){ // Get stats on the link.
         $temp = "SELECT COUNT(DISTINCT layer4_dport), ".
                  "COUNT(acid_event.cid), COUNT(DISTINCT acid_event.signature)  ".
                  $from.$where." AND acid_event.ip_src='".$sip."' AND acid_event.ip_dst='".$dip."' AND acid_event.ip_proto='".$proto."'";
@@ -194,30 +180,30 @@ if ( $qs->isCannedQuery() ){
         $tmp_rowid = $sip . "_" . $dip . "_" . $proto;
         echo '    <TD><INPUT TYPE="checkbox" NAME="action_chk_lst['.$i.']" VALUE="'.$tmp_rowid.'"></TD>';
         echo '        <INPUT TYPE="hidden" NAME="action_lst['.$i.']" VALUE="'.$tmp_rowid.'">';
-
-        qroPrintEntry('<FONT>'.$sip_fqdn.'</FONT>');
-        qroPrintEntry(BuildAddressLink(baseLong2IP($sip), 32).baseLong2IP($sip).'</A>');
-        qroPrintEntry('-->');
-        qroPrintEntry(BuildAddressLink(baseLong2IP($dip), 32).baseLong2IP($dip).'</A>');
-        qroPrintEntry('<FONT>'.$dip_fqdn.'</FONT>');
-        qroPrintEntry('<FONT>'.IPProto2str($proto).'</FONT>');
-
+		qroPrintEntry($sip_fqdn, 'right');
+		qroPrintEntry(
+			BuildAddressLink(baseLong2IP($sip), 32).baseLong2IP($sip).'</a>',
+			'right'
+		);
+		qroPrintEntry('-->');
+		qroPrintEntry(
+			BuildAddressLink(baseLong2IP($dip), 32).baseLong2IP($dip).'</a>',
+			'right'
+		);
+		qroPrintEntry($dip_fqdn,'right');
+		qroPrintEntry(IPProto2str($proto),'left');
         $tmp = '<A HREF="base_stat_ports.php?port_type=2&amp;proto='.$proto.$tmp_ip_criteria.'">';
-        qroPrintEntry($tmp.$num_unique_dport.'</A>');
-
+		qroPrintEntry($tmp.$num_unique_dport.'</a>','right');
         $tmp = '<A HREF="base_stat_alerts.php?foo=1'.$tmp_ip_criteria.'">';
-        qroPrintEntry($tmp.$num_unique.'</A>');
-
+		qroPrintEntry($tmp.$num_unique.'</a>','right');
         $tmp = '<A HREF="base_qry_main.php?new=1'.
                       '&amp;num_result_rows=-1'.
                       '&amp;submit='._QUERYDBP.'&amp;current_view=-1'.$tmp_ip_criteria.'">'; 
-        qroPrintEntry($tmp.$num_occurances.'</A>');
-
-        qroPrintEntryFooter();
-     }
-     $i++;
-  }
-
+		qroPrintEntry($tmp.$num_occurances.'</a>','right');
+		qroPrintEntryFooter();
+	}
+	$i++;
+}
   $result->baseFreeRows();
 
   $qro->PrintFooter();

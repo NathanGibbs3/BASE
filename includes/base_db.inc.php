@@ -288,6 +288,12 @@ class baseCon {
 			}
 		}
 		$qry = $sql.$limit_str;
+		// See: https://github.com/NathanGibbs3/BASE/issues/113
+		// Some legecy code has " 1 = 1 " in the query string. Log it here.
+		if ( strstr($qry, ' 1 = 1 ') ){
+			error_log("Issue #113 $qry");
+			error_log('See: https://github.com/NathanGibbs3/BASE/issues/113');
+		}
 		// See: https://github.com/NathanGibbs3/BASE/issues/67
 		// Legacy code assumed $this->DB->Execute() returns a valid recordset.
 		// It returns false on error. Catch it here.

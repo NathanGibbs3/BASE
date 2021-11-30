@@ -64,8 +64,8 @@ class log_errorspTest extends TestCase {
 		}else{
 			include_once(self::$files);
 		}
-		$expected = '<font color="#ff0000">PHP ERROR:</font><br/>';
-		$expected .= '<font color="black">message</font><br/><br/>';
+		$expected = "<font color='#ff0000'>PHP ERROR:</font><br/>";
+		$expected .= "<font color='black'>message</font><br/><br/>";
 		$this->expectOutputString(
 			$expected, BuildError('message'), $UOV
 		);
@@ -74,5 +74,4 @@ class log_errorspTest extends TestCase {
 	// Stop here and mark test incomplete.
 	//$this->markTestIncomplete('Incomplete Test.');
 }
-
 ?>

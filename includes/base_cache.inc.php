@@ -820,5 +820,4 @@ function DropWhoisCache($db)
 {
   $db->baseExecute("UPDATE acid_ip_cache SET ipc_whois = NULL, ipc_whois_timestamp = NULL");
 }
-// vim:tabstop=2:shiftwidth=2:expandtab
 ?>

@@ -1,22 +1,20 @@
 <?php
-/*******************************************************************************
-** Basic Analysis and Security Engine (BASE)
-** Copyright (C) 2004 BASE Project Team
-** Copyright (C) 2000 Carnegie Mellon University
-**
-** (see the file 'base_main.php' for license details)
-**
-** Project Leads: Kevin Johnson <kjohnson@secureideas.net>
-** Built upon work by Roman Danyliw <rdd@cert.org>, <roman@danyliw.com>
-**
-** Purpose: support routines for processing criteria
-********************************************************************************
-** Authors:
-********************************************************************************
-** Kevin Johnson <kjohnson@secureideas.net
-**
-********************************************************************************
-*/
+// Basic Analysis and Security Engine (BASE)
+// Copyright (C) 2019-2021 Nathan Gibbs
+// Copyright (C) 2004 BASE Project Team
+// Copyright (C) 2000 Carnegie Mellon University
+//
+//   For license info: See the file 'base_main.php'
+//
+//       Project Lead: Nathan Gibbs
+// Built upon work by: Kevin Johnson & the BASE Project Team
+//                     Roman Danyliw <rdd@cert.org>, <roman@danyliw.com>
+//
+//            Purpose: support routines for processing criteria
+//
+//          Author(s): Nathan Gibbs
+//                     Kevin Johnson
+
 defined( '_BASE_INC' ) or die( 'Accessing this file directly is not allowed.' );
 include_once("$BASE_path/includes/base_signature.inc.php");
 
@@ -369,146 +367,150 @@ function DataRows2sql($field, $cnt, $data_encode, &$s_sql)
 
   return 0;
 }
-
-function PrintCriteria($caller)
-{
-  GLOBAL $db, $cs, $last_num_alerts, $save_criteria;
-
-  /* Generate the Criteria entered into a human readable form */  
-  $save_criteria = '
-   <TABLE CELLSPACING=1 CELLPADDING=2 BORDER=0 BGCOLOR="#FFFFFF">
-    <TR>
-        <TD CLASS="metatitle">'._QCMETACRIT.'</TD>
-        <TD>';
-
-  /* If printing any of the LAST-X stats then ignore all the other criteria */
-  if (  $caller == "last_tcp" || $caller == "last_udp" || 
-        $caller == "last_icmp" || $caller == "last_any" ) 
-  {
-    $save_criteria = $save_criteria.'&nbsp;&nbsp;';
-    if ( $caller == "last_tcp" )
-       $save_criteria .= _LAST.' '.$last_num_alerts.' TCP '._ALERT; 
-    else if ( $caller == "last_udp" )
-       $save_criteria .= _LAST.' '.$last_num_alerts.' UDP '._ALERT; 
-    else if ( $caller == "last_icmp" )
-       $save_criteria .= _LAST.' '.$last_num_alerts.' ICMP '._ALERT; 
-    else if ( $caller == "last_any" )
-       $save_criteria .= _LAST.' '.$last_num_alerts.' '._ALERT;
-    
-    $save_criteria .= '&nbsp;&nbsp;</TD></TR></TABLE>';
-    echo $save_criteria;
-    return;
-  }
-
-     $tmp_len = strlen($save_criteria);
-	if (is_object($cs)){ // Issue #5
+function PrintCriteria( $caller ){
+	GLOBAL $db, $cs, $last_num_alerts, $save_criteria, $debug_mode, $UIL;
+	if ( !is_object($cs) ){ // Issue #5
+		ErrorMessage('Invalid CriteriaState Object.', 0,1);
+	}else{
+		if ( $debug_mode > 0 ){
+			ErrorMessage(__FUNCTION__." CALLER: ($caller)", 'black', 1);
+		}
+		if ( class_exists('UILang') ){ // Issue 11 backport shim.
+			$CPLast = $UIL->CWA['Last'];
+			$CPAlert = $UIL->CWA['Alert'];
+		}else{
+			$CPLast = _LAST;
+			$CPAlert = _ALERT;
+		}
+		// Generate the Criteria entered into a human readable form.
+		// Search criteria Display
+		// Table Title needs to be translated.
+		$CS = 'width: 35%;'; // Common Style Hack
+		$save_criteria =
+		FramedBoxHeader('Search Criteria','black',0,2,30).
+		NLI("<td class='metatitle' style='$CS'>"._QCMETACRIT.'</td>',4).
+		NLI('<td>',4);
+		// If printing any of the LAST-X stats then ignore all other criteria.
+		if (
+			$caller == 'last_tcp' || $caller == 'last_udp'
+			|| $caller == 'last_icmp' || $caller == 'last_any'
+		){
+			$save_criteria .= "&nbsp;&nbsp;$CPLast $last_num_alerts ";
+			if ( $caller == 'last_tcp' ){
+				$save_criteria .= 'TCP ';
+			}elseif ( $caller == 'last_udp' ){
+				$save_criteria .= 'UDP ';
+			}elseif ( $caller == 'last_icmp' ){
+				$save_criteria .= 'ICMP ';
+			}
+			$save_criteria .= $CPAlert.'&nbsp;&nbsp;'.
+			FramedBoxFooter(1,2);
+			print $save_criteria;
+			return;
+		}
+		// Meta Criteria
+		$tmp_len = strlen($save_criteria);
 		$save_criteria .= $cs->criteria['sensor']->Description('');
 		$save_criteria .= $cs->criteria['sig']->Description('');
 		$save_criteria .= $cs->criteria['sig_class']->Description('');
 		$save_criteria .= $cs->criteria['sig_priority']->Description('');
 		$save_criteria .= $cs->criteria['ag']->Description('');
 		$save_criteria .= $cs->criteria['time']->Description('');
-	}
-    if ( $tmp_len == strlen($save_criteria) ) 
-       $save_criteria .= '<I> &nbsp&nbsp '._ANY.' </I>';
-
-  $save_criteria .= '&nbsp;&nbsp;</TD></TR>';
-
-  $save_criteria .= '<TR>
-        <TD CLASS="iptitle">'._QCIPCRIT.'</TD>
-        <TD>';
-	if (is_object($cs)){ // Issue #5
-	if ( !$cs->criteria['ip_addr']->isEmpty() || !$cs->criteria['ip_field']->isEmpty() ) {
-		$save_criteria .= $cs->criteria['ip_addr']->Description('');
-		$save_criteria .= $cs->criteria['ip_field']->Description('');
-	}else{
-		$save_criteria .= '<I> &nbsp;&nbsp; '._ANY.' </I>';
-	}
-	}
-  $save_criteria .= '&nbsp;&nbsp;</TD></TR>';
-
-  $save_criteria .= '<TR><TD CLASS="layer4title">';
-	if (is_object($cs)){ // Issue #5
+		// Common Text
+		$APH = '<i>&nbsp;&nbsp;'._ANY.'&nbsp;&nbsp;</i>';
+		$NTR = '</td>'.NLI('</tr><tr>',3); // New Table Row.
+		if ( $tmp_len == strlen($save_criteria) ){
+			$save_criteria .= $APH;
+		}
+		$save_criteria .= $NTR;
+		// IP Criteria
+		$save_criteria .= NLI(
+			"<td class='iptitle' style='$CS'>"._QCIPCRIT.'</td>', 4
+		).NLI('<td>',3);
+		if (
+			!$cs->criteria['ip_addr']->isEmpty() ||
+			!$cs->criteria['ip_field']->isEmpty()
+		){
+			$save_criteria .= $cs->criteria['ip_addr']->Description('');
+			$save_criteria .= $cs->criteria['ip_field']->Description('');
+		}else{
+			$save_criteria .= $APH;
+		}
+		$save_criteria .= $NTR;
+		// Layer 4 Criteria
+		$save_criteria .= NLI("<td class='layer4title' style='$CS'>",4);
 		$save_criteria .= $cs->criteria['layer4']->Description('');
-	}
-	$save_criteria .= '</td><td>';
-	if (is_object($cs)){ // Issue #5
-  if ( $cs->criteria['layer4']->Get() == "TCP" ){
-		if ( !$cs->criteria['tcp_port']->isEmpty() || !$cs->criteria['tcp_flags']->isEmpty() || !$cs->criteria['tcp_field']->isEmpty() ) {
-			$save_criteria .= $cs->criteria['tcp_port']->Description('');
-			$save_criteria .= $cs->criteria['tcp_flags']->Description('');
-			$save_criteria .= $cs->criteria['tcp_field']->Description('');
+		$save_criteria .= '</td>'.
+		NLI('<td>',4);
+		if ( $cs->criteria['layer4']->Get() == 'TCP' ){
+			if (
+				!$cs->criteria['tcp_port']->isEmpty()
+				|| !$cs->criteria['tcp_flags']->isEmpty()
+				|| !$cs->criteria['tcp_field']->isEmpty()
+			){
+				$save_criteria .= $cs->criteria['tcp_port']->Description('');
+				$save_criteria .= $cs->criteria['tcp_flags']->Description('');
+				$save_criteria .= $cs->criteria['tcp_field']->Description('');
+			}else{
+				$save_criteria .= $APH;
+			}
+		}elseif ( $cs->criteria['layer4']->Get() == 'UDP' ){
+			if (
+				!$cs->criteria['udp_port']->isEmpty()
+				|| !$cs->criteria['udp_field']->isEmpty()
+			){
+				$save_criteria .= $cs->criteria['udp_port']->Description('');
+				$save_criteria .= $cs->criteria['udp_field']->Description('');
+			}else{
+				$save_criteria .= $APH;
+			}
+		}elseif ( $cs->criteria['layer4']->Get() == 'ICMP' ){
+			if ( !$cs->criteria['icmp_field']->isEmpty() ) {
+				$save_criteria .= $cs->criteria['icmp_field']->Description('');
+			}else{
+				$save_criteria .= $APH;
+			}
+		}elseif ( $cs->criteria['layer4']->Get() == 'RawIP' ){
+			if ( !$cs->criteria['rawip_field']->isEmpty() ) {
+				$save_criteria .= $cs->criteria['rawip_field']->Description('');
+			}else{
+				$save_criteria .= $APH;
+			}
 		}else{
-			$save_criteria .= '<I> &nbsp;&nbsp; '._ANY.' </I>';
+			$save_criteria .= '<i>&nbsp;&nbsp;'._NONE.'&nbsp;&nbsp;</i>';
 		}
-     $save_criteria .= '&nbsp;&nbsp;</TD></TR>';
-  }else if ( $cs->criteria['layer4']->Get() == "UDP" ){
-		if ( !$cs->criteria['udp_port']->isEmpty() || !$cs->criteria['udp_field']->isEmpty() ) {
-			$save_criteria .= $cs->criteria['udp_port']->Description('');
-			$save_criteria .= $cs->criteria['udp_field']->Description('');
+		$save_criteria .= $NTR;
+		// Payload Criteria
+		$save_criteria .= NLI(
+			"<td class='payloadtitle' style='$CS'>"._QCPAYCRIT.'</td>', 4
+		).NLI('<td>',4);
+		if ( !$cs->criteria['data']->isEmpty() ){
+			$save_criteria .= $cs->criteria['data']->Description('');
 		}else{
-			$save_criteria .= '<I> &nbsp;&nbsp; '._ANY.' </I>';
+			$save_criteria .= $APH;
 		}
-     $save_criteria .= '&nbsp;&nbsp;</TD></TR>';
-  }else if ( $cs->criteria['layer4']->Get() == "ICMP" ){
-		if ( !$cs->criteria['icmp_field']->isEmpty() ) {
-			$save_criteria .= $cs->criteria['icmp_field']->Description('');
+		$save_criteria .= FramedBoxFooter(1,2);
+		if ( class_exists('UILang') ){ // Issue 11 backport shim.
+			$UIL->SetUILocale();
 		}else{
-			$save_criteria .= '<I> &nbsp;&nbsp; '._ANY.' </I>';
+			if ( !setlocale (LC_TIME, _LOCALESTR1) ){
+				if ( !setlocale (LC_TIME, _LOCALESTR2) ){
+					setlocale (LC_TIME, _LOCALESTR3);
+				}
+			}
 		}
-     $save_criteria .= '&nbsp;&nbsp;</TD></TR>';
-   }else if ( $cs->criteria['layer4']->Get() == "RawIP" ){
-		if ( !$cs->criteria['rawip_field']->isEmpty() ) {
-			$save_criteria .= $cs->criteria['rawip_field']->Description('');
-		}else{
-			$save_criteria .= '<I> &nbsp&nbsp '._ANY.' </I>';
-		}
-      $save_criteria .= '&nbsp;&nbsp;</TD></TR>';
-  }else{
-     $save_criteria .= '<I> &nbsp;&nbsp; '._NONE.' </I></TD></TR>';
-		}
+		$save_criteria = NLIO(
+			'<b>'._QUERIED.'</b>: '.strftime(_STRFTIMEFORMAT),2
+			).
+		$save_criteria;
+		print $save_criteria;
 	}
-	// Payload
-  $save_criteria .= '<TR>
-        <TD CLASS="payloadtitle">'._QCPAYCRIT.'</TD>
-        <TD>';
-	if (is_object($cs)){ // Issue #5
-	if ( !$cs->criteria['data']->isEmpty() ) {
-		$save_criteria .= $cs->criteria['data']->Description('');
-	}else{
-		$save_criteria .= '<I> &nbsp;&nbsp; '._ANY.' </I>';
-	}
-	}
-  $save_criteria .= '&nbsp;&nbsp;</TD></TR>';
-
-  
-  $save_criteria .= '</TABLE>'; 
-
-  if (!setlocale (LC_TIME, _LOCALESTR1))
-       	if (!setlocale (LC_TIME, _LOCALESTR2))
-	        setlocale (LC_TIME, _LOCALESTR3);
-  
-  $save_criteria = '&nbsp;<B>'._QUERIED.'</B><FONT> : '.strftime(_STRFTIMEFORMAT).'</FONT>'.
-                   '<TABLE BORDER=0 CELLSPACING=0 CELLPADDING=2 BGCOLOR="#000000">'.
-                   '<TR><TD>'.
-         
-                   '<TABLE BORDER=0 CELLSPACING=0 CELLPADDING=1 BGCOLOR="#DDDDDD"><TR><TD>'.
-
-                   $save_criteria.
-
-                   '</TD></TR></TABLE>'.
-
-                   '</TD></TR>'.
-                   '</TABLE>';
-	print $save_criteria;
 }
 
 /********************************************************************************************/
-function ProcessCriteria()
-{
-  GLOBAL $db, $join_sql, $where_sql, $criteria_sql, $sql, $debug_mode,
-         $caller, $DBtype;
-
+function ProcessCriteria(){
+	GLOBAL $db, $join_sql, $where_sql, $criteria_sql, $sql, $debug_mode,
+	$caller, $DBtype;
   /* the JOIN criteria */
   $ip_join_sql  = " LEFT JOIN iphdr ON acid_event.sid=iphdr.sid AND acid_event.cid=iphdr.cid ";
   $tcp_join_sql = " LEFT JOIN tcphdr ON acid_event.sid=tcphdr.sid AND acid_event.cid=tcphdr.cid ";

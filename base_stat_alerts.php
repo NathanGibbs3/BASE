@@ -68,7 +68,7 @@ if (is_object($cs)){ // Issue #5
      	echo '</TD>
            <TD WIDTH="40%" VALIGN="top">';
       
-	PrintFramedBoxHeader(_QSCSUMM, "#669999", "#FFFFFF");
+	PrintFramedBoxHeader(_QSCSUMM, '#669999', 1,5);
 if ( isset($show_summary_stats) ){ // Issue #5
 	if ( getenv('TRAVIS') && version_compare(PHP_VERSION, "5.3.0", "<") ){
 		// Issue #5 Test Shim
@@ -80,12 +80,9 @@ if ( isset($show_summary_stats) ){ // Issue #5
 		$db, 1, $show_summary_stats, "$join_sql ", "$where_sql $criteria_sql"
 	);
 }
-	echo('<BR><LI><A HREF="base_stat_time.php">'._QSCTIMEPROF.'</A> '._QSCOFALERTS . "</LI>");
-	PrintFramedBoxFooter();
-
-	echo ' </TD>
-           </TR>
-	</table>';
+echo('<BR><LI><A HREF="base_stat_time.php">'._QSCTIMEPROF.'</A> '._QSCOFALERTS . "</LI>");
+PrintFramedBoxFooter(1,5);
+PrintFramedBoxFooter(1,2);
 if (is_object($cs)){ // Issue #5
   $from = " FROM acid_event ".$criteria_clauses[0];
   $where = ($criteria_clauses[1] != "") ? " WHERE ".$criteria_clauses[1] : " ";
@@ -123,34 +120,35 @@ $qs->GetNumResultRows($cnt_sql, $db);
 $et->Mark("Counting Result size");
 // Setup the Query Results Table.
 $qro = new QueryResultsOutput("base_stat_alerts.php?caller=".$caller);
-$qro->AddTitle(" ");
-$qro->AddTitle(_SIGNATURE,
-                "sig_a", " ", " ORDER BY sig_name ASC",
-                "sig_d", " ", " ORDER BY sig_name DESC");
-
-  if ( $db->baseGetDBversion() >= 103 )
-    $qro->AddTitle(_CHRTCLASS,
-                   "class_a", ", MIN(sig_class_id) ",
-                              " ORDER BY sig_class_id ASC ",
-                   "class_d", ", MIN(sig_class_id) ",
-                              " ORDER BY sig_class_id DESC "); 
-
-  $qro->AddTitle(_TOTAL."&nbsp;#", 
-                "occur_a", " ",
-                           " ORDER BY sig_cnt ASC",
-                "occur_d", " ",
-                           " ORDER BY sig_cnt DESC");
-  $qro->AddTitle(_SENSOR."&nbsp;#");
-  $qro->AddTitle(_NBSOURCEADDR, 
-                "saddr_a", ", count(DISTINCT ip_src) AS saddr_cnt ",
-                           " ORDER BY saddr_cnt ASC",
-                "saddr_d", ", count(DISTINCT ip_src) AS saddr_cnt ",
-                           " ORDER BY saddr_cnt DESC");
-  $qro->AddTitle(_NBDESTADDR, 
-                "daddr_a", ", count(DISTINCT ip_dst) AS daddr_cnt ",
-                           " ORDER BY daddr_cnt ASC",
-                "daddr_d", ", count(DISTINCT ip_dst) AS daddr_cnt ",
-                           " ORDER BY daddr_cnt DESC");
+$qro->AddTitle('');
+$qro->AddTitle( _SIGNATURE,
+	"sig_a", " ", " ORDER BY sig_name ASC",
+	"sig_d", " ", " ORDER BY sig_name DESC"
+);
+if ( $db->baseGetDBversion() >= 103 ){
+	$qro->AddTitle( _CHRTCLASS,
+		"class_a", ", MIN(sig_class_id) ", " ORDER BY sig_class_id ASC ",
+		"class_d", ", MIN(sig_class_id) ", " ORDER BY sig_class_id DESC ",
+		'left'
+	);
+}
+$qro->AddTitle( _TOTAL."&nbsp;#",
+	"occur_a", " "," ORDER BY sig_cnt ASC",
+	"occur_d", " ", " ORDER BY sig_cnt DESC", 'right'
+);
+$qro->AddTitle( _SENSOR."&nbsp;#" );
+$qro->AddTitle( _NBSOURCEADDR,
+	"saddr_a", ", count(DISTINCT ip_src) AS saddr_cnt ",
+	" ORDER BY saddr_cnt ASC",
+	"saddr_d", ", count(DISTINCT ip_src) AS saddr_cnt ",
+	" ORDER BY saddr_cnt DESC", 'right'
+);
+$qro->AddTitle(_NBDESTADDR,
+	"daddr_a", ", count(DISTINCT ip_dst) AS daddr_cnt ",
+	" ORDER BY daddr_cnt ASC",
+	"daddr_d", ", count(DISTINCT ip_dst) AS daddr_cnt ",
+	" ORDER BY daddr_cnt DESC", 'right'
+);
   $qro->AddTitle(_FIRST, 
                 "first_a", ", min(timestamp) AS first_timestamp ",
                            " ORDER BY first_timestamp ASC",
@@ -276,20 +274,21 @@ if ( $debug_mode == 1 ){
                  &nbsp;&nbsp;
              </TD>';
      echo '      <INPUT TYPE="hidden" NAME="action_lst['.$i.']" VALUE="'.$tmp_rowid.'">';
-
-     qroPrintEntry(BuildSigByID($sig_id, $db));
-
-     if ( $db->baseGetDBversion() >= 103 )
-        qroPrintEntry(GetSigClassName(GetSigClassID($sig_id, $db), $db));
-
-     qroPrintEntry('<FONT>'.
-                   '<A HREF="base_qry_main.php?new=1amp;&amp;sig%5B0%5D=%3D&amp;sig%5B1%5D='.
+		qroPrintEntry(BuildSigByID($sig_id, $db), 'left');
+		if ( $db->baseGetDBversion() >= 103 ){
+			qroPrintEntry(
+				GetSigClassName(GetSigClassID($sig_id, $db), $db),
+				'left'
+			);
+		}
+		qroPrintEntry(
+			'<A HREF="base_qry_main.php?new=1amp;&amp;sig%5B0%5D=%3D&amp;sig%5B1%5D='.
                    (rawurlencode($sig_id)).'&amp;sig_type=1'.
                    '&amp;submit='._QUERYDBP.'&amp;num_result_rows=-1">'.$total_occurances.'</A>'.
 		   /* mstone 20050309 lose this if we're not showing stats */
-                   (($avoid_counts != 1)?('('.(round($total_occurances/$event_cnt*100)).'%)'):('')).
-                   '</FONT>');
-
+                   (($avoid_counts != 1)?('('.(round($total_occurances/$event_cnt*100)).'%)'):('')),
+			'right'
+		);
      qroPrintEntry('<A HREF="base_stat_sensor.php?sig%5B0%5D=%3D&amp;sig%5B1%5D='.
                     rawurlencode($sig_id).'&amp;sig_type=1">'.$num_sensors.'</A>');
 
@@ -298,10 +297,13 @@ if ( $debug_mode == 1 ){
      else
         $addr_link = '&amp;sig%5B0%5D=%3D&amp;sig%5B1%5D='.rawurlencode($sig_id);
 
-     qroPrintEntry('<FONT>'.BuildUniqueAddressLink(1, $addr_link).$num_src_ip.'</A></FONT>');
-     qroPrintEntry('<FONT>'.BuildUniqueAddressLink(2, $addr_link).$num_dst_ip.'</A></FONT>');
-
-		if ( isset($show_first_last_links) && $show_first_last_links == 1 ){
+	qroPrintEntry(
+		BuildUniqueAddressLink( 1, $addr_link )."$num_src_ip</a>",'right'
+	);
+	qroPrintEntry(
+		BuildUniqueAddressLink( 2, $addr_link)."$num_dst_ip</a>",'right'
+	);
+	if ( isset($show_first_last_links) && $show_first_last_links == 1 ){
        qroPrintEntry('<FONT>'.
 	             '<A HREF="base_qry_alert.php?'.
                      'submit=%23'.$first_num.'-%28'.$first[1].'-'.$first[2].'%29">'.

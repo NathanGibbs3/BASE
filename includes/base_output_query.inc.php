@@ -1,33 +1,26 @@
 <?php
-/*******************************************************************************
-** Basic Analysis and Security Engine (BASE)
-** Copyright (C) 2004 BASE Project Team
-** Copyright (C) 2000 Carnegie Mellon University
-**
-** (see the file 'base_main.php' for license details)
-**
-** Project Lead: Kevin Johnson <kjohnson@secureideas.net>
-**                Sean Muller <samwise_diver@users.sourceforge.net>
-** Built upon work by Roman Danyliw <rdd@cert.org>, <roman@danyliw.com>
-**
-** Purpose: manages the output of Query results
-********************************************************************************
-** Authors:
-********************************************************************************
-** Kevin Johnson <kjohnson@secureideas.net
-**
-********************************************************************************
-*/
-/** The below check is to make sure that the conf file has been loaded before this one....
- **  This should prevent someone from accessing the page directly. -- Kevin
- **/
+// Basic Analysis and Security Engine (BASE)
+// Copyright (C) 2019-2021 Nathan Gibbs
+// Copyright (C) 2004 BASE Project Team
+// Copyright (C) 2000 Carnegie Mellon University
+//
+//   For license info: See the file 'base_main.php'
+//
+//       Project Lead: Nathan Gibbs
+// Built upon work by: Kevin Johnson & the BASE Project Team
+//                     Roman Danyliw <rdd@cert.org>, <roman@danyliw.com>
+//
+//            Purpose: Manages the output of Query results.
+//
+//          Author(s): Nathan Gibbs
+//                     Kevin Johnson
+// Ensure the conf file has been loaded.  Prevent direct access to this file.
 defined( '_BASE_INC' ) or die( 'Accessing this file directly is not allowed.' );
 
-include_once("$BASE_path/includes/base_constants.inc.php");
-
 class QueryResultsOutput {
-	var $qroHeader;
-	var $url;
+	var $qroHeader = NULL;
+	var $url = '';
+	var $JavaScript = NULL;
 
 	function __construct($uri) { // PHP 5+ constructor Shim.
 		// Class/Method agnostic shim code.
@@ -46,113 +39,114 @@ class QueryResultsOutput {
 		}
 	}
 	function QueryResultsOutput($uri) { // PHP 4x constructor.
+		GLOBAL $BASE_path, $BASE_urlpath, $debug_mode;
 		$this->url = $uri;
+		$sc = DIRECTORY_SEPARATOR;
+		$file = __FILE__;
+		$ReqRE = preg_quote("$BASE_path$sc"."includes$sc",'/');
+		$file = preg_replace("/^" . $ReqRE ."/", '', $file);
+		$file = preg_replace("/".preg_quote('.php','/')."$/", '', $file);
+		$file = $sc."js$sc$file".'.js';
+		$tf = "$BASE_path$file";
+		$file = "$BASE_urlpath$file";
+		if ( ChkAccess($tf) == 1 ){
+			$this->JavaScript = $file;
+		}
+		if ( $debug_mode > 0 ){
+			$tmp = '';
+			$cc = '';
+			if ( is_null($this->JavaScript) ){
+				$tmp = 'not ';
+			}else{
+				$cc = 'black';
+			}
+			ErrorMessage("Resource $tmp"."available JavaScript: $file", $cc,1);
+		}
 	}
-  function AddTitle($title, $asc_sort = " ", $asc_sort_sql1 = "", $asc_sort_sql2 = "",
-                            $desc_sort = " ", $desc_sort_sql1 = "", $desc_sort_sql2 = "")
-  {
-    $this->qroHeader[$title] = array( $asc_sort  => array( $asc_sort_sql1, $asc_sort_sql2 ),
-                                     $desc_sort => array( $desc_sort_sql1, $desc_sort_sql2 ) ); 
- }
-
-  function GetSortSQL($sort, $sort_order)
-  {
-    reset($this->qroHeader);
-    while( $title = each($this->qroHeader) )
-    {
-      if ( in_array($sort, array_keys($title["value"])) )
-      {
-         $tmp_sort = $title["value"][$sort];
-         return $tmp_sort;
-      }      
-    }
-
-    /* $sort is not a valid sort type of any header */
-    return NULL;
-  }
- 
-  function PrintHeader($text = '')
-  {
-     /* Client-side Javascript to select all the check-boxes on the screen
-      *   - Bill Marque (wlmarque@hewitt.com) */
-     echo '
-          <SCRIPT type="text/javascript">
-            function SelectAll()
-            {
-               for(var i=0;i<document.PacketForm.elements.length;i++)
-               {
-                  if(document.PacketForm.elements[i].type == "checkbox")
-                  {
-                    document.PacketForm.elements[i].checked = true;
-                  }
-               }
-            }
-      
-            function UnselectAll()
-            {
-                for(var i=0;i<document.PacketForm.elements.length;i++)
-                {
-                    if(document.PacketForm.elements[i].type == "checkbox")
-                    {
-                      document.PacketForm.elements[i].checked = false;
-                    }
-                }
-            }
-           </SCRIPT>';
-
-     if ('' != $text) {
-         echo $text;
-     }
-     
-     echo '<TABLE CELLSPACING=0 CELLPADDING=2 BORDER=0 WIDTH="100%" BGCOLOR="#000000">'."\n".
-          "<TR><TD>\n".
-          '<TABLE CELLSPACING=0 CELLPADDING=0 BORDER=0 WIDTH="100%" BGCOLOR="#FFFFFF">'."\n".
-          "\n\n<!-- Query Results Title Bar -->\n   <TR>\n";
-
-     reset($this->qroHeader);
-     while( $title = each($this->qroHeader) )
-     {
-       $print_title = "";
-
-       $sort_keys = array_keys($title["value"]);
-       if ( count($sort_keys) == 2 )
-       {
-          $print_title = "<A HREF=\"".$this->url."&amp;sort_order=".$sort_keys[0]."\">&lt;</A>".
-                         "&nbsp;".$title["key"]."&nbsp;".
-                         "<A HREF=\"".$this->url."&amp;sort_order=".$sort_keys[1]."\">&gt;</A>";
-       }
-       else
-       {
-          $print_title = $title["key"];
-       }
-    
-       echo '    <TD CLASS="plfieldhdr">&nbsp;'.$print_title.'&nbsp;</TD>'."\n";
-     }
-
-    echo "   </TR>\n";
-  }
-
-  function PrintFooter()
-  {
-    echo "  </TABLE>\n
-           </TD></TR>\n
-          </TABLE>\n";
-  }
-
-  function DumpQROHeader()
-  {
+	function AddTitle(
+		$title, $asc_sort = " ", $asc_sort_sql1 = "", $asc_sort_sql2 = "",
+		$desc_sort = " ", $desc_sort_sql1 = "", $desc_sort_sql2 = "",
+		$align = 'center'
+	){
+		$align = strtolower($align);
+		$hal = array( 'left', 'center', 'right' );
+		if ( !in_array($align, $hal) ){
+			$align = 'center';
+		}
+		$this->qroHeader[$title] = array(
+			"$title-$asc_sort"  => array( $asc_sort_sql1, $asc_sort_sql2 ),
+			"$title-$desc_sort" => array( $desc_sort_sql1, $desc_sort_sql2 ),
+			"$title-InternalProperty-align" => $align
+		);
+	}
+	function GetSortSQL( $sort, $sort_order ){
+		$Ret = NULL; // $sort is not a valid sort type of any header.
+		if ( !is_null($this->qroHeader) ){ // Issue #108 Check
+			reset($this->qroHeader);
+			while( $title = each($this->qroHeader) ){
+				$tt = $title["key"];
+				if ( in_array("$tt-$sort", array_keys($title["value"])) ){
+					$Ret = $title["value"]["$tt-$sort"];
+					break;
+				}
+			}
+		}
+		return $Ret;
+	}
+	function PrintHeader(){
+		$file = $this->JavaScript;
+		if ( !is_null($file) ){
+			NLIO("<script type='text/javascript' src='$file'></script>",3);
+		}
+		NLIO('<!-- Query Results Title Bar -->',3);
+		PrintFramedBoxHeader('','black');
+		if ( is_null($this->qroHeader) ){ // Issue #108 Check
+			$tdpfx = "<td class='plfieldhdr'>";
+			NLIO( $tdpfx.'NULL Header.</td>', 5 );
+		}else{
+			$hal = array( 'left', 'center', 'right' );
+			reset($this->qroHeader);
+			while( $title = each($this->qroHeader) ){
+				$sort_keys = array_keys( $title['value'] );
+				$tt = $title["key"];
+				$align = $title["value"]["$tt-InternalProperty-align"];
+				$align = strtolower($align);
+				if ( !in_array($align, $hal) ){
+					$align = 'center';
+				}
+				$tdpfx = "<td class='plfieldhdr' style='text-align:$align;'>";
+				$print_title = '';
+				$pfx = '';
+				$sfx = '';
+				if ( count($sort_keys) == 3 ){
+					$tmp = "<a href='".$this->url."&amp;sort_order=";
+					$pfx = str_replace ("$tt-", '', $tmp.$sort_keys[0]."'>&lt;</a>&nbsp;");
+					$sfx = str_replace ("$tt-", '', "&nbsp;$tmp".$sort_keys[1]."'>&gt;</a>");
+				}
+				$print_title = $pfx.$tt.$sfx;
+				NLIO( $tdpfx, 5 );
+				NLIO($print_title, 6 );
+				NLIO( '</td>', 5 );
+			}
+		}
+		NLIO('</tr>',4);
+		NLIO('<!-- Query Results Table -->',4);
+	}
+	function PrintFooter(){
+		NLIO('</table>',3);
+	}
+	function DumpQROHeader(){ // This code is not used anywhere.
     echo "<B>"._QUERYRESULTSHEADER."</B>
           <PRE>";
     print_r($this->qroHeader);
     echo "</PRE>";
-  }
+	}
 }
-
-function qroReturnSelectALLCheck()
-{
-  return '<INPUT type=checkbox value="Select All" onClick="if (this.checked) SelectAll(); if (!this.checked) UnselectAll();">';
+function qroReturnSelectALLCheck(){
+	return "<input type=checkbox value='Select All' ".
+	"onClick='if (this.checked) SelectAll(); ".
+	"if (!this.checked) UnselectAll();'>";
 }
-
 function qroPrintEntryHeader($prio=1, $color=0) {
 	GLOBAL $priority_colors;
 	$msg = '<tr bgcolor="#';
@@ -183,17 +177,25 @@ function qroPrintEntryHeader($prio=1, $color=0) {
 	$msg .= $tmp . '">';
 	print $msg;
 }
-
-function qroPrintEntry($value, $halign="center", $valign="top", $passthru="")
-{
-  echo "<TD align=\"".$halign."\" valign=\"".$valign."\" ".$passthru.">\n".
-       "  $value\n".
-       "</TD>\n\n";
+function qroPrintEntry( $value, $halign = 'center', $valign = 'top' ){
+	$halign = strtolower($halign);
+	$valign = strtolower($valign);
+	$hal = array( 'left', 'center', 'right' );
+	$val = array( 'top', 'bottom' );
+	if ( !in_array($halign, $hal) ){
+		$halign = 'center';
+	}
+	if ( !in_array($valign, $val) ){
+		$valign = 'top';
+	}
+	NLIO (
+		"<td style='text-align: $halign; vertical-align: $valign; ".
+		"padding-left: 15px; padding-right: 15px'>",3
+	);
+	NLIO ($value,4);
+	NLIO ('</td>',3);
 }
-
-function qroPrintEntryFooter()
-{
-  echo '</TR>';
+function qroPrintEntryFooter(){
+	NLIO ('</tr>',2);
 }
-
 ?>
