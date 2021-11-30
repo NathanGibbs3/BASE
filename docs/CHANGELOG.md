@@ -130,6 +130,26 @@ https://github.com/NathanGibbs3/BASE/issues/93)
 https://github.com/NathanGibbs3/BASE/issues/99)
 - [#100 Failure to display debugging info for a meaningful amount of time.](
 https://github.com/NathanGibbs3/BASE/issues/100)
+- [#19 User/Role Admin HTML styling hack, Re-implement via CSS.](
+https://github.com/NathanGibbs3/BASE/issues/19)
+- [@25 Search Criteria HTML styling hack, Re-implement via CSS.](
+https://github.com/NathanGibbs3/BASE/issues/25)
+- [#64 Number alignment in the "Total #" column of status pages.](
+https://github.com/NathanGibbs3/BASE/issues/64)
+- [#105 Results HTML styling hack, Re-implement via CSS.](
+https://github.com/NathanGibbs3/BASE/issues/105)
+- [#106 Move PHP generated JavaScript to external file.](
+https://github.com/NathanGibbs3/BASE/issues/106)
+- [#108 BASE does not check for unset class property qroHeeader before access.](
+https://github.com/NathanGibbs3/BASE/issues/108)
+- [#109 Add JavaScript property to QueryResultsOutput() Class.](
+https://github.com/NathanGibbs3/BASE/issues/109)
+- [#110 HTML generation styling hack, Re-implement via CSS.](
+https://github.com/NathanGibbs3/BASE/issues/110)
+- [#111 Non Unique sort keys in qroHeader() title elements.](
+https://github.com/NathanGibbs3/BASE/issues/111)
+- [#114 HTML generation styling hack, Re-implement via <div> tags.](
+https://github.com/NathanGibbs3/BASE/issues/114)
 
 Contributor(s): [Nathan Gibbs]
 - [#57 `tr bgcolor="#"` if `$prio` not in `$priority_colors`
@@ -159,6 +179,12 @@ https://github.com/NathanGibbs3/BASE/issues/83)
 https://github.com/NathanGibbs3/BASE/issues/89)
 - [#90 Add Input Validation code to `returnUserID()`.](
 https://github.com/NathanGibbs3/BASE/issues/90)
+- [#104 Local/Remote Code Injection Vulnerability in BASE function
+qroPrintEntry().](
+https://github.com/NathanGibbs3/BASE/issues/104)
+- [#107 Local/Remote Code Injection Vulnerability in BASE function
+PrintEntry().](
+https://github.com/NathanGibbs3/BASE/issues/107)
 
 Contributor(s): [Nathan Gibbs]
 
