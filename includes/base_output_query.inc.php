@@ -73,22 +73,31 @@ class QueryResultsOutput {
 		if ( !in_array($align, $hal) ){
 			$align = 'center';
 		}
+		$tc = CleanVariable($title, VAR_LETTER | VAR_USCORE);
 		$this->qroHeader[$title] = array(
-			"$title-$asc_sort"  => array( $asc_sort_sql1, $asc_sort_sql2 ),
-			"$title-$desc_sort" => array( $desc_sort_sql1, $desc_sort_sql2 ),
+			$tc."_$asc_sort"  => array( $asc_sort_sql1, $asc_sort_sql2 ),
+			$tc."_$desc_sort" => array( $desc_sort_sql1, $desc_sort_sql2 ),
 			"$title-InternalProperty-align" => $align
 		);
 	}
 	function GetSortSQL( $sort, $sort_order ){
+		GLOBAL $debug_mode;
 		$Ret = NULL; // $sort is not a valid sort type of any header.
 		if ( !is_null($this->qroHeader) ){ // Issue #108 Check
 			reset($this->qroHeader);
 			while( $title = each($this->qroHeader) ){
-				$tt = $title["key"];
-				if ( in_array("$tt-$sort", array_keys($title["value"])) ){
-					$Ret = $title["value"]["$tt-$sort"];
+				if ( in_array($sort, array_keys($title["value"])) ){
+					$Ret = $title["value"][$sort];
 					break;
 				}
+			}
+			if ( $debug_mode > 0 ){
+				print "<pre>  FUNC: ".__FUNCTION__."()\n";
+				print "  SORT: $sort\n";
+				print " ORDER: $sort_order\n";
+				print "RETURN: ";
+				print_r($Ret);
+				print "</pre>\n";
 			}
 		}
 		return $Ret;
@@ -120,8 +129,8 @@ class QueryResultsOutput {
 				$sfx = '';
 				if ( count($sort_keys) == 3 ){
 					$tmp = "<a href='".$this->url."&amp;sort_order=";
-					$pfx = str_replace ("$tt-", '', $tmp.$sort_keys[0]."'>&lt;</a>&nbsp;");
-					$sfx = str_replace ("$tt-", '', "&nbsp;$tmp".$sort_keys[1]."'>&gt;</a>");
+					$pfx = $tmp.$sort_keys[0]."'>&lt;</a>&nbsp;";
+					$sfx = "&nbsp;$tmp".$sort_keys[1]."'>&gt;</a>";
 				}
 				$print_title = $pfx.$tt.$sfx;
 				NLIO( $tdpfx, 5 );
