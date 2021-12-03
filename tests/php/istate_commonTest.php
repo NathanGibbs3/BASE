@@ -3,6 +3,7 @@ use PHPUnit\Framework\TestCase;
 
 // Test fucntions in /includes/base_state_common.inc.php
 /**
+  * @covers ::CleanVariable
   * @covers ::InitArray
   * @covers ::SetSessionVar
   * @covers ::XSSPrintSafe
@@ -227,10 +228,202 @@ class state_commonTest extends TestCase {
 		$_SESSION = $osession;
 		$debug_mode = $odb;
 	}
-
+	public function testCleanVariableNullReturnsNull() {
+		$this->assertNull(
+			CleanVariable(NULL),
+			'CleanVariable Unexpected Return Value.'
+		);
+	}
+	public function testCleanVariableValueReturnsNotNull() {
+		$this->assertNotNull(
+			CleanVariable('Value'),
+			'CleanVariable Unexpected Return Value.'
+		);
+	}
+	public function testCleanVariableNoTransformValue() {
+		$this->assertEquals(
+			'Value',
+			CleanVariable('Value'),
+			'CleanVariable Unexpected Return Value.'
+		);
+	}
+	public function testCleanVariableNoTransformArray() {
+		InitArray($a,1,0,1);
+		$URV = 'Unexpected return CleanVariable().';
+		$this->assertTrue(is_array($a),$URV);
+		$this->assertEquals(
+			$a,
+			CleanVariable($a,VAR_DIGIT),
+			$URV
+		);
+		$this->assertTrue(is_array($a),$URV);
+	}
+	public function testCleanVariableExceptionHit() {
+		$a = 1;
+		InitArray($b,1,0,1);
+		$URV = 'Unexpected return CleanVariable().';
+		$this->assertEquals(
+			$a,
+			CleanVariable($a,VAR_DIGIT,$b),
+			$URV
+		);
+	}
+	public function testCleanVariableExceptionMiss() {
+		$a = 2;
+		InitArray($b,1,0,1);
+		$URV = 'Unexpected return CleanVariable().';
+		$this->assertEquals(
+			$a,
+			CleanVariable($a,VAR_DIGIT,$b),
+			$URV
+		);
+	}
+	public function testCleanVariableGetDigit() {
+		$Value = '0Az ./()_@~!#$%^&*=+:;,?-';
+		$URV = 'Unexpected return CleanVariable().';
+		$this->assertEquals(
+			'0',
+			CleanVariable($Value,VAR_DIGIT),
+			$URV
+		);
+	}
+	public function testCleanVariableGetLetters() {
+		$Value = '0Az ./()_@~!#$%^&*=+:;,?-';
+		$URV = 'Unexpected return CleanVariable().';
+		$this->assertEquals(
+			'Az',
+			CleanVariable($Value,VAR_LETTER),
+			$URV
+		);
+	}
+	public function testCleanVariableGetLettersCaps() {
+		$Value = '0Az ./()_@~!#$%^&*=+:;,?-';
+		$URV = 'Unexpected return CleanVariable().';
+		$this->assertEquals(
+			'A',
+			CleanVariable($Value,VAR_ULETTER),
+			$URV
+		);
+	}
+	public function testCleanVariableGetLettersNonCaps() {
+		$Value = '0Az ./()_@~!#$%^&*=+:;,?-';
+		$URV = 'Unexpected return CleanVariable().';
+		$this->assertEquals(
+			'z',
+			CleanVariable($Value,VAR_LLETTER),
+			$URV
+		);
+	}
+	public function testCleanVariableGetAlphNum() {
+		$Value = '0Az ./()_@~!#$%^&*=+:;,?-';
+		$URV = 'Unexpected return CleanVariable().';
+		$this->assertEquals(
+			'0Az',
+			CleanVariable($Value,VAR_ALPHA),
+			$URV
+		);
+	}
+	public function testCleanVariableGetSpace() {
+		$Value = '0Az ./()_@~!#$%^&*=+:;,?-';
+		$URV = 'Unexpected return CleanVariable().';
+		$this->assertEquals(
+			' ',
+			CleanVariable($Value,VAR_SPACE),
+			$URV
+		);
+	}
+	public function testCleanVariableGetPeriod() {
+		$Value = '0Az ./()_@~!#$%^&*=+:;,?-';
+		$URV = 'Unexpected return CleanVariable().';
+		$this->assertEquals(
+			'.',
+			CleanVariable($Value,VAR_PERIOD),
+			$URV
+		);
+	}
+	public function testCleanVariableGetFSlash() {
+		$Value = '0Az ./()_@~!#$%^&*=+:;,?-';
+		$URV = 'Unexpected return CleanVariable().';
+		$this->assertEquals(
+			'/',
+			CleanVariable($Value,VAR_FSLASH),
+			$URV
+		);
+	}
+	public function testCleanVariableGetOpenParam() {
+		$Value = '0Az ./()_@~!#$%^&*=+:;,?-';
+		$URV = 'Unexpected return CleanVariable().';
+		$this->assertEquals(
+			'(',
+			CleanVariable($Value,VAR_OPAREN),
+			$URV
+		);
+	}
+	public function testCleanVariableGetCloseParam() {
+		$Value = '0Az ./()_@~!#$%^&*=+:;,?-';
+		$URV = 'Unexpected return CleanVariable().';
+		$this->assertEquals(
+			')',
+			CleanVariable($Value,VAR_CPAREN),
+			$URV
+		);
+	}
+	public function testCleanVariableGetBOOL() {
+		$Value = '0Az ./()_@~!#$%^&*=+:;,?-';
+		$URV = 'Unexpected return CleanVariable().';
+		$this->assertEquals(
+			')',
+			CleanVariable($Value,VAR_BOOLEAN),
+			$URV
+		);
+	}
+	public function testCleanVariableGetOp() {
+		$Value = '0Az ./()_@~!#$%^&*=+:;,?-';
+		$URV = 'Unexpected return CleanVariable().';
+		$this->assertEquals(
+			')',
+			CleanVariable($Value,VAR_OPERATOR),
+			$URV
+		);
+	}
+	public function testCleanVariableGetUnderscore() {
+		$Value = '0Az ./()_@~!#$%^&*=+:;,?-';
+		$URV = 'Unexpected return CleanVariable().';
+		$this->assertEquals(
+			'_',
+			CleanVariable($Value,VAR_USCORE),
+			$URV
+		);
+	}
+	public function testCleanVariableGetAt() {
+		$Value = '0Az ./()_@~!#$%^&*=+:;,?-';
+		$URV = 'Unexpected return CleanVariable().';
+		$this->assertEquals(
+			'@',
+			CleanVariable($Value,VAR_AT),
+			$URV
+		);
+	}
+	public function testCleanVariableGetPunc() {
+		$Value = '0Az ./()_@~!#$%^&*=+:;,?-';
+		$URV = 'Unexpected return CleanVariable().';
+		$this->assertEquals(
+				' .()_~!#$%^&*=+:;,?-',
+			CleanVariable($Value,VAR_PUNC),
+			$URV
+		);
+	}
+	public function testCleanVariableGetDash() {
+		$Value = '0Az ./()_@~!#$%^&*=+:;,?-';
+		$URV = 'Unexpected return CleanVariable().';
+		$this->assertEquals(
+			'-',
+			CleanVariable($Value,VAR_SCORE),
+			$URV
+		);
+	}
 	// Add code to a function if needed.
 	// Stop here and mark test incomplete.
 	//$this->markTestIncomplete('Incomplete Test.');
 }
-
 ?>

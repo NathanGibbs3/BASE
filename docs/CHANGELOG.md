@@ -150,6 +150,17 @@ https://github.com/NathanGibbs3/BASE/issues/110)
 https://github.com/NathanGibbs3/BASE/issues/111)
 - [#114 HTML generation styling hack, Re-implement via <div> tags.](
 https://github.com/NathanGibbs3/BASE/issues/114)
+- [Total & Unique Events sorts don't work in base_stat_sensor.php](
+https://github.com/NathanGibbs3/BASE/issues/22)  
+Bug [reported](https://sourceforge.net/p/secureideas/bugs/238)
+on sourceforge.net.  
+Bug [reported](https://sourceforge.net/p/secureideas/bugs/239)
+on sourceforge.net.
+- [Sensor Name sort in base_stat_sensor.php crashes App.](
+https://github.com/NathanGibbs3/BASE/issues/23)
+Bug [reported](https://sourceforge.net/p/secureideas/bugs/244)
+on sourceforge.net.
+- [Javascript Page redirect.](https://github.com/NathanGibbs3/BASE/issues/101)
 
 Contributor(s): [Nathan Gibbs]
 - [#57 `tr bgcolor="#"` if `$prio` not in `$priority_colors`
