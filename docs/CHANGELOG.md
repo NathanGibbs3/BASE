@@ -161,6 +161,8 @@ https://github.com/NathanGibbs3/BASE/issues/23)
 Bug [reported](https://sourceforge.net/p/secureideas/bugs/244)
 on sourceforge.net.
 - [Javascript Page redirect.](https://github.com/NathanGibbs3/BASE/issues/101)
+- [roleName() does not check for empty return value from DB.](
+https://github.com/NathanGibbs3/BASE/issues/24)
 
 Contributor(s): [Nathan Gibbs]
 - [#57 `tr bgcolor="#"` if `$prio` not in `$priority_colors`
