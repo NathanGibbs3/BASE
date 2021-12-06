@@ -11,6 +11,7 @@ use PHPUnit\Framework\TestCase;
   * @covers ::qroPrintEntry
   * @covers ::qroReturnSelectALLCheck
   * @uses ::ChkAccess
+  * @uses ::CleanVariable
   * @uses ::ErrorMessage
   * @uses ::FramedBoxHeader
   * @uses ::HtmlColor
@@ -231,7 +232,7 @@ class output_queryTest extends TestCase {
 			'Class Not Initialized.'
 		);
 		$tmp = 'title';
-		$te = "$tmp- ";
+		$te = $tmp."_ ";
 		$tc->AddTitle($tmp);
 		$this->assertTrue(is_array($tc->qroHeader), $URV);
 		$this->assertTrue(is_array($tc->qroHeader[$tmp]), $URV);
@@ -248,8 +249,8 @@ class output_queryTest extends TestCase {
 		);
 		$tmp = 'title';
 		$tf = '1st';
-		$te1 = "$tmp-$tf";
-		$te2 = "$tmp- ";
+		$te1 = $tmp."_$tf";
+		$te2 = $tmp."_ ";
 		$tc->AddTitle($tmp,$tf);
 		$this->assertTrue(is_array($tc->qroHeader), $URV);
 		$this->assertTrue(is_array($tc->qroHeader[$tmp]), $URV);
@@ -270,8 +271,8 @@ class output_queryTest extends TestCase {
 		$tmp = 'title';
 		$tf = '1st';
 		$ts = '2nd';
-		$te1 = "$tmp-$tf";
-		$te2 = "$tmp-$ts";
+		$te1 = $tmp."_$tf";
+		$te2 = $tmp."_$ts";
 		$tc->AddTitle($tmp,$tf,'1','2',$ts,'3','4');
 		$this->assertTrue(is_array($tc->qroHeader), $URV);
 		$this->assertTrue(is_array($tc->qroHeader[$tmp]), $URV);
@@ -290,7 +291,7 @@ class output_queryTest extends TestCase {
 			'Class Not Initialized.'
 		);
 		$tc->AddTitle('title','1st','1','2','2nd','3','4');
-		$tc->AddTitle('title2','3rd','7','8','4th','5','6');
+		$tc->AddTitle('titleSecond','3rd','7','8','4th','5','6');
 		$Value = array (
 			'title' => array (
 				'1st' => array (
@@ -313,10 +314,10 @@ class output_queryTest extends TestCase {
 				)
 			)
 		);
-		$this->assertEquals($Value['title']['1st'],$tc->GetSortSQL('1st',''), $URV);
-		$this->assertEquals($Value['title']['2nd'],$tc->GetSortSQL('2nd',''), $URV);
-		$this->assertEquals($Value['title2']['3rd'],$tc->GetSortSQL('3rd',''), $URV);
-		$this->assertEquals($Value['title2']['4th'],$tc->GetSortSQL('4th',''), $URV);
+		$this->assertEquals($Value['title']['1st'],$tc->GetSortSQL('title_1st',''), $URV);
+		$this->assertEquals($Value['title']['2nd'],$tc->GetSortSQL('title_2nd',''), $URV);
+		$this->assertEquals($Value['title2']['3rd'],$tc->GetSortSQL('titleSecond_3rd',''), $URV);
+		$this->assertEquals($Value['title2']['4th'],$tc->GetSortSQL('titleSecond_4th',''), $URV);
 		$this->assertNull($tc->GetSortSQL('5th',''), $URV);
 	}
 	public function testClassQueryResultsOutputGetSortSQLNull(){
@@ -336,18 +337,18 @@ class output_queryTest extends TestCase {
 			'Class Not Initialized.'
 		);
 		$tc->AddTitle('title','1st','1','2','2nd','3','4');
-		$tc->AddTitle('title2');
+		$tc->AddTitle('titleSecond');
 		$expected = "\n\t\t\t<script type='text/javascript'".
 		" src='/js/base_output_query.inc.js'></script>".
 		"\n\t\t\t<!-- Query Results Title Bar -->".
 		"\n\t\t\t<table style = 'border: 2px solid black;".
 		" border-collapse: collapse; width:100%;'>\n\t\t\t\t<tr>".
 		"\n\t\t\t\t\t<td class='plfieldhdr' style='text-align:center;'>".
-		"\n\t\t\t\t\t\t<a href='uri&amp;sort_order=1st'>&lt;</a>".
-		"&nbsp;title&nbsp;<a href='uri&amp;sort_order=2nd'>&gt;</a>".
+		"\n\t\t\t\t\t\t<a href='uri&amp;sort_order=title_1st'>&lt;</a>".
+		"&nbsp;title&nbsp;<a href='uri&amp;sort_order=title_2nd'>&gt;</a>".
 		"\n\t\t\t\t\t</td>".
 		"\n\t\t\t\t\t<td class='plfieldhdr' style='text-align:center;'>".
-		"\n\t\t\t\t\t\ttitle2".
+		"\n\t\t\t\t\t\ttitleSecond".
 		"\n\t\t\t\t\t</td>\n\t\t\t\t</tr>".
 		"\n\t\t\t\t<!-- Query Results Table -->";
 		$this->expectOutputString($expected);

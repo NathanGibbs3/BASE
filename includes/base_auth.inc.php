@@ -299,10 +299,10 @@ class BaseUser {
 		// Returns false on Error.
 		$Ret = false;
 		$userid = intval($userid); // Input Validation
-		if ( !is_numeric($XSS) ){
-			$XSS = 1;
-		}
 		if ( $userid > 0 ){
+			if ( !is_numeric($XSS) ){
+				$XSS = 1;
+			}
 			$db = $this->db;
 			$sql = "SELECT usr_id, usr_login, role_id, usr_name, usr_enabled ";
 			$sql .= "FROM base_users WHERE usr_id = '" . $userid . "';";
@@ -318,15 +318,30 @@ class BaseUser {
 		}
 		return $Ret;
 	}
-    function roleName($roleID)
-    {
-        // returns rolename for a specified role id
-        $db = $this->db;
-        $sql = "SELECT role_name FROM base_roles WHERE role_id = '" . $roleID . "';";
-        $result = $db->baseExecute($sql);
-        $rolename = $result->baseFetchRow();
-        return $rolename[0];
-    }
+	function roleName( $roleID, $XSS = 1 ){
+	// Returns name of roleID, false on Error.
+		$Ret = false;
+		$roleID = intval($roleID); // Input Validation
+		if ( $roleID > 0 ){
+			if ( !is_numeric($XSS) ){
+				$XSS = 1;
+			}
+			$db = $this->db;
+			$sql = "SELECT role_name FROM base_roles WHERE role_id = '" . $roleID . "';";
+			$result = $db->baseExecute($sql);
+			if ( $result != false ){ // Error Check
+				$rolename = $result->baseFetchRow();
+				$result->baseFreeRows();
+				if ( isset($rolename[0]) ){
+					$Ret = $rolename[0];
+				}
+				if ( $XSS > 0 ){ // Anti XSS Output Data
+					$Ret = XSSPrintSafe($Ret);
+				}
+			}
+		}
+		return $Ret;
+	}
 	function returnRoleNamesDropDown($roleid){
 		// Returns an HTML drop down list with all of the role names.
 		// The passed $roleid will be selected if it exists.
@@ -456,10 +471,10 @@ class BaseRole {
 		// array[0] = role_id|role_name|role_desc
 		$Ret = false;
 		$roleid = intval($roleid); // Input Validation
-		if ( !is_numeric($XSS) ){
-			$XSS = 1;
-		}
 		if ( $roleid > 0 ){
+			if ( !is_numeric($XSS) ){
+				$XSS = 1;
+			}
 			$db = $this->db;
 			$sql = "SELECT role_id, role_name, role_desc ";
 			$sql .= "FROM base_roles WHERE role_id = '" . $roleid . "';";

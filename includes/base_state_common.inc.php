@@ -105,81 +105,76 @@ function RegisterGlobalState(){
  * @return a sanitized version of the passed variable
  *
  ************************************************************************/
-function CleanVariable($item, $valid_data, $exception = "")
-{
-
-   /* Determine whether a variable is set */        
-   if (!isset($item))
-      return $item;
-
-
-   /* Recursively clean array elements -- nikns */
-   if (is_array($item)) {
-      foreach ($item as $key => $value)
-          $item[$key] = CleanVariable($value, $valid_data, $exception);
-      return $item;
-   }
-
-
-   /* Check the exception value list first */
-   if ( $exception != "" && in_array($item, $exception) )
-      return $item;
-
-   if ( $valid_data == "" )
-      return $item;
-
-   $regex_mask = "";
-
-   if ( ($valid_data & VAR_DIGIT) > 0 )
-      $regex_mask = $regex_mask . "0-9";
-
-   if ( ($valid_data & VAR_LETTER) > 0 )
-      $regex_mask = $regex_mask . "A-Za-z";
-
-   if ( ($valid_data & VAR_ULETTER) > 0 ) 
-      $regex_mask = $regex_mask . "A-Z";
-
-   if ( ($valid_data & VAR_LLETTER) > 0 ) 
-      $regex_mask = $regex_mask . "a-z";
-
-   if ( ($valid_data & VAR_ALPHA) > 0 ) 
-      $regex_mask = $regex_mask . "0-9A-Za-z";
-
-   if ( ($valid_data & VAR_SPACE) > 0 ) 
-      $regex_mask = $regex_mask . "\ ";
-
-   if ( ($valid_data & VAR_PERIOD) > 0 ) 
-      $regex_mask = $regex_mask . "\.";
-
-   if ( ($valid_data & VAR_FSLASH) > 0 ) 
-      $regex_mask = $regex_mask . "\/";
-
-   if ( ($valid_data & VAR_OPAREN) > 0 ) 
-      $regex_mask = $regex_mask . "\(";
-
-   if ( ($valid_data & VAR_CPAREN) > 0 ) 
-      $regex_mask = $regex_mask . "\)";
-
-   if ( ($valid_data & VAR_BOOLEAN) > 0 ) 
-      $regex_mask = $regex_mask . "\)";
-
-   if ( ($valid_data & VAR_OPERATOR) > 0 ) 
-      $regex_mask = $regex_mask . "\)";
-
-   if ( ($valid_data & VAR_USCORE) > 0 ) 
-      $regex_mask = $regex_mask . "\_";
-
-   if ( ($valid_data & VAR_AT) > 0 ) 
-      $regex_mask = $regex_mask . "\@";
-
-   /* Score (\-) always must be at the end of the character class */
-   if ( ($valid_data & VAR_PUNC) > 0 ) 
-      $regex_mask = $regex_mask . "\~\!\#\$\%\^\&\*\_\=\+\:\;\,\.\?\ \(\))\-";
-
-   if ( ($valid_data & VAR_SCORE) > 0 ) 
-      $regex_mask = $regex_mask . "\-";
-
-	return preg_replace("/[^".$regex_mask."]/", "", $item);
+function CleanVariable( $item, $valid_data = '', $exception = '' ){
+	// Are variables set?
+	if ( !isset($item) || $valid_data == '' ){
+		return $item;
+	}else{
+		// If Array, recursively clean array elements. -- nikns
+		if (is_array($item)) {
+			foreach ($item as $key => $value){
+				$item[$key] = CleanVariable($value, $valid_data, $exception);
+			}
+			return $item;
+		}else{
+			// Is variable value in the exception list first?
+			if ( $exception != '' && in_array($item, $exception) ){
+				return $item;
+			}else{
+				$regex_mask = '';
+				if ( ($valid_data & VAR_DIGIT) > 0 ){
+					$regex_mask .= "0-9";
+				}
+				if ( ($valid_data & VAR_LETTER) > 0 ){
+					$regex_mask .= "A-Za-z";
+				}
+				if ( ($valid_data & VAR_ULETTER) > 0 ){
+					$regex_mask .= "A-Z";
+				}
+				if ( ($valid_data & VAR_LLETTER) > 0 ){
+					$regex_mask .= "a-z";
+				}
+				if ( ($valid_data & VAR_ALPHA) > 0 ){
+					$regex_mask .= "0-9A-Za-z";
+				}
+				if ( ($valid_data & VAR_SPACE) > 0 ){
+					$regex_mask .= "\ ";
+				}
+				if ( ($valid_data & VAR_PERIOD) > 0 ){
+					$regex_mask .= "\.";
+				}
+				if ( ($valid_data & VAR_FSLASH) > 0 ){
+					$regex_mask .= "\/";
+				}
+				if ( ($valid_data & VAR_OPAREN) > 0 ){
+					$regex_mask .= "\(";
+				}
+				if ( ($valid_data & VAR_CPAREN) > 0 ){
+					$regex_mask .= "\)";
+				}
+				if ( ($valid_data & VAR_BOOLEAN) > 0 ){
+					$regex_mask .= "\)";
+				}
+				if ( ($valid_data & VAR_OPERATOR) > 0 ){
+					$regex_mask .= "\)";
+				}
+				if ( ($valid_data & VAR_USCORE) > 0 ){
+					$regex_mask .= "\_";
+				}
+				if ( ($valid_data & VAR_AT) > 0 ){
+					$regex_mask .= "\@";
+				}
+				// Score (\-) always must be at the end of the RE mask.
+				if ( ($valid_data & VAR_PUNC) > 0 ){
+					$regex_mask .= "\~\!\#\$\%\^\&\*\_\=\+\:\;\,\.\?\ \(\))\-";
+				}
+				if ( ($valid_data & VAR_SCORE) > 0 ){
+					$regex_mask .= "\-";
+				}
+				return preg_replace("/[^".$regex_mask."]/", "", $item);
+			}
+		}
+	}
 }
 
 // Function: SetSessionVar()

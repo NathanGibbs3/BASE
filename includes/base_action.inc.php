@@ -1,27 +1,22 @@
 <?php
-/*******************************************************************************
-** Basic Analysis and Security Engine (BASE)
-** Copyright (C) 2004 BASE Project Team
-** Copyright (C) 2000 Carnegie Mellon University
-**
-** (see the file 'base_main.php' for license details)
-**
-** Project Lead: Kevin Johnson <kjohnson@secureideas.net>
-**                Sean Muller <samwise_diver@users.sourceforge.net>
-** Built upon work by Roman Danyliw <rdd@cert.org>, <roman@danyliw.com>
-**
-** Purpose: Alert action (e.g. add to AG, delete, email,
-**          archive) operations   
-********************************************************************************
-** Authors:
-********************************************************************************
-** Kevin Johnson <kjohnson@secureideas.net
-**
-********************************************************************************
-*/
-/** The below check is to make sure that the conf file has been loaded before this one....
- **  This should prevent someone from accessing the page directly. -- Kevin
- **/
+// Basic Analysis and Security Engine (BASE)
+// Copyright (C) 2019-2021 Nathan Gibbs
+// Copyright (C) 2004 BASE Project Team
+// Copyright (C) 2000 Carnegie Mellon University
+//
+//   For license info: See the file 'base_main.php'
+//
+//       Project Lead: Nathan Gibbs
+// Built upon work by: Kevin Johnson & the BASE Project Team
+//                     Roman Danyliw <rdd@cert.org>, <roman@danyliw.com>
+//
+//            Purpose: Alert action (e.g. add to AG, delete, email,
+//                     archive) operations.
+//
+//          Author(s): Nathan Gibbs
+//                     Kevin Johnson
+
+// Ensure the conf file has been loaded.  Prevent direct access to this file.
 defined( '_BASE_INC' ) or die( 'Accessing this file directly is not allowed.' );
 
 include_once("$BASE_path/base_ag_common.php");
@@ -554,19 +549,17 @@ function Action_add_new_ag_Post($action_arg, &$action_ctx, $db, &$num_alert, $ac
 	}
 	$cnt = $result->baseRecordCount();
 	$result->baseFreeRows();
-	// If no alerts were inserted, remove the new AG.
-	if($cnt <= 0){
+	if($cnt <= 0){ // No alerts were inserted, remove the new AG.
 		$sql = "DELETE FROM acid_ag WHERE ag_id='".$action_ctx."'";
 		$db->baseExecute($sql, -1, -1, false);
 		if($db->baseErrorMessage() != ''){
 			ErrorMessage(_ERRREMOVEFAIL);
 		}
-	}else{
-		// Add was successful, so redirect user to AG edit page.
-     echo '<script type=text/javascript>
-            var _page = "base_ag_main.php?ag_action=edit&amp;ag_id='.$action_ctx.'&amp;submit=x";
-            window.location=_page;
-          </script>';
+	}else{ // Add was successful, so redirect user to AG edit page.
+		base_header(
+			"Location: base_ag_main.php?ag_action=edit&amp;ag_id='".
+			$action_ctx."'&amp;submit=x"
+		);
 	}
 }
 // DELETE

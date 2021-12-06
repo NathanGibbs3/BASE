@@ -5,12 +5,13 @@ use PHPUnit\Framework\TestCase;
 // in the BaseUser class.
 
 /**
-  * @covers BaseUser::returnRoleNamesDropDown
-  * @covers BaseUser::returnUser
-  * @covers BaseUser::readRoleCookie
   * @covers BaseUser::returnEditUser
   * @covers BaseRole::returnEditRole
+  * @covers BaseUser::returnRoleNamesDropDown
+  * @covers BaseUser::returnUser
   * @covers BaseUser::returnUserID
+  * @covers BaseUser::readRoleCookie
+  * @covers BaseUser::roleName
   * @uses ::chk_select
   * @uses ::LoadedString
   * @uses ::NLI
@@ -460,7 +461,81 @@ class authTest extends TestCase {
 			'Unexpected Return Value.'
 		);
 	}
-
+	public function testroleNameInvalidType() {
+		$user = self::$user;
+		$id = 'User';
+		$this->assertFalse(
+			$user->roleName($id),
+			'Unexpected Return Value.'
+		);
+	}
+	public function testroleNameInvalidID(){
+		$user = self::$user;
+		$id = 2;
+		$expected = '';
+		$this->assertTrue(
+			is_string($user->roleName($id)),
+			'Unexpected Return Value.'
+		);
+		$this->assertEquals(
+			$expected,
+			$user->roleName($id),
+			'Unexpected Return Value.'
+		);
+	}
+	public function testroleNameAID() {
+		$user = self::$user;
+		$id = 1;
+		$msg = 'Admin';
+		$PHPUV = self::$PHPUV;
+		$this->assertTrue(
+			is_string($user->roleName($id)),
+			'Unexpected Return Value.'
+		);
+		if ( $PHPUV > 1 ){ // PHPUnit 9+
+			$this->assertMatchesRegularExpression(
+				'/'.$msg.'/',
+				$user->roleName($id),
+				'Unexpected Return Value.'
+			);
+		}else{ // Legacy PHPUnit
+			$this->assertRegExp(
+				'/'.$msg.'/',
+				$user->roleName($id),
+				'Unexpected Return Value.'
+			);
+		}
+	}
+	public function testroleNameValidXSSOff(){
+		$user = self::$user;
+		$id = '30000';
+		$expected = 'Test<br/>XSS';
+		$this->assertEquals(
+			$expected,
+			$user->roleName($id,0),
+			'Unexpected Return Value.'
+		);
+	}
+	public function testroleNameValidXSSOn(){
+		$user = self::$user;
+		$id = '30000';
+		$expected = 'Test&lt;br/&gt;XSS';
+		$this->assertEquals(
+			$expected,
+			$user->roleName($id,1),
+			'Unexpected Return Value.'
+		);
+	}
+	public function testroleNameValidXSSInvalid(){
+		$user = self::$user;
+		$id = '30000';
+		$expected = 'Test&lt;br/&gt;XSS';
+		$this->assertEquals(
+			$expected,
+			$user->roleName($id,'What'),
+			'Unexpected Return Value.'
+		);
+	}
 	// Add code to a function if needed.
 	// Stop here and mark test incomplete.
 	//$this->markTestIncomplete('Incomplete Test.');
