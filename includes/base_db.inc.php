@@ -288,11 +288,13 @@ class baseCon {
 			}
 		}
 		$qry = $sql.$limit_str;
-		// See: https://github.com/NathanGibbs3/BASE/issues/113
-		// Some legecy code has " 1 = 1 " in the query string. Log it here.
-		if ( strstr($qry, ' 1 = 1 ') ){
-			error_log("Issue #113 $qry");
-			error_log('See: https://github.com/NathanGibbs3/BASE/issues/113');
+		if ( $debug_mode > 1 ){
+			// See: https://github.com/NathanGibbs3/BASE/issues/113
+			// Some legecy code has " 1 = 1 " in the query string. Log it here.
+			if ( strstr($qry, ' 1 = 1 ') ){
+				error_log("Issue #113 $qry");
+				error_log('See: https://github.com/NathanGibbs3/BASE/issues/113');
+			}
 		}
 		// See: https://github.com/NathanGibbs3/BASE/issues/67
 		// Legacy code assumed $this->DB->Execute() returns a valid recordset.
@@ -598,17 +600,13 @@ class baseRS {
 			$this->DB_class = 0;
 		}
 	}
-  function baseFetchRow()
-  {
-    GLOBAL $debug_mode;
-
-
-     /* Workaround for the problem, that the database may contain NULL
-      * whereas "NOT NULL" has been defined, when it was created */
-     if (!is_object($this->row))
-     {
-       if ($debug_mode > 1)
-       {
+	function baseFetchRow(){
+		GLOBAL $debug_mode;
+		$Ret = '';
+		if ( !is_object($this->row) ){
+			// Workaround for the problem, that the database may contain NULL
+			// whereas "NOT NULL" has been defined, when it was created.
+			if ( $debug_mode > 1 ){
          echo "<BR><BR>" . __FILE__ . ':' . __LINE__ . ": ERROR: \$this->row is not an object (1)<BR><PRE>";
          debug_print_backtrace();
          echo "<BR><BR>";
@@ -618,20 +616,15 @@ class baseRS {
          echo "var_dump(\$this->row):<BR>";
          var_dump($this->row);
          echo "</PRE><BR><BR>";
-       }
-
-       return "";	  
-     }
-     if ( !$this->row->EOF )
-     {
-        $temp = $this->row->fields;	
-        $this->row->MoveNext();
-        return $temp;
-     }
-     else
-        return ""; 
-  }
-
+			}
+		}else{
+			if ( !$this->row->EOF ){
+				$Ret = $this->row->fields;
+				$this->row->MoveNext();
+			}
+		}
+		return $Ret;
+	}
   function baseColCount()
   {
     // Not called anywhere???? -- Kevin
