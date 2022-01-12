@@ -150,17 +150,32 @@ https://github.com/NathanGibbs3/BASE/issues/110)
 https://github.com/NathanGibbs3/BASE/issues/111)
 - [#114 HTML generation styling hack, Re-implement via <div> tags.](
 https://github.com/NathanGibbs3/BASE/issues/114)
-- [Total & Unique Events sorts don't work in base_stat_sensor.php](
+- [#22 Total & Unique Events sorts don't work in base_stat_sensor.php](
 https://github.com/NathanGibbs3/BASE/issues/22)  
 Bug [reported](https://sourceforge.net/p/secureideas/bugs/238)
 on sourceforge.net.  
 Bug [reported](https://sourceforge.net/p/secureideas/bugs/239)
 on sourceforge.net.
-- [Sensor Name sort in base_stat_sensor.php crashes App.](
+- [#23 Sensor Name sort in base_stat_sensor.php crashes App.](
 https://github.com/NathanGibbs3/BASE/issues/23)
 Bug [reported](https://sourceforge.net/p/secureideas/bugs/244)
 on sourceforge.net.
-- [Javascript Page redirect.](https://github.com/NathanGibbs3/BASE/issues/101)
+- [#101 Javascript Page redirect.](https://github.com/NathanGibbs3/BASE/issues/101)
+- [#120 Most frequent 5 Unique Alerts not working.](
+https://github.com/NathanGibbs3/BASE/issues/120
+)
+- [#121 Make UpdateAlertCache() aware of global var $event_cache_auto_update.](
+https://github.com/NathanGibbs3/BASE/issues/121
+)
+- [#122 Most recent 15 Unique Alerts not working.](
+https://github.com/NathanGibbs3/BASE/issues/122
+)
+- [#123 Most frequent 15 Addresses Src/Dest not working.](
+https://github.com/NathanGibbs3/BASE/issues/123
+)
+- [#124 Most frequent ports Src/Dest not working.](
+https://github.com/NathanGibbs3/BASE/issues/124
+)
 
 Contributor(s): [Nathan Gibbs]
 - [#57 `tr bgcolor="#"` if `$prio` not in `$priority_colors`
