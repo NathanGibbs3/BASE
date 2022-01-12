@@ -133,9 +133,11 @@ global $colored_alerts, $debug_mode;
 		NLIO ('</div>',3);
 		NLIO ("<div style='float: right; width: 40%;'>",3);
 		PrintFramedBoxHeader(_QSCSUMM, '#669999', 1, 4);
-     PrintGeneralStats($db, 1, $show_summary_stats, 
-                       "$join_sql ", "$where_sql $criteria_sql"); 
-     echo('<BR><LI><A HREF="base_stat_time.php">'._QSCTIMEPROF.'</A> '._QSCOFALERTS . "</LI>");
+		PrintGeneralStats(
+			$db, 1, $show_summary_stats, "$join_sql ",
+			"$where_sql $criteria_sql"
+		);
+		echo('<BR><LI><A HREF="base_stat_time.php">'._QSCTIMEPROF.'</A> '._QSCOFALERTS . "</LI>");
 		PrintFramedBoxFooter(1,4);
 		NLIO ('</div>',3);
 		NLIO ('</div>',2);

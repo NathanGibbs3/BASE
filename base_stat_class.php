@@ -63,9 +63,7 @@ $db->baseDBConnect(
 	$db_connect_method, $alert_dbname, $alert_host, $alert_port, $alert_user,
 	$alert_password
 );
-if ( $event_cache_auto_update == 1 ){
-	UpdateAlertCache($db);
-}
+UpdateAlertCache($db);
 $criteria_clauses = ProcessCriteria();
 PrintCriteria('');
 $from = " FROM acid_event ".$criteria_clauses[0];
@@ -107,7 +105,7 @@ $qro->AddTitle(_CHRTCLASS,
 	"class_a", " ", " ORDER BY sig_class_id ASC",
 	"class_d", " ", " ORDER BY sig_class_id DESC"
 );
-$qro->AddTitle(_TOTAL."&nbsp;#",
+$qro->AddTitle(_TOTAL,
 	"occur_a", " ", " ORDER BY num_events ASC",
 	"occur_d", " ", " ORDER BY num_events DESC", 'right'
 );

@@ -47,61 +47,72 @@ $db->baseDBConnect(
 	$db_connect_method, $alert_dbname, $alert_host, $alert_port, $alert_user,
 	$alert_password
 );
-$cs = new CriteriaState("base_stat_ports.php");
-$cs->ReadState();
+UpdateAlertCache($db);
+if ( class_exists('UILang') ){ // Issue 11 backport shim.
+	$CPSensor = $UIL->CWA['Sensor'];
+	$CPLast = $UIL->CWA['Last'];
+	$CPFirst = $UIL->CWA['First'];
+}else{
+	$CPSensor = _SENSOR;
+	$CPLast = _LAST;
+	$CPFirst = _FIRST;
+}
 $port_proto = 'TCP';
-$qs = new QueryState();
-$qs->AddCannedQuery("most_frequent", $freq_num_uports, _MOSTFREQPORTS, "occur_d");
-$qs->AddCannedQuery("last_ports", $last_num_uports, _LASTPORTS, "last_d");
 $submit = ImportHTTPVar("submit", VAR_ALPHA | VAR_SPACE, array(_SELECTED, _ALLONSCREEN, _ENTIREQUERY));
 $port_type = ImportHTTPVar("port_type", VAR_DIGIT);
 $proto = ImportHTTPVar("proto", VAR_DIGIT);
 $sort_order=ImportHTTPVar("sort_order", VAR_LETTER | VAR_USCORE);
+$caller = ImportHTTPVar('caller', VAR_LETTER | VAR_USCORE);
 $action = ImportHTTPVar("action", VAR_ALPHA);
-$qs->MoveView($submit);             /* increment the view if necessary */
-$page_title = '';
+$cs = new CriteriaState("base_stat_ports.php");
+$cs->ReadState();
+if ( $debug_mode > 0 ){ // Dump debugging info on the shared state.
+	PrintCriteriaState();
+}
+if ( $caller == 'most_frequent' && $sort_order = 'occur_d' ){
+	// Interim Issue #124 Fix
+	$sort_order = _OCCURRENCES.'_occur_d';
+}
+if ( $caller == 'last_ports' && $sort_order = 'last_d' ){
+	$sort_order = $CPLast.'_last_d';
+}
+$qs = new QueryState();
+if ( $caller == 'most_frequent' || $caller == 'last_ports' ){
+	// Issue #124 Fix
+	$qs->current_sort_order = $sort_order;
+}
+$qs->AddCannedQuery(
+	'most_frequent', $freq_num_uports, _MOSTFREQPORTS, _OCCURRENCES."_occur_d"
+);
+$qs->AddCannedQuery(
+	'last_ports', $last_num_uports, _LASTPORTS, $CPLast.'_last_d'
+);
+$qs->MoveView($submit); // Increment the view if necessary.
+$page_title = _UNIQ.' ';
 switch ( $proto ){
-    case TCP:
-       $page_title = _UNIQ." TCP ";
-       break;
-    case UDP:
-       $page_title = _UNIQ." UDP ";
-       break;
-    case -1:
-       $page_title = _UNIQ." ";
-       break;
-  }
-
-  switch ($port_type)
-  {
-    case SOURCE_PORT:
-       $page_title = $page_title._SRCPS;
-       break;
-    case DEST_PORT:
-       $page_title = $page_title._DSTPS;
-       break;
-  }
-
+	case TCP:
+		$page_title .= "TCP ";
+		break;
+	case UDP:
+		$page_title .= "UDP ";
+		break;
+}
+switch ( $port_type ){
+	case SOURCE_PORT:
+		$page_title .= _SRCPS;
+		break;
+	case DEST_PORT:
+		$page_title .= _DSTPS;
+		break;
+}
 if ( $qs->isCannedQuery() ){
-	if ($action == ''){
-		PrintBASESubHeader($page_title.": ".$qs->GetCurrentCannedQueryDesc(),
-                         $page_title.": ".$qs->GetCurrentCannedQueryDesc(), 
-                         $cs->GetBackLink(), 1);
-	}else{
-		PrintBASESubHeader($page_title.": ".$qs->GetCurrentCannedQueryDesc(),
-                         $page_title.": ".$qs->GetCurrentCannedQueryDesc(), 
-                         $cs->GetBackLink(), $refresh_all_pages);
-	}
-}else{
-	if ($action == ''){
-		PrintBASESubHeader($page_title, $page_title, $cs->GetBackLink(), 1);
-	}else{
-		PrintBASESubHeader($page_title, $page_title, $cs->GetBackLink(), $refresh_all_pages);
-	}
+	$page_title.': '.$qs->GetCurrentCannedQueryDesc();
 }
-if ( $event_cache_auto_update == 1 ){
-	UpdateAlertCache($db);
+$tr = 1; // Page Refresh
+if ($action != '' ){
+	$tr = $refresh_all_pages;
 }
+PrintBASESubHeader( $page_title, $page_title, $cs->GetBackLink(), $tr );
 $criteria_clauses = ProcessCriteria();
 PrintCriteria('');
 
@@ -161,41 +172,47 @@ PrintCriteria('');
   $qs->GetNumResultRows($cnt_sql, $db);
   $et->Mark("Counting Result size");
 
-  /* Setup the Query Results Table */
-  $qro = new QueryResultsOutput("base_stat_ports.php?caller=$caller".
-                                "&amp;sort_order=".$sort_order.
-                                "&amp;port_type=$port_type&amp;proto=$proto");
-
+// Setup the Query Results Table.
+// Common SQL Strings
+$OB = ' ORDER BY';
+$qro = new QueryResultsOutput(
+	"base_stat_ports.php?caller=$caller".
+	"&amp;sort_order=".$sort_order.
+	"&amp;port_type=$port_type&amp;proto=$proto"
+);
 $qro->AddTitle('');
 $qro->AddTitle( _PORT,
-	"port_a", " ", " ORDER BY $port_type_sql ASC",
-	"port_d", " ", " ORDER BY $port_type_sql DESC", 'right'
+	"port_a", " ", "$OB $port_type_sql ASC",
+	"port_d", " ", "$OB $port_type_sql DESC", 'right'
 );
-  $qro->AddTitle(_SENSOR, 
-                "sensor_a", " ", " ORDER BY num_sensors ASC",
-                "sensor_d", " ", " ORDER BY num_sensors DESC");
+$qro->AddTitle( $CPSensor,
+	"sensor_a", " ", "$OB num_sensors ASC",
+	"sensor_d", " ", "$OB num_sensors DESC"
+);
 $qro->AddTitle( _OCCURRENCES,
-	"occur_a", " ", " ORDER BY num_events ASC",
-	"occur_d", " ", " ORDER BY num_events DESC", 'right'
+	"occur_a", " ", "$OB num_events ASC",
+	"occur_d", " ", "$OB num_events DESC", 'right'
 );
 $qro->AddTitle( _UNIALERTS,
-	"alerts_a", " ", " ORDER BY num_sig ASC",
-	"alerts_d", " ", " ORDER BY num_sig DESC", 'right'
+	"alerts_a", " ", "$OB num_sig ASC",
+	"alerts_d", " ", "$OB num_sig DESC", 'right'
 );
 $qro->AddTitle( _SUASRCADD,
-	"sip_a", " ", " ORDER BY num_sip ASC",
-	"sip_d", " ", " ORDER BY num_sip DESC", 'right'
+	"sip_a", " ", "$OB num_sip ASC",
+	"sip_d", " ", "$OB num_sip DESC", 'right'
 );
 $qro->AddTitle( _SUADSTADD,
-	"dip_a", " ", " ORDER BY num_dip ASC",
-	"dip_d", " ", " ORDER BY num_dip DESC", 'right'
+	"dip_a", " ", "$OB num_dip ASC",
+	"dip_d", " ", "$OB num_dip DESC", 'right'
 );
-  $qro->AddTitle(_FIRST, 
-                "first_a", " ", " ORDER BY first_timestamp ASC",
-                "first_d", " ", " ORDER BY first_timestamp DESC");
-  $qro->AddTitle(_LAST, 
-                "last_a", " ", " ORDER BY last_timestamp ASC",
-                "last_d", " ", " ORDER BY last_timestamp DESC");
+$qro->AddTitle( $CPFirst,
+	"first_a", " ", "$OB first_timestamp ASC",
+	"first_d", " ", "$OB first_timestamp DESC"
+);
+$qro->AddTitle( $CPLast,
+	"last_a", " ", "$OB last_timestamp ASC",
+	"last_d", " ", "$OB last_timestamp DESC"
+);
 
   $sort_sql = $qro->GetSortSQL($qs->GetCurrentSort(), $qs->GetCurrentCannedQuerySort());
 

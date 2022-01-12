@@ -161,9 +161,7 @@ $db->baseDBConnect(
 	$db_connect_method,$alert_dbname, $alert_host, $alert_port, $alert_user,
 	$alert_password
 );
-if ( $event_cache_auto_update == 1 ){
-	UpdateAlertCache($db);
-}
+UpdateAlertCache($db);
 include("$BASE_path/base_graph_form.php");
 $data_pnt_cnt = 0;
 if ( $submit != '' && $chart_type == ' ' ){ // Error Conditions.

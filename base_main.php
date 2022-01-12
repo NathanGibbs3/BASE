@@ -231,10 +231,7 @@ echo'              <td colspan=2>- <a href="base_stat_alerts.php?caller=last_ale
     </td>
     <td align="right" valign="top">
       <div class="systemstats">';
-if ($event_cache_auto_update == 1) {
-    UpdateAlertCache($db);
-}
-
+UpdateAlertCache($db);
 if (!setlocale(LC_TIME, _LOCALESTR1)) {
     if (!setlocale (LC_TIME, _LOCALESTR2)) {
         setlocale (LC_TIME, _LOCALESTR3);

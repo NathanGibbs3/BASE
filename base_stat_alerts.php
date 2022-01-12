@@ -1,27 +1,25 @@
 <?php
-/*******************************************************************************
-** Basic Analysis and Security Engine (BASE)
-** Copyright (C) 2004 BASE Project Team
-** Copyright (C) 2000 Carnegie Mellon University
-**
-** (see the file 'base_main.php' for license details)
-**
-** Project Leads: Kevin Johnson <kjohnson@secureideas.net>
-**                Sean Muller <samwise_diver@users.sourceforge.net>
-** Built upon work by Roman Danyliw <rdd@cert.org>, <roman@danyliw.com>
-**
-** Purpose: Displays statistics on the detected alerts   
-**
-** Input GET/POST variables
-**   - caller
-**   - submit:
-********************************************************************************
-** Authors:
-********************************************************************************
-** Kevin Johnson <kjohnson@secureideas.net
-** Joel Esler <joelesler@users.sourceforge.net>
-********************************************************************************
-*/
+// Basic Analysis and Security Engine (BASE)
+// Copyright (C) 2019-2022 Nathan Gibbs
+// Copyright (C) 2004 BASE Project Team
+// Copyright (C) 2000 Carnegie Mellon University
+//
+//   For license info: See the file 'base_main.php'
+//
+//       Project Lead: Nathan Gibbs
+// Built upon work by: Kevin Johnson & the BASE Project Team
+//                     Roman Danyliw <rdd@cert.org>, <roman@danyliw.com>
+//
+//            Purpose: Displays statistics on the detected alerts.
+//
+//          Author(s): Nathan Gibbs
+//                     Kevin Johnson
+//                     Joel Esler
+//
+// Input GET/POST variables
+//   - caller
+//   - submit
+//   - sort_order
 
 include_once ("base_conf.php");
 include_once ("$BASE_path/includes/base_constants.inc.php");
@@ -32,43 +30,74 @@ include_once ("$BASE_path/base_stat_common.php");
 
 AuthorizedRole(10000);
 $et = new EventTiming($debug_time_mode);
-$cs = new CriteriaState("base_stat_alerts.php");
-$submit = ImportHTTPVar("submit", VAR_ALPHA | VAR_SPACE, array(_SELECTED, _ALLONSCREEN, _ENTIREQUERY));
+$db = NewBASEDBConnection($DBlib_path, $DBtype); // Connect to Alert DB.
+$db->baseDBConnect(
+	$db_connect_method,$alert_dbname, $alert_host, $alert_port, $alert_user,
+	$alert_password
+);
+UpdateAlertCache($db);
+if ( class_exists('UILang') ){ // Issue 11 backport shim.
+	$CPSensor = $UIL->CWA['Sensor'];
+	$CPSig = $UIL->CWA['Sig'];
+	$CPSA = $UIL->CPA['SrcAddr'];
+	$CPDA = $UIL->CPA['DstAddr'];
+	$CPLast = $UIL->CWA['Last'];
+	$CPFirst = $UIL->CWA['First'];
+	$CPTotal = $UIL->CWA['Total'];
+}else{
+	$CPSensor = _SENSOR;
+	$CPSig = _SIGNATURE;
+	$CPSA = _NBSOURCEADDR;
+	$CPDA = _NBDESTADDR;
+	$CPLast = _LAST;
+	$CPFirst = _FIRST;
+	$CPTotal = _TOTAL;
+}
+$submit = ImportHTTPVar('submit', VAR_ALPHA | VAR_SPACE, array(_SELECTED, _ALLONSCREEN, _ENTIREQUERY));
+$sort_order = ImportHTTPVar('sort_order', VAR_LETTER | VAR_USCORE);
+$caller = ImportHTTPVar('caller', VAR_LETTER | VAR_USCORE);
+$cs = new CriteriaState('base_stat_alerts.php');
 $cs->ReadState();
+if ( $debug_mode > 0 ){ // Dump debugging info on the shared state.
+	PrintCriteriaState();
+}
+if ( $caller == 'most_frequent' && $sort_order = 'occur_d' ){
+	// Interim Issue #120 Fix
+	$sort_order = $CPTotal.'_occur_d';
+}
+if ( $caller == 'last_alerts' && $sort_order = 'last_d' ){
+	// Interim Issue #122 Fix
+	$sort_order = $CPLast.'_last_d';
+}
 $qs = new QueryState();
-$qs->AddCannedQuery("most_frequent", $freq_num_alerts, _MOSTFREQALERTS, "occur_d"); 
-$qs->AddCannedQuery("last_alerts", $last_num_ualerts, _LASTALERTS, "last_d");
-$qs->MoveView($submit);             /* increment the view if necessary */
+if ( $caller == 'most_frequent' || $caller == 'last_alerts' ){
+	// Issue(s) #120 & #122 Fix
+	$qs->current_sort_order = $sort_order;
+}
+$qs->AddCannedQuery(
+	"most_frequent", $freq_num_alerts, _MOSTFREQALERTS, $CPTotal.'_occur_d'
+);
+$qs->AddCannedQuery(
+	"last_alerts", $last_num_ualerts, _LASTALERTS, $CPLast.'_last_d'
+);
+$qs->MoveView($submit); // Increment the view if necessary.
 $page_title = _ALERTTITLE;
-if ( $qs->isCannedQuery() )
-     PrintBASESubHeader($page_title.": ".$qs->GetCurrentCannedQueryDesc(),
-                        $page_title.": ".$qs->GetCurrentCannedQueryDesc(), $cs->GetBackLink(), 1);
-  else
-     PrintBASESubHeader($page_title, $page_title, $cs->GetBackLink(), 1);
-  
-  /* Connect to the Alert database */
-  $db = NewBASEDBConnection($DBlib_path, $DBtype);
-  $db->baseDBConnect($db_connect_method,
-                     $alert_dbname, $alert_host, $alert_port, $alert_user, $alert_password);
-
-  if ( $event_cache_auto_update == 1 )  UpdateAlertCache($db);
+if ( $qs->isCannedQuery() ){
+	$page_title.': '.$qs->GetCurrentCannedQueryDesc();
+}
+PrintBASESubHeader( $page_title, $page_title, $cs->GetBackLink(), 1 );
 
 if (is_object($cs)){ // Issue #5
   $criteria_clauses = ProcessCriteria();
 }
-     	/**
-	* RFE by Joel. Wanted the Summary Statistics box on the base_stat_alerts page
-	*/
-     	echo '<TABLE WIDTH="100%">
-           <TR>
-             <TD WIDTH="60%" VALIGN="top">';
-
-        PrintCriteria("");
-
-     	echo '</TD>
-           <TD WIDTH="40%" VALIGN="top">';
-      
-	PrintFramedBoxHeader(_QSCSUMM, '#669999', 1,5);
+// Issue #114 fix
+NLIO ("<div style='overflow:hidden'>",2);
+NLIO ("<div style='float: left; width: 60%;'>",3);
+PrintCriteria('');
+NLIO ('</div>',3);
+NLIO ("<div style='float: right; width: 40%;'>",3);
+// RFE by Joel. Wanted the Summary Statistics box on the base_stat_alerts page.
+PrintFramedBoxHeader(_QSCSUMM, '#669999', 1,4);
 if ( isset($show_summary_stats) ){ // Issue #5
 	if ( getenv('TRAVIS') && version_compare(PHP_VERSION, "5.3.0", "<") ){
 		// Issue #5 Test Shim
@@ -81,8 +110,9 @@ if ( isset($show_summary_stats) ){ // Issue #5
 	);
 }
 echo('<BR><LI><A HREF="base_stat_time.php">'._QSCTIMEPROF.'</A> '._QSCOFALERTS . "</LI>");
-PrintFramedBoxFooter(1,5);
-PrintFramedBoxFooter(1,2);
+PrintFramedBoxFooter(1,4);
+NLIO ('</div>',3);
+NLIO ('</div>',2);
 if (is_object($cs)){ // Issue #5
   $from = " FROM acid_event ".$criteria_clauses[0];
   $where = ($criteria_clauses[1] != "") ? " WHERE ".$criteria_clauses[1] : " ";
@@ -119,50 +149,49 @@ $cnt_sql = "SELECT count(DISTINCT signature) ".$from.$where;
 $qs->GetNumResultRows($cnt_sql, $db);
 $et->Mark("Counting Result size");
 // Setup the Query Results Table.
+// Common SQL Strings
+$OB = ' ORDER BY';
 $qro = new QueryResultsOutput("base_stat_alerts.php?caller=".$caller);
 $qro->AddTitle('');
-$qro->AddTitle( _SIGNATURE,
-	"sig_a", " ", " ORDER BY sig_name ASC",
-	"sig_d", " ", " ORDER BY sig_name DESC"
+$qro->AddTitle( $CPSig,
+	"sig_a", " ", "$OB sig_name ASC",
+	"sig_d", " ", "$OB sig_name DESC"
 );
 if ( $db->baseGetDBversion() >= 103 ){
 	$qro->AddTitle( _CHRTCLASS,
-		"class_a", ", MIN(sig_class_id) ", " ORDER BY sig_class_id ASC ",
-		"class_d", ", MIN(sig_class_id) ", " ORDER BY sig_class_id DESC ",
+		"class_a", ", MIN(sig_class_id) ", "$OB sig_class_id ASC ",
+		"class_d", ", MIN(sig_class_id) ", "$OB sig_class_id DESC ",
 		'left'
 	);
 }
-$qro->AddTitle( _TOTAL."&nbsp;#",
-	"occur_a", " "," ORDER BY sig_cnt ASC",
-	"occur_d", " ", " ORDER BY sig_cnt DESC", 'right'
+$qro->AddTitle( $CPTotal,
+	"occur_a", " ", "$OB sig_cnt ASC",
+	"occur_d", " ", "$OB sig_cnt DESC", 'right'
 );
-$qro->AddTitle( _SENSOR."&nbsp;#" );
-$qro->AddTitle( _NBSOURCEADDR,
-	"saddr_a", ", count(DISTINCT ip_src) AS saddr_cnt ",
-	" ORDER BY saddr_cnt ASC",
-	"saddr_d", ", count(DISTINCT ip_src) AS saddr_cnt ",
-	" ORDER BY saddr_cnt DESC", 'right'
+$qro->AddTitle( $CPSensor);
+$qro->AddTitle( $CPSA,
+	"saddr_a", ", count(DISTINCT ip_src) AS saddr_cnt ", "$OB saddr_cnt ASC",
+	"saddr_d", ", count(DISTINCT ip_src) AS saddr_cnt ", "$OB saddr_cnt DESC",
+	'right'
 );
-$qro->AddTitle(_NBDESTADDR,
-	"daddr_a", ", count(DISTINCT ip_dst) AS daddr_cnt ",
-	" ORDER BY daddr_cnt ASC",
-	"daddr_d", ", count(DISTINCT ip_dst) AS daddr_cnt ",
-	" ORDER BY daddr_cnt DESC", 'right'
+$qro->AddTitle( $CPDA,
+	"daddr_a", ", count(DISTINCT ip_dst) AS daddr_cnt ", "$OB daddr_cnt ASC",
+	"daddr_d", ", count(DISTINCT ip_dst) AS daddr_cnt ", "$OB daddr_cnt DESC",
+	'right'
 );
-  $qro->AddTitle(_FIRST, 
-                "first_a", ", min(timestamp) AS first_timestamp ",
-                           " ORDER BY first_timestamp ASC",
-                "first_d", ", min(timestamp) AS first_timestamp ",
-                           " ORDER BY first_timestamp DESC");
-
+$qro->AddTitle( $CPFirst,
+	"first_a", ", min(timestamp) AS first_timestamp ",
+	"$OB first_timestamp ASC",
+	"first_d", ", min(timestamp) AS first_timestamp ",
+	"$OB first_timestamp DESC"
+);
 if ( isset($show_previous_alert) && $show_previous_alert == 1 ){
-	$qro->AddTitle("Previous");
+	$qro->AddTitle(_PREVIOUS);
 }
-  $qro->AddTitle(_LAST, 
-                "last_a", ", max(timestamp) AS last_timestamp ",
-                           " ORDER BY last_timestamp ASC",
-                "last_d", ", max(timestamp) AS last_timestamp ",
-                           " ORDER BY last_timestamp DESC");
+$qro->AddTitle( $CPLast,
+	"last_a", ", max(timestamp) AS last_timestamp ", "$OB last_timestamp ASC",
+	"last_d", ", max(timestamp) AS last_timestamp ", "$OB last_timestamp DESC"
+);
 
   $sort_sql = $qro->GetSortSQL($qs->GetCurrentSort(), $qs->GetCurrentCannedQuerySort());
 
@@ -339,6 +368,7 @@ if ( $debug_mode == 1 ){
   $qs->PrintBrowseButtons();
   $qs->PrintAlertActionButtons();
   $qs->SaveState();
+	ExportHTTPVar("sort_order", $sort_order);
   echo "\n</FORM>\n";
 $et->Mark("Get Query Elements");
 PrintBASESubFooter();
