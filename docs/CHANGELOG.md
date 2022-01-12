@@ -161,6 +161,8 @@ https://github.com/NathanGibbs3/BASE/issues/23)
 Bug [reported](https://sourceforge.net/p/secureideas/bugs/244)
 on sourceforge.net.
 - [#101 Javascript Page redirect.](https://github.com/NathanGibbs3/BASE/issues/101)
+- [#24 roleName() does not check for empty return value from DB.](
+https://github.com/NathanGibbs3/BASE/issues/24)
 - [#120 Most frequent 5 Unique Alerts not working.](
 https://github.com/NathanGibbs3/BASE/issues/120
 )
