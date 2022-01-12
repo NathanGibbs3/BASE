@@ -171,12 +171,11 @@ function PrintPacketLookupBrowseButtons($seq, $save_sql, $db, &$previous_button,
 
   $page_title = _ALERT;
   PrintBASESubHeader($page_title, $page_title, $cs->GetBackLink(), $refresh_all_pages);
-
-  /* Connect to the Alert database */
-  $db = NewBASEDBConnection($DBlib_path, $DBtype);
-  $db->baseDBConnect($db_connect_method,
-                     $alert_dbname, $alert_host, $alert_port, $alert_user, $alert_password);
-
+$db = NewBASEDBConnection($DBlib_path, $DBtype); // Connect to Alert DB.
+$db->baseDBConnect(
+	$db_connect_method,$alert_dbname, $alert_host, $alert_port, $alert_user,
+	$alert_password
+);
   PrintCriteria("");
   $criteria_clauses = ProcessCriteria();  
 
@@ -236,9 +235,8 @@ function PrintPacketLookupBrowseButtons($seq, $save_sql, $db, &$previous_button,
   $save_sql = "SELECT acid_event.sid, acid_event.cid".$sort_sql[0].
               $from.$where.$sort_sql[1];
 
-  if ( $event_cache_auto_update == 1 )  UpdateAlertCache($db);
-
-  GetQueryResultID($submit, $seq, $sid, $cid);
+UpdateAlertCache($db);
+GetQueryResultID($submit, $seq, $sid, $cid);
 
   if ( $debug_mode > 0 )
      echo "\n====== Alert Lookup =======<BR>

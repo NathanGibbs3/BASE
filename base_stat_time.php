@@ -136,11 +136,9 @@ $db->baseDBConnect(
 );
 $criteria_clauses = ProcessCriteria();
 PrintCriteria('');
-  $from = " FROM acid_event ".$criteria_clauses[0];
-  $where = " WHERE ".$criteria_clauses[1];
-
-  if ( $event_cache_auto_update == 1 )  UpdateAlertCache($db);
-
+$from = " FROM acid_event ".$criteria_clauses[0];
+$where = " WHERE ".$criteria_clauses[1];
+UpdateAlertCache($db);
   if ( $submit == "" )
   {
    InitArray($time, $MAX_ROWS, TIME_CFCNT, "");
