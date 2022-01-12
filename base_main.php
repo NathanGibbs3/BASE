@@ -233,9 +233,7 @@ echo'	            <td colspan=2>- <a href="base_stat_alerts.php?caller=last_aler
     </td>
     <td align="right" valign="top">
       <div class="systemstats">';
-if ($event_cache_auto_update == 1) {
-    UpdateAlertCache($db);
-}
+UpdateAlertCache($db);
 if ($UIL->SetUILocale()) {
 	printf("<b>"._QUERIED." </b> : %s<br />" , strftime($UIL->Timefmt));
 	if ( ChkCookie ('archive', 1) ){

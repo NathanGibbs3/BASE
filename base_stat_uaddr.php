@@ -39,55 +39,58 @@ include_once("$BASE_path/base_qry_common.php");
 
 AuthorizedRole(10000);
 $et = new EventTiming($debug_time_mode);
-$UIL = new UILang($BASE_Language); // Create UI Language Object.
-$CPSensor = $UIL->CWA['Sensor'];
-$CPTotal = $UIL->CWA['Total'];
-$addr_type = ImportHTTPVar("addr_type", VAR_DIGIT);
-$submit = ImportHTTPVar("submit", VAR_ALPHA | VAR_SPACE, array(_SELECTED, _ALLONSCREEN, _ENTIREQUERY));
-$sort_order=ImportHTTPVar("sort_order", VAR_LETTER | VAR_USCORE);
-$action = ImportHTTPVar("action", VAR_ALPHA);
-// The below two lines were moved from line 87 because of the odd errors
-// some users were having
 $db = NewBASEDBConnection($DBlib_path, $DBtype); // Connect to Alert DB.
 $db->baseDBConnect(
 	$db_connect_method, $alert_dbname, $alert_host, $alert_port, $alert_user,
 	$alert_password
 );
+UpdateAlertCache($db);
+$UIL = new UILang($BASE_Language); // Create UI Language Object.
+$CPSensor = $UIL->CWA['Sensor'];
+$CPTotal = $UIL->CWA['Total'];
+$addr_type = ImportHTTPVar('addr_type', VAR_DIGIT);
+$submit = ImportHTTPVar('submit', VAR_ALPHA | VAR_SPACE, array(_SELECTED, _ALLONSCREEN, _ENTIREQUERY));
+$sort_order = ImportHTTPVar('sort_order', VAR_LETTER | VAR_USCORE);
+$caller = ImportHTTPVar('caller', VAR_LETTER | VAR_USCORE);
+$action = ImportHTTPVar('action', VAR_ALPHA);
 $cs = new CriteriaState("base_stat_uaddr.php", "&amp;addr_type=$addr_type");
 $cs->ReadState();
 if ( $debug_mode > 0 ){ // Dump debugging info on the shared state.
 	PrintCriteriaState();
 }
-$qs = new QueryState();
-$qs->AddCannedQuery("most_frequent", $freq_num_uaddr, _MOSTFREQADDRS, "occur_d"); 
-$qs->MoveView($submit);             /* increment the view if necessary */
 if ( $addr_type == SOURCE_IP ){
-    $page_title = _UNISADD;
-    $results_title = _SUASRCIP;
-    $addr_type_name = "ip_src";
-  }
-  else
-  {
-    if ( $addr_type != DEST_IP )
-      ErrorMessage(_SUAERRCRITADDUNK);
-    $page_title = _UNIDADD;
-    $results_title = _SUADSTIP;
-    $addr_type_name = "ip_dst";
-  }
+	$page_title = _UNISADD;
+	$results_title = _SUASRCIP;
+	$addr_type_name = "ip_src";
+}else{ // Default to Dst.
+	if ( $addr_type != DEST_IP ){
+		ErrorMessage(_SUAERRCRITADDUNK);
+	}
+	$page_title = _UNIDADD;
+	$results_title = _SUADSTIP;
+	$addr_type_name = "ip_dst";
+}
+if ( $caller == 'most_frequent' && $sort_order = 'occur_d' ){
+	// Issue(s) #123 Fix
+	$sort_order = $CPTotal.'_occur_d';
+}
+$qs = new QueryState();
+if ( $caller == 'most_frequent' ){ // Issue #123 Fix
+	$qs->current_sort_order = $sort_order;
+}
+$qs->AddCannedQuery(
+	'most_frequent', $freq_num_uaddr, _MOSTFREQADDRS, $CPTotal.'_occur_d'
+);
+$qs->MoveView($submit); // Increment the view if necessary.
+$tr = 1; // Page Refresh
 if ( $qs->isCannedQuery() ){
-     PrintBASESubHeader($page_title.": ".$qs->GetCurrentCannedQueryDesc(),
-                        $page_title.": ".$qs->GetCurrentCannedQueryDesc(), 
-                        $cs->GetBackLink(), 1);
+	$page_title.': '.$qs->GetCurrentCannedQueryDesc();
 }else{
 	if ($action != '' ){
-		PrintBASESubHeader($page_title, $page_title, $cs->GetBackLink(), $refresh_all_pages);
-	}else{
-		PrintBASESubHeader($page_title, $page_title, $cs->GetBackLink(), 1);
+		$tr = $refresh_all_pages;
 	}
 }
-if ( $event_cache_auto_update == 1 ){
-	UpdateAlertCache($db);
-}
+PrintBASESubHeader( $page_title, $page_title, $cs->GetBackLink(), $tr );
 $criteria_clauses = ProcessCriteria();
 PrintCriteria('');
   $criteria = $criteria_clauses[0]." ".$criteria_clauses[1];
@@ -118,37 +121,37 @@ PrintCriteria('');
   $qs->GetNumResultRows($cnt_sql, $db);
   $et->Mark("Counting Result size");
 
-  /* Setup the Query Results Table */
-  $qro = new QueryResultsOutput("base_stat_uaddr.php?caller=".$caller."&amp;addr_type=".$addr_type);
+// Setup the Query Results Table.
+// Common SQL Strings
+$OB = ' ORDER BY';
+$qro = new QueryResultsOutput("base_stat_uaddr.php?caller=".$caller."&amp;addr_type=".$addr_type);
 $qro->AddTitle('');
 $qro->AddTitle( $results_title,
-	"addr_a", " ", " ORDER BY $addr_type_name ASC",
-	"addr_d", " ", " ORDER BY $addr_type_name DESC", 'right'
+	"addr_a", " ", "$OB $addr_type_name ASC",
+	"addr_d", " ", "$OB $addr_type_name DESC", 'right'
 );
 if ( $resolve_IP == 1 ){
 	$qro->AddTitle('FQDN');
 }
-$qro->AddTitle( "$CPSensor&nbsp;#" );
-$qro->AddTitle( "$CPTotal&nbsp;#",
-	"occur_a", " ", " ORDER BY num_events ASC",
-	"occur_d", " ", " ORDER BY num_events DESC", 'right'
+$qro->AddTitle( $CPSensor);
+$qro->AddTitle( $CPTotal,
+	"occur_a", " ", "$OB num_events ASC",
+	"occur_d", " ", "$OB num_events DESC", 'right'
 );
-$qro->AddTitle(_SUAUNIALERTS,
-	"sig_a", " ", " ORDER BY num_sig ASC",
-	"sig_d", " ", " ORDER BY num_sig DESC", 'right'
+$qro->AddTitle( _SUAUNIALERTS,
+	"sig_a", " ", "$OB num_sig ASC",
+	"sig_d", " ", "$OB num_sig DESC", 'right'
 );
 if ( $addr_type == DEST_IP ){
-    $qro->AddTitle(_SUASRCADD, 
-                   "saddr_a", " ",
-                           " ORDER BY num_sip ASC",
-                   "saddr_d", " ",
-                           " ORDER BY num_sip DESC");
+	$qro->AddTitle( _SUASRCADD,
+		"saddr_a", " ", "$OB num_sip ASC",
+		"saddr_d", " ", "$OB num_sip DESC"
+	);
 }else{
-    $qro->AddTitle(_SUADSTADD, 
-                  "daddr_a", "  ",
-                           " ORDER BY num_dip ASC",
-                  "daddr_d", " ",
-                           " ORDER BY num_dip DESC");
+	$qro->AddTitle( _SUADSTADD,
+		"daddr_a", " ", "$OB num_dip ASC",
+		"daddr_d", " ", "$OB num_dip DESC"
+	);
 }
   $sort_sql = $qro->GetSortSQL($qs->GetCurrentSort(), $qs->GetCurrentCannedQuerySort());
 
@@ -207,8 +210,7 @@ if ( $addr_type == DEST_IP ){
 	$tmp_rowid = $src_ip.'_'.$dst_ip;
      echo '    <TD><INPUT TYPE="checkbox" NAME="action_chk_lst['.$i.']" VALUE="'.$tmp_rowid.'">';
      echo '    <INPUT TYPE="hidden" NAME="action_lst['.$i.']" VALUE="'.$tmp_rowid.'"></TD>';
-	// Check for a NULL IP which indicates an event (e.g. portscan) which has
-	// no IP.
+	// Check for a NULL IP indicating an event (e.g. portscan) which has no IP.
 	if ( $no_ip ){
 		$tmp = '<A HREF="'.$BASE_urlpath.'/help/base_app_faq.php#1">'._UNKNOWN;
 	}else{
@@ -260,8 +262,7 @@ if ( $addr_type == DEST_IP ){
   $qs->PrintAlertActionButtons();
   $qs->SaveState();
   ExportHTTPVar("addr_type", $addr_type);
-	ExportHTTPVar("sort_order", $sort_order);
-
+ExportHTTPVar("sort_order", $sort_order);
   echo "\n</FORM>\n";
 $et->Mark("Get Query Elements");
 PrintBASESubFooter();

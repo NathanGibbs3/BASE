@@ -512,21 +512,18 @@ function dump_missing_events($db, $sid, $start_cid, $end_cid)
   }
 }
 
-
-
-function UpdateAlertCache($db){
-  GLOBAL $debug_mode;
-  GLOBAL $archive_exists;
-  GLOBAL $DBlib_path, $DBtype, 
-         $archive_dbname, $archive_host, $archive_port,
-         $archive_user, $archive_password;
-
-  $batch_sql = "";
-  $batch_cnt = 0;
-  $updated_cache_cnt = 0;
+function UpdateAlertCache($db, $force = 0 ){
+	GLOBAL $debug_mode, $archive_exists, $event_cache_auto_update,
+	$DBlib_path, $DBtype, $archive_dbname, $archive_host, $archive_port,
+	$archive_user, $archive_password;
+	if ( $force == 0 && $event_cache_auto_update != 1 ){ // Issue #121 Fix
+		return;
+	}
+	$batch_sql = '';
+	$batch_cnt = 0;
+	$updated_cache_cnt = 0;
 	$EMPfx = __FUNCTION__ . ': ';
-
-  // How many sensors do we have?
+	// How many sensors do we have?
   $number_sensors_lst = $db->baseExecute("SELECT count(*) FROM sensor");
   $number_sensors_array = $number_sensors_lst->baseFetchRow();
   $number_sensors_lst->baseFreeRows();

@@ -303,13 +303,12 @@ function PrintEventsByIP($db, $ip)
 
  echo "</TABLE>\n";
 }
-
-  /* Connect to the Alert database */
-  $db = NewBASEDBConnection($DBlib_path, $DBtype);
-  $db->baseDBConnect($db_connect_method,
-                     $alert_dbname, $alert_host, $alert_port, $alert_user, $alert_password);
-
-  if ( $event_cache_auto_update == 1 )  UpdateAlertCache($db);
+$db = NewBASEDBConnection($DBlib_path, $DBtype); // Connect to Alert DB.
+$db->baseDBConnect(
+	$db_connect_method,$alert_dbname, $alert_host, $alert_port, $alert_user,
+	$alert_password
+);
+UpdateAlertCache($db);
 
   if ( sizeof($sig) != 0 && strstr($sig[1], "spp_portscan") )
      $sig[1] = "";

@@ -1,6 +1,6 @@
 <?php
 // Basic Analysis and Security Engine (BASE)
-// Copyright (C) 2019-2021 Nathan Gibbs
+// Copyright (C) 2019-2022 Nathan Gibbs
 // Copyright (C) 2004 BASE Project Team
 // Copyright (C) 2000 Carnegie Mellon University
 //
@@ -1301,8 +1301,8 @@ function Action_archive_alert_post(
 	// Call UpdateAlertCache to properly set cid values and make sure caches
 	// are current.
 	$archive_db=&$action_ctx;
-	UpdateAlertCache($archive_db);
-	UpdateAlertCache($db);
+	UpdateAlertCache($archive_db,1);
+	UpdateAlertCache($db,1);
 	// END LOCAL FIX.
 }
 function Action_archive_alert2_pre( $action_arg, $action_param, $db ){
@@ -1329,8 +1329,8 @@ function Action_archive_alert2_post(
 	// Call UpdateAlertCache to properly set cid values and make sure caches
 	// are current.
 	$archive_db=&$action_ctx;
-	UpdateAlertCache($archive_db);
-	UpdateAlertCache($db);
+	UpdateAlertCache($archive_db,1);
+	UpdateAlertCache($db,1);
 	// END LOCAL FIX.
 	// Reset the alert count that the query is re-executed to reflect the
 	// deletion.

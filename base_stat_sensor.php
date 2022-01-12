@@ -57,9 +57,7 @@ $db->baseDBConnect(
 	$db_connect_method,$alert_dbname, $alert_host, $alert_port, $alert_user,
 	$alert_password
 );
-if ( $event_cache_auto_update == 1 ){
-	UpdateAlertCache($db);
-}
+UpdateAlertCache($db);
 $criteria_clauses = ProcessCriteria();
 PrintCriteria('');
 

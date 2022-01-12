@@ -149,21 +149,20 @@ if ( isset($maintain_history) && $maintain_history == 1 ){
   $qs->AddCannedQuery("last_icmp", $last_num_alerts, _LASTICMP, "time_d");
   $qs->AddCannedQuery("last_any", $last_num_alerts, _LASTALERTS, "time_d");
 
-  $page_title = _QUERYRESULTS;
-  if ( $qs->isCannedQuery() )
-     PrintBASESubHeader($page_title.": ".$qs->GetCurrentCannedQueryDesc(),
-                        $page_title.": ".$qs->GetCurrentCannedQueryDesc(), $cs->GetBackLink(), $refresh_all_pages);
-  else
-     PrintBASESubHeader($page_title, $page_title, $cs->GetBackLink(), $refresh_all_pages);
-
-  /* Connect to the Alert database */
-  $db = NewBASEDBConnection($DBlib_path, $DBtype);
-  $db->baseDBConnect($db_connect_method,
-                     $alert_dbname, $alert_host, $alert_port, $alert_user, $alert_password);
-
-  if ( $event_cache_auto_update == 1 )  UpdateAlertCache($db);
-
-  $printing_ag = false;
+$page_title = _QUERYRESULTS;
+if ( $qs->isCannedQuery() ){
+	$page_title.': '.$qs->GetCurrentCannedQueryDesc();
+}
+PrintBASESubHeader(
+	$page_title, $page_title, $cs->GetBackLink(), $refresh_all_pages
+);
+$db = NewBASEDBConnection($DBlib_path, $DBtype); // Connect to Alert DB.
+$db->baseDBConnect(
+	$db_connect_method,$alert_dbname, $alert_host, $alert_port, $alert_user,
+	$alert_password
+);
+UpdateAlertCache($db);
+$printing_ag = false;
 ?>
 
 <FORM METHOD="GET" NAME="PacketForm" ACTION="base_qry_main.php">
