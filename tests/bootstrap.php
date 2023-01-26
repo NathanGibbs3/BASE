@@ -18,6 +18,7 @@ $debug_time_mode = 1;
 $debug_mode = 0;
 $sql_trace_mode = 0;
 $event_cache_auto_update = 0;
+$last_num_alerts = 15;
 // Red, yellow, orange, gray, white, blue
 $priority_colors = array ('FF0000','FFFF00','FF9900','999999','FFFFFF','006600');
 
@@ -31,5 +32,7 @@ include("$BASE_path/includes/base_constants.inc.php");
 include("$BASE_path/includes/base_include.inc.php");
 include_once("$BASE_path/base_db_common.php");
 include_once("$BASE_path/base_common.php");
+include_once("$BASE_path/base_qry_common.php");
+include_once("$BASE_path/base_stat_common.php");
 
 ?>
