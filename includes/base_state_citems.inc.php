@@ -191,8 +191,9 @@ class MultipleElementCriteria extends BaseCriteria {
 		$this->valid_field_list = $field_list;
 	}
 	function Init(){
-		if ( array_key_exists('MAX_ROWS',$GLOBALS) ){
-			$tmp = $GLOBALS['MAX_ROWS'];
+		GLOBAL $MAX_ROWS;
+		if ( isset($MAX_ROWS) ){
+			$tmp = $MAX_ROWS;
 		}else{
 			$tmp = 10;
 		}

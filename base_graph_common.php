@@ -83,24 +83,20 @@ function VerifyGraphingLib(){
 		LibIncError ('Graphing', $LibLoc, $Lib, $EMsg, $LibName, $tmp, 1, 1 );
 	}
 }
-/* Generates the required SQL from the chart time criteria */
-function ProcessChartTimeConstraint($start_hour, $start_day, $start_month, $start_year,
-                                    $stop_hour,  $stop_day,  $stop_month,  $stop_year ) 
-{
-   $start_hour = trim($start_hour);
-   $stop_hour = trim($stop_hour);
-   $start_day = trim($start_day);
-   $stop_day = trim($stop_day);
-
-   $tmp_sql = "";
-
-   if (empty($start_month) && empty($start_day) && empty($start_year) &&
+function ProcessChartTimeConstraint(
+	$start_hour, $start_day, $start_month, $start_year,
+	$stop_hour,  $stop_day,  $stop_month,  $stop_year
+){ //Generates the required SQL from the chart time criteria.
+	$start_hour = trim($start_hour);
+	$stop_hour = trim($stop_hour);
+	$start_day = trim($start_day);
+	$stop_day = trim($stop_day);
+	$tmp_sql = '';
+	if ( empty($start_month) && empty($start_day) && empty($start_year) &&
        empty($stop_month) && empty($stop_day) && empty($stop_year))
    {
      return "";
-   }
-   else if (empty($start_month) && empty($start_day) && empty($start_year))
-   {
+	}elseif( empty($start_month) && empty($start_day) && empty($start_year) ){
      $tmp_time = array(array (" ",
                               " ",
                               "", "", "",
@@ -111,9 +107,7 @@ function ProcessChartTimeConstraint($start_hour, $start_day, $start_month, $star
                               $stop_month, $stop_day, $stop_year,
                               $stop_hour, "", "",
                               " ", " ") );
-   }
-   else if (empty($stop_month) && empty($stop_day) && empty($stop_year))
-   {
+	}elseif( empty($stop_month) && empty($stop_day) && empty($stop_year) ){
      $tmp_time = array(array (" ",
                               ">=",
                               $start_month, $start_day, $start_year,
@@ -124,9 +118,7 @@ function ProcessChartTimeConstraint($start_hour, $start_day, $start_month, $star
                               "", "", "",
                               "", "", "",
                               " ", " "));
-   }
-   else
-   {
+	}else{
      $tmp_time = array(array (" ",
                               ">=",
                               $start_month, $start_day, $start_year,
@@ -137,14 +129,10 @@ function ProcessChartTimeConstraint($start_hour, $start_day, $start_month, $star
                               $stop_month, $stop_day, $stop_year,
                               $stop_hour, "", "",
                               " ", " ") );
-   }
-
-
-   DateTimeRows2sql($tmp_time, 2, $tmp_sql);
-
-   return $tmp_sql;
+	}
+	DateTimeRows2sql($tmp_time, 2, $tmp_sql);
+	return $tmp_sql;
 }
-
 function StoreAlertNum($sql, $label, &$xdata, &$cnt, $min_threshold)
 {  
   GLOBAL $db, $debug_mode;
@@ -164,25 +152,22 @@ function StoreAlertNum($sql, $label, &$xdata, &$cnt, $min_threshold)
   }
 }
 
-function GetTimeDataSet(&$xdata, $chart_type, $data_source, $min_threshold, $criteria)
-{
-  GLOBAL $db, $debug_mode;
-
-   if ( $debug_mode > 0 )
-   {
+function GetTimeDataSet(
+	&$xdata, $chart_type, $data_source, $min_threshold, $criteria
+){
+	GLOBAL $db, $debug_mode;
+	if ( $debug_mode > 0 ){
       echo "chart_type = $chart_type<BR>
             data_source = $data_source<BR>";
-   }
-
-   $sql = "SELECT min(timestamp), max(timestamp) FROM acid_event ".
-          $criteria[0].
-          " WHERE ".$criteria[1];
- 
-   $result = $db->baseExecute($sql);
-   $myrow = $result->baseFetchRow();
-   $start_time = $myrow[0];
-   $stop_time = $myrow[1];
-   $result->baseFreeRows();
+	}
+	// Get time range for whole DB.
+	$sql = "SELECT min(timestamp), max(timestamp) FROM acid_event " .
+	$criteria[0] . " WHERE ".$criteria[1];
+	$result = $db->baseExecute($sql);
+	$myrow = $result->baseFetchRow();
+	$start_time = $myrow[0];
+	$stop_time = $myrow[1];
+	$result->baseFreeRows();
 
    $year_start  = date("Y", strtotime($start_time));
    $month_start = date("m", strtotime($start_time));

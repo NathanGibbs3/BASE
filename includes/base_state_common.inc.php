@@ -90,24 +90,16 @@ function RegisterGlobalState(){
 	}
 }
 
-/* ***********************************************************************
- * Function: CleanVariable()
- *
- * @doc Removes invalid characters/data from a variable based on a
- *      specified mask of acceptable data or a list of explicit values.
- *
- *      Note: both mask and explicit list can be used a a time
- *
- * @param item        variable to scrub
- * @param valid_data  mask of valid characters
- * @param exception   array with explicit values to match
- *
- * @return a sanitized version of the passed variable
- *
- ************************************************************************/
+// Removes invalid characters/data from a variable based on a specified mask
+// of acceptable data or a list of explicit values.
+//	Note:		Both mask and explicit list can be used a a time.
+//	$item		variable to scrub
+//	$valid_data	mask of valid characters
+//	$exception	array with explicit values to match
+//	Return a sanitized version of the passed variable
 function CleanVariable( $item, $valid_data = '', $exception = '' ){
-	// Are variables set?
-	if ( !isset($item) || $valid_data == '' ){
+	GLOBAL $debug_mode;
+	if ( !isset($item) ){ // Is variable set?
 		return $item;
 	}else{
 		// If Array, recursively clean array elements. -- nikns
@@ -117,8 +109,16 @@ function CleanVariable( $item, $valid_data = '', $exception = '' ){
 			}
 			return $item;
 		}else{
-			// Is variable value in the exception list first?
-			if ( $exception != '' && in_array($item, $exception) ){
+			if ( $exception != '' ){
+				// Is variable value in the exception list?
+				if ( in_array($item, $exception) ){ // Exception Hit
+					return $item;
+				}
+				if ( $valid_data == '' ){ // Exception Miss No Valid Data.
+					return '';
+				}
+			}
+			if ( $valid_data == '' ){
 				return $item;
 			}else{
 				$regex_mask = '';
@@ -153,10 +153,10 @@ function CleanVariable( $item, $valid_data = '', $exception = '' ){
 					$regex_mask .= "\)";
 				}
 				if ( ($valid_data & VAR_BOOLEAN) > 0 ){
-					$regex_mask .= "\)";
+					$regex_mask .= "=|&|\||!";
 				}
 				if ( ($valid_data & VAR_OPERATOR) > 0 ){
-					$regex_mask .= "\)";
+					$regex_mask .= "\+|\*|\/|=|>|<|&|\||%|!|\^|\(|\)|\-";
 				}
 				if ( ($valid_data & VAR_USCORE) > 0 ){
 					$regex_mask .= "\_";
@@ -171,7 +171,15 @@ function CleanVariable( $item, $valid_data = '', $exception = '' ){
 				if ( ($valid_data & VAR_SCORE) > 0 ){
 					$regex_mask .= "\-";
 				}
-				return preg_replace("/[^".$regex_mask."]/", "", $item);
+				if( $regex_mask != '' ){
+					return preg_replace("/[^".$regex_mask."]/", '', $item);
+				}else{
+					if ( $debug_mode > 0 ){
+						ErrorMessage(
+							'BASE ' .__FUNCTION__ .'(): ERROR: ', '', 1
+						);
+					}
+				}
 			}
 		}
 	}
