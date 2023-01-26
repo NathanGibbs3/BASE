@@ -43,8 +43,12 @@ global $colored_alerts, $debug_mode;
   /* Run the query to determine the number of rows (No LIMIT)*/
   $qs->GetNumResultRows($cnt_sql, $db);
   $et->Mark("Counting Result size");
-  /* Setup the Query Results Table */
-  $qro = new QueryResultsOutput("$page".$qs->SaveStateGET().$tmp_page_get);
+		// Setup the Query Results Table.
+		// Common SQL Strings
+		$OB = ' ORDER BY';
+		$qro = new QueryResultsOutput(
+			"$page".$qs->SaveStateGET().$tmp_page_get
+		);
 		if ( !is_null($qro->JavaScript) ){ // Issue #109 Check
 			$qro->AddTitle(qroReturnSelectALLCheck());
 		}else{
@@ -80,50 +84,39 @@ global $colored_alerts, $debug_mode;
      $sort_sql = $qro->GetSortSQL($qs->GetCurrentSort(), $qs->GetCurrentCannedQuerySort());
      //  3/23/05 BDB   mods to make sort by work for Searches
      $sort_sql = "";
-     if (!isset($sort_order)) {
-         $sort_order = NULL;
-     }
-
-     if ($sort_order == "sip_a")
-        { $sort_sql = " ORDER BY ip_src ASC"; }
-     if ($sort_order == "sip_d")
-        { $sort_sql = " ORDER BY ip_src DESC"; }
-     if ($sort_order == "dip_a")
-        { $sort_sql = " ORDER BY ip_dst ASC"; }
-     if ($sort_order == "dip_d")
-        { $sort_sql = " ORDER BY ip_dst DESC"; }
-     if ($sort_order == "sig_a")
-        { $sort_sql = " ORDER BY sig_name ASC"; }
-     if ($sort_order == "sig_d")
-        { $sort_sql = " ORDER BY sig_name DESC"; }
-     if ($sort_order == "time_a")
-        { $sort_sql = " ORDER BY timestamp ASC"; }
-     if ($sort_order == "time_d")
-        { $sort_sql = " ORDER BY timestamp DESC"; }
+		if (!isset($sort_order)) {
+			$sort_order = NULL;
+		}
+		// Issue #133 fix.
+		$sort_sql = $qro->GetSortSQL($qs->GetCurrentSort(), '')[1];
      ExportHTTPVar("prev_sort_order", $sort_order);
     
      $sql = $sql." ".$sort_sql;
   }
 
-  if ( $debug_mode > 0 )
-   {
-     echo "<P>SUBMIT: $submit";
-     echo "<P>sort_order: $sort_order";
-     echo "<P>SQL (save_sql): $sql";
-     echo "<P>SQL (sort_sql): $sort_sql"; 
-   }
+		if ( $debug_mode > 0 ){
+			print "<br/>SUBMIT: $submit <br/>";
+			print "sort_order: $sort_order <br/>";
+			print "SQL (save_sql): $sql <br/>";
+			print "SQL (sort_sql): $sort_sql <br/>";
+		}
 
   /* Run the Query again for the actual data (with the LIMIT) */
   //$result = ""; // $qs->ExecuteOutputQuery($sql, $db);
   $result = $qs->ExecuteOutputQuery($sql, $db);
   $et->Mark("Retrieve Query Data");
 
-  if ( $debug_mode > 0 )
-  {
-     $qs->PrintCannedQueryList();
-     $qs->DumpState();
-     echo "$sql<BR>";
-  }
+	if ( $debug_mode > 0 ){
+		if ( $qs->isCannedQuery() ){
+			$CCF = 'Yes';
+			$qs->PrintCannedQueryList();
+		}else{
+			$CCF = 'No';
+		}
+		print "Canned Query: $CCF <br/>";
+		$qs->DumpState();
+		print "$sql <br/>";
+	}
 	if ( !$printing_ag ){
 		// Generate and print the criteria in human readable form.
 		// Issue #114 fix

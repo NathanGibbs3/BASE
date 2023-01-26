@@ -307,6 +307,7 @@ class state_citemsTest extends TestCase {
 		$this->assertFalse($tc->isEmpty(),$URV); // isEmtpy False
 	}
 	public function testClassMultipleElementCriteriaFuncsCompact(){
+		GLOBAL $MAX_ROWS;
 		$db = self::$db;
 		$cs = 'Test';
 		$URV = 'Unexpected Return Value.';
@@ -318,6 +319,9 @@ class state_citemsTest extends TestCase {
 		$this->assertNull($tc->criteria, $URV);
 		$this->assertTrue($tc->isEmpty(),$URV); // isEmtpy True
 		$osession = $_SESSION;
+		if ( isset($MAX_ROWS) ){
+			$omr = $MAX_ROWS;
+		}
 		$tc->Init();
 		$this->assertTrue(is_array($tc->criteria), $URV);
 		$this->assertFalse($tc->isEmpty(),$URV); // isEmtpy False
@@ -326,6 +330,11 @@ class state_citemsTest extends TestCase {
 		$tc->Compact();
 		$this->assertNull($tc->criteria, $URV);
 		$this->assertNull($_SESSION[$tc->export_name], $URV);
+		if ( isset($omr) ){
+			$MAX_ROWS = $omr;
+		}else{
+			unset($GLOBALS['MAX_ROWS']);
+		}
 		$_SESSION = $osession;
 	}
 	public function testClassMultipleElementCriteriaFuncSetDenied(){
@@ -434,6 +443,7 @@ class state_citemsTest extends TestCase {
 		$_SESSION = $osession;
 	}
 	public function testClassMultipleElementCriteriaFuncInitDefault(){
+		GLOBAL $MAX_ROWS;
 		$db = self::$db;
 		$cs = 'Test';
 		$URV = 'Unexpected Return Value.';
@@ -443,6 +453,9 @@ class state_citemsTest extends TestCase {
 			'Class Not Initialized.'
 		);
 		$osession = $_SESSION;
+		if ( isset($MAX_ROWS) ){
+			$omr = $MAX_ROWS;
+		}
 		$tc->Init();
 		$this->assertTrue(is_array($tc->criteria), $URV);
 		$this->assertEquals(1, $tc->criteria_cnt, $URV);
@@ -452,6 +465,11 @@ class state_citemsTest extends TestCase {
 			for ( $j = 0; $j < $tc->criteria_cnt; $j++ ){
 				$this->assertEquals('',$tc->criteria[$i][$j],$URV);
 			}
+		}
+		if ( isset($omr) ){
+			$MAX_ROWS = $omr;
+		}else{
+			unset($GLOBALS['MAX_ROWS']);
 		}
 		$_SESSION = $osession;
 	}
