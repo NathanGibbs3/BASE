@@ -122,11 +122,7 @@ class base_qry_commonspTest extends TestCase {
 		"\n\t\t\t\t<td>";
 		self::$EOS =
 		"\n\t\t\t\t</td>\n\t\t\t</tr>\n\t\t</table>";
-		self::$DTR2SQL =
-		array(
-			array ( '', '', '', '', '', '', '', '', '', '' ),
-			array ( '', '', '', '', '', '', '', '', '', '' )
-		);
+		InitArray(self::$DTR2SQL,2,10,''); //Setup Test Array
 		self::$URV = 'Unexpected Return Value.';
 	}
 	public static function tearDownAfterClass() {
@@ -201,6 +197,8 @@ class base_qry_commonspTest extends TestCase {
 		$this->expectOutputString($EOM);
 		PrintCriteria($caller);
 	}
+
+	// DateTimeRows2sql Basic Input Validation
 	public function testDateTimeRows2sqlEmpty() {
 		GLOBAL $BASE_installID;
 		$db = self::$db;
@@ -211,11 +209,7 @@ class base_qry_commonspTest extends TestCase {
 		}else{
 			include_once(self::$files);
 		}
-		$this->assertEquals(
-			0,
-			DateTimeRows2sql($TA,0,$SQL),
-			$URV
-		);
+		$this->assertEquals( 0, DateTimeRows2sql($TA,2,$SQL), $URV );
 	}
 	public function testDateTimeRows2sqlSpaces() {
 		GLOBAL $BASE_installID;
@@ -228,324 +222,8 @@ class base_qry_commonspTest extends TestCase {
 			include_once(self::$files);
 		}
 		InitArray($TA,2,10,' '); // Setup Test Array
-		$this->assertEquals(
-			0,
-			DateTimeRows2sql($TA,0,$SQL),
-			$URV
-		);
+		$this->assertEquals( 0, DateTimeRows2sql($TA,2,$SQL), $URV );
 	}
-	public function testDateTimeRows2sqlfirstTestOps() {
-		GLOBAL $BASE_installID;
-		$db = self::$db;
-		$TA = self::$DTR2SQL;
-		$URV = self::$URV;
-		if ( is_object(self::$UIL) ){
-			$UIL = self::$UIL;
-		}else{
-			include_once(self::$files);
-		}
-		$start = 0;
-		$end = 1;
-		$op = 1;
-		$month = 2;
-		$day = 3;
-		$year = 4;
-		$hour = 5;
-		$minute = 6;
-		$second = 7;
-		$SQLOP = 9;
-		InitArray($TA,2,10,' '); // Setup Test Array
-		$TA[$start][$month] = '1';
-		$TA[$start][$day] = '1';
-		$TA[$start][$year] = '1';
-		$TestOps = array ( '<', '>', '<=', '>=', '<>' );
-		foreach($TestOps as $Top ){
-			$TA[$start][$op] = $Top;
-			$EOM = " AND (  timestamp $Top'1-01-01 00:00:00'  ) ";
-			$this->assertEquals( 1, DateTimeRows2sql($TA,1,$SQL), $URV );
-			$this->assertEquals( $EOM, $SQL, $URV );
-			$SQL = '';
-		}
-	}
-	public function testDateTimeRows2sqlfirstTestYearNotSet() {
-		GLOBAL $BASE_installID;
-		$db = self::$db;
-		$TA = self::$DTR2SQL;
-		$URV = self::$URV;
-		if ( is_object(self::$UIL) ){
-			$UIL = self::$UIL;
-		}else{
-			include_once(self::$files);
-		}
-		$EOM = "<font color='#ff0000'><b>Criteria warning:</b> ".
-		'(Invalid Hour) No date criteria were entered with the specified time.'.
-		'</font>';
-		$start = 0;
-		$end = 1;
-		$op = 1;
-		$month = 2;
-		$day = 3;
-		$year = 4;
-		$hour = 5;
-		$minute = 6;
-		$second = 7;
-		$SQLOP = 9;
-		InitArray($TA,2,10,' '); // Setup Test Array
-		$TA[$start][$op] = '<';
-		$TA[$start][$day] = '';
-		$this->expectOutputString($EOM);
-		$this->assertEquals( 0, DateTimeRows2sql($TA,1,$SQL), $URV );
-	}
-	public function testDateTimeRows2sqlfirstTestMonthNotSet() {
-		GLOBAL $BASE_installID;
-		$db = self::$db;
-		$TA = self::$DTR2SQL;
-		$URV = self::$URV;
-		if ( is_object(self::$UIL) ){
-			$UIL = self::$UIL;
-		}else{
-			include_once(self::$files);
-		}
-		$EOM = " AND (  timestamp <'1-01-01 00:00:00'  ) ";
-		$start = 0;
-		$end = 1;
-		$op = 1;
-		$month = 2;
-		$day = 3;
-		$year = 4;
-		$hour = 5;
-		$minute = 6;
-		$second = 7;
-		$SQLOP = 9;
-		InitArray($TA,2,10,' '); // Setup Test Array
-		$TA[$start][$op] = '<';
-		$TA[$start][$day] = '';
-		$TA[$start][$year] = '1';
-		$this->assertEquals( 1, DateTimeRows2sql($TA,1,$SQL), $URV );
-		$this->assertEquals( $EOM, $SQL, $URV );
-	}
-	public function testDateTimeRows2sqlTestFirstDayNotSet() {
-		GLOBAL $BASE_installID;
-		$db = self::$db;
-		$TA = self::$DTR2SQL;
-		$URV = self::$URV;
-		if ( is_object(self::$UIL) ){
-			$UIL = self::$UIL;
-		}else{
-			include_once(self::$files);
-		}
-		$EOM = " AND (  timestamp <'1-02-01 00:00:00'  ) ";
-		$start = 0;
-		$end = 1;
-		$op = 1;
-		$month = 2;
-		$day = 3;
-		$year = 4;
-		$hour = 5;
-		$minute = 6;
-		$second = 7;
-		$SQLOP = 9;
-		InitArray($TA,2,10,' '); // Setup Test Array
-		$TA[$start][$op] = '<';
-		$TA[$start][$month] = '2';
-		$TA[$start][$day] = '';
-		$TA[$start][$year] = '1';
-		$this->assertEquals( 1, DateTimeRows2sql($TA,1,$SQL), $URV );
-		$this->assertEquals( $EOM, $SQL, $URV );
-	}
-	public function testDateTimeRows2sqlTestLastDayNotSet() {
-		GLOBAL $BASE_installID;
-		$db = self::$db;
-		$TA = self::$DTR2SQL;
-		$URV = self::$URV;
-		if ( is_object(self::$UIL) ){
-			$UIL = self::$UIL;
-		}else{
-			include_once(self::$files);
-		}
-		$EOM = " AND (  timestamp <'2000-02-01 00:00:00'  ".
-		"AND  timestamp <'2000-02-29 00:00:00'  ) ";
-		$start = 0;
-		$end = 1;
-		$op = 1;
-		$month = 2;
-		$day = 3;
-		$year = 4;
-		$hour = 5;
-		$minute = 6;
-		$second = 7;
-		$SQLOP = 9;
-		InitArray($TA,2,10,' '); // Setup Test Array
-		$TA[$start][$op] = '<';
-		$TA[$start][$month] = '2';
-		$TA[$start][$day] = '';
-		$TA[$start][$year] = '2000';
-		$TA[$start][$SQLOP] = 'AND';
-		$TA[$end][$op] = '<';
-		$TA[$end][$month] = '2';
-		$TA[$end][$day] = '';
-		$TA[$end][$year] = '2000';
-		$this->assertEquals( 1, DateTimeRows2sql($TA,2,$SQL), $URV );
-		$this->assertEquals( $EOM, $SQL, $URV );
-	}
-	public function testDateTimeRows2sqlTestFirstMinuteNotSet() {
-		GLOBAL $BASE_installID;
-		$db = self::$db;
-		$TA = self::$DTR2SQL;
-		$URV = self::$URV;
-		if ( is_object(self::$UIL) ){
-			$UIL = self::$UIL;
-		}else{
-			include_once(self::$files);
-		}
-		$EOM = " AND (  timestamp >='1-02-01 00:00:00'  ) ";
-		$start = 0;
-		$end = 1;
-		$op = 1;
-		$month = 2;
-		$day = 3;
-		$year = 4;
-		$hour = 5;
-		$minute = 6;
-		$second = 7;
-		$SQLOP = 9;
-		InitArray($TA,2,10,' '); // Setup Test Array
-		$TA[$start][$op] = '>=';
-		$TA[$start][$month] = '2';
-		$TA[$start][$day] = '1';
-		$TA[$start][$year] = '1';
-		$TA[$start][$minute] = '';
-		$this->assertEquals( 1, DateTimeRows2sql($TA,1,$SQL), $URV );
-		$this->assertEquals( $EOM, $SQL, $URV );
-	}
-	public function testDateTimeRows2sqlTestFirstSecondNotSet() {
-		GLOBAL $BASE_installID;
-		$db = self::$db;
-		$TA = self::$DTR2SQL;
-		$URV = self::$URV;
-		if ( is_object(self::$UIL) ){
-			$UIL = self::$UIL;
-		}else{
-			include_once(self::$files);
-		}
-		$EOM = " AND (  timestamp >='1-02-01 00:00:00'  ) ";
-		$start = 0;
-		$end = 1;
-		$op = 1;
-		$month = 2;
-		$day = 3;
-		$year = 4;
-		$hour = 5;
-		$minute = 6;
-		$second = 7;
-		$SQLOP = 9;
-		InitArray($TA,2,10,' '); // Setup Test Array
-		$TA[$start][$op] = '>=';
-		$TA[$start][$month] = '2';
-		$TA[$start][$day] = '1';
-		$TA[$start][$year] = '1';
-		$TA[$start][$minute] = '';
-		$TA[$start][$second] = '';
-		$this->assertEquals( 1, DateTimeRows2sql($TA,1,$SQL), $URV );
-		$this->assertEquals( $EOM, $SQL, $URV );
-	}
-	public function testDateTimeRows2sqlTestFirstHourNotSet() {
-		GLOBAL $BASE_installID;
-		$db = self::$db;
-		$TA = self::$DTR2SQL;
-		$URV = self::$URV;
-		if ( is_object(self::$UIL) ){
-			$UIL = self::$UIL;
-		}else{
-			include_once(self::$files);
-		}
-		$EOM = " AND (  timestamp <'1-02-01'  ) ";
-		$start = 0;
-		$end = 1;
-		$op = 1;
-		$month = 2;
-		$day = 3;
-		$year = 4;
-		$hour = 5;
-		$minute = 6;
-		$second = 7;
-		$SQLOP = 9;
-		InitArray($TA,2,10,' '); // Setup Test Array
-		$TA[$start][$op] = '<';
-		$TA[$start][$month] = '2';
-		$TA[$start][$day] = '';
-		$TA[$start][$year] = '1';
-		$TA[$start][$hour] = '';
-		$TA[$start][$minute] = '';
-		$TA[$start][$second] = '';
-		$this->assertEquals( 1, DateTimeRows2sql($TA,1,$SQL), $URV );
-		$this->assertEquals( $EOM, $SQL, $URV );
-	}
-	public function testDateTimeRows2sqlTestFirstHourNotSetOpLE() {
-		GLOBAL $BASE_installID;
-		$db = self::$db;
-		$TA = self::$DTR2SQL;
-		$URV = self::$URV;
-		if ( is_object(self::$UIL) ){
-			$UIL = self::$UIL;
-		}else{
-			include_once(self::$files);
-		}
-		$EOM = " AND (  timestamp <='1-02-01 23:59:59'  ) ";
-		$start = 0;
-		$end = 1;
-		$op = 1;
-		$month = 2;
-		$day = 3;
-		$year = 4;
-		$hour = 5;
-		$minute = 6;
-		$second = 7;
-		$SQLOP = 9;
-		InitArray($TA,2,10,' '); // Setup Test Array
-		$TA[$start][$op] = '<=';
-		$TA[$start][$month] = '2';
-		$TA[$start][$day] = '';
-		$TA[$start][$year] = '1';
-		$TA[$start][$hour] = '';
-		$TA[$start][$minute] = '';
-		$TA[$start][$second] = '';
-		$this->assertEquals( 1, DateTimeRows2sql($TA,1,$SQL), $URV );
-		$this->assertEquals( $EOM, $SQL, $URV );
-	}
-	public function testDateTimeRows2sqlTestFirstHourNotSetOpGT() {
-		GLOBAL $BASE_installID;
-		$db = self::$db;
-		$TA = self::$DTR2SQL;
-		$URV = self::$URV;
-		if ( is_object(self::$UIL) ){
-			$UIL = self::$UIL;
-		}else{
-			include_once(self::$files);
-		}
-		$EOM = " AND (  timestamp >'1-02-01 23:59:59'  ) ";
-		$start = 0;
-		$end = 1;
-		$op = 1;
-		$month = 2;
-		$day = 3;
-		$year = 4;
-		$hour = 5;
-		$minute = 6;
-		$second = 7;
-		$SQLOP = 9;
-		InitArray($TA,2,10,' '); // Setup Test Array
-		$TA[$start][$op] = '>';
-		$TA[$start][$month] = '2';
-		$TA[$start][$day] = '';
-		$TA[$start][$year] = '1';
-		$TA[$start][$hour] = '';
-		$TA[$start][$minute] = '';
-		$TA[$start][$second] = '';
-		$this->assertEquals( 1, DateTimeRows2sql($TA,1,$SQL), $URV );
-		$this->assertEquals( $EOM, $SQL, $URV );
-	}
-
 	public function testDateTimeRows2sqlInputFieldNotArray() {
 		GLOBAL $BASE_installID;
 		$db = self::$db;
@@ -571,6 +249,8 @@ class base_qry_commonspTest extends TestCase {
 		}
 		$this->assertEquals( 0, DateTimeRows2sql($TA,'a',$SQL), $URV );
 	}
+
+	// DateTimeRows2sql Error Conditions
 	public function testDateTimeRows2sqlErrorMessageInvalidTimeCriteria() {
 		GLOBAL $BASE_installID;
 		$db = self::$db;
@@ -593,12 +273,12 @@ class base_qry_commonspTest extends TestCase {
 		$hour = 5;
 		$minute = 6;
 		$second = 7;
+		$stop = 8;
 		$SQLOP = 9;
 		InitArray($TA,2,10,' '); //Setup Test Array
 		$TA[$start][$op] = '<';
-		$TA[$start][$hour] = '';
 		$this->expectOutputString($EOM);
-		DateTimeRows2sql($TA,1,$SQL);
+		$this->assertEquals( 0, DateTimeRows2sql($TA,1,$SQL), $URV );
 	}
 	public function testDateTimeRows2sqlErrorMessageInvalidHour() {
 		GLOBAL $BASE_installID;
@@ -622,8 +302,8 @@ class base_qry_commonspTest extends TestCase {
 		$hour = 5;
 		$minute = 6;
 		$second = 7;
+		$stop = 8;
 		$SQLOP = 9;
-		InitArray($TA,2,10,' '); //Setup Test Array
 		$TA[$start][$op] = '<';
 		$TA[$start][$hour] = '1';
 		$this->expectOutputString($EOM);
@@ -651,10 +331,11 @@ class base_qry_commonspTest extends TestCase {
 		$hour = 5;
 		$minute = 6;
 		$second = 7;
+		$stop = 8;
 		$SQLOP = 9;
-		InitArray($TA,2,10,' '); //Setup Test Array
 		$TA[$start][$op] = '=';
 		$TA[$start][$year] = '1';
+		$TA[$start][$SQLOP] = ' ';
 		$this->expectOutputString($EOM);
 		DateTimeRows2sql($TA,2,$SQL);
 	}
@@ -669,7 +350,7 @@ class base_qry_commonspTest extends TestCase {
 			include_once(self::$files);
 		}
 		$EOM = "<font color='#ff0000'><b>Criteria warning:</b> ".
-		"A date/time value of '1-1-1  : : ' was entered but no operator was ".
+		"A date/time value of '3-1-2 4:5:6' was entered but no operator was ".
 		'selected.</font>';
 		$start = 0;
 		$end = 1;
@@ -680,15 +361,418 @@ class base_qry_commonspTest extends TestCase {
 		$hour = 5;
 		$minute = 6;
 		$second = 7;
+		$stop = 8;
 		$SQLOP = 9;
-		InitArray($TA,2,10,' '); //Setup Test Array
 		$TA[$start][$op] = '';
 		$TA[$start][$month] = '1';
-		$TA[$start][$day] = '1';
-		$TA[$start][$year] = '1';
+		$TA[$start][$day] = '2';
+		$TA[$start][$year] = '3';
+		$TA[$start][$hour] = '4';
+		$TA[$start][$minute] = '5';
+		$TA[$start][$second] = '6';
 		$TA[$start][$SQLOP] = 'AND';
 		$this->expectOutputString($EOM);
 		DateTimeRows2sql($TA,2,$SQL);
+	}
+
+	// DateTimeRows2sql Basic Operators Validation
+	public function testDateTimeRows2sqlTestOps() {
+		GLOBAL $BASE_installID;
+		$db = self::$db;
+		$TA = self::$DTR2SQL;
+		$URV = self::$URV;
+		if ( is_object(self::$UIL) ){
+			$UIL = self::$UIL;
+		}else{
+			include_once(self::$files);
+		}
+		$start = 0;
+		$end = 1;
+		$op = 1;
+		$month = 2;
+		$day = 3;
+		$year = 4;
+		$hour = 5;
+		$minute = 6;
+		$second = 7;
+		$stop = 8;
+		$SQLOP = 9;
+		$TA[$start][$month] = '1';
+		$TA[$start][$day] = '1';
+		$TA[$start][$year] = '1';
+		$TA[$start][$hour] = '23';
+		$TA[$start][$minute] = '00';
+		$TA[$start][$second] = '59';
+		$TestOps = array ( '<', '>', '<=', '>=', '!=', '=' );
+		$EPfx = " AND (";
+		$ESfx = " ) ";
+		foreach($TestOps as $Top ){
+			$TA[$start][$op] = $Top;
+			$EOM = $EPfx;
+			if ( $Top == '=' ){
+				$EOM .= "( YEAR(timestamp) = 1  AND  MONTH(timestamp) = 1  AND  DAYOFMONTH(timestamp) = 1  AND  HOUR(timestamp) = 23  AND  MINUTE(timestamp) = 00  AND  SECOND(timestamp) = 59 )";
+			}else{
+				$EOM .= " timestamp $Top'2001-01-01 23:00:59'";
+			}
+			$EOM .= $ESfx;
+			$this->assertEquals( 1, DateTimeRows2sql($TA,1,$SQL), "$Top $URV" );
+			$this->assertEquals( $EOM, $SQL, $URV );
+			$SQL = '';
+		}
+	}
+
+	// DateTimeRows2sql Incomplete Data Tests.
+	public function testDateTimeRows2sqlTestFirstYearNotSet() {
+		GLOBAL $BASE_installID;
+		$db = self::$db;
+		$TA = self::$DTR2SQL;
+		$URV = self::$URV;
+		if ( is_object(self::$UIL) ){
+			$UIL = self::$UIL;
+		}else{
+			include_once(self::$files);
+		}
+		$start = 0;
+		$end = 1;
+		$op = 1;
+		$month = 2;
+		$day = 3;
+		$year = 4;
+		$hour = 5;
+		$minute = 6;
+		$second = 7;
+		$stop = 8;
+		$SQLOP = 9;
+		$EOM = '';
+		$TestOps = array ( '<', '>', '<=', '>=', '!=', '=' );
+		foreach($TestOps as $Top ){
+			$TA[$start][$op] = $Top;
+			$EOM .= "<font color='#ff0000'><b>Criteria warning:</b> ".
+			"An operator of '$Top' was selected indicating that some ".
+			'date/time criteria should be matched, but no value was '.
+			'specified.</font>';
+			$this->expectOutputString($EOM);
+			$this->assertEquals( 0, DateTimeRows2sql($TA,1,$SQL), $URV );
+			$SQL = '';
+		}
+	}
+	public function testDateTimeRows2sqlTestFirstMonthNotSet() {
+		GLOBAL $BASE_installID;
+		$db = self::$db;
+		$TA = self::$DTR2SQL;
+		$URV = self::$URV;
+		if ( is_object(self::$UIL) ){
+			$UIL = self::$UIL;
+		}else{
+			include_once(self::$files);
+		}
+		$start = 0;
+		$end = 1;
+		$op = 1;
+		$month = 2;
+		$day = 3;
+		$year = 4;
+		$hour = 5;
+		$minute = 6;
+		$second = 7;
+		$stop = 8;
+		$SQLOP = 9;
+		$TA[$start][$year] = '1';
+		$TestOps = array ( '<', '>', '<=', '>=', '!=', '=' );
+		$EPfx = " AND (";
+		$ESfx = " ) ";
+		foreach($TestOps as $Top ){
+			$TA[$start][$op] = $Top;
+			$EOM = $EPfx;
+			if ( $Top == '=' ){
+				$EOM .= "( YEAR(timestamp) = 1 )";
+			}elseif ( $Top == '>' || $Top == '<=' ){
+				$EOM .= " timestamp $Top'2001-01-01 23:59:59'";
+			}else{
+				$EOM .= " timestamp $Top'2001-01-01 00:00:00'";
+			}
+			$EOM .= $ESfx;
+			$this->assertEquals( 1, DateTimeRows2sql($TA,1,$SQL), "$Top $URV" );
+			$this->assertEquals( $EOM, $SQL, $URV );
+			$SQL = '';
+		}
+	}
+	public function testDateTimeRows2sqlTestFirstDayNotSet() {
+		GLOBAL $BASE_installID;
+		$db = self::$db;
+		$TA = self::$DTR2SQL;
+		$URV = self::$URV;
+		if ( is_object(self::$UIL) ){
+			$UIL = self::$UIL;
+		}else{
+			include_once(self::$files);
+		}
+		$start = 0;
+		$end = 1;
+		$op = 1;
+		$month = 2;
+		$day = 3;
+		$year = 4;
+		$hour = 5;
+		$minute = 6;
+		$second = 7;
+		$stop = 8;
+		$SQLOP = 9;
+		$TA[$start][$month] = '2';
+		$TA[$start][$year] = '1';
+		$TestOps = array ( '<', '>', '<=', '>=', '!=', '=' );
+		$EPfx = " AND (";
+		$ESfx = " ) ";
+		foreach($TestOps as $Top ){
+			$TA[$start][$op] = $Top;
+			$EOM = $EPfx;
+			if ( $Top == '=' ){
+				$EOM .= "( YEAR(timestamp) = 1  AND  MONTH(timestamp) = 2 )";
+			}elseif ( $Top == '>' || $Top == '<=' ){
+				$EOM .= " timestamp $Top'2001-02-01 23:59:59'";
+			}else{
+				$EOM .= " timestamp $Top'2001-02-01 00:00:00'";
+			}
+			$EOM .= $ESfx;
+			$this->assertEquals( 1, DateTimeRows2sql($TA,1,$SQL), "$Top $URV" );
+			$this->assertEquals( $EOM, $SQL, $URV );
+			$SQL = '';
+		}
+	}
+	public function testDateTimeRows2sqlTestLastDayNotSet() {
+		GLOBAL $BASE_installID;
+		$db = self::$db;
+		$TA = self::$DTR2SQL;
+		$URV = self::$URV;
+		if ( is_object(self::$UIL) ){
+			$UIL = self::$UIL;
+		}else{
+			include_once(self::$files);
+		}
+		$start = 0;
+		$end = 1;
+		$op = 1;
+		$month = 2;
+		$day = 3;
+		$year = 4;
+		$hour = 5;
+		$minute = 6;
+		$second = 7;
+		$stop = 8;
+		$SQLOP = 9;
+		$TA[$start][$month] = '2';
+		$TA[$start][$day] = '';
+		$TA[$start][$year] = '2000';
+		$TA[$start][$SQLOP] = 'AND';
+		$TA[$end][$month] = '2';
+		$TA[$end][$year] = '2000';
+		$TA[$end][$day] = '';
+		$TestOps = array ( '<', '>', '<=', '>=', '!=', '=' );
+		$EPfx = " AND (";
+		$ESfx = " ) ";
+		foreach($TestOps as $Top ){
+			$TA[$start][$op] = $Top;
+			$TA[$end][$op] = $Top;
+			$EOM = $EPfx;
+			if ( $Top == '=' ){
+				$EOM .= '( YEAR(timestamp) = 2000  AND  MONTH(timestamp) = 2 '.
+				') AND( YEAR(timestamp) = 2000  AND  MONTH(timestamp) = 2 )';
+			}elseif ( $Top == '>' || $Top == '<=' ){
+				$EOM .= " timestamp $Top'2000-02-01 23:59:59' ".
+				"AND timestamp $Top'2000-02-29 23:59:59'";
+			}else{
+				$EOM .= " timestamp $Top'2000-02-01 00:00:00' ".
+				"AND timestamp $Top'2000-02-29 00:00:00'";
+			}
+			$EOM .= $ESfx;
+			$this->assertEquals( 1, DateTimeRows2sql($TA,2,$SQL), "$Top $URV" );
+			$this->assertEquals( $EOM, $SQL, $URV );
+			$SQL = '';
+		}
+	}
+	public function testDateTimeRows2sqlTestLastDayNotSetIssue132() {
+		GLOBAL $BASE_installID;
+		$db = self::$db;
+		$TA = self::$DTR2SQL;
+		$URV = self::$URV;
+		if ( is_object(self::$UIL) ){
+			$UIL = self::$UIL;
+		}else{
+			include_once(self::$files);
+		}
+		$start = 0;
+		$end = 1;
+		$op = 1;
+		$month = 2;
+		$day = 3;
+		$year = 4;
+		$hour = 5;
+		$minute = 6;
+		$second = 7;
+		$stop = 8;
+		$SQLOP = 9;
+		$TA[$start][$month] = '2';
+		$TA[$start][$day] = '';
+		$TA[$start][$year] = '2000';
+		$TA[$start][$SQLOP] = 'AND';
+		$TA[$end][$month] = '2';
+		$TA[$end][$year] = '2000';
+		$TA[$end][$day] = '';
+		$TestOps = array ( '<', '>', '<=', '>=', '!=', '=' );
+		$EPfx = " AND (";
+		$ESfx = " ) ";
+		foreach($TestOps as $Top ){
+			$TA[$start][$op] = $Top;
+			$TA[$end][$op] = $Top;
+			$EOM = $EPfx;
+			if ( $Top == '=' ){
+				$EOM .= '( YEAR(timestamp) = 2000  AND  MONTH(timestamp) = 2 )';
+			}elseif ( $Top == '>' || $Top == '<=' ){
+				$EOM .= " timestamp $Top'2000-02-01 23:59:59'";
+			}else{
+				$EOM .= " timestamp $Top'2000-02-01 00:00:00'";
+			}
+			$EOM .= $ESfx;
+			$this->assertEquals( 1, DateTimeRows2sql($TA,1,$SQL), "$Top $URV" );
+			$this->assertEquals( $EOM, $SQL, $URV );
+			$SQL = '';
+		}
+	}
+	public function testDateTimeRows2sqlTestFirstHourNotSet() {
+		GLOBAL $BASE_installID;
+		$db = self::$db;
+		$TA = self::$DTR2SQL;
+		$URV = self::$URV;
+		if ( is_object(self::$UIL) ){
+			$UIL = self::$UIL;
+		}else{
+			include_once(self::$files);
+		}
+		$start = 0;
+		$end = 1;
+		$op = 1;
+		$month = 2;
+		$day = 3;
+		$year = 4;
+		$hour = 5;
+		$minute = 6;
+		$second = 7;
+		$stop = 8;
+		$SQLOP = 9;
+		$TA[$start][$op] = '<';
+		$TA[$start][$month] = '2';
+		$TA[$start][$year] = '1';
+		$TestOps = array ( '<', '>', '<=', '>=', '!=', '=' );
+		$EPfx = " AND (";
+		$ESfx = " ) ";
+		foreach($TestOps as $Top ){
+			$TA[$start][$op] = $Top;
+			$EOM = $EPfx;
+			if ( $Top == '=' ){
+				$EOM .= '( YEAR(timestamp) = 1  AND  MONTH(timestamp) = 2 )';
+			}elseif ( $Top == '>' || $Top == '<=' ){
+				$EOM .= " timestamp $Top'2001-02-01 23:59:59'";
+			}else{
+				$EOM .= " timestamp $Top'2001-02-01 00:00:00'";
+			}
+			$EOM .= $ESfx;
+			$this->assertEquals( 1, DateTimeRows2sql($TA,1,$SQL), "$Top $URV" );
+			$this->assertEquals( $EOM, $SQL, $URV );
+			$SQL = '';
+		}
+	}
+	public function testDateTimeRows2sqlTestFirstMinuteNotSet() {
+		GLOBAL $BASE_installID;
+		$db = self::$db;
+		$TA = self::$DTR2SQL;
+		$URV = self::$URV;
+		if ( is_object(self::$UIL) ){
+			$UIL = self::$UIL;
+		}else{
+			include_once(self::$files);
+		}
+		$start = 0;
+		$end = 1;
+		$op = 1;
+		$month = 2;
+		$day = 3;
+		$year = 4;
+		$hour = 5;
+		$minute = 6;
+		$second = 7;
+		$stop = 8;
+		$SQLOP = 9;
+		$TA[$start][$month] = '2';
+		$TA[$start][$day] = '1';
+		$TA[$start][$year] = '1';
+		$TA[$start][$hour] = '0';
+		$TestOps = array ( '<', '>', '<=', '>=', '!=', '=' );
+		$EPfx = " AND (";
+		$ESfx = " ) ";
+		foreach($TestOps as $Top ){
+			$TA[$start][$op] = $Top;
+			$EOM = $EPfx;
+			if ( $Top == '=' ){
+				$EOM .= '( YEAR(timestamp) = 1  AND  MONTH(timestamp) = 2  '.
+				'AND  DAYOFMONTH(timestamp) = 1  AND  HOUR(timestamp) = 0 )';
+			}elseif ( $Top == '<=' ){
+				$EOM .= " timestamp $Top'2001-02-01 00:59:59'";
+			}else{
+				$EOM .= " timestamp $Top'2001-02-01 00:00:00'";
+			}
+			$EOM .= $ESfx;
+			$this->assertEquals( 1, DateTimeRows2sql($TA,1,$SQL), "$Top $URV" );
+			$this->assertEquals( $EOM, $SQL, $URV );
+			$SQL = '';
+		}
+	}
+	public function testDateTimeRows2sqlTestFirstSecondNotSet() {
+		GLOBAL $BASE_installID;
+		$db = self::$db;
+		$TA = self::$DTR2SQL;
+		$URV = self::$URV;
+		if ( is_object(self::$UIL) ){
+			$UIL = self::$UIL;
+		}else{
+			include_once(self::$files);
+		}
+		$start = 0;
+		$end = 1;
+		$op = 1;
+		$month = 2;
+		$day = 3;
+		$year = 4;
+		$hour = 5;
+		$minute = 6;
+		$second = 7;
+		$stop = 8;
+		$SQLOP = 9;
+		$TA[$start][$op] = '>=';
+		$TA[$start][$month] = '2';
+		$TA[$start][$day] = '1';
+		$TA[$start][$year] = '1';
+		$TA[$start][$hour] = '0';
+		$TA[$start][$minute] = '1';
+		$TestOps = array ( '<', '>', '<=', '>=', '!=', '=' );
+		$EPfx = " AND (";
+		$ESfx = " ) ";
+		foreach($TestOps as $Top ){
+			$TA[$start][$op] = $Top;
+			$EOM = $EPfx;
+			if ( $Top == '=' ){
+				$EOM .= '( YEAR(timestamp) = 1  AND  MONTH(timestamp) = 2  '.
+				'AND  DAYOFMONTH(timestamp) = 1  AND  HOUR(timestamp) = 0  '.
+				'AND  MINUTE(timestamp) = 1 )';
+			}elseif ( $Top == '<=' ){
+				$EOM .= " timestamp $Top'2001-02-01 00:01:59'";
+			}else{
+				$EOM .= " timestamp $Top'2001-02-01 00:01:00'";
+			}
+			$EOM .= $ESfx;
+			$this->assertEquals( 1, DateTimeRows2sql($TA,1,$SQL), "$Top $URV" );
+			$this->assertEquals( $EOM, $SQL, $URV );
+			$SQL = '';
+		}
 	}
 
 	// Add code to a function if needed.

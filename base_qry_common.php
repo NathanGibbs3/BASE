@@ -1,6 +1,6 @@
 <?php
 // Basic Analysis and Security Engine (BASE)
-// Copyright (C) 2019-2021 Nathan Gibbs
+// Copyright (C) 2019-2023 Nathan Gibbs
 // Copyright (C) 2004 BASE Project Team
 // Copyright (C) 2000 Carnegie Mellon University
 //
@@ -120,39 +120,35 @@ function addSQLItem(&$sstring, $what_to_add)
    $sstring = (strlen($sstring) == 0 ) ? "($what_to_add" : "$sstring AND $what_to_add";
 }
 
-// Sets the 3rd param to valid time selection SQL.
-// Returns 1 on set.
-// Returns 0 on not set.
+// Adds valid date/time selection SQL to the 3rd param.
+// Returns 1 on SQL added.
+// Returns 0 on no SQL added.
 function DateTimeRows2sql( $field, $cnt, &$s_sql ){
-	GLOBAL $db;
+	GLOBAL $db, $debug_mode;
 	// $field is an array containing 2 arrays.
 	// Each has 10 elements describing time criteria.
 	// The first one is sarting, the second ending criteria.
-	// Why these are like this I have no idea, but here they are.
-	// Element list 0-9.
-	// 0 & 8	" "		Always space.
-	// 1 		Logical Operators. = >= <= > <
-	//			" "		Space on empty.
-	// 2-7		""		Empty on empty.
-	// 2		month
-	// 3		day
-	// 4		year
-	// 5		hour
-	// 6		minute
-	// 7		second
-	// 9		SQL Logical Operator in start array when second array is used.
-	//			Always space in end array.
+	// The is a based on TimeCriteria class as defined in:
+	// ./includes/base_state_citems.inc.php
+	// However $field is not necessarily a TimeCriteria class.
+	//	[][0]	Empty or (
+	//	[][1]	Logical Operators: =, !=, <, <=, >, >=
+	//			"" or " "	Empty or space on empty.
+	//	2-7		""			Empty on empty.
+	//	[][2]	month		[][6]	minute
+	//	[][3]	day			[][7]	second
+	//	[][4]	year		[][8]	Empty, (, or )
+	//	[][5]	hour
+	//	[][9]	AND, OR
+	//			SQL Logical Operator in start array when second array is used.
 	$Ret = 0; // Default Return Value.
 	if ( is_array($field) && is_numeric($cnt) ){ // Input validation.
 		// Setup
 		$tmp2 = '';
 		$allempty = false;
-		$time_field = array(
-			"mysql"    => ":",
-			"mssql"    => ":",
-			"postgres" => ":"
+		$minsec = array( // Shim for ambiguous search criteria.
+			'>=' => '00', '<=' => '59', '>' => '00', '<' => '00', '!=' => '00'
 		);
-		$minsec = array( ">=" => "00", "<=" => "59");
 		$EPfx = '<b>'._QCERRCRITWARN.'</b> '; // Error Message Prefix
 		for ( $i = 0; $i < $cnt; $i++ ){
 			$tmp = '';
@@ -160,44 +156,77 @@ function DateTimeRows2sql( $field, $cnt, &$s_sql ){
 				isset($field[$i]) && is_array($field[$i])
 				&& count($field[$i]) == 10
 			){ // Data Structure Validation.
-				// Set Index Values
-				$op = $field[$i][1];
-				$month = $field[$i][2];
-				$day = $field[$i][3];
-				$year = $field[$i][4];
-				$hour = $field[$i][5];
-				$minute = $field[$i][6];
-				$second = $field[$i][7];
-				$SQLOP = $field[$i][9];
+				// Set & sanitize Index Values
+				$fstart = CleanVariable($field[$i][0], VAR_OPAREN, array (''));
+				$op = CleanVariable(
+					$field[$i][1], '',
+					array('=', '!=', '<', '<=', '>', '>=')
+				);
+				$month = CleanVariable($field[$i][2], VAR_DIGIT);
+				$day = CleanVariable($field[$i][3], VAR_DIGIT);
+				$year = CleanVariable($field[$i][4], VAR_DIGIT);
+				$hour = CleanVariable($field[$i][5], VAR_DIGIT);
+				$minute = CleanVariable($field[$i][6], VAR_DIGIT);
+				$second = CleanVariable($field[$i][7], VAR_DIGIT);
+				$fstop = CleanVariable(
+					$field[$i][8], VAR_OPAREN | VAR_CPAREN, array ('')
+				);
+				$SQLOP = CleanVariable($field[$i][9], '', array('AND', 'OR'));
+				// Catch error conditions.
+				// This could be a place to stop Issue #126 input from
+				// turning into invalid SQL.
+//				if ( $fstart != '' || $fstop != '' )
+//				if ( $fstart != '(' || ( $fstop != '(' && $fstop != ')' )
+//				){ // Invalid Criteria
+//					ErrorMessage($EPfx._ERRCRITELEM);
+//					break;
+//				}
 				if (
-					$cnt > 1 && $i % 2 == 0 && $SQLOP == ' ' && $year != ' '
-				){
+					$cnt > 1 && $i % 2 == 0 && $SQLOP == '' && is_numeric($year)
+				){ // Multi. Criteria with no SQL Op.
 					ErrorMessage($EPfx._QCERRDATEBOOL);
 					break;
 				}
-				if ( $op == '' &&
-					( $month != '' || $day != '' || $year != '' )
-				){
+				if ( $op == '' && (
+					is_numeric($month) || is_numeric($day) || is_numeric($year)
+				) ){ // No logical op error.
 					ErrorMessage(
 						$EPfx._QCERRDATETIME." '".
-						$month."-".$day."-".$year." ".
-						$hour.":".$minute.":".$second.
-						"' "._QCERROPERSELECT
+						implode ('-',array($year, $month, $day)) .' '.
+						implode (':',array($hour, $minute, $second))
+						."' "._QCERROPERSELECT
 					);
 					break;
 				}
-				if ( $op != ' ' && $op != '' ){
+				if ( $op != '' ){
+					if ( !is_numeric($year) && !is_numeric($hour)
+					){ // Not date or time.
+						ErrorMessage(
+							$EPfx._QCERROPER." '$op' "._QCERRDATEVALUE
+						);
+						break;
+					}
+					if ( !is_numeric($year) && is_numeric($hour)
+					){ // Invlaid Hour
+						ErrorMessage($EPfx._QCERRINVHOUR);
+						break;
+					}
 					$t = '';
-					//Build the SQL string when >, >=, <, <= operator is used.
+					//Build the SQL string when all ops but = are used.
 					if ( $op != '=' ){
-						if ( $year != ' ' ){ // Year set.
+						if ( is_numeric($year) ){ // Year set.
 							// Create the date string. YYYY-MM-DD
-							if ( $month != ' ' ){ // Month set.
+							// Catch 2 digit years, default to current century.
+							if ( strlen($year) <= 2 ){
+								$year = substr(date("Y"),0,2).
+								FormatTimeDigit($year);
+							}
+							if ( is_numeric($month) ){ // Month set.
 								$month = FormatTimeDigit($month);
 							}else{ // Month not set, default to January.
 								$month = '01';
 							}
-							if ( $day != '' ){ // Day set.
+							if ( is_numeric($day) ){ // Day set.
 								$day = FormatTimeDigit($day);
 							}else{ // Day not set.
 								if ( $i == 0 ){ // Start criteria
@@ -211,123 +240,106 @@ function DateTimeRows2sql( $field, $cnt, &$s_sql ){
 									}
 								}
 							}
-							$t = implode ('-',array($year, $month, $day) );
+							$t = implode ('-',array($year, $month, $day));
 						}
 						// Time.
-						// For MSSQL, you must have colons in the time fields.
-						// Otherwise, the DATEDIFF function will return
-						// Arithmetic Overflow.
-						if ( $hour != '' ){ // Hour set.
-							$Sep = $time_field[$db->DB_type];
-							$t .= ' ';
+						$t .= ' ';
+						if ( is_numeric($hour) ){ // Hour set.
 							$hour = FormatTimeDigit($hour);
-							if ( $minute != '' ){ // Minute set.
+							if ( is_numeric($minute) ){ // Minute set.
 								$minute = FormatTimeDigit($minute);
 							}else{ // Minute not set, set defaults.
 								$minute = $minsec[$op];
 							}
-							if ( $second != '' ){ // Second set.
+							if ( is_numeric($second) ){ // Second set.
 								$second = FormatTimeDigit($second);
 							}else{ // Second not set, set defaults.
 								$second = $minsec[$op];
 							}
 							$t .= implode (
-								$Sep,array($hour, $minute, $second)
+								':',array($hour, $minute, $second)
 							);
-						}elseif(
-							( $op == ">" || $op == "<=" ) && $year != ' '
-						){ // Hour not set.
-							// Fixup for > or <= operators, add an extra day.
-							$t .= ' 23:59:59';
-						}
-						if ( $year == ' ' && $hour == '' ){
-							// Not date or time.
-							ErrorMessage(
-								$EPfx._QCERROPER." '$op' "._QCERRDATEVALUE
-							);
-						}elseif (
-							($year != ' ' && $hour != '') || $year != ' '
-						){ // Date or date/time.
-							if( $db->DB_type == 'oci8' ){ // Oracle DB.
-								// @codeCoverageIgnoreStart
-								// We have no way of testing Oracle
-								// functionality.
-								$tmp = $field[$i][0]." timestamp ".$op.
-								"to_date( '$t', 'YYYY-MM-DD HH24MISS' )".
-								$field[$i][8].' '.$SQLOP;
-								// @codeCoverageIgnoreEnd
-							}else{
-								if ( count($field) > 1 ){
-									// Better fix for bug #1199128
-									// Number of empty values
-									$empty_count = 0;
-									reset($field[$i]);
-									while (
-										list( $key, $val ) = each( $field[$i] )
-									){
-										if ( empty($val) ){
-											$empty_count += 1;
-										}
-									}
-									// Total number of values in the criteria
-									// line (empty or filled).
-									$array_count = count( $field[1] );
-									// Check to see if any fields are empty.
-									// If the number of empty fields are
-									// greater than (impossible) or equal to
-									// (possible) the number of values in the
-									// array, then they must all be empty.
-									if ( $empty_count >= $array_count ){
-										$allempty = true;
-									}
-									// Trim white space.
-									$SQLOP = trim( $SQLOP );
-									// If empty, dont process line.
-									if ( $allempty ){
-										continue;
-									}else{ // Process line.
-										$tmp = $field[$i][0]." timestamp ".
-										$op."'$t'".$field[$i][8].' '.
-										CleanVariable($SQLOP, VAR_ALPHA);
-									}
-								}else{ // We have one criteria line, process it.
-									$tmp = $field[$i][0]." timestamp ".
-									$op."'$t'".$field[$i][8].' '.
-									CleanVariable($SQLOP, VAR_ALPHA);
-								}
+						}else{ // Hour not set, shim ambiguous search criteria.
+							if(
+								( $op == ">" || $op == "<=" ) &&
+								is_numeric($year)
+							){ // Fixup for > or <= operators, add an extra day.
+								$t .= '23:59:59';
+							}else{ // Default to start of day.
+								$t .= '00:00:00';
 							}
-						}elseif ( $hour != ' ' && $hour != '' ){
-							ErrorMessage($EPfx._QCERRINVHOUR);
+						}
+						if( $db->DB_type == 'oci8' ){ // Oracle DB.
+							// @codeCoverageIgnoreStart
+							// We have no way of testing Oracle functionality.
+							$tmp = " timestamp " . $op .
+							"to_date( '$t', 'YYYY-MM-DD HH24MISS' )";
+							// @codeCoverageIgnoreEnd
+						}else{
+							if ( count($field) > 1 ){
+								// Better fix for bug #1199128
+								// Number of empty values
+								$empty_count = 0;
+								reset($field[$i]);
+								while (
+									list( $key, $val ) = each( $field[$i] )
+								){
+									if ( empty($val) ){
+										$empty_count += 1;
+									}
+								}
+								// Total number of values in the criteria
+								// line (empty or filled).
+								$array_count = count( $field[1] );
+								// Check to see if any fields are empty.
+								// If the number of empty fields are
+								// greater than (impossible) or equal to
+								// (possible) the number of values in the
+								// array, then they must all be empty.
+								if ( $empty_count >= $array_count ){
+									$allempty = true;
+								}
+								// If empty, dont process line.
+								if ( $allempty ){
+									continue;
+								}else{ // Process line.
+									$tmp = " timestamp " . $op . "'$t'";
+								}
+							}else{ // We have one criteria line, process it.
+								$tmp = " timestamp " . $op . "'$t'";
+							}
 						}
 					}else{ // Build the SQL string when the = operator is used.
+						// NPG Performance wise, this query takes more time.
+						// Consider rewriting this at some point.
 						// Date.
-						if ( $year != ' ' ){
+						if ( is_numeric($year) ){ // Year set.
 							addSQLItem( $tmp,
 								$db->baseSQL_YEAR("timestamp", "=", $year)
 							);
 						}
-						if ( $month != ' ' ){
+						if ( is_numeric($month) ){ // Month set.
 							addSQLItem( $tmp,
 								$db->baseSQL_MONTH("timestamp", "=", $month)
 							);
 						}
-						if ( $day != '' ){
+						if ( is_numeric($day) ){ // Day set.
 							addSQLItem( $tmp,
 								$db->baseSQL_DAY("timestamp", "=", $day)
 							);
 						}
 						// Time.
-						if ( $hour != '' ){
+						if ( is_numeric($hour) ){ // Hour set.
 							addSQLItem( $tmp,
 								$db->baseSQL_HOUR("timestamp", "=", $hour)
 							);
 						}
-						if ( $minute != '' ){
+						if ( is_numeric($minute) ){ // Minute set.
 							addSQLItem( $tmp,
 								$db->baseSQL_MINUTE("timestamp", "=", $minute)
 							);
 						}
-						if ( $second != '' ){
+						if ( is_numeric($second) ){ // Second set.
 							addSQLItem( $tmp,
 								$db->baseSQL_SECOND("timestamp", "=", $second)
 							);
@@ -337,16 +349,24 @@ function DateTimeRows2sql( $field, $cnt, &$s_sql ){
 								$EPfx._QCERROPER." '$op' "._QCERRDATECRIT
 							);
 						}else{
-							$tmp = $field[$i][0].$tmp.')'.$field[$i][8].
-							CleanVariable($SQLOP, VAR_ALPHA);
+							$tmp .= ')';
 						}
 					}
 				}
-				$tmp2 .= $tmp;
+				if ( $tmp != '' ){
+					$tmp2 .= $field[$i][0] . $tmp . $field[$i][8] . ' ';
+					if ( $i != $cnt -1 ){ // Catch Issue #132
+						$tmp2 .= $SQLOP;
+					}
+				}
 			}
 		}
 		if ( $tmp2 != '' ){
 			$s_sql .= ' AND ('.$tmp2.') ';
+			if ( $debug_mode > 0 ){
+				var_dump($field);
+				ErrorMessage( __FUNCTION__ . "() Returned SQL: $s_sql");
+			}
 			$Ret = 1;
 		}
 	}

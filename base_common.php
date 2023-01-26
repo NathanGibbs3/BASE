@@ -1028,7 +1028,7 @@ function HtmlColor ( $color ){
 		in_array($color, $wsc) // Web Safe Color.
 		|| preg_match("/^#?[0-9A-F]{6}$/i", $color) // Hex RGB Color Code.
 	){
-			$Ret = true;
+		$Ret = true;
 	}
 	return ($Ret);
 }
