@@ -69,7 +69,7 @@ class output_htmlSPTest extends TestCase {
 			$ECS = _CHARSET;
 		}
 		$ETitle = $HTitle . " $BASE_VERSION";
-		$expected =
+		$EOM =
 		'<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">'
 		. "\n<!-- $ETitle -->\n<html>\n\t<head>"
 		."\n\t\t$MHE"."Content-Type' content='text/html; charset=$ECS'>"
@@ -77,11 +77,14 @@ class output_htmlSPTest extends TestCase {
 		."\n\t\t$MNM"."Generator' content='BASE 0.0.0 (Joette)'>"
 		."\n\t\t$MNM"."viewport' content='width=device-width, initial-scale=1'>"
 		."\n\t\t<title>$ETitle</title>"
+//		."\n\t\t$MNM"."color-scheme\" content=\"dark light\"/>"
+		."\n\t\t<link rel=\"stylesheet\" type=\"text/css\""
+		." HREF=\"/styles/base_common.css\">"
 		."\n\t\t<link rel=\"stylesheet\" type=\"text/css\""
 		." HREF=\"/styles/$base_style\">\n\t</head>\n\t<body>"
 		."\n\t\t<div class=\"mainheadertitle\">$HTitle</div>"
 		;
-		$this->expectOutputString($expected);
+		$this->expectOutputString($EOM);
 		PageStart();
 	}
 	public function testPageStartCustomTitle() {
@@ -98,7 +101,7 @@ class output_htmlSPTest extends TestCase {
 			$ECS = _CHARSET;
 		}
 		$ETitle = $HTitle . " $BASE_VERSION: Custom Title";
-		$expected =
+		$EOM =
 		'<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">'
 		. "\n<!-- $ETitle -->\n<html>\n\t<head>"
 		."\n\t\t$MHE"."Content-Type' content='text/html; charset=$ECS'>"
@@ -106,11 +109,14 @@ class output_htmlSPTest extends TestCase {
 		."\n\t\t$MNM"."Generator' content='BASE 0.0.0 (Joette)'>"
 		."\n\t\t$MNM"."viewport' content='width=device-width, initial-scale=1'>"
 		."\n\t\t<title>$ETitle</title>"
+//		."\n\t\t$MNM"."color-scheme\" content=\"dark light\"/>"
+		."\n\t\t<link rel=\"stylesheet\" type=\"text/css\""
+		." HREF=\"/styles/base_common.css\">"
 		."\n\t\t<link rel=\"stylesheet\" type=\"text/css\""
 		." HREF=\"/styles/$base_style\">\n\t</head>\n\t<body>"
 		."\n\t\t<div class=\"mainheadertitle\">$HTitle</div>"
 		;
-		$this->expectOutputString($expected);
+		$this->expectOutputString($EOM);
 		PageStart(0,'Custom Title');
 	}
 	public function testPageStartArchiveTitle() {
@@ -130,7 +136,7 @@ class output_htmlSPTest extends TestCase {
 		$ETitle = $HTitle . " $BASE_VERSION";
 		$ETitle .= ' -- ARCHIVE';
 		$HTitle .= ' -- ARCHIVE';
-		$expected =
+		$EOM =
 		'<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">'
 		. "\n<!-- $ETitle -->\n<html>\n\t<head>"
 		."\n\t\t$MHE"."Content-Type' content='text/html; charset=$ECS'>"
@@ -138,11 +144,14 @@ class output_htmlSPTest extends TestCase {
 		."\n\t\t$MNM"."Generator' content='BASE 0.0.0 (Joette)'>"
 		."\n\t\t$MNM"."viewport' content='width=device-width, initial-scale=1'>"
 		."\n\t\t<title>$ETitle</title>"
+//		."\n\t\t$MNM"."color-scheme\" content=\"dark light\"/>"
+		."\n\t\t<link rel=\"stylesheet\" type=\"text/css\""
+		." HREF=\"/styles/base_common.css\">"
 		."\n\t\t<link rel=\"stylesheet\" type=\"text/css\""
 		." HREF=\"/styles/$base_style\">\n\t</head>\n\t<body>"
 		."\n\t\t<div class=\"mainheadertitle\">$HTitle</div>"
 		;
-		$this->expectOutputString($expected);
+		$this->expectOutputString($EOM);
 		PageStart();
 		$_COOKIE['archive'] = 0;
 	}
@@ -162,7 +171,7 @@ class output_htmlSPTest extends TestCase {
 			$ECS = _CHARSET;
 		}
 		$ETitle = $HTitle . " $BASE_VERSION";
-		$expected =
+		$EOM =
 		'<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">'
 		. "\n<!-- $ETitle -->\n<html>\n\t<head>"
 		."\n\t\t$MHE"."Content-Type' content='text/html; charset=$ECS'>"
@@ -171,11 +180,14 @@ class output_htmlSPTest extends TestCase {
 		."\n\t\t$MNM"."Generator' content='BASE 0.0.0 (Joette)'>"
 		."\n\t\t$MNM"."viewport' content='width=device-width, initial-scale=1'>"
 		."\n\t\t<title>$ETitle</title>"
+//		."\n\t\t$MNM"."color-scheme\" content=\"dark light\"/>"
+		."\n\t\t<link rel=\"stylesheet\" type=\"text/css\""
+		." HREF=\"/styles/base_common.css\">"
 		."\n\t\t<link rel=\"stylesheet\" type=\"text/css\""
 		." HREF=\"/styles/$base_style\">\n\t</head>\n\t<body>"
 		."\n\t\t<div class=\"mainheadertitle\">$HTitle</div>"
 		;
-		$this->expectOutputString($expected);
+		$this->expectOutputString($EOM);
 		PageStart();
 		$html_no_cache = 0;
 	}
@@ -194,7 +206,7 @@ class output_htmlSPTest extends TestCase {
 			$ECS = _CHARSET;
 		}
 		$ETitle = $HTitle . " $BASE_VERSION";
-		$expected =
+		$EOM =
 		'<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">'
 		. "\n<!-- $ETitle -->\n<html>\n\t<head>"
 		."\n\t\t$MHE"."Content-Type' content='text/html; charset=$ECS'>"
@@ -203,11 +215,14 @@ class output_htmlSPTest extends TestCase {
 		."\n\t\t$MNM"."Generator' content='BASE 0.0.0 (Joette)'>"
 		."\n\t\t$MNM"."viewport' content='width=device-width, initial-scale=1'>"
 		."\n\t\t<title>$ETitle</title>"
+//		."\n\t\t$MNM"."color-scheme\" content=\"dark light\"/>"
+		."\n\t\t<link rel=\"stylesheet\" type=\"text/css\""
+		." HREF=\"/styles/base_common.css\">"
 		."\n\t\t<link rel=\"stylesheet\" type=\"text/css\""
 		." HREF=\"/styles/$base_style\">\n\t</head>\n\t<body>"
 		."\n\t\t<div class=\"mainheadertitle\">$HTitle</div>"
 		;
-		$this->expectOutputString($expected);
+		$this->expectOutputString($EOM);
 		PageStart(1);
 	}
 	public function testdispMonthOptionsReturnDefaults() {
@@ -218,20 +233,20 @@ class output_htmlSPTest extends TestCase {
 			}else{
 				include_once(self::$files);
 			}
-			$expected ="\n".'<option value="01" >January</option>';
-			$expected .="\n".'<option value="02" >February</option>';
-			$expected .="\n".'<option value="03" >March</option>';
-			$expected .="\n".'<option value="04" >April</option>';
-			$expected .="\n".'<option value="05" >May</option>';
-			$expected .="\n".'<option value="06" >June</option>';
-			$expected .="\n".'<option value="07" >July</option>';
-			$expected .="\n".'<option value="08" >August</option>';
-			$expected .="\n".'<option value="09" >September</option>';
-			$expected .="\n".'<option value="10" >October</option>';
-			$expected .="\n".'<option value="11" >November</option>';
-			$expected .="\n".'<option value="12" >December</option>';
+			$EOM ="\n".'<option value="01" >January</option>';
+			$EOM .="\n".'<option value="02" >February</option>';
+			$EOM .="\n".'<option value="03" >March</option>';
+			$EOM .="\n".'<option value="04" >April</option>';
+			$EOM .="\n".'<option value="05" >May</option>';
+			$EOM .="\n".'<option value="06" >June</option>';
+			$EOM .="\n".'<option value="07" >July</option>';
+			$EOM .="\n".'<option value="08" >August</option>';
+			$EOM .="\n".'<option value="09" >September</option>';
+			$EOM .="\n".'<option value="10" >October</option>';
+			$EOM .="\n".'<option value="11" >November</option>';
+			$EOM .="\n".'<option value="12" >December</option>';
 			$this->assertEquals(
-				$expected,
+				$EOM,
 				dispMonthOptions(''),
 				'Unexpected Return Value.'
 			);
@@ -248,20 +263,20 @@ class output_htmlSPTest extends TestCase {
 			}else{
 				include_once(self::$files);
 			}
-			$expected ="\n\t".'<option value="01" >January</option>';
-			$expected .="\n\t".'<option value="02" >February</option>';
-			$expected .="\n\t".'<option value="03" >March</option>';
-			$expected .="\n\t".'<option value="04" >April</option>';
-			$expected .="\n\t".'<option value="05" >May</option>';
-			$expected .="\n\t".'<option value="06" >June</option>';
-			$expected .="\n\t".'<option value="07" >July</option>';
-			$expected .="\n\t".'<option value="08" >August</option>';
-			$expected .="\n\t".'<option value="09" >September</option>';
-			$expected .="\n\t".'<option value="10" >October</option>';
-			$expected .="\n\t".'<option value="11" >November</option>';
-			$expected .="\n\t".'<option value="12" >December</option>';
+			$EOM ="\n\t".'<option value="01" >January</option>';
+			$EOM .="\n\t".'<option value="02" >February</option>';
+			$EOM .="\n\t".'<option value="03" >March</option>';
+			$EOM .="\n\t".'<option value="04" >April</option>';
+			$EOM .="\n\t".'<option value="05" >May</option>';
+			$EOM .="\n\t".'<option value="06" >June</option>';
+			$EOM .="\n\t".'<option value="07" >July</option>';
+			$EOM .="\n\t".'<option value="08" >August</option>';
+			$EOM .="\n\t".'<option value="09" >September</option>';
+			$EOM .="\n\t".'<option value="10" >October</option>';
+			$EOM .="\n\t".'<option value="11" >November</option>';
+			$EOM .="\n\t".'<option value="12" >December</option>';
 			$this->assertEquals(
-				$expected,
+				$EOM,
 				dispMonthOptions('',1),
 				'Unexpected Return Value.'
 			);
@@ -271,13 +286,13 @@ class output_htmlSPTest extends TestCase {
 		}
 	}
 	public function testPrintBASEMenuDefaults() {
-		$expected = '';
-		$this->expectOutputString($expected);
+		$EOM = '';
+		$this->expectOutputString($EOM);
 		PrintBASEMenu();
 	}
 	public function testPrintBASEMenuInvalid() {
-		$expected = '';
-		$this->expectOutputString($expected);
+		$EOM = '';
+		$this->expectOutputString($EOM);
 		PrintBASEMenu('Invalid');
 	}
 	public function testPrintBASEMenuHeader() {
@@ -287,23 +302,23 @@ class output_htmlSPTest extends TestCase {
 		}else{
 			include_once(self::$files);
 		}
-		$expected = "\n\t\t".'<div class=\'mainheadermenu\'>';
-		$expected .= "\n\t\t\t".'<table border=\'0\'>';
-		$expected .= "\n\t\t\t\t".'<tr>';
-		$expected .= "\n\t\t\t\t\t".'<td class=\'menuitem\'>';
-		$expected .= "\n\t\t\t\t\t\t".'<a class=\'menuitem\' ';
-		$expected .= 'href=\'/base_main.php\'>Home</a> | ';
-		$expected .= "\n\t\t\t\t\t\t".'<a class=\'menuitem\' ';
-		$expected .= 'href=\'/base_qry_main.php?new=1\'>Search</a> | ';
-		$expected .= "\n\t\t\t\t\t\t".'<a class=\'menuitem\' ';
-		$expected .= 'href=\'/base_user.php\'>User Preferences</a> | ';
-		$expected .= "\n\t\t\t\t\t\t".'<a class=\'menuitem\' ';
-		$expected .= 'href=\'/base_logout.php\'>Logout</a>';
-		$expected .= "\n\t\t\t\t\t".'</td>';
-		$expected .= "\n\t\t\t\t".'</tr>';
-		$expected .= "\n\t\t\t".'</table>';
-		$expected .= "\n\t\t".'</div>';
-		$this->expectOutputString($expected);
+		$EOM = "\n\t\t".'<div class=\'mainheadermenu\'>';
+		$EOM .= "\n\t\t\t".'<table border=\'0\'>';
+		$EOM .= "\n\t\t\t\t".'<tr>';
+		$EOM .= "\n\t\t\t\t\t".'<td class=\'menuitem\'>';
+		$EOM .= "\n\t\t\t\t\t\t".'<a class=\'menuitem\' ';
+		$EOM .= 'href=\'/base_main.php\'>Home</a> | ';
+		$EOM .= "\n\t\t\t\t\t\t".'<a class=\'menuitem\' ';
+		$EOM .= 'href=\'/base_qry_main.php?new=1\'>Search</a> | ';
+		$EOM .= "\n\t\t\t\t\t\t".'<a class=\'menuitem\' ';
+		$EOM .= 'href=\'/base_user.php\'>User Preferences</a> | ';
+		$EOM .= "\n\t\t\t\t\t\t".'<a class=\'menuitem\' ';
+		$EOM .= 'href=\'/base_logout.php\'>Logout</a>';
+		$EOM .= "\n\t\t\t\t\t".'</td>';
+		$EOM .= "\n\t\t\t\t".'</tr>';
+		$EOM .= "\n\t\t\t".'</table>';
+		$EOM .= "\n\t\t".'</div>';
+		$this->expectOutputString($EOM);
 		PrintBASEMenu('Header');
 	}
 	public function testPrintBASEMenuHeaderBackLink() {
@@ -313,24 +328,24 @@ class output_htmlSPTest extends TestCase {
 		}else{
 			include_once(self::$files);
 		}
-		$expected = "\n\t\t".'<div class=\'mainheadermenu\'>';
-		$expected .= "\n\t\t\t".'<table border=\'0\'>';
-		$expected .= "\n\t\t\t\t".'<tr>';
-		$expected .= "\n\t\t\t\t\t".'<td class=\'menuitem\'>';
-		$expected .= "\n\t\t\t\t\t\t".'<a class=\'menuitem\' ';
-		$expected .= 'href=\'/base_main.php\'>Home</a> | ';
-		$expected .= "\n\t\t\t\t\t\t".'<a class=\'menuitem\' ';
-		$expected .= 'href=\'/base_qry_main.php?new=1\'>Search</a> | ';
-		$expected .= "\n\t\t\t\t\t\t".'<a class=\'menuitem\' ';
-		$expected .= 'href=\'/base_user.php\'>User Preferences</a> | ';
-		$expected .= "\n\t\t\t\t\t\t".'<a class=\'menuitem\' ';
-		$expected .= 'href=\'/base_logout.php\'>Logout</a> | ';
-		$expected .= "\n\t\t\t\t\t\t".'Test';
-		$expected .= "\n\t\t\t\t\t".'</td>';
-		$expected .= "\n\t\t\t\t".'</tr>';
-		$expected .= "\n\t\t\t".'</table>';
-		$expected .= "\n\t\t".'</div>';
-		$this->expectOutputString($expected);
+		$EOM = "\n\t\t".'<div class=\'mainheadermenu\'>';
+		$EOM .= "\n\t\t\t".'<table border=\'0\'>';
+		$EOM .= "\n\t\t\t\t".'<tr>';
+		$EOM .= "\n\t\t\t\t\t".'<td class=\'menuitem\'>';
+		$EOM .= "\n\t\t\t\t\t\t".'<a class=\'menuitem\' ';
+		$EOM .= 'href=\'/base_main.php\'>Home</a> | ';
+		$EOM .= "\n\t\t\t\t\t\t".'<a class=\'menuitem\' ';
+		$EOM .= 'href=\'/base_qry_main.php?new=1\'>Search</a> | ';
+		$EOM .= "\n\t\t\t\t\t\t".'<a class=\'menuitem\' ';
+		$EOM .= 'href=\'/base_user.php\'>User Preferences</a> | ';
+		$EOM .= "\n\t\t\t\t\t\t".'<a class=\'menuitem\' ';
+		$EOM .= 'href=\'/base_logout.php\'>Logout</a> | ';
+		$EOM .= "\n\t\t\t\t\t\t".'Test';
+		$EOM .= "\n\t\t\t\t\t".'</td>';
+		$EOM .= "\n\t\t\t\t".'</tr>';
+		$EOM .= "\n\t\t\t".'</table>';
+		$EOM .= "\n\t\t".'</div>';
+		$this->expectOutputString($EOM);
 		PrintBASEMenu('Header', 'Test');
 	}
 	public function testPrintBASEMenuFooter() {
@@ -340,26 +355,26 @@ class output_htmlSPTest extends TestCase {
 		}else{
 			include_once(self::$files);
 		}
-		$expected = "\n\t\t".'<div class=\'mainheadermenu\'>';
-		$expected .= "\n\t\t\t".'<table border=\'0\'>';
-		$expected .= "\n\t\t\t\t".'<tr>';
-		$expected .= "\n\t\t\t\t\t".'<td class=\'menuitem\'>';
-		$expected .= "\n\t\t\t\t\t\t".'<a class=\'menuitem\' ';
-		$expected .= 'href=\'/base_ag_main.php?ag_action=list\'>';
-		$expected .= 'Alert Group Maintenance</a> | ';
-		$expected .= "\n\t\t\t\t\t\t".'<a class=\'menuitem\' ';
-		$expected .= 'href=\'/base_maintenance.php\'>Cache & Status</a> | ';
-		$expected .= "\n\t\t\t\t\t\t".'<a class=\'menuitem\' ';
-		$expected .= 'href=\'/base_user.php\'>User Preferences</a> | ';
-		$expected .= "\n\t\t\t\t\t\t".'<a class=\'menuitem\' ';
-		$expected .= 'href=\'/base_logout.php\'>Logout</a> | ';
-		$expected .= "\n\t\t\t\t\t\t".'<a class=\'menuitem\' ';
-		$expected .= 'href=\'/admin/index.php\'>Administration</a>';
-		$expected .= "\n\t\t\t\t\t".'</td>';
-		$expected .= "\n\t\t\t\t".'</tr>';
-		$expected .= "\n\t\t\t".'</table>';
-		$expected .= "\n\t\t".'</div>';
-		$this->expectOutputString($expected);
+		$EOM = "\n\t\t".'<div class=\'mainheadermenu\'>';
+		$EOM .= "\n\t\t\t".'<table border=\'0\'>';
+		$EOM .= "\n\t\t\t\t".'<tr>';
+		$EOM .= "\n\t\t\t\t\t".'<td class=\'menuitem\'>';
+		$EOM .= "\n\t\t\t\t\t\t".'<a class=\'menuitem\' ';
+		$EOM .= 'href=\'/base_ag_main.php?ag_action=list\'>';
+		$EOM .= 'Alert Group Maintenance</a> | ';
+		$EOM .= "\n\t\t\t\t\t\t".'<a class=\'menuitem\' ';
+		$EOM .= 'href=\'/base_maintenance.php\'>Cache & Status</a> | ';
+		$EOM .= "\n\t\t\t\t\t\t".'<a class=\'menuitem\' ';
+		$EOM .= 'href=\'/base_user.php\'>User Preferences</a> | ';
+		$EOM .= "\n\t\t\t\t\t\t".'<a class=\'menuitem\' ';
+		$EOM .= 'href=\'/base_logout.php\'>Logout</a> | ';
+		$EOM .= "\n\t\t\t\t\t\t".'<a class=\'menuitem\' ';
+		$EOM .= 'href=\'/admin/index.php\'>Administration</a>';
+		$EOM .= "\n\t\t\t\t\t".'</td>';
+		$EOM .= "\n\t\t\t\t".'</tr>';
+		$EOM .= "\n\t\t\t".'</table>';
+		$EOM .= "\n\t\t".'</div>';
+		$this->expectOutputString($EOM);
 		PrintBASEMenu('Footer');
 	}
 	public function testPrintBASEMenuFooterDebugTimeModeOn() {
@@ -370,31 +385,31 @@ class output_htmlSPTest extends TestCase {
 		}else{
 			include_once(self::$files);
 		}
-		$expected = "\n\t\t".'<div class=\'mainheadermenu\'>';
-		$expected .= "\n\t\t\t".'<table border=\'0\'>';
-		$expected .= "\n\t\t\t\t".'<tr>';
-		$expected .= "\n\t\t\t\t\t".'<td class=\'menuitem\'>';
-		$expected .= "\n\t\t\t\t\t\t".'<a class=\'menuitem\' ';
-		$expected .= 'href=\'/base_ag_main.php?ag_action=list\'>';
-		$expected .= 'Alert Group Maintenance</a> | ';
-		$expected .= "\n\t\t\t\t\t\t".'<a class=\'menuitem\' ';
-		$expected .= 'href=\'/base_maintenance.php\'>Cache & Status</a> | ';
-		$expected .= "\n\t\t\t\t\t\t".'<a class=\'menuitem\' ';
-		$expected .= 'href=\'/base_user.php\'>User Preferences</a> | ';
-		$expected .= "\n\t\t\t\t\t\t".'<a class=\'menuitem\' ';
-		$expected .= 'href=\'/base_logout.php\'>Logout</a> | ';
-		$expected .= "\n\t\t\t\t\t\t".'<a class=\'menuitem\' ';
-		$expected .= 'href=\'/admin/index.php\'>Administration</a> | ';
-		$expected .= "\n\t\t\t\t\t".'</td><td>';
-		$expected .= "\n\t\t\t\t\t\t".'<!-- Timing Information -->';
-		$expected .= "\n\t\t\t\t\t\t".'<div class=\'systemdebug\'>';
-		$expected .= "\n\t\t\t\t\t\t\t".'[Loaded in 0 seconds]<br/>';
-		$expected .= "\n\t\t\t\t\t\t".'</div>';
-		$expected .= "\n\t\t\t\t\t".'</td>';
-		$expected .= "\n\t\t\t\t".'</tr>';
-		$expected .= "\n\t\t\t".'</table>';
-		$expected .= "\n\t\t".'</div>';
-		$this->expectOutputString($expected);
+		$EOM = "\n\t\t".'<div class=\'mainheadermenu\'>';
+		$EOM .= "\n\t\t\t".'<table border=\'0\'>';
+		$EOM .= "\n\t\t\t\t".'<tr>';
+		$EOM .= "\n\t\t\t\t\t".'<td class=\'menuitem\'>';
+		$EOM .= "\n\t\t\t\t\t\t".'<a class=\'menuitem\' ';
+		$EOM .= 'href=\'/base_ag_main.php?ag_action=list\'>';
+		$EOM .= 'Alert Group Maintenance</a> | ';
+		$EOM .= "\n\t\t\t\t\t\t".'<a class=\'menuitem\' ';
+		$EOM .= 'href=\'/base_maintenance.php\'>Cache & Status</a> | ';
+		$EOM .= "\n\t\t\t\t\t\t".'<a class=\'menuitem\' ';
+		$EOM .= 'href=\'/base_user.php\'>User Preferences</a> | ';
+		$EOM .= "\n\t\t\t\t\t\t".'<a class=\'menuitem\' ';
+		$EOM .= 'href=\'/base_logout.php\'>Logout</a> | ';
+		$EOM .= "\n\t\t\t\t\t\t".'<a class=\'menuitem\' ';
+		$EOM .= 'href=\'/admin/index.php\'>Administration</a> | ';
+		$EOM .= "\n\t\t\t\t\t".'</td><td>';
+		$EOM .= "\n\t\t\t\t\t\t".'<!-- Timing Information -->';
+		$EOM .= "\n\t\t\t\t\t\t".'<div class=\'systemdebug\'>';
+		$EOM .= "\n\t\t\t\t\t\t\t".'[Loaded in 0 seconds]<br/>';
+		$EOM .= "\n\t\t\t\t\t\t".'</div>';
+		$EOM .= "\n\t\t\t\t\t".'</td>';
+		$EOM .= "\n\t\t\t\t".'</tr>';
+		$EOM .= "\n\t\t\t".'</table>';
+		$EOM .= "\n\t\t".'</div>';
+		$this->expectOutputString($EOM);
 		PrintBASEMenu('Footer');
 	}
 

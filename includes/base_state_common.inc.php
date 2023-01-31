@@ -30,6 +30,7 @@ defined( '_BASE_INC' ) or die( 'Accessing this file directly is not allowed.' );
 // @param $dim1   number of elements of first dimension
 // @param $dim2   number of elements of second dimension
 // @param $value  default value
+// @return True if array initialized, false if not initialized.
 function InitArray(&$a, $dim1 = 1, $dim2 = 0, $value = NULL ){
 	if ( !is_int($dim1) || !is_int($dim2) ){
 		return false;
@@ -90,13 +91,15 @@ function RegisterGlobalState(){
 	}
 }
 
-// Removes invalid characters/data from a variable based on a specified mask
-// of acceptable data or a list of explicit values.
-//	Note:		Both mask and explicit list can be used a a time.
-//	$item		variable to scrub
-//	$valid_data	mask of valid characters
-//	$exception	array with explicit values to match
-//	Return a sanitized version of the passed variable
+// Function: CleanVariable()
+// @doc Removes invalid characters/data from a variable based on a specified
+//      mask of acceptable data or a list of explicit values.
+//      Note: Both mask and explicit list can be used a a time.
+//
+// @param $item        variable to scrub
+// @param $valid_data  mask of valid characters
+// @param $exception   array with explicit values to match
+// @return a sanitized version of the passed variable.
 function CleanVariable( $item, $valid_data = '', $exception = '' ){
 	GLOBAL $debug_mode;
 	if ( !isset($item) ){ // Is variable set?
@@ -176,9 +179,10 @@ function CleanVariable( $item, $valid_data = '', $exception = '' ){
 				}else{
 					if ( $debug_mode > 0 ){
 						ErrorMessage(
-							'BASE ' .__FUNCTION__ .'(): ERROR: ', '', 1
+							__FUNCTION__ .'(): Invalid Mask', '', 1
 						);
 					}
+					return $item;
 				}
 			}
 		}
@@ -218,7 +222,9 @@ function SetSessionVar($var_name){
 		$Ret = '';
 	}
 	if ( $debug_mode > 0 && $msg != '' ){
-		print "Importing $msg var '$var_name'<br/>\n";
+		ErrorMessage(
+			__FUNCTION__ ."(): Importing $msg var '$var_name'", 'black', 1
+		);
 	}
 	return $Ret;
 }
@@ -294,47 +300,48 @@ function ExportHTTPVar ($var_name, $var_value)
   echo "<INPUT TYPE=\"hidden\" NAME=\"$var_name\" VALUE=\"$var_value\">\n";
 }
 
-/* ***********************************************************************
- * Function: filterSql()
- *
- * @doc Filters the input string so that it can be safely used in SQL queries.
- *
- * @param $item             value of the variable to filter
- * @param $force_alert_db   (default 0 - use current db)
- *
- *
- ************************************************************************/
-function filterSql ($item, $force_alert_db=0)
-{
-   GLOBAL $DBlib_path, $DBtype, $db_connect_method, $alert_dbname, 
-          $alert_host, $alert_port, $alert_user, $alert_password;
-
-   /* Determine whether a variable is set */
-   if (!isset($item))
-      return $item;
- 
-   /* Recursively filter array elements -- nikns */
-   if (is_array($item)) {
-      for ($i = 0; $i < count($item); $i++)
-          $item[$i] = XSSPrintSafe($item[$i]);
-      return $item;
-   }
-
-   $db = NewBASEDBConnection($DBlib_path, $DBtype);
-   $db->baseDBConnect($db_connect_method, $alert_dbname, $alert_host, 
-                      $alert_port, $alert_user, $alert_password, $force_alert_db);
-
-   /* magic_quotes_gpc safe adodb qmagic() returns escaped $item in quotes */
-   $item = $db->DB->qmagic($item);
-   $db->baseClose();
-
-   /* cut off first and last character (quotes added by qmagic()) */
-   $item = substr($item, 1, strlen($item)-2);
-	return $item;
+// Function: filterSql()
+// @doc Filters the input string so that it can be safely used in SQL queries.
+// @param $item           value of the variable to filter
+// @param $force_alert_db (default 0 - use current db)
+// @return a sanitized version of the passed variable.
+function filterSql ( $item, $force_alert_db=0 ){
+	GLOBAL $DBlib_path, $DBtype, $db_connect_method, $alert_dbname,
+	$alert_host, $alert_port, $alert_user, $alert_password;
+	if ( !isset($item) ){ // Unset Value.
+		return $item;
+	}else{
+		if ( is_array($item) ){ // Array.
+			// Recursively convert array elements.
+			// Works with both Keyed & NonKeyed arrays.
+			foreach ($item as $key => $value) {
+				$item[$key] = filterSql($value);
+			}
+			return $item;
+		}else{
+			$db = NewBASEDBConnection($DBlib_path, $DBtype);
+			$db->baseDBConnect(
+				$db_connect_method, $alert_dbname, $alert_host, $alert_port,
+				$alert_user, $alert_password, $force_alert_db
+			);
+			$version = explode('.', phpversion());
+			if ( $version[0] > 5 || ($version[0] == 5 && $version[1] > 3) ){
+				$Qh = 0;
+			}else{ // Figure out quote handling on PHP < 5.4.
+				$Qh = get_magic_quotes_gpc();
+			}
+			$item = $db->DB->qstr($item,$Qh);
+			$db->baseClose();
+			// Cut off first and last character, (quotes added by qstr()).
+			$item = substr($item, 1, strlen($item)-2);
+			return $item;
+		}
+	}
 }
 // Function: XSSPrintSafe()
 // @doc Converts unsafe html special characters to print safe
 //      equivalents as an Anti XSS defense.
+// @return a sanitized version of the passed variable.
 function XSSPrintSafe($item){
 	if ( !isset($item) ){ // Unset Value.
 		return $item;

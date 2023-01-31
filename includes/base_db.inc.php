@@ -816,25 +816,21 @@ function NewBASEDBConnection($path, $type){
 	ADOLoadCode($Wtype);
 	return new baseCon($type);
 }
-function MssqlKludgeValue($text)
-{
-   $mssql_kludge = "";
-   for ($i = 0 ; $i < strlen($text) ; $i++)
-   {
-      $mssql_kludge = $mssql_kludge."[".
-                      substr($text,$i, 1)."]";
-   }
-   return $mssql_kludge;
+function MssqlKludgeValue( $text ){
+	$Ret = '';
+	for ( $i = 0; $i < strlen($text); $i++ ){
+		$Ret .= '[' . substr($text,$i, 1) . ']';
+	}
+	return $Ret;
 }
-
 function RepairDBTables($db)
 {
   /* This function was completely commented in original....
     I will be searching to see where it was called from if at all */
 }
-
-function ClearDataTables($db)
-{
+// @codeCoverageIgnoreStart
+// Don't Unit Test this.
+function ClearDataTables( $db ){
   $db->baseExecute("DELETE FROM acid_event");
   $db->baseExecute("DELETE FROM data");
   $db->baseExecute("DELETE FROM event");
@@ -848,6 +844,7 @@ function ClearDataTables($db)
   $db->baseExecute("DELETE FROM tcphdr");
   $db->baseExecute("DELETE FROM udphdr");
 }
+// @codeCoverageIgnoreEnd
 // Get Max Length of field in table.
 function GetFieldLength($db,$table,$field){
 	$Epfx = 'BASE ' . __FUNCTION__ . '() ';
