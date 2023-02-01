@@ -23,6 +23,10 @@
  **/
 defined( '_BASE_INC' ) or die( 'Accessing this file directly is not allowed.' );
 
+function DivErrorMessage ($message, $Count = 0 ){
+	NLIO ("<div class='errorMsg' align='center'>$message</div>",$Count);
+}
+
 function ErrorMessage ($message, $color = "#ff0000", $br = 0 ){
 	print returnErrorMessage($message, $color, $br);
 }

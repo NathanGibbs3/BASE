@@ -340,7 +340,8 @@ class state_citemsSPTest extends TestCase {
 		$debug_mode = 1;
 		$_SESSION[$cs] = '';
 		$this->expectOutputString(
-			"Importing SESSION var 'Test'<br/>\n".
+			"<font color='black'>SetSessionVar(): ".
+			"Importing SESSION var 'Test'</font><br/>".
 			"Import: Test<br/>\nCriteria Type: NULL<br/>\n".
 			"Criteria Import: Denied.<br/>\n".
 			"Import: Test<br/>\nCriteria Type: NULL<br/>\n".
@@ -376,7 +377,8 @@ class state_citemsSPTest extends TestCase {
 		$debug_mode = 1;
 		$_SESSION[$cs] = array(0 => '', 1 => '');
 		$this->expectOutputString(
-			"Importing SESSION var 'Test'<br/>\n".
+			"<font color='black'>SetSessionVar(): ".
+			"Importing SESSION var 'Test'</font><br/>".
 			"Import: Test<br/>\nCriteria Type: array<br/>\n".
 			"Criteria Import: Allowed.<br/>\n".
 			"Import: Test<br/>\nCriteria Type: array<br/>\n".
@@ -414,10 +416,12 @@ class state_citemsSPTest extends TestCase {
 		$_SESSION[$cs] = array(0 => '', 1 => '');
 		$_SESSION['data_encode'] = array();
 		$this->expectOutputString(
-			"Importing SESSION var 'Test'<br/>\n".
+			"<font color='black'>SetSessionVar(): ".
+			"Importing SESSION var 'Test'</font><br/>".
 			"Import: Test<br/>\nCriteria Type: array<br/>\n".
 			"Criteria Import: Allowed.<br/>\n".
-			"Importing SESSION var 'data_encode'<br/>\n".
+			"<font color='black'>SetSessionVar(): ".
+			"Importing SESSION var 'data_encode'</font><br/>".
 			"Import: Test<br/>\nCriteria Type: array<br/>\n".
 			"Property Type: array<br/>\n".
 			"Property Import: Allowed.<br/>\n",

@@ -12,8 +12,11 @@ use PHPUnit\Framework\TestCase;
   * @covers SignaturePriorityCriteria
   * @covers TimeCriteria
   * @covers TCPFlagsCriteria
+  * @uses ::ErrorMessage
+  * @uses ::HtmlColor
   * @uses ::InitArray
   * @uses ::SetSessionVar
+  * @uses ::returnErrorMessage
   */
 class state_citemsTest extends TestCase {
 	// Pre Test Setup.
@@ -400,7 +403,8 @@ class state_citemsTest extends TestCase {
 		$debug_mode = 1;
 		$_SESSION[$cs] = '';
 		$this->expectOutputString(
-			"Importing SESSION var 'Test'<br/>\n".
+			"<font color='black'>SetSessionVar(): ".
+			"Importing SESSION var 'Test'</font><br/>".
 			"Import: Test<br/>\nCriteria Type: NULL<br/>\n".
 			"Criteria Import: Denied.<br/>\n",
 			$UOV
@@ -429,8 +433,10 @@ class state_citemsTest extends TestCase {
 		$_SESSION[$cs] = array(0 => '1', 1 => '2');
 		$_SESSION[$cc] = 1;
 		$this->expectOutputString(
-			"Importing SESSION var 'Test'<br/>\n".
-			"Importing SESSION var 'Test_cnt'<br/>\n".
+			"<font color='black'>SetSessionVar(): ".
+			"Importing SESSION var 'Test'</font><br/>".
+			"<font color='black'>SetSessionVar(): ".
+			"Importing SESSION var 'Test_cnt'</font><br/>".
 			"Import: Test<br/>\nCriteria Type: array<br/>\n".
 			"Criteria Import: Allowed.<br/>\n",
 			$UOV
@@ -574,7 +580,8 @@ class state_citemsTest extends TestCase {
 		$debug_mode = 1;
 		$_SESSION[$cs] = '';
 		$this->expectOutputString(
-			"Importing SESSION var 'Test'<br/>\n".
+			"<font color='black'>SetSessionVar(): ".
+			"Importing SESSION var 'Test'</font><br/>".
 			"Import: Test<br/>\nCriteria Type: NULL<br/>\n".
 			"Criteria Import: Denied.<br/>\n",
 			$UOV
@@ -601,8 +608,10 @@ class state_citemsTest extends TestCase {
 		$debug_mode = 1;
 		$_SESSION[$cs] = array(0 => '', 1 => '');
 		$this->expectOutputString(
-			"Importing SESSION var 'Test'<br/>\n".
-			"Importing SESSION var 'Test'<br/>\n".
+			"<font color='black'>SetSessionVar(): ".
+			"Importing SESSION var 'Test'</font><br/>".
+			"<font color='black'>SetSessionVar(): ".
+			"Importing SESSION var 'Test'</font><br/>".
 			"Import: Test<br/>\nCriteria Type: array<br/>\n".
 			"Criteria Import: Allowed.<br/>\n",
 			$UOV
@@ -680,7 +689,8 @@ class state_citemsTest extends TestCase {
 		$debug_mode = 1;
 		$_SESSION[$cs] = '';
 		$this->expectOutputString(
-			"Importing SESSION var 'Test'<br/>\n".
+			"<font color='black'>SetSessionVar(): ".
+			"Importing SESSION var 'Test'</font><br/>".
 			"Import: Test<br/>\nCriteria Type: NULL<br/>\n".
 			"Criteria Import: Denied.<br/>\n",
 			$UOV
@@ -706,8 +716,10 @@ class state_citemsTest extends TestCase {
 		$debug_mode = 1;
 		$_SESSION[$cs] = array(0 => '', 1 => '');
 		$this->expectOutputString(
-			"Importing SESSION var 'Test'<br/>\n".
-			"Importing SESSION var 'Test'<br/>\n".
+			"<font color='black'>SetSessionVar(): ".
+			"Importing SESSION var 'Test'</font><br/>".
+			"<font color='black'>SetSessionVar(): ".
+			"Importing SESSION var 'Test'</font><br/>".
 			"Import: Test<br/>\nCriteria Type: array<br/>\n".
 			"Criteria Import: Allowed.<br/>\n",
 			$UOV
@@ -816,7 +828,8 @@ class state_citemsTest extends TestCase {
 		$debug_mode = 1;
 		$_SESSION[$cs] = '';
 		$this->expectOutputString(
-			"Importing SESSION var 'Test'<br/>\n".
+			"<font color='black'>SetSessionVar(): ".
+			"Importing SESSION var 'Test'</font><br/>".
 			"Import: Test<br/>\nCriteria Type: NULL<br/>\n".
 			"Criteria Import: Denied.<br/>\n",
 			$UOV
@@ -842,8 +855,10 @@ class state_citemsTest extends TestCase {
 		$debug_mode = 1;
 		$_SESSION[$cs] = array(0 => '', 1 => '');
 		$this->expectOutputString(
-			"Importing SESSION var 'Test'<br/>\n".
-			"Importing SESSION var 'Test'<br/>\n".
+			"<font color='black'>SetSessionVar(): ".
+			"Importing SESSION var 'Test'</font><br/>".
+			"<font color='black'>SetSessionVar(): ".
+			"Importing SESSION var 'Test'</font><br/>".
 			"Import: Test<br/>\nCriteria Type: array<br/>\n".
 			"Criteria Import: Allowed.<br/>\n",
 			$UOV

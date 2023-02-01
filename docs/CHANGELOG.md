@@ -28,6 +28,7 @@ https://github.com/NathanGibbs3/BASE/issues/73)
 https://github.com/NathanGibbs3/BASE/issues/37)
 - [#86 Change Image_Graph download URL in error message.](
 https://github.com/NathanGibbs3/BASE/issues/86)
+- base_maintenance.pl renamed to BASEcli
 
 Contributor(s): [Nathan Gibbs]
 ### Deprecated
@@ -199,6 +200,10 @@ https://github.com/NathanGibbs3/BASE/issues/132
 - [#133 Sorts in search results not working.](
 https://github.com/NathanGibbs3/BASE/issues/133
 )
+- [#135 Remove call to `qmagic()` for compatibility with ADOdb 5.21+ and PHP 
+7.4+](
+https://github.com/NathanGibbs3/BASE/issues/135
+)
 
 Contributor(s): [Nathan Gibbs]
 - [#57 `tr bgcolor="#"` if `$prio` not in `$priority_colors`
@@ -243,6 +248,11 @@ https://github.com/NathanGibbs3/BASE/issues/128
 - [#130 `CleanVariable()` does not return expected value when there is an 
 exception list and `$valid_data` is empty. ](
 https://github.com/NathanGibbs3/BASE/issues/130)
+- [#136 `filterSql()` passes arrays through `XSSPrintSafe()` instead of 
+calling itself recursively](
+https://github.com/NathanGibbs3/BASE/issues/136)
+- [#137 `filterSQL()` does not process keyed arrays](
+https://github.com/NathanGibbs3/BASE/issues/137)
 
 Contributor(s): [Nathan Gibbs]
 

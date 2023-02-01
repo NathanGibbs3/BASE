@@ -5,6 +5,7 @@ use PHPUnit\Framework\TestCase;
 
 /**
   * @covers ::GetFieldLength
+  * @covers ::MssqlKludgeValue
   * @covers baseCon::baseErrorMessage
   * @covers baseCon::baseFieldExists
   * @covers baseCon::baseTableExists
@@ -21,6 +22,7 @@ class dbTest extends TestCase {
 	protected static $db;
 	protected static $DBlib_path;
 	protected static $dbt;
+	protected static $URV;
 
 	// Share class instance as common test fixture.
 	public static function setUpBeforeClass() {
@@ -84,8 +86,10 @@ class dbTest extends TestCase {
 			self::$db = $db;
 			self::$dbt = $db->DB->databaseType; // DB Type from ADODB Object.
 		}
+		self::$URV = 'Unexpected Return Value.';
 	}
 	public static function tearDownAfterClass() {
+		self::$URV = null;
 		self::$dbt = null;
 		self::$db = null;
 		self::$DBlib_path = null;
@@ -94,66 +98,52 @@ class dbTest extends TestCase {
 	// Tests go here.
 	public function testbaseFieldExistsNonExistantTableReturnsExpected(){
 		$db = self::$db;
+		$URV = self::$URV.'baseFieldExists().';
 		$this->assertEquals(
-			0,
-			$db->baseFieldExists( 'what','ipc_fqdn'),
-			'Unexpected return baseFieldExists().'
+			0, $db->baseFieldExists( 'what','ipc_fqdn'), $URV
 		);
 	}
 	public function testbaseFieldExistsNonExistantFieldReturnsExpected(){
 		$db = self::$db;
+		$URV = self::$URV.'baseFieldExists().';
 		$this->assertEquals(
-			0,
-			$db->baseFieldExists( 'acid_ip_cache','How'),
-			'Unexpected return baseFieldExists().'
+			0, $db->baseFieldExists( 'acid_ip_cache','How'), $URV
 		);
 	}
 	public function testbaseFieldExistsValidDataReturnsExpected(){
 		$db = self::$db;
+		$URV = self::$URV.'baseFieldExists().';
 		$this->assertEquals(
-			1,
-			$db->baseFieldExists( 'acid_ip_cache','ipc_fqdn'),
-			'Unexpected return baseFieldExists().'
+			1, $db->baseFieldExists( 'acid_ip_cache','ipc_fqdn'), $URV
 		);
 	}
 	public function testbaseTableExistsNonExistantTableReturnsExpected(){
 		$db = self::$db;
-		$this->assertEquals(
-			0,
-			$db->baseTableExists( 'what'),
-			'Unexpected return baseTableExists().'
-		);
+		$URV = self::$URV.'baseTableExists().';
+		$this->assertEquals( 0, $db->baseTableExists( 'what'), $URV );
 	}
 	public function testbaseTableExistsValidDataReturnsExpected(){
 		$db = self::$db;
-		$this->assertEquals(
-			1,
-			$db->baseTableExists( 'acid_ip_cache'),
-			'Unexpected return baseTableExists().'
-		);
+		$URV = self::$URV.'baseTableExists().';
+		$this->assertEquals( 1, $db->baseTableExists( 'acid_ip_cache'), $URV );
 	}
 	public function testbaseIndexExistsNonExistantTableReturnsExpected(){
 		$db = self::$db;
-		$this->assertEquals(
-			0,
-			$db->baseIndexExists( 'what','ipc_ip'),
-			'Unexpected return baseIndexExists().'
-		);
+		$URV = self::$URV.'baseIndexExists().';
+		$this->assertEquals( 0, $db->baseIndexExists( 'what','ipc_ip'), $URV );
 	}
 	public function testbaseIndexExistsNonExistantFieldReturnsExpected(){
 		$db = self::$db;
+		$URV = self::$URV.'baseIndexExists().';
 		$this->assertEquals(
-			0,
-			$db->baseIndexExists( 'acid_ag_alert','How'),
-			'Unexpected return baseIndexExists().'
+			0, $db->baseIndexExists( 'acid_ag_alert','How'), $URV
 		);
 	}
 	public function testbaseIndexExistsValidDataReturnsExpected(){
 		$db = self::$db;
+		$URV = self::$URV.'baseIndexExists().';
 		$this->assertEquals(
-			1,
-			$db->baseIndexExists( 'acid_ag_alert','ag_id'),
-			'Unexpected return baseIndexExists().'
+			1, $db->baseIndexExists( 'acid_ag_alert','ag_id'), $URV
 		);
 	}
 
@@ -179,13 +169,10 @@ class dbTest extends TestCase {
 		GetFieldLength('db','What','How');
 	}
 	public function testGetFieldLengthInvalidObjectReturnsExpected(){
+		$URV = self::$URV.'GetFieldLength().';
 		// Test conditions will throw error.
 		// Use error suppression @ symbol.
-		$this->assertEquals(
-			0,
-			@GetFieldLength('db','What','How'),
-			'Unexpected return GetFieldLength().'
-		);
+		$this->assertEquals( 0, @GetFieldLength('db','What','How'), $URV );
 	}
 	public function testGetFieldLengthInvalidTableThrowsError(){
 		$db = self::$db;
@@ -211,13 +198,10 @@ class dbTest extends TestCase {
 	}
 	public function testGetFieldLengthInvalidTableReturnsExpected(){
 		$db = self::$db;
+		$URV = self::$URV.'GetFieldLength().';
 		// Test conditions will throw error.
 		// Use error suppression @ symbol.
-		$this->assertEquals(
-			0,
-			@GetFieldLength($db, 1,2),
-			'Unexpected return GetFieldLength().'
-		);
+		$this->assertEquals( 0, @GetFieldLength($db, 1,2), $URV );
 	}
 	public function testGetFieldLengthInvalidFieldThrowsError(){
 		$db = self::$db;
@@ -243,12 +227,11 @@ class dbTest extends TestCase {
 	}
 	public function testGetFieldLengthInvalidFieldReturnsExpected(){
 		$db = self::$db;
+		$URV = self::$URV.'GetFieldLength().';
 		// Test conditions will throw error.
 		// Use error suppression @ symbol.
 		$this->assertEquals(
-			0,
-			@GetFieldLength($db, 'acid_ip_cache',2),
-			'Unexpected return GetFieldLength().'
+			0, @GetFieldLength($db, 'acid_ip_cache',2), $URV
 		);
 	}
 	public function testGetFieldLengthEmptyTableThrowsError(){
@@ -275,13 +258,10 @@ class dbTest extends TestCase {
 	}
 	public function testGetFieldLengthEmptyTableReturnsExpected(){
 		$db = self::$db;
+		$URV = self::$URV.'GetFieldLength().';
 		// Test conditions will throw error.
 		// Use error suppression @ symbol.
-		$this->assertEquals(
-			0,
-			@GetFieldLength($db, '',2),
-			'Unexpected return GetFieldLength().'
-		);
+		$this->assertEquals( 0, @GetFieldLength($db, '',2), $URV );
 	}
 	public function testGetFieldLengthEmptyFieldThrowsError(){
 		$db = self::$db;
@@ -307,12 +287,11 @@ class dbTest extends TestCase {
 	}
 	public function testGetFieldLengthEmptyFieldReturnsExpected(){
 		$db = self::$db;
+		$URV = self::$URV.'GetFieldLength().';
 		// Test conditions will throw error.
 		// Use error suppression @ symbol.
 		$this->assertEquals(
-			0,
-			@GetFieldLength($db, 'acid_ip_cache',''),
-			'Unexpected return GetFieldLength().'
+			0, @GetFieldLength($db, 'acid_ip_cache',''), $URV
 		);
 	}
 	public function testGetFieldLengthNonExistantTableThrowsError(){
@@ -339,12 +318,11 @@ class dbTest extends TestCase {
 	}
 	public function testGetFieldLengthNonExistantTableReturnsExpected(){
 		$db = self::$db;
+		$URV = self::$URV.'GetFieldLength().';
 		// Test conditions will throw error.
 		// Use error suppression @ symbol.
 		$this->assertEquals(
-			0,
-			@GetFieldLength($db, 'what','ipc_fqdn'),
-			'Unexpected return GetFieldLength().'
+			0, @GetFieldLength($db, 'what','ipc_fqdn'), $URV
 		);
 	}
 	public function testGetFieldLengthNonExistantFieldThrowsError(){
@@ -371,16 +349,16 @@ class dbTest extends TestCase {
 	}
 	public function testGetFieldLengthNonExistantFieldReturnsExpected(){
 		$db = self::$db;
+		$URV = self::$URV.'GetFieldLength().';
 		// Test conditions will throw error.
 		// Use error suppression @ symbol.
 		$this->assertEquals(
-			0,
-			@GetFieldLength($db, 'acid_ip_cache','How'),
-			'Unexpected return GetFieldLength().'
+			0, @GetFieldLength($db, 'acid_ip_cache','How'), $URV
 		);
 	}
 	public function testGetFieldLengthFullSchemaSweep(){
 		$db = self::$db;
+		$URV = self::$URV.'GetFieldLength().';
 		if ($db->DB_type == 'postgres' ){
 			// Doesn't apply to postgresql, so Pass.
 			$this->assertTrue(true,'Passing Test.');
@@ -393,40 +371,29 @@ class dbTest extends TestCase {
 			foreach($wtds as $wtd){
 				$wtps = explode(',', $wtd);
 				$this->assertEquals(
-					$wtps[2],
-					GetFieldLength($db, $wtps[0],$wtps[1]),
-					'Unexpected return GetFieldLength().'
+					$wtps[2], GetFieldLength($db, $wtps[0],$wtps[1]), $URV
 				);
 			}
 		}
 	}
 	public function testbaseErrorMessageValidSQLReturnsExpected(){
 		$db = self::$db;
+		$URV = self::$URV.'baseErrorMessage().';
 		$sql = 'SELECT * FROM acid_event WHERE 1=2';
 		$db->baseExecute($sql);
-		$this->assertEquals(
-			'',
-			$db->baseErrorMessage(),
-			'Unexpected return baseErrorMessage().'
-		);
+		$this->assertEquals( '', $db->baseErrorMessage(), $URV );
 	}
 	public function testbaseExecuteValidSQLReturnsExpected(){
 		$db = self::$db;
+		$URV = self::$URV.'baseExecute().';
 		$sql = 'SELECT * FROM acid_event WHERE 1=2';
-		$this->assertInstanceOf(
-			'baseRS',
-			$db->baseExecute($sql),
-			'Unexpected return baseExecute().'
-		);
+		$this->assertInstanceOf( 'baseRS', $db->baseExecute($sql), $URV );
 	}
 	public function testbaseExecuteSQLWithLimitReturnsExpected(){
 		$db = self::$db;
+		$URV = self::$URV.'baseExecute().';
 		$sql = 'SELECT * FROM acid_event WHERE 1=2';
-		$this->assertInstanceOf(
-			'baseRS',
-			$db->baseExecute($sql,1,4),
-			'Unexpected return baseExecute().'
-		);
+		$this->assertInstanceOf( 'baseRS', $db->baseExecute($sql,1,4), $URV );
 	}
 	public function testbaseExecuteNULLSQLThrowsError(){
 		$db = self::$db;
@@ -454,14 +421,11 @@ class dbTest extends TestCase {
 	}
 	public function testbaseExecuteNULLSQLReturnsExpected(){
 		$db = self::$db;
-		$dbt = self::$dbt;
+		$URV = self::$URV.'baseExecute().';
 		$sql = '';
 		// Test conditions will throw error.
 		// Use error suppression @ symbol.
-		$this->assertFalse(
-			@$db->baseExecute($sql,0,-1,false),
-			'Unexpected return baseExecute().'
-		);
+		$this->assertFalse( @$db->baseExecute($sql,0,-1,false), $URV );
 	}
 	public function testbaseExecuteInvalidSQLThrowsError(){
 		$db = self::$db;
@@ -489,14 +453,17 @@ class dbTest extends TestCase {
 	}
 	public function testbaseExecuteInvalidSQLReturnsExpected(){
 		$db = self::$db;
-		$dbt = self::$dbt;
+		$URV = self::$URV.'baseExecute().';
 		$sql = 'SELEXT * FROM acid_event';
 		// Test conditions will throw error.
 		// Use error suppression @ symbol.
-		$this->assertFalse(
-			@$db->baseExecute($sql,0,-1,false),
-			'Unexpected return baseExecute().'
-		);
+		$this->assertFalse( @$db->baseExecute($sql,0,-1,false), $URV );
+	}
+	public function testMssqlKludgeValueReturnsExpected(){
+		$db = self::$db;
+		$URV = self::$URV.'MssqlKludgeValue().';
+		$sql = 'Test';
+		$this->assertEquals( '[T][e][s][t]', MssqlKludgeValue('Test'), $URV );
 	}
 
 	// Add code to a function if needed.

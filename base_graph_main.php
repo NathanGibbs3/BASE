@@ -104,9 +104,10 @@ AuthorizedRole(10000);
 $et = new EventTiming($debug_time_mode);
 $cs = new CriteriaState("base_stat_alerts.php");
 $cs->ReadState();
+$new = ImportHTTPVar("new", VAR_DIGIT);
 $submit = ImportHTTPVar("submit", VAR_ALPHA | VAR_SPACE);
 // Set default values if the submit button hasn't been pressed.
-if ( $submit == '' ){
+if ( $new == 1 && $submit == '' ){ // Totally new Graph
     $height            = 800;
     $width             = 600;
     $pmargin0          = 50;
@@ -177,26 +178,24 @@ if ( $submit != '' && $chart_type == ' ' ){ // Error Conditions.
        echo "<H3>"._CHRTDATAIMPORT."...</H3>";
 	}
 	// Building Criteria.
-	$time_constraint = ProcessChartTimeConstraint(
-		$chart_begin_hour, $chart_begin_day, $chart_begin_month, $chart_begin_year,
-		$chart_end_hour, $chart_end_day, $chart_end_month, $chart_end_year
-	);
 	$criteria = array(2);
 	if ( !empty($data_source) ){
         $criteria[0] = "LEFT JOIN acid_ag_alert ".
                       "ON (acid_event.sid=acid_ag_alert.ag_sid AND acid_event.cid=acid_ag_alert.ag_cid) ";
         $criteria[1] = "acid_ag_alert.ag_id = $data_source";
-
-        if (!empty($time_constraint))
-           $criteria[1] = $criteria[1].$time_constraint; 
 	}else{
 		$criteria[0] = '';
-		// $criteria[1] = "acid_event.sid > 0 ".$time_constraint;
-		$tmp = " 1 = 1 ";
-		if (!empty($time_constraint)){
-			$tmp .= $time_constraint;
-		}
+		// $tmp = "acid_event.sid > 0 ";
+		$tmp = " 1 = 1 "; // Shim SQL when not querying alert groups.
 		$criteria[1] = $tmp;
+	}
+	// Adding Time Constraint
+	$time_constraint = ProcessChartTimeConstraint(
+		$chart_begin_hour, $chart_begin_day, $chart_begin_month, $chart_begin_year,
+		$chart_end_hour, $chart_end_day, $chart_end_month, $chart_end_year
+	);
+	if ( !empty($time_constraint) ){
+		$criteria[1] .= $time_constraint;
 	}
 	if ( $debug_mode > 0 ){
        echo "<H3>Chart criteria</H3><PRE>";
@@ -377,6 +376,7 @@ if ( $submit != '' && $chart_type == ' ' ){ // Error Conditions.
         /* then there's is a bug in PEAR::Image_Graph; 
          * Cf. http://pear.php.net/bugs/bug.php?id=12763
          *     http://pear.php.net/bugs/7423
+         *     https://pear.php.net/bugs/bug.php?id=16335
          * the following
          * appends one element, that does, of course, not really exist,
          * as a workaround: */

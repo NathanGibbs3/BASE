@@ -204,8 +204,7 @@ function PopHistory(){
  ************************************************************************/
 function PushHistory(){
 	GLOBAL $debug_mode;
-	if ( session_id() != '' ){
-		// We have a session, so proceed.
+	if ( session_id() != '' ){ // We have a session,so proceed.
 		if ( $debug_mode > 1 ){
 			ErrorMessage("Saving state (into ".$_SESSION['back_list_cnt'].")");
 		}

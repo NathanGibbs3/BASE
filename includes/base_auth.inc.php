@@ -379,17 +379,18 @@ class BaseUser {
 			$cookiearr = explode('|', $cookievalue);
 			$user = '';
 			$passwd = '';
-			$version = explode('.', phpversion());
-			if ( $version[0] > 5 || ($version[0] == 5 && $version[1] > 3) ){
-				$Qh = 0;
-			}else{ // Figure out quote handling on PHP < 5.4.
-				$Qh = get_magic_quotes_gpc();
-			}
 			if ( isset($cookiearr[0]) ){
 				$passwd = $cookiearr[0];
 			}
 			if ( isset($cookiearr[1]) ){
 				$user = $cookiearr[1];
+			}
+			// Prepare cookie Values for use in SQL.
+			$version = explode('.', phpversion());
+			if ( $version[0] > 5 || ($version[0] == 5 && $version[1] > 3) ){
+				$Qh = 0;
+			}else{ // Figure out quote handling on PHP < 5.4.
+				$Qh = get_magic_quotes_gpc();
 			}
 			$passwd = $this->db->DB->qstr($passwd,$Qh);
 			$user = $this->db->DB->qstr($user,$Qh);

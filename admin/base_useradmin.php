@@ -163,7 +163,11 @@ if ( preg_match("/(create|add)/", $Action) || $Use_Auth_System == 1 ){
 			// $userarray[0] = $userid
 			// $userarray[1] = $fullname
 			// $userarray[2] = $roleid
-			$userarray = array(filterSql($_POST['usr_id']), filterSql($_POST['fullname']), filterSql($_POST['roleID']),);
+			$userarray = array(
+				filterSql($_POST['usr_id']),
+				filterSql($_POST['fullname']),
+				filterSql($_POST['roleID']),
+			);
 			$user->updateUser($userarray);
 			base_header("Location: $Umca"."list");
 			break;
