@@ -61,7 +61,7 @@ if ($tmp_str != ''){
 	BuildError ($tmp_str);
 }else{
 	if ($displayError == 1) {
-		NLIO ("<div class='errorMsg' align='center'>$errorMsg</div>",2);
+		DivErrorMessage ($errorMsg,2);
 	}
 	$ipt = "<input type='";
 	NLIO ("<form action='index.php' method='post' name='loginform'>",2);

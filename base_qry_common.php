@@ -130,7 +130,7 @@ function DateTimeRows2sql( $field, $cnt, &$s_sql ){
 	// $field is an array containing 2 arrays.
 	// Each has 10 elements describing time criteria.
 	// The first one is sarting, the second ending criteria.
-	// The is a based on TimeCriteria class as defined in:
+	// The is based on TimeCriteria class as defined in:
 	// ./includes/base_state_citems.inc.php
 	// However $field is not necessarily a TimeCriteria class.
 	//	[][0]	Empty or (
@@ -467,7 +467,7 @@ function PrintCriteria( $caller ){
 		// Table Title needs to be translated.
 		$CS = 'width: 35%;'; // Common Style Hack
 		$save_criteria =
-		FramedBoxHeader('Search Criteria','black',0,2,30).
+		FramedBoxHeader('Search Criteria','black',0,2,'',30).
 		NLI("<td class='metatitle' style='$CS'>"._QCMETACRIT.'</td>',4).
 		NLI('<td>',4);
 		// If printing any of the LAST-X stats then ignore all other criteria.

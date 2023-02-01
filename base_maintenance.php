@@ -1,40 +1,30 @@
 <?php
-/*******************************************************************************
-** Basic Analysis and Security Engine (BASE)
-** Copyright (C) 2004 BASE Project Team
-** Copyright (C) 2000 Carnegie Mellon University
-**
-** (see the file 'base_main.php' for license details)
-**
-** Project Leads: Kevin Johnson <kjohnson@secureideas.net>
-**                Sean Muller <samwise_diver@users.sourceforge.net>
-** Built upon work by Roman Danyliw <rdd@cert.org>, <roman@danyliw.com>
-**
-** Purpose: status and event/dns/whois cache maintenance 
-********************************************************************************
-** Authors:
-********************************************************************************
-** Kevin Johnson <kjohnson@secureideas.net
-**
-********************************************************************************
-*/
+// Basic Analysis and Security Engine (BASE)
+// Copyright (C) 2019-2023 Nathan Gibbs
+// Copyright (C) 2004 BASE Project Team
+// Copyright (C) 2000 Carnegie Mellon University
+//
+//   For license info: See the file 'base_main.php'
+//
+//       Project Lead: Nathan Gibbs
+// Built upon work by: Kevin Johnson & the BASE Project Team
+//                     Roman Danyliw <rdd@cert.org>, <roman@danyliw.com>
+//
+//            Purpose: status and event/dns/whois cache maintenance 
+//
+//          Author(s): Nathan Gibbs
+//                     Kevin Johnson
 
-  include("base_conf.php");
+include("base_conf.php");
 include_once("$BASE_path/includes/base_constants.inc.php");
-  include("$BASE_path/includes/base_include.inc.php");
-  include_once("$BASE_path/base_db_common.php");
-  include_once("$BASE_path/base_common.php");
-  include_once("$BASE_path/base_stat_common.php");
-  include_once("$BASE_path/setup/setup_db.inc.php");
+include("$BASE_path/includes/base_include.inc.php");
+include_once("$BASE_path/base_db_common.php");
+include_once("$BASE_path/base_stat_common.php");
+include_once("$BASE_path/setup/setup_db.inc.php");
 
-  $et = new EventTiming($debug_time_mode);
-$UIL = new UILang($BASE_Language); // Create UI Language Abstraction Object.
-  $cs = new CriteriaState("base_maintenance.php");
-  $cs->ReadState();
-
-   // Check role out and redirect if needed -- Kevin
-  $roleneeded = 10000;
-  $BUser = new BaseUser();
+// Check role out and redirect if needed -- Kevin
+$roleneeded = 10000;
+$BUser = new BaseUser();
 if ($Use_Auth_System == 1){
 	if ( array_key_exists('standalone',$_POST) ){
 		$SaM = $_POST['standalone'];
@@ -51,17 +41,17 @@ if ($Use_Auth_System == 1){
 		AuthorizedRole(10000);
 	}
 }
-
-  $page_title = _MAINTTITLE;
-  PrintBASESubHeader($page_title, $page_title, $cs->GetBackLink(), $refresh_all_pages);
-
-  $submit = ImportHTTPVar("submit", VAR_ALPHA | VAR_SPACE);
-?>
-<br>
+$et = new EventTiming($debug_time_mode);
+$UIL = new UILang($BASE_Language); // Create UI Language Abstraction Object.
+$cs = new CriteriaState("base_maintenance.php");
+$cs->ReadState();
+$page_title = _MAINTTITLE;
+PrintBASESubHeader($page_title, $page_title, $cs->GetBackLink(), $refresh_all_pages);
+$submit = ImportHTTPVar("submit", VAR_ALPHA | VAR_SPACE);
+print '<br>
 
 <FORM METHOD="POST" ACTION="base_maintenance.php">
-
-<?php
+';
   /* Connect to the Alert database */
   $db = NewBASEDBConnection($DBlib_path, $DBtype);
   $db->baseDBConnect($db_connect_method,
@@ -120,12 +110,8 @@ if ( array_key_exists('SERVER_SOFTWARE',$_SERVER) ){
 }else{
 	$SW_Svr = 'unknown';
 }
-  echo '<TABLE WIDTH="100%" CELLSPACING=0 CELLPADDING=2 BORDER=0 BGCOLOR="#669999">
-         <TR><TD> 
-           <TABLE WIDTH="100%" CELLSPACING=0 CELLPADDING=2 BORDER=0 BGCOLOR="#FFFFFF">
-              <TR><TD class="sectiontitle">'._MNTPHP.'</TD></TR>
-              <TR><TD>
-         <B>'._MNTCLIENT.'</B> '.XSSPrintSafe($SW_Cli).'<BR>
+PrintFramedBoxHeader(_MNTPHP, '#669999', 1,3,'left');
+print '         <B>'._MNTCLIENT.'</B> '.XSSPrintSafe($SW_Cli).'<BR>
          <B>'._MNTSERVER.'</B> '.XSSPrintSafe($SW_Svr).'<BR>
          <B>'._MNTSERVERHW.'</B> '.php_uname().'<BR>
          <B>'._MNTPHPVER.'</B> '.phpversion().'<BR>
@@ -163,18 +149,9 @@ if ( array_key_exists('SERVER_SOFTWARE',$_SERVER) ){
          $module_lst = get_loaded_extensions();
          for ( $i = 0; $i < count($module_lst); $i++)
              echo " [ ".$module_lst[$i]." ]";
-
-  echo '      </TD></TR>
-           </TABLE>
-         </TD></TR>
-        </TABLE><P>';
-
-  echo '<TABLE WIDTH="100%" CELLSPACING=0 CELLPADDING=2 BORDER=0 BGCOLOR="#669999">
-         <TR><TD> 
-           <TABLE WIDTH="100%" CELLSPACING=0 CELLPADDING=2 BORDER=0 BGCOLOR="#FFFFFF">
-              <TR><TD class="sectiontitle">'._DATABASE.'</TD></TR>
-              <TR><TD>';
-     
+PrintFramedBoxFooter(1,3);
+NLIO ('<br/>',3);
+PrintFramedBoxHeader(_DATABASE, '#669999', 1,3,'left');
   GLOBAL $ADODB_vers;
 
   echo "<B>"._MNTDBTYPE."</B> $DBtype <BR>  
@@ -186,19 +163,9 @@ if ( array_key_exists('SERVER_SOFTWARE',$_SERVER) ){
         <INPUT TYPE=\"submit\" NAME=\"submit\" VALUE=\"Clear Data Tables\">";
 
   echo $repair_output;
-
-   echo '
-             </TD></TR>
-           </TABLE>
-         </TD></TR>
-        </TABLE><P>';
-
-  echo '<TABLE WIDTH="100%" CELLSPACING=0 CELLPADDING=2 BORDER=0 BGCOLOR="#669999">
-         <TR><TD> 
-           <TABLE WIDTH="100%" CELLSPACING=0 CELLPADDING=2 BORDER=0 BGCOLOR="#FFFFFF">
-              <TR><TD class="sectiontitle">'._MNTAIC.'</TD></TR>
-              <TR><TD>';
-
+PrintFramedBoxFooter(1,3);
+NLIO ('<br/>',3);
+PrintFramedBoxHeader(_MNTAIC, '#669999', 1,3,'left');
   $event_cnt_lst = $db->baseExecute("SELECT COUNT(*) FROM event");
   $event_cnt_row = $event_cnt_lst->baseFetchRow();
   $event_cnt = $event_cnt_row[0];
@@ -215,18 +182,9 @@ if ( array_key_exists('SERVER_SOFTWARE',$_SERVER) ){
         <INPUT TYPE="submit" NAME="submit" VALUE="Update Alert Cache">
         &nbsp;&nbsp;
         <INPUT TYPE="submit" NAME="submit" VALUE="Rebuild Alert Cache">';
-
-  echo '   </TD></TR>
-           </TABLE>
-         </TD></TR>
-        </TABLE><P>';
-
-  echo '<TABLE WIDTH="100%" CELLSPACING=0 CELLPADDING=2 BORDER=0 BGCOLOR="#669999">
-         <TR><TD> 
-           <TABLE WIDTH="100%" CELLSPACING=0 CELLPADDING=2 BORDER=0 BGCOLOR="#FFFFFF">
-              <TR><TD class="sectiontitle">'._MNTIPAC.'</TD></TR>
-              <TR><TD>';
-
+PrintFramedBoxFooter(1,3);
+NLIO ('<br/>',3);
+PrintFramedBoxHeader(_MNTIPAC, '#669999', 1,3,'left');
   $uncached_sip_cnt = UniqueSrcIPCnt($db);
   $uncached_dip_cnt = UniqueDstIPCnt($db);
   
@@ -268,12 +226,8 @@ if ( array_key_exists('SERVER_SOFTWARE',$_SERVER) ){
         <INPUT TYPE="submit" NAME="submit" VALUE="Update Whois Cache"><BR>
         <INPUT TYPE="submit" NAME="submit" VALUE="Rebuild IP Cache">&nbsp;
         <INPUT TYPE="submit" NAME="submit" VALUE="Rebuild Whois Cache"><BR>';
-       
-  echo '   </TD></TR>
-           </TABLE>
-         </TD></TR>
-        </TABLE><P>';
-
+PrintFramedBoxFooter(1,3);
+NLIO ('<br/>',3);
   echo "\n</FORM>\n";
 PrintBASESubFooter();
 ?>

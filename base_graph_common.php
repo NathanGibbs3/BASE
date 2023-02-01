@@ -87,78 +87,93 @@ function ProcessChartTimeConstraint(
 	$start_hour, $start_day, $start_month, $start_year,
 	$stop_hour,  $stop_day,  $stop_month,  $stop_year
 ){ //Generates the required SQL from the chart time criteria.
+	GLOBAL $debug_mode;
 	$start_hour = trim($start_hour);
 	$stop_hour = trim($stop_hour);
 	$start_day = trim($start_day);
 	$stop_day = trim($stop_day);
 	$tmp_sql = '';
-	if ( empty($start_month) && empty($start_day) && empty($start_year) &&
-       empty($stop_month) && empty($stop_day) && empty($stop_year))
-   {
-     return "";
-	}elseif( empty($start_month) && empty($start_day) && empty($start_year) ){
-     $tmp_time = array(array (" ",
-                              " ",
-                              "", "", "",
-                              "", "", "",
-                              " ", " "),
-                       array (" ",
-                              "<=",
-                              $stop_month, $stop_day, $stop_year,
-                              $stop_hour, "", "",
-                              " ", " ") );
-	}elseif( empty($stop_month) && empty($stop_day) && empty($stop_year) ){
-     $tmp_time = array(array (" ",
-                              ">=",
-                              $start_month, $start_day, $start_year,
-                              $start_hour, "", "",
-                              " ", " "),
-                        array(" ",
-                              " ",
-                              "", "", "",
-                              "", "", "",
-                              " ", " "));
-	}else{
-     $tmp_time = array(array (" ",
-                              ">=",
-                              $start_month, $start_day, $start_year,
-                              $start_hour, "", "",
-                              " ", "AND"),
-                       array (" ",
-                              "<=",
-                              $stop_month, $stop_day, $stop_year,
-                              $stop_hour, "", "",
-                              " ", " ") );
+	if (
+		empty($start_month) && empty($start_day) && empty($start_year) &&
+		empty($stop_month) && empty($stop_day) && empty($stop_year)
+	){
+		return '';
 	}
-	DateTimeRows2sql($tmp_time, 2, $tmp_sql);
+	$start = 0;
+	$end = 1;
+	$op = 1;
+	$month = 2;
+	$day = 3;
+	$year = 4;
+	$hour = 5;
+	$minute = 6;
+	$second = 7;
+	$stop = 8;
+	$SQLOP = 9;
+	InitArray($tmp_time,2,10,''); //Setup Time Array
+	// Array is based on TimeCriteria class as defined in:
+	// ./includes/base_state_citems.inc.php
+	if( empty($start_month) && empty($start_day) && empty($start_year) ){
+		$tmp_time[$end][$op] = '<=';
+		$tmp_time[$end][$month] = $stop_month;
+		$tmp_time[$end][$day] = $stop_day;
+		$tmp_time[$end][$year] = $stop_year;
+		$tmp_time[$end][$hour] = $stop_hour;
+		$cnt = 2;
+	}elseif( empty($stop_month) && empty($stop_day) && empty($stop_year) ){
+		$tmp_time[$start][$op] = '>=';
+		$tmp_time[$start][$month] = $start_month;
+		$tmp_time[$start][$day] = $start_day;
+		$tmp_time[$start][$year] = $start_year;
+		$tmp_time[$start][$hour] = $start_hour;
+		$cnt = 1;
+	}else{
+		$tmp_time[$start][$op] = '>=';
+		$tmp_time[$start][$month] = $start_month;
+		$tmp_time[$start][$day] = $start_day;
+		$tmp_time[$start][$year] = $start_year;
+		$tmp_time[$start][$hour] = $start_hour;
+		$tmp_time[$start][$SQLOP] = 'AND';
+		$tmp_time[$end][$op] = '<=';
+		$tmp_time[$end][$month] = $stop_month;
+		$tmp_time[$end][$day] = $stop_day;
+		$tmp_time[$end][$year] = $stop_year;
+		$tmp_time[$end][$hour] = $stop_hour;
+		$cnt = 2;
+	}
+	DateTimeRows2sql($tmp_time, $cnt, $tmp_sql);
+	if ( $debug_mode > 0 ){
+		var_dump($tmp_time);
+		ErrorMessage(__FUNCTION__ . "() Returned SQL: $tmp_sql");
+	}
 	return $tmp_sql;
 }
-function StoreAlertNum($sql, $label, &$xdata, &$cnt, $min_threshold)
-{  
-  GLOBAL $db, $debug_mode;
-
-  if ( $debug_mode > 0 )     echo $sql."<BR>";
-
-  $result = $db->baseExecute($sql);
-  if ( $myrow = $result->baseFetchRow() )
-  {
-     if ( $myrow[0] >= $min_threshold )
-     {
-        $xdata [ $cnt ][0] = $label;
-	$xdata [ $cnt ][1] = $myrow[0];
-	$cnt++;
-     }
-     $result->baseFreeRows();
-  }
+function StoreAlertNum( $sql, $label, &$xdata, &$cnt, $min_threshold ){
+	GLOBAL $db, $debug_mode;
+	if ( $debug_mode > 0 ){
+		ErrorMessage( $sql, 'black', 1 );
+	}
+	$result = $db->baseExecute($sql);
+	if ( $result != false ){ // Error Check
+		$myrow = $result->baseFetchRow();
+		if ( $myrow[0] >= $min_threshold ){
+			$xdata [ $cnt ][0] = $label;
+			$xdata [ $cnt ][1] = $myrow[0];
+			$cnt++;
+		}
+		$result->baseFreeRows();
+	}
 }
 
 function GetTimeDataSet(
 	&$xdata, $chart_type, $data_source, $min_threshold, $criteria
 ){
-	GLOBAL $db, $debug_mode;
+	GLOBAL $db, $debug_mode, $chart_begin_year, $chart_begin_month,
+	$chart_begin_day, $chart_begin_hour, $chart_end_year, $chart_end_month,
+	$chart_end_day, $chart_end_hour;
 	if ( $debug_mode > 0 ){
-      echo "chart_type = $chart_type<BR>
-            data_source = $data_source<BR>";
+		ErrorMessage( "chart_type = $chart_type",'black',1 );
+		ErrorMessage( "data_source = $data_source",'black',1 );
 	}
 	// Get time range for whole DB.
 	$sql = "SELECT min(timestamp), max(timestamp) FROM acid_event " .
@@ -168,204 +183,204 @@ function GetTimeDataSet(
 	$start_time = $myrow[0];
 	$stop_time = $myrow[1];
 	$result->baseFreeRows();
-
-   $year_start  = date("Y", strtotime($start_time));
-   $month_start = date("m", strtotime($start_time));
-   $day_start   = date("d", strtotime($start_time));
-   $hour_start  = date("H", strtotime($start_time));
-
-   $year_end  = date("Y", strtotime($stop_time));
-   $month_end = date("m", strtotime($stop_time));
-   $day_end   = date("d", strtotime($stop_time));
-   $hour_end  = date("H", strtotime($stop_time));
-
-  // using the settings from begin_xyz and end_xyz
-  // minutes are not supported actually
-  
-  // begin
-  global $chart_begin_year;
-  global $chart_begin_month;
-  global $chart_begin_day;
-  global $chart_begin_hour;
-  if ( strcmp ($chart_begin_year, " ") and 
-       ($year_start < $chart_begin_year) ) {
-    $year_start  = $chart_begin_year;
-    $month_start = "01";
-    $day_start   = "01";
-    $hour_start  = "00";
-  }
-  if ( strcmp ($chart_begin_month, " ") and
-       ($month_start < $chart_begin_month) ) {
-    $month_start = $chart_begin_month;
-    $day_start   = "01";
-    $hour_start  = "00";
-  }
-  if ( strcmp ($chart_begin_day, " ") and
-       ($day_start < $chart_begin_day) ) {
-    $day_start  = $chart_begin_day;
-    $hour_start  = "00";
-       }
-  if ( strcmp ($chart_begin_hour, " ") and
-       ($hour_start < $chart_begin_hour) ) {
-    $hour_start  = $chart_begin_hour;
-  }
-
-  //end
-  global $chart_end_year;
-  global $chart_end_month;
-  global $chart_end_day;
-  global $chart_end_hour;
-  if ( strcmp ($chart_end_year, " ") and 
-       ($year_end < $chart_end_year) ) {
-    $year_end  = $chart_end_year;
-    $month_end = "01";
-    $day_end   = "01";
-    $hour_end  = "00";
-  }
-  if ( strcmp ($chart_end_month, " ") and
-       ($month_end < $chart_end_month) ) {
-    $month_end = $chart_end_month;
-    $day_end   = "01";
-    $hour_end  = "00";
-  }
-  if ( strcmp ($chart_end_day, " ") and
-       ($day_end < $chart_end_day) ) {
-    $day_end  = $chart_end_day;
-    $hour_end  = "00";
-  }
-  if ( strcmp ($chart_end_hour, " ") and
-       ($hour_end < $chart_end_hour) ) {
-    $hour_end  = $chart_end_hour;
-  }
-
-
-  switch($chart_type)
-  { 
-  
-     case 1: // hour
-     {
-           if ($debug_mode > 0)
-	   {
-	     print "chart_begin_hour = \"$chart_begin_hour\", hour_start = \"$hour_start\"<BR>\n";
-	     print "chart_end_hour = \"$chart_end_hour\", hour_end = \"$hour_end\"<BR>\n";
-	   }
-
-	   if (!strcmp($chart_end_hour, " ") || $chart_end_hour == "")
-	   {
-             // hour_start = -1 is NOT possible, because with chart_type == 1
-	     // each hour is to be queried. We want bars hour by hour.
-	     $hour_end = 23;
-	   }
-	   break;
-     }
-    
-     case 2:  // day          
-     { 
-        $hour_start = -1;
-        break; 
-     }
-     case 4:  // month           
-     { 
-        $day_start = -1;
-        $hour_start = -1;
-        break; 
-     }
-  }
-
-  if ( $debug_mode > 0 )
-  {
-     echo '<TABLE BORDER="1">
-            <TR>
-              <TD>year_start<TD>year_end<TD>month_start<TD>month_end
-              <TD>day_start<TD>day_end<TD>hour_start<TD>hour_end
-            <TR>
-              <TD>'.$year_start.'<TD>'.$year_end.'<TD>'.$month_start.'<TD>'.$month_end.
-              '<TD>'.$day_start.'<TD>'.$day_end.'<TD>'.$hour_start.'<TD>'.$hour_end.
-           '</TABLE>';
-  }
-
-  $cnt = 0;
-  $ag = $criteria[0];
-  $ag_criteria = $criteria[1];
-  
-  for ( $i_year = $year_start; $i_year <= $year_end; $i_year++ )
-  {
-    // removed AND below
-    // !!! AVN !!!
-    // to_date() must used!
-      $sql = "SELECT count(*) FROM acid_event ".$ag." WHERE $ag_criteria AND ".
-             $db->baseSQL_YEAR("timestamp", "=", $i_year);
-
-      if ( $month_start != -1 )
-      {
-         if ($i_year == $year_start)  $month_start2 = $month_start;  else  $month_start2 = 1;
-         if ($i_year == $year_end)    $month_end2 = $month_end;      else  $month_end2 = 12;
-
-         for ( $i_month = $month_start2; $i_month <= $month_end2; $i_month++ )
-         {
-             $sql = "SELECT count(*) FROM acid_event $ag WHERE $ag_criteria AND".
-                    $db->baseSQL_YEAR("timestamp", "=", $i_year)." AND ".
-                    $db->baseSQL_MONTH("timestamp", "=", FormatTimeDigit($i_month));
-
-             if ( $day_start != -1 )
-             {
-                if ($i_month == $month_start)  $day_start2 = $day_start;  else  $day_start2 = 1;
-                if ($i_month == $month_end)    $day_end2 = $day_end;      else  $day_end2 = 31;
-
-                for ( $i_day = $day_start2; $i_day <= $day_end2; $i_day++ )
-                {
-                  if ( checkdate($i_month, $i_day, $i_year) )
-                  {
-                    $sql = "SELECT count(*) FROM acid_event $ag WHERE $ag_criteria AND ".
-                           $db->baseSQL_YEAR("timestamp", "=", $i_year)." AND ".
-                           $db->baseSQL_MONTH("timestamp", "=",FormatTimeDigit($i_month))." AND ".
-                           $db->baseSQL_DAY("timestamp", "=", FormatTimeDigit($i_day));
-
-                    if ( $hour_start != -1 )
-		    {
-		      // jl: The condition "i_hour <= hour_end" 
-		      // is correct ONLY if the first day is equal 
-		      // to the last day of the query. 
-		      // Otherwise we want 24 hours of
-		      // all the days preceding the last day of the query.
-		      // Analogously for hour_start.
-		      if ($i_day == $day_start2) $hour_start2 = $hour_start ; else $hour_start2 = 0;
-		      if ($i_day == $day_end2)   $hour_end2   = $hour_end ;   else $hour_end2   = 23;
-
-		      for ($i_hour = $hour_start2; 
-		      	   $i_hour <= $hour_end2; 
-		           $i_hour++)
-                      {
-                           //if($i_hour < 10 && strlen($i_hour) == 1)
-			   //   $i_hour = "0".$i_hour;
-			   $i_hour = FormatTimeDigit($i_hour);
-                           $sql = "SELECT count(*) FROM acid_event $ag WHERE $ag_criteria AND ".
-                                  $db->baseSQL_YEAR("timestamp", "=", $i_year)." AND ".
-                                  $db->baseSQL_MONTH("timestamp", "=", FormatTimeDigit($i_month))." AND ".
-                                  $db->baseSQL_DAY("timestamp", "=", FormatTimeDigit($i_day))." AND ".
-                                  $db->baseSQL_HOUR("timestamp", "=", $i_hour);
-
-						   
-                           StoreAlertNum($sql, FormatTimeDigit($i_month)."/".FormatTimeDigit($i_day)."/".$i_year." ".
-                                               $i_hour.":00:00 - ".$i_hour.":59:59", 
-                                               $xdata, $cnt, $min_threshold);
-                       }  // end hour
-                    }
-                    else
-                        StoreAlertNum($sql, FormatTimeDigit($i_month)."/".FormatTimeDigit($i_day)."/".$i_year, 
-                                      $xdata, $cnt, $min_threshold);
-                  }
-                }   // end day
-             }
-             else
-               StoreAlertNum($sql, FormatTimeDigit($i_month)."/".$i_year, $xdata, $cnt, $min_threshold);
-         }   // end month
-      }
-      else
-        StoreAlertNum($sql, $i_year, $xdata, $cnt, $min_threshold);
-  }   // end year
-
-  return $cnt;
+	if ( $debug_mode > 0 ){
+		ErrorMessage(
+			__FUNCTION__ . "() DB Time Range: $start_time - $stop_time", '', 1
+		);
+	}
+	// Get Time range parts.
+	$year_start  = date("Y", strtotime($start_time)); // Start
+	$month_start = date("m", strtotime($start_time));
+	$day_start   = date("d", strtotime($start_time));
+	$hour_start  = date("H", strtotime($start_time));
+	$year_end  = date("Y", strtotime($stop_time)); // End
+	$month_end = date("m", strtotime($stop_time));
+	$day_end   = date("d", strtotime($stop_time));
+	$hour_end  = date("H", strtotime($stop_time));
+	// using the settings from begin_xyz and end_xyz
+	// minutes are not supported actually
+	// begin
+	if ( is_numeric($chart_begin_year) && $year_start < $chart_begin_year ){
+		$year_start = $chart_begin_year;
+	}
+	if ( is_numeric($chart_begin_month) && $month_start < $chart_begin_month ){
+		$month_start = $chart_begin_month;
+	}
+	if ( is_numeric($chart_begin_day) && $day_start < $chart_begin_day ){
+		$day_start = $chart_begin_day;
+	}
+	if ( is_numeric($chart_begin_hour) && $hour_start < $chart_begin_hour ) {
+		$hour_start = $chart_begin_hour;
+	}
+	//end
+	if ( is_numeric($chart_end_year) && $year_end < $chart_end_year ){
+		$year_end = $chart_end_year;
+	}
+	if ( is_numeric($chart_end_month) && $month_end < $chart_end_month ){
+		$month_end = $chart_end_month;
+	}
+	if ( is_numeric($chart_end_day) && $day_end < $chart_end_day ){
+		$day_end = $chart_end_day;
+	}
+	if ( is_numeric($chart_end_hour) && $hour_end < $chart_end_hour ) {
+		$hour_end = $chart_end_hour;
+	}
+	switch ( $chart_type ){
+		case 1: // hour
+			if ( $debug_mode > 0 ){
+				ErrorMessage(
+					"chart_begin_hour = \"$chart_begin_hour\", hour_start = \"$hour_start\"",
+					'black',1
+				);
+				ErrorMessage(
+					"chart_end_hour = \"$chart_end_hour\", hour_end = \"$hour_end\"",
+					'black',1
+				);
+			}
+			if ( !is_numeric($chart_end_hour) || $chart_end_hour == '' ){
+				// hour_start = -1 is NOT possible, because with
+				// chart_type == 1 each hour is to be queried.
+				// We want bars hour by hour.
+				$hour_end = 23;
+			}
+			break;
+		case 2: // day
+			$hour_start = -1;
+			break;
+		case 4: // month
+			$day_start = -1;
+			$hour_start = -1;
+			break;
+	}
+	if ( $debug_mode > 0 ){
+		PrintFramedBoxHeader('Time Constraints','',0,0,'',50);
+		print '<td>year_start</td><td>year_end</td>';
+		print '<td>month_start</td><td>month_end</td>';
+		print '<td>day_start</td><td>day_end</td>';
+		print '<td>hour_start</td><td>hour_end</td>';
+		print '<tr></tr>';
+		print '<td>'.$year_start.'</td><td>'.$year_end.'</td>';
+		print '<td>'.$month_start.'</td><td>'.$month_end.'</td>';
+		print '<td>'.$day_start.'</td><td>'.$day_end.'</td>';
+		print '<td>'.$hour_start.'</td><td>'.$hour_end.'</td>';
+		PrintFramedBoxFooter();
+	}
+	$cnt = 0;
+	$ag = $criteria[0];
+	$ag_criteria = $criteria[1];
+	// SQL peices
+	$ts = 'timestamp';
+	$A = ' AND ';
+	$W = ' WHERE ';
+//	$sqlpfx = "SELECT count(*) FROM acid_event ";
+//	if ( $ag != '' ){ // Not Querying Alert Groups
+//		$sqlpfx .= "$ag$W$ag_criteria";
+//	}else{
+//		$sqlpfx .= $W;
+//	}
+//	$sqlpfx .= $A;
+	$sqlpfx = "SELECT count(*) FROM acid_event $ag WHERE $ag_criteria$A";
+	for ( $i_year = $year_start; $i_year <= $year_end; $i_year++ ){
+		// Catch 2 digit years, default to YYYY in current century.
+		if ( strlen($i_year) <= 2 ){
+			$i_year = substr(date("Y"),0,2).FormatTimeDigit($year);
+		}
+		// removed AND below
+		// !!! AVN !!!
+		// to_date() must used!
+		$sql = $sqlpfx.$db->baseSQL_YEAR( $ts, '=', $i_year );
+		if ( $month_start != -1 ){
+			if ( $i_year == $year_start ){
+				$month_start2 = $month_start;
+			}else{
+				$month_start2 = 1;
+			}
+			if ( $i_year == $year_end ){
+				$month_end2 = $month_end;
+			}else{
+				$month_end2 = 12;
+			}
+			for (
+				$i_month = $month_start2; $i_month <= $month_end2; $i_month++
+			){
+				$i_month = FormatTimeDigit($i_month);
+				$sql = $sqlpfx.$db->baseSQL_YEAR( $ts, '=', $i_year ) . $A.
+				$db->baseSQL_MONTH( $ts, '=', $i_month );
+				if ( $day_start != -1 ){
+					if ( $i_month == $month_start ){
+						$day_start2 = $day_start;
+					}else{
+						$day_start2 = 1;
+					}
+					if ( $i_month == $month_end ){
+						$day_end2 = $day_end;
+					}else{
+						$day_end2 = 31;
+						while (
+							!checkdate( $i_month, $day_end2, $i_year )
+						){ // Bring it into reality.
+							--$day_end2;
+						}
+					}
+					for (
+						$i_day = $day_start2; $i_day <= $day_end2; $i_day++
+					){
+						$i_day = FormatTimeDigit($i_day);
+						$sql = $sqlpfx.
+						$db->baseSQL_YEAR( $ts, '=', $i_year ) . $A.
+						$db->baseSQL_MONTH( $ts, '=', $i_month ) . $A.
+						$db->baseSQL_DAY( $ts, '=', $i_day );
+						$Lbl = implode ('/',array( $i_month, $i_day, $i_year ));
+						if ( $hour_start != -1 ){
+							// jl: The condition "i_hour <= hour_end" is
+							// correct ONLY if the first day is equal to the
+							// last day of the query.
+							// Otherwise we want 24 hours of all the days
+							// preceding the last day of the query.
+							// Analogously for hour_start.
+							if ( $i_day == $day_start2 ){
+								$hour_start2 = $hour_start;
+							}else{
+								$hour_start2 = 0;
+							}
+							if ( $i_day == $day_end2 ){
+								$hour_end2 = $hour_end;
+							}else{
+								$hour_end2 = 23;
+							}
+							for (
+								$i_hour = $hour_start2;
+								$i_hour <= $hour_end2; $i_hour++
+							){
+								$i_hour = FormatTimeDigit($i_hour);
+								$sql = $sqlpfx.
+								$db->baseSQL_YEAR( $ts, '=', $i_year ) . $A.
+								$db->baseSQL_MONTH( $ts, '=', $i_month ) . $A.
+								$db->baseSQL_DAY( $ts, '=', $i_day ) . $A.
+								$db->baseSQL_HOUR( $ts, '=', $i_hour );
+								StoreAlertNum( $sql,
+									"$Lbl $i_hour:00:00 - $i_hour:59:59",
+									$xdata, $cnt, $min_threshold
+								);
+							} // end hour
+						}else{
+							StoreAlertNum(
+								$sql, $Lbl, $xdata, $cnt, $min_threshold
+							);
+						}
+					} // end day
+				}else{
+					StoreAlertNum(
+						$sql, implode ('/',array( $i_month, $i_year )), $xdata,
+						$cnt, $min_threshold
+					);
+				}
+			} // end month
+		}else{
+			StoreAlertNum($sql, $i_year, $xdata, $cnt, $min_threshold);
+		}
+	} // end year
+	return $cnt;
 }
 
 function GetIPDataSet(&$xdata, $chart_type, $data_source, $min_threshold, $criteria)

@@ -261,7 +261,7 @@ if ($UIL->SetUILocale()) {
   <tr>
     <td align="center" valign="top">
       <strong><a href="base_qry_main.php?new=1"><?php echo _SEARCH; ?></a></strong><br />
-      <strong><a href="base_graph_main.php"><?php echo _GALERTD; ?></a></strong><br />
+      <strong><a href="base_graph_main.php?new=1"><?php echo _GALERTD; ?></a></strong><br />
       <a href="base_stat_time.php"><?php echo _GALERTDT; ?></a><br /><br />
 <?php DBLink(); ?>
     </td>

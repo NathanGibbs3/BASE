@@ -1,6 +1,6 @@
 <?php
 // Basic Analysis and Security Engine (BASE)
-// Copyright (C) 2019-2021 Nathan Gibbs
+// Copyright (C) 2019-2023 Nathan Gibbs
 // Copyright (C) 2004 BASE Project Team
 // Copyright (C) 2000 Carnegie Mellon University
 //
@@ -73,6 +73,8 @@ function PageStart ( $refresh = 0, $page_title = '' ){
 	NLIO($MNM."Generator' content='$GT'>",2);
 	NLIO($MNM."viewport' content='width=device-width, initial-scale=1'>",2);
 	NLIO("<title>$title</title>",2);
+//	NLIO('<meta name="color-scheme" content="light dark"/>',2);
+	NLIO('<link rel="stylesheet" type="text/css" HREF="'. $BASE_urlpath .'/styles/base_common.css'.'">', 2);
 	NLIO('<link rel="stylesheet" type="text/css" HREF="'. $BASE_urlpath .'/styles/'. $base_style .'">', 2);
 	NLIO('</head>', 1);
 	NLIO('<body>', 1);
@@ -191,12 +193,14 @@ function PrintBASEMenu( $type = '', $back_link = '' ){
 	}
 }
 function PrintFramedBoxHeader(
-	$title = '', $cc = 'black' , $td = 0, $tab = 3, $wd = 100
+	$title = '', $cc = 'black' , $td = 0, $tab = 3, $align = 'center',
+	$wd = 100
 ){
-	print FramedBoxHeader( $title, $cc, $td, $tab, $wd);
+	print FramedBoxHeader( $title, $cc, $td, $tab, $align, $wd);
 }
 function FramedBoxHeader(
-	$title = '', $cc = 'black' , $td = 0, $tab = 3, $wd = 100
+	$title = '', $cc = 'black' , $td = 0, $tab = 3, $align = 'center',
+	$wd = 100
 ){
 	$Ret = '';
 	// Input Validation
@@ -213,6 +217,11 @@ function FramedBoxHeader(
 	if ( !is_int($wd) ){
 		$wd = 100;
 	}
+	$align = strtolower($align);
+	$hal = array( 'left', 'center', 'right' );
+	if ( !in_array($align, $hal) ){
+		$align = 'center';
+	}
 	// Input Validation End
 	$style = "'border: 2px solid $cc; border-collapse: collapse; width:$wd%;'";
 	$tmp = "<table style = $style";
@@ -223,7 +232,7 @@ function FramedBoxHeader(
 	$Ret .= NLI($tmp, $tab) . NLI('<tr>',$tab + 1);
 	if ( LoadedString($title) == true ){
 		$Ret .= NLI(
-			"<td class='sectiontitle' style='text-align: center;' colspan='2'>$title</td>",
+			"<td class='sectiontitle' style='text-align: $align;' colspan='20'>$title</td>",
 			$tab + 2
 		).
 		NLI('</tr><tr>',$tab + 1);

@@ -7,6 +7,17 @@ use PHPUnit\Framework\TestCase;
   * @covers ::InitArray
   * @covers ::SetSessionVar
   * @covers ::XSSPrintSafe
+  * @covers ::filterSql
+  * @uses ::ChkAccess
+  * @uses ::ChkCookie
+  * @uses ::ChkLib
+  * @uses ::ErrorMessage
+  * @uses ::HtmlColor
+  * @uses ::LoadedString
+  * @uses ::NewBASEDBConnection
+  * @uses ::SetConst
+  * @uses ::returnErrorMessage
+  * @uses baseCon
   */
 class state_commonTest extends TestCase {
 	// Pre Test Setup.
@@ -15,6 +26,63 @@ class state_commonTest extends TestCase {
 	protected static $URV;
 
 	public static function setUpBeforeClass() {
+		GLOBAL $BASE_path, $DBlib_path, $DBtype, $debug_mode, $alert_dbname,
+		$alert_host, $alert_user, $alert_password, $alert_port,
+		$db_connect_method, $db, $archive_dbname, $archive_host,
+		$archive_port, $archive_user, $archive_password;
+		$tf = __FUNCTION__;
+		// Setup DB System.
+		$TRAVIS = getenv('TRAVIS');
+		if (!$TRAVIS){ // Running on Local Test System.
+			// Default Debian/Ubuntu location.
+			$DBlib_path = '/usr/share/php/adodb';
+			require('../database.php');
+		}else{
+			$ADO = getenv('ADODBPATH');
+			if (!$ADO) {
+				self::markTestIncomplete('Unable to setup ADODB');
+			}else{
+				$DBlib_path = "build/adodb/$ADO";
+			}
+			$DB = getenv('DB');
+			if (!$DB){
+				self::markTestIncomplete('Unable to get DB Engine.');
+			}elseif ($DB == 'mysql' ){
+				require('./tests/phpcommon/DB.mysql.php');
+			}elseif ($DB == 'postgres' ){
+				require('./tests/phpcommon/DB.pgsql.php');
+			}else{
+				self::markTestSkipped("CI Support unavialable for DB: $DB.");
+			}
+		}
+		if (!isset($DBtype)){
+			self::markTestIncomplete("Unable to Set DB: $DB.");
+		}else{
+			$alert_dbname='snort';
+			// Setup DB Connection
+			$db = NewBASEDBConnection($DBlib_path, $DBtype);
+			// Check ADODB Sanity.
+			// See: https://github.com/NathanGibbs3/BASE/issues/35
+			if (ADODB_DIR != $DBlib_path ){
+				self::markTestIncomplete(
+					"Expected ADODB in location: $DBlib_path\n".
+					"   Found ADODB in location: ".ADODB_DIR
+				);
+			}else{
+				if ($debug_mode > 1) {
+					LogTC($tf,'DB',"$alert_dbname@$alert_host:$alert_port");
+				}
+				$db->baseDBConnect(
+					$db_connect_method, $alert_dbname, $alert_host,
+					$alert_port, $alert_user, $alert_password
+				);
+			}
+			self::assertInstanceOf(
+				'baseCon',
+				$db,
+				'DB Object Not Initialized.'
+			);
+		}
 		self::$CVT = '0Az ./()_@~!#$%^&*=<>+:;,?-|';
 		self::$UOV = 'Unexpected Output Value: ';
 		self::$URV = 'Unexpected Return Value: ';
@@ -180,7 +248,7 @@ class state_commonTest extends TestCase {
 		$URV = self::$URV.'SetSessionVar().';
 		$UOV = self::$UOV.'SetSessionVar().';
 		$this->expectOutputString(
-			"Importing GET var '$a'<br/>\n",
+			"<font color='black'>SetSessionVar(): Importing GET var '$a'</font><br/>",
 			$Ret = SetSessionVar($a),$UOV
 		);
 		$this->assertNotEmpty($Ret, $URV);
@@ -198,7 +266,7 @@ class state_commonTest extends TestCase {
 		$URV = self::$URV.'SetSessionVar().';
 		$UOV = self::$UOV.'SetSessionVar().';
 		$this->expectOutputString(
-			"Importing POST var '$a'<br/>\n",
+			"<font color='black'>SetSessionVar(): Importing POST var '$a'</font><br/>",
 			$Ret = SetSessionVar($a),$UOV
 		);
 		$this->assertNotEmpty($Ret, $URV);
@@ -216,7 +284,7 @@ class state_commonTest extends TestCase {
 		$URV = self::$URV.'SetSessionVar().';
 		$UOV = self::$UOV.'SetSessionVar().';
 		$this->expectOutputString(
-			"Importing SESSION var '$a'<br/>\n",
+			"<font color='black'>SetSessionVar(): Importing SESSION var '$a'</font><br/>",
 			$Ret = SetSessionVar($a),$UOV
 		);
 		$this->assertNotEmpty($Ret, $URV);
@@ -351,6 +419,109 @@ class state_commonTest extends TestCase {
 		$Value = self::$CVT;
 		$this->assertEquals('-',CleanVariable($Value,VAR_SCORE),$URV);
 	}
+	public function testCleanVariableInvalidMask() {
+		GLOBAL $debug_mode;
+		$URV = self::$URV.'CleanVariable().';
+		$UOV = self::$UOV.'CleanVariable().';
+		$Value = self::$CVT;
+		$odb = $debug_mode;
+		$debug_mode = 1;
+		$EOM = "<font color='#ff0000'>CleanVariable(): Invalid Mask</font><br/>";
+		$this->expectOutputString(
+			$EOM, $Ret = CleanVariable($Value,'a') ,$UOV
+		);
+		$this->assertNotNull( $Ret, $URV );
+		$this->assertEquals( $Value, $Ret, $URV);
+		$debug_mode = $odb;
+	}
+	public function testfilterSQLNullReturnsNull() {
+		$URV = self::$URV.'filterSQL().';
+		$this->assertNull(filterSQL(NULL),$URV);
+	}
+	/**
+	 * @backupGlobals disabled
+	 */
+	public function testfilterSQLValueReturnsNotNull() {
+		$URV = self::$URV.'filterSQL().';
+		$this->assertNotNull(filterSQL('Value'),$URV);
+	}
+	/**
+	 * @backupGlobals disabled
+	 */
+	public function testfilterSQLNoTransformValue() {
+		$URV = self::$URV.'filterSQL().';
+		$this->assertEquals('Value',filterSQL('Value'),$URV);
+	}
+	/**
+	 * @backupGlobals disabled
+	 */
+	public function testfilterSQLTransformValue() {
+		$URV = self::$URV.'filterSQL().';
+		$Value = "O'Niell";
+		$this->assertEquals("O\'Niell",filterSQL($Value),$URV);
+	}
+	public function testfilterSQLNoTransformNonKeyedArray() {
+		$URV = self::$URV.'filterSQL().';
+		$Value = array (1,2,3,4);
+		$this->assertEquals(array(1,2,3,4),filterSQL($Value),$URV);
+	}
+	/**
+	 * @backupGlobals disabled
+	 */
+	public function testfilterSQLTransformNonKeyedArray() {
+		$URV = self::$URV.'filterSQL().';
+		$Value = array ("O'Niell",1,2,3,4);
+		$this->assertEquals(
+			array("O\'Niell",1,2,3,4),filterSQL($Value),$URV
+		);
+	}
+	/**
+	 * @backupGlobals disabled
+	 */
+	public function testfilterSQLNoTransformKeyedArray() {
+		$URV = self::$URV.'filterSQL().';
+		$Value = array (
+			'key1' => 0,
+			'key2' => 1,
+			'key3' => 2,
+			'key4' => 3,
+			'key5' => 4
+		);
+		$this->assertEquals(
+			array(
+				'key1' => '0',
+				'key2' => '1',
+				'key3' => '2',
+				'key4' => '3',
+				'key5' => '4'
+			),
+			filterSQL($Value),$URV
+		);
+	}
+	/**
+	 * @backupGlobals disabled
+	 */
+	public function testfilterSQLTransformKeyedArray() {
+		$URV = self::$URV.'filterSQL().';
+		$Value = array (
+			'key1' => "O'Niell",
+			'key2' => 1,
+			'key3' => 2,
+			'key4' => 3,
+			'key5' => 4
+		);
+		$this->assertEquals(
+			array(
+				'key1' => "O\'Niell",
+				'key2' => '1',
+				'key3' => '2',
+				'key4' => '3',
+				'key5' => '4'
+			),
+			filterSQL($Value),$URV
+		);
+	}
+
 	// Add code to a function if needed.
 	// Stop here and mark test incomplete.
 	//$this->markTestIncomplete('Incomplete Test.');

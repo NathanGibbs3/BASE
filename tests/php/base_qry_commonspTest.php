@@ -115,7 +115,7 @@ class base_qry_commonspTest extends TestCase {
 		" border-collapse: collapse; width:30%;' summary='Search Criteria'>".
 		"\n\t\t\t<tr>".
 		"\n\t\t\t\t<td class='sectiontitle' style='text-align: center;' ".
-		"colspan='2'>Search Criteria</td>".
+		"colspan='20'>Search Criteria</td>".
 		"\n\t\t\t</tr><tr>".
 		"\n\t\t\t\t<td class='metatitle' style='width: 35%;'>".
 		"Meta Criteria</td>".
