@@ -17,7 +17,9 @@
 
 if (!isset($BASE_path)){ // Issue #5
 	$BASE_path = dirname(__FILE__);
-	$BASE_path = preg_replace("/\/admin.*/", "", $BASE_path);
+	$sc = DIRECTORY_SEPARATOR;
+	$ReqRE =  "\\".$sc.'admin.*';
+	$BASE_path = preg_replace("/".$ReqRE."/", "", $BASE_path);
 }
 include("$BASE_path/base_conf.php");
 include_once("$BASE_path/includes/base_constants.inc.php");
