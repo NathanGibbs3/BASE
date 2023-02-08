@@ -183,8 +183,10 @@ function PrintBASEMenu( $type = '', $back_link = '' ){
 				print $Sep;
 				NLIO($back_link,6);
 			}elseif ( $type == 'footer' ){ // Footer
-				print $Sep;
-				NLIO ($Hrst."admin/index.php'>". _ADMIN .'</a>',6);
+				if ( AuthorizedRole(1) ){ // Issue #144 fix
+					print $Sep;
+					NLIO ($Hrst."admin/index.php'>". _ADMIN .'</a>',6);
+				}
 				if ( is_object($et) ){
 					print $Sep;
 					NLIO ('</td><td>',5);
@@ -297,23 +299,37 @@ function dispYearOptions($stored_value)
   return($options);
 }
 
-function PrintBASEAdminMenuHeader()
-{
-  $menu = "<table width='100%' border=0><tr><td width='15%'>";
-  $menu = $menu . "<div class='mainheadermenu'>";
-  $menu = $menu . "<table border='0' class='mainheadermenu'>";
-  $menu = $menu . "<tr><td class='menuitem'>". _USERMAN ."<br>";
-  $menu = $menu . "<hr><a href='base_useradmin.php?action=list' class='menuitem'>"._LISTU."</a><br>";
-  $menu = $menu . "<a href='base_useradmin.php?action=create' class='menuitem'>"._CREATEU."</a><br>";
-  $menu = $menu . "<br>". _ROLEMAN ."<br><hr>";
-  $menu = $menu . "<a href='base_roleadmin.php?action=list' class='menuitem'>"._LISTR."</a><br>";
-  $menu = $menu . "<a href='base_roleadmin.php?action=create' class='menuitem'>"._CREATER."</a><br>";
-  $menu = $menu . "</td></tr></table></div></td><td>";
-  
-  echo($menu);
+function PrintBASEAdminMenuHeader(){
+	GLOBAL $Use_Auth_System;
+	$menu = NLI("<div>",2);
+	$menu .= NLI(
+		"<div class='mainheadermenu' style='float: left; width: 15%;'>",3
+	);
+	$menu .= NLI(_USERMAN ."<hr/>",4);
+	// Html Templates
+	$Umca = "base_useradmin.php?action="; // User Managemnt Common Action.
+	$Hrst = "<a href='$Umca"; // Href tag start.
+	$Hrsp = " class='menuitem'>"; // Href tag end.
+	if ( $Use_Auth_System == 1 ){ // Issue #144 Fix
+		$menu .= NLI($Hrst . "list'" . $Hrsp . _LISTU . "</a><br>",4);
+	}
+	$menu .= NLI($Hrst . "create'" . $Hrsp . _CREATEU."</a><br>",4);
+	$Umca = "base_roleadmin.php?action="; // Role Managemnt Common Action.
+	$Hrst = "<a href='$Umca"; // Href tag start.
+	if ( $Use_Auth_System == 1 ){ // Issue #144 Fix
+		$menu .= NLI("<br>". _ROLEMAN ."<hr>",4);
+		$menu .= NLI($Hrst . "list'" . $Hrsp . _LISTR."</a><br>",4);
+		$menu .= NLI($Hrst . "create'" . $Hrsp ._CREATER."</a><br>",4);
+	}
+	$menu .= NLI("</div>",3);
+	$menu .= NLI(
+		"<div style='padding-left: 10px; width: auto;'>",3
+	);
+	print $menu;
 }
 function PrintBASEAdminMenuFooter(){
-	PrintFramedBoxFooter(1);
+	NLIO("</div>",3);
+	NLIO("</div>",2);
 }
 function PrintBASEHelpLink($target)
 {

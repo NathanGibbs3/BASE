@@ -1168,7 +1168,7 @@ function ChkLib ( $path='', $LibLoc='', $LibFile='' ){
 		// Strip leading or trailing seperators from Lib file.
 		$ReqRE = "(^\\$sc|\\$sc\$)";
 		$LibFile = preg_replace("/".$ReqRE."/", '', $LibFile);
-		if ( $debug_mode > 0 && $tmp != $LibFile ){
+		if ( $debug_mode > 1 && $tmp != $LibFile ){
 			ErrorMessage('Req Lib: ' . XSSPrintSafe($tmp), 0, 1);
 			ErrorMessage('Mod Lib: ' . XSSPrintSafe($LibFile), 0, 1);
 		}
@@ -1176,13 +1176,13 @@ function ChkLib ( $path='', $LibLoc='', $LibFile='' ){
 			$tmp = $path; // Strip trailing seperator from path.
 			$ReqRE = "\\$sc\$";
 			$path = preg_replace("/".$ReqRE."/", '', $path);
-			if ( $debug_mode > 0 && $tmp != $path ){
+			if ( $debug_mode > 1 && $tmp != $path ){
 				ErrorMessage('Req Loc: ' . XSSPrintSafe($tmp), 0, 1);
 				ErrorMessage('Mod Loc: ' . XSSPrintSafe($path), 0, 1);
 			}
 			$LibFile .= '.php';
 			$FinalLib = implode( $sc, array($path, $LibFile) );
-			if ( $debug_mode > 0 ){
+			if ( $debug_mode > 1 ){
 				ErrorMessage(
 					XSSPrintSafe($EMPfx . "Chk: $FinalLib"),'black',1
 				);
@@ -1203,7 +1203,7 @@ function ChkLib ( $path='', $LibLoc='', $LibFile='' ){
 				$Msg .= 'readable';
 			}
 			$Msg .= '.';
-			if ( $debug_mode > 0 ){
+			if ( $debug_mode > 1 ){
 				ErrorMessage($Msg, $clr, 1);
 			}
 		}else{ // Relative path to Lib.
@@ -1211,7 +1211,7 @@ function ChkLib ( $path='', $LibLoc='', $LibFile='' ){
 				$tmp = $LibLoc; // Strip leading seperators from Loc.
 				$ReqRE = "^\\$sc";
 				$LibLoc = preg_replace("/".$ReqRE."/", '', $LibLoc);
-				if ( $debug_mode > 0 && $tmp != $LibLoc ){
+				if ( $debug_mode > 1 && $tmp != $LibLoc ){
 					ErrorMessage('Req Loc: ' . XSSPrintSafe($tmp), 0, 1);
 					ErrorMessage('Mod Loc: ' . XSSPrintSafe($LibLoc), 0, 1);
 				}
