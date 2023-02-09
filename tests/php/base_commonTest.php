@@ -639,7 +639,7 @@ class base_commonTest extends TestCase {
 		$expected = "Req Lib: ". preg_quote($Lib,'/'). '.*';
 		$expected .= 'Mod Lib: Graph';
 		$odb = $debug_mode;
-		$debug_mode = 1;
+		$debug_mode = 2;
 		$this->expectOutputRegex(
 			"/".$expected."/",
 			'Unexpected Output.'
@@ -655,7 +655,7 @@ class base_commonTest extends TestCase {
 		$expected = "Req Loc: ". preg_quote($Loc,'/'). '.*';
 		$expected .= "Mod Loc: Image\\$sc";
 		$odb = $debug_mode;
-		$debug_mode = 1;
+		$debug_mode = 2;
 		$this->expectOutputRegex(
 			"/".$expected."/",
 			'Unexpected Output.'
@@ -684,7 +684,7 @@ class base_commonTest extends TestCase {
 		$expected = "Req Loc: ". preg_quote($path,'/'). '.*';
 		$expected .= "Mod Loc: ". preg_quote($DBlib_path,'/');
 		$odb = $debug_mode;
-		$debug_mode = 1;
+		$debug_mode = 2;
 		$this->expectOutputRegex(
 			"/".$expected."/",
 			'Unexpected Output.'
@@ -719,7 +719,7 @@ class base_commonTest extends TestCase {
 			'Unexpected return ChkLib().'
 		);
 		$odb = $debug_mode;
-		$debug_mode = 1;
+		$debug_mode = 2;
 		$this->expectOutputString(
 			$expected,
 			'Unexpected Output.'
@@ -754,7 +754,7 @@ class base_commonTest extends TestCase {
 			'Unexpected return ChkLib().'
 		);
 		$odb = $debug_mode;
-		$debug_mode = 1;
+		$debug_mode = 2;
 		$this->expectOutputString(
 			$expected,
 			'Unexpected Output.'

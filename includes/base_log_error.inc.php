@@ -128,7 +128,7 @@ function PrintServerInformation()
 }
 
 function PrintPageHeader(){
-	GLOBAL $DBtype, $ADODB_vers;
+	GLOBAL $DBtype, $ADODB_vers, $Use_Auth_System;
 	if ( !AuthorizedPage('(base_denied|index)') ){
 		// Additional app info allowed everywhere but landing pages.
 		$tmp = session_encode();
@@ -152,12 +152,14 @@ function PrintPageHeader(){
          <B>URL:</B> '".$request_uri."'
          (<B>referred by:</B> '".$http_referer."')
          <B>PARAMETERS:</B> '".$query_string."'
-         <B>CLIENT:</B> ".$http_user_agent."
-         <B>SERVER:</B> ".$server_software."
+         <B>CLIENT:</B> ".$http_user_agent;
+if ( $Use_Auth_System == 1 && AuthorizedRole(1) ){ // Issue #146 Fix
+print "\n         <B>SERVER:</B> ".$server_software."
          <B>SERVER HW:</B> ".php_uname()."
          <B>DATABASE TYPE:</B> $DBtype  <B>DB ABSTRACTION VERSION:</B> $ADODB_vers
-         <B>PHP VERSION:</B> ".phpversion()."  <B>PHP API:</B> ".php_sapi_name()."
-         <B>BASE VERSION:</B> ".$GLOBALS['BASE_VERSION']."
+         <B>PHP VERSION:</B> ".phpversion()."  <B>PHP API:</B> ".php_sapi_name();
+}
+print "\n         <B>BASE VERSION:</B> ".$GLOBALS['BASE_VERSION']."
          <B>SESSION ID:</B> ".session_id()."( ".strlen($tmp)." bytes )
          </PRE>"; 
 	}

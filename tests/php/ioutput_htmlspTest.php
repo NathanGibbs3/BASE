@@ -15,12 +15,17 @@ class output_htmlSPTest extends TestCase {
 	// Pre Test Setup.
 	protected static $files;
 	protected static $langs;
+	protected static $user;
 	protected static $UIL;
+	protected static $UOV;
+	protected static $URV;
 
 	// We are using a single TD file.
 	// Share class instance as common test fixture.
 	public static function setUpBeforeClass() {
-		GLOBAL $BASE_path, $debug_mode;
+		GLOBAL $BASE_path, $DBlib_path, $DBtype, $debug_mode, $alert_dbname,
+			$alert_host, $alert_user, $alert_password, $alert_port,
+			$db_connect_method, $db;
 		// Issue #36 Cutout.
 		// See: https://github.com/NathanGibbs3/BASE/issues/36
 		$PHPV = GetPHPV();
@@ -28,6 +33,7 @@ class output_htmlSPTest extends TestCase {
 		if (version_compare($PHPV, '5.4', '<') && $PSM == 1){
 			self::markTestSkipped();
 		}
+		$tf = __FUNCTION__;
 		$ll = 'english';
 		self::$langs = $ll;
 		$lf = "$ll.lang.php";
@@ -37,6 +43,8 @@ class output_htmlSPTest extends TestCase {
 			LogTC($tf,'language',$ll);
 			LogTC($tf,'TD file',$file);
 		}
+		self::$UOV = 'Unexpected Output Value: ';
+		self::$URV = 'Unexpected Return Value: ';
 		if ( class_exists('UILang') ){
 			// Setup UI Language Object
 			// Will throw error during TD transition.
@@ -47,11 +55,72 @@ class output_htmlSPTest extends TestCase {
 		}else{
 			self::$files = $file;
 		}
+		// Setup DB System.
+		$TRAVIS = getenv('TRAVIS');
+		if (!$TRAVIS){ // Running on Local Test System.
+			// Default Debian/Ubuntu location.
+			$DBlib_path = '/usr/share/php/adodb';
+			require('../database.php');
+		}else{
+			$ADO = getenv('ADODBPATH');
+			if (!$ADO) {
+				self::markTestIncomplete('Unable to setup ADODB');
+			}else{
+				$DBlib_path = "build/adodb/$ADO";
+			}
+			$DB = getenv('DB');
+			if (!$DB){
+				self::markTestIncomplete('Unable to get DB Engine.');
+			}elseif ($DB == 'mysql' ){
+				require('./tests/phpcommon/DB.mysql.php');
+			}elseif ($DB == 'postgres' ){
+				require('./tests/phpcommon/DB.pgsql.php');
+			}else{
+				self::markTestSkipped("CI Support unavialable for DB: $DB.");
+			}
+		}
+		if (!isset($DBtype)){
+			self::markTestIncomplete("Unable to Set DB: $DB.");
+		}else{
+			$alert_dbname='snort';
+			// Setup DB Connection
+			$db = NewBASEDBConnection($DBlib_path, $DBtype);
+			// Check ADODB Sanity.
+			// See: https://github.com/NathanGibbs3/BASE/issues/35
+			if (ADODB_DIR != $DBlib_path ){
+				self::markTestIncomplete(
+					"Expected ADODB in location: $DBlib_path\n".
+					"   Found ADODB in location: ".ADODB_DIR
+				);
+			}else{
+				if ($debug_mode > 1) {
+					LogTC($tf,'DB',"$alert_dbname@$alert_host:$alert_port");
+				}
+				$db->baseDBConnect(
+					$db_connect_method, $alert_dbname, $alert_host,
+					$alert_port, $alert_user, $alert_password
+				);
+			}
+			self::assertInstanceOf(
+				'baseCon',
+				$db,
+				'DB Object Not Initialized.'
+			);
+			self::assertInstanceOf(
+				'BaseUser',
+				$user = new BaseUser(),
+				'User Object Not Initialized.'
+			);
+			self::$user = $user;
+		}
 	}
 	public static function tearDownAfterClass() {
 		self::$UIL = null;
 		self::$langs = null;
 		self::$files = null;
+		self::$user = null;
+		self::$UOV = null;
+		self::$URV = null;
 	}
 
 	// Tests go here.
@@ -228,6 +297,7 @@ class output_htmlSPTest extends TestCase {
 	public function testdispMonthOptionsReturnDefaults() {
 		GLOBAL $UIL;
 		if ( function_exists('dispMonthOptions') ){
+			$URV = self::$URV.'dispMonthOptions().';
 			if ( is_object(self::$UIL) ){
 				$UIL = self::$UIL;
 			}else{
@@ -245,11 +315,7 @@ class output_htmlSPTest extends TestCase {
 			$EOM .="\n".'<option value="10" >October</option>';
 			$EOM .="\n".'<option value="11" >November</option>';
 			$EOM .="\n".'<option value="12" >December</option>';
-			$this->assertEquals(
-				$EOM,
-				dispMonthOptions(''),
-				'Unexpected Return Value.'
-			);
+			$this->assertEquals( $EOM, dispMonthOptions(''), $URV );
 		}else{
 			// A test of nothing, so Pass.
 			$this->assertTrue(true,'Passing Test.');
@@ -258,6 +324,7 @@ class output_htmlSPTest extends TestCase {
 	public function testdispMonthOptionsReturnindents() {
 		GLOBAL $UIL;
 		if ( function_exists('dispMonthOptions') ){
+			$URV = self::$URV.'dispMonthOptions().';
 			if ( is_object(self::$UIL) ){
 				$UIL = self::$UIL;
 			}else{
@@ -275,11 +342,7 @@ class output_htmlSPTest extends TestCase {
 			$EOM .="\n\t".'<option value="10" >October</option>';
 			$EOM .="\n\t".'<option value="11" >November</option>';
 			$EOM .="\n\t".'<option value="12" >December</option>';
-			$this->assertEquals(
-				$EOM,
-				dispMonthOptions('',1),
-				'Unexpected Return Value.'
-			);
+			$this->assertEquals( $EOM, dispMonthOptions('',1), $URV );
 		}else{
 			// A test of nothing, so Pass.
 			$this->assertTrue(true,'Passing Test.');
@@ -350,6 +413,7 @@ class output_htmlSPTest extends TestCase {
 	}
 	public function testPrintBASEMenuFooter() {
 		GLOBAL $BASE_installID;
+		$user = self::$user;
 		if ( is_object(self::$UIL) ){
 			$UIL = self::$UIL;
 		}else{
@@ -374,11 +438,15 @@ class output_htmlSPTest extends TestCase {
 		$EOM .= "\n\t\t\t\t".'</tr>';
 		$EOM .= "\n\t\t\t".'</table>';
 		$EOM .= "\n\t\t".'</div>';
+		$pw = $user->cryptpassword('password');
+		$_COOKIE['BASERole'] = "$pw|TestAdmin|";
 		$this->expectOutputString($EOM);
 		PrintBASEMenu('Footer');
+		unset ($_COOKIE['BASERole']);
 	}
 	public function testPrintBASEMenuFooterDebugTimeModeOn() {
 		GLOBAL $BASE_installID, $et;
+		$user = self::$user;
 		$et = new EventTiming(1);
 		if ( is_object(self::$UIL) ){
 			$UIL = self::$UIL;
@@ -409,8 +477,11 @@ class output_htmlSPTest extends TestCase {
 		$EOM .= "\n\t\t\t\t".'</tr>';
 		$EOM .= "\n\t\t\t".'</table>';
 		$EOM .= "\n\t\t".'</div>';
+		$pw = $user->cryptpassword('password');
+		$_COOKIE['BASERole'] = "$pw|TestAdmin|";
 		$this->expectOutputString($EOM);
 		PrintBASEMenu('Footer');
+		unset ($_COOKIE['BASERole']);
 	}
 
 	// Add code to a function if needed.
