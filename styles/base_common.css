@@ -15,9 +15,13 @@
 //                     Kevin Johnson
 */
 
+div {
+	overflow: hidden;
+}
+
 div.errorMsg {
-    FONT-FAMILY: arial, helvetica;
-    font-size: 14pt;
-    font-weight: bold;
-    color: #FF0000;
+	font-family: arial, helvetica;
+	font-size: 14pt;
+	font-weight: bold;
+	color: #ff0000;
 }

@@ -89,20 +89,19 @@ if ( isset($_GET['action']) ){
     
   }
 
-?>
-<!-- Footer menu -->
-<table width="100%" border=0><tr><td width="15%" valign="top">
-<div class="mainheadermenu" width="50%">
-<table border="0" class="mainheadermenu">
-    <tr>
-        <td class="menuitem">
-
-<a href="base_user.php?action=changepassword" class="menuitem"><?php echo _CHNGPWD; ?></a><br>
-<a href="base_user.php?action=display" class="menuitem"><?php echo _DISPLAYU; ?></a><br>
-
-</td>
-    </tr>
-</table></div>&nbsp;&nbsp;&nbsp;</td><td><?php echo($page_body); ?></td></tr></table>
-<?php
+// Design barrowed from PrintBASEAdminMenuHeader();
+$menu = NLI("<div>",2);
+$menu .= NLI("<div class='mainheadermenu' style='float: left; width: 15%;'>",3);
+$menu .= NLI(_USERPREF ."<hr/>",4);
+// Html Templates
+$Hrst = "<a href='base_user.php?action="; // Href tag start.
+$Hrsp = " class='menuitem'>"; // Href tag end.
+$menu .= NLI($Hrst . "changepassword'" . $Hrsp . _CHNGPWD . "</a><br>",4);
+$menu .= NLI($Hrst . "display'" . $Hrsp . _DISPLAYU . "</a><br>",4);
+$menu .= NLI("</div>",3);
+$menu .= NLI("<div style='padding-left: 10px; width: auto;'>",3);
+print $menu;
+print $page_body;
+PrintBASEAdminMenuFooter();
 PrintBASESubFooter();
 ?>

@@ -79,7 +79,7 @@ class base_commonSPTest extends TestCase {
 			'Unexpected return ChkLib().'
 		);
 		$odb = $debug_mode;
-		$debug_mode = 1;
+		$debug_mode = 2;
 		$this->expectOutputString(
 			$expected,
 			'Unexpected Output.'

@@ -65,12 +65,12 @@ class baseCon {
 	){
 		GLOBAL $archive_dbname, $archive_host, $archive_port, $archive_user,
 		$archive_password, $debug_mode;
-		$EMPfx = __FUNCTION__ . ': ';
+		$EMPfx = __FUNCTION__ . '(): ';
 		// Check archive cookie to see if we need to use the archive tables.
 		// Only honnor cookie if not forced to use specified database.
 		if ( $force != 1 && ChkCookie ('archive', 1) ){
 			// Connect to the archive tables.
-			if ($debug_mode > 0){
+			if ($debug_mode > 1){
 				ErrorMessage($EMPfx .'DB Connect to archive.','black',1);
 			}
 
@@ -80,7 +80,7 @@ class baseCon {
         $this->basePConnect($archive_dbname, $archive_host, $archive_port, $archive_user, $archive_password);
 
 		}else{ // Connect to the main alert tables
-			if ($debug_mode > 0){
+			if ($debug_mode > 1){
 				ErrorMessage($EMPfx .'DB Connect to alert.','black',1);
 			}
 
@@ -784,7 +784,7 @@ function NewBASEDBConnection($path, $type){
 	// Load ADODB Library.
 	$LibFile = 'adodb.inc';
 	$Lib = implode( $sc, array($path, $LibFile) ).'.php';
-	if ( $debug_mode > 0 ){
+	if ( $debug_mode > 1 ){
 		ErrorMessage(
 			$EMPfx . _DBALCHECK." '".XSSPrintSafe($Lib)."'",'black',1
 		);

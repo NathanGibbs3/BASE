@@ -46,7 +46,6 @@ function returnContents()
 **
 ********************************************************************************
 */
-    session_start();
     $BASE_VERSION = \'1.4.5 (lilias)\';
     
     /*
@@ -91,6 +90,8 @@ function returnContents()
 
     $sessionName = str_replace(\' \', \'_\', $BASE_installID . session_name());
     session_name($sessionName);
+
+session_start(); // Interim Fix for Issue #143
 
 // Name of custom footer file.
 // If set, will cause BASE to include the specified file as a custom footer to

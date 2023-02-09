@@ -47,10 +47,10 @@ $cs->ReadState();
 $page_title = _MAINTTITLE;
 PrintBASESubHeader($page_title, $page_title, $cs->GetBackLink(), $refresh_all_pages);
 $submit = ImportHTTPVar("submit", VAR_ALPHA | VAR_SPACE);
-print '<br>
-
-<FORM METHOD="POST" ACTION="base_maintenance.php">
-';
+print '<br/>';
+if ( $Use_Auth_System == 1 && AuthorizedRole(1) ){ // Issue #146 Fix
+	print '<FORM METHOD="POST" ACTION="base_maintenance.php">';
+}
   /* Connect to the Alert database */
   $db = NewBASEDBConnection($DBlib_path, $DBtype);
   $db->baseDBConnect($db_connect_method,
@@ -62,6 +62,8 @@ print '<br>
   if ( ini_get("safe_mode") != true )
      set_time_limit($max_script_runtime);
 
+if ( $Use_Auth_System == 1 && AuthorizedRole(1) ){ // Issue #146 Fix
+	// Lockout nonadmin users.
   $repair_output = NULL;
   if ( $submit == "Update Alert Cache" )
   {
@@ -99,19 +101,26 @@ print '<br>
   {
      ClearDataTables($db);
   }
+}
 if ( array_key_exists('HTTP_USER_AGENT',$_SERVER) ){
 	$SW_Cli = $_SERVER['HTTP_USER_AGENT'];
 }else{
 	$SW_Cli = 'unknown';
 }
-if ( array_key_exists('SERVER_SOFTWARE',$_SERVER) ){
-	$SW_Svr = $_SERVER['SERVER_SOFTWARE'];
+if ( $Use_Auth_System == 1 && AuthorizedRole(1) ){ // Issue #146 Fix
+	$title = _MNTPHP;
 }else{
-	$SW_Svr = 'unknown';
+	$title = _MNTCLIENT;
 }
-PrintFramedBoxHeader(_MNTPHP, '#669999', 1,3,'left');
-print '         <B>'._MNTCLIENT.'</B> '.XSSPrintSafe($SW_Cli).'<BR>
-         <B>'._MNTSERVER.'</B> '.XSSPrintSafe($SW_Svr).'<BR>
+PrintFramedBoxHeader($title, '#669999', 1,3,'left');
+NLIO('<b>'._MNTCLIENT.'</b> '.XSSPrintSafe($SW_Cli).'<br/>',4);
+if ( $Use_Auth_System == 1 && AuthorizedRole(1) ){ // Issue #146 Fix
+	if ( array_key_exists('SERVER_SOFTWARE',$_SERVER) ){
+		$SW_Svr = $_SERVER['SERVER_SOFTWARE'];
+	}else{
+		$SW_Svr = 'unknown';
+	}
+print'         <B>'._MNTSERVER.'</B> '.XSSPrintSafe($SW_Svr).'<BR>
          <B>'._MNTSERVERHW.'</B> '.php_uname().'<BR>
          <B>'._MNTPHPVER.'</B> '.phpversion().'<BR>
          <B>PHP API:</B> '.php_sapi_name().'<BR>';
@@ -148,10 +157,13 @@ print '         <B>'._MNTCLIENT.'</B> '.XSSPrintSafe($SW_Cli).'<BR>
          $module_lst = get_loaded_extensions();
          for ( $i = 0; $i < count($module_lst); $i++)
              echo " [ ".$module_lst[$i]." ]";
+
+}
 PrintFramedBoxFooter(1,3);
 NLIO ('<br/>',3);
-PrintFramedBoxHeader(_DATABASE, '#669999', 1,3,'left');
-  GLOBAL $ADODB_vers;
+if ( $Use_Auth_System == 1 && AuthorizedRole(1) ){ // Issue #146 Fix
+	PrintFramedBoxHeader(_DATABASE, '#669999', 1,3,'left');
+	GLOBAL $ADODB_vers;
 
   echo "<B>"._MNTDBTYPE."</B> $DBtype <BR>  
         <B>"._MNTDBALV."</B> $ADODB_vers <BR>
@@ -162,8 +174,9 @@ PrintFramedBoxHeader(_DATABASE, '#669999', 1,3,'left');
         <INPUT TYPE=\"submit\" NAME=\"submit\" VALUE=\"Clear Data Tables\">";
 
   echo $repair_output;
-PrintFramedBoxFooter(1,3);
-NLIO ('<br/>',3);
+	PrintFramedBoxFooter(1,3);
+	NLIO ('<br/>',3);
+}
 PrintFramedBoxHeader(_MNTAIC, '#669999', 1,3,'left');
   $event_cnt_lst = $db->baseExecute("SELECT COUNT(*) FROM event");
   $event_cnt_row = $event_cnt_lst->baseFetchRow();
@@ -176,11 +189,13 @@ PrintFramedBoxHeader(_MNTAIC, '#669999', 1,3,'left');
   $cache_event_cnt_lst->baseFreeRows();
 
   echo '<B>'._MNTAICTE.'</B> '.$event_cnt.'&nbsp&nbsp
-        <B>'._MNTAICCE.'</B> '.$cache_event_cnt.'
-        &nbsp;&nbsp;
+        <B>'._MNTAICCE.'</B> '.$cache_event_cnt;
+if ( $Use_Auth_System == 1 && AuthorizedRole(1) ){ // Issue #146 Fix
+echo'        &nbsp;&nbsp;
         <INPUT TYPE="submit" NAME="submit" VALUE="Update Alert Cache">
         &nbsp;&nbsp;
         <INPUT TYPE="submit" NAME="submit" VALUE="Rebuild Alert Cache">';
+}
 PrintFramedBoxFooter(1,3);
 NLIO ('<br/>',3);
 PrintFramedBoxHeader(_MNTIPAC, '#669999', 1,3,'left');
@@ -220,13 +235,17 @@ PrintFramedBoxHeader(_MNTIPAC, '#669999', 1,3,'left');
        '<B>'._MNTIPACWC.'</B> '.$cached_swhois_cnt.'<BR>'.
        '<B>'._MNTIPACUDIP.'</B> '.$uncached_dip_cnt.'&nbsp;&nbsp&nbsp;'.
        '<B>'._MNTIPACDNSC.'</B> '.$cached_dip_cnt.'&nbsp;&nbsp;&nbsp;'.
-       '<B>'._MNTIPACWC.'</B> '.$cached_dwhois_cnt.'<BR>
-        <INPUT TYPE="submit" NAME="submit" VALUE="Update IP Cache">&nbsp;
+       '<B>'._MNTIPACWC.'</B> '.$cached_dwhois_cnt.'<BR>';
+if ( $Use_Auth_System == 1 && AuthorizedRole(1) ){ // Issue #146 Fix
+echo'        <INPUT TYPE="submit" NAME="submit" VALUE="Update IP Cache">&nbsp;
         <INPUT TYPE="submit" NAME="submit" VALUE="Update Whois Cache"><BR>
         <INPUT TYPE="submit" NAME="submit" VALUE="Rebuild IP Cache">&nbsp;
         <INPUT TYPE="submit" NAME="submit" VALUE="Rebuild Whois Cache"><BR>';
+}
 PrintFramedBoxFooter(1,3);
 NLIO ('<br/>',3);
+if ( $Use_Auth_System == 1 && AuthorizedRole(1) ){ // Issue #146 Fix
   echo "\n</FORM>\n";
+}
 PrintBASESubFooter();
 ?>
