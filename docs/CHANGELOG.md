@@ -165,45 +165,32 @@ on sourceforge.net.
 - [#24 roleName() does not check for empty return value from DB.](
 https://github.com/NathanGibbs3/BASE/issues/24)
 - [#120 Most frequent 5 Unique Alerts not working.](
-https://github.com/NathanGibbs3/BASE/issues/120
-)
+https://github.com/NathanGibbs3/BASE/issues/120)
 - [#121 Make `UpdateAlertCache()` aware of global var $event_cache_auto_update.](
-https://github.com/NathanGibbs3/BASE/issues/121
-)
+https://github.com/NathanGibbs3/BASE/issues/121)
 - [#122 Most recent 15 Unique Alerts not working.](
-https://github.com/NathanGibbs3/BASE/issues/122
-)
+https://github.com/NathanGibbs3/BASE/issues/122)
 - [#123 Most frequent 15 Addresses Src/Dest not working.](
-https://github.com/NathanGibbs3/BASE/issues/123
-)
+https://github.com/NathanGibbs3/BASE/issues/123)
 - [#124 Most frequent ports Src/Dest not working.](
-https://github.com/NathanGibbs3/BASE/issues/124
-)
+https://github.com/NathanGibbs3/BASE/issues/124)
 - [#117 `FormatTimeDigit` does not always return what is expected.](
-https://github.com/NathanGibbs3/BASE/issues/117
-)
+https://github.com/NathanGibbs3/BASE/issues/117)
 - [#118 `DateTimeRows2sql()` crashes when throwing an invlid operator error.](
-https://github.com/NathanGibbs3/BASE/issues/118
-)
+https://github.com/NathanGibbs3/BASE/issues/118)
 - [#125 `CleanVariable()` does not properly return valid math and logical 
 operator characters.](
-https://github.com/NathanGibbs3/BASE/issues/125
-)
+https://github.com/NathanGibbs3/BASE/issues/125)
 - [#127 `DateTimeRows2sql()` does not define default minute and second value 
 for all opperator types.](
-https://github.com/NathanGibbs3/BASE/issues/127
-)
+https://github.com/NathanGibbs3/BASE/issues/127)
 - [#132 `DateTimeRows2sql()` does not check for single criteria before adding 
 SQL Op to return value.](
-https://github.com/NathanGibbs3/BASE/issues/132
-)
+https://github.com/NathanGibbs3/BASE/issues/132)
 - [#133 Sorts in search results not working.](
-https://github.com/NathanGibbs3/BASE/issues/133
-)
+https://github.com/NathanGibbs3/BASE/issues/133)
 - [#135 Remove call to `qmagic()` for compatibility with ADOdb 5.21+ and PHP 
-7.4+](
-https://github.com/NathanGibbs3/BASE/issues/135
-)
+7.4+](https://github.com/NathanGibbs3/BASE/issues/135)
 
 Contributor(s): [Nathan Gibbs]
 - [#57 `tr bgcolor="#"` if `$prio` not in `$priority_colors`
@@ -211,6 +198,18 @@ Contributor(s): [Nathan Gibbs]
 https://github.com/NathanGibbs3/BASE/issues/57)  
 Contributor(s):
   - [FalcoGer]
+  - [Nathan Gibbs]
+- [#94 Reaching Admin page appears to be programming problem with Index.php](
+https://github.com/NathanGibbs3/BASE/issues/94)
+- [#142 Admin function not working on Windows installations.](
+https://github.com/NathanGibbs3/BASE/issues/142)
+- [#144 BASE offers non-operative choices when BASE Auth system is disabled or
+non admin user is logged in.](
+https://github.com/NathanGibbs3/BASE/issues/144)
+- [#145 BASE denied landing page not loading.](
+https://github.com/NathanGibbs3/BASE/issues/145)  
+Contributor(s):
+  - [mesteele]
   - [Nathan Gibbs]
 ### Security
 - [#32 Add Anti XSS code to CGI Action "display" in base_user.php.](
@@ -255,6 +254,14 @@ https://github.com/NathanGibbs3/BASE/issues/136)
 https://github.com/NathanGibbs3/BASE/issues/137)
 
 Contributor(s): [Nathan Gibbs]
+- [#143 `session_name()` called after `session_start()`](
+https://github.com/NathanGibbs3/BASE/issues/143)
+- [#146 `Information & destructive operations exposed to unauthenticated users.
+](
+https://github.com/NathanGibbs3/BASE/issues/146)  
+Contributor(s):
+  - [mesteele]
+  - [Nathan Gibbs]
 
 ---
 ## [1.4.5 (lilias)] - 2009-11-03
@@ -1754,3 +1761,4 @@ necessary there).
 [Kevin Johnson]: https://github.com/secureideas
 [Nathan Gibbs]: https://github.com/NathanGibbs3
 [FalcoGer]: https://github.com/FalcoGer
+[mesteele]: https://github.com/mesteele
