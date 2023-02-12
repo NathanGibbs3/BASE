@@ -20,7 +20,7 @@ include_once("$BASE_path/includes/base_signature.inc.php");
 
 function PrintCriteriaState(){
 	GLOBAL $layer4, $new, $submit, $sort_order, $num_result_rows,
-	$current_view, $caller, $action, $action_arg, $sort_order, $debug_mode;
+	$current_view, $caller, $action, $action_arg, $debug_mode;
 	if ( $debug_mode >= 2 ){
       echo "<PRE>";
       echo "<B>"._SENSOR.":</B> ".$_SESSION['sensor']."<BR>\n".

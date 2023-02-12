@@ -25,3 +25,13 @@ div.errorMsg {
 	font-weight: bold;
 	color: #ff0000;
 }
+
+div.systemdebug {
+	font-size: 10px;
+	color: #666666;
+	font-family: Arial;
+	border: double;
+	width: 100%;
+	background: #cccccc;
+	padding: 3px;
+}

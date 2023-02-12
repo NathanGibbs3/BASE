@@ -12,10 +12,13 @@ use PHPUnit\Framework\TestCase;
   * @covers ::NLI
   * @covers ::NLIO
   * @covers ::PageEnd
+  * @covers ::TblNewRow
   * @covers ::PrintFramedBoxFooter
   * @covers ::PrintFramedBoxHeader
+  * @covers ::PrintTblNewRow
   * @covers ::chk_check
   * @covers ::chk_select
+  * @covers ::returnExportHTTPVar
   * @uses ::Htmlcolor
   * @uses ::LoadedString
   * @uses ::Percent
@@ -174,7 +177,7 @@ class output_htmlTest extends TestCase {
 		"summary='&lt;XXS Code&gt;'>".
 		"\n\t\t\t\t<tr>".
 		"\n\t\t\t\t\t<td class='sectiontitle' style='text-align: center;' ".
-		"colspan='20'>&lt;XXS Code&gt;</td>".
+		"colspan='20'>\n\t\t\t\t\t\t&lt;XXS Code&gt;\n\t\t\t\t\t</td>".
 		"\n\t\t\t\t</tr><tr>";
 		$this->assertEquals(
 			$msg,
@@ -188,16 +191,16 @@ class output_htmlTest extends TestCase {
 		$URV = self::$URV.'FramedBoxHeader().';
 		$msg = "\n\t\t\t<table style = ".
 		"'border: 2px solid black; border-collapse: collapse; width:100%;'>".
-		"\n\t\t\t\t<tr>\n\t\t\t\t\t<td>";
+		"\n\t\t\t\t<tr>\n\t\t\t\t\t<td style='text-align: center;'>";
 		$this->assertEquals( $msg, FramedBoxHeader('','',1), $URV );
 	}
-	public function testFramedBoxHeaderAlignmenteturnsExpected() {
+	public function testFramedBoxHeaderAlignmentreturnsExpected() {
 		$URV = self::$URV.'FramedBoxHeader().';
 		$Pfx = "\n<table style = ".
 		"'border: 2px solid black; border-collapse: collapse; width:100%;' ".
 		"summary='title'>\n\t<tr>\n\t\t<td class='sectiontitle' ".
 		"style='text-align: ";
-		$Sfx = ";' colspan='20'>title</td>\n\t</tr><tr>";
+		$Sfx = ";' colspan='20'>\n\t\t\ttitle\n\t\t</td>\n\t</tr><tr>";
 		$hal = array( 'left', 'center', 'right' );
 		foreach( $hal as $align ){
 			$this->assertEquals(
@@ -220,7 +223,7 @@ class output_htmlTest extends TestCase {
 		"summary='&lt;XXS Code&gt;'>".
 		"\n\t\t\t\t<tr>".
 		"\n\t\t\t\t\t<td class='sectiontitle' style='text-align: center;' ".
-		"colspan='20'>&lt;XXS Code&gt;</td>".
+		"colspan='20'>\n\t\t\t\t\t\t&lt;XXS Code&gt;\n\t\t\t\t\t</td>".
 		"\n\t\t\t\t</tr><tr>";
 		$this->expectOutputString(
 			$msg,
@@ -234,7 +237,7 @@ class output_htmlTest extends TestCase {
 		$UOV = self::$UOV.'PrintFramedBoxHeader().';
 		$msg = "\n\t\t\t<table style = ".
 		"'border: 2px solid black; border-collapse: collapse; width:100%;'>".
-		"\n\t\t\t\t<tr>\n\t\t\t\t\t<td>";
+		"\n\t\t\t\t<tr>\n\t\t\t\t\t<td style='text-align: center;'>";
 		$this->expectOutputString( $msg, PrintFramedBoxHeader('','',1), $UOV );
 	}
 	public function testPrintFramedBoxHeaderAlignmentOutputsExpected() {
@@ -243,7 +246,7 @@ class output_htmlTest extends TestCase {
 		"'border: 2px solid black; border-collapse: collapse; width:100%;' ".
 		"summary='title'>\n\t<tr>\n\t\t<td class='sectiontitle' ".
 		"style='text-align: ";
-		$Sfx = ";' colspan='20'>title</td>\n\t</tr><tr>";
+		$Sfx = ";' colspan='20'>\n\t\t\ttitle\n\t\t</td>\n\t</tr><tr>";
 		$hal = array( 'left', 'center', 'right' );
 		$msg = '';
 		foreach( $hal as $align ){
@@ -286,6 +289,92 @@ class output_htmlTest extends TestCase {
 		$UOV = self::$UOV.'PrintFramedBoxFooter().';
 		$msg = "\n\t\t\t\t\t</td>\n\t\t\t\t</tr>\n\t\t\t</table>";
 		$this->expectOutputString( $msg, PrintFramedBoxFooter(1), $UOV );
+	}
+	public function testTblNewRowBlankReturnsExpected() {
+		$URV = self::$URV.'TblNewRow().';
+		$msg = "\n\t\t\t</td>\n\t\t</tr><tr>";
+		$this->assertEquals( $msg, TblNewRow(), $URV );
+	}
+	public function testTblNewRowInvalidReturnsExpected() {
+		$URV = self::$URV.'TblNewRow().';
+		$msg = "\n\t\t\t</td>\n\t\t</tr><tr>";
+		$this->assertEquals(
+			$msg, TblNewRow('InvalidNtd>Flag','InvalidAlign','InvaldiTAB'), $URV
+		);
+	}
+	public function testTblNewRowTDReturnsExpected() {
+		$URV = self::$URV.'TblNewRow().';
+		$msg = "\n\t\t\t</td>\n\t\t</tr><tr>\n\t\t\t<td>";
+		$this->assertEquals( $msg, TblNewRow(1), $URV );
+	}
+	public function testTblNewRowAlignmentReturnsExpected() {
+		$URV = self::$URV.'TblNewRow().';
+		$Pfx = "\n\t\t\t</td>\n\t\t</tr><tr>\n\t\t\t<td style='text-align: ";
+		$Sfx = ";'>";
+		$hal = array( 'left', 'center', 'right' );
+		foreach( $hal as $align ){
+			$this->assertEquals(
+				$Pfx . $align . $Sfx,
+				TblNewRow(1, $align), $URV
+			);
+		}
+	}
+	public function testPrintTblNewRowBlankReturnsExpected() {
+		$UOV = self::$UOV.'PrintTblNewRow().';
+		$msg = "\n\t\t\t</td>\n\t\t</tr><tr>";
+		$this->expectOutputString( $msg, PrintTblNewRow(), $UOV );
+	}
+	public function testPrintTblNewRowInvalidReturnsExpected() {
+		$UOV = self::$UOV.'PrintTblNewRow().';
+		$msg = "\n\t\t\t</td>\n\t\t</tr><tr>";
+		$this->expectOutputString(
+			$msg, PrintTblNewRow('InvalidNtd>Flag','InvalidAlign','InvaldiTAB'), $UOV
+		);
+	}
+	public function testPrintTblNewRowTDReturnsExpected() {
+		$UOV = self::$UOV.'PrintTblNewRow().';
+		$msg = "\n\t\t\t</td>\n\t\t</tr><tr>\n\t\t\t<td>";
+		$this->expectOutputString( $msg, PrintTblNewRow(1), $UOV );
+	}
+	public function testPrintTblNewRowAlignmentReturnsExpected() {
+		$UOV = self::$UOV.'PrintTblNewRow().';
+		$Pfx = "\n\t\t\t</td>\n\t\t</tr><tr>\n\t\t\t<td style='text-align: ";
+		$Sfx = ";'>";
+		$hal = array( 'left', 'center', 'right' );
+		$msg = '';
+		foreach( $hal as $align ){
+			$msg .= $Pfx . $align . $Sfx;
+			$this->expectOutputString( $msg, PrintTblNewRow(1, $align), $UOV );
+		}
+	}
+	public function testreturnExportHTTPVarDefaults() {
+		$URV = self::$URV.'returnExportHTTPVar().';
+		$msg = '';
+		$this->assertEquals( $msg, returnExportHTTPVar(),$URV );
+	}
+	public function testreturnExportHTTPVarNameValid() {
+		$URV = self::$URV.'returnExportHTTPVar().';
+		$msg = "\n\t\t\t<input type='hidden' name='Test' value=''/>";
+		$this->assertEquals( $msg, returnExportHTTPVar('Test'), $URV );
+	}
+	public function testreturnExportHTTPVarNameValue() {
+		$URV = self::$URV.'returnExportHTTPVar().';
+		$msg = "\n\t\t\t<input type='hidden' name='Test' value='TestVal'/>";
+		$this->assertEquals(
+			$msg, returnExportHTTPVar('Test', 'TestVal'), $URV
+		);
+	}
+	public function testreturnExportHTTPVarTabInvalid() {
+		$URV = self::$URV.'returnExportHTTPVar().';
+		$msg = "\n\t\t\t<input type='hidden' name='Test' value=''/>";
+		$this->assertEquals(
+			$msg, returnExportHTTPVar('Test', '', 'String'), $URV
+		);
+	}
+	public function testreturnExportHTTPVarTabValid() {
+		$URV = self::$URV.'returnExportHTTPVar().';
+		$msg = "\n\t\t\t\t<input type='hidden' name='Test' value=''/>";
+		$this->assertEquals( $msg, returnExportHTTPVar('Test', '', 4), $URV );
 	}
 
 	// Add code to a function if needed.

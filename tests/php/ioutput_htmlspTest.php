@@ -139,7 +139,8 @@ class output_htmlSPTest extends TestCase {
 		}
 		$ETitle = $HTitle . " $BASE_VERSION";
 		$EOM =
-		'<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">'
+		"<!DOCTYPE html PUBLIC '-//W3C//DTD HTML 4.01 Transitional//EN' "
+		."'http://www.w3.org/TR/html4/loose.dtd'>"
 		. "\n<!-- $ETitle -->\n<html>\n\t<head>"
 		."\n\t\t$MHE"."Content-Type' content='text/html; charset=$ECS'>"
 		."\n\t\t$MNM"."Author' content='Nathan Gibbs'>"
@@ -171,7 +172,8 @@ class output_htmlSPTest extends TestCase {
 		}
 		$ETitle = $HTitle . " $BASE_VERSION: Custom Title";
 		$EOM =
-		'<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">'
+		"<!DOCTYPE html PUBLIC '-//W3C//DTD HTML 4.01 Transitional//EN' "
+		."'http://www.w3.org/TR/html4/loose.dtd'>"
 		. "\n<!-- $ETitle -->\n<html>\n\t<head>"
 		."\n\t\t$MHE"."Content-Type' content='text/html; charset=$ECS'>"
 		."\n\t\t$MNM"."Author' content='Nathan Gibbs'>"
@@ -206,7 +208,8 @@ class output_htmlSPTest extends TestCase {
 		$ETitle .= ' -- ARCHIVE';
 		$HTitle .= ' -- ARCHIVE';
 		$EOM =
-		'<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">'
+		"<!DOCTYPE html PUBLIC '-//W3C//DTD HTML 4.01 Transitional//EN' "
+		."'http://www.w3.org/TR/html4/loose.dtd'>"
 		. "\n<!-- $ETitle -->\n<html>\n\t<head>"
 		."\n\t\t$MHE"."Content-Type' content='text/html; charset=$ECS'>"
 		."\n\t\t$MNM"."Author' content='Nathan Gibbs'>"
@@ -241,7 +244,8 @@ class output_htmlSPTest extends TestCase {
 		}
 		$ETitle = $HTitle . " $BASE_VERSION";
 		$EOM =
-		'<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">'
+		"<!DOCTYPE html PUBLIC '-//W3C//DTD HTML 4.01 Transitional//EN' "
+		."'http://www.w3.org/TR/html4/loose.dtd'>"
 		. "\n<!-- $ETitle -->\n<html>\n\t<head>"
 		."\n\t\t$MHE"."Content-Type' content='text/html; charset=$ECS'>"
 		."\n\t\t$MHE"."pragma' content='no-cache'>"
@@ -276,7 +280,8 @@ class output_htmlSPTest extends TestCase {
 		}
 		$ETitle = $HTitle . " $BASE_VERSION";
 		$EOM =
-		'<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">'
+		"<!DOCTYPE html PUBLIC '-//W3C//DTD HTML 4.01 Transitional//EN' "
+		."'http://www.w3.org/TR/html4/loose.dtd'>"
 		. "\n<!-- $ETitle -->\n<html>\n\t<head>"
 		."\n\t\t$MHE"."Content-Type' content='text/html; charset=$ECS'>"
 		."\n\t\t$MHE"."refresh' content='180; URL=/'>"

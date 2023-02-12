@@ -108,7 +108,7 @@ class BaseCriteria {
 	function CTIFD( $func = __FUNCTION__, $SF = '' ){
 		// Prints debuging info regarding Criteria Type Input/Import Functions.
 		GLOBAL $debug_mode;
-		if ( $debug_mode > 0 ){
+		if ( $debug_mode > 1 ){
 			print "$func: $this->export_name<br/>\n";
 			print "Criteria Type: ".gettype($this->criteria)."<br/>\n";
 			if ( is_bool($SF) ){
@@ -1679,7 +1679,7 @@ class DataCriteria extends MultipleElementCriteria {
 			$ISF = false;
 		}
 		$_SESSION['data_encode'] = &$this->data_encode;
-		if ( $debug_mode > 0 ){
+		if ( $debug_mode > 1 ){
 			$this->CTIFD(__FUNCTION__);
 			print "Property Type: ".gettype($tmp)."<br/>\n";
 			if ( is_bool($ISF) ){

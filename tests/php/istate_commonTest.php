@@ -4,6 +4,7 @@ use PHPUnit\Framework\TestCase;
 // Test fucntions in /includes/base_state_common.inc.php
 /**
   * @covers ::CleanVariable
+  * @covers ::ExportHTTPVar
   * @covers ::InitArray
   * @covers ::SetSessionVar
   * @covers ::XSSPrintSafe
@@ -15,8 +16,11 @@ use PHPUnit\Framework\TestCase;
   * @uses ::HtmlColor
   * @uses ::LoadedString
   * @uses ::NewBASEDBConnection
+  * @uses ::NLI
+  * @uses ::NLIO
   * @uses ::SetConst
   * @uses ::returnErrorMessage
+  * @uses ::returnExportHTTPVar
   * @uses baseCon
   */
 class state_commonTest extends TestCase {
@@ -520,6 +524,52 @@ class state_commonTest extends TestCase {
 			),
 			filterSQL($Value),$URV
 		);
+	}
+	public function testExportHTTPVarDefaults() {
+		$URV = self::$URV.'ExportHTTPVar().';
+		$this->assertFalse(ExportHTTPVar(),$URV);
+	}
+	public function testExportHTTPVarNameInvalid() {
+		$URV = self::$URV.'ExportHTTPVar().';
+		$UOV = self::$UOV.'ExportHTTPVar().';
+		$this->expectOutputString( '', $Ret = ExportHTTPVar(1), $UOV );
+		$this->assertFalse( $Ret, $URV );
+	}
+	public function testExportHTTPVarNameValid() {
+		$URV = self::$URV.'ExportHTTPVar().';
+		$UOV = self::$UOV.'ExportHTTPVar().';
+		$this->expectOutputString(
+			"\n\t\t\t<input type='hidden' name='Test' value=''/>",
+			$Ret = ExportHTTPVar('Test'), $UOV
+		);
+		$this->assertTrue( $Ret, $URV );
+	}
+	public function testExportHTTPVarNameValue() {
+		$URV = self::$URV.'ExportHTTPVar().';
+		$UOV = self::$UOV.'ExportHTTPVar().';
+		$this->expectOutputString(
+			"\n\t\t\t<input type='hidden' name='Test' value='TestVal'/>",
+			$Ret = ExportHTTPVar('Test', 'TestVal'), $UOV
+		);
+		$this->assertTrue( $Ret, $URV );
+	}
+	public function testExportHTTPVarTabInvalid() {
+		$URV = self::$URV.'ExportHTTPVar().';
+		$UOV = self::$UOV.'ExportHTTPVar().';
+		$this->expectOutputString(
+			"\n\t\t\t<input type='hidden' name='Test' value=''/>",
+			$Ret = ExportHTTPVar('Test', '', 'String'), $UOV 
+		);
+		$this->assertTrue( $Ret, $URV );
+	}
+	public function testExportHTTPVarTabValid() {
+		$URV = self::$URV.'ExportHTTPVar().';
+		$UOV = self::$UOV.'ExportHTTPVar().';
+		$this->expectOutputString(
+			"\n\t\t\t\t<input type='hidden' name='Test' value=''/>",
+			$Ret = ExportHTTPVar('Test', '', 4), $UOV 
+		);
+		$this->assertTrue( $Ret, $URV );
 	}
 
 	// Add code to a function if needed.

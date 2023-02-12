@@ -43,7 +43,7 @@ class EventTiming {
 		$this->num_events = 0;
 		$this->verbose = $verbose;
 		$this->start_time = time();
-		$this->Mark("Page Load");
+		$this->Mark("Page Load.");
 	}
 	function Mark( $desc ){
 		$this->event_log[$this->num_events++] = array ( time(), $desc );

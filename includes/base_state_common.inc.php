@@ -275,35 +275,36 @@ function ImportHTTPVar($var_name, $valid_data = "", $exception = "")
    return CleanVariable($tmp, $valid_data, $exception);
 }
 
-/* ***********************************************************************
- * Function: ExportHTTPVar()
- *
- * @doc Handles export of a temporary state variables needed to present a 
- *      given set of results (e.g., sort order, current record).  This
- *      routine creates a hidden HTML form variable.
- *
- *      Note: The user is responsible for generating the appropriate HTML
- *            form code.
- *
- *      Security Note: Only, temporary variables should make use of this 
- *                     function. These values are exposed in HTML to the 
- *                     user; he is free to modify them.
- * 
- * @param $var_name     name of the temporary state variable to export
- * @param $var_value   value of the temporary state variable
- *
- * @see ImportHTTPVar
- *
- ************************************************************************/
-function ExportHTTPVar ($var_name, $var_value)
-{
-  echo "<INPUT TYPE=\"hidden\" NAME=\"$var_name\" VALUE=\"$var_value\">\n";
+// Function: ExportHTTPVar()
+// @doc Handles export of a temporary state variables needed to present a
+//      given set of results (e.g., sort order, current record). This routine
+//      creates a hidden HTML form variable.
+//      Note: User is responsible for generating appropriate HTML form code.
+//      Note: Sanitization of input is not performed by this routine.
+//      Security Note: Only, temporary variables should make use of this
+//                     function. These values are exposed in HTML to the user;
+//                     who is free to modify them.
+// @param $var_name    Name of the temporary state variable to export
+// @param $var_value   Value of the temporary state variable
+// @param $tab         Tab stops in output.
+// @see ImportHTTPVar
+// Returns true if var is exported, false otherwise.
+function ExportHTTPVar ( $var_name = '', $var_value = '', $tab = 3 ){
+	$Ret = false;
+	if ( LoadedString( $var_name ) == true ){ // Input Validation
+		if ( !is_int($tab) ){
+			$tab = 3;
+		}
+		print returnExportHTTPVar ( $var_name, $var_value, $tab );
+		$Ret = true;
+	}
+	return $Ret;
 }
 
 // Function: filterSql()
 // @doc Filters the input string so that it can be safely used in SQL queries.
-// @param $item           value of the variable to filter
-// @param $force_alert_db (default 0 - use current db)
+// @param $item            value of the variable to filter
+// @param $force_alert_db  (default 0 - use current db)
 // @return a sanitized version of the passed variable.
 function filterSql ( $item, $force_alert_db=0 ){
 	GLOBAL $DBlib_path, $DBtype, $db_connect_method, $alert_dbname,

@@ -539,7 +539,7 @@ class BaseRole {
 // Returns true if the role of current user is authorized.
 // Redirect if valid header is given.
 function AuthorizedRole( $roleneeded = 1, $header = '' ){
-	GLOBAL $BASE_urlpath, $Use_Auth_System;
+	GLOBAL $BASE_urlpath, $Use_Auth_System, $et;
 	$Ret = false;
 	if ( $Use_Auth_System != 1 ){ // Auth system off, always pass.
 		$Ret = true;
@@ -570,6 +570,9 @@ function AuthorizedRole( $roleneeded = 1, $header = '' ){
 		}else{
 			$Ret = true;
 		}
+	}
+	if ( is_object($et) ){ // Need to TD this in Issue #11 branch.
+		$et->Mark('Authorization Check.');
 	}
 	return $Ret;
 }
