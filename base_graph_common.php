@@ -21,6 +21,7 @@
 
 include_once("base_conf.php");
 include_once("$BASE_path/includes/base_constants.inc.php");
+include_once("$BASE_path/base_common.php");
 include_once("$BASE_path/base_qry_common.php");
 include_once("$BASE_path/includes/base_log_error.inc.php");
 include_once("$BASE_path/includes/base_signature.inc.php");
@@ -611,37 +612,24 @@ function ReadGeoIPfreeFileAscii(&$Geo_IPfree_array){
     {
       ErrorMessage("<BR>ERROR: \$iso_3166 has not been defined.<BR>\n");
       return 0;
-    }
-    else
-    {
-      if (!array_key_exists($index, $iso_3166))
-      {
+		}else{
+			if ( !base_array_key_exists($index, $iso_3166) ){
         $estr = "ERROR: index \"" . $index . "\" = ascii codes ";
         $estr .= ord($index[0]) . ", " . ord($index[1]) . " ";
         $estr .= "does not exist. Ignoring.<BR>\n";
         ErrorMessage($estr);
-      }
-      else
-      {
-        if ($debug_mode > 1)
-        {
+			}else{
+				if ($debug_mode > 1){
           print "Full name of " . $index . " = \"" . $iso_3166[$index]. "\"<BR>\n";
-        }
-
+				}
         $index .= " (" . $iso_3166[$index] . ")";
-      }
-
-
-    
-      if (
-           !isset($Geo_IPfree_array) ||
-           !key_exists($index, $Geo_IPfree_array)
-         )  
-      {
+			}
+			if (
+				!isset($Geo_IPfree_array)
+				|| !base_array_key_exists($index, $Geo_IPfree_array)
+			){
         $Geo_IPfree_array[$index][0] = array($begin, $end);
-      }
-      else
-      {
+			}else{
         {
           array_push($Geo_IPfree_array[$index], array($begin, $end));
         }
@@ -772,66 +760,22 @@ function run_ip2cc($address_with_dots, &$country)
   return 1;
 }
 
-function IncreaseCountryValue(&$countries, $to_search, $number_of_alerts)
-{
-  GLOBAL $db, $debug_mode;
-
-  $php_version = phpversion();
-  $ver = $php_version[0];
-  
-
-  // PHP Version 5.x and above
-  if ($ver >= 5)
-  {
-    if (count($countries) == 0)
-    {
-      $countries[$to_search] = $number_of_alerts;
-      return;
-    }
-
-    if (array_key_exists($to_search, $countries))
-    {
-      if ($debug_mode > 1)
-      {
-        print $to_search . " does exist.<BR>\n";
-      }
-      $countries[$to_search] += $number_of_alerts;
-    }
-    else
-    {
-      if ($debug_mode > 1)
-      {
-	print $to_search . " does NOT exist.<BR>\n";
-      }
-      $countries[$to_search] = $number_of_alerts;
-    }
-  }
-  else
-  // PHP Version 4.x (and below)
-  {
-    if (count($countries) == 0)
-    {
-      $countries[$to_search] = $number_of_alerts;
-      return;
-    }
-
-    if (key_exists($to_search, $countries))
-    {
-      if ($debug_mode > 1)
-      {
-	print $to_search . " does exist.<BR>\n";
-      }
-      $countries[$to_search] += $number_of_alerts;
-    }
-    else
-    {
-      if ($debug_mode > 1)
-      {
-	print $to_search . " does NOT exist.<BR>\n";
-      }
-      $countries[$to_search] = $number_of_alerts;
-    }
-  }
+function IncreaseCountryValue( &$countries, $to_search, $number_of_alerts ){
+	GLOBAL $db, $debug_mode;
+	if (count($countries) == 0 ){
+		$countries[$to_search] = $number_of_alerts;
+		return;
+	}
+	$tmp = '';
+	if ( base_array_key_exists($to_search, $countries) ){
+		$countries[$to_search] += $number_of_alerts;
+	}else{
+		$tmp = 'NOT ';
+		$countries[$to_search] = $number_of_alerts;
+	}
+	if ( $debug_mode > 1 ){
+		ErrorMessage($to_search . ' does ' . $tmp .'exist.', 0, 1);
+	}
 }
 
 function GetCountryDataSet(

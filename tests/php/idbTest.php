@@ -14,6 +14,7 @@ use PHPUnit\Framework\TestCase;
   * @uses ::ChkAccess
   * @uses ::LoadedString
   * @uses ::HtmlColor
+  * @uses ::base_array_key_exists
   * @uses ::returnErrorMessage
   * @uses baseRS
   */

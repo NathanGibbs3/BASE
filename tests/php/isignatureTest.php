@@ -6,6 +6,7 @@ use PHPUnit\Framework\TestCase;
 /**
   * @covers ::BuildSigLookup
   * @covers ::check_string
+  * @uses ::base_array_key_exists
   */
 class signatureTest extends TestCase {
 

@@ -23,8 +23,10 @@ if ( session_id() != '' ){
 }
 
 define( "_BASE_INC", 1 );
+include_once("../base_common.inc.php");
 include("../includes/base_setup.inc.php");
-if (!array_key_exists("adodbpath", $_SESSION))
+
+if (!base_array_key_exists("adodbpath", $_SESSION))
 {
   $errorMsg = "ERROR: The php session does not contain the array key \"adodbpath\". This is typically caused by not having allowed cookies. Exiting.";
   print $errorMsg;

@@ -1,6 +1,6 @@
 <?php
 // Basic Analysis and Security Engine (BASE)
-// Copyright (C) 2019-2021 Nathan Gibbs
+// Copyright (C) 2019-2023 Nathan Gibbs
 // Copyright (C) 2004 BASE Project Team
 // Copyright (C) 2000 Carnegie Mellon University
 //
@@ -168,9 +168,8 @@ function qroPrintEntryHeader($prio=1, $color=0) {
 	}else{ // Row colors by alert priority.
 		$prio --; // Fix Issue #60
 		if ( // Fix Issue #59
-			array_key_exists('priority_colors',$GLOBALS)
-			&& is_array($priority_colors)
-			&& array_key_exists($prio,$priority_colors)
+			base_array_key_exists('priority_colors',$GLOBALS)
+			&& base_array_key_exists($prio,$priority_colors)
 		){
 			$tmp = $priority_colors[$prio];
 		}else{

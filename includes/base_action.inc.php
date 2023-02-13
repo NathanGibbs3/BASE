@@ -1,6 +1,6 @@
 <?php
 // Basic Analysis and Security Engine (BASE)
-// Copyright (C) 2019-2022 Nathan Gibbs
+// Copyright (C) 2019-2023 Nathan Gibbs
 // Copyright (C) 2004 BASE Project Team
 // Copyright (C) 2000 Carnegie Mellon University
 //
@@ -762,7 +762,7 @@ function Action_archive_alert_op($sid, $cid, &$db, $action_arg, &$ctx){
 		$sig = $tmp_row[0];
 		$timestamp = $tmp_row[1];
 		// Not everybody uses FLoP.
-		if (array_key_exists(2, $tmp_row)){
+		if ( base_array_key_exists(2, $tmp_row) ){
 			$reference = $tmp_row[2]; // FLoP's event reference.
 		}else{
 			$reference = '';

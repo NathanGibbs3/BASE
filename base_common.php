@@ -1259,4 +1259,30 @@ function ChkGET($var,$val){
 	}
 	return $Ret;
 }
+
+// Returns true when key is in array, false otherwise.
+function base_array_key_exists( $SKey, $SArray ){ // PHP Version Agnostic.
+	$Ret = false;
+	if ( is_array($SArray) && count($SArray) > 0 ){
+		reset($SArray);
+		$version = explode('.', phpversion());
+		// Use built in functions when we can.
+		if ( $version[0] > 4 || ($version[0] == 4 && $version[1] > 1) ){
+			// PHP > 4.1
+			$Ret = array_key_exists( $SKey, $SArray );
+		// @codeCoverageIgnoreStart
+		// PHPUnit test only covers this code path on PHP < 4.2.0
+		// Unable to validate in CI.
+		}elseif (
+			($version[0] == 4 && $version[1] > 0 )
+			|| ($version[0] == 4 && $version[1] == 0 && $version[2] > 5)
+		){ // PHP > 4.0.5
+			$Ret = key_exists($SKey, $SArray);
+		}else{ // No built in functions, PHP Version agnostic.
+			$Ret = in_array($SKey, array_keys($SArray) );
+		}
+		// @codeCoverageIgnoreEnd
+	}
+	return $Ret;
+}
 ?>

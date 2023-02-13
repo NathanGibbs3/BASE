@@ -111,4 +111,6 @@ if ($resp->code != 200 ){
 		print "Full response:\n";
 		print $resp->as_string;
 	}
+}else{
+	# Display some form of command ack.
 }

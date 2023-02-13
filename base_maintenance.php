@@ -26,7 +26,7 @@ include_once("$BASE_path/setup/setup_db.inc.php");
 $roleneeded = 10000;
 $BUser = new BaseUser();
 if ($Use_Auth_System == 1){
-	if ( array_key_exists('standalone',$_POST) ){
+	if ( base_array_key_exists('standalone',$_POST) ){
 		$SaM = $_POST['standalone'];
 	}else{
 		$SaM = 'no';
@@ -102,7 +102,7 @@ if ( $Use_Auth_System == 1 && AuthorizedRole(1) ){ // Issue #146 Fix
      ClearDataTables($db);
   }
 }
-if ( array_key_exists('HTTP_USER_AGENT',$_SERVER) ){
+if ( base_array_key_exists('HTTP_USER_AGENT',$_SERVER) ){
 	$SW_Cli = $_SERVER['HTTP_USER_AGENT'];
 }else{
 	$SW_Cli = 'unknown';
@@ -115,7 +115,7 @@ if ( $Use_Auth_System == 1 && AuthorizedRole(1) ){ // Issue #146 Fix
 PrintFramedBoxHeader($title, '#669999', 1,3,'left');
 NLIO('<b>'._MNTCLIENT.'</b> '.XSSPrintSafe($SW_Cli).'<br/>',4);
 if ( $Use_Auth_System == 1 && AuthorizedRole(1) ){ // Issue #146 Fix
-	if ( array_key_exists('SERVER_SOFTWARE',$_SERVER) ){
+	if ( base_array_key_exists('SERVER_SOFTWARE',$_SERVER) ){
 		$SW_Svr = $_SERVER['SERVER_SOFTWARE'];
 	}else{
 		$SW_Svr = 'unknown';
