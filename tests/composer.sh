@@ -48,6 +48,9 @@ if [ "$Composer" \> "0" ]; then
 	#pvr=`echo $puv|sed -r -e "s/^[0-9]\.[0-9]\.//"`
 	if [ "$TRAVIS" == "true" ]; then # Disable XDebug
 		mv ${HOME}/.phpenv/versions/$(phpenv version-name)/etc/conf.d/xdebug.ini ${HOME}/xdebug.ini
+		if [ "$puv" == "1.10.26" ]; then # Issue #152 fix
+			composer self-update --2
+		fi
 	fi
 	if [ "$Composer" = "2" ]; then
 		echo "System Composer Version: $puv"
