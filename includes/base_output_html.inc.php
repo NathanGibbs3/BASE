@@ -1,6 +1,6 @@
 <?php
 // Basic Analysis and Security Engine (BASE)
-// Copyright (C) 2019-2020 Nathan Gibbs
+// Copyright (C) 2019-2023 Nathan Gibbs
 // Copyright (C) 2004 BASE Project Team
 // Copyright (C) 2000 Carnegie Mellon University
 //
@@ -19,7 +19,7 @@ defined( '_BASE_INC' ) or die( 'Accessing this file directly is not allowed.' );
 
 include_once("$BASE_path/includes/base_state_common.inc.php");
 
-function PageStart ($refresh = 0, $page_title = '') {
+function PageStart ( $refresh = 0, $page_title = '' ){
 	GLOBAL $BASE_VERSION, $BASE_installID, $base_style, $BASE_urlpath,
 	$html_no_cache, $refresh_stat_page, $stat_page_refresh_time, $UIL;
 	$MHE = "<meta http-equiv='";
@@ -51,7 +51,7 @@ function PageStart ($refresh = 0, $page_title = '') {
 			$HT .= $SfxA;
 		}
 	}
-	print '<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">';
+	print "<!DOCTYPE html PUBLIC '-//W3C//DTD HTML 4.01 Transitional//EN' 'http://www.w3.org/TR/html4/loose.dtd'>";
 	NLIO('<!-- '. $title . ' -->');
 	NLIO('<html>');
 	NLIO('<head>', 1);
@@ -77,43 +77,40 @@ function PageStart ($refresh = 0, $page_title = '') {
 	NLIO($MNM."Generator' content='$GT'>",2);
 	NLIO($MNM."viewport' content='width=device-width, initial-scale=1'>",2);
 	NLIO("<title>$title</title>",2);
+//	NLIO('<meta name="color-scheme" content="light dark"/>',2);
+	NLIO('<link rel="stylesheet" type="text/css" HREF="'. $BASE_urlpath .'/styles/base_common.css'.'">', 2);
 	NLIO('<link rel="stylesheet" type="text/css" HREF="'. $BASE_urlpath .'/styles/'. $base_style .'">', 2);
 	NLIO('</head>', 1);
 	NLIO('<body>', 1);
 	NLIO('<div class="mainheadertitle">'.$HT.'</div>',2);
 }
-
-function PageEnd () {
+function PageEnd (){
 	NLIO('</body>',1);
 	NLIO('</html>');
 }
-
-function NLI ($Item = '', $Count = 0) {
-	if ( !is_int($Count) ) {
+function NLI ( $Item = '', $Count = 0 ){
+	if ( !is_int($Count) ){
 		$Count = 0;
 	}
 	return "\n".str_repeat ("\t", $Count).$Item;
 }
-
-function NLIO ($Item = '', $Count = 0) {
+function NLIO ( $Item = '', $Count = 0 ){
 	print NLI ($Item, $Count);
 }
-
 function PrintBASESubHeader(
 	$page_title = '', $page_name = '', $back_link = '', $refresh = 0, $page = ''
 ){
 	GLOBAL $debug_mode, $BASE_installID, $BASE_path, $BASE_urlpath,
 	$html_no_cache, $max_script_runtime, $Use_Auth_System, $base_style, $UIL;
-	if ( ini_get("safe_mode") != true ) {
+	if ( ini_get("safe_mode") != true ){
 		set_time_limit($max_script_runtime);
 	}
 	PageStart($refresh, $page_title);
 	PrintBASEMenu( 'Header', $back_link);
-	if ( $debug_mode > 0 ) {
+	if ( $debug_mode > 0 ){
 		PrintPageHeader();
 	}
 }
-
 function PrintBASESubFooter(){
 	GLOBAL $BASE_VERSION, $BASE_path, $BASE_urlpath, $Use_Auth_System,
 	$base_custom_footer;
@@ -148,10 +145,9 @@ function PrintBASESubFooter(){
 	}
 	PageEnd();
 }
-
 function PrintBASEMenu( $type = '', $back_link = '' ){
 	GLOBAL $BASE_urlpath, $Use_Auth_System, $et;
-	if ( $type != '' ){
+	if ( LoadedString( $type ) == true ){
 		// Common
 		$type = strtolower($type);
 		$ReqRE = '';
@@ -187,37 +183,137 @@ function PrintBASEMenu( $type = '', $back_link = '' ){
 				print $Sep;
 				NLIO($back_link,6);
 			}elseif ( $type == 'footer' ){ // Footer
-				print $Sep;
-				NLIO ($Hrst."admin/index.php'>". _ADMIN .'</a>',6);
+				if ( AuthorizedRole(1) ){ // Issue #144 fix
+					print $Sep;
+					NLIO ($Hrst."admin/index.php'>". _ADMIN .'</a>',6);
+				}
 				if ( is_object($et) ){
 					print $Sep;
 					NLIO ('</td><td>',5);
 					$et->PrintTiming();
 				}
 			}
-			NLIO ('</td>',5);
-			NLIO ('</tr>',4);
-			NLIO ('</table>',3);
+			PrintFramedBoxFooter(1);
 			NLIO ('</div>',2);
 		}
 	}
 }
-
-function PrintFramedBoxHeader($title, $fore, $back)
-{
-  echo '
-<TABLE WIDTH="100%" CELLSPACING=0 CELLPADDING=2 BORDER=0 BGCOLOR="'.$fore.'">
-<TR><TD>
-  <TABLE WIDTH="100%" CELLSPACING=0 CELLPADDING=2 BORDER=0 BGCOLOR="'.$back.'">
-  <TR><TD class="sectiontitle">&nbsp;'.$title.'&nbsp;</TD></TR>
-    <TR><TD>';
-} 
-
-function PrintFramedBoxFooter()
-{
-  echo '
-  </TD></TR></TABLE>
-</TD></TR></TABLE>';
+function PrintFramedBoxHeader(
+	$title = '', $cc = 'black' , $td = 0, $tab = 3, $align = 'center',
+	$wd = 100
+){
+	print FramedBoxHeader( $title, $cc, $td, $tab, $align, $wd);
+}
+function FramedBoxHeader(
+	$title = '', $cc = 'black' , $td = 0, $tab = 3, $align = 'center',
+	$wd = 100
+){
+	$Ret = '';
+	// Input Validation
+	$title = XSSPrintSafe($title);
+	if ( HtmlColor($cc) == false ){
+		$cc = 'black';
+	}
+	if ( !is_int($td) ){
+		$td = 0;
+	}
+	if ( !is_int($tab) ){
+		$tab = 3;
+	}
+	if ( !is_int($wd) ){
+		$wd = 100;
+	}
+	$align = strtolower($align);
+	$hal = array( 'left', 'center', 'right' );
+	if ( !in_array($align, $hal) ){
+		$align = 'center';
+	}
+	// Input Validation End
+	$style = "'border: 2px solid $cc; border-collapse: collapse; width:$wd%;'";
+	$tmp = "<table style = $style";
+	if ( LoadedString($title) == true ){
+		$tmp .= " summary='$title'";
+	}
+	$tmp .= '>';
+	$Ret .= NLI($tmp, $tab) . NLI('<tr>',$tab + 1);
+	if ( LoadedString($title) == true ){
+		$Ret .= NLI(
+			"<td class='sectiontitle' style='text-align: $align;' colspan='20'>",
+			$tab + 2
+		);
+		$Ret .= NLI($title, $tab + 3);
+		$Ret .= TblNewRow( $td, $align, $tab + 2 );
+	}else{
+		if ( $td != 0 ){
+			$Ret .= NLI('<td',$tab + 2);
+			if ( $align != '' ){
+				$Ret .= " style='text-align: $align;'";
+			}
+			$Ret .= '>';
+		}
+	}
+	return $Ret;
+}
+function PrintFramedBoxFooter( $td = 0, $tab = 3 ){
+	print FramedBoxFooter( $td, $tab);
+}
+function FramedBoxFooter( $td = 0, $tab = 3 ){
+	$Ret = '';
+	// Input Validation
+	if ( !is_int($td) ){
+		$td = 0;
+	}
+	if ( !is_int($tab) ){
+		$tab = 3;
+	}
+	// Input Validation End
+	if ( $td != 0 ){
+		$Ret .= NLI('</td>',$tab + 2);
+	}
+	$Ret .= NLI('</tr>',$tab + 1);
+	$Ret .= NLI('</table>',$tab);
+	return $Ret;
+}
+function TblNewRow( $td = 0, $align = '', $tab = 3 ){
+	$Ret = '';
+	// Input Validation
+	if ( !is_int($td) ){
+		$td = 0;
+	}
+	if ( !is_int($tab) || $tab < 1 ){
+		$tab = 3;
+	}
+	$align = strtolower($align);
+	$hal = array( 'left', 'center', 'right' );
+	if ( $align != '' && !in_array($align, $hal) ){
+		$align = 'left';
+	}
+	// Input Validation End
+	$Ret = NLI('</td>', $tab);
+	$Ret .= NLI('</tr><tr>', $tab -1 );
+	if ( $td != 0 ){
+		$Ret .= NLI('<td',$tab);
+		if ( $align != '' ){
+			$Ret .= " style='text-align: $align;'";
+		}
+		$Ret .= '>';
+	}
+	return $Ret;
+}
+function PrintTblNewRow( $td = 0, $align = '', $tab = 3 ){
+	print TblNewRow( $td, $align, $tab );
+}
+function returnExportHTTPVar ( $var_name = '', $var_value = '', $tab = 3 ){
+	$Ret = '';
+	if ( LoadedString( $var_name ) == true ){ // Input Validation
+		if ( !is_int($tab) ){
+			$tab = 3;
+		}
+		$Ret = NLI(
+			"<input type='hidden' name='$var_name' value='$var_value'/>", $tab
+		);
+	}
+	return $Ret;
 }
 
 function chk_select($stored_value, $current_value){
@@ -250,29 +346,38 @@ function dispYearOptions($stored_value)
   return($options);
 }
 
-function PrintBASEAdminMenuHeader()
-{
-  $menu = "<table width='100%' border=0><tr><td width='15%'>";
-  $menu = $menu . "<div class='mainheadermenu'>";
-  $menu = $menu . "<table border='0' class='mainheadermenu'>";
-  $menu = $menu . "<tr><td class='menuitem'>". _USERMAN ."<br>";
-  $menu = $menu . "<hr><a href='base_useradmin.php?action=list' class='menuitem'>"._LISTU."</a><br>";
-  $menu = $menu . "<a href='base_useradmin.php?action=create' class='menuitem'>"._CREATEU."</a><br>";
-  $menu = $menu . "<br>". _ROLEMAN ."<br><hr>";
-  $menu = $menu . "<a href='base_roleadmin.php?action=list' class='menuitem'>"._LISTR."</a><br>";
-  $menu = $menu . "<a href='base_roleadmin.php?action=create' class='menuitem'>"._CREATER."</a><br>";
-  $menu = $menu . "</td></tr></table></div></td><td>";
-  
-  echo($menu);
+function PrintBASEAdminMenuHeader(){
+	GLOBAL $Use_Auth_System;
+	$menu = NLI("<div>",2);
+	$menu .= NLI(
+		"<div class='mainheadermenu' style='float: left; width: 15%;'>",3
+	);
+	$menu .= NLI(_USERMAN ."<hr/>",4);
+	// Html Templates
+	$Umca = "base_useradmin.php?action="; // User Managemnt Common Action.
+	$Hrst = "<a href='$Umca"; // Href tag start.
+	$Hrsp = " class='menuitem'>"; // Href tag end.
+	if ( $Use_Auth_System == 1 ){ // Issue #144 Fix
+		$menu .= NLI($Hrst . "list'" . $Hrsp . _LISTU . "</a><br>",4);
+	}
+	$menu .= NLI($Hrst . "create'" . $Hrsp . _CREATEU."</a><br>",4);
+	$Umca = "base_roleadmin.php?action="; // Role Managemnt Common Action.
+	$Hrst = "<a href='$Umca"; // Href tag start.
+	if ( $Use_Auth_System == 1 ){ // Issue #144 Fix
+		$menu .= NLI("<br>". _ROLEMAN ."<hr>",4);
+		$menu .= NLI($Hrst . "list'" . $Hrsp . _LISTR."</a><br>",4);
+		$menu .= NLI($Hrst . "create'" . $Hrsp ._CREATER."</a><br>",4);
+	}
+	$menu .= NLI("</div>",3);
+	$menu .= NLI(
+		"<div style='padding-left: 10px; width: auto;'>",3
+	);
+	print $menu;
 }
-  
-function PrintBASEAdminMenuFooter()
-{
-  $footer = "</td></tr></table>";
-  
-  echo($footer);
+function PrintBASEAdminMenuFooter(){
+	NLIO("</div>",3);
+	NLIO("</div>",2);
 }
-
 function PrintBASEHelpLink($target)
 {
   /*
@@ -294,7 +399,8 @@ function HBarGraph (
 	if ( HtmlColor($bgcolor) == false ){
 		$bgcolor = 'ffffff';
 	}
-	$ent_pct = Percent($Value,$Count);
+	// Input End.
+	$ent_pct = Percent( $Value, $Count );
 	if ( $ent_pct > 0 ){
 		$ent_clr = $color;
 	}else{
@@ -307,10 +413,9 @@ function HBarGraph (
 	}
 	return($Ret);
 }
-
 function HtmlPercent ( $Value = 1, $Count = 1 ){
-	$ent_pct = Percent($Value,$Count);
-	if ( $ent_pct == 0 ) {
+	$ent_pct = Percent( $Value, $Count );
+	if ( $ent_pct == 0 ){
 		$tmp = "&lt; 1";
 	}else{
 		$tmp = $ent_pct;

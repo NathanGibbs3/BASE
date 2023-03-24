@@ -43,109 +43,102 @@ global $colored_alerts, $debug_mode;
   /* Run the query to determine the number of rows (No LIMIT)*/
   $qs->GetNumResultRows($cnt_sql, $db);
   $et->Mark("Counting Result size");
-  /* Setup the Query Results Table */
-  $qro = new QueryResultsOutput("$page".$qs->SaveStateGET().$tmp_page_get);
-
-  $qro->AddTitle(qroReturnSelectALLCheck());  
-  $qro->AddTitle("ID");
-
-  $qro->AddTitle(_SIGNATURE, 
-                "sig_a", " ", " ORDER BY sig_name ASC",
-                "sig_d", " ", " ORDER BY sig_name DESC");
-  $qro->AddTitle(_TIMESTAMP,
-                 "time_a", " ", " ORDER BY timestamp ASC ",
-                 "time_d", " ", " ORDER BY timestamp DESC "); 
-  $qro->AddTitle(_NBSOURCEADDR, 
-                 "sip_a", " ", " ORDER BY ip_src ASC",
-                 "sip_d", " ", " ORDER BY ip_src DESC");
-  $qro->AddTitle(_NBDESTADDR, 
-                 "dip_a", " ", " ORDER BY ip_dst ASC",
-                 "dip_d", " ", " ORDER BY ip_dst DESC");
-  $qro->AddTitle(_NBLAYER4, 
-                 "proto_a", " ", " ORDER BY ip_proto ASC",
-                 "proto_d", " ", " ORDER BY ip_proto DESC");
-
-
+		// Setup the Query Results Table.
+		// Common SQL Strings
+		$OB = ' ORDER BY';
+		$qro = new QueryResultsOutput(
+			"$page".$qs->SaveStateGET().$tmp_page_get
+		);
+		if ( !is_null($qro->JavaScript) ){ // Issue #109 Check
+			$qro->AddTitle(qroReturnSelectALLCheck());
+		}else{
+			$qro->AddTitle('');
+		}
+	$qro->AddTitle('ID');
+	$qro->AddTitle($CPSig,
+		"sig_a", " ", "$OB sig_name ASC",
+		"sig_d", " ", "$OB sig_name DESC"
+	);
+	$qro->AddTitle($CPTs,
+		"time_a", " ", "$OB timestamp ASC ",
+		"time_d", " ", "$OB timestamp DESC "
+	);
+	$qro->AddTitle($CPSA,
+		"sip_a", " ", "$OB ip_src ASC",
+		"sip_d", " ", "$OB ip_src DESC"
+	);
+	$qro->AddTitle($CPDA,
+		"dip_a", " ", "$OB ip_dst ASC",
+		"dip_d", " ", "$OB ip_dst DESC"
+	);
+	$qro->AddTitle(_NBLAYER4,
+		"proto_a", " ", "$OB ip_proto ASC",
+		"proto_d", " ", "$OB ip_proto DESC"
+);
 
   if ( !$printing_ag )
      $sql = $sql.$join_sql.$where_sql.$criteria_sql;
 
   /* Apply sort criteria */
   if ( $qs->isCannedQuery() )
-     $sql = $sql." ORDER BY timestamp DESC ";
+     $sql = $sql."$OB timestamp DESC ";
   else
   {
      $sort_sql = $qro->GetSortSQL($qs->GetCurrentSort(), $qs->GetCurrentCannedQuerySort());
      //  3/23/05 BDB   mods to make sort by work for Searches
      $sort_sql = "";
-     if (!isset($sort_order)) {
-         $sort_order = NULL;
-     }
-
-     if ($sort_order == "sip_a")
-        { $sort_sql = " ORDER BY ip_src ASC"; }
-     if ($sort_order == "sip_d")
-        { $sort_sql = " ORDER BY ip_src DESC"; }
-     if ($sort_order == "dip_a")
-        { $sort_sql = " ORDER BY ip_dst ASC"; }
-     if ($sort_order == "dip_d")
-        { $sort_sql = " ORDER BY ip_dst DESC"; }
-     if ($sort_order == "sig_a")
-        { $sort_sql = " ORDER BY sig_name ASC"; }
-     if ($sort_order == "sig_d")
-        { $sort_sql = " ORDER BY sig_name DESC"; }
-     if ($sort_order == "time_a")
-        { $sort_sql = " ORDER BY timestamp ASC"; }
-     if ($sort_order == "time_d")
-        { $sort_sql = " ORDER BY timestamp DESC"; }
+		if (!isset($sort_order)) {
+			$sort_order = NULL;
+		}
+		// Issue #133 fix.
+		$sort_sql = $qro->GetSortSQL($qs->GetCurrentSort(), '')[1];
      ExportHTTPVar("prev_sort_order", $sort_order);
     
      $sql = $sql." ".$sort_sql;
   }
 
-  if ( $debug_mode > 0 )
-   {
-     echo "<P>SUBMIT: $submit";
-     echo "<P>sort_order: $sort_order";
-     echo "<P>SQL (save_sql): $sql";
-     echo "<P>SQL (sort_sql): $sort_sql"; 
-   }
+		if ( $debug_mode > 0 ){
+			print "<br/>SUBMIT: $submit <br/>";
+			print "sort_order: $sort_order <br/>";
+			print "SQL (save_sql): $sql <br/>";
+			print "SQL (sort_sql): $sort_sql <br/>";
+		}
 
   /* Run the Query again for the actual data (with the LIMIT) */
   //$result = ""; // $qs->ExecuteOutputQuery($sql, $db);
   $result = $qs->ExecuteOutputQuery($sql, $db);
   $et->Mark("Retrieve Query Data");
 
-  if ( $debug_mode > 0 )
-  {
-     $qs->PrintCannedQueryList();
-     $qs->DumpState();
-     echo "$sql<BR>";
-  }
-
-  if ( !$printing_ag )
-  {
-     /* ***** Generate and print the criteria in human readable form */
-     echo '<TABLE WIDTH="100%">
-           <TR>
-             <TD WIDTH="60%" VALIGN=TOP>';
-
-     PrintCriteria($caller);
-
-     echo '</TD>
-           <TD WIDTH="40%" VALIGN=TOP>';
-      
-     PrintFramedBoxHeader(_QSCSUMM, "#669999", "#FFFFFF");
-     PrintGeneralStats($db, 1, $show_summary_stats, 
-                       "$join_sql ", "$where_sql $criteria_sql"); 
-     echo('<BR><LI><A HREF="base_stat_time.php">'._QSCTIMEPROF.'</A> '._QSCOFALERTS . "</LI>");
-     PrintFramedBoxFooter();
-
-     echo ' </TD>
-           </TR>
-          </TABLE>';
-  }
-
+	if ( $debug_mode > 0 ){
+		if ( $qs->isCannedQuery() ){
+			$CCF = 'Yes';
+			$qs->PrintCannedQueryList();
+		}else{
+			$CCF = 'No';
+		}
+		print "Canned Query: $CCF <br/>";
+		$qs->DumpState();
+		print "SQL Executed: $sql <br/>";
+	}
+	if ( !$printing_ag ){
+		// Generate and print the criteria in human readable form.
+		// Issue #114 fix
+		NLIO ("<div style='overflow:hidden'>",2);
+		NLIO ("<div style='float: left; width: 60%;'>",3);
+		PrintCriteria($caller);
+		NLIO ('</div>',3);
+		NLIO ("<div style='float: right; width: 40%;'>",3);
+		PrintFramedBoxHeader(_QSCSUMM, '#669999', 0, 4);
+		NLIO ('<td>',6);
+		PrintGeneralStats(
+			$db, 1, $show_summary_stats, "$join_sql ",
+			"$where_sql $criteria_sql"
+		);
+		echo('<BR><LI><A HREF="base_stat_time.php">'._QSCTIMEPROF.'</A> '._QSCOFALERTS . "</LI>");
+		PrintFramedBoxFooter(1,4);
+		NLIO ('</div>',3);
+		NLIO ('</div>',2);
+	}
     /* Clear the old checked positions */
     for ( $i = 0; $i < $show_rows; $i++)  
     { 
@@ -207,20 +200,23 @@ global $colored_alerts, $debug_mode;
                 GetSignaturePriority($myrow[2], $db) : $i),
                 $colored_alerts);
 
-
-      $tmp_rowid = "#".(($qs->GetCurrentView() * $show_rows)+$i).
-                   "-(".$myrow[0]."-".$myrow[1].")";
-
-      qroPrintEntry('<INPUT TYPE="checkbox" NAME="action_chk_lst['.$i.']" VALUE="'.
-                    htmlspecialchars($tmp_rowid).'">');
-      echo '    <INPUT TYPE="hidden" NAME="action_lst['.$i.']" VALUE="'.htmlspecialchars($tmp_rowid).'">';
-
+	$tmp_rowid = XSSPrintSafe (
+		'#' . (( $qs->GetCurrentView() * $show_rows ) + $i ). '-(' .
+		$myrow[0] . '-' . $myrow[1] . ')'
+	);
+	$tmp = '_lst['.$i.']';
+	qroPrintEntry(
+		"<input type='checkbox' name='action_chk$tmp' " .
+		"value='" . $tmp_rowid . "'>" .
+		returnExportHTTPVar ( "action$tmp", $tmp_rowid, 4 )
+	);
+	$tmp = '';
 	/** Fix for bug #1116034 -- Input by Tim Rupp, original solution and code by Alejandro Flores **/
 	$temp = "<A HREF='base_qry_alert.php?submit=".rawurlencode($tmp_rowid)."&amp;sort_order=";
 	$temp .= ($qs->isCannedQuery()) ? $qs->getCurrentCannedQuerySort() : $qs->getCurrentSort();
 	$temp .= "'>".$tmp_rowid."</a>";
 	qroPrintEntry($temp);
-	$temp = "";
+	$temp = '';
 
       qroPrintEntry($current_sig, "left");
       qroPrintEntry($myrow[3]);

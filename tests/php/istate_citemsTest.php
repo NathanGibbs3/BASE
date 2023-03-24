@@ -12,8 +12,11 @@ use PHPUnit\Framework\TestCase;
   * @covers SignaturePriorityCriteria
   * @covers TimeCriteria
   * @covers TCPFlagsCriteria
+  * @uses ::ErrorMessage
+  * @uses ::HtmlColor
   * @uses ::InitArray
   * @uses ::SetSessionVar
+  * @uses ::returnErrorMessage
   */
 class state_citemsTest extends TestCase {
 	// Pre Test Setup.
@@ -131,7 +134,7 @@ class state_citemsTest extends TestCase {
 			'Class Not Initialized.'
 		);
 		$odb = $debug_mode;
-		$debug_mode = 1;
+		$debug_mode = 2;
 		$this->expectOutputString(
 			"CTIFD: Test<br/>\nCriteria Type: NULL<br/>\n", $UOV
 		);
@@ -150,7 +153,7 @@ class state_citemsTest extends TestCase {
 			'Class Not Initialized.'
 		);
 		$odb = $debug_mode;
-		$debug_mode = 1;
+		$debug_mode = 2;
 		$this->expectOutputString(
 			"Test: Test<br/>\nCriteria Type: NULL<br/>\n".
 			"Criteria Test: Allowed.<br/>\n",
@@ -171,7 +174,7 @@ class state_citemsTest extends TestCase {
 			'Class Not Initialized.'
 		);
 		$odb = $debug_mode;
-		$debug_mode = 1;
+		$debug_mode = 2;
 		$this->expectOutputString(
 			"Test: Test<br/>\nCriteria Type: NULL<br/>\n".
 			"Criteria Test: Denied.<br/>\n",
@@ -307,6 +310,7 @@ class state_citemsTest extends TestCase {
 		$this->assertFalse($tc->isEmpty(),$URV); // isEmtpy False
 	}
 	public function testClassMultipleElementCriteriaFuncsCompact(){
+		GLOBAL $MAX_ROWS;
 		$db = self::$db;
 		$cs = 'Test';
 		$URV = 'Unexpected Return Value.';
@@ -318,6 +322,9 @@ class state_citemsTest extends TestCase {
 		$this->assertNull($tc->criteria, $URV);
 		$this->assertTrue($tc->isEmpty(),$URV); // isEmtpy True
 		$osession = $_SESSION;
+		if ( isset($MAX_ROWS) ){
+			$omr = $MAX_ROWS;
+		}
 		$tc->Init();
 		$this->assertTrue(is_array($tc->criteria), $URV);
 		$this->assertFalse($tc->isEmpty(),$URV); // isEmtpy False
@@ -326,6 +333,11 @@ class state_citemsTest extends TestCase {
 		$tc->Compact();
 		$this->assertNull($tc->criteria, $URV);
 		$this->assertNull($_SESSION[$tc->export_name], $URV);
+		if ( isset($omr) ){
+			$MAX_ROWS = $omr;
+		}else{
+			unset($GLOBALS['MAX_ROWS']);
+		}
 		$_SESSION = $osession;
 	}
 	public function testClassMultipleElementCriteriaFuncSetDenied(){
@@ -340,7 +352,7 @@ class state_citemsTest extends TestCase {
 			'Class Not Initialized.'
 		);
 		$odb = $debug_mode;
-		$debug_mode = 1;
+		$debug_mode = 2;
 		$this->expectOutputString(
 			"Set: Test<br/>\nCriteria Type: NULL<br/>\n".
 			"Criteria Set: Denied.<br/>\n",
@@ -363,7 +375,7 @@ class state_citemsTest extends TestCase {
 			'Class Not Initialized.'
 		);
 		$odb = $debug_mode;
-		$debug_mode = 1;
+		$debug_mode = 2;
 		$this->expectOutputString(
 			"Set: Test<br/>\nCriteria Type: array<br/>\n".
 			"Criteria Set: Allowed.<br/>\n",
@@ -388,10 +400,11 @@ class state_citemsTest extends TestCase {
 		);
 		$odb = $debug_mode;
 		$osession = $_SESSION;
-		$debug_mode = 1;
+		$debug_mode = 2;
 		$_SESSION[$cs] = '';
 		$this->expectOutputString(
-			"Importing SESSION var 'Test'<br/>\n".
+			"<font color='black'>SetSessionVar(): ".
+			"Importing SESSION var 'Test'</font><br/>".
 			"Import: Test<br/>\nCriteria Type: NULL<br/>\n".
 			"Criteria Import: Denied.<br/>\n",
 			$UOV
@@ -416,12 +429,14 @@ class state_citemsTest extends TestCase {
 		);
 		$odb = $debug_mode;
 		$osession = $_SESSION;
-		$debug_mode = 1;
+		$debug_mode = 2;
 		$_SESSION[$cs] = array(0 => '1', 1 => '2');
 		$_SESSION[$cc] = 1;
 		$this->expectOutputString(
-			"Importing SESSION var 'Test'<br/>\n".
-			"Importing SESSION var 'Test_cnt'<br/>\n".
+			"<font color='black'>SetSessionVar(): ".
+			"Importing SESSION var 'Test'</font><br/>".
+			"<font color='black'>SetSessionVar(): ".
+			"Importing SESSION var 'Test_cnt'</font><br/>".
 			"Import: Test<br/>\nCriteria Type: array<br/>\n".
 			"Criteria Import: Allowed.<br/>\n",
 			$UOV
@@ -434,6 +449,7 @@ class state_citemsTest extends TestCase {
 		$_SESSION = $osession;
 	}
 	public function testClassMultipleElementCriteriaFuncInitDefault(){
+		GLOBAL $MAX_ROWS;
 		$db = self::$db;
 		$cs = 'Test';
 		$URV = 'Unexpected Return Value.';
@@ -443,6 +459,9 @@ class state_citemsTest extends TestCase {
 			'Class Not Initialized.'
 		);
 		$osession = $_SESSION;
+		if ( isset($MAX_ROWS) ){
+			$omr = $MAX_ROWS;
+		}
 		$tc->Init();
 		$this->assertTrue(is_array($tc->criteria), $URV);
 		$this->assertEquals(1, $tc->criteria_cnt, $URV);
@@ -452,6 +471,11 @@ class state_citemsTest extends TestCase {
 			for ( $j = 0; $j < $tc->criteria_cnt; $j++ ){
 				$this->assertEquals('',$tc->criteria[$i][$j],$URV);
 			}
+		}
+		if ( isset($omr) ){
+			$MAX_ROWS = $omr;
+		}else{
+			unset($GLOBALS['MAX_ROWS']);
 		}
 		$_SESSION = $osession;
 	}
@@ -553,10 +577,11 @@ class state_citemsTest extends TestCase {
 		);
 		$odb = $debug_mode;
 		$osession = $_SESSION;
-		$debug_mode = 1;
+		$debug_mode = 2;
 		$_SESSION[$cs] = '';
 		$this->expectOutputString(
-			"Importing SESSION var 'Test'<br/>\n".
+			"<font color='black'>SetSessionVar(): ".
+			"Importing SESSION var 'Test'</font><br/>".
 			"Import: Test<br/>\nCriteria Type: NULL<br/>\n".
 			"Criteria Import: Denied.<br/>\n",
 			$UOV
@@ -580,11 +605,13 @@ class state_citemsTest extends TestCase {
 		);
 		$odb = $debug_mode;
 		$osession = $_SESSION;
-		$debug_mode = 1;
+		$debug_mode = 2;
 		$_SESSION[$cs] = array(0 => '', 1 => '');
 		$this->expectOutputString(
-			"Importing SESSION var 'Test'<br/>\n".
-			"Importing SESSION var 'Test'<br/>\n".
+			"<font color='black'>SetSessionVar(): ".
+			"Importing SESSION var 'Test'</font><br/>".
+			"<font color='black'>SetSessionVar(): ".
+			"Importing SESSION var 'Test'</font><br/>".
 			"Import: Test<br/>\nCriteria Type: array<br/>\n".
 			"Criteria Import: Allowed.<br/>\n",
 			$UOV
@@ -659,10 +686,11 @@ class state_citemsTest extends TestCase {
 		);
 		$odb = $debug_mode;
 		$osession = $_SESSION;
-		$debug_mode = 1;
+		$debug_mode = 2;
 		$_SESSION[$cs] = '';
 		$this->expectOutputString(
-			"Importing SESSION var 'Test'<br/>\n".
+			"<font color='black'>SetSessionVar(): ".
+			"Importing SESSION var 'Test'</font><br/>".
 			"Import: Test<br/>\nCriteria Type: NULL<br/>\n".
 			"Criteria Import: Denied.<br/>\n",
 			$UOV
@@ -685,11 +713,13 @@ class state_citemsTest extends TestCase {
 		);
 		$odb = $debug_mode;
 		$osession = $_SESSION;
-		$debug_mode = 1;
+		$debug_mode = 2;
 		$_SESSION[$cs] = array(0 => '', 1 => '');
 		$this->expectOutputString(
-			"Importing SESSION var 'Test'<br/>\n".
-			"Importing SESSION var 'Test'<br/>\n".
+			"<font color='black'>SetSessionVar(): ".
+			"Importing SESSION var 'Test'</font><br/>".
+			"<font color='black'>SetSessionVar(): ".
+			"Importing SESSION var 'Test'</font><br/>".
 			"Import: Test<br/>\nCriteria Type: array<br/>\n".
 			"Criteria Import: Allowed.<br/>\n",
 			$UOV
@@ -795,10 +825,11 @@ class state_citemsTest extends TestCase {
 		);
 		$odb = $debug_mode;
 		$osession = $_SESSION;
-		$debug_mode = 1;
+		$debug_mode = 2;
 		$_SESSION[$cs] = '';
 		$this->expectOutputString(
-			"Importing SESSION var 'Test'<br/>\n".
+			"<font color='black'>SetSessionVar(): ".
+			"Importing SESSION var 'Test'</font><br/>".
 			"Import: Test<br/>\nCriteria Type: NULL<br/>\n".
 			"Criteria Import: Denied.<br/>\n",
 			$UOV
@@ -821,11 +852,13 @@ class state_citemsTest extends TestCase {
 		);
 		$odb = $debug_mode;
 		$osession = $_SESSION;
-		$debug_mode = 1;
+		$debug_mode = 2;
 		$_SESSION[$cs] = array(0 => '', 1 => '');
 		$this->expectOutputString(
-			"Importing SESSION var 'Test'<br/>\n".
-			"Importing SESSION var 'Test'<br/>\n".
+			"<font color='black'>SetSessionVar(): ".
+			"Importing SESSION var 'Test'</font><br/>".
+			"<font color='black'>SetSessionVar(): ".
+			"Importing SESSION var 'Test'</font><br/>".
 			"Import: Test<br/>\nCriteria Type: array<br/>\n".
 			"Criteria Import: Allowed.<br/>\n",
 			$UOV

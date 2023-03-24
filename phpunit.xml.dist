@@ -18,6 +18,7 @@
 			<exclude>
 				<directory>./build</directory>
 				<directory>./contrib</directory>
+				<directory>./custom</directory>
 				<directory>./docs</directory>
 				<directory>./images</directory>
 				<directory>./rpm</directory>
@@ -54,5 +55,6 @@
 	</php>
 	<logging>
 		<log type="coverage-clover" target="build/logs/clover.xml"/>
+		<log type="coverage-html" target="build/logs/CCR" lowUpperBound="10" highLowerBound="90"/>
 	</logging>
 </phpunit>

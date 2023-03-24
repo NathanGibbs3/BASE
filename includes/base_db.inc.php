@@ -64,15 +64,13 @@ class baseCon {
 		$method, $database, $host, $port, $username, $password, $force = 0
 	){
 		GLOBAL $archive_dbname, $archive_host, $archive_port, $archive_user,
-		$archive_password, $debug_mode;
-		$EMPfx = __FUNCTION__ . ': ';
+		$archive_password, $debug_mode, $et;
+		$EMPfx = __FUNCTION__ . '(): ';
 		// Check archive cookie to see if we need to use the archive tables.
 		// Only honnor cookie if not forced to use specified database.
 		if ( $force != 1 && ChkCookie ('archive', 1) ){
 			// Connect to the archive tables.
-			if ($debug_mode > 0){
-				ErrorMessage($EMPfx .'DB Connect to archive.','black',1);
-			}
+			$DBDesc = 'Archive'; // Need to TD this in Issue #11 branch.
 
       if ( $method == DB_CONNECT )
         $this->baseConnect($archive_dbname, $archive_host, $archive_port, $archive_user, $archive_password);
@@ -80,14 +78,19 @@ class baseCon {
         $this->basePConnect($archive_dbname, $archive_host, $archive_port, $archive_user, $archive_password);
 
 		}else{ // Connect to the main alert tables
-			if ($debug_mode > 0){
-				ErrorMessage($EMPfx .'DB Connect to alert.','black',1);
-			}
+			$DBDesc = 'Alert'; // Need to TD this in Issue #11 branch.
 
       if ( $method == DB_CONNECT )
         $this->baseConnect($database, $host, $port, $username, $password);
       else
         $this->basePConnect($database, $host, $port, $username, $password);
+	}
+	// Need to TD these in Issue #11 branch.
+	if ($debug_mode > 1){
+		ErrorMessage($EMPfx ."DB Connect to $DBDesc.",'black',1);
+	}
+	if ( is_object($et) && $debug_mode > 1 ){
+		$et->Mark("DB Connect: $DBDesc.");
 	}
 }
   function baseConnect($database, $host, $port, $username, $password)
@@ -288,6 +291,14 @@ class baseCon {
 			}
 		}
 		$qry = $sql.$limit_str;
+		if ( $debug_mode > 1 ){
+			// See: https://github.com/NathanGibbs3/BASE/issues/113
+			// Some legecy code has " 1 = 1 " in the query string. Log it here.
+			if ( strstr($qry, ' 1 = 1 ') ){
+				error_log("Issue #113 $qry");
+				error_log('See: https://github.com/NathanGibbs3/BASE/issues/113');
+			}
+		}
 		// See: https://github.com/NathanGibbs3/BASE/issues/67
 		// Legacy code assumed $this->DB->Execute() returns a valid recordset.
 		// It returns false on error. Catch it here.
@@ -393,7 +404,7 @@ class baseCon {
 			$tmp = $this->DB->MetaIndexes($table);
 			if ( $tmp != false ){
 				foreach ($tmp as $key => $value) { // Iterate Index List
-					if ( array_key_exists('columns', $value) ){
+					if ( base_array_key_exists('columns', $value) ){
 						if ( in_array(
 								$index_name,
 								array_values($value['columns'])
@@ -592,17 +603,13 @@ class baseRS {
 			$this->DB_class = 0;
 		}
 	}
-  function baseFetchRow()
-  {
-    GLOBAL $debug_mode;
-
-
-     /* Workaround for the problem, that the database may contain NULL
-      * whereas "NOT NULL" has been defined, when it was created */
-     if (!is_object($this->row))
-     {
-       if ($debug_mode > 1)
-       {
+	function baseFetchRow(){
+		GLOBAL $debug_mode;
+		$Ret = '';
+		if ( !is_object($this->row) ){
+			// Workaround for the problem, that the database may contain NULL
+			// whereas "NOT NULL" has been defined, when it was created.
+			if ( $debug_mode > 1 ){
          echo "<BR><BR>" . __FILE__ . ':' . __LINE__ . ": ERROR: \$this->row is not an object (1)<BR><PRE>";
          debug_print_backtrace();
          echo "<BR><BR>";
@@ -612,20 +619,15 @@ class baseRS {
          echo "var_dump(\$this->row):<BR>";
          var_dump($this->row);
          echo "</PRE><BR><BR>";
-       }
-
-       return "";	  
-     }
-     if ( !$this->row->EOF )
-     {
-        $temp = $this->row->fields;	
-        $this->row->MoveNext();
-        return $temp;
-     }
-     else
-        return ""; 
-  }
-
+			}
+		}else{
+			if ( !$this->row->EOF ){
+				$Ret = $this->row->fields;
+				$this->row->MoveNext();
+			}
+		}
+		return $Ret;
+	}
   function baseColCount()
   {
     // Not called anywhere???? -- Kevin
@@ -704,7 +706,7 @@ class baseRS {
   }
 }
 function NewBASEDBConnection($path, $type){
-	GLOBAL $debug_mode;
+	GLOBAL $debug_mode, $et;
 	$version = explode( '.', phpversion() );
 	$Wtype = NULL; // Working type.
 	$EMPfx = __FUNCTION__ . ': ';
@@ -785,7 +787,7 @@ function NewBASEDBConnection($path, $type){
 	// Load ADODB Library.
 	$LibFile = 'adodb.inc';
 	$Lib = implode( $sc, array($path, $LibFile) ).'.php';
-	if ( $debug_mode > 0 ){
+	if ( $debug_mode > 1 ){
 		ErrorMessage(
 			$EMPfx . _DBALCHECK." '".XSSPrintSafe($Lib)."'",'black',1
 		);
@@ -815,27 +817,27 @@ function NewBASEDBConnection($path, $type){
 		// @codeCoverageIgnoreEnd
 	}
 	ADOLoadCode($Wtype);
+	if ( is_object($et) && $debug_mode > 2 ){
+		// Need to TD this in Issue #11 branch.
+		$et->Mark('DB Object Created.');
+	}
 	return new baseCon($type);
 }
-function MssqlKludgeValue($text)
-{
-   $mssql_kludge = "";
-   for ($i = 0 ; $i < strlen($text) ; $i++)
-   {
-      $mssql_kludge = $mssql_kludge."[".
-                      substr($text,$i, 1)."]";
-   }
-   return $mssql_kludge;
+function MssqlKludgeValue( $text ){
+	$Ret = '';
+	for ( $i = 0; $i < strlen($text); $i++ ){
+		$Ret .= '[' . substr($text,$i, 1) . ']';
+	}
+	return $Ret;
 }
-
 function RepairDBTables($db)
 {
   /* This function was completely commented in original....
     I will be searching to see where it was called from if at all */
 }
-
-function ClearDataTables($db)
-{
+// @codeCoverageIgnoreStart
+// Don't Unit Test this.
+function ClearDataTables( $db ){
   $db->baseExecute("DELETE FROM acid_event");
   $db->baseExecute("DELETE FROM data");
   $db->baseExecute("DELETE FROM event");
@@ -849,6 +851,7 @@ function ClearDataTables($db)
   $db->baseExecute("DELETE FROM tcphdr");
   $db->baseExecute("DELETE FROM udphdr");
 }
+// @codeCoverageIgnoreEnd
 // Get Max Length of field in table.
 function GetFieldLength($db,$table,$field){
 	$Epfx = 'BASE ' . __FUNCTION__ . '() ';

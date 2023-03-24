@@ -1,6 +1,6 @@
 <?php
 // Basic Analysis and Security Engine (BASE)
-// Copyright (C) 2019-2020 Nathan Gibbs
+// Copyright (C) 2019-2021 Nathan Gibbs
 // Copyright (C) 2004 BASE Project Team
 // Copyright (C) 2000 Carnegie Mellon University
 //
@@ -17,13 +17,14 @@
 
 if (!isset($BASE_path)){ // Issue #5
 	$BASE_path = dirname(__FILE__);
-	$BASE_path = preg_replace("/\/admin.*/", "", $BASE_path);
+	$sc = DIRECTORY_SEPARATOR;
+	$ReqRE =  "\\".$sc.'admin.*';
+	$BASE_path = preg_replace("/".$ReqRE."/", "", $BASE_path);
 }
 include("$BASE_path/base_conf.php");
 include_once("$BASE_path/includes/base_constants.inc.php");
 include("$BASE_path/includes/base_include.inc.php");
 include_once("$BASE_path/base_db_common.php");
-include_once("$BASE_path/base_common.php");
 include_once("$BASE_path/base_stat_common.php");
 
 if ( isset($_GET['action']) ){
@@ -163,7 +164,11 @@ if ( preg_match("/(create|add)/", $Action) || $Use_Auth_System == 1 ){
 			// $userarray[0] = $userid
 			// $userarray[1] = $fullname
 			// $userarray[2] = $roleid
-			$userarray = array(filterSql($_POST['usr_id']), filterSql($_POST['fullname']), filterSql($_POST['roleID']),);
+			$userarray = array(
+				filterSql($_POST['usr_id']),
+				filterSql($_POST['fullname']),
+				filterSql($_POST['roleID']),
+			);
 			$user->updateUser($userarray);
 			base_header("Location: $Umca"."list");
 			break;
@@ -199,13 +204,8 @@ if ( preg_match("/(create|add)/", $Action) || $Use_Auth_System == 1 ){
 			$thc = "<td class='plfieldhdr'";
 			$thcw5 = "$thc width='5%'>";
 			$tdac = "<td align='center'>";
-			// Styling hack produces table with black border.
-			// See https://github.com/NathanGibbs3/BASE/issues/19
-			$tmpHTML = "<TABLE CELLSPACING=0 CELLPADDING=2 BORDER=0 WIDTH='100%' BGCOLOR='#000000'><TR><TD>";
 			// Users Table Display
-			$tmpHTML .= NLI("<table cellspacing='0' cellpadding='0' ",2);
-			$tmpHTML .= "border='0' width='100%' bgcolor='#FFFFFF'>";
-			$tmpHTML .= NLI('<tr>',3);
+			$tmpHTML = FramedBoxHeader('','black',0,2);
 			$tmpHTML .= NLI("$thcw5$AcEdit</td>",4);
 			$tmpHTML .= NLI("$thcw5$AcDelete</td>",4);
 			$tmpHTML .= NLI("$thcw5$uidesc</td>",4);
@@ -214,7 +214,7 @@ if ( preg_match("/(create|add)/", $Action) || $Use_Auth_System == 1 ){
 			$tmpHTML .= NLI("$thc>$ufndesc</td>",4);
 			$tmpHTML .= NLI("$thc>$asdesc</td>",4);
 			$tmpHTML .= NLI('</tr>',3);
-			if ( $users <> "" ){ // Verify we have a user in the db --Kevin;
+			if ( $users <> '' ){ // Verify we have a user in the db --Kevin;
 				$imgc = NLI('',6);
 				$imgc .= "<img border='0' src='".$BASE_urlpath ."/images/";
 				$tduma = $tdac.NLI($Hrst,5);
@@ -257,9 +257,6 @@ if ( preg_match("/(create|add)/", $Action) || $Use_Auth_System == 1 ){
 				}
 			}
 			$tmpHTML .= NLI('</table>',2);
-			// Closure for styleing hack.
-			// See https://github.com/NathanGibbs3/BASE/issues/19
-			$tmpHTML .= NLI("</td></tr></table>",1);
 			$pagebody = $tmpHTML;
 			break;
 		default:

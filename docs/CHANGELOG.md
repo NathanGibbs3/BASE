@@ -28,6 +28,7 @@ https://github.com/NathanGibbs3/BASE/issues/73)
 https://github.com/NathanGibbs3/BASE/issues/37)
 - [#86 Change Image_Graph download URL in error message.](
 https://github.com/NathanGibbs3/BASE/issues/86)
+- base_maintenance.pl renamed to BASEcli
 
 Contributor(s): [Nathan Gibbs]
 ### Deprecated
@@ -130,6 +131,66 @@ https://github.com/NathanGibbs3/BASE/issues/93)
 https://github.com/NathanGibbs3/BASE/issues/99)
 - [#100 Failure to display debugging info for a meaningful amount of time.](
 https://github.com/NathanGibbs3/BASE/issues/100)
+- [#19 User/Role Admin HTML styling hack, Re-implement via CSS.](
+https://github.com/NathanGibbs3/BASE/issues/19)
+- [@25 Search Criteria HTML styling hack, Re-implement via CSS.](
+https://github.com/NathanGibbs3/BASE/issues/25)
+- [#64 Number alignment in the "Total #" column of status pages.](
+https://github.com/NathanGibbs3/BASE/issues/64)
+- [#105 Results HTML styling hack, Re-implement via CSS.](
+https://github.com/NathanGibbs3/BASE/issues/105)
+- [#106 Move PHP generated JavaScript to external file.](
+https://github.com/NathanGibbs3/BASE/issues/106)
+- [#108 BASE does not check for unset class property qroHeeader before access.](
+https://github.com/NathanGibbs3/BASE/issues/108)
+- [#109 Add JavaScript property to QueryResultsOutput() Class.](
+https://github.com/NathanGibbs3/BASE/issues/109)
+- [#110 HTML generation styling hack, Re-implement via CSS.](
+https://github.com/NathanGibbs3/BASE/issues/110)
+- [#111 Non Unique sort keys in qroHeader() title elements.](
+https://github.com/NathanGibbs3/BASE/issues/111)
+- [#114 HTML generation styling hack, Re-implement via <div> tags.](
+https://github.com/NathanGibbs3/BASE/issues/114)
+- [#22 Total & Unique Events sorts don't work in base_stat_sensor.php](
+https://github.com/NathanGibbs3/BASE/issues/22)  
+Bug [reported](https://sourceforge.net/p/secureideas/bugs/238)
+on sourceforge.net.  
+Bug [reported](https://sourceforge.net/p/secureideas/bugs/239)
+on sourceforge.net.
+- [#23 Sensor Name sort in base_stat_sensor.php crashes App.](
+https://github.com/NathanGibbs3/BASE/issues/23)
+Bug [reported](https://sourceforge.net/p/secureideas/bugs/244)
+on sourceforge.net.
+- [#101 Javascript Page redirect.](https://github.com/NathanGibbs3/BASE/issues/101)
+- [#24 roleName() does not check for empty return value from DB.](
+https://github.com/NathanGibbs3/BASE/issues/24)
+- [#120 Most frequent 5 Unique Alerts not working.](
+https://github.com/NathanGibbs3/BASE/issues/120)
+- [#121 Make `UpdateAlertCache()` aware of global var $event_cache_auto_update.](
+https://github.com/NathanGibbs3/BASE/issues/121)
+- [#122 Most recent 15 Unique Alerts not working.](
+https://github.com/NathanGibbs3/BASE/issues/122)
+- [#123 Most frequent 15 Addresses Src/Dest not working.](
+https://github.com/NathanGibbs3/BASE/issues/123)
+- [#124 Most frequent ports Src/Dest not working.](
+https://github.com/NathanGibbs3/BASE/issues/124)
+- [#117 `FormatTimeDigit` does not always return what is expected.](
+https://github.com/NathanGibbs3/BASE/issues/117)
+- [#118 `DateTimeRows2sql()` crashes when throwing an invlid operator error.](
+https://github.com/NathanGibbs3/BASE/issues/118)
+- [#125 `CleanVariable()` does not properly return valid math and logical 
+operator characters.](
+https://github.com/NathanGibbs3/BASE/issues/125)
+- [#127 `DateTimeRows2sql()` does not define default minute and second value 
+for all opperator types.](
+https://github.com/NathanGibbs3/BASE/issues/127)
+- [#132 `DateTimeRows2sql()` does not check for single criteria before adding 
+SQL Op to return value.](
+https://github.com/NathanGibbs3/BASE/issues/132)
+- [#133 Sorts in search results not working.](
+https://github.com/NathanGibbs3/BASE/issues/133)
+- [#135 Remove call to `qmagic()` for compatibility with ADOdb 5.21+ and PHP 
+7.4+](https://github.com/NathanGibbs3/BASE/issues/135)
 
 Contributor(s): [Nathan Gibbs]
 - [#57 `tr bgcolor="#"` if `$prio` not in `$priority_colors`
@@ -137,6 +198,18 @@ Contributor(s): [Nathan Gibbs]
 https://github.com/NathanGibbs3/BASE/issues/57)  
 Contributor(s):
   - [FalcoGer]
+  - [Nathan Gibbs]
+- [#94 Reaching Admin page appears to be programming problem with Index.php](
+https://github.com/NathanGibbs3/BASE/issues/94)
+- [#142 Admin function not working on Windows installations.](
+https://github.com/NathanGibbs3/BASE/issues/142)
+- [#144 BASE offers non-operative choices when BASE Auth system is disabled or
+non admin user is logged in.](
+https://github.com/NathanGibbs3/BASE/issues/144)
+- [#145 BASE denied landing page not loading.](
+https://github.com/NathanGibbs3/BASE/issues/145)  
+Contributor(s):
+  - [mesteele]
   - [Nathan Gibbs]
 ### Security
 - [#32 Add Anti XSS code to CGI Action "display" in base_user.php.](
@@ -159,8 +232,36 @@ https://github.com/NathanGibbs3/BASE/issues/83)
 https://github.com/NathanGibbs3/BASE/issues/89)
 - [#90 Add Input Validation code to `returnUserID()`.](
 https://github.com/NathanGibbs3/BASE/issues/90)
+- [#104 Local/Remote Code Injection Vulnerability in BASE function
+`qroPrintEntry()`.](
+https://github.com/NathanGibbs3/BASE/issues/104)
+- [#107 Local/Remote Code Injection Vulnerability in BASE function
+`PrintEntry()`.](
+https://github.com/NathanGibbs3/BASE/issues/107)
+- [#119 `DateTimeRows2sql()` does not do input validation on passed params](
+https://github.com/NathanGibbs3/BASE/issues/119)
+- [#128 `DateTimeRows2sql()` assumes anything in year and month parts of data 
+structure are valid.](
+https://github.com/NathanGibbs3/BASE/issues/128
+)
+- [#130 `CleanVariable()` does not return expected value when there is an 
+exception list and `$valid_data` is empty. ](
+https://github.com/NathanGibbs3/BASE/issues/130)
+- [#136 `filterSql()` passes arrays through `XSSPrintSafe()` instead of 
+calling itself recursively](
+https://github.com/NathanGibbs3/BASE/issues/136)
+- [#137 `filterSQL()` does not process keyed arrays](
+https://github.com/NathanGibbs3/BASE/issues/137)
 
 Contributor(s): [Nathan Gibbs]
+- [#143 `session_name()` called after `session_start()`](
+https://github.com/NathanGibbs3/BASE/issues/143)
+- [#146 `Information & destructive operations exposed to unauthenticated users.
+](
+https://github.com/NathanGibbs3/BASE/issues/146)  
+Contributor(s):
+  - [mesteele]
+  - [Nathan Gibbs]
 
 ---
 ## [1.4.5 (lilias)] - 2009-11-03
@@ -1456,6 +1557,8 @@ Contributor(s): [Kevin Johnson]
 - Setup bugs.  
 Contributor(s): Michiel Brendel
 - "Duplicate Entry" errors.  
+Patch [submitted](https://sourceforge.net/p/secureideas/patches/1/)
+on sourceforge.net. Original ID: Unknown  
 Contributor(s): pr00f at users.sourceforge.net    
 - MSSQL setup scripts did not correctly insert roles.  
 Contributor(s): Alan Vallance
@@ -1658,3 +1761,4 @@ necessary there).
 [Kevin Johnson]: https://github.com/secureideas
 [Nathan Gibbs]: https://github.com/NathanGibbs3
 [FalcoGer]: https://github.com/FalcoGer
+[mesteele]: https://github.com/mesteele

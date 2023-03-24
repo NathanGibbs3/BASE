@@ -5,6 +5,7 @@ use PHPUnit\Framework\TestCase;
 // Tests that need process isolation.
 
 /**
+  * Code Coverage Directives.
   * @covers ::ChkAccess
   * @covers ::ChkLib
   * @runTestsInSeparateProcesses
@@ -66,8 +67,8 @@ class base_commonSPTest extends TestCase {
 		}
 		$path =  $DBlib_path;
 		$Lib = 'readTestFail';
-		$expected = '<font color="black">ChkLib: Chk: '."$path$sc$Lib".'.php';
-		$expected .= '</font><br/><font color="red">ChkLib: Lib: ';
+		$expected = "<font color='black'>ChkLib: Chk: $path$sc$Lib".'.php';
+		$expected .= "</font><br/><font color='red'>ChkLib: Lib: ";
 		$expected .= "$path$sc$Lib".'.php not readable.</font><br/>';
 		if ( posix_getuid() != 1000 ){ // Swith UID to test Read Failure.
 			posix_setuid(1000);
@@ -78,7 +79,7 @@ class base_commonSPTest extends TestCase {
 			'Unexpected return ChkLib().'
 		);
 		$odb = $debug_mode;
-		$debug_mode = 1;
+		$debug_mode = 2;
 		$this->expectOutputString(
 			$expected,
 			'Unexpected Output.'
@@ -86,7 +87,6 @@ class base_commonSPTest extends TestCase {
 		ChkLib($path,'',$Lib);
 		$debug_mode = $odb;
 	}
-
 	// Add code to a function if needed.
 	// Stop here and mark test incomplete.
 	//$this->markTestIncomplete('Incomplete Test.');

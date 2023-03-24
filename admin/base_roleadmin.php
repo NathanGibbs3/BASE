@@ -1,6 +1,6 @@
 <?php
 // Basic Analysis and Security Engine (BASE)
-// Copyright (C) 2019-2020 Nathan Gibbs
+// Copyright (C) 2019-2021 Nathan Gibbs
 // Copyright (C) 2004 BASE Project Team
 // Copyright (C) 2000 Carnegie Mellon University
 //
@@ -17,13 +17,14 @@
 
 if (!isset($BASE_path)){ // Issue #5
 	$BASE_path = dirname(__FILE__);
-	$BASE_path = preg_replace("/\/admin.*/", "", $BASE_path);
+	$sc = DIRECTORY_SEPARATOR;
+	$ReqRE =  "\\".$sc.'admin.*';
+	$BASE_path = preg_replace("/".$ReqRE."/", "", $BASE_path);
 }
 include("$BASE_path/base_conf.php");
 include_once("$BASE_path/includes/base_constants.inc.php");
 include("$BASE_path/includes/base_include.inc.php");
 include_once("$BASE_path/base_db_common.php");
-include_once("$BASE_path/base_common.php");
 include_once("$BASE_path/base_stat_common.php");
 
 if ( isset($_GET['action']) ){
@@ -178,13 +179,8 @@ if ($Use_Auth_System == 1) {
 			$imgc = NLI( "<img border='0' src='".$BASE_urlpath ."/images/", 5);
 			$imgc .= 'button_';
 			$tduma = $tdac.$Hrst;
-			// Styling hack produces table with black border.
-			// See https://github.com/NathanGibbs3/BASE/issues/19
-			$tmpHTML = "<TABLE CELLSPACING=0 CELLPADDING=2 BORDER=0 WIDTH='100%' BGCOLOR='#000000'><TR><TD>";
 			// Roles Table Display
-			$tmpHTML .= NLI("<table cellspacing='0' cellpadding='0' ",2);
-			$tmpHTML .= "border='0' width='100%' bgcolor='#FFFFFF'>";
-			$tmpHTML .= NLI('<tr>',3);
+			$tmpHTML = FramedBoxHeader('','black',0,2);
 			$tmpHTML .= NLI("$thcw5$AcEdit</td>",4);
 			$tmpHTML .= NLI("$thcw5$AcDelete</td>",4);
 			$tmpHTML .= NLI("$thcw5$ridesc</td>",4);
@@ -210,9 +206,6 @@ if ($Use_Auth_System == 1) {
 				$tmpHTML .= NLI('</tr>',3);
 			}
 			$tmpHTML .= NLI('</table>',2);
-			// Closure for styleing hack.
-			// See https://github.com/NathanGibbs3/BASE/issues/19
-			$tmpHTML .= NLI('</td></tr></table>',1);
 			$pagebody = $tmpHTML;
 			break;
 		default:

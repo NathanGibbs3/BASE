@@ -1,27 +1,22 @@
 <?php
-/*******************************************************************************
-** Basic Analysis and Security Engine (BASE)
-** Copyright (C) 2004 BASE Project Team
-** Copyright (C) 2000 Carnegie Mellon University
-**
-** (see the file 'base_main.php' for license details)
-**
-** Project Lead: Kevin Johnson <kjohnson@secureideas.net>
-**                Sean Muller <samwise_diver@users.sourceforge.net>
-** Built upon work by Roman Danyliw <rdd@cert.org>, <roman@danyliw.com>
-**
-** Purpose: Alert action (e.g. add to AG, delete, email,
-**          archive) operations   
-********************************************************************************
-** Authors:
-********************************************************************************
-** Kevin Johnson <kjohnson@secureideas.net
-**
-********************************************************************************
-*/
-/** The below check is to make sure that the conf file has been loaded before this one....
- **  This should prevent someone from accessing the page directly. -- Kevin
- **/
+// Basic Analysis and Security Engine (BASE)
+// Copyright (C) 2019-2023 Nathan Gibbs
+// Copyright (C) 2004 BASE Project Team
+// Copyright (C) 2000 Carnegie Mellon University
+//
+//   For license info: See the file 'base_main.php'
+//
+//       Project Lead: Nathan Gibbs
+// Built upon work by: Kevin Johnson & the BASE Project Team
+//                     Roman Danyliw <rdd@cert.org>, <roman@danyliw.com>
+//
+//            Purpose: Alert action (e.g. add to AG, delete, email,
+//                     archive) operations.
+//
+//          Author(s): Nathan Gibbs
+//                     Kevin Johnson
+
+// Ensure the conf file has been loaded.  Prevent direct access to this file.
 defined( '_BASE_INC' ) or die( 'Accessing this file directly is not allowed.' );
 
 include_once("$BASE_path/base_ag_common.php");
@@ -226,7 +221,7 @@ function GetActionDesc($action_name){
 }
 
 function ProcessSelectedAlerts(
-	$action, &$action_op, $action_arg, $action_param,$context, $action_lst,
+	$action, &$action_op, $action_arg, $action_param, $context, $action_lst,
 	&$num_alert, $action_sql, $db, $limit_start=-1, $limit_offset=-1
 ){
 	GLOBAL $debug_mode;
@@ -554,19 +549,17 @@ function Action_add_new_ag_Post($action_arg, &$action_ctx, $db, &$num_alert, $ac
 	}
 	$cnt = $result->baseRecordCount();
 	$result->baseFreeRows();
-	// If no alerts were inserted, remove the new AG.
-	if($cnt <= 0){
+	if($cnt <= 0){ // No alerts were inserted, remove the new AG.
 		$sql = "DELETE FROM acid_ag WHERE ag_id='".$action_ctx."'";
 		$db->baseExecute($sql, -1, -1, false);
 		if($db->baseErrorMessage() != ''){
 			ErrorMessage(_ERRREMOVEFAIL);
 		}
-	}else{
-		// Add was successful, so redirect user to AG edit page.
-     echo '<script type=text/javascript>
-            var _page = "base_ag_main.php?ag_action=edit&amp;ag_id='.$action_ctx.'&amp;submit=x";
-            window.location=_page;
-          </script>';
+	}else{ // Add was successful, so redirect user to AG edit page.
+		base_header(
+			"Location: base_ag_main.php?ag_action=edit&amp;ag_id='".
+			$action_ctx."'&amp;submit=x"
+		);
 	}
 }
 // DELETE
@@ -769,7 +762,7 @@ function Action_archive_alert_op($sid, $cid, &$db, $action_arg, &$ctx){
 		$sig = $tmp_row[0];
 		$timestamp = $tmp_row[1];
 		// Not everybody uses FLoP.
-		if (array_key_exists(2, $tmp_row)){
+		if ( base_array_key_exists(2, $tmp_row) ){
 			$reference = $tmp_row[2]; // FLoP's event reference.
 		}else{
 			$reference = '';
@@ -1309,8 +1302,8 @@ function Action_archive_alert_post(
 	// Call UpdateAlertCache to properly set cid values and make sure caches
 	// are current.
 	$archive_db=&$action_ctx;
-	UpdateAlertCache($archive_db);
-	UpdateAlertCache($db);
+	UpdateAlertCache($archive_db,1);
+	UpdateAlertCache($db,1);
 	// END LOCAL FIX.
 }
 function Action_archive_alert2_pre( $action_arg, $action_param, $db ){
@@ -1337,8 +1330,8 @@ function Action_archive_alert2_post(
 	// Call UpdateAlertCache to properly set cid values and make sure caches
 	// are current.
 	$archive_db=&$action_ctx;
-	UpdateAlertCache($archive_db);
-	UpdateAlertCache($db);
+	UpdateAlertCache($archive_db,1);
+	UpdateAlertCache($db,1);
 	// END LOCAL FIX.
 	// Reset the alert count that the query is re-executed to reflect the
 	// deletion.

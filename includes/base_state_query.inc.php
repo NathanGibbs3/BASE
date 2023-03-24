@@ -207,21 +207,15 @@ class QueryState {
     if ( is_numeric($submit) )
       $this->current_view = $submit;
   }
-
-  function ExecuteOutputQuery($sql, $db)
-  {
-     GLOBAL $show_rows;
-
-     if ( $this->isCannedQuery() )
-     {
-        $this->show_rows_on_screen = $this->GetCurrentCannedQueryCnt();
-        return $db->baseExecute($sql, 0, 
-                                $this->show_rows_on_screen);
+	function ExecuteOutputQuery( $sql, $db ){
+		GLOBAL $show_rows;
+		if ( $this->isCannedQuery() ){
+			$this->show_rows_on_screen = $this->GetCurrentCannedQueryCnt();
+			return $db->baseExecute($sql, 0, $this->show_rows_on_screen );
 		}else{
 			if ( isset($show_rows) ){
 				$tmp = $show_rows;
-			}else{
-				// Issue #5
+			}else{ // Issue #5
 				$tmp = 0;
 			}
 			$this->show_rows_on_screen = $tmp;
@@ -230,32 +224,25 @@ class QueryState {
 			);
 		}
 	}
-
-  function PrintResultCnt()
-  {
-     GLOBAL $show_rows;
-
-     if ( $this->num_result_rows != 0 )
-     {
-        if ( $this->isCannedQuery() )
-        {
-           echo "<div style='text-align:center;margin:auto'>"._DISPLAYING." ".$this->GetCurrentCannedQueryDesc().
-                "</div><BR>\n";
-        }
-        else      
-        {  
-           printf("<div style='text-align:center;margin:auto'>"._DISPLAYINGTOTAL.
-                  "</div><BR>\n", 
-                  ($this->current_view * $show_rows)+1, 
+	function PrintResultCnt(){
+		GLOBAL $show_rows;
+		$Pfx = NLI("<div style='text-align:center;margin:auto;'>",2);
+		$Sfx = "</div>";
+		if ( $this->num_result_rows != 0 ){
+			if ( $this->isCannedQuery() ){
+				print $Pfx._DISPLAYING." ".
+				$this->GetCurrentCannedQueryDesc().$Sfx;
+			}else{
+				printf( $Pfx._DISPLAYINGTOTAL.$Sfx,
+                  ($this->current_view * $show_rows)+1,
                   (($this->current_view * $show_rows) + $show_rows-1) < $this->num_result_rows ? 
                   (($this->current_view * $show_rows) + $show_rows) : $this->num_result_rows, 
                   $this->num_result_rows);
-        }
-     }
-     else
-        printf("<P><B>"._NOALERTS."</B><P>\n");
-  }
-
+			}
+		}else{
+			print $Pfx.'<b>'._NOALERTS.'</b>'.$Sfx;
+		}
+	}
   function PrintBrowseButtons()
   {
     GLOBAL $show_rows, $max_scroll_buttons;

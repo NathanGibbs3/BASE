@@ -59,80 +59,87 @@ class BaseUser {
 		$db->DB->SetFetchMode(ADODB_FETCH_BOTH);
 		$this->db = $db;
 	}
-    function Authenticate($user, $pwd)
-    {
-        /* Accepts a username and a password
-             returns a 0 if the username and pwd are correct
-             returns a 1 if the password is wrong
-             returns a 2 if the user is disabled
-             returns a 3 is the username doesn't exist
-        */
-        $cryptpwd = $this->cryptpassword($pwd);
-        if ($user == "")
-        {
-            // needs to input a user.....   
-            return 3;
-        }
-        
-        $sql = "SELECT * from base_users where base_users.usr_login ='" . $user ."';";
-        $tmpresult = $this->db->baseExecute($sql);
-        
-        if ( $this->db->baseErrorMessage() != "" )
-           return 3;
-        
-        if ($tmpresult->baseRecordCount() == 0)
-        {
-            return 3;
-        }
-        
-        $result = $tmpresult->baseFetchRow();
-                
-        if (($result['usr_pwd']) == $cryptpwd)
-        {
-            $this->setRoleCookie($result['usr_pwd'], $user);
-            return 0;
-        } else
-        {
-            return 1;
-        }
-    }
-    
-    function AuthenticateNoCookie($user, $pwd)
-    {
-       /*
-        * This function is solely used for the stand alone modules!
-        * Accepts a username and a password
-        * returns "Failed" on failure or role_id on success.
-        */
-        $cryptpwd = $this->cryptpassword($pwd);
-        
-        if ($user == "")
-        {
-            // needs to input a user.....   
-            return "Failed";
-        }
-        
-        $sql = "SELECT * from base_users where base_users.usr_login ='" . $user ."';";
-        $tmpresult = $this->db->baseExecute($sql);
-        
-        if ( $this->db->baseErrorMessage() != "" )
-           return "Failed";
-        
-        if ($tmpresult->baseRecordCount() == 0)
-        {
-            return "Failed";
-        }
-        
-        $result = $tmpresult->baseFetchRow();
-                
-        if (($result['usr_pwd']) == $cryptpwd)
-        {
-            return $result['role_id'];
-        } else
-        {
-            return "Failed";
-        }
-    }
+	// Core Authentication System.
+	// Accepts a username and a password.
+	// Returns:
+	//	0 if the username and pwd are correct.
+	//	1 if the password is wrong.
+	//	2 if the user is disabled.
+	//	3 if the username doesn't exist
+	function AuthenticateCore( $user = '', $pwd = '' ){
+		GLOBAL $debug_mode, $et;
+		$Ret = -1;
+		if ( !LoadedString($user) ){ // Input Validation
+			$Ret = 3; // Needs User Name, default to nonexistent user.
+		}else{
+			$db = $this->db;
+			$user = filterSql($user,1,$db); // Input sanitazation.
+			$pwd  = filterSql($pwd,1,$db);
+			$sql = "SELECT * from base_users where base_users.usr_login ='" . $user ."';";
+			$rs = $db->baseExecute($sql);
+			if (
+				$rs != false
+				&& $db->baseErrorMessage() == ''
+				&& $rs->baseRecordCount() > 0
+			){ // Error Check
+				$result = $rs->baseFetchRow();
+				if ( $result['usr_enabled'] == 0 ){
+					$Ret = 2; // User Account Disabled.
+				}else{
+					if ( $result['usr_pwd'] == $this->cryptpassword($pwd) ){
+						$Ret = 0; // Password OK
+					}else{
+						$Ret = 1; // Password Wrong
+					}
+				}
+				$rs->baseFreeRows();
+			}else{
+				$Ret = 3;
+			}
+		}
+		if ( isset($et) && is_object($et) ){ // Need to TD this in Issue #11 branch.
+			$et->Mark('Authentication Check.');
+		}
+		return $Ret;
+	}
+	// Same inputs/returns as AuthenticateCore.
+	// Sets the role cookie on success.
+	function Authenticate( $user = '', $pwd = '' ){
+		$Ret = $this->AuthenticateCore( $user, $pwd );
+		if ( $Ret == 0 ){
+			$this->setRoleCookie($this->cryptpassword($pwd), $user);
+		}
+		return $Ret;
+	}
+	// Same inputs as AuthenticateCore.
+	// returns "Failed" on failure or role_id on success.
+	function AuthenticateNoCookie( $user = '', $pwd = '' ) {
+		$Ret = $this->AuthenticateCore( $user, $pwd );
+		if ( $Ret == 0 ){ // Get RoleID
+			$db = $this->db;
+			$user = filterSql($user,1,$db); // Input sanitazation.
+			$pwd  = filterSql($pwd,1,$db);
+			$sql = "SELECT role_id FROM base_users where usr_login='" . $user
+			. "' AND usr_pwd='".$this->cryptpassword($pwd)."';";
+			$rs = $db->baseExecute($sql);
+			if (
+				$rs != false
+				&& $db->baseErrorMessage() == ''
+				&& $rs->baseRecordCount() > 0
+			){ // Error Check
+				$Ret = $rs->baseFetchRow();
+				if ( isset($Ret[0]) ){
+					$Ret = intval($Ret[0]);
+				}
+				$rs->baseFreeRows();
+			}else{
+				$Ret = 'Failed';
+			}
+		}else{
+			$Ret = 'Failed';
+		}
+		return $Ret;
+	}
     function hasRole($roleNeeded)
     {
         // Checks which role the user has
@@ -299,10 +306,10 @@ class BaseUser {
 		// Returns false on Error.
 		$Ret = false;
 		$userid = intval($userid); // Input Validation
-		if ( !is_numeric($XSS) ){
-			$XSS = 1;
-		}
 		if ( $userid > 0 ){
+			if ( !is_numeric($XSS) ){
+				$XSS = 1;
+			}
 			$db = $this->db;
 			$sql = "SELECT usr_id, usr_login, role_id, usr_name, usr_enabled ";
 			$sql .= "FROM base_users WHERE usr_id = '" . $userid . "';";
@@ -318,15 +325,30 @@ class BaseUser {
 		}
 		return $Ret;
 	}
-    function roleName($roleID)
-    {
-        // returns rolename for a specified role id
-        $db = $this->db;
-        $sql = "SELECT role_name FROM base_roles WHERE role_id = '" . $roleID . "';";
-        $result = $db->baseExecute($sql);
-        $rolename = $result->baseFetchRow();
-        return $rolename[0];
-    }
+	function roleName( $roleID, $XSS = 1 ){
+	// Returns name of roleID, false on Error.
+		$Ret = false;
+		$roleID = intval($roleID); // Input Validation
+		if ( $roleID > 0 ){
+			if ( !is_numeric($XSS) ){
+				$XSS = 1;
+			}
+			$db = $this->db;
+			$sql = "SELECT role_name FROM base_roles WHERE role_id = '" . $roleID . "';";
+			$result = $db->baseExecute($sql);
+			if ( $result != false ){ // Error Check
+				$rolename = $result->baseFetchRow();
+				$result->baseFreeRows();
+				if ( isset($rolename[0]) ){
+					$Ret = $rolename[0];
+				}
+				if ( $XSS > 0 ){ // Anti XSS Output Data
+					$Ret = XSSPrintSafe($Ret);
+				}
+			}
+		}
+		return $Ret;
+	}
 	function returnRoleNamesDropDown($roleid){
 		// Returns an HTML drop down list with all of the role names.
 		// The passed $roleid will be selected if it exists.
@@ -364,17 +386,18 @@ class BaseUser {
 			$cookiearr = explode('|', $cookievalue);
 			$user = '';
 			$passwd = '';
-			$version = explode('.', phpversion());
-			if ( $version[0] > 5 || ($version[0] == 5 && $version[1] > 3) ){
-				$Qh = 0;
-			}else{ // Figure out quote handling on PHP < 5.4.
-				$Qh = get_magic_quotes_gpc();
-			}
 			if ( isset($cookiearr[0]) ){
 				$passwd = $cookiearr[0];
 			}
 			if ( isset($cookiearr[1]) ){
 				$user = $cookiearr[1];
+			}
+			// Prepare cookie Values for use in SQL.
+			$version = explode('.', phpversion());
+			if ( $version[0] > 5 || ($version[0] == 5 && $version[1] > 3) ){
+				$Qh = 0;
+			}else{ // Figure out quote handling on PHP < 5.4.
+				$Qh = get_magic_quotes_gpc();
 			}
 			$passwd = $this->db->DB->qstr($passwd,$Qh);
 			$user = $this->db->DB->qstr($user,$Qh);
@@ -456,10 +479,10 @@ class BaseRole {
 		// array[0] = role_id|role_name|role_desc
 		$Ret = false;
 		$roleid = intval($roleid); // Input Validation
-		if ( !is_numeric($XSS) ){
-			$XSS = 1;
-		}
 		if ( $roleid > 0 ){
+			if ( !is_numeric($XSS) ){
+				$XSS = 1;
+			}
 			$db = $this->db;
 			$sql = "SELECT role_id, role_name, role_desc ";
 			$sql .= "FROM base_roles WHERE role_id = '" . $roleid . "';";
@@ -523,7 +546,7 @@ class BaseRole {
 // Returns true if the role of current user is authorized.
 // Redirect if valid header is given.
 function AuthorizedRole( $roleneeded = 1, $header = '' ){
-	GLOBAL $BASE_urlpath, $Use_Auth_System;
+	GLOBAL $BASE_urlpath, $Use_Auth_System, $et;
 	$Ret = false;
 	if ( $Use_Auth_System != 1 ){ // Auth system off, always pass.
 		$Ret = true;
@@ -554,6 +577,9 @@ function AuthorizedRole( $roleneeded = 1, $header = '' ){
 		}else{
 			$Ret = true;
 		}
+	}
+	if ( is_object($et) ){ // Need to TD this in Issue #11 branch.
+		$et->Mark('Authorization Check.');
 	}
 	return $Ret;
 }

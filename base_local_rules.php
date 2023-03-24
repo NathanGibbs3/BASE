@@ -6,12 +6,8 @@ include_once ("$BASE_path/includes/base_include.inc.php");
 
 $rv = false;
 
-if ( array_key_exists('external_sig_link',$GLOBALS) ){
-	if (is_array($GLOBALS['external_sig_link']) ){
-		$dir = $GLOBALS['external_sig_link']['local_rules_dir'][0];
-	}else{
-		$dir = 'rules/';
-	}
+if ( base_array_key_exists('external_sig_link',$GLOBALS) ){
+	$dir = $GLOBALS['external_sig_link']['local_rules_dir'][0];
 }else{
 	$dir = 'rules/';
 }

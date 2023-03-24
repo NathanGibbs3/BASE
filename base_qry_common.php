@@ -1,28 +1,26 @@
 <?php
-/*******************************************************************************
-** Basic Analysis and Security Engine (BASE)
-** Copyright (C) 2004 BASE Project Team
-** Copyright (C) 2000 Carnegie Mellon University
-**
-** (see the file 'base_main.php' for license details)
-**
-** Project Leads: Kevin Johnson <kjohnson@secureideas.net>
-** Built upon work by Roman Danyliw <rdd@cert.org>, <roman@danyliw.com>
-**
-** Purpose: support routines for processing criteria
-********************************************************************************
-** Authors:
-********************************************************************************
-** Kevin Johnson <kjohnson@secureideas.net
-**
-********************************************************************************
-*/
+// Basic Analysis and Security Engine (BASE)
+// Copyright (C) 2019-2023 Nathan Gibbs
+// Copyright (C) 2004 BASE Project Team
+// Copyright (C) 2000 Carnegie Mellon University
+//
+//   For license info: See the file 'base_main.php'
+//
+//       Project Lead: Nathan Gibbs
+// Built upon work by: Kevin Johnson & the BASE Project Team
+//                     Roman Danyliw <rdd@cert.org>, <roman@danyliw.com>
+//
+//            Purpose: support routines for processing criteria
+//
+//          Author(s): Nathan Gibbs
+//                     Kevin Johnson
+
 defined( '_BASE_INC' ) or die( 'Accessing this file directly is not allowed.' );
 include_once("$BASE_path/includes/base_signature.inc.php");
 
 function PrintCriteriaState(){
 	GLOBAL $layer4, $new, $submit, $sort_order, $num_result_rows,
-	$current_view, $caller, $action, $action_arg, $sort_order, $debug_mode;
+	$current_view, $caller, $action, $action_arg, $debug_mode;
 	if ( $debug_mode >= 2 ){
       echo "<PRE>";
       echo "<B>"._SENSOR.":</B> ".$_SESSION['sensor']."<BR>\n".
@@ -104,11 +102,17 @@ function FieldRows2sql($field, $cnt, &$s_sql)
   return 0;
 }
 
-function FormatTimeDigit($time_digit) 
-{
-	if(strlen(trim($time_digit))==1)
-		$time_digit = "0".trim($time_digit);
-	return $time_digit;
+// Returns a two digit string representing part of a time format.
+function FormatTimeDigit( $time_digit ){
+	$Ret = '00'; // Default Return, if we are passed non-numeric input.
+	$tmp = trim($time_digit);
+	if ( is_numeric($tmp) ){
+		if ( strlen($tmp) == 1 ){
+			$tmp = "0$tmp";
+		}
+		$Ret = $tmp;
+	}
+	return $Ret;
 }
 
 function addSQLItem(&$sstring, $what_to_add)
@@ -116,180 +120,257 @@ function addSQLItem(&$sstring, $what_to_add)
    $sstring = (strlen($sstring) == 0 ) ? "($what_to_add" : "$sstring AND $what_to_add";
 }
 
-function DateTimeRows2sql($field, $cnt, &$s_sql)
-{
-  GLOBAL $db;
-  $tmp2 = "";
-  $allempty = FALSE;
-  $time_field = array("mysql"    => ":", 
-                      "mssql"    => ":",
-                      "postgres" => ":"
-                );
-  $minsec = array( ">=" => "00", "<=" => "59");
-
-  for ( $i = 0; $i < $cnt; $i++ )
-  {
-      $tmp = "";
-      if ( isset($field[$i]) && $field[$i][1] != " " && $field[$i][1] != "")
-      {
-         $op = $field[$i][1];
-     
-         $t = "";
-
-         /* Build the SQL string when >, >=, <, <= operator is used */
-         if ( $op != "=" )
-         {
-            /* date */
-            if ( $field[$i][4] != " " )
-            {
-               /* create the date string */
-               $t = $field[$i][4];                             /* year */
-               if ( $field[$i][2] != " " )
-               {
-                  $t = $t."-".$field[$i][2];                       /* month */
-				  echo "<!-- \n\n\n\n\n\n\n dia: -".$field[$i][3]."- -->\n\n\n\n\n\n";
-                  if ( $field[$i][3] != "" )
-                     $t = $t."-".FormatTimeDigit($field[$i][3]);   /* day */                
-                  else
-				  	$t = (($i == 0) ? $t."-01" : $t = $t."-31");
-						
-               }
-               else
-                  $t = $t."-01-01";
-            }
-            /* time */
-            // For MSSQL, you must have colons in the time fields. 
-            // Otherwise, the DATEDIFF function will return Arithmetic Overflow
-            if ( $field[$i][5] != "" )
-            {
-               $t = $t." ".FormatTimeDigit($field[$i][5]);         /* hour */
-               if ( $field[$i][6] != "" )
-               {
-                  $t = $t . $time_field[$db->DB_type] . FormatTimeDigit($field[$i][6]); /* minute */		
-					
-                  if ( $field[$i][7] != "" )
-                      $t = $t . $time_field[$db->DB_type] . FormatTimeDigit($field[$i][6]);					   
-                  else
-                      $t = $t . $time_field[$db->DB_type] . $minsec[$op];
-               }
-               else
-                  $t = $t . $time_field[$db->DB_type] . $minsec[$op] . $time_field[$db->DB_type] . $minsec[$op];
-            }
-			
-            /* fixup if have a > by adding an extra day */
-            else if ( $op == ">" && $field[$i][4] != " " )
-                $t = $t." 23:59:59";
-            /* fixup if have a <= by adding an extra day */
-            else if ( $op == "<=" && $field[$i][4] != " " )
-                $t = $t." 23:59:59";
-            
-            /* neither date or time */
-            if ( $field[$i][4] == " " && $field[$i][5] == "" )
-               ErrorMessage("<B>"._QCERRCRITWARN."</B> "._QCERROPER." '".$field[$i][1].
-                            "' "._QCERRDATEVALUE);
-         
-            /* date or date/time */
-             else if ( ($field[$i][4] != " " && $field[$i][5] != "") || $field[$i][4] != " ") {
-               if( $db->DB_type == "oci8" ) {
-                 $tmp = $field[$i][0]." timestamp ".$op."to_date( '$t', 'YYYY-MM-DD HH24MISS' )".$field[$i][8].' '.$field[$i][9]; 
-               } else {
-			if (count($field) > 1) {
-			// Better fix for bug #1199128
-				// Number of empty values
-				$empty_count=0;
-				reset($field[$i]);
-				while (list($key, $val) = each($field[$i])) {
-					if (empty($val)) {
-						$empty_count += 1;
+// Adds valid date/time selection SQL to the 3rd param.
+// Returns 1 on SQL added.
+// Returns 0 on no SQL added.
+function DateTimeRows2sql( $field, $cnt, &$s_sql ){
+	GLOBAL $db, $debug_mode;
+	// $field is an array containing 2 arrays.
+	// Each has 10 elements describing time criteria.
+	// The first one is sarting, the second ending criteria.
+	// The is based on TimeCriteria class as defined in:
+	// ./includes/base_state_citems.inc.php
+	// However $field is not necessarily a TimeCriteria class.
+	//	[][0]	Empty or (
+	//	[][1]	Logical Operators: =, !=, <, <=, >, >=
+	//			"" or " "	Empty or space on empty.
+	//	2-7		""			Empty on empty.
+	//	[][2]	month		[][6]	minute
+	//	[][3]	day			[][7]	second
+	//	[][4]	year		[][8]	Empty, (, or )
+	//	[][5]	hour
+	//	[][9]	AND, OR
+	//			SQL Logical Operator in start array when second array is used.
+	$Ret = 0; // Default Return Value.
+	if ( is_array($field) && is_numeric($cnt) ){ // Input validation.
+		// Setup
+		$tmp2 = '';
+		$allempty = false;
+		$minsec = array( // Shim for ambiguous search criteria.
+			'>=' => '00', '<=' => '59', '>' => '00', '<' => '00', '!=' => '00'
+		);
+		$EPfx = '<b>'._QCERRCRITWARN.'</b> '; // Error Message Prefix
+		for ( $i = 0; $i < $cnt; $i++ ){
+			$tmp = '';
+			if (
+				isset($field[$i]) && is_array($field[$i])
+				&& count($field[$i]) == 10
+			){ // Data Structure Validation.
+				// Set & sanitize Index Values
+				$fstart = CleanVariable($field[$i][0], VAR_OPAREN, array (''));
+				$op = CleanVariable(
+					$field[$i][1], '',
+					array('=', '!=', '<', '<=', '>', '>=')
+				);
+				$month = CleanVariable($field[$i][2], VAR_DIGIT);
+				$day = CleanVariable($field[$i][3], VAR_DIGIT);
+				$year = CleanVariable($field[$i][4], VAR_DIGIT);
+				$hour = CleanVariable($field[$i][5], VAR_DIGIT);
+				$minute = CleanVariable($field[$i][6], VAR_DIGIT);
+				$second = CleanVariable($field[$i][7], VAR_DIGIT);
+				$fstop = CleanVariable(
+					$field[$i][8], VAR_OPAREN | VAR_CPAREN, array ('')
+				);
+				$SQLOP = CleanVariable($field[$i][9], '', array('AND', 'OR'));
+				// Catch error conditions.
+				// This could be a place to stop Issue #126 input from
+				// turning into invalid SQL.
+//				if ( $fstart != '' || $fstop != '' )
+//				if ( $fstart != '(' || ( $fstop != '(' && $fstop != ')' )
+//				){ // Invalid Criteria
+//					ErrorMessage($EPfx._ERRCRITELEM);
+//					break;
+//				}
+				if (
+					$cnt > 1 && $i % 2 == 0 && $SQLOP == '' && is_numeric($year)
+				){ // Multi. Criteria with no SQL Op.
+					ErrorMessage($EPfx._QCERRDATEBOOL);
+					break;
+				}
+				if ( $op == '' && (
+					is_numeric($month) || is_numeric($day) || is_numeric($year)
+				) ){ // No logical op error.
+					ErrorMessage(
+						$EPfx._QCERRDATETIME." '".
+						implode ('-',array($year, $month, $day)) .' '.
+						implode (':',array($hour, $minute, $second))
+						."' "._QCERROPERSELECT
+					);
+					break;
+				}
+				if ( $op != '' ){
+					if ( !is_numeric($year) && !is_numeric($hour)
+					){ // Not date or time.
+						ErrorMessage(
+							$EPfx._QCERROPER." '$op' "._QCERRDATEVALUE
+						);
+						break;
+					}
+					if ( !is_numeric($year) && is_numeric($hour)
+					){ // Invlaid Hour
+						ErrorMessage($EPfx._QCERRINVHOUR);
+						break;
+					}
+					$t = '';
+					//Build the SQL string when all ops but = are used.
+					if ( $op != '=' ){
+						if ( is_numeric($year) ){ // Year set.
+							// Create the date string. YYYY-MM-DD
+							// Catch 2 digit years, default to current century.
+							if ( strlen($year) <= 2 ){
+								$year = substr(date("Y"),0,2).
+								FormatTimeDigit($year);
+							}
+							if ( is_numeric($month) ){ // Month set.
+								$month = FormatTimeDigit($month);
+							}else{ // Month not set, default to January.
+								$month = '01';
+							}
+							if ( is_numeric($day) ){ // Day set.
+								$day = FormatTimeDigit($day);
+							}else{ // Day not set.
+								if ( $i == 0 ){ // Start criteria
+									$day = '01'; // Default to 1st.
+								}else{ // Assume all months have 31 days.
+									$day = '31';
+									while (
+										!checkdate( $month, $day, $year )
+									){ // Bring it into reality.
+										--$day;
+									}
+								}
+							}
+							$t = implode ('-',array($year, $month, $day));
+						}
+						// Time.
+						$t .= ' ';
+						if ( is_numeric($hour) ){ // Hour set.
+							$hour = FormatTimeDigit($hour);
+							if ( is_numeric($minute) ){ // Minute set.
+								$minute = FormatTimeDigit($minute);
+							}else{ // Minute not set, set defaults.
+								$minute = $minsec[$op];
+							}
+							if ( is_numeric($second) ){ // Second set.
+								$second = FormatTimeDigit($second);
+							}else{ // Second not set, set defaults.
+								$second = $minsec[$op];
+							}
+							$t .= implode (
+								':',array($hour, $minute, $second)
+							);
+						}else{ // Hour not set, shim ambiguous search criteria.
+							if(
+								( $op == ">" || $op == "<=" ) &&
+								is_numeric($year)
+							){ // Fixup for > or <= operators, add an extra day.
+								$t .= '23:59:59';
+							}else{ // Default to start of day.
+								$t .= '00:00:00';
+							}
+						}
+						if( $db->DB_type == 'oci8' ){ // Oracle DB.
+							// @codeCoverageIgnoreStart
+							// We have no way of testing Oracle functionality.
+							$tmp = " timestamp " . $op .
+							"to_date( '$t', 'YYYY-MM-DD HH24MISS' )";
+							// @codeCoverageIgnoreEnd
+						}else{
+							if ( count($field) > 1 ){
+								// Better fix for bug #1199128
+								// Number of empty values
+								$empty_count = 0;
+								reset($field[$i]);
+								while (
+									list( $key, $val ) = each( $field[$i] )
+								){
+									if ( empty($val) ){
+										$empty_count += 1;
+									}
+								}
+								// Total number of values in the criteria
+								// line (empty or filled).
+								$array_count = count( $field[1] );
+								// Check to see if any fields are empty.
+								// If the number of empty fields are
+								// greater than (impossible) or equal to
+								// (possible) the number of values in the
+								// array, then they must all be empty.
+								if ( $empty_count >= $array_count ){
+									$allempty = true;
+								}
+								// If empty, dont process line.
+								if ( $allempty ){
+									continue;
+								}else{ // Process line.
+									$tmp = " timestamp " . $op . "'$t'";
+								}
+							}else{ // We have one criteria line, process it.
+								$tmp = " timestamp " . $op . "'$t'";
+							}
+						}
+					}else{ // Build the SQL string when the = operator is used.
+						// NPG Performance wise, this query takes more time.
+						// Consider rewriting this at some point.
+						// Date.
+						if ( is_numeric($year) ){ // Year set.
+							addSQLItem( $tmp,
+								$db->baseSQL_YEAR("timestamp", "=", $year)
+							);
+						}
+						if ( is_numeric($month) ){ // Month set.
+							addSQLItem( $tmp,
+								$db->baseSQL_MONTH("timestamp", "=", $month)
+							);
+						}
+						if ( is_numeric($day) ){ // Day set.
+							addSQLItem( $tmp,
+								$db->baseSQL_DAY("timestamp", "=", $day)
+							);
+						}
+						// Time.
+						if ( is_numeric($hour) ){ // Hour set.
+							addSQLItem( $tmp,
+								$db->baseSQL_HOUR("timestamp", "=", $hour)
+							);
+						}
+						if ( is_numeric($minute) ){ // Minute set.
+							addSQLItem( $tmp,
+								$db->baseSQL_MINUTE("timestamp", "=", $minute)
+							);
+						}
+						if ( is_numeric($second) ){ // Second set.
+							addSQLItem( $tmp,
+								$db->baseSQL_SECOND("timestamp", "=", $second)
+							);
+						}
+						if ( $tmp == '' ){ // Neither date or time.
+							ErrorMessage(
+								$EPfx._QCERROPER." '$op' "._QCERRDATECRIT
+							);
+						}else{
+							$tmp .= ')';
+						}
 					}
 				}
-
-				// Total number of values in the criteria line (empty or filled)
-				$array_count = count($field[1]);
-
-				// Check to see if any fields were left empty
-				// If the number of empty fields is greater than (impossible) or equal to (possible) the number of values in the array, then they must all be empty
-				if ($empty_count >= $array_count)
-					$allempty = TRUE;
-
-				// Trim off white space
-				$field[$i][9] = trim($field[$i][9]);
-
-				// And if the certain line was empty, then we dont care to process it
-				if($allempty)
-					// So move on
-					continue;
-				else {
-					// Otherwise process it
-					$tmp = $field[$i][0]." timestamp ".$op."'$t'".$field[$i][8].' '.CleanVariable($field[$i][9], VAR_ALPHA); 
-					  
+				if ( $tmp != '' ){
+					$tmp2 .= $field[$i][0] . $tmp . $field[$i][8] . ' ';
+					if ( $i != $cnt -1 ){ // Catch Issue #132
+						$tmp2 .= $SQLOP;
+					}
 				}
-                 	} else {
-				// If we just have one criteria line, then do with it what we must
-				$tmp = $field[$i][0]." timestamp ".$op."'$t'".$field[$i][8].' '.CleanVariable($field[$i][9], VAR_ALPHA); 
 			}
 		}
-             }
-
-            /* time */
-            else if ( ($field[$i][5] != " ") && ($field[$i][5] != "") )
-            {
-               ErrorMessage("<B>"._QCERRCRITWARN."</B> "._QCERRINVHOUR);
-            }
-         }
-
-         /* Build the SQL string when the = operator is used */
-         else
-         {
-            /* date */
-            if ( $field[$i][4] != " " ) 
-               addSQLItem($tmp, $db->baseSQL_YEAR("timestamp", "=", $field[$i][4]) );
-            if ( $field[$i][2] != " " ) 
-               addSQLItem($tmp, $db->baseSQL_MONTH("timestamp", "=", $field[$i][2]) );
-            if ( $field[$i][3] != ""  ) 
-               addSQLItem($tmp, $db->baseSQL_DAY("timestamp", "=", $field[$i][3]) );
-
-            /* time */
-            if ( $field[$i][5] != "" ) 
-               addSQLItem($tmp, $db->baseSQL_HOUR("timestamp", "=", $field[$i][5]) );
-            if ( $field[$i][6] != "" ) 
-               addSQLItem($tmp, $db->baseSQL_MINUTE("timestamp", "=", $field[$i][6]) );
-            if ( $field[$i][7] != "" ) 
-               addSQLItem($tmp, $db->baseSQL_SECOND("timestamp", "=", $field[$i][7]) );
-
-            /* neither date or time */
-            if ( $tmp == "" )
-               ErrorMessage("<B>"._QCERRCRITWARN."</B> "._QCERROPER." '".$field[$i][1].
-                            "' "._QCERRDATECRIT);
-            else
-               $tmp = $field[$i][0].$tmp.')'.$field[$i][8].CleanVariable($field[$i][9], VAR_ALPHA);
-         }
-      }
-      else
-      {
-         if ( isset($field[$i]) )
-         {
-           if ( ($field[$i][2] != "" || $field[$i][3] != "" || $field[$i][4] != "") && 
-               $field[$i][1] == "")
-              ErrorMessage("<B>"._QCERRCRITWARN."</B> "._QCERRDATETIME." '".
-                            $field[$i][2]."-".$field[$i][3]."-".$field[$i][4]." ".
-                            $field[$i][5].":".$field[6].":".$field[7]."' "._QCERROPERSELECT);
-         }
-      }
-
-      if ( $i > 0 && $field[$i-1][9] == ' ' && $field[$i-1][4] != " ")
-         ErrorMessage("<B>"._QCERRCRITWARN."</B> "._QCERRDATEBOOL);
-
-      $tmp2 = $tmp2.$tmp;
-  }
-
-  if ( $tmp2 != "" )
-  {
-     $s_sql = $s_sql." AND (".$tmp2.") ";
-     return 1;
-  }
-
-  return 0;
+		if ( $tmp2 != '' ){
+			$s_sql .= ' AND ('.$tmp2.') ';
+			if ( $debug_mode > 0 ){
+				var_dump($field);
+				ErrorMessage( __FUNCTION__ . "() Returned SQL: $s_sql");
+			}
+			$Ret = 1;
+		}
+	}
+	return $Ret;
 }
 
 function FormatPayload($payload_str, $data_encode)
@@ -369,146 +450,150 @@ function DataRows2sql($field, $cnt, $data_encode, &$s_sql)
 
   return 0;
 }
-
-function PrintCriteria($caller)
-{
-  GLOBAL $db, $cs, $last_num_alerts, $save_criteria;
-
-  /* Generate the Criteria entered into a human readable form */  
-  $save_criteria = '
-   <TABLE CELLSPACING=1 CELLPADDING=2 BORDER=0 BGCOLOR="#FFFFFF">
-    <TR>
-        <TD CLASS="metatitle">'._QCMETACRIT.'</TD>
-        <TD>';
-
-  /* If printing any of the LAST-X stats then ignore all the other criteria */
-  if (  $caller == "last_tcp" || $caller == "last_udp" || 
-        $caller == "last_icmp" || $caller == "last_any" ) 
-  {
-    $save_criteria = $save_criteria.'&nbsp;&nbsp;';
-    if ( $caller == "last_tcp" )
-       $save_criteria .= _LAST.' '.$last_num_alerts.' TCP '._ALERT; 
-    else if ( $caller == "last_udp" )
-       $save_criteria .= _LAST.' '.$last_num_alerts.' UDP '._ALERT; 
-    else if ( $caller == "last_icmp" )
-       $save_criteria .= _LAST.' '.$last_num_alerts.' ICMP '._ALERT; 
-    else if ( $caller == "last_any" )
-       $save_criteria .= _LAST.' '.$last_num_alerts.' '._ALERT;
-    
-    $save_criteria .= '&nbsp;&nbsp;</TD></TR></TABLE>';
-    echo $save_criteria;
-    return;
-  }
-
-     $tmp_len = strlen($save_criteria);
-	if (is_object($cs)){ // Issue #5
+function PrintCriteria( $caller ){
+	GLOBAL $db, $cs, $last_num_alerts, $save_criteria, $debug_mode, $UIL;
+	if ( !is_object($cs) ){ // Issue #5
+		ErrorMessage('Invalid CriteriaState Object.', 0,1);
+	}else{
+		if ( $debug_mode > 0 ){
+			ErrorMessage(__FUNCTION__." CALLER: ($caller)", 'black', 1);
+		}
+		if ( class_exists('UILang') ){ // Issue 11 backport shim.
+			$CPLast = $UIL->CWA['Last'];
+			$CPAlert = $UIL->CWA['Alert'];
+		}else{
+			$CPLast = _LAST;
+			$CPAlert = _ALERT;
+		}
+		// Generate the Criteria entered into a human readable form.
+		// Search criteria Display
+		// Table Title needs to be translated.
+		$CS = 'width: 35%;'; // Common Style Hack
+		$save_criteria =
+		FramedBoxHeader('Search Criteria','black',0,2,'',30).
+		NLI("<td class='metatitle' style='$CS'>"._QCMETACRIT.'</td>',4).
+		NLI('<td>',4);
+		// If printing any of the LAST-X stats then ignore all other criteria.
+		if (
+			$caller == 'last_tcp' || $caller == 'last_udp'
+			|| $caller == 'last_icmp' || $caller == 'last_any'
+		){
+			$save_criteria .= "&nbsp;&nbsp;$CPLast $last_num_alerts ";
+			if ( $caller == 'last_tcp' ){
+				$save_criteria .= 'TCP ';
+			}elseif ( $caller == 'last_udp' ){
+				$save_criteria .= 'UDP ';
+			}elseif ( $caller == 'last_icmp' ){
+				$save_criteria .= 'ICMP ';
+			}
+			$save_criteria .= $CPAlert.'&nbsp;&nbsp;'.
+			FramedBoxFooter(1,2);
+			print $save_criteria;
+			return;
+		}
+		// Meta Criteria
+		$tmp_len = strlen($save_criteria);
 		$save_criteria .= $cs->criteria['sensor']->Description('');
 		$save_criteria .= $cs->criteria['sig']->Description('');
 		$save_criteria .= $cs->criteria['sig_class']->Description('');
 		$save_criteria .= $cs->criteria['sig_priority']->Description('');
 		$save_criteria .= $cs->criteria['ag']->Description('');
 		$save_criteria .= $cs->criteria['time']->Description('');
-	}
-    if ( $tmp_len == strlen($save_criteria) ) 
-       $save_criteria .= '<I> &nbsp&nbsp '._ANY.' </I>';
-
-  $save_criteria .= '&nbsp;&nbsp;</TD></TR>';
-
-  $save_criteria .= '<TR>
-        <TD CLASS="iptitle">'._QCIPCRIT.'</TD>
-        <TD>';
-	if (is_object($cs)){ // Issue #5
-	if ( !$cs->criteria['ip_addr']->isEmpty() || !$cs->criteria['ip_field']->isEmpty() ) {
-		$save_criteria .= $cs->criteria['ip_addr']->Description('');
-		$save_criteria .= $cs->criteria['ip_field']->Description('');
-	}else{
-		$save_criteria .= '<I> &nbsp;&nbsp; '._ANY.' </I>';
-	}
-	}
-  $save_criteria .= '&nbsp;&nbsp;</TD></TR>';
-
-  $save_criteria .= '<TR><TD CLASS="layer4title">';
-	if (is_object($cs)){ // Issue #5
+		// Common Text
+		$APH = '<i>&nbsp;&nbsp;'._ANY.'&nbsp;&nbsp;</i>';
+		$NTR = '</td>'.NLI('</tr><tr>',3); // New Table Row.
+		if ( $tmp_len == strlen($save_criteria) ){
+			$save_criteria .= $APH;
+		}
+		$save_criteria .= $NTR;
+		// IP Criteria
+		$save_criteria .= NLI(
+			"<td class='iptitle' style='$CS'>"._QCIPCRIT.'</td>', 4
+		).NLI('<td>',3);
+		if (
+			!$cs->criteria['ip_addr']->isEmpty() ||
+			!$cs->criteria['ip_field']->isEmpty()
+		){
+			$save_criteria .= $cs->criteria['ip_addr']->Description('');
+			$save_criteria .= $cs->criteria['ip_field']->Description('');
+		}else{
+			$save_criteria .= $APH;
+		}
+		$save_criteria .= $NTR;
+		// Layer 4 Criteria
+		$save_criteria .= NLI("<td class='layer4title' style='$CS'>",4);
 		$save_criteria .= $cs->criteria['layer4']->Description('');
-	}
-	$save_criteria .= '</td><td>';
-	if (is_object($cs)){ // Issue #5
-  if ( $cs->criteria['layer4']->Get() == "TCP" ){
-		if ( !$cs->criteria['tcp_port']->isEmpty() || !$cs->criteria['tcp_flags']->isEmpty() || !$cs->criteria['tcp_field']->isEmpty() ) {
-			$save_criteria .= $cs->criteria['tcp_port']->Description('');
-			$save_criteria .= $cs->criteria['tcp_flags']->Description('');
-			$save_criteria .= $cs->criteria['tcp_field']->Description('');
+		$save_criteria .= '</td>'.
+		NLI('<td>',4);
+		if ( $cs->criteria['layer4']->Get() == 'TCP' ){
+			if (
+				!$cs->criteria['tcp_port']->isEmpty()
+				|| !$cs->criteria['tcp_flags']->isEmpty()
+				|| !$cs->criteria['tcp_field']->isEmpty()
+			){
+				$save_criteria .= $cs->criteria['tcp_port']->Description('');
+				$save_criteria .= $cs->criteria['tcp_flags']->Description('');
+				$save_criteria .= $cs->criteria['tcp_field']->Description('');
+			}else{
+				$save_criteria .= $APH;
+			}
+		}elseif ( $cs->criteria['layer4']->Get() == 'UDP' ){
+			if (
+				!$cs->criteria['udp_port']->isEmpty()
+				|| !$cs->criteria['udp_field']->isEmpty()
+			){
+				$save_criteria .= $cs->criteria['udp_port']->Description('');
+				$save_criteria .= $cs->criteria['udp_field']->Description('');
+			}else{
+				$save_criteria .= $APH;
+			}
+		}elseif ( $cs->criteria['layer4']->Get() == 'ICMP' ){
+			if ( !$cs->criteria['icmp_field']->isEmpty() ) {
+				$save_criteria .= $cs->criteria['icmp_field']->Description('');
+			}else{
+				$save_criteria .= $APH;
+			}
+		}elseif ( $cs->criteria['layer4']->Get() == 'RawIP' ){
+			if ( !$cs->criteria['rawip_field']->isEmpty() ) {
+				$save_criteria .= $cs->criteria['rawip_field']->Description('');
+			}else{
+				$save_criteria .= $APH;
+			}
 		}else{
-			$save_criteria .= '<I> &nbsp;&nbsp; '._ANY.' </I>';
+			$save_criteria .= '<i>&nbsp;&nbsp;'._NONE.'&nbsp;&nbsp;</i>';
 		}
-     $save_criteria .= '&nbsp;&nbsp;</TD></TR>';
-  }else if ( $cs->criteria['layer4']->Get() == "UDP" ){
-		if ( !$cs->criteria['udp_port']->isEmpty() || !$cs->criteria['udp_field']->isEmpty() ) {
-			$save_criteria .= $cs->criteria['udp_port']->Description('');
-			$save_criteria .= $cs->criteria['udp_field']->Description('');
+		$save_criteria .= $NTR;
+		// Payload Criteria
+		$save_criteria .= NLI(
+			"<td class='payloadtitle' style='$CS'>"._QCPAYCRIT.'</td>', 4
+		).NLI('<td>',4);
+		if ( !$cs->criteria['data']->isEmpty() ){
+			$save_criteria .= $cs->criteria['data']->Description('');
 		}else{
-			$save_criteria .= '<I> &nbsp;&nbsp; '._ANY.' </I>';
+			$save_criteria .= $APH;
 		}
-     $save_criteria .= '&nbsp;&nbsp;</TD></TR>';
-  }else if ( $cs->criteria['layer4']->Get() == "ICMP" ){
-		if ( !$cs->criteria['icmp_field']->isEmpty() ) {
-			$save_criteria .= $cs->criteria['icmp_field']->Description('');
+		$save_criteria .= FramedBoxFooter(1,2);
+		if ( class_exists('UILang') ){ // Issue 11 backport shim.
+			$UIL->SetUILocale();
 		}else{
-			$save_criteria .= '<I> &nbsp;&nbsp; '._ANY.' </I>';
+			if ( !setlocale (LC_TIME, _LOCALESTR1) ){
+				if ( !setlocale (LC_TIME, _LOCALESTR2) ){
+					setlocale (LC_TIME, _LOCALESTR3);
+				}
+			}
 		}
-     $save_criteria .= '&nbsp;&nbsp;</TD></TR>';
-   }else if ( $cs->criteria['layer4']->Get() == "RawIP" ){
-		if ( !$cs->criteria['rawip_field']->isEmpty() ) {
-			$save_criteria .= $cs->criteria['rawip_field']->Description('');
-		}else{
-			$save_criteria .= '<I> &nbsp&nbsp '._ANY.' </I>';
-		}
-      $save_criteria .= '&nbsp;&nbsp;</TD></TR>';
-  }else{
-     $save_criteria .= '<I> &nbsp;&nbsp; '._NONE.' </I></TD></TR>';
-		}
+		$save_criteria = NLIO(
+			'<b>'._QUERIED.'</b>: '.strftime(_STRFTIMEFORMAT),2
+			).
+		$save_criteria;
+		print $save_criteria;
 	}
-	// Payload
-  $save_criteria .= '<TR>
-        <TD CLASS="payloadtitle">'._QCPAYCRIT.'</TD>
-        <TD>';
-	if (is_object($cs)){ // Issue #5
-	if ( !$cs->criteria['data']->isEmpty() ) {
-		$save_criteria .= $cs->criteria['data']->Description('');
-	}else{
-		$save_criteria .= '<I> &nbsp;&nbsp; '._ANY.' </I>';
-	}
-	}
-  $save_criteria .= '&nbsp;&nbsp;</TD></TR>';
-
-  
-  $save_criteria .= '</TABLE>'; 
-
-  if (!setlocale (LC_TIME, _LOCALESTR1))
-       	if (!setlocale (LC_TIME, _LOCALESTR2))
-	        setlocale (LC_TIME, _LOCALESTR3);
-  
-  $save_criteria = '&nbsp;<B>'._QUERIED.'</B><FONT> : '.strftime(_STRFTIMEFORMAT).'</FONT>'.
-                   '<TABLE BORDER=0 CELLSPACING=0 CELLPADDING=2 BGCOLOR="#000000">'.
-                   '<TR><TD>'.
-         
-                   '<TABLE BORDER=0 CELLSPACING=0 CELLPADDING=1 BGCOLOR="#DDDDDD"><TR><TD>'.
-
-                   $save_criteria.
-
-                   '</TD></TR></TABLE>'.
-
-                   '</TD></TR>'.
-                   '</TABLE>';
-	print $save_criteria;
 }
 
 /********************************************************************************************/
-function ProcessCriteria()
-{
-  GLOBAL $db, $join_sql, $where_sql, $criteria_sql, $sql, $debug_mode,
-         $caller, $DBtype;
-
+function ProcessCriteria(){
+	GLOBAL $db, $join_sql, $where_sql, $criteria_sql, $sql, $debug_mode,
+	$caller, $DBtype;
   /* the JOIN criteria */
   $ip_join_sql  = " LEFT JOIN iphdr ON acid_event.sid=iphdr.sid AND acid_event.cid=iphdr.cid ";
   $tcp_join_sql = " LEFT JOIN tcphdr ON acid_event.sid=tcphdr.sid AND acid_event.cid=tcphdr.cid ";

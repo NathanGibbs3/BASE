@@ -108,7 +108,7 @@ class BaseCriteria {
 	function CTIFD( $func = __FUNCTION__, $SF = '' ){
 		// Prints debuging info regarding Criteria Type Input/Import Functions.
 		GLOBAL $debug_mode;
-		if ( $debug_mode > 0 ){
+		if ( $debug_mode > 1 ){
 			print "$func: $this->export_name<br/>\n";
 			print "Criteria Type: ".gettype($this->criteria)."<br/>\n";
 			if ( is_bool($SF) ){
@@ -191,8 +191,9 @@ class MultipleElementCriteria extends BaseCriteria {
 		$this->valid_field_list = $field_list;
 	}
 	function Init(){
-		if ( array_key_exists('MAX_ROWS',$GLOBALS) ){
-			$tmp = $GLOBALS['MAX_ROWS'];
+		GLOBAL $MAX_ROWS;
+		if ( isset($MAX_ROWS) ){
+			$tmp = $MAX_ROWS;
 		}else{
 			$tmp = 10;
 		}
@@ -464,7 +465,7 @@ class SignatureCriteria extends SingleElementCriteria {
       echo '</SELECT>';
 
       echo '<INPUT TYPE="text" NAME="sig[1]" SIZE=40 VALUE="'.htmlspecialchars(@$this->criteria[1]).'"><BR>';
-		if ( array_key_exists('use_sig_list',$GLOBALS) ){
+		if ( base_array_key_exists('use_sig_list',$GLOBALS) ){ // Issue #44
       if ( $GLOBALS['use_sig_list'] > 0)
       {
          $temp_sql = "SELECT DISTINCT sig_name FROM signature";
@@ -1055,7 +1056,7 @@ class IPAddressCriteria extends MultipleElementCriteria {
                     <OPTION VALUE="="  '.chk_select(@$this->criteria[$i][2],"="). '>=
                     <OPTION VALUE="!=" '.chk_select(@$this->criteria[$i][2],"!=").'>!=
                    </SELECT>';
-		if ( array_key_exists('ip_address_input',$GLOBALS) ){
+		if ( base_array_key_exists('ip_address_input',$GLOBALS) ){ // Issue #53
 			$tmp = $GLOBALS['ip_address_input'];
 		}else{
 			$tmp = 2;
@@ -1678,7 +1679,7 @@ class DataCriteria extends MultipleElementCriteria {
 			$ISF = false;
 		}
 		$_SESSION['data_encode'] = &$this->data_encode;
-		if ( $debug_mode > 0 ){
+		if ( $debug_mode > 1 ){
 			$this->CTIFD(__FUNCTION__);
 			print "Property Type: ".gettype($tmp)."<br/>\n";
 			if ( is_bool($ISF) ){

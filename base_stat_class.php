@@ -41,43 +41,33 @@ $action = ImportHTTPVar("action", VAR_ALPHA);
 $qs->MoveView($submit);             /* increment the view if necessary */
 $page_title = _CHRTCLASS;
 if ( $qs->isCannedQuery() ){
-		if ($action == "")
-		{
+	if ($action == '' ){
     	PrintBASESubHeader($page_title.": ".$qs->GetCurrentCannedQueryDesc(),
                          $page_title.": ".$qs->GetCurrentCannedQueryDesc(), 
          	               $cs->GetBackLink(), 1);
-		}
-		else
-		{
+	}else{
 			PrintBASESubHeader($page_title.": ".$qs->GetCurrentCannedQueryDesc(),
                          $page_title.": ".$qs->GetCurrentCannedQueryDesc(), 
          	               $cs->GetBackLink(), $refresh_all_pages);
-		}
 	}
-  else
-	{
-		if ($action == "")
-		{
-    	PrintBASESubHeader($page_title, $page_title, $cs->GetBackLink(), 1);
-		}
-		else
-		{
-			PrintBASESubHeader($page_title, $page_title, $cs->GetBackLink(), $refresh_all_pages);
-		}
+}else{
+	if ($action == '' ){
+		PrintBASESubHeader($page_title, $page_title, $cs->GetBackLink(), 1);
+	}else{
+		PrintBASESubHeader($page_title, $page_title, $cs->GetBackLink(), $refresh_all_pages);
 	}
-  
-  /* Connect to the Alert database */
-  $db = NewBASEDBConnection($DBlib_path, $DBtype);
-  $db->baseDBConnect($db_connect_method,
-                     $alert_dbname, $alert_host, $alert_port, $alert_user, $alert_password);
-
-  if ( $event_cache_auto_update == 1 )  UpdateAlertCache($db);
-
-  $criteria_clauses = ProcessCriteria();  
-  PrintCriteria("");
-
-  $from = " FROM acid_event ".$criteria_clauses[0];
-  $where = " WHERE ".$criteria_clauses[1];
+}
+// Connect to the Alert DB.
+$db = NewBASEDBConnection($DBlib_path, $DBtype);
+$db->baseDBConnect(
+	$db_connect_method, $alert_dbname, $alert_host, $alert_port, $alert_user,
+	$alert_password
+);
+UpdateAlertCache($db);
+$criteria_clauses = ProcessCriteria();
+PrintCriteria('');
+$from = " FROM acid_event ".$criteria_clauses[0];
+$where = " WHERE ".$criteria_clauses[1];
 
   $qs->AddValidAction("ag_by_id");
   $qs->AddValidAction("ag_by_name");
@@ -110,39 +100,34 @@ if ( $qs->isCannedQuery() ){
 
   /* Setup the Query Results Table */
   $qro = new QueryResultsOutput("base_stat_class.php?caller=".$caller);
-
-  $qro->AddTitle(" ");
-  $qro->AddTitle(_CHRTCLASS, 
-                "class_a", " ",
-                         " ORDER BY sig_class_id ASC",
-                "class_d", " ",
-                         " ORDER BY sig_class_id DESC");
-
-  $qro->AddTitle(_TOTAL."&nbsp;#", 
-                "occur_a", " ",
-                           " ORDER BY num_events ASC",
-                "occur_d", " ",
-                           " ORDER BY num_events DESC");
+$qro->AddTitle('');
+$qro->AddTitle(_CHRTCLASS,
+	"class_a", " ", " ORDER BY sig_class_id ASC",
+	"class_d", " ", " ORDER BY sig_class_id DESC"
+);
+$qro->AddTitle(_TOTAL,
+	"occur_a", " ", " ORDER BY num_events ASC",
+	"occur_d", " ", " ORDER BY num_events DESC", 'right'
+);
   $qro->AddTitle(_SENSOR."&nbsp;#",
                  "sensor_a", " ",
                              " ORDER BY num_sensors ASC",
                  "sensor_d", " ",
                              " ORDER BY num_sensors DESC");
-  $qro->AddTitle(_SIGNATURE,
-                 "sig_a", " ",
-                          " ORDER BY num_sig ASC",
-                 "sig_d", " ",
-                          " ORDER BY num_sig DESC");
-  $qro->AddTitle(_NBSOURCEADDR, 
-                "saddr_a", ", count(ip_src) AS saddr_cnt ",
-                           " ORDER BY saddr_cnt ASC",
-                "saddr_d", ", count(ip_src) AS saddr_cnt ",
-                           " ORDER BY saddr_cnt DESC");
-  $qro->AddTitle(_NBDESTADDR, 
-                "daddr_a", ", count(ip_dst) AS daddr_cnt ",
-                           " ORDER BY daddr_cnt ASC",
-                "daddr_d", ", count(ip_dst) AS daddr_cnt ",
-                           " ORDER BY daddr_cnt DESC");
+$qro->AddTitle(_SIGNATURE,
+	"sig_a", " ", " ORDER BY num_sig ASC",
+	"sig_d", " ", " ORDER BY num_sig DESC", 'right'
+);
+$qro->AddTitle(_NBSOURCEADDR,
+	"saddr_a", ", count(ip_src) AS saddr_cnt ", " ORDER BY saddr_cnt ASC",
+	"saddr_d", ", count(ip_src) AS saddr_cnt ", " ORDER BY saddr_cnt DESC",
+	'right'
+);
+$qro->AddTitle(_NBDESTADDR,
+	"daddr_a", ", count(ip_dst) AS daddr_cnt ", " ORDER BY daddr_cnt ASC",
+	"daddr_d", ", count(ip_dst) AS daddr_cnt ", " ORDER BY daddr_cnt DESC",
+	'right'
+);
   $qro->AddTitle(_FIRST, 
                 "first_a", ", min(timestamp) AS first_timestamp ",
                            " ORDER BY first_timestamp ASC",
@@ -208,22 +193,25 @@ if ( $qs->isCannedQuery() ){
                  &nbsp;&nbsp;
              </TD>';
      echo '      <INPUT TYPE="hidden" NAME="action_lst['.$i.']" VALUE="'.$tmp_rowid.'">';
-
-     qroPrintEntry(GetSigClassName($class_id, $db));
-
-     qroPrintEntry('<FONT>'.
-                   '<A HREF="base_qry_main.php?new=1&amp;sig_class='.$class_id.
+	qroPrintEntry(GetSigClassName($class_id, $db),'left');
+	qroPrintEntry('<A HREF="base_qry_main.php?new=1&amp;sig_class='.$class_id.
                    '&amp;submit='._QUERYDBP.'&amp;num_result_rows=-1">'.$total_occurances.'</A> 
-                   ('.(round($total_occurances/$event_cnt*100)).'%)'.
-                   '</FONT>');
+                   ('.(round($total_occurances/$event_cnt*100)).'%)',
+                   'right'
+	);
      qroPrintEntry('<FONT><A HREF="base_stat_sensor.php?sig_class='.$class_id.'">'.
                     $sensor_num.'</A>');
-     qroPrintEntry('<FONT><A HREF="base_stat_alerts.php?sig_class='.$class_id.'">'.
-                    $sig_num.'</FONT>');
-
-     qroPrintEntry('<FONT>'.BuildUniqueAddressLink(1, '&amp;sig_class='.$class_id).$sip_num.'</A></FONT>');
-     qroPrintEntry('<FONT>'.BuildUniqueAddressLink(2, '&amp;sig_class='.$class_id).$dip_num.'</A></FONT>');
-
+	qroPrintEntry('<A HREF="base_stat_alerts.php?sig_class='.$class_id.'">'.
+                    $sig_num, 'right'
+	);
+	qroPrintEntry(
+		BuildUniqueAddressLink( 1, '&amp;sig_class='.$class_id)."$sip_num</a>",
+		'right'
+	);
+	qroPrintEntry(
+		BuildUniqueAddressLink( 2, '&amp;sig_class='.$class_id)."$dip_num</a>",
+		'right'
+	);
      qroPrintEntry('<FONT>'.$min_time.'</FONT>');
      qroPrintEntry('<FONT>'.$max_time.'</FONT>');
 

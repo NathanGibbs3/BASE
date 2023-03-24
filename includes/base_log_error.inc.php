@@ -23,6 +23,10 @@
  **/
 defined( '_BASE_INC' ) or die( 'Accessing this file directly is not allowed.' );
 
+function DivErrorMessage ($message, $Count = 0 ){
+	NLIO ("<div class='errorMsg' align='center'>$message</div>",$Count);
+}
+
 function ErrorMessage ($message, $color = "#ff0000", $br = 0 ){
 	print returnErrorMessage($message, $color, $br);
 }
@@ -32,7 +36,7 @@ function returnErrorMessage ($message, $color = "#ff0000", $br = 0 ){
 		// Default to Red if we are passed something odd.
 		$color = "#ff0000";
 	}
-	$error = '<font color="'.$color.'">'.$message.'</font>';
+	$error = "<font color='$color'>$message</font>";
 	if ($br != 0){
 		$error .= '<br/>';
 	}
@@ -64,8 +68,9 @@ function LibIncError (
 		// Translation data this msg when we get to _ERRSQLDBALLOAD2 on Issue#11
 		$msg .= "The underlying $Desc library currently used is $LibName";
 		if ( LoadedString($URL) == true ){
+			$URL = XSSPrintSafe($URL);
 			$msg .= ', that can be downloaded at ';
-			$msg .= '<a href="'.$URL.'">'.$URL.'</a>';
+			$msg .= "<a href='$URL'>$URL</a>";
 		}
 		$msg .= '.';
 	}
@@ -123,22 +128,14 @@ function PrintServerInformation()
 }
 
 function PrintPageHeader(){
-	GLOBAL $DBtype, $ADODB_vers;
+	GLOBAL $DBtype, $ADODB_vers, $Use_Auth_System;
 	if ( !AuthorizedPage('(base_denied|index)') ){
 		// Additional app info allowed everywhere but landing pages.
 		$tmp = session_encode();
-		$php_version = phpversion();
-		$ver = $php_version[0];
 		$request_uri = XSSPrintSafe($_SERVER['REQUEST_URI']);
 		$http_referer = '';
-		if ( $ver >= 5 || ( $ver == 4 && $php_version[1] >= 1 ) ){
-			if ( array_key_exists('HTTP_REFERER', $_SERVER) ){
-				$http_referer = XSSPrintSafe($_SERVER['HTTP_REFERER']);
-			}
-		}else{
-			if (key_exists('HTTP_REFERER', $_SERVER) ){
-				$http_referer = XSSPrintSafe($_SERVER['HTTP_REFERER']);
-			}
+		if ( base_array_key_exists('HTTP_REFERER', $_SERVER) ){
+			$http_referer = XSSPrintSafe($_SERVER['HTTP_REFERER']);
 		}
 		$http_user_agent = XSSPrintSafe($_SERVER['HTTP_USER_AGENT']);
 		$server_software = XSSPrintSafe($_SERVER['SERVER_SOFTWARE']);
@@ -147,12 +144,14 @@ function PrintPageHeader(){
          <B>URL:</B> '".$request_uri."'
          (<B>referred by:</B> '".$http_referer."')
          <B>PARAMETERS:</B> '".$query_string."'
-         <B>CLIENT:</B> ".$http_user_agent."
-         <B>SERVER:</B> ".$server_software."
+         <B>CLIENT:</B> ".$http_user_agent;
+if ( $Use_Auth_System == 1 && AuthorizedRole(1) ){ // Issue #146 Fix
+print "\n         <B>SERVER:</B> ".$server_software."
          <B>SERVER HW:</B> ".php_uname()."
          <B>DATABASE TYPE:</B> $DBtype  <B>DB ABSTRACTION VERSION:</B> $ADODB_vers
-         <B>PHP VERSION:</B> ".phpversion()."  <B>PHP API:</B> ".php_sapi_name()."
-         <B>BASE VERSION:</B> ".$GLOBALS['BASE_VERSION']."
+         <B>PHP VERSION:</B> ".phpversion()."  <B>PHP API:</B> ".php_sapi_name();
+}
+print "\n         <B>BASE VERSION:</B> ".$GLOBALS['BASE_VERSION']."
          <B>SESSION ID:</B> ".session_id()."( ".strlen($tmp)." bytes )
          </PRE>"; 
 	}
