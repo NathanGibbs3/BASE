@@ -57,6 +57,9 @@ if (!isset($DBtype)){
 	$uid = $user->returnUserID('TestAnonUser');
 	$stat = $user->deleteUser($uid);
 	print "$stat\n";
+	$uid = $user->returnUserID('TestDisabledUser');
+	$stat = $user->deleteUser($uid);
+	print "$stat\n";
 	$uid = $user->returnUserID('TestOver');
 	$stat = $user->deleteUser($uid);
 	print "$stat\n";

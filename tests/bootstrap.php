@@ -34,5 +34,5 @@ include_once("$BASE_path/base_db_common.php");
 include_once("$BASE_path/base_common.php");
 include_once("$BASE_path/base_qry_common.php");
 include_once("$BASE_path/base_stat_common.php");
-
+//$et = new EventTiming($debug_time_mode);
 ?>
