@@ -53,6 +53,12 @@ pvM=`echo $puv|sed -r -e "s/\.[0-9]\.[0-9]+.*$//"`
 pvm=`echo $puv|sed -r -e "s/^[0-9]\.//" -e "s/\.[0-9]+?.*$//"`
 pvr=`echo $puv|sed -r -e "s/^[0-9]\.[0-9]\.//"`
 
+# Issue #154
+# Export PHP Version Info
+export PHVM=$pvM
+export PHVm=$pvm
+export PHVr=$pvr
+
 echo "System PHP Version: $puv"
 echo -n "PHP XDebug "
 # XDebug not enabled on travis-ci PHP 5.2x
@@ -88,6 +94,12 @@ if [ "$pvM" == "5" ] && (
 		echo "Enabling Safe Mode."
 		phpenv config-add tests/phpcommon/safe_mode.ini
 		export SafeMode=1
+		if [ "$pvM" == "5" ] && [ "$pvm" == "3" ]; then
+			# Update CA Bundle on PHP 5.3x Issue #155
+#			sudo apt-get install apt-transport-https ca-certificates -y
+			sudo apt-get install ca-certificates -y
+			sudo update-ca-certificates
+		fi
 	fi
 else
 	SafeMode=0
@@ -116,8 +128,8 @@ if [ "$TRAVIS" != "true" ]; then
 fi
 echo -n "PHP Composer "
 if [ "$Composer" \< "1" ]; then # Can we install it?
-	# Composer won't install on PHP < 5.3x or nightly currently PHP 8.x
-	if [ "$pvM" \< "5" ] || ( [ "$pvM" == "5" ] && [ "$pvm" \< "3" ] ) || [ "$pvM" \> "7" ]; then
+	# Composer won't install on PHP < 5.3x or nightly.
+	if [ "$pvM" \< "5" ] || ( [ "$pvM" == "5" ] && [ "$pvm" \< "3" ] ) || [ "$pvM" \> "8" ]; then
 		echo "install not supported."
 		Composer=0
 		if [ "$1" == "" ] && [ "$TRAVIS" == "true" ]; then
@@ -169,7 +181,9 @@ ADOSrc=github.com/ADOdb/ADOdb
 ADODl=archive
 ADOFilePfx=v
 ADOFileSfx=.tar.gz
-if [ "$pvM" \> "5" ]; then # PHP 7x
+if [ "$pvM" \> "7" ]; then # PHP 8x
+	ADODBVer=5.20.12
+elif [ "$pvM" \> "5" ]; then # PHP 7x
 	if [ "$pvm" \> "1" ]; then # PHP 7.2+
 		ADODBVer=5.20.12
 	else

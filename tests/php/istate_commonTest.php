@@ -473,7 +473,7 @@ class state_commonTest extends TestCase {
 		if ( $dbt == 'postgres' ){
 			$Ret = "O''Niell";
 		}
-		$this->assertEquals("O\'Niell",filterSQL($Value),$URV);
+		$this->assertEquals($Ret,filterSQL($Value),$URV);
 	}
 	public function testfilterSQLNoTransformNonKeyedArray() {
 		$URV = self::$URV.'filterSQL().';

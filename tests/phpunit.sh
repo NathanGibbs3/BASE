@@ -47,6 +47,9 @@ else
 		# This may be a Debian/Ubuntu specific Issue.
 		pi=Composer
 		px="$ph vendor/bin/$pu"
+	elif [ "$PHVM" == "7" ] && [ "$PHVm" == "2" ]; then # Issue #154
+		pi=Composer
+		px="$ph vendor/bin/$pu"
 	else
 		pi=System
 		px=$pu
