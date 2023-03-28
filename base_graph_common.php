@@ -638,67 +638,44 @@ function ReadGeoIPfreeFileAscii(&$Geo_IPfree_array){
   }
 }
 
-
-/**
- * First method how to look up the country corresponding to an ip address:
- * http://search.cpan.org/CPAN/authors/id/G/GM/GMPASSOS/Geo-IPfree-0.2.tar.gz
- * Requires the transformation of the included database into human readable
- * ASCII format, similarly to:
- *          cd /usr/lib/perl5/site_perl/5.8.8/Geo/
- *          perl ipct2txt.pl ./ipscountry.dat /tmp/ips-ascii.txt
- * $Geo_IPfree_file_ascii must contain the absolute path to
- * ips-ascii.txt. The Web server needs read access to this file.
- * 
- */
-function GeoIPfree_IP2Country($Geo_IPfree_array, $address_with_dots, &$country)
-{
-  GLOBAL $db, $debug_mode;
-
-
-  if (
-       empty($Geo_IPfree_array) ||
-       empty($address_with_dots)
-     )
-  {
-    return 0;
-  }
-
-  $address = sprintf("%u", ip2long($address_with_dots));
-
-  while (list($key, $val) = each($Geo_IPfree_array)) 
-  {
-    $nelements = count($val);
-    if (count($val) > 0)
-    {
-      while(list($key2, $val2) = each($val))
-      {
-        if ($debug_mode > 1)
-        {
-          if ($val2[0] > $val2[1])
-          {
-            print "WARNING: Inconsistency with $key array element no. " . $key2 . ": " . long2ip($val2[0]) . " - " . long2ip($val2[1]) . "<BR>\n";
-          }
-        }
-
-        if (
-             ($address >= $val2[0]) &&
-             ($address <= $val2[1])
-           )
-	{
-	  if ($debug_mode > 0)
-	  {
-            print "Found: " . $address_with_dots . " belongs to " . $key ;
-            print ": " . long2ip($val2[0]) . " - " . long2ip($val2[1]);
-	    print "<BR>\n";
-	  }
-          $country = $key;
-          return 1;
-        }
-      }
-    }
-  }
+// First method how to look up the country corresponding to an ip address:
+// http://search.cpan.org/CPAN/authors/id/G/GM/GMPASSOS/Geo-IPfree-0.2.tar.gz
+// Requires the transformation of the included database into human readable
+// ASCII format, similarly to:
+//          cd /usr/lib/perl5/site_perl/5.8.8/Geo/
+//          perl ipct2txt.pl ./ipscountry.dat /tmp/ips-ascii.txt
+// $Geo_IPfree_file_ascii must contain the absolute path to
+// ips-ascii.txt. The Web server needs read access to this file.
+function GeoIPfree_IP2Country(
+	$Geo_IPfree_array, $address_with_dots, &$country
+){
+	GLOBAL $db, $debug_mode;
+	if ( empty($Geo_IPfree_array) || empty($address_with_dots) ){
+		return 0;
+	}
+	$address = sprintf("%u", ip2long($address_with_dots));
+	foreach ( $Geo_IPfree_array as $key => $val ){ // Issue #153
+		$nelements = count($val);
+		if ( count($val) > 0 ){
+			foreach ( $val as $key2 => $val2 ){ // Issue #153
+				if ( $debug_mode > 1 ){
+					if ( $val2[0] > $val2[1] ){
+						print "WARNING: Inconsistency with $key array element no. " . $key2 . ": " . long2ip($val2[0]) . " - " . long2ip($val2[1]) . "<BR>\n";
+					}
+				}
+				if ( $address >= $val2[0] && $address <= $val2[1] ){
+					if ( $debug_mode > 0 ){
+						print "Found: " . $address_with_dots . " belongs to " . $key;
+						print ": " . long2ip($val2[0]) . " - " . long2ip($val2[1]);
+						print "<BR>\n";
+					}
+					$country = $key;
+					return 1;
+				}
+			}
+		}
+	}
 }
-
 
 /**
  * Second method how to lookup the country corresponding to an ip address:
@@ -866,9 +843,7 @@ function GetCountryDataSet(
 		);
 		return 0;
 	}
-  if ($country_method == 0)
-  {
-    // should not be reached
+	if ( $country_method == 0 ){ // should not be reached
     ErrorMessage("ERROR: No \$country_method available.<BR>\n");
     return 0;
   }
@@ -970,20 +945,15 @@ function GetCountryDataSet(
     print_r($countries);
     print "###########</pre>\n";
   }
-   
-  
   // Now setup the chart array:
-  reset($countries);
   $cnt2 = 0;
-  while (list($key, $val) = each($countries))
-  {
-    $xdata[$cnt2][0] = $key;
-    $xdata[$cnt2][1] = $val;
-    $cnt2++;
-  }
-
-  $result->baseFreeRows();
-  // return number of countries rather than number of addresses!
-  return $cnt2;
+	foreach ( $countries as $key => $val ){ // Issue #153
+		$xdata[$cnt2][0] = $key;
+		$xdata[$cnt2][1] = $val;
+		$cnt2++;
+	}
+	$result->baseFreeRows();
+	// return number of countries rather than number of addresses!
+	return $cnt2;
 }
 ?>

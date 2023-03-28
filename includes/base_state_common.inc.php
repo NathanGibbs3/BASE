@@ -117,62 +117,64 @@ function CleanVariable( $item, $valid_data = '', $exception = '' ){
 				if ( in_array($item, $exception) ){ // Exception Hit
 					return $item;
 				}
-				if ( $valid_data == '' ){ // Exception Miss No Valid Data.
-					return '';
+				if ( $valid_data == '' ){ // Exception Miss
+					return ''; // No Valid Data.
 				}
 			}
 			if ( $valid_data == '' ){
 				return $item;
 			}else{
 				$regex_mask = '';
-				if ( ($valid_data & VAR_DIGIT) > 0 ){
-					$regex_mask .= "0-9";
-				}
-				if ( ($valid_data & VAR_LETTER) > 0 ){
-					$regex_mask .= "A-Za-z";
-				}
-				if ( ($valid_data & VAR_ULETTER) > 0 ){
-					$regex_mask .= "A-Z";
-				}
-				if ( ($valid_data & VAR_LLETTER) > 0 ){
-					$regex_mask .= "a-z";
-				}
-				if ( ($valid_data & VAR_ALPHA) > 0 ){
-					$regex_mask .= "0-9A-Za-z";
-				}
-				if ( ($valid_data & VAR_SPACE) > 0 ){
-					$regex_mask .= "\ ";
-				}
-				if ( ($valid_data & VAR_PERIOD) > 0 ){
-					$regex_mask .= "\.";
-				}
-				if ( ($valid_data & VAR_FSLASH) > 0 ){
-					$regex_mask .= "\/";
-				}
-				if ( ($valid_data & VAR_OPAREN) > 0 ){
-					$regex_mask .= "\(";
-				}
-				if ( ($valid_data & VAR_CPAREN) > 0 ){
-					$regex_mask .= "\)";
-				}
-				if ( ($valid_data & VAR_BOOLEAN) > 0 ){
-					$regex_mask .= "=|&|\||!";
-				}
-				if ( ($valid_data & VAR_OPERATOR) > 0 ){
-					$regex_mask .= "\+|\*|\/|=|>|<|&|\||%|!|\^|\(|\)|\-";
-				}
-				if ( ($valid_data & VAR_USCORE) > 0 ){
-					$regex_mask .= "\_";
-				}
-				if ( ($valid_data & VAR_AT) > 0 ){
-					$regex_mask .= "\@";
-				}
-				// Score (\-) always must be at the end of the RE mask.
-				if ( ($valid_data & VAR_PUNC) > 0 ){
-					$regex_mask .= "\~\!\#\$\%\^\&\*\_\=\+\:\;\,\.\?\ \(\))\-";
-				}
-				if ( ($valid_data & VAR_SCORE) > 0 ){
-					$regex_mask .= "\-";
+				if ( is_numeric($valid_data) ){ // Issue #157
+					if ( ($valid_data & VAR_DIGIT) > 0 ){
+						$regex_mask .= "0-9";
+					}
+					if ( ($valid_data & VAR_LETTER) > 0 ){
+						$regex_mask .= "A-Za-z";
+					}
+					if ( ($valid_data & VAR_ULETTER) > 0 ){
+						$regex_mask .= "A-Z";
+					}
+					if ( ($valid_data & VAR_LLETTER) > 0 ){
+						$regex_mask .= "a-z";
+					}
+					if ( ($valid_data & VAR_ALPHA) > 0 ){
+						$regex_mask .= "0-9A-Za-z";
+					}
+					if ( ($valid_data & VAR_SPACE) > 0 ){
+						$regex_mask .= "\ ";
+					}
+					if ( ($valid_data & VAR_PERIOD) > 0 ){
+						$regex_mask .= "\.";
+					}
+					if ( ($valid_data & VAR_FSLASH) > 0 ){
+						$regex_mask .= "\/";
+					}
+					if ( ($valid_data & VAR_OPAREN) > 0 ){
+						$regex_mask .= "\(";
+					}
+					if ( ($valid_data & VAR_CPAREN) > 0 ){
+						$regex_mask .= "\)";
+					}
+					if ( ($valid_data & VAR_BOOLEAN) > 0 ){
+						$regex_mask .= "=|&|\||!";
+					}
+					if ( ($valid_data & VAR_OPERATOR) > 0 ){
+						$regex_mask .= "\+|\*|\/|=|>|<|&|\||%|!|\^|\(|\)|\-";
+					}
+					if ( ($valid_data & VAR_USCORE) > 0 ){
+						$regex_mask .= "\_";
+					}
+					if ( ($valid_data & VAR_AT) > 0 ){
+						$regex_mask .= "\@";
+					}
+					// Score (\-) always must be at the end of the RE mask.
+					if ( ($valid_data & VAR_PUNC) > 0 ){
+						$regex_mask .= "\~\!\#\$\%\^\&\*\_\=\+\:\;\,\.\?\ \(\))\-";
+					}
+					if ( ($valid_data & VAR_SCORE) > 0 ){
+						$regex_mask .= "\-";
+					}
 				}
 				if( $regex_mask != '' ){
 					return preg_replace("/[^".$regex_mask."]/", '', $item);
@@ -335,7 +337,7 @@ function filterSql ( $item, $force_alert_db=0, $db = ''){
 			if ( $version[0] > 5 || ($version[0] == 5 && $version[1] > 3) ){
 				$Qh = 0;
 			}else{ // Figure out quote handling on PHP < 5.4.
-				$Qh = get_magic_quotes_gpc();
+				$Qh = get_magic_quotes_runtime();
 			}
 			$item = $tdb->DB->qstr($item,$Qh);
 			if ($Dbcf == 1 ){ // Close it, only if we created it.

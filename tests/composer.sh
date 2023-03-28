@@ -43,12 +43,12 @@ if [ "$Composer" \> "0" ]; then
 		puv=`$pu --version`
 	fi
 	puv=`echo $puv|sed -e "s/^Composer version //" -r -e "s/ [0-9]+.*$//"`
-	#pvM=`echo $puv|sed -r -e "s/\.[0-9]\.[0-9]+$//"`
+	pvM=`echo $puv|sed -r -e "s/\.[0-9]\.[0-9]+$//"`
 	#pvm=`echo $puv|sed -r -e "s/^[0-9]\.//" -e "s/\.[0-9]+$//"`
 	#pvr=`echo $puv|sed -r -e "s/^[0-9]\.[0-9]\.//"`
 	if [ "$TRAVIS" == "true" ]; then # Disable XDebug
 		mv ${HOME}/.phpenv/versions/$(phpenv version-name)/etc/conf.d/xdebug.ini ${HOME}/xdebug.ini
-		if [ "$puv" == "1.10.26" ]; then # Issue #152 fix
+		if [ "$pvM" == "1" ]; then # Issue #152 fix
 			composer self-update --2
 		fi
 	fi

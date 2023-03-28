@@ -1264,7 +1264,6 @@ function ChkGET($var,$val){
 function base_array_key_exists( $SKey, $SArray ){ // PHP Version Agnostic.
 	$Ret = false;
 	if ( is_array($SArray) && count($SArray) > 0 ){
-		reset($SArray);
 		$version = explode('.', phpversion());
 		// Use built in functions when we can.
 		if ( $version[0] > 4 || ($version[0] == 4 && $version[1] > 1) ){

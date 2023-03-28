@@ -96,6 +96,9 @@ if [ "$pvM" == "5" ] && (
 		export SafeMode=1
 		if [ "$pvM" == "5" ] && [ "$pvm" == "3" ]; then
 			# Update CA Bundle on PHP 5.3x Issue #155
+			# Add Ubuntu Trusty repo.
+			sudo add-apt-repository -y deb http://us.archive.ubuntu.com/ubuntu/ trusty
+			sudo apt-get -q update
 #			sudo apt-get install apt-transport-https ca-certificates -y
 			sudo apt-get install ca-certificates -y
 			sudo update-ca-certificates
@@ -183,6 +186,9 @@ ADOFilePfx=v
 ADOFileSfx=.tar.gz
 if [ "$pvM" \> "7" ]; then # PHP 8x
 	ADODBVer=5.20.12
+	if [ "$1" == "" ] && [ "$TRAVIS" == "true" ]; then
+		ADODBPATH="ADOdb-$ADODBVer"
+	fi
 elif [ "$pvM" \> "5" ]; then # PHP 7x
 	if [ "$pvm" \> "1" ]; then # PHP 7.2+
 		ADODBVer=5.20.12

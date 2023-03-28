@@ -279,7 +279,6 @@ function DateTimeRows2sql( $field, $cnt, &$s_sql ){
 							if ( count($field) > 1 ){
 								// Better fix for bug #1199128
 								$empty_count = 0; // Empty value count.
-								reset($field[$i]);
 								// Count empty values in array $field[$i].
 								foreach ( $field[$i] as $val ){
 									if ( empty($val) ){
