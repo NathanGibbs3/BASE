@@ -12,7 +12,9 @@ Item | Description
 **Link to example**: | Optional link to CI build.
 **Build Environment**: | ( Travis-CI or Local )
 **PHP Version**: | 
-**PHPUnit Version**: |
+**PHPUnit Version**: | 
+**Composer Version**: | 
+**ADODB Version**: | 
 **Similar Issues:** | 
 **Depends on Issue(s):** | 
 **Dependency Type:** | 
