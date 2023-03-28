@@ -37,7 +37,7 @@ function returnErrorMessage ($message, $color = "#ff0000", $br = 0 ){
 		$color = "#ff0000";
 	}
 	$error = "<font color='$color'>$message</font>";
-	if ($br != 0){
+	if ( is_numeric($br) && $br == 1 ){ // Issue #160
 		$error .= '<br/>';
 	}
 	return $error;

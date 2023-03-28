@@ -94,15 +94,6 @@ if [ "$pvM" == "5" ] && (
 		echo "Enabling Safe Mode."
 		phpenv config-add tests/phpcommon/safe_mode.ini
 		export SafeMode=1
-		if [ "$pvM" == "5" ] && [ "$pvm" == "3" ]; then
-			# Update CA Bundle on PHP 5.3x Issue #155
-			# Add Ubuntu Trusty repo.
-			sudo add-apt-repository -y deb http://us.archive.ubuntu.com/ubuntu/ trusty
-			sudo apt-get -q update
-#			sudo apt-get install apt-transport-https ca-certificates -y
-			sudo apt-get install ca-certificates -y
-			sudo update-ca-certificates
-		fi
 	fi
 else
 	SafeMode=0
@@ -149,6 +140,15 @@ if [ "$Composer" \< "1" ]; then # Can we install it?
 	if [ "$TRAVIS" == "true" ]; then
 		if [ "$Composer" \> "0" ]; then
 			export COMPOSER_MEMORY_LIMIT=2G
+			if [ "$pvM" == "5" ] && [ "$pvm" == "3" ]; then
+				# Update CA Bundle on PHP 5.3x Issue #155
+				# Add Ubuntu Trusty repo.
+#				sudo add-apt-repository -y deb http://us.archive.ubuntu.com/ubuntu/ trusty
+#				sudo apt-get -q update
+#				sudo apt-get install apt-transport-https ca-certificates -y
+#				sudo apt-get install ca-certificates -y
+#				sudo update-ca-certificates
+			fi
 			if [ "$SafeMode" == "1" ]; then # Safe mode.
 				# Install composer.
 				export Composer=1
@@ -185,12 +185,14 @@ ADODl=archive
 ADOFilePfx=v
 ADOFileSfx=.tar.gz
 if [ "$pvM" \> "7" ]; then # PHP 8x
-	ADODBVer=5.20.12
+	ADODBVer=5.20.14
 	if [ "$1" == "" ] && [ "$TRAVIS" == "true" ]; then
 		ADODBPATH="ADOdb-$ADODBVer"
 	fi
 elif [ "$pvM" \> "5" ]; then # PHP 7x
-	if [ "$pvm" \> "1" ]; then # PHP 7.2+
+	if [ "$pvm" \> "3" ]; then # PHP 7.3+
+		ADODBVer=5.20.13
+	elif [ "$pvm" \> "1" ]; then # PHP 7.2+
 		ADODBVer=5.20.12
 	else
 		ADODBVer=5.20.0
@@ -200,7 +202,7 @@ elif [ "$pvM" \> "5" ]; then # PHP 7x
 	fi
 elif [ "$pvM" \> "4" ]; then # PHP 5x
 	if [ "$pvm" \> "2" ]; then # PHP 5.3+
-		ADODBVer=5.10
+		ADODBVer=5.11
 	else
 		ADODBVer=5.01beta
 	fi
