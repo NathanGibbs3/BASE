@@ -140,7 +140,7 @@ if [ "$Composer" \< "1" ]; then # Can we install it?
 	if [ "$TRAVIS" == "true" ]; then
 		if [ "$Composer" \> "0" ]; then
 			export COMPOSER_MEMORY_LIMIT=2G
-			if [ "$pvM" == "5" ] && [ "$pvm" == "3" ]; then
+#			if [ "$pvM" == "5" ] && [ "$pvm" == "3" ]; then
 				# Update CA Bundle on PHP 5.3x Issue #155
 				# Add Ubuntu Trusty repo.
 #				sudo add-apt-repository -y deb http://us.archive.ubuntu.com/ubuntu/ trusty
@@ -148,7 +148,7 @@ if [ "$Composer" \< "1" ]; then # Can we install it?
 #				sudo apt-get install apt-transport-https ca-certificates -y
 #				sudo apt-get install ca-certificates -y
 #				sudo update-ca-certificates
-			fi
+#			fi
 			if [ "$SafeMode" == "1" ]; then # Safe mode.
 				# Install composer.
 				export Composer=1
