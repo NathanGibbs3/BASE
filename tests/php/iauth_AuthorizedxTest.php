@@ -241,11 +241,14 @@ class authTest2 extends TestCase {
 		$TRAVIS = getenv('TRAVIS');
 		if (!$TRAVIS){ // Running on Local Test System.
 			$tmp = '/usr';
-		}else{ // Running in CI
+		}else{ // Running in Travis CI
 			$version = explode('.', phpversion());
-			if ( $version[0] == 5 && $version[1] == 3 ){
+			if (
+				( $version[0] == 5 && $version[1] == 3 )
+				|| ( $version[0] == 7 && $version[1] == 2 )
+			){ // Composer Installed PHPUnit
 				$tmp = 'vendor';
-			}else{
+			}else{ // System PHPUnit
 				$tmp = "/home/travis/.phpenv/versions/$version[0].$version[1]";
 			}
 		}
