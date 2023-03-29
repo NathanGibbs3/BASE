@@ -146,7 +146,7 @@ if [ "$Composer" \< "1" ]; then # Can we install it?
 				# ca-certificates package have expired.
 				dc="wget -nv --no-check-certificate http://curl.se/ca/cacert.pem"
 				dl=/usr/local/share/ca-certificates
-				$dc -O $dl/cabundle.crt
+				sudo $dc -O $dl/cabundle.crt
 				# Add Ubuntu Trusty repo.
 #				sudo add-apt-repository -y deb http://us.archive.ubuntu.com/ubuntu/ trusty
 #				sudo apt-get -q update
@@ -188,13 +188,13 @@ ADODl=archive
 ADOFilePfx=v
 ADOFileSfx=.tar.gz
 if [ "$pvM" \> "7" ]; then # PHP 8x
-	ADODBVer=5.20.19
+	ADODBVer=5.20.20
 	if [ "$1" == "" ] && [ "$TRAVIS" == "true" ]; then
 		ADODBPATH="ADOdb-$ADODBVer"
 	fi
 elif [ "$pvM" \> "5" ]; then # PHP 7x
 	if [ "$pvm" \> "2" ]; then # PHP 7.3+
-		ADODBVer=5.20.17
+		ADODBVer=5.20.18
 	elif [ "$pvm" \> "1" ]; then # PHP 7.2+
 		ADODBVer=5.20.13
 	else
@@ -205,7 +205,7 @@ elif [ "$pvM" \> "5" ]; then # PHP 7x
 	fi
 elif [ "$pvM" \> "4" ]; then # PHP 5x
 	if [ "$pvm" \> "2" ]; then # PHP 5.3+
-		ADODBVer=5.16
+		ADODBVer=5.17
 	else
 		ADODBVer=5.01beta
 	fi
