@@ -142,16 +142,11 @@ if [ "$Composer" \< "1" ]; then # Can we install it?
 			export COMPOSER_MEMORY_LIMIT=2G
 			if [ "$pvM" == "5" ] && [ "$pvm" == "3" ]; then
 				# Update CA Bundle on PHP 5.3x Issue #155
-				# On travis-ci the certificates in the preinstalled
+				# On travis-ci the certificates in the installed
 				# ca-certificates package have expired.
 				dc="wget -nv --no-check-certificate http://curl.se/ca/cacert.pem"
 				dl=/usr/local/share/ca-certificates
-				sudo $dc -O $dl/cabundle.crt
-				# Add Ubuntu Trusty repo.
-#				sudo add-apt-repository -y deb http://us.archive.ubuntu.com/ubuntu/ trusty
-#				sudo apt-get -q update
-#				sudo apt-get install apt-transport-https ca-certificates -y
-#				sudo apt-get install ca-certificates -y
+				sudo $dc -O $dl/new-ca-bundle.crt
 				sudo update-ca-certificates -f # Update system ca-certs
 			fi
 			if [ "$SafeMode" == "1" ]; then # Safe mode, Install composer.
@@ -188,13 +183,13 @@ ADODl=archive
 ADOFilePfx=v
 ADOFileSfx=.tar.gz
 if [ "$pvM" \> "7" ]; then # PHP 8x
-	ADODBVer=5.20.20
+	ADODBVer=5.20.21
 	if [ "$1" == "" ] && [ "$TRAVIS" == "true" ]; then
 		ADODBPATH="ADOdb-$ADODBVer"
 	fi
 elif [ "$pvM" \> "5" ]; then # PHP 7x
 	if [ "$pvm" \> "2" ]; then # PHP 7.3+
-		ADODBVer=5.20.18
+		ADODBVer=5.20.19
 	elif [ "$pvm" \> "1" ]; then # PHP 7.2+
 		ADODBVer=5.20.13
 	else
@@ -205,7 +200,7 @@ elif [ "$pvM" \> "5" ]; then # PHP 7x
 	fi
 elif [ "$pvM" \> "4" ]; then # PHP 5x
 	if [ "$pvm" \> "2" ]; then # PHP 5.3+
-		ADODBVer=5.17
+		ADODBVer=5.18
 	else
 		ADODBVer=5.01beta
 	fi

@@ -26,19 +26,11 @@ echo -n "PHP Composer install "
 if [ "$Composer" = "1" ]; then
 	if [ "$TRAVIS" == "true" ]; then # Only install on travis
 		echo "started."
-#		echo "Download"
 		curl -s http://getcomposer.org/installer | $ph
-#		$ph -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
-#		echo "Setup"
-#		$ph composer-setup.php --disable-tls --2
 	else
 		echo "supported. Would install on CI."
 	fi
 	px="$ph $pu.phar"
-#	if [ "$PHVM" == "5" ] && [ "$PHVm" == "3" ]; then # Issue #155
-#		$px config --global disable-tls true
-#		$px config --global secure-http false
-#	fi
 elif [ "$Composer" = "2" ]; then
 	echo "not necessary, using system."
 	px=$pu
