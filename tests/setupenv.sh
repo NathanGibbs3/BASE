@@ -140,16 +140,16 @@ if [ "$Composer" \< "1" ]; then # Can we install it?
 	if [ "$TRAVIS" == "true" ]; then
 		if [ "$Composer" \> "0" ]; then
 			export COMPOSER_MEMORY_LIMIT=2G
-			if [ "$pvM" == "5" ] && [ "$pvm" == "3" ]; then
+#			if [ "$pvM" == "5" ] && [ "$pvm" == "3" ]; then
 				# Update CA Bundle on PHP 5.3x Issue #155
 				# Add Ubuntu Trusty repo.
 #				sudo add-apt-repository -y deb http://us.archive.ubuntu.com/ubuntu/ trusty
 #				sudo apt-get -q update
 #				sudo apt-get install apt-transport-https ca-certificates -y
 #				sudo apt-get install ca-certificates -y
-				sudo rm /usr/share/ca-certificates/mozilla/DST_Root_CA_X3.crt
-				sudo update-ca-certificates
-			fi
+#				sudo rm /usr/share/ca-certificates/mozilla/DST_Root_CA_X3.crt
+#				sudo update-ca-certificates
+#			fi
 			if [ "$SafeMode" == "1" ]; then # Safe mode.
 				# Install composer.
 				export Composer=1
@@ -186,15 +186,15 @@ ADODl=archive
 ADOFilePfx=v
 ADOFileSfx=.tar.gz
 if [ "$pvM" \> "7" ]; then # PHP 8x
-	ADODBVer=5.20.16
+	ADODBVer=5.20.17
 	if [ "$1" == "" ] && [ "$TRAVIS" == "true" ]; then
 		ADODBPATH="ADOdb-$ADODBVer"
 	fi
 elif [ "$pvM" \> "5" ]; then # PHP 7x
 	if [ "$pvm" \> "2" ]; then # PHP 7.3+
-		ADODBVer=5.20.14
+		ADODBVer=5.20.15
 	elif [ "$pvm" \> "1" ]; then # PHP 7.2+
-		ADODBVer=5.20.12
+		ADODBVer=5.20.13
 	else
 		ADODBVer=5.20.0
 	fi
@@ -203,7 +203,7 @@ elif [ "$pvM" \> "5" ]; then # PHP 7x
 	fi
 elif [ "$pvM" \> "4" ]; then # PHP 5x
 	if [ "$pvm" \> "2" ]; then # PHP 5.3+
-		ADODBVer=5.13
+		ADODBVer=5.14
 	else
 		ADODBVer=5.01beta
 	fi
