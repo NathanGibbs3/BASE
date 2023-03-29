@@ -35,6 +35,10 @@ if [ "$Composer" = "1" ]; then
 		echo "supported. Would install on CI."
 	fi
 	px="$ph $pu.phar"
+	if [ "$PHVM" == "5" ] && [ "$PHVm" == "3" ]; then # Issue #155
+		$px config --global disable-tls true
+		$px config --global secure-http false
+	fi
 elif [ "$Composer" = "2" ]; then
 	echo "not necessary, using system."
 	px=$pu
