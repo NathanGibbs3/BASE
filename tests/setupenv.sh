@@ -183,13 +183,13 @@ ADODl=archive
 ADOFilePfx=v
 ADOFileSfx=.tar.gz
 if [ "$pvM" \> "7" ]; then # PHP 8x
-	ADODBVer=5.21.0
+	ADODBVer=5.21.1
 	if [ "$1" == "" ] && [ "$TRAVIS" == "true" ]; then
 		ADODBPATH="ADOdb-$ADODBVer"
 	fi
 elif [ "$pvM" \> "5" ]; then # PHP 7x
 	if [ "$pvm" \> "2" ]; then # PHP 7.3+
-		ADODBVer=5.20.20
+		ADODBVer=5.20.21
 	elif [ "$pvm" \> "1" ]; then # PHP 7.2+
 		ADODBVer=5.20.13
 	else
@@ -205,7 +205,17 @@ elif [ "$pvM" \> "4" ]; then # PHP 5x
 		ADODBVer=5.01beta
 	fi
 	if [ "$1" == "" ] && [ "$TRAVIS" == "true" ]; then
-		ADODBPATH="ADOdb-$ADODBVer/phplens/adodb5"
+		ADOvM=`echo $ADODBVer|sed -r -e "s/\.[0-9]+.*$//"`
+		ADOvm=`echo $ADODBVer|sed -r -e "s/^[0-9]\.//" -e "s/[a-z]+$//"`
+		ADOtmp=`echo $ADOvm|sed -r -e "s/\.?[0-9]+$//"`
+		if [ "$ADOtmp" != "" ]; then
+			ADOvm=$ADOtmp
+		fi
+		if [ "$ADOvM" == "5" ] && [ $ADOvm \> "18" ]; then
+			ADODBPATH="ADOdb-$ADODBVer"
+		else
+			ADODBPATH="ADOdb-$ADODBVer/phplens/adodb5"
+		fi
 	fi
 else # PHP 4x
 #	Legacy ADODB
