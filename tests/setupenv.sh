@@ -183,13 +183,13 @@ ADODl=archive
 ADOFilePfx=v
 ADOFileSfx=.tar.gz
 if [ "$pvM" \> "7" ]; then # PHP 8x
-	ADODBVer=5.22.1
+	ADODBVer=5.22.2
 	if [ "$1" == "" ] && [ "$TRAVIS" == "true" ]; then
 		ADODBPATH="ADOdb-$ADODBVer"
 	fi
 elif [ "$pvM" \> "5" ]; then # PHP 7x
 	if [ "$pvm" \> "2" ]; then # PHP 7.3+
-		ADODBVer=5.21.4
+		ADODBVer=5.22.0
 	elif [ "$pvm" \> "1" ]; then # PHP 7.2+
 		ADODBVer=5.20.13
 	else
@@ -200,7 +200,7 @@ elif [ "$pvM" \> "5" ]; then # PHP 7x
 	fi
 elif [ "$pvM" \> "4" ]; then # PHP 5x
 	if [ "$pvm" \> "2" ]; then # PHP 5.3+
-		ADODBVer=5.20.4
+		ADODBVer=5.20.5
 	else
 		ADODBVer=5.01beta
 	fi
