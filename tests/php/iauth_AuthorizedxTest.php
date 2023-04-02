@@ -246,6 +246,7 @@ class authTest2 extends TestCase {
 			if (
 				( $version[0] == 5 && $version[1] == 3 )
 				|| ( $version[0] == 7 && $version[1] == 2 )
+				|| ( $version[0] == 7 && $version[1] == 3 )
 			){ // Composer Installed PHPUnit
 				$tmp = 'vendor';
 			}else{ // System PHPUnit

@@ -50,6 +50,9 @@ else
 	elif [ "$PHVM" == "7" ] && [ "$PHVm" == "2" ]; then # Issue #154
 		pi=Composer
 		px="$ph vendor/bin/$pu"
+	elif [ "$PHVM" == "7" ] && [ "$PHVm" == "3" ]; then # Issue #159
+		pi=Composer
+		px="$ph vendor/bin/$pu"
 	else
 		pi=System
 		px=$pu

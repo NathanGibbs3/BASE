@@ -203,7 +203,7 @@ elif [ "$pvM" \> "5" ]; then # PHP 7x
 	fi
 elif [ "$pvM" \> "4" ]; then # PHP 5x
 	if [ "$pvm" \> "2" ]; then # PHP 5.3+
-		ADODBVer=5.20.8
+		ADODBVer=5.20.9
 	else
 		ADODBVer=5.01beta
 	fi
@@ -254,13 +254,16 @@ else # Branch Mode
 	echo -n "branch $GHBranch"
 	ADOFile=$GHBranch
 	ADODl=tarball
-	ADODBPATH=ADOdb-ADOdb-*
 fi
 echo " from: https://$ADOSrc"
 if [ "$1" == "" ] && [ "$TRAVIS" == "true" ]; then
+	echo "Creating Build ADOdb Directory: `pwd`/build/adodb"
 	mkdir -p build/adodb
 	wget -nv https://$ADOSrc/$ADODl/$ADOFile -O build/adodb.tgz
 	tar -C build/adodb -zxf build/adodb.tgz
+	if [ "$GHMode" == "branch" ]; then
+		ADODBPATH=`ls build/adodb`
+	fi
 	export ADODBPATH=$ADODBPATH
 	RFADODBPATH="build/adodb/$ADODBPATH"
 else
