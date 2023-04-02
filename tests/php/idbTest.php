@@ -396,7 +396,7 @@ class dbTest extends TestCase {
 		$sql = 'SELECT * FROM acid_event WHERE 1=2';
 		$this->assertInstanceOf( 'baseRS', $db->baseExecute($sql,1,4), $URV );
 	}
-	public function testbaseExecuteNULLSQLThrowsError(){
+	public function testbaseExecuteEmptySQLThrowsError(){
 		$db = self::$db;
 		$dbt = self::$dbt;
 		$sql = '';
@@ -420,7 +420,7 @@ class dbTest extends TestCase {
 		}
 		$db->baseExecute($sql);
 	}
-	public function testbaseExecuteNULLSQLReturnsExpected(){
+	public function testbaseExecuteEmptySQLReturnsExpected(){
 		$db = self::$db;
 		$URV = self::$URV.'baseExecute().';
 		$sql = '';
@@ -444,11 +444,22 @@ class dbTest extends TestCase {
 			$this->expectException("PHPUnit_Framework_Error_Notice");
 			$this->expectExceptionMessage($EEM);
 		}elseif (version_compare($PHPUV, '9.0', '<')) { // PHPUnit 6x - 8x
-			$this->expectException("PHPUnit\Framework\Error\Notice");
+			$PHPV = GetPHPV();
+			if ( version_compare($PHPV, '8.0', '>=') ){
+				$this->expectException("PHPUnit\Framework\Error\Error");
+			}else{
+				$this->expectException("PHPUnit\Framework\Error\Notice");
+			}
 			$this->expectExceptionMessage($EEM);
 		}else{ // PHPUnit 9+
-			$this->expectNotice();
-			$this->expectNoticeMessage($EEM);
+			$PHPV = GetPHPV();
+			if ( version_compare($PHPV, '8.0', '>=') ){
+				$this->expectError();
+				$this->expectErrorMessage($EEM);
+			}else{
+				$this->expectNotice();
+				$this->expectNoticeMessage($EEM);
+			}
 		}
 		$db->baseExecute($sql);
 	}
