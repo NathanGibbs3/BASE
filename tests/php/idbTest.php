@@ -428,49 +428,6 @@ class dbTest extends TestCase {
 		// Use error suppression @ symbol.
 		$this->assertFalse( @$db->baseExecute($sql,0,-1,false), $URV );
 	}
-	public function testbaseExecuteInvalidSQLThrowsError(){
-		$db = self::$db;
-		$dbt = self::$dbt;
-		$sql = 'SELEXT * FROM acid_event';
-		$EEM = "$dbt error: [";
-		$PHPUV = GetPHPUV();
-		if (version_compare($PHPUV, '3.0', '<')) {
-			$this->markTestSkipped('Requires Phpunit 3+ to run.');
-		}elseif (version_compare($PHPUV, '5.0', '<')) { // PHPUnit 3x - 4x
-			$this->setExpectedException(
-				"PHPUnit_Framework_Error_Notice", $EEM
-			);
-		}elseif (version_compare($PHPUV, '6.0', '<')) { // PHPUnit 5x
-			$this->expectException("PHPUnit_Framework_Error_Notice");
-			$this->expectExceptionMessage($EEM);
-		}elseif (version_compare($PHPUV, '9.0', '<')) { // PHPUnit 6x - 8x
-			$PHPV = GetPHPV();
-			if ( version_compare($PHPV, '8.0', '>=') ){
-				$this->expectException("PHPUnit\Framework\Error\Error");
-			}else{
-				$this->expectException("PHPUnit\Framework\Error\Notice");
-			}
-			$this->expectExceptionMessage($EEM);
-		}else{ // PHPUnit 9+
-			$PHPV = GetPHPV();
-			if ( version_compare($PHPV, '8.0', '>=') ){
-				$this->expectError();
-				$this->expectErrorMessage($EEM);
-			}else{
-				$this->expectNotice();
-				$this->expectNoticeMessage($EEM);
-			}
-		}
-		$db->baseExecute($sql);
-	}
-	public function testbaseExecuteInvalidSQLReturnsExpected(){
-		$db = self::$db;
-		$URV = self::$URV.'baseExecute().';
-		$sql = 'SELEXT * FROM acid_event';
-		// Test conditions will throw error.
-		// Use error suppression @ symbol.
-		$this->assertFalse( @$db->baseExecute($sql,0,-1,false), $URV );
-	}
 	public function testMssqlKludgeValueReturnsExpected(){
 		$db = self::$db;
 		$URV = self::$URV.'MssqlKludgeValue().';
