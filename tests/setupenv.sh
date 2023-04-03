@@ -198,6 +198,8 @@ if [ "$pvM" \> "7" ]; then # PHP 8x
 	fi
 elif [ "$pvM" \> "5" ]; then # PHP 7x
 	if [ "$pvm" \> "1" ]; then # PHP 7.2+
+		GHMode=branch
+		GHBranch=hotfix/5.22
 		ADODBVer=5.20.12
 	else
 		ADODBVer=5.20.0
@@ -207,7 +209,7 @@ elif [ "$pvM" \> "5" ]; then # PHP 7x
 	fi
 elif [ "$pvM" \> "4" ]; then # PHP 5x
 	if [ "$pvm" \> "2" ]; then # PHP 5.3+
-		ADODBVer=5.20.14
+		ADODBVer=5.20.15
 	else
 		ADODBVer=5.01beta
 	fi
