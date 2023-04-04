@@ -78,8 +78,23 @@ include_once("$BASE_path/includes/base_constants.inc.php");
 
 AuthorizedRole(10000);
 $et = new EventTiming($debug_time_mode);
-$cs = new CriteriaState("base_qry_main.php", "&amp;new=1&amp;submit="._QUERYDBP);
-
+$db = NewBASEDBConnection($DBlib_path, $DBtype); // Connect to Alert DB.
+$db->baseDBConnect(
+	$db_connect_method,$alert_dbname, $alert_host, $alert_port, $alert_user,
+	$alert_password
+);
+UpdateAlertCache($db);
+if ( class_exists('UILang') ){ // Issue 11 backport shim.
+	$CPSig = $UIL->CWA['Sig'];
+	$CPSA = $UIL->CPA['SrcAddr'];
+	$CPDA = $UIL->CPA['DstAddr'];
+	$CPTs = $UIL->CWA['Ts'];
+}else{
+	$CPSig = _SIGNATURE;
+	$CPSA = _NBSOURCEADDR;
+	$CPDA = _NBDESTADDR;
+	$CPTs = _TIMESTAMP;
+}
 if ( getenv('TRAVIS') && version_compare(PHP_VERSION, "5.3.0", "<") ){
 	// Issue #5 Test Shim
 	$new = 1;
@@ -96,6 +111,7 @@ if ( getenv('TRAVIS') && version_compare(PHP_VERSION, "5.3.0", "<") ){
 		)
 	);
 }
+
   // Set the sort order to the new sort order if one has been selected
   $sort_order = ImportHTTPVar("sort_order", VAR_LETTER | VAR_USCORE);
   if ($sort_order == "" || !isset($sort_order)) 
@@ -106,9 +122,11 @@ if ( getenv('TRAVIS') && version_compare(PHP_VERSION, "5.3.0", "<") ){
     if ($sort_order == "" || !isset($sort_order))
     {
       // $sort_order = "none"; //default to none.
-			$sort_order = "time_d"; // default set to "descending order"
+			$sort_order = $CPTs .'_time_d'; // default set to "descending order"
     }
   }
+
+$cs = new CriteriaState("base_qry_main.php", "&amp;new=1&amp;submit="._QUERYDBP);
 
 /* Code to correct 'interesting' (read: unexplained) browser behavior */
 
@@ -140,13 +158,15 @@ if ( isset($maintain_history) && $maintain_history == 1 ){
     $_POST['submit'] = $submit;
 	}
 }
-  $cs->ReadState();
-
-  $qs = new QueryState();
-  $qs->AddCannedQuery("last_tcp", $last_num_alerts, _LASTTCP, "time_d"); 
-  $qs->AddCannedQuery("last_udp", $last_num_alerts, _LASTUDP, "time_d");
-  $qs->AddCannedQuery("last_icmp", $last_num_alerts, _LASTICMP, "time_d");
-  $qs->AddCannedQuery("last_any", $last_num_alerts, _LASTALERTS, "time_d");
+$cs->ReadState();
+$qs = new QueryState();
+$qs->current_sort_order = $sort_order; // Issue #133 fix
+$tmp = $CPTs . '_time_d';
+$qs->AddCannedQuery("last_tcp", $last_num_alerts, _LASTTCP, $tmp);
+$qs->AddCannedQuery("last_udp", $last_num_alerts, _LASTUDP, $tmp);
+$qs->AddCannedQuery("last_icmp", $last_num_alerts, _LASTICMP, $tmp);
+$qs->AddCannedQuery("last_any", $last_num_alerts, _LASTALERTS, $tmp);
+$tmp = '';
 
 $page_title = _QUERYRESULTS;
 if ( $qs->isCannedQuery() ){
@@ -155,12 +175,7 @@ if ( $qs->isCannedQuery() ){
 PrintBASESubHeader(
 	$page_title, $page_title, $cs->GetBackLink(), $refresh_all_pages
 );
-$db = NewBASEDBConnection($DBlib_path, $DBtype); // Connect to Alert DB.
-$db->baseDBConnect(
-	$db_connect_method,$alert_dbname, $alert_host, $alert_port, $alert_user,
-	$alert_password
-);
-UpdateAlertCache($db);
+
 $printing_ag = false;
 ?>
 
@@ -196,13 +211,11 @@ if (
    )
 {
   include("$BASE_path/base_qry_form.php");
-}
-/* Run the SQL Query and get results */
-elseif ( $submit == _QUERYDB || $submit == _QUERYDBP ||
-     $submit == _SELECTED || $submit == _ALLONSCREEN || $submit == _ENTIREQUERY || 
-     $qs->isCannedQuery() || 
-     $qs->GetCurrentSort() != "" )
-{
+}elseif (
+	$qs->isCannedQuery() || $new != 1 ||
+	$submit == _QUERYDB || $submit == _QUERYDBP || $submit == _SELECTED ||
+	$submit == _ALLONSCREEN || $submit == _ENTIREQUERY
+){ // Run the SQL Query and get results.
   /* Init and run the action */
   $criteria_clauses = ProcessCriteria();  
 
@@ -232,18 +245,13 @@ elseif ( $submit == _QUERYDB || $submit == _QUERYDBP ||
   $et->Mark("Alert Action");
 
   if ( $debug_mode > 0 ) ErrorMessage("Initial/Canned Query or Sort Clicked");
-  include("$BASE_path/base_qry_sqlcalls.php");
+
+	include("$BASE_path/base_qry_sqlcalls.php");
+}else{ // Return the input form to get more criteria from user.
+	include("$BASE_path/base_qry_form.php");
 }
-/* Return the input form to get more criteria from user */
-else
-{
-   include("$BASE_path/base_qry_form.php");
-}
-
-
-   $qs->SaveState();
-
-  echo "\n</FORM>\n";
+$qs->SaveState();
+NLIO('</form>');
 $et->Mark("Get Query Elements");
 PrintBASESubFooter();
 ?>

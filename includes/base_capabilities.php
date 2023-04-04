@@ -82,11 +82,9 @@ class CapaRegistry
     
   }
 
-  // Capability checking function. Pass it the definitions used above.
-  function hasCapa($capability) 
-  {
-    if (array_key_exists($capability, $this->CAPAREG))
-    {
+	// Capability checking function. Pass it the definitions used above.
+	function hasCapa( $capability ){
+		if ( base_array_key_exists($capability, $this->CAPAREG) ){
       return $this->CAPAREG[$capability];
     } else {
       return false;

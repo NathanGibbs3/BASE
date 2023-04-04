@@ -470,24 +470,19 @@ function CacheSensor($sid, $cid, $db)
     echo $mystr;
   }
 
-
-
-  // Now commit all those SQL commands
-  for ( $i = 0; $i < $update_cnt; $i++ )
-  {
-    if ($debug_mode > 0){
-      $mystr = '<BR>' . __FILE__ . ':' . __LINE__ . ": <BR>\n$update_sql[$i] <BR><BR>\n\n";
+	for ( $i = 0; $i < $update_cnt; $i++ ){
+		// Now commit all those SQL commands
+		if ($debug_mode > 0 ){
+			$mystr = '<BR>' . __FUNCTION__ . ": <BR>\n$update_sql[$i] <BR><BR>\n\n";
       echo $mystr;
-    }
-
-
-    $db->baseExecute($update_sql[$i]); 
+		}
+		$db->baseExecute($update_sql[$i]);
 
     if ( $db->baseErrorMessage() != "" )
        ErrorMessage(_ERRCACHEERROR." ["._SENSOR." #$sid]["._EVENTTYPE." $i]".
                       " "._ERRCACHEUPDATE);
 
-  }
+	}
 }
 
 
@@ -526,7 +521,7 @@ function dump_missing_events($db, $sid, $start_cid, $end_cid)
 function UpdateAlertCache($db, $force = 0 ){
 	GLOBAL $debug_mode, $archive_exists, $event_cache_auto_update,
 	$DBlib_path, $DBtype, $archive_dbname, $archive_host, $archive_port,
-	$archive_user, $archive_password;
+	$archive_user, $archive_password, $et;
 	if ( $force == 0 && $event_cache_auto_update != 1 ){ // Issue #121 Fix
 		return;
 	}
@@ -800,6 +795,9 @@ function UpdateAlertCache($db, $force = 0 ){
 		}else{
 			ErrorMessage(_ADDED.$updated_cache_cnt._ALERTSCACHE);
 		}
+	}
+	if ( is_object($et) ){ // Need to TD this in Issue #11 branch.
+		$et->Mark('Updated ALERT Cache.');
 	}
 }
 

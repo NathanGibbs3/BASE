@@ -53,6 +53,10 @@ if (!isset($DBtype)){
 	print "$stat\n";
 	$stat = $user->addUser('TestAnonUser', '10000', 'password', 'TestAnonUser');
 	print "$stat\n";
+	$stat = $user->addUser('TestDisabledUser', '10000', 'password', 'TestDisabledUser');
+	print "$stat\n";
+	$uid = $user->returnUserID('TestDisabledUser');
+	$user->disableUser($uid);
 	$stat = $user->addUser('TestOver', '20000', 'password', 'TestOverUser');
 	print "$stat\n";
 	$stat = $user->addUser('Test<br/>XSS', '10', 'password', 'Test<br/>XXS in Username');

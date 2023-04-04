@@ -26,7 +26,7 @@ class log_timingTest extends TestCase {
 		$this->assertTrue(is_array($tc->event_log), $URV);
 		$this->assertTrue(is_array($tc->event_log[0]), $URV);
 		$this->assertNotEquals(0, $tc->event_log[0][0], $URV);
-		$this->assertEquals('Page Load', $tc->event_log[0][1], $URV);
+		$this->assertEquals('Page Load.', $tc->event_log[0][1], $URV);
 	}
 	// Test Mark Function
 	public function testClassEventTimingMark(){

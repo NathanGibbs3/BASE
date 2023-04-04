@@ -21,6 +21,7 @@
 
 include_once("base_conf.php");
 include_once("$BASE_path/includes/base_constants.inc.php");
+include_once("$BASE_path/base_common.php");
 include_once("$BASE_path/base_qry_common.php");
 include_once("$BASE_path/includes/base_log_error.inc.php");
 include_once("$BASE_path/includes/base_signature.inc.php");
@@ -611,37 +612,24 @@ function ReadGeoIPfreeFileAscii(&$Geo_IPfree_array){
     {
       ErrorMessage("<BR>ERROR: \$iso_3166 has not been defined.<BR>\n");
       return 0;
-    }
-    else
-    {
-      if (!array_key_exists($index, $iso_3166))
-      {
+		}else{
+			if ( !base_array_key_exists($index, $iso_3166) ){
         $estr = "ERROR: index \"" . $index . "\" = ascii codes ";
         $estr .= ord($index[0]) . ", " . ord($index[1]) . " ";
         $estr .= "does not exist. Ignoring.<BR>\n";
         ErrorMessage($estr);
-      }
-      else
-      {
-        if ($debug_mode > 1)
-        {
+			}else{
+				if ($debug_mode > 1){
           print "Full name of " . $index . " = \"" . $iso_3166[$index]. "\"<BR>\n";
-        }
-
+				}
         $index .= " (" . $iso_3166[$index] . ")";
-      }
-
-
-    
-      if (
-           !isset($Geo_IPfree_array) ||
-           !key_exists($index, $Geo_IPfree_array)
-         )  
-      {
+			}
+			if (
+				!isset($Geo_IPfree_array)
+				|| !base_array_key_exists($index, $Geo_IPfree_array)
+			){
         $Geo_IPfree_array[$index][0] = array($begin, $end);
-      }
-      else
-      {
+			}else{
         {
           array_push($Geo_IPfree_array[$index], array($begin, $end));
         }
@@ -650,67 +638,44 @@ function ReadGeoIPfreeFileAscii(&$Geo_IPfree_array){
   }
 }
 
-
-/**
- * First method how to look up the country corresponding to an ip address:
- * http://search.cpan.org/CPAN/authors/id/G/GM/GMPASSOS/Geo-IPfree-0.2.tar.gz
- * Requires the transformation of the included database into human readable
- * ASCII format, similarly to:
- *          cd /usr/lib/perl5/site_perl/5.8.8/Geo/
- *          perl ipct2txt.pl ./ipscountry.dat /tmp/ips-ascii.txt
- * $Geo_IPfree_file_ascii must contain the absolute path to
- * ips-ascii.txt. The Web server needs read access to this file.
- * 
- */
-function GeoIPfree_IP2Country($Geo_IPfree_array, $address_with_dots, &$country)
-{
-  GLOBAL $db, $debug_mode;
-
-
-  if (
-       empty($Geo_IPfree_array) ||
-       empty($address_with_dots)
-     )
-  {
-    return 0;
-  }
-
-  $address = sprintf("%u", ip2long($address_with_dots));
-
-  while (list($key, $val) = each($Geo_IPfree_array)) 
-  {
-    $nelements = count($val);
-    if (count($val) > 0)
-    {
-      while(list($key2, $val2) = each($val))
-      {
-        if ($debug_mode > 1)
-        {
-          if ($val2[0] > $val2[1])
-          {
-            print "WARNING: Inconsistency with $key array element no. " . $key2 . ": " . long2ip($val2[0]) . " - " . long2ip($val2[1]) . "<BR>\n";
-          }
-        }
-
-        if (
-             ($address >= $val2[0]) &&
-             ($address <= $val2[1])
-           )
-	{
-	  if ($debug_mode > 0)
-	  {
-            print "Found: " . $address_with_dots . " belongs to " . $key ;
-            print ": " . long2ip($val2[0]) . " - " . long2ip($val2[1]);
-	    print "<BR>\n";
-	  }
-          $country = $key;
-          return 1;
-        }
-      }
-    }
-  }
+// First method how to look up the country corresponding to an ip address:
+// http://search.cpan.org/CPAN/authors/id/G/GM/GMPASSOS/Geo-IPfree-0.2.tar.gz
+// Requires the transformation of the included database into human readable
+// ASCII format, similarly to:
+//          cd /usr/lib/perl5/site_perl/5.8.8/Geo/
+//          perl ipct2txt.pl ./ipscountry.dat /tmp/ips-ascii.txt
+// $Geo_IPfree_file_ascii must contain the absolute path to
+// ips-ascii.txt. The Web server needs read access to this file.
+function GeoIPfree_IP2Country(
+	$Geo_IPfree_array, $address_with_dots, &$country
+){
+	GLOBAL $db, $debug_mode;
+	if ( empty($Geo_IPfree_array) || empty($address_with_dots) ){
+		return 0;
+	}
+	$address = sprintf("%u", ip2long($address_with_dots));
+	foreach ( $Geo_IPfree_array as $key => $val ){ // Issue #153
+		$nelements = count($val);
+		if ( count($val) > 0 ){
+			foreach ( $val as $key2 => $val2 ){ // Issue #153
+				if ( $debug_mode > 1 ){
+					if ( $val2[0] > $val2[1] ){
+						print "WARNING: Inconsistency with $key array element no. " . $key2 . ": " . long2ip($val2[0]) . " - " . long2ip($val2[1]) . "<BR>\n";
+					}
+				}
+				if ( $address >= $val2[0] && $address <= $val2[1] ){
+					if ( $debug_mode > 0 ){
+						print "Found: " . $address_with_dots . " belongs to " . $key;
+						print ": " . long2ip($val2[0]) . " - " . long2ip($val2[1]);
+						print "<BR>\n";
+					}
+					$country = $key;
+					return 1;
+				}
+			}
+		}
+	}
 }
-
 
 /**
  * Second method how to lookup the country corresponding to an ip address:
@@ -772,66 +737,22 @@ function run_ip2cc($address_with_dots, &$country)
   return 1;
 }
 
-function IncreaseCountryValue(&$countries, $to_search, $number_of_alerts)
-{
-  GLOBAL $db, $debug_mode;
-
-  $php_version = phpversion();
-  $ver = $php_version[0];
-  
-
-  // PHP Version 5.x and above
-  if ($ver >= 5)
-  {
-    if (count($countries) == 0)
-    {
-      $countries[$to_search] = $number_of_alerts;
-      return;
-    }
-
-    if (array_key_exists($to_search, $countries))
-    {
-      if ($debug_mode > 1)
-      {
-        print $to_search . " does exist.<BR>\n";
-      }
-      $countries[$to_search] += $number_of_alerts;
-    }
-    else
-    {
-      if ($debug_mode > 1)
-      {
-	print $to_search . " does NOT exist.<BR>\n";
-      }
-      $countries[$to_search] = $number_of_alerts;
-    }
-  }
-  else
-  // PHP Version 4.x (and below)
-  {
-    if (count($countries) == 0)
-    {
-      $countries[$to_search] = $number_of_alerts;
-      return;
-    }
-
-    if (key_exists($to_search, $countries))
-    {
-      if ($debug_mode > 1)
-      {
-	print $to_search . " does exist.<BR>\n";
-      }
-      $countries[$to_search] += $number_of_alerts;
-    }
-    else
-    {
-      if ($debug_mode > 1)
-      {
-	print $to_search . " does NOT exist.<BR>\n";
-      }
-      $countries[$to_search] = $number_of_alerts;
-    }
-  }
+function IncreaseCountryValue( &$countries, $to_search, $number_of_alerts ){
+	GLOBAL $db, $debug_mode;
+	if (count($countries) == 0 ){
+		$countries[$to_search] = $number_of_alerts;
+		return;
+	}
+	$tmp = '';
+	if ( base_array_key_exists($to_search, $countries) ){
+		$countries[$to_search] += $number_of_alerts;
+	}else{
+		$tmp = 'NOT ';
+		$countries[$to_search] = $number_of_alerts;
+	}
+	if ( $debug_mode > 1 ){
+		ErrorMessage($to_search . ' does ' . $tmp .'exist.', 0, 1);
+	}
 }
 
 function GetCountryDataSet(
@@ -922,9 +843,7 @@ function GetCountryDataSet(
 		);
 		return 0;
 	}
-  if ($country_method == 0)
-  {
-    // should not be reached
+	if ( $country_method == 0 ){ // should not be reached
     ErrorMessage("ERROR: No \$country_method available.<BR>\n");
     return 0;
   }
@@ -1026,20 +945,15 @@ function GetCountryDataSet(
     print_r($countries);
     print "###########</pre>\n";
   }
-   
-  
   // Now setup the chart array:
-  reset($countries);
   $cnt2 = 0;
-  while (list($key, $val) = each($countries))
-  {
-    $xdata[$cnt2][0] = $key;
-    $xdata[$cnt2][1] = $val;
-    $cnt2++;
-  }
-
-  $result->baseFreeRows();
-  // return number of countries rather than number of addresses!
-  return $cnt2;
+	foreach ( $countries as $key => $val ){ // Issue #153
+		$xdata[$cnt2][0] = $key;
+		$xdata[$cnt2][1] = $val;
+		$cnt2++;
+	}
+	$result->baseFreeRows();
+	// return number of countries rather than number of addresses!
+	return $cnt2;
 }
 ?>

@@ -22,15 +22,20 @@ if [ "$TRAVIS" != "true" ]; then
 	fi
 fi
 
+echo -n "PHP Composer install "
 if [ "$Composer" = "1" ]; then
 	if [ "$TRAVIS" == "true" ]; then # Only install on travis
+		echo "started."
 		curl -s http://getcomposer.org/installer | $ph
+	else
+		echo "supported. Would install on CI."
 	fi
 	px="$ph $pu.phar"
 elif [ "$Composer" = "2" ]; then
+	echo "not necessary, using system."
 	px=$pu
 else
-	echo "PHP Composer install not supported."
+	echo "not supported."
 	if [ "$TRAVIS" != "true" ]; then
 		Composer=0
 	fi
@@ -43,11 +48,14 @@ if [ "$Composer" \> "0" ]; then
 		puv=`$pu --version`
 	fi
 	puv=`echo $puv|sed -e "s/^Composer version //" -r -e "s/ [0-9]+.*$//"`
-	#pvM=`echo $puv|sed -r -e "s/\.[0-9]\.[0-9]+$//"`
+	pvM=`echo $puv|sed -r -e "s/\.[0-9]+\.[0-9]+$//"`
 	#pvm=`echo $puv|sed -r -e "s/^[0-9]\.//" -e "s/\.[0-9]+$//"`
-	#pvr=`echo $puv|sed -r -e "s/^[0-9]\.[0-9]\.//"`
+	#pvr=`echo $puv|sed -r -e "s/^[0-9]+\.[0-9]+\.//"`
 	if [ "$TRAVIS" == "true" ]; then # Disable XDebug
 		mv ${HOME}/.phpenv/versions/$(phpenv version-name)/etc/conf.d/xdebug.ini ${HOME}/xdebug.ini
+		if [ "$pvM" == "1" ]; then # Issue #152 fix
+			composer self-update --2
+		fi
 	fi
 	if [ "$Composer" = "2" ]; then
 		echo "System Composer Version: $puv"

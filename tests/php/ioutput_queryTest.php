@@ -20,6 +20,7 @@ use PHPUnit\Framework\TestCase;
   * @uses ::NLIO
   * @uses ::PrintFramedBoxHeader
   * @uses ::XSSPrintSafe
+  * @uses ::base_array_key_exists
   * @uses ::returnErrorMessage
   */
 

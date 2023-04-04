@@ -337,7 +337,7 @@ class state_citemsSPTest extends TestCase {
 		);
 		$odb = $debug_mode;
 		$osession = $_SESSION;
-		$debug_mode = 1;
+		$debug_mode = 2;
 		$_SESSION[$cs] = '';
 		$this->expectOutputString(
 			"<font color='black'>SetSessionVar(): ".
@@ -374,7 +374,7 @@ class state_citemsSPTest extends TestCase {
 		);
 		$odb = $debug_mode;
 		$osession = $_SESSION;
-		$debug_mode = 1;
+		$debug_mode = 2;
 		$_SESSION[$cs] = array(0 => '', 1 => '');
 		$this->expectOutputString(
 			"<font color='black'>SetSessionVar(): ".
@@ -412,7 +412,7 @@ class state_citemsSPTest extends TestCase {
 		);
 		$odb = $debug_mode;
 		$osession = $_SESSION;
-		$debug_mode = 1;
+		$debug_mode = 2;
 		$_SESSION[$cs] = array(0 => '', 1 => '');
 		$_SESSION['data_encode'] = array();
 		$this->expectOutputString(
