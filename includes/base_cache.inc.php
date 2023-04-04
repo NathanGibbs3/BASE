@@ -204,7 +204,7 @@ function CacheSensor($sid, $cid, $db) {
 	GLOBAL $UIL, $debug_mode;
 	$CPSensor = $UIL->CWA['Sensor'];
 	$CPET = $UIL->CPA['ET'];
-	$EPfx = '<BR>' . __FILE__ . ':';
+	$EPfx = '<BR>' . __FUNCTION__ . ':';
 	$schema_specific = array(2);
 	$schema_specific[0] = '';
 	$schema_specific[1] = '';
@@ -468,7 +468,7 @@ function CacheSensor($sid, $cid, $db) {
 	// Commit all SQL commands.
 	for ( $i = 0; $i < $update_cnt; $i++ ){
 		if ($debug_mode > 0){
-			$DMsg = $EPfx . __LINE__ . ": <BR>\n$update_sql[$i] <BR><BR>\n";
+			$DMsg = $EPfx . "<BR>\n$update_sql[$i] <BR><BR>\n";
 			print "$DMsg\n";
 		}
 		$db->baseExecute($update_sql[$i]);
@@ -515,7 +515,7 @@ function dump_missing_events($db, $sid, $start_cid, $end_cid)
 function UpdateAlertCache($db, $force = 0 ){
 	GLOBAL $debug_mode, $archive_exists, $event_cache_auto_update,
 	$DBlib_path, $DBtype, $archive_dbname, $archive_host, $archive_port,
-	$archive_user, $archive_password;
+	$archive_user, $archive_password, $et;
 	if ( $force == 0 && $event_cache_auto_update != 1 ){ // Issue #121 Fix
 		return;
 	}
@@ -789,6 +789,9 @@ function UpdateAlertCache($db, $force = 0 ){
 		}else{
 			ErrorMessage(_ADDED.$updated_cache_cnt._ALERTSCACHE);
 		}
+	}
+	if ( is_object($et) ){ // Need to TD this in Issue #11 branch.
+		$et->Mark('Updated ALERT Cache.');
 	}
 }
 

@@ -20,8 +20,7 @@ include_once("$BASE_path/includes/base_signature.inc.php");
 
 function PrintCriteriaState(){
 	GLOBAL $layer4, $new, $submit, $sort_order, $num_result_rows,
-	$current_view, $caller, $action, $action_arg, $sort_order, $debug_mode,
-	$UIL;
+	$current_view, $caller, $action, $action_arg, $debug_mode, $UIL;
 	if ( $debug_mode >= 2 ){
 		$CPSensor = $UIL->CWA['Sensor'];
 		NLIO("<PRE>");
@@ -280,29 +279,22 @@ function DateTimeRows2sql( $field, $cnt, &$s_sql ){
 						}else{
 							if ( count($field) > 1 ){
 								// Better fix for bug #1199128
-								// Number of empty values
-								$empty_count = 0;
-								reset($field[$i]);
-								while (
-									list( $key, $val ) = each( $field[$i] )
-								){
+								$empty_count = 0; // Empty value count.
+								// Count empty values in array $field[$i].
+								foreach ( $field[$i] as $val ){
 									if ( empty($val) ){
 										$empty_count += 1;
 									}
 								}
-								// Total number of values in the criteria
-								// line (empty or filled).
+								// Count all values in array $field[$i].
 								$array_count = count( $field[1] );
-								// Check to see if any fields are empty.
-								// If the number of empty fields are
-								// greater than (impossible) or equal to
-								// (possible) the number of values in the
-								// array, then they must all be empty.
+								// If count of empty valuess > (impossible) or
+								// = (possible) count of all values, then all
+								// are empty.
 								if ( $empty_count >= $array_count ){
 									$allempty = true;
 								}
-								// If empty, dont process line.
-								if ( $allempty ){
+								if ( $allempty ){ // Empty, dont process line.
 									continue;
 								}else{ // Process line.
 									$tmp = " timestamp " . $op . "'$t'";
@@ -311,7 +303,7 @@ function DateTimeRows2sql( $field, $cnt, &$s_sql ){
 								$tmp = " timestamp " . $op . "'$t'";
 							}
 						}
-					}else{ // Build the SQL string when the = operator is used.
+					}else{ // Build SQL string when = operator is used.
 						// NPG Performance wise, this query takes more time.
 						// Consider rewriting this at some point.
 						// Date.

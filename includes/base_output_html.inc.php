@@ -47,7 +47,7 @@ function PageStart ( $refresh = 0, $page_title = '' ){
 			$HT .= $SfxA;
 		}
 	}
-	print '<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">';
+	print "<!DOCTYPE html PUBLIC '-//W3C//DTD HTML 4.01 Transitional//EN' 'http://www.w3.org/TR/html4/loose.dtd'>";
 	NLIO('<!-- '. $title . ' -->');
 	NLIO('<html>');
 	NLIO('<head>', 1);
@@ -234,13 +234,19 @@ function FramedBoxHeader(
 	$Ret .= NLI($tmp, $tab) . NLI('<tr>',$tab + 1);
 	if ( LoadedString($title) == true ){
 		$Ret .= NLI(
-			"<td class='sectiontitle' style='text-align: $align;' colspan='20'>$title</td>",
+			"<td class='sectiontitle' style='text-align: $align;' colspan='20'>",
 			$tab + 2
-		).
-		NLI('</tr><tr>',$tab + 1);
-	}
-	if ( $td != 0 ){
-		$Ret .= NLI('<td>',$tab + 2);
+		);
+		$Ret .= NLI($title, $tab + 3);
+		$Ret .= TblNewRow( $td, $align, $tab + 2 );
+	}else{
+		if ( $td != 0 ){
+			$Ret .= NLI('<td',$tab + 2);
+			if ( $align != '' ){
+				$Ret .= " style='text-align: $align;'";
+			}
+			$Ret .= '>';
+		}
 	}
 	return $Ret;
 }
@@ -262,6 +268,47 @@ function FramedBoxFooter( $td = 0, $tab = 3 ){
 	}
 	$Ret .= NLI('</tr>',$tab + 1);
 	$Ret .= NLI('</table>',$tab);
+	return $Ret;
+}
+function TblNewRow( $td = 0, $align = '', $tab = 3 ){
+	$Ret = '';
+	// Input Validation
+	if ( !is_int($td) ){
+		$td = 0;
+	}
+	if ( !is_int($tab) || $tab < 1 ){
+		$tab = 3;
+	}
+	$align = strtolower($align);
+	$hal = array( 'left', 'center', 'right' );
+	if ( $align != '' && !in_array($align, $hal) ){
+		$align = 'left';
+	}
+	// Input Validation End
+	$Ret = NLI('</td>', $tab);
+	$Ret .= NLI('</tr><tr>', $tab -1 );
+	if ( $td != 0 ){
+		$Ret .= NLI('<td',$tab);
+		if ( $align != '' ){
+			$Ret .= " style='text-align: $align;'";
+		}
+		$Ret .= '>';
+	}
+	return $Ret;
+}
+function PrintTblNewRow( $td = 0, $align = '', $tab = 3 ){
+	print TblNewRow( $td, $align, $tab );
+}
+function returnExportHTTPVar ( $var_name = '', $var_value = '', $tab = 3 ){
+	$Ret = '';
+	if ( LoadedString( $var_name ) == true ){ // Input Validation
+		if ( !is_int($tab) ){
+			$tab = 3;
+		}
+		$Ret = NLI(
+			"<input type='hidden' name='$var_name' value='$var_value'/>", $tab
+		);
+	}
 	return $Ret;
 }
 

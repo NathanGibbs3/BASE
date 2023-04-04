@@ -4,6 +4,7 @@ use PHPUnit\Framework\TestCase;
 // Test fucntions in /includes/base_state_common.inc.php
 /**
   * @covers ::CleanVariable
+  * @covers ::ExportHTTPVar
   * @covers ::InitArray
   * @covers ::SetSessionVar
   * @covers ::XSSPrintSafe
@@ -15,12 +16,16 @@ use PHPUnit\Framework\TestCase;
   * @uses ::HtmlColor
   * @uses ::LoadedString
   * @uses ::NewBASEDBConnection
+  * @uses ::NLI
+  * @uses ::NLIO
   * @uses ::SetConst
   * @uses ::returnErrorMessage
+  * @uses ::returnExportHTTPVar
   * @uses baseCon
   */
 class state_commonTest extends TestCase {
 	// Pre Test Setup.
+	protected static $db;
 	protected static $CVT;
 	protected static $UOV;
 	protected static $URV;
@@ -83,11 +88,13 @@ class state_commonTest extends TestCase {
 				'DB Object Not Initialized.'
 			);
 		}
+		self::$db = $db;
 		self::$CVT = '0Az ./()_@~!#$%^&*=<>+:;,?-|';
 		self::$UOV = 'Unexpected Output Value: ';
 		self::$URV = 'Unexpected Return Value: ';
 	}
 	public static function tearDownAfterClass() {
+		self::$db = null;
 		self::$CVT = null;
 		self::$UOV = null;
 		self::$URV = null;
@@ -457,8 +464,16 @@ class state_commonTest extends TestCase {
 	 */
 	public function testfilterSQLTransformValue() {
 		$URV = self::$URV.'filterSQL().';
+		$db = self::$db;
+		$dbt = $db->DB_type;
 		$Value = "O'Niell";
-		$this->assertEquals("O\'Niell",filterSQL($Value),$URV);
+		if ( $dbt == 'mysql' || $dbt == 'mysqlt' || $dbt == 'maxsql' ){
+			$Ret = "O\'Niell";
+		}
+		if ( $dbt == 'postgres' ){
+			$Ret = "O''Niell";
+		}
+		$this->assertEquals($Ret,filterSQL($Value),$URV);
 	}
 	public function testfilterSQLNoTransformNonKeyedArray() {
 		$URV = self::$URV.'filterSQL().';
@@ -470,9 +485,17 @@ class state_commonTest extends TestCase {
 	 */
 	public function testfilterSQLTransformNonKeyedArray() {
 		$URV = self::$URV.'filterSQL().';
+		$db = self::$db;
+		$dbt = $db->DB_type;
 		$Value = array ("O'Niell",1,2,3,4);
+		if ( $dbt == 'mysql' || $dbt == 'mysqlt' || $dbt == 'maxsql' ){
+			$Ret = "O\'Niell";
+		}
+		if ( $dbt == 'postgres' ){
+			$Ret = "O''Niell";
+		}
 		$this->assertEquals(
-			array("O\'Niell",1,2,3,4),filterSQL($Value),$URV
+			array("$Ret",1,2,3,4),filterSQL($Value),$URV
 		);
 	}
 	/**
@@ -503,6 +526,8 @@ class state_commonTest extends TestCase {
 	 */
 	public function testfilterSQLTransformKeyedArray() {
 		$URV = self::$URV.'filterSQL().';
+		$db = self::$db;
+		$dbt = $db->DB_type;
 		$Value = array (
 			'key1' => "O'Niell",
 			'key2' => 1,
@@ -510,9 +535,15 @@ class state_commonTest extends TestCase {
 			'key4' => 3,
 			'key5' => 4
 		);
+		if ( $dbt == 'mysql' || $dbt == 'mysqlt' || $dbt == 'maxsql' ){
+			$Ret = "O\'Niell";
+		}
+		if ( $dbt == 'postgres' ){
+			$Ret = "O''Niell";
+		}
 		$this->assertEquals(
 			array(
-				'key1' => "O\'Niell",
+				'key1' => $Ret,
 				'key2' => '1',
 				'key3' => '2',
 				'key4' => '3',
@@ -520,6 +551,52 @@ class state_commonTest extends TestCase {
 			),
 			filterSQL($Value),$URV
 		);
+	}
+	public function testExportHTTPVarDefaults() {
+		$URV = self::$URV.'ExportHTTPVar().';
+		$this->assertFalse(ExportHTTPVar(),$URV);
+	}
+	public function testExportHTTPVarNameInvalid() {
+		$URV = self::$URV.'ExportHTTPVar().';
+		$UOV = self::$UOV.'ExportHTTPVar().';
+		$this->expectOutputString( '', $Ret = ExportHTTPVar(1), $UOV );
+		$this->assertFalse( $Ret, $URV );
+	}
+	public function testExportHTTPVarNameValid() {
+		$URV = self::$URV.'ExportHTTPVar().';
+		$UOV = self::$UOV.'ExportHTTPVar().';
+		$this->expectOutputString(
+			"\n\t\t\t<input type='hidden' name='Test' value=''/>",
+			$Ret = ExportHTTPVar('Test'), $UOV
+		);
+		$this->assertTrue( $Ret, $URV );
+	}
+	public function testExportHTTPVarNameValue() {
+		$URV = self::$URV.'ExportHTTPVar().';
+		$UOV = self::$UOV.'ExportHTTPVar().';
+		$this->expectOutputString(
+			"\n\t\t\t<input type='hidden' name='Test' value='TestVal'/>",
+			$Ret = ExportHTTPVar('Test', 'TestVal'), $UOV
+		);
+		$this->assertTrue( $Ret, $URV );
+	}
+	public function testExportHTTPVarTabInvalid() {
+		$URV = self::$URV.'ExportHTTPVar().';
+		$UOV = self::$UOV.'ExportHTTPVar().';
+		$this->expectOutputString(
+			"\n\t\t\t<input type='hidden' name='Test' value=''/>",
+			$Ret = ExportHTTPVar('Test', '', 'String'), $UOV 
+		);
+		$this->assertTrue( $Ret, $URV );
+	}
+	public function testExportHTTPVarTabValid() {
+		$URV = self::$URV.'ExportHTTPVar().';
+		$UOV = self::$UOV.'ExportHTTPVar().';
+		$this->expectOutputString(
+			"\n\t\t\t\t<input type='hidden' name='Test' value=''/>",
+			$Ret = ExportHTTPVar('Test', '', 4), $UOV 
+		);
+		$this->assertTrue( $Ret, $URV );
 	}
 
 	// Add code to a function if needed.

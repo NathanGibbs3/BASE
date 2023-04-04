@@ -168,40 +168,29 @@ class QueryState {
 			sleep(60);
 		}
 	}
-  function GetNumResultRows($cnt_sql = "", $db = NULL)
-  {
-     if ( !($this->isCannedQuery()) && ($this->num_result_rows == -1) )
-     {
-        $this->current_view = 0;
-        $result = $db->baseExecute($cnt_sql);
-        if ( $result )
-        {
-           $rows = $result->baseFetchRow();
-           $this->num_result_rows = $rows[0];
-           $result->baseFreeRows();
-        }
-        else
-        {
-           $this->num_result_rows = 0;
-        }
-      }
-      else
-      { 
-         if ( $this->isValidCannedQuery($this->current_canned_query) )
-         {
-            reset($this->canned_query_list);
-            while ( $tmp_canned = each ($this->canned_query_list) )
-            {
-               if ( $this->current_canned_query == $tmp_canned["key"] )
-               {
-                  $this->current_view = 0;
-                  $this->num_result_rows = $tmp_canned["value"][0];
-               }
-            } 
-         }
-      } 
-  }
-
+	function GetNumResultRows( $cnt_sql = '', $db = NULL ){
+		if ( !($this->isCannedQuery()) && ($this->num_result_rows == -1) ){
+			$this->current_view = 0;
+			$result = $db->baseExecute($cnt_sql);
+			if ( $result ){
+				$rows = $result->baseFetchRow();
+				$this->num_result_rows = $rows[0];
+				$result->baseFreeRows();
+			}else{
+				$this->num_result_rows = 0;
+			}
+		}else{
+			if ( $this->isValidCannedQuery($this->current_canned_query) ){
+				foreach ( $this->canned_query_list as $key => $val ){
+					// Issue #153
+					if ( $this->current_canned_query == $key ){
+						$this->current_view = 0;
+						$this->num_result_rows = $val[0];
+					}
+				}
+			}
+		}
+	}
   function MoveView($submit)
   {
     if ( is_numeric($submit) )
@@ -310,28 +299,22 @@ class QueryState {
          "    <SELECT NAME=\"action\">\n".
          '      <OPTION VALUE=" "         '.chk_select($this->action," ").'>'._DISPACTION."\n";
      
-    reset($this->valid_action_list);
-    while( $current_action = each($this->valid_action_list) )
-    {
-       echo '    <OPTION VALUE="'.$current_action["value"].'" '.
-              chk_select($this->action,$current_action["value"]).'>'.
-              GetActionDesc($current_action["value"])."\n";      
+	foreach ( $this->valid_action_list as $key => $val ){ // Issue #153
+       echo '    <OPTION VALUE="'.$val.'" '.
+              chk_select($this->action,$val).'>'.
+              GetActionDesc($val)."\n";
     }     
     
     echo "    </SELECT>\n".
          "    <INPUT TYPE=\"text\" NAME=\"action_arg\" VALUE=\"".$this->action_arg."\">\n";
 
-    reset($this->valid_action_op_list);
-    while( $current_op = each($this->valid_action_op_list) )
-    {
-       echo "    <INPUT TYPE=\"submit\" NAME=\"submit\" VALUE=\"".$current_op["value"]."\">\n";
-    } 
 
-    echo "   </TD>\n".
-         "  </TR>\n".
-         " </TABLE>\n".
-         "</CENTER>\n\n";
-  }
+	foreach ( $this->valid_action_op_list as $key => $val ){ // Issue #153
+       echo "    <INPUT TYPE=\"submit\" NAME=\"submit\" VALUE=\"".$val."\">\n";
+    }
+	PrintFramedBoxFooter(1,2);
+    echo "</CENTER>\n\n";
+	}
 
   function ReadState()
   {

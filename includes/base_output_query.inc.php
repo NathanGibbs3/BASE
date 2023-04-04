@@ -1,6 +1,6 @@
 <?php
 // Basic Analysis and Security Engine (BASE)
-// Copyright (C) 2019-2021 Nathan Gibbs
+// Copyright (C) 2019-2023 Nathan Gibbs
 // Copyright (C) 2004 BASE Project Team
 // Copyright (C) 2000 Carnegie Mellon University
 //
@@ -84,10 +84,9 @@ class QueryResultsOutput {
 		GLOBAL $debug_mode;
 		$Ret = NULL; // $sort is not a valid sort type of any header.
 		if ( !is_null($this->qroHeader) ){ // Issue #108 Check
-			reset($this->qroHeader);
-			while( $title = each($this->qroHeader) ){
-				if ( in_array($sort, array_keys($title["value"])) ){
-					$Ret = $title["value"][$sort];
+			foreach ( $this->qroHeader as $title ){ // Issue #153
+				if ( in_array($sort, array_keys($title)) ){
+					$Ret = $title[$sort];
 					break;
 				}
 			}
@@ -114,11 +113,18 @@ class QueryResultsOutput {
 			NLIO( $tdpfx.'NULL Header.</td>', 5 );
 		}else{
 			$hal = array( 'left', 'center', 'right' );
-			reset($this->qroHeader);
-			while( $title = each($this->qroHeader) ){
-				$sort_keys = array_keys( $title['value'] );
-				$tt = $title["key"];
-				$align = $title["value"]["$tt-InternalProperty-align"];
+			foreach ( $this->qroHeader as $title ){ // Issue #153
+				$sort_keys = array_keys($title);
+				$align = '';
+				foreach ( $sort_keys as $val ){
+					if ( preg_match("/-InternalProperty-align$/", $val) ){
+						$tt = preg_replace(
+							"/-InternalProperty-align$/", '', $val
+						);
+						$align = $title["$tt-InternalProperty-align"];
+						break;
+					}
+				}
 				$align = strtolower($align);
 				if ( !in_array($align, $hal) ){
 					$align = 'center';
@@ -168,9 +174,8 @@ function qroPrintEntryHeader($prio=1, $color=0) {
 	}else{ // Row colors by alert priority.
 		$prio --; // Fix Issue #60
 		if ( // Fix Issue #59
-			array_key_exists('priority_colors',$GLOBALS)
-			&& is_array($priority_colors)
-			&& array_key_exists($prio,$priority_colors)
+			base_array_key_exists('priority_colors',$GLOBALS)
+			&& base_array_key_exists($prio,$priority_colors)
 		){
 			$tmp = $priority_colors[$prio];
 		}else{

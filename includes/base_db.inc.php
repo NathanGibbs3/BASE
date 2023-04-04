@@ -64,15 +64,13 @@ class baseCon {
 		$method, $database, $host, $port, $username, $password, $force = 0
 	){
 		GLOBAL $archive_dbname, $archive_host, $archive_port, $archive_user,
-		$archive_password, $debug_mode;
+		$archive_password, $debug_mode, $et;
 		$EMPfx = __FUNCTION__ . '(): ';
 		// Check archive cookie to see if we need to use the archive tables.
 		// Only honnor cookie if not forced to use specified database.
 		if ( $force != 1 && ChkCookie ('archive', 1) ){
 			// Connect to the archive tables.
-			if ($debug_mode > 1){
-				ErrorMessage($EMPfx .'DB Connect to archive.','black',1);
-			}
+			$DBDesc = 'Archive'; // Need to TD this in Issue #11 branch.
 
       if ( $method == DB_CONNECT )
         $this->baseConnect($archive_dbname, $archive_host, $archive_port, $archive_user, $archive_password);
@@ -80,14 +78,19 @@ class baseCon {
         $this->basePConnect($archive_dbname, $archive_host, $archive_port, $archive_user, $archive_password);
 
 		}else{ // Connect to the main alert tables
-			if ($debug_mode > 1){
-				ErrorMessage($EMPfx .'DB Connect to alert.','black',1);
-			}
+			$DBDesc = 'Alert'; // Need to TD this in Issue #11 branch.
 
       if ( $method == DB_CONNECT )
         $this->baseConnect($database, $host, $port, $username, $password);
       else
         $this->basePConnect($database, $host, $port, $username, $password);
+	}
+	// Need to TD these in Issue #11 branch.
+	if ($debug_mode > 1){
+		ErrorMessage($EMPfx ."DB Connect to $DBDesc.",'black',1);
+	}
+	if ( is_object($et) && $debug_mode > 1 ){
+		$et->Mark("DB Connect: $DBDesc.");
 	}
 }
   function baseConnect($database, $host, $port, $username, $password)
@@ -401,7 +404,7 @@ class baseCon {
 			$tmp = $this->DB->MetaIndexes($table);
 			if ( $tmp != false ){
 				foreach ($tmp as $key => $value) { // Iterate Index List
-					if ( array_key_exists('columns', $value) ){
+					if ( base_array_key_exists('columns', $value) ){
 						if ( in_array(
 								$index_name,
 								array_values($value['columns'])
@@ -703,7 +706,7 @@ class baseRS {
   }
 }
 function NewBASEDBConnection($path, $type){
-	GLOBAL $debug_mode;
+	GLOBAL $debug_mode, $et;
 	$version = explode( '.', phpversion() );
 	$Wtype = NULL; // Working type.
 	$EMPfx = __FUNCTION__ . ': ';
@@ -727,6 +730,7 @@ function NewBASEDBConnection($path, $type){
 			// On PHP 5.5+, use mysqli ADODB driver & gracefully deprecate
 			// the mysql, mysqlt & maxsql drivers.
 			if ( $version[0] > 5 || ( $version[0] == 5 && $version[1] > 4) ){
+				mysqli_report(MYSQLI_REPORT_OFF); // Issue #162 temp fix.
 				$Wtype = "mysqli";
 			}
 		}
@@ -814,6 +818,10 @@ function NewBASEDBConnection($path, $type){
 		// @codeCoverageIgnoreEnd
 	}
 	ADOLoadCode($Wtype);
+	if ( is_object($et) && $debug_mode > 2 ){
+		// Need to TD this in Issue #11 branch.
+		$et->Mark('DB Object Created.');
+	}
 	return new baseCon($type);
 }
 function MssqlKludgeValue( $text ){

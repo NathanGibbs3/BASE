@@ -50,31 +50,31 @@ if ( isset($join_sql) ){ // Issue #5
 	}
 	$qro->AddTitle('ID');
 	$qro->AddTitle($CPSig,
-		"sig_a", " ", " ORDER BY sig_name ASC",
-		"sig_d", " ", " ORDER BY sig_name DESC"
+		"sig_a", " ", "$OB sig_name ASC",
+		"sig_d", " ", "$OB sig_name DESC"
 	);
 	$qro->AddTitle($CPTs,
-		"time_a", " ", " ORDER BY timestamp ASC ",
-		"time_d", " ", " ORDER BY timestamp DESC "
+		"time_a", " ", "$OB timestamp ASC ",
+		"time_d", " ", "$OB timestamp DESC "
 	);
 	$qro->AddTitle($CPSA,
-		"sip_a", " ", " ORDER BY ip_src ASC",
-		"sip_d", " ", " ORDER BY ip_src DESC"
+		"sip_a", " ", "$OB ip_src ASC",
+		"sip_d", " ", "$OB ip_src DESC"
 	);
 	$qro->AddTitle($CPDA,
-		"dip_a", " ", " ORDER BY ip_dst ASC",
-		"dip_d", " ", " ORDER BY ip_dst DESC"
+		"dip_a", " ", "$OB ip_dst ASC",
+		"dip_d", " ", "$OB ip_dst DESC"
 	);
 	$qro->AddTitle($CPL4P,
-		"proto_a", " ", " ORDER BY ip_proto ASC",
-		"proto_d", " ", " ORDER BY ip_proto DESC"
+		"proto_a", " ", "$OB ip_proto ASC",
+		"proto_d", " ", "$OB ip_proto DESC"
 	);
 	if ( !$printing_ag ){
 		$sql = $sql.$join_sql.$where_sql.$criteria_sql;
 	}
 	// Apply sort criteria.
 	if ( $qs->isCannedQuery() ){
-		$sql = $sql." ORDER BY timestamp DESC ";
+		$sql = $sql."$OB timestamp DESC ";
 	}else{
      $sort_sql = $qro->GetSortSQL($qs->GetCurrentSort(), $qs->GetCurrentCannedQuerySort());
      //  3/23/05 BDB   mods to make sort by work for Searches
@@ -110,7 +110,7 @@ if ( isset($join_sql) ){ // Issue #5
 		}
 		print "Canned Query: $CCF <br/>";
 		$qs->DumpState();
-		print "$sql <br/>";
+		print "SQL Executed: $sql <br/>";
 	}
 	if ( !$printing_ag ){
 		// Generate and print the criteria in human readable form.
@@ -120,7 +120,8 @@ if ( isset($join_sql) ){ // Issue #5
 		PrintCriteria($caller);
 		NLIO ('</div>',3);
 		NLIO ("<div style='float: right; width: 40%;'>",3);
-		PrintFramedBoxHeader(_QSCSUMM, '#669999', 1, 4);
+		PrintFramedBoxHeader(_QSCSUMM, '#669999', 0, 4);
+		NLIO ('<td>',6);
 		PrintGeneralStats(
 			$db, 1, $show_summary_stats, "$join_sql ",
 			"$where_sql $criteria_sql"
@@ -191,20 +192,23 @@ if ( isset($join_sql) ){ // Issue #5
                 GetSignaturePriority($myrow[2], $db) : $i),
                 $colored_alerts);
 
-
-      $tmp_rowid = "#".(($qs->GetCurrentView() * $show_rows)+$i).
-                   "-(".$myrow[0]."-".$myrow[1].")";
-
-      qroPrintEntry('<INPUT TYPE="checkbox" NAME="action_chk_lst['.$i.']" VALUE="'.
-                    htmlspecialchars($tmp_rowid).'">');
-      echo '    <INPUT TYPE="hidden" NAME="action_lst['.$i.']" VALUE="'.htmlspecialchars($tmp_rowid).'">';
-
+	$tmp_rowid = XSSPrintSafe (
+		'#' . (( $qs->GetCurrentView() * $show_rows ) + $i ). '-(' .
+		$myrow[0] . '-' . $myrow[1] . ')'
+	);
+	$tmp = '_lst['.$i.']';
+	qroPrintEntry(
+		"<input type='checkbox' name='action_chk$tmp' " .
+		"value='" . $tmp_rowid . "'>" .
+		returnExportHTTPVar ( "action$tmp", $tmp_rowid, 4 )
+	);
+	$tmp = '';
 	/** Fix for bug #1116034 -- Input by Tim Rupp, original solution and code by Alejandro Flores **/
 	$temp = "<A HREF='base_qry_alert.php?submit=".rawurlencode($tmp_rowid)."&amp;sort_order=";
 	$temp .= ($qs->isCannedQuery()) ? $qs->getCurrentCannedQuerySort() : $qs->getCurrentSort();
 	$temp .= "'>".$tmp_rowid."</a>";
 	qroPrintEntry($temp);
-	$temp = "";
+	$temp = '';
 
       qroPrintEntry($current_sig, "left");
       qroPrintEntry($myrow[3]);

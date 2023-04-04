@@ -117,62 +117,64 @@ function CleanVariable( $item, $valid_data = '', $exception = '' ){
 				if ( in_array($item, $exception) ){ // Exception Hit
 					return $item;
 				}
-				if ( $valid_data == '' ){ // Exception Miss No Valid Data.
-					return '';
+				if ( $valid_data == '' ){ // Exception Miss
+					return ''; // No Valid Data.
 				}
 			}
 			if ( $valid_data == '' ){
 				return $item;
 			}else{
 				$regex_mask = '';
-				if ( ($valid_data & VAR_DIGIT) > 0 ){
-					$regex_mask .= "0-9";
-				}
-				if ( ($valid_data & VAR_LETTER) > 0 ){
-					$regex_mask .= "A-Za-z";
-				}
-				if ( ($valid_data & VAR_ULETTER) > 0 ){
-					$regex_mask .= "A-Z";
-				}
-				if ( ($valid_data & VAR_LLETTER) > 0 ){
-					$regex_mask .= "a-z";
-				}
-				if ( ($valid_data & VAR_ALPHA) > 0 ){
-					$regex_mask .= "0-9A-Za-z";
-				}
-				if ( ($valid_data & VAR_SPACE) > 0 ){
-					$regex_mask .= "\ ";
-				}
-				if ( ($valid_data & VAR_PERIOD) > 0 ){
-					$regex_mask .= "\.";
-				}
-				if ( ($valid_data & VAR_FSLASH) > 0 ){
-					$regex_mask .= "\/";
-				}
-				if ( ($valid_data & VAR_OPAREN) > 0 ){
-					$regex_mask .= "\(";
-				}
-				if ( ($valid_data & VAR_CPAREN) > 0 ){
-					$regex_mask .= "\)";
-				}
-				if ( ($valid_data & VAR_BOOLEAN) > 0 ){
-					$regex_mask .= "=|&|\||!";
-				}
-				if ( ($valid_data & VAR_OPERATOR) > 0 ){
-					$regex_mask .= "\+|\*|\/|=|>|<|&|\||%|!|\^|\(|\)|\-";
-				}
-				if ( ($valid_data & VAR_USCORE) > 0 ){
-					$regex_mask .= "\_";
-				}
-				if ( ($valid_data & VAR_AT) > 0 ){
-					$regex_mask .= "\@";
-				}
-				// Score (\-) always must be at the end of the RE mask.
-				if ( ($valid_data & VAR_PUNC) > 0 ){
-					$regex_mask .= "\~\!\#\$\%\^\&\*\_\=\+\:\;\,\.\?\ \(\))\-";
-				}
-				if ( ($valid_data & VAR_SCORE) > 0 ){
-					$regex_mask .= "\-";
+				if ( is_numeric($valid_data) ){ // Issue #157
+					if ( ($valid_data & VAR_DIGIT) > 0 ){
+						$regex_mask .= "0-9";
+					}
+					if ( ($valid_data & VAR_LETTER) > 0 ){
+						$regex_mask .= "A-Za-z";
+					}
+					if ( ($valid_data & VAR_ULETTER) > 0 ){
+						$regex_mask .= "A-Z";
+					}
+					if ( ($valid_data & VAR_LLETTER) > 0 ){
+						$regex_mask .= "a-z";
+					}
+					if ( ($valid_data & VAR_ALPHA) > 0 ){
+						$regex_mask .= "0-9A-Za-z";
+					}
+					if ( ($valid_data & VAR_SPACE) > 0 ){
+						$regex_mask .= "\ ";
+					}
+					if ( ($valid_data & VAR_PERIOD) > 0 ){
+						$regex_mask .= "\.";
+					}
+					if ( ($valid_data & VAR_FSLASH) > 0 ){
+						$regex_mask .= "\/";
+					}
+					if ( ($valid_data & VAR_OPAREN) > 0 ){
+						$regex_mask .= "\(";
+					}
+					if ( ($valid_data & VAR_CPAREN) > 0 ){
+						$regex_mask .= "\)";
+					}
+					if ( ($valid_data & VAR_BOOLEAN) > 0 ){
+						$regex_mask .= "=|&|\||!";
+					}
+					if ( ($valid_data & VAR_OPERATOR) > 0 ){
+						$regex_mask .= "\+|\*|\/|=|>|<|&|\||%|!|\^|\(|\)|\-";
+					}
+					if ( ($valid_data & VAR_USCORE) > 0 ){
+						$regex_mask .= "\_";
+					}
+					if ( ($valid_data & VAR_AT) > 0 ){
+						$regex_mask .= "\@";
+					}
+					// Score (\-) always must be at the end of the RE mask.
+					if ( ($valid_data & VAR_PUNC) > 0 ){
+						$regex_mask .= "\~\!\#\$\%\^\&\*\_\=\+\:\;\,\.\?\ \(\))\-";
+					}
+					if ( ($valid_data & VAR_SCORE) > 0 ){
+						$regex_mask .= "\-";
+					}
 				}
 				if( $regex_mask != '' ){
 					return preg_replace("/[^".$regex_mask."]/", '', $item);
@@ -275,37 +277,38 @@ function ImportHTTPVar($var_name, $valid_data = "", $exception = "")
    return CleanVariable($tmp, $valid_data, $exception);
 }
 
-/* ***********************************************************************
- * Function: ExportHTTPVar()
- *
- * @doc Handles export of a temporary state variables needed to present a 
- *      given set of results (e.g., sort order, current record).  This
- *      routine creates a hidden HTML form variable.
- *
- *      Note: The user is responsible for generating the appropriate HTML
- *            form code.
- *
- *      Security Note: Only, temporary variables should make use of this 
- *                     function. These values are exposed in HTML to the 
- *                     user; he is free to modify them.
- * 
- * @param $var_name     name of the temporary state variable to export
- * @param $var_value   value of the temporary state variable
- *
- * @see ImportHTTPVar
- *
- ************************************************************************/
-function ExportHTTPVar ($var_name, $var_value)
-{
-  echo "<INPUT TYPE=\"hidden\" NAME=\"$var_name\" VALUE=\"$var_value\">\n";
+// Function: ExportHTTPVar()
+// @doc Handles export of a temporary state variables needed to present a
+//      given set of results (e.g., sort order, current record). This routine
+//      creates a hidden HTML form variable.
+//      Note: User is responsible for generating appropriate HTML form code.
+//      Note: Sanitization of input is not performed by this routine.
+//      Security Note: Only, temporary variables should make use of this
+//                     function. These values are exposed in HTML to the user;
+//                     who is free to modify them.
+// @param $var_name    Name of the temporary state variable to export
+// @param $var_value   Value of the temporary state variable
+// @param $tab         Tab stops in output.
+// @see ImportHTTPVar
+// Returns true if var is exported, false otherwise.
+function ExportHTTPVar ( $var_name = '', $var_value = '', $tab = 3 ){
+	$Ret = false;
+	if ( LoadedString( $var_name ) == true ){ // Input Validation
+		if ( !is_int($tab) ){
+			$tab = 3;
+		}
+		print returnExportHTTPVar ( $var_name, $var_value, $tab );
+		$Ret = true;
+	}
+	return $Ret;
 }
 
 // Function: filterSql()
 // @doc Filters the input string so that it can be safely used in SQL queries.
-// @param $item           value of the variable to filter
-// @param $force_alert_db (default 0 - use current db)
+// @param $item            value of the variable to filter
+// @param $force_alert_db  (default 0 - use current db)
 // @return a sanitized version of the passed variable.
-function filterSql ( $item, $force_alert_db=0 ){
+function filterSql ( $item, $force_alert_db=0, $db = ''){
 	GLOBAL $DBlib_path, $DBtype, $db_connect_method, $alert_dbname,
 	$alert_host, $alert_port, $alert_user, $alert_password;
 	if ( !isset($item) ){ // Unset Value.
@@ -315,23 +318,31 @@ function filterSql ( $item, $force_alert_db=0 ){
 			// Recursively convert array elements.
 			// Works with both Keyed & NonKeyed arrays.
 			foreach ($item as $key => $value) {
-				$item[$key] = filterSql($value);
+				$item[$key] = filterSql( $value, $force_alert_db );
 			}
 			return $item;
 		}else{
-			$db = NewBASEDBConnection($DBlib_path, $DBtype);
-			$db->baseDBConnect(
-				$db_connect_method, $alert_dbname, $alert_host, $alert_port,
-				$alert_user, $alert_password, $force_alert_db
-			);
+			$Dbcf = 0; // DB Object creation Flag.
+			if ( is_object($db) && get_class($db) == 'baseCon' ){
+				$tdb = $db; // DB Onject passed.
+			}else{
+				$tdb = NewBASEDBConnection($DBlib_path, $DBtype);
+				$Dbcf = 1; // DB Onject created.
+				$tdb->baseDBConnect(
+					$db_connect_method, $alert_dbname, $alert_host, $alert_port,
+					$alert_user, $alert_password, $force_alert_db
+				);
+			}
 			$version = explode('.', phpversion());
 			if ( $version[0] > 5 || ($version[0] == 5 && $version[1] > 3) ){
 				$Qh = 0;
 			}else{ // Figure out quote handling on PHP < 5.4.
-				$Qh = get_magic_quotes_gpc();
+				$Qh = get_magic_quotes_runtime();
 			}
-			$item = $db->DB->qstr($item,$Qh);
-			$db->baseClose();
+			$item = $tdb->DB->qstr($item,$Qh);
+			if ($Dbcf == 1 ){ // Close it, only if we created it.
+				$tdb->baseClose();
+			}
 			// Cut off first and last character, (quotes added by qstr()).
 			$item = substr($item, 1, strlen($item)-2);
 			return $item;

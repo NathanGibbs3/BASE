@@ -47,13 +47,19 @@ else
 		# This may be a Debian/Ubuntu specific Issue.
 		pi=Composer
 		px="$ph vendor/bin/$pu"
+	elif [ "$PHVM" == "7" ] && [ "$PHVm" == "2" ]; then # Issue #154
+		pi=Composer
+		px="$ph vendor/bin/$pu"
+	elif [ "$PHVM" == "7" ] && [ "$PHVm" == "3" ]; then # Issue #159
+		pi=Composer
+		px="$ph vendor/bin/$pu"
 	else
 		pi=System
 		px=$pu
 	fi
 fi
 # What PHPUnit Version are we using?
-puv=`$px --version|sed -e "s/^PHPUnit\s//" -e "s/\sby.*$//"`
+puv=`$px --version|sed -e "s/^PHPUnit\s//" -e "s/\s.*$//"`
 echo "Will test with $pi PHPUnit Version: $puv.";
 $ph ./tests/cptgenerate $puv # Generate PHPUnit Tests
 $px -c $pu.xml.dist

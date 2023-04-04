@@ -10,49 +10,217 @@
 # Built upon work by: Kevin Johnson & the BASE Project Team
 #                     Roman Danyliw <rdd@cert.org>, <roman@danyliw.com>
 #
-#            Purpose: stand-alone status and event/dns/whois cache maintenance
+#            Purpose: stand-alone status and event/dns/whois cache maintenance.
 #
 #          Author(s): Nathan Gibbs
 #                     Kevin Johnson
 #
-# Usage: ./base_maintenance.pl <command>
-# Valid Commands are:
-#      ualert -- Update Alert Cache
-#      ralert -- Rebuild Alert Cache
-#      uip -- Update IP Cache
-#      rip -- Rebuild IP Cache
-#      uwhois -- Update Whois Cache
-#      rwhois -- Rebuild Whois Cache
-#      rtables -- Repair DB Tables
-
-# Change below URL to match the one for your install
-my($url);
-$url = "http://127.0.0.1/~kjohnson/base";
-
-################################################################################
-## You should not need to change anything below these lines!
-################################################################################
+# Usage: ./BASEcli [-d] [-h] [-H host] [-P path] [-s] [-t timeout] [-u user -p password] <command>
+# Valid Options are:
+#	debug		Turn on cli debuging info.
+#	help		Help Text
+#	Host		host name
+#	Path		path part of url
+#	ssl			Use https
+#	timeout		Connection Timeout
+#	user		Username
+#	password	Password
+# Valid server Commands are:
+#	ualert	Update Alert Cache.
+#	ralert	Rebuild Alert Cache.
+#	uip		Update IP Cache.
+#	rip		Rebuild IP Cache.
+#	uwhois	Update Whois Cache.
+#	rwhois	Rebuild Whois Cache.
+#	rtables	Repair DB Tables.
+#	status	Print BASE status.
 
 use strict;
 use Getopt::Long;
 use LWP::UserAgent;
 
-my $ME;
+my $ME; # Var Setup
+my $line1 = '=' x 80 . "\n";
+my $line2 = '-' x 80 . "\n";
 my %opt;
+my $Ver = '1.2';
+my $SCM = 0; # Single command mode off.
+my $cmd; # Local cmd.
+my $rcmd = ''; # Remote cmd.
+my $resp; # Remote cmd reply.
+my $url; # Remote cmd URI.
+
 ($ME = $0) =~ s-.*/--;
+my $usage = "$ME [-d] [-h] [-H host] [-P path] [-s] [-t timeout] [-u user -p password] command\n";
 # parse the commandline if any
-my $usage = "$ME [-d ] [ -h ] [-p port] [-t timeout] [-u user -a password] command\n";
-GetOptions (\%opt, "debug", "help", "port=i", "timeout=i", "user=s", "auth=s") || die $usage;
+Getopt::Long::Configure('no_ignore_case');
+GetOptions (
+	\%opt, "debug", "Host=s", "help", "Path=s", "ssl", "timeout=i",
+	"user=s", "password=s"
+) || die $usage;
 my $DEBUG	= $opt{"debug"} || 0;
 my $HELP		= $opt{"help"} || '';
-my $PORT		= $opt{"port"} || '';
+my $HOST		= $opt{"Host"} || 'localhost';
+my $PATH		= $opt{"Path"} || 'BASE';
+my $SSL		= $opt{"ssl"} || 0;
 my $TIMEOUT	= $opt{"timeout"} || 180;
 my $USER		= $opt{"user"} || '';
-my $PASS		= $opt{"auth"} || '';
+my $PASS		= $opt{"password"} || '';
 
 if ($HELP ne '' ){
+	&cmd_help_remote;
+	exit();
+}
+if ( @ARGV != 0 ){
+	$cmd = $ARGV[0];
+	$SCM = 1; # Single command mode on.
+}else{
+	$cmd ='';
+}
+&set_url;
+&cmd_proc;
+exit();
+
+sub cmd_proc(){ # Cli
+	while (){ # Interactive Shell loop.
+		if ($cmd ne '' ){ # Process cmd Local/Remote.
+			# Local cmds.
+			if( $cmd eq 'quit' || $cmd eq 'exit' ){
+				last; # Quit
+			}elsif( $cmd eq 'env' ){
+				&cmd_env();
+			}elsif( $cmd eq 'login' ){
+				&cmd_login();
+			}elsif( $cmd eq 'logout' ){
+				&cmd_logout();
+			}elsif( $cmd eq 'ssl' ){ # SSL toggle.
+				if ( $SSL == 0 ){
+					$SSL = 1;
+				}else{
+					$SSL = 0;
+				}
+				&set_url;
+			}elsif( $cmd eq 'help' || $cmd eq '?' ){ # Online Help.
+				&cmd_help_local;
+			}elsif( $cmd eq 'host' ){ # Set URI host.
+				$HOST = &cliget ('URI Host:', 1);
+				&set_url;
+			}elsif( $cmd eq 'path' ){ # Set URI path.
+				$PATH = &cliget ('URI Path:', 1);
+				&set_url;
+			}elsif( $cmd eq 'user' ){ # Set User.
+				&cmd_usr;
+			}elsif( $cmd eq 'password' ){ # Set Password.
+				&cmd_pwd;
+			}elsif( $cmd eq 'version' ){ # SSL toggle.
+				print "$ME $Ver\n";
+			# Remote cmds.
+			}elsif( $cmd eq 'status' ){
+				$rcmd = 'status';
+			}elsif( $cmd eq 'ualert' ){
+				$rcmd = 'Update Alert Cache';
+			} elsif( $cmd eq 'ralert' ){
+				$rcmd = 'Rebuild Alert Cache';
+			} elsif( $cmd eq 'uip' ){
+				$rcmd = 'Update IP Cache';
+			} elsif( $cmd eq 'rip' ){
+				$rcmd = 'Rebuild IP Cache';
+			} elsif( $cmd eq 'uwhois' ){
+				$rcmd = 'Update Whois Cache';
+			} elsif( $cmd eq 'rwhois' ){
+				$rcmd = 'Rebuild Whois Cache';
+			} elsif( $cmd eq 'rtables' ){
+				$rcmd = 'Repair Tables';
+			}else{
+				$rcmd = '';
+			}
+			if ( $rcmd ne '' ){ # Process Remoote cmd.
+				&cmd_remote( $rcmd, $USER, $PASS );
+				$rcmd = ''; # Clear remote cmd;
+			}
+			if ( $SCM == 1 ){ # Single command mode cutout.
+				last; # Quit
+			}
+			$cmd = ''; # Clear command;
+		}else{ # Print cmd prompt.
+			$cmd = &cliget ("$ME>", 1);
+		}
+	}
+}
+sub set_url(){ # Setup URL
+	my $Psf = shift;
+	my $Pfx = 'http';
+	if ($SSL != 0 ){
+		$Pfx .= 's';
+	}
+	$url = $Pfx . join ('/', (':/', $HOST, $PATH, 'base_maintenance.php'));
+	if ( !$Psf ){
+		print "URL Set: $url\n";
+	}
+}
+sub cmd_env(){
+	print "$ME $Ver - Environment\n";
+	print $line1;
+	print " URL: $url\n";
+	print " SSL: $SSL\n";
+	print "Host: $HOST\n";
+	print "Path: $PATH\n";
+	print $line2;
+	print "Credentials:\n";
+	print "       User: $USER\n";
+	print '   Password: ';
+	if ( $PASS ne '' ){
+		print 'Set';
+	}
+	print "\n";
+	print $line1;
+}
+sub cmd_usr(){
+	$USER = &cliget ('User:');
+}
+sub cmd_pwd(){
+	$PASS = &cliget ('Password:');
+}
+sub cmd_login(){
+	if ($USER eq ''){
+		&cmd_usr;
+	}
+	if ($PASS eq ''){
+		&cmd_pwd;
+	}
+}
+sub cmd_logout(){
+	$USER = '';
+	$PASS = '';
+}
+sub cmd_help_local(){
+	print "Valid cli commands are:\n";
+	print $line2;
+	print "         env - Print cli envionemnt.\n";
+	print "   help or ? - Print this help text.\n";
+	print "        host - Set host portion of URI.\n";
+	print "       login - Set login credentials if unset.\n";
+	print "      logout - Clear login credentials.\n";
+	print "        path - Set path portion of URI.\n";
+	print "    password - Set password login credential.\n";
+	print "quit or exit - Exit BASEcli.\n";
+	print "         ssl - Toggle SSL state of URI.\n";
+	print "        user - Set user login credential.\n";
+	print "     version - Print BASEcli version.\n";
+	print "\n";
+	print "Valid server cli commands are:\n";
+	print "   ualert - Update Alert Cache.\n";
+	print "   ralert - Rebuild Alert Cache.\n";
+	print "      uip - Update IP Cache.\n";
+	print "      rip - Rebuild IP Cache.\n";
+	print "   uwhois - Update Whois Cache.\n";
+	print "   rwhois - Rebuild Whois Cache.\n";
+	print "  rtables - Repair Tables.\n";
+	print "   status - Print BASE status.\n";
+}
+sub cmd_help_remote(){
 	print $usage;
-	print "Valid Commands are:\n";
+	print "Valid remote commands are:\n";
 	print " ualert - Update Alert Cache\n";
 	print " ralert - Rebuild Alert Cache\n";
 	print "    uip - Update IP Cache\n";
@@ -60,55 +228,58 @@ if ($HELP ne '' ){
 	print " uwhois - Update Whois Cache\n";
 	print " rwhois - Rebuild Whois Cache\n";
 	print "rtables - Repair Tables\n";
-	exit();
 }
-die "$ME: no command given.\n$usage" if (@ARGV == 0);
-
-my $command;
-my $postvar;
-my $resp;
-$command = $ARGV[0];
-
-if ($command eq "ualert") {
-        $postvar = "Update Alert Cache";
-    } elsif ($command eq "ralert") {
-        $postvar = "Rebuild Alert Cache";
-    } elsif ($command eq "uip") {
-        $postvar = "Update IP Cache";
-    } elsif ($command eq "rip") {
-        $postvar = "Rebuild IP Cache";
-    } elsif ($command eq "uwhois") {
-        $postvar = "Update Whois Cache";
-    } elsif ($command eq "rwhois") {
-        $postvar = "Rebuild Whois Cache";
-    } elsif ($command eq "rtables") {
-        $postvar = "Repair Tables";
-    } else {
-        die("$ME: Invalid command!\n");
-}
-
-$url .= '/base_maintenance.php';
-
-my $ua = LWP::UserAgent->new;
-my $Agent = "BASE CLI/1.1";
-if ( $DEBUG ){
-	$Agent .= ' ';
-}
-$ua->agent($Agent);
-$ua->timeout($TIMEOUT);
-$resp = $ua->post( $url, {
-	"submit" => "$postvar",
-	"standalone" => "yes",
-	"user" => "$USER",
-	"pwd" => "$PASS"
-});
-
-if ($resp->code != 200 ){
-	print "An Error occurred while posting the form!\n";
-	print "The error is: " . $resp->status_line . "\n\n";
-	if ( $DEBUG ){
-		print "URI: ". $resp->base ."\n";
-		print "Full response:\n";
-		print $resp->as_string;
+sub cmd_remote(){ # Remoote cmd Interface.
+	my ($cmd, $usr, $pwd) = (@_);
+	my $Ret = 0; # Default to failed.
+	if ( $usr ne '' && $pwd ne '' ){ # Submit Remote cmd.
+		my $ua = LWP::UserAgent->new;
+		my $Agent = "BASE CLI/$Ver";
+		if ( $DEBUG ){
+			$ua->show_progress(1);
+			$Agent .= ' ';
+		}
+		$ua->agent($Agent);
+		$ua->timeout($TIMEOUT);
+		&set_url(1);
+		$resp = $ua->post(
+			$url, {
+				'submit' => $cmd,
+				'standalone' => 'yes',
+				'user' => $usr,
+				'pwd' => $pwd
+			}
+		);
+		if ($resp->code != 200 ){
+			print "URI: ". $resp->base ."\n";
+			cliError ('Post Failed');
+			print "The error is: " . $resp->status_line . "\n\n";
+			if ( $DEBUG ){
+				print "Full response:\n";
+				print $resp->as_string;
+			}
+			$Ret = 0;
+		}else{
+			print $resp->content;
+			$Ret = 1;
+		}
+	}else{
+		cliError ('Credentials required');
+		$Ret = 0;
 	}
+	return $Ret
+}
+sub cliget(){
+	my ( $msg, $Lcf ) = shift (@_);
+	print "$msg ";
+	my $tmp = <STDIN>;
+	chomp $tmp;
+	if ( $Lcf ){
+		$tmp = lc($tmp);
+	}
+	return $tmp;
+}
+sub cliError(){
+	my $msg = shift;
+	print "$ME Error: $msg.\n";
 }

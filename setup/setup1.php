@@ -23,6 +23,7 @@ if ( session_id() != '' ){
 }
 
 define( "_BASE_INC", 1 );
+include_once("../base_common.inc.php");
 include("../includes/base_setup.inc.php");
 include_once("../includes/base_state_common.inc.php");
 
@@ -102,7 +103,7 @@ if (@$_GET['action'] == "check")
         /* If there is language saved from session then make it selected. 
          * If there was no session language - make 'english' selected.
          */        
-        if (array_key_exists('language', $_SESSION)) 
+        if (base_array_key_exists('language', $_SESSION)) 
         {
             if ( 
                  ($languages[$y] == $_SESSION['language']) || 

@@ -222,16 +222,6 @@ div.stats {
     padding: 3px;
 }
 
-div.systemdebug {
-    font-size: 10px;
-    color: #666666;
-    font-family: Arial;
-    border: double;
-    width: 150px;
-    background: #cccccc;
-    padding: 3px;
-}
-
 div.nonascii {
     color: #c2c2c2;
 }

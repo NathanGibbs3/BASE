@@ -134,7 +134,7 @@ class state_citemsTest extends TestCase {
 			'Class Not Initialized.'
 		);
 		$odb = $debug_mode;
-		$debug_mode = 1;
+		$debug_mode = 2;
 		$this->expectOutputString(
 			"CTIFD: Test<br/>\nCriteria Type: NULL<br/>\n", $UOV
 		);
@@ -153,7 +153,7 @@ class state_citemsTest extends TestCase {
 			'Class Not Initialized.'
 		);
 		$odb = $debug_mode;
-		$debug_mode = 1;
+		$debug_mode = 2;
 		$this->expectOutputString(
 			"Test: Test<br/>\nCriteria Type: NULL<br/>\n".
 			"Criteria Test: Allowed.<br/>\n",
@@ -174,7 +174,7 @@ class state_citemsTest extends TestCase {
 			'Class Not Initialized.'
 		);
 		$odb = $debug_mode;
-		$debug_mode = 1;
+		$debug_mode = 2;
 		$this->expectOutputString(
 			"Test: Test<br/>\nCriteria Type: NULL<br/>\n".
 			"Criteria Test: Denied.<br/>\n",
@@ -352,7 +352,7 @@ class state_citemsTest extends TestCase {
 			'Class Not Initialized.'
 		);
 		$odb = $debug_mode;
-		$debug_mode = 1;
+		$debug_mode = 2;
 		$this->expectOutputString(
 			"Set: Test<br/>\nCriteria Type: NULL<br/>\n".
 			"Criteria Set: Denied.<br/>\n",
@@ -375,7 +375,7 @@ class state_citemsTest extends TestCase {
 			'Class Not Initialized.'
 		);
 		$odb = $debug_mode;
-		$debug_mode = 1;
+		$debug_mode = 2;
 		$this->expectOutputString(
 			"Set: Test<br/>\nCriteria Type: array<br/>\n".
 			"Criteria Set: Allowed.<br/>\n",
@@ -400,7 +400,7 @@ class state_citemsTest extends TestCase {
 		);
 		$odb = $debug_mode;
 		$osession = $_SESSION;
-		$debug_mode = 1;
+		$debug_mode = 2;
 		$_SESSION[$cs] = '';
 		$this->expectOutputString(
 			"<font color='black'>SetSessionVar(): ".
@@ -429,7 +429,7 @@ class state_citemsTest extends TestCase {
 		);
 		$odb = $debug_mode;
 		$osession = $_SESSION;
-		$debug_mode = 1;
+		$debug_mode = 2;
 		$_SESSION[$cs] = array(0 => '1', 1 => '2');
 		$_SESSION[$cc] = 1;
 		$this->expectOutputString(
@@ -577,7 +577,7 @@ class state_citemsTest extends TestCase {
 		);
 		$odb = $debug_mode;
 		$osession = $_SESSION;
-		$debug_mode = 1;
+		$debug_mode = 2;
 		$_SESSION[$cs] = '';
 		$this->expectOutputString(
 			"<font color='black'>SetSessionVar(): ".
@@ -605,7 +605,7 @@ class state_citemsTest extends TestCase {
 		);
 		$odb = $debug_mode;
 		$osession = $_SESSION;
-		$debug_mode = 1;
+		$debug_mode = 2;
 		$_SESSION[$cs] = array(0 => '', 1 => '');
 		$this->expectOutputString(
 			"<font color='black'>SetSessionVar(): ".
@@ -686,7 +686,7 @@ class state_citemsTest extends TestCase {
 		);
 		$odb = $debug_mode;
 		$osession = $_SESSION;
-		$debug_mode = 1;
+		$debug_mode = 2;
 		$_SESSION[$cs] = '';
 		$this->expectOutputString(
 			"<font color='black'>SetSessionVar(): ".
@@ -713,7 +713,7 @@ class state_citemsTest extends TestCase {
 		);
 		$odb = $debug_mode;
 		$osession = $_SESSION;
-		$debug_mode = 1;
+		$debug_mode = 2;
 		$_SESSION[$cs] = array(0 => '', 1 => '');
 		$this->expectOutputString(
 			"<font color='black'>SetSessionVar(): ".
@@ -825,7 +825,7 @@ class state_citemsTest extends TestCase {
 		);
 		$odb = $debug_mode;
 		$osession = $_SESSION;
-		$debug_mode = 1;
+		$debug_mode = 2;
 		$_SESSION[$cs] = '';
 		$this->expectOutputString(
 			"<font color='black'>SetSessionVar(): ".
@@ -852,7 +852,7 @@ class state_citemsTest extends TestCase {
 		);
 		$odb = $debug_mode;
 		$osession = $_SESSION;
-		$debug_mode = 1;
+		$debug_mode = 2;
 		$_SESSION[$cs] = array(0 => '', 1 => '');
 		$this->expectOutputString(
 			"<font color='black'>SetSessionVar(): ".

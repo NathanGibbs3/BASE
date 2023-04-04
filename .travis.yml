@@ -85,6 +85,24 @@ matrix:
     - php: 7.4
       if: branch != php5only
       env: DB=postgres
+    - php: 8.0
+      if: branch != php5only
+      env: DB=mysql
+    - php: 8.0
+      if: branch != php5only
+      env: DB=postgres
+    - php: 8.1
+      if: branch != php5only
+      env: DB=mysql
+    - php: 8.1
+      if: branch != php5only
+      env: DB=postgres
+#    - php: 8.2
+#      if: branch != php5only
+#      env: DB=mysql
+#    - php: 8.2
+#      if: branch != php5only
+#      env: DB=postgres
 #    - php: nightly
 #      if: branch != php5only
 #      env: DB=mysql

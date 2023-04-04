@@ -53,6 +53,12 @@ pvM=`echo $puv|sed -r -e "s/\.[0-9]\.[0-9]+.*$//"`
 pvm=`echo $puv|sed -r -e "s/^[0-9]\.//" -e "s/\.[0-9]+?.*$//"`
 pvr=`echo $puv|sed -r -e "s/^[0-9]\.[0-9]\.//"`
 
+# Issue #154
+# Export PHP Version Info
+export PHVM=$pvM
+export PHVm=$pvm
+export PHVr=$pvr
+
 echo "System PHP Version: $puv"
 echo -n "PHP XDebug "
 # XDebug not enabled on travis-ci PHP 5.2x
@@ -70,6 +76,12 @@ if [ "$pvM" \< "5" ] || ( [ "$pvM" == "5" ] && [ "$pvm" \< "3" ]); then
 	fi
 else
 	echo "enabled."
+fi
+if [ "$pvM" \> "7" ] || ( [ "$pvM" == "7" ] && [ "$pvm" \> "2" ]); then
+	echo "Enabling PHP 7.3+ Code Coverage fix."
+	if [ "$1" == "" ] && [ "$TRAVIS" == "true" ]; then
+		phpenv config-add tests/phpcommon/xdebug-7.3+.ini
+	fi
 fi
 # PHP Safe Mode not available on PHP 5.4+
 # Throws Deprecation errors on 5.3x.
@@ -116,8 +128,8 @@ if [ "$TRAVIS" != "true" ]; then
 fi
 echo -n "PHP Composer "
 if [ "$Composer" \< "1" ]; then # Can we install it?
-	# Composer won't install on PHP < 5.3x or nightly currently PHP 8.x
-	if [ "$pvM" \< "5" ] || ( [ "$pvM" == "5" ] && [ "$pvm" \< "3" ] ) || [ "$pvM" \> "7" ]; then
+	# Composer won't install on PHP < 5.3x or nightly.
+	if [ "$pvM" \< "5" ] || ( [ "$pvM" == "5" ] && [ "$pvm" \< "3" ] ) || [ "$pvM" \> "8" ]; then
 		echo "install not supported."
 		Composer=0
 		if [ "$1" == "" ] && [ "$TRAVIS" == "true" ]; then
@@ -134,11 +146,18 @@ if [ "$Composer" \< "1" ]; then # Can we install it?
 	if [ "$TRAVIS" == "true" ]; then
 		if [ "$Composer" \> "0" ]; then
 			export COMPOSER_MEMORY_LIMIT=2G
-			if [ "$SafeMode" == "1" ]; then # Safe mode.
-				# Install composer.
+			if [ "$pvM" == "5" ] && [ "$pvm" == "3" ]; then
+				# Update CA Bundle on PHP 5.3x Issue #155
+				# On travis-ci the certificates in the installed
+				# ca-certificates package have expired.
+				dc="wget -nv --no-check-certificate http://curl.se/ca/cacert.pem"
+				dl=/usr/local/share/ca-certificates
+				sudo $dc -O $dl/new-ca-bundle.crt
+				sudo update-ca-certificates -f # Update system ca-certs
+			fi
+			if [ "$SafeMode" == "1" ]; then # Safe mode, Install composer.
 				export Composer=1
-			else
-				# Use system Composer.
+			else # Use system Composer.
 				export Composer=2
 			fi
 		fi
@@ -169,7 +188,13 @@ ADOSrc=github.com/ADOdb/ADOdb
 ADODl=archive
 ADOFilePfx=v
 ADOFileSfx=.tar.gz
-if [ "$pvM" \> "5" ]; then # PHP 7x
+GHMode=release
+if [ "$pvM" \> "7" ]; then # PHP 8x
+	ADODBVer=5.22.5
+	if [ "$1" == "" ] && [ "$TRAVIS" == "true" ]; then
+		ADODBPATH="ADOdb-$ADODBVer"
+	fi
+elif [ "$pvM" \> "5" ]; then # PHP 7x
 	if [ "$pvm" \> "1" ]; then # PHP 7.2+
 		ADODBVer=5.20.12
 	else
@@ -180,12 +205,22 @@ if [ "$pvM" \> "5" ]; then # PHP 7x
 	fi
 elif [ "$pvM" \> "4" ]; then # PHP 5x
 	if [ "$pvm" \> "2" ]; then # PHP 5.3+
-		ADODBVer=5.10
+		ADODBVer=5.20.17
 	else
 		ADODBVer=5.01beta
 	fi
 	if [ "$1" == "" ] && [ "$TRAVIS" == "true" ]; then
-		ADODBPATH="ADOdb-$ADODBVer/phplens/adodb5"
+		ADOvM=`echo $ADODBVer|sed -r -e "s/\.[0-9]+.*$//"`
+		ADOvm=`echo $ADODBVer|sed -r -e "s/^[0-9]\.//" -e "s/[a-z]+$//"`
+		ADOtmp=`echo $ADOvm|sed -r -e "s/\.?[0-9]+$//"`
+		if [ "$ADOtmp" != "" ]; then
+			ADOvm=$ADOtmp
+		fi
+		if [ "$ADOvM" == "5" ] && [ $ADOvm \> "18" ]; then
+			ADODBPATH="ADOdb-$ADODBVer"
+		else
+			ADODBPATH="ADOdb-$ADODBVer/phplens/adodb5"
+		fi
 	fi
 else # PHP 4x
 #	Legacy ADODB
@@ -212,12 +247,25 @@ else # PHP 4x
 		ADODBPATH="ADOdb-$ADODBVer/phplens/adodb"
 	fi
 fi
-ADOFile=$ADOFilePfx$ADODBVer$ADOFileSfx
-echo "Setup PHP ADODB: $ADODBVer from: https://$ADOSrc"
+echo -n "Setup PHP ADODB: "
+if [ "$GHMode" == "release" ]; then
+	echo -n $ADODBVer
+	ADOFile=$ADOFilePfx$ADODBVer$ADOFileSfx
+	ADODl=archive
+else # Branch Mode
+	echo -n "branch $GHBranch"
+	ADOFile=$GHBranch
+	ADODl=tarball
+fi
+echo " from: https://$ADOSrc"
 if [ "$1" == "" ] && [ "$TRAVIS" == "true" ]; then
+	echo "Creating Build ADOdb Directory: `pwd`/build/adodb"
 	mkdir -p build/adodb
 	wget -nv https://$ADOSrc/$ADODl/$ADOFile -O build/adodb.tgz
 	tar -C build/adodb -zxf build/adodb.tgz
+	if [ "$GHMode" == "branch" ]; then
+		ADODBPATH=`ls build/adodb`
+	fi
 	export ADODBPATH=$ADODBPATH
 	RFADODBPATH="build/adodb/$ADODBPATH"
 else

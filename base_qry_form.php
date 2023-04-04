@@ -222,34 +222,38 @@ echo '
 <p>  </p>
 </li></ul>';
 
-  echo '<ul><INPUT TYPE="hidden" NAME="new" VALUE="1">';
-  echo '<P>
-        <CENTER>
-        <TABLE BORDER=1>
-        <TR><TD>
-            <FONT>
-            <B>'._QFRMSORTORDER.':</B>
-            <INPUT TYPE="radio" NAME="sort_order" 
-                   VALUE="none" '.chk_check($sort_order, "none").'> '._QFRMSORTNONE.' |
-            <INPUT TYPE="radio" NAME="sort_order" 
-                   VALUE="time_a" '.chk_check($sort_order, "time_a").'> '._QFRMTIMEA.' |
-            <INPUT TYPE="radio" NAME="sort_order" 
-                   VALUE="time_d" '.chk_check($sort_order, "time_d").'> '._QFRMTIMED.' |
-            <INPUT TYPE="radio" NAME="sort_order" 
-                   VALUE="sig" '.chk_check($sort_order, "sig").'> '._QFRMSIG.' |
-            <INPUT TYPE="radio" NAME="sort_order" 
-                   VALUE="sip_a" '.chk_check($sort_order, "sip_a").'> '._QFRMSIP.' |
-            <INPUT TYPE="radio" NAME="sort_order" 
-                   VALUE="dip_a" '.chk_check($sort_order, "dip_a").'> '._QFRMDIP.'
-            <BR>
-            <CENTER><INPUT TYPE="submit" NAME="submit" VALUE="'._QUERYDB.'"></CENTER>
-             </FONT>
-             </TD>
-        </TR>
-        </TABLE>
-		</CENTER>
-		</ul>
-		<hr>';
+	ExportHTTPVar('new',1,3);
+	$SOFIPfx = "<input type='radio' name='sort_order' value='";
+	NLIO("<div style='margin-left: 25%; margin-right: 25%;'>",3);
+	PrintFramedBoxHeader(_QFRMSORTORDER,'',1,4);
+	NLIO(
+		$SOFIPfx . "none'"
+		.chk_check($sort_order, 'none').'/>'. _QFRMSORTNONE, 7
+	);
+	NLIO(
+		"$SOFIPfx$CPTs" . "_time_a'"
+		.chk_check($sort_order, $CPTs . '_time_a').'/>'._QFRMTIMEA, 7
+	);
+	NLIO(
+		"$SOFIPfx$CPTs" . "_time_d'"
+		.chk_check($sort_order, $CPTs . '_time_d').'/>'._QFRMTIMED, 7
+	);
+	NLIO(
+		"$SOFIPfx$CPSig" . "_sig_d'"
+		.chk_check($sort_order, $CPSig . '_sig_d').'/>'._QFRMSIG, 7
+	);
+	NLIO(
+		$SOFIPfx . CleanVariable($CPSA, VAR_LETTER | VAR_USCORE) . "_sip_a'"
+		.chk_check($sort_order, $CPSA . '_sip_a').'/>'._QFRMSIP, 7
+	);
+	NLIO(
+		$SOFIPfx . CleanVariable($CPDA, VAR_LETTER | VAR_USCORE) . "_dip_a'"
+		.chk_check($sort_order, $CPDA . '_dip_a').'/>'._QFRMDIP, 7
+	);
+	PrintTblNewRow(1,'center',6);
+	NLIO("<input type='submit' name='submit' value='"._QUERYDB."'/>",7);
+	printFramedBoxFooter(1,4);
+	NLIO('</div>',3);
  echo '
  <!-- ************ JavaScript for Hiding Details ******************** -->
  <script type="text/javascript">
