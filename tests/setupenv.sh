@@ -190,16 +190,12 @@ ADOFilePfx=v
 ADOFileSfx=.tar.gz
 GHMode=release
 if [ "$pvM" \> "7" ]; then # PHP 8x
-	GHMode=branch
-	GHBranch=hotfix/5.22
-	ADODBVer=5.22.4
+	ADODBVer=5.22.5
 	if [ "$1" == "" ] && [ "$TRAVIS" == "true" ]; then
 		ADODBPATH="ADOdb-$ADODBVer"
 	fi
 elif [ "$pvM" \> "5" ]; then # PHP 7x
 	if [ "$pvm" \> "1" ]; then # PHP 7.2+
-		GHMode=branch
-		GHBranch=hotfix/5.22
 		ADODBVer=5.20.12
 	else
 		ADODBVer=5.20.0
@@ -209,7 +205,7 @@ elif [ "$pvM" \> "5" ]; then # PHP 7x
 	fi
 elif [ "$pvM" \> "4" ]; then # PHP 5x
 	if [ "$pvm" \> "2" ]; then # PHP 5.3+
-		ADODBVer=5.20.16
+		ADODBVer=5.20.17
 	else
 		ADODBVer=5.01beta
 	fi
