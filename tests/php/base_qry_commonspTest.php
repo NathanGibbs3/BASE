@@ -386,6 +386,7 @@ class base_qry_commonspTest extends TestCase {
 		}else{
 			include_once(self::$files);
 		}
+		$dbt = $db->DB_type;
 		$start = 0;
 		$end = 1;
 		$op = 1;
@@ -410,7 +411,21 @@ class base_qry_commonspTest extends TestCase {
 			$TA[$start][$op] = $Top;
 			$EOM = $EPfx;
 			if ( $Top == '=' ){
-				$EOM .= "( YEAR(timestamp) = 1  AND  MONTH(timestamp) = 1  AND  DAYOFMONTH(timestamp) = 1  AND  HOUR(timestamp) = 23  AND  MINUTE(timestamp) = 00  AND  SECOND(timestamp) = 59 )";
+				if ( $dbt == 'mysql' || $dbt == 'mysqlt' || $dbt == 'maxsql' ){
+					$EOM .= "( YEAR(timestamp) = 1  AND  ".
+					"MONTH(timestamp) = 1  AND  ".
+					"DAYOFMONTH(timestamp) = 1  AND  ".
+					"HOUR(timestamp) = 23  AND  ".
+					"MINUTE(timestamp) = 00  AND  SECOND(timestamp) = 59 )";
+				}
+				if ( $dbt == 'postgres' ){
+					$EOM .= "( DATE_PART('year', timestamp) = 1  AND  ".
+					"DATE_PART('month', timestamp) = 1  AND  ".
+					"DATE_PART('day', timestamp) = 1  AND  ".
+					"DATE_PART('hour', timestamp) = 23  AND  ".
+					"DATE_PART('minute', timestamp) = 00  AND  ".
+					"DATE_PART('second', timestamp) = 59 )";
+				}
 			}else{
 				$EOM .= " timestamp $Top'2001-01-01 23:00:59'";
 			}
@@ -466,6 +481,7 @@ class base_qry_commonspTest extends TestCase {
 		}else{
 			include_once(self::$files);
 		}
+		$dbt = $db->DB_type;
 		$start = 0;
 		$end = 1;
 		$op = 1;
@@ -485,7 +501,12 @@ class base_qry_commonspTest extends TestCase {
 			$TA[$start][$op] = $Top;
 			$EOM = $EPfx;
 			if ( $Top == '=' ){
-				$EOM .= "( YEAR(timestamp) = 1 )";
+				if ( $dbt == 'mysql' || $dbt == 'mysqlt' || $dbt == 'maxsql' ){
+					$EOM .= "( YEAR(timestamp) = 1 )";
+				}
+				if ( $dbt == 'postgres' ){
+					$EOM .= "( DATE_PART('year', timestamp) = 1 )";
+				}
 			}elseif ( $Top == '>' || $Top == '<=' ){
 				$EOM .= " timestamp $Top'2001-01-01 23:59:59'";
 			}else{
@@ -507,6 +528,7 @@ class base_qry_commonspTest extends TestCase {
 		}else{
 			include_once(self::$files);
 		}
+		$dbt = $db->DB_type;
 		$start = 0;
 		$end = 1;
 		$op = 1;
@@ -527,7 +549,12 @@ class base_qry_commonspTest extends TestCase {
 			$TA[$start][$op] = $Top;
 			$EOM = $EPfx;
 			if ( $Top == '=' ){
-				$EOM .= "( YEAR(timestamp) = 1  AND  MONTH(timestamp) = 2 )";
+				if ( $dbt == 'mysql' || $dbt == 'mysqlt' || $dbt == 'maxsql' ){
+					$EOM .= "( YEAR(timestamp) = 1  AND  MONTH(timestamp) = 2 )";
+				}
+				if ( $dbt == 'postgres' ){
+					$EOM .= "( DATE_PART('year', timestamp) = 1  AND  DATE_PART('month', timestamp) = 2 )";
+				}
 			}elseif ( $Top == '>' || $Top == '<=' ){
 				$EOM .= " timestamp $Top'2001-02-01 23:59:59'";
 			}else{
@@ -549,6 +576,7 @@ class base_qry_commonspTest extends TestCase {
 		}else{
 			include_once(self::$files);
 		}
+		$dbt = $db->DB_type;
 		$start = 0;
 		$end = 1;
 		$op = 1;
@@ -575,8 +603,17 @@ class base_qry_commonspTest extends TestCase {
 			$TA[$end][$op] = $Top;
 			$EOM = $EPfx;
 			if ( $Top == '=' ){
-				$EOM .= '( YEAR(timestamp) = 2000  AND  MONTH(timestamp) = 2 '.
-				') AND( YEAR(timestamp) = 2000  AND  MONTH(timestamp) = 2 )';
+				if ( $dbt == 'mysql' || $dbt == 'mysqlt' || $dbt == 'maxsql' ){
+					$EOM .= '( YEAR(timestamp) = 2000  AND  '.
+					'MONTH(timestamp) = 2 ) AND( YEAR(timestamp) = 2000  AND  '.
+					'MONTH(timestamp) = 2 )';
+				}
+				if ( $dbt == 'postgres' ){
+					$EOM .= "( DATE_PART('year', timestamp) = 2000  AND  ".
+					"DATE_PART('month', timestamp) = 2 ) AND".
+					"( DATE_PART('year', timestamp) = 2000  AND  ".
+					"DATE_PART('month', timestamp) = 2 )";
+				}
 			}elseif ( $Top == '>' || $Top == '<=' ){
 				$EOM .= " timestamp $Top'2000-02-01 23:59:59' ".
 				"AND timestamp $Top'2000-02-29 23:59:59'";
@@ -600,6 +637,7 @@ class base_qry_commonspTest extends TestCase {
 		}else{
 			include_once(self::$files);
 		}
+		$dbt = $db->DB_type;
 		$start = 0;
 		$end = 1;
 		$op = 1;
@@ -626,7 +664,14 @@ class base_qry_commonspTest extends TestCase {
 			$TA[$end][$op] = $Top;
 			$EOM = $EPfx;
 			if ( $Top == '=' ){
-				$EOM .= '( YEAR(timestamp) = 2000  AND  MONTH(timestamp) = 2 )';
+				if ( $dbt == 'mysql' || $dbt == 'mysqlt' || $dbt == 'maxsql' ){
+					$EOM .= '( YEAR(timestamp) = 2000  AND  '.
+					'MONTH(timestamp) = 2 )';
+				}
+				if ( $dbt == 'postgres' ){
+					$EOM .= "( DATE_PART('year', timestamp) = 2000  AND  ".
+					"DATE_PART('month', timestamp) = 2 )";
+				}
 			}elseif ( $Top == '>' || $Top == '<=' ){
 				$EOM .= " timestamp $Top'2000-02-01 23:59:59'";
 			}else{
@@ -648,6 +693,7 @@ class base_qry_commonspTest extends TestCase {
 		}else{
 			include_once(self::$files);
 		}
+		$dbt = $db->DB_type;
 		$start = 0;
 		$end = 1;
 		$op = 1;
@@ -669,7 +715,14 @@ class base_qry_commonspTest extends TestCase {
 			$TA[$start][$op] = $Top;
 			$EOM = $EPfx;
 			if ( $Top == '=' ){
-				$EOM .= '( YEAR(timestamp) = 1  AND  MONTH(timestamp) = 2 )';
+				if ( $dbt == 'mysql' || $dbt == 'mysqlt' || $dbt == 'maxsql' ){
+					$EOM .= '( YEAR(timestamp) = 1  AND  '.
+					'MONTH(timestamp) = 2 )';
+				}
+				if ( $dbt == 'postgres' ){
+					$EOM .= "( DATE_PART('year', timestamp) = 1  AND  ".
+					"DATE_PART('month', timestamp) = 2 )";
+				}
 			}elseif ( $Top == '>' || $Top == '<=' ){
 				$EOM .= " timestamp $Top'2001-02-01 23:59:59'";
 			}else{
@@ -691,6 +744,7 @@ class base_qry_commonspTest extends TestCase {
 		}else{
 			include_once(self::$files);
 		}
+		$dbt = $db->DB_type;
 		$start = 0;
 		$end = 1;
 		$op = 1;
@@ -713,8 +767,17 @@ class base_qry_commonspTest extends TestCase {
 			$TA[$start][$op] = $Top;
 			$EOM = $EPfx;
 			if ( $Top == '=' ){
-				$EOM .= '( YEAR(timestamp) = 1  AND  MONTH(timestamp) = 2  '.
-				'AND  DAYOFMONTH(timestamp) = 1  AND  HOUR(timestamp) = 0 )';
+				if ( $dbt == 'mysql' || $dbt == 'mysqlt' || $dbt == 'maxsql' ){
+					$EOM .= '( YEAR(timestamp) = 1  AND  '.
+					'MONTH(timestamp) = 2  AND  DAYOFMONTH(timestamp) = 1  '.
+					'AND  HOUR(timestamp) = 0 )';
+				}
+				if ( $dbt == 'postgres' ){
+					$EOM .= "( DATE_PART('year', timestamp) = 1  AND  ".
+					"DATE_PART('month', timestamp) = 2  AND  ".
+					"DATE_PART('day', timestamp) = 1  AND  ".
+					"DATE_PART('hour', timestamp) = 0 )";
+				}
 			}elseif ( $Top == '<=' ){
 				$EOM .= " timestamp $Top'2001-02-01 00:59:59'";
 			}else{
@@ -736,6 +799,7 @@ class base_qry_commonspTest extends TestCase {
 		}else{
 			include_once(self::$files);
 		}
+		$dbt = $db->DB_type;
 		$start = 0;
 		$end = 1;
 		$op = 1;
@@ -760,9 +824,20 @@ class base_qry_commonspTest extends TestCase {
 			$TA[$start][$op] = $Top;
 			$EOM = $EPfx;
 			if ( $Top == '=' ){
-				$EOM .= '( YEAR(timestamp) = 1  AND  MONTH(timestamp) = 2  '.
-				'AND  DAYOFMONTH(timestamp) = 1  AND  HOUR(timestamp) = 0  '.
-				'AND  MINUTE(timestamp) = 1 )';
+				if ( $dbt == 'mysql' || $dbt == 'mysqlt' || $dbt == 'maxsql' ){
+					$EOM .= '( YEAR(timestamp) = 1  AND  '.
+					'MONTH(timestamp) = 2  AND  '.
+					'DAYOFMONTH(timestamp) = 1  AND  '.
+					'HOUR(timestamp) = 0  AND  '.
+					'MINUTE(timestamp) = 1 )';
+				}
+				if ( $dbt == 'postgres' ){
+					$EOM .= "( DATE_PART('year', timestamp) = 1  AND  ".
+					"DATE_PART('month', timestamp) = 2  AND  ".
+					"DATE_PART('day', timestamp) = 1  AND  ".
+					"DATE_PART('hour', timestamp) = 0  AND  ".
+					"DATE_PART('minute', timestamp) = 1 )";
+				}
 			}elseif ( $Top == '<=' ){
 				$EOM .= " timestamp $Top'2001-02-01 00:01:59'";
 			}else{

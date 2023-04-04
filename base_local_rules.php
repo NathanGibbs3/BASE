@@ -83,12 +83,12 @@ function pcre_grep_file_poor($file, $key, $sid){
 	if ( $debug_mode > 0 ){
 		echo "file = \"$OFile\", pattern = \"" . htmlspecialchars($pattern) . "\"\n<BR>";
 	}
-	while ( list($key, $val) = each($lines_array) ){
+	foreach ( $lines_array as $val ){ // Issue #153
 		$rv = preg_match($pattern, $val, $matches);
 		if ( $rv ){
 			echo "<TH ALIGN=LEFT>$OFile:</TH>\n";
 			echo "<TR>\n";
-			while ( list($k, $rule) = each($matches) ){
+			foreach ( $matches as $rule ){ // Issue #153
 				echo '<td>'. XSSPrintSafe($rule) .'</td>';
 			}
 			echo "</TR>\n";

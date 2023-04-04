@@ -396,7 +396,7 @@ class dbTest extends TestCase {
 		$sql = 'SELECT * FROM acid_event WHERE 1=2';
 		$this->assertInstanceOf( 'baseRS', $db->baseExecute($sql,1,4), $URV );
 	}
-	public function testbaseExecuteNULLSQLThrowsError(){
+	public function testbaseExecuteEmptySQLThrowsError(){
 		$db = self::$db;
 		$dbt = self::$dbt;
 		$sql = '';
@@ -420,42 +420,10 @@ class dbTest extends TestCase {
 		}
 		$db->baseExecute($sql);
 	}
-	public function testbaseExecuteNULLSQLReturnsExpected(){
+	public function testbaseExecuteEmptySQLReturnsExpected(){
 		$db = self::$db;
 		$URV = self::$URV.'baseExecute().';
 		$sql = '';
-		// Test conditions will throw error.
-		// Use error suppression @ symbol.
-		$this->assertFalse( @$db->baseExecute($sql,0,-1,false), $URV );
-	}
-	public function testbaseExecuteInvalidSQLThrowsError(){
-		$db = self::$db;
-		$dbt = self::$dbt;
-		$sql = 'SELEXT * FROM acid_event';
-		$EEM = "$dbt error: [";
-		$PHPUV = GetPHPUV();
-		if (version_compare($PHPUV, '3.0', '<')) {
-			$this->markTestSkipped('Requires Phpunit 3+ to run.');
-		}elseif (version_compare($PHPUV, '5.0', '<')) { // PHPUnit 3x - 4x
-			$this->setExpectedException(
-				"PHPUnit_Framework_Error_Notice", $EEM
-			);
-		}elseif (version_compare($PHPUV, '6.0', '<')) { // PHPUnit 5x
-			$this->expectException("PHPUnit_Framework_Error_Notice");
-			$this->expectExceptionMessage($EEM);
-		}elseif (version_compare($PHPUV, '9.0', '<')) { // PHPUnit 6x - 8x
-			$this->expectException("PHPUnit\Framework\Error\Notice");
-			$this->expectExceptionMessage($EEM);
-		}else{ // PHPUnit 9+
-			$this->expectNotice();
-			$this->expectNoticeMessage($EEM);
-		}
-		$db->baseExecute($sql);
-	}
-	public function testbaseExecuteInvalidSQLReturnsExpected(){
-		$db = self::$db;
-		$URV = self::$URV.'baseExecute().';
-		$sql = 'SELEXT * FROM acid_event';
 		// Test conditions will throw error.
 		// Use error suppression @ symbol.
 		$this->assertFalse( @$db->baseExecute($sql,0,-1,false), $URV );

@@ -282,7 +282,6 @@ class MultipleElementCriteria extends BaseCriteria {
          echo '    <SELECT NAME="'.htmlspecialchars($this->export_name).'['.$i.'][1]">';
          echo '      <OPTION VALUE=" "      '.chk_select($this->criteria[$i][1]," ").'>'.$blank_field_string.'</OPTION>';
  
-         reset($field_list);
          foreach( $field_list as $field_name => $field_human_name )
          {
             echo '   <OPTION VALUE="'.$field_name.'" '.chk_select($this->criteria[$i][1],$field_name).'>'.$field_human_name.'</OPTION>';

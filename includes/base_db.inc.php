@@ -730,6 +730,7 @@ function NewBASEDBConnection($path, $type){
 			// On PHP 5.5+, use mysqli ADODB driver & gracefully deprecate
 			// the mysql, mysqlt & maxsql drivers.
 			if ( $version[0] > 5 || ( $version[0] == 5 && $version[1] > 4) ){
+				mysqli_report(MYSQLI_REPORT_OFF); // Issue #162 temp fix.
 				$Wtype = "mysqli";
 			}
 		}
