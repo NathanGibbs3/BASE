@@ -10,13 +10,13 @@
 // Built upon work by: Kevin Johnson & the BASE Project Team
 //                     Roman Danyliw <rdd@cert.org>, <roman@danyliw.com>
 //
-//            Purpose: Alert action (e.g. add to AG, delete, email,
-//                     archive) operations.
+//            Purpose: Alert action (e.g. add to AG, delete, email, archive)
+//                     operations.
 //
 //          Author(s): Nathan Gibbs
 //                     Kevin Johnson
 
-// Ensure the conf file has been loaded.  Prevent direct access to this file.
+// Ensure the conf file has been loaded. Prevent direct access to this file.
 defined( '_BASE_INC' ) or die( 'Accessing this file directly is not allowed.' );
 
 include_once("$BASE_path/base_ag_common.php");

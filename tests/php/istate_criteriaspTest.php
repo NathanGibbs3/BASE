@@ -2,7 +2,6 @@
 use PHPUnit\Framework\TestCase;
 
 // Test fucntions in /includes/base_state_criteria.inc.php
-
 /**
   * A necessary evil for tests touching legacy TD.
   * @preserveGlobalState disabled
