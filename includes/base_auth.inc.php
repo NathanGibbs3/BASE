@@ -606,7 +606,8 @@ function AuthorizedRole( $roleneeded = 1, $header = '' ){
 function AuthorizedPage( $page = '' ){
 	GLOBAL $BASE_urlpath;
 	$Ret = false;
-	$ReqRE = preg_quote("$BASE_urlpath/",'/')."$page\.php";
+	$sc = DIRECTORY_SEPARATOR; // Issue #161
+	$ReqRE = preg_quote("$BASE_urlpath$sc",'/')."$page\.php";
 	if ( preg_match("/^" . $ReqRE ."$/", $_SERVER['SCRIPT_NAME']) ){
 		$Ret = true;
 	}

@@ -361,7 +361,7 @@ class dbTest extends TestCase {
 		$db = self::$db;
 		$URV = self::$URV.'GetFieldLength().';
 		if ($db->DB_type == 'postgres' ){
-			// Doesn't apply to postgresql, so Pass.
+			// Doesn't apply to postgresql, so Pass. See Issue #71
 			$this->assertTrue(true,'Passing Test.');
 		}else{
 			$wtds = array (
@@ -377,24 +377,11 @@ class dbTest extends TestCase {
 			}
 		}
 	}
-	public function testbaseErrorMessageValidSQLReturnsExpected(){
-		$db = self::$db;
-		$URV = self::$URV.'baseErrorMessage().';
-		$sql = 'SELECT * FROM acid_event WHERE 1=2';
-		$db->baseExecute($sql);
-		$this->assertEquals( '', $db->baseErrorMessage(), $URV );
-	}
 	public function testbaseExecuteValidSQLReturnsExpected(){
 		$db = self::$db;
 		$URV = self::$URV.'baseExecute().';
 		$sql = 'SELECT * FROM acid_event WHERE 1=2';
 		$this->assertInstanceOf( 'baseRS', $db->baseExecute($sql), $URV );
-	}
-	public function testbaseExecuteSQLWithLimitReturnsExpected(){
-		$db = self::$db;
-		$URV = self::$URV.'baseExecute().';
-		$sql = 'SELECT * FROM acid_event WHERE 1=2';
-		$this->assertInstanceOf( 'baseRS', $db->baseExecute($sql,1,4), $URV );
 	}
 	public function testbaseExecuteEmptySQLThrowsError(){
 		$db = self::$db;
@@ -433,6 +420,31 @@ class dbTest extends TestCase {
 		$URV = self::$URV.'MssqlKludgeValue().';
 		$sql = 'Test';
 		$this->assertEquals( '[T][e][s][t]', MssqlKludgeValue('Test'), $URV );
+	}
+	public function testbaseErrorMessageValidSQLReturnsExpected(){
+		$db = self::$db;
+		$URV = self::$URV.'baseErrorMessage().';
+		$sql = 'SELECT * FROM acid_event WHERE 1=2';
+		$db->baseExecute($sql);
+		$this->assertEquals( '', $db->baseErrorMessage(), $URV );
+	}
+	public function testbaseExecuteSQLLimitReturnsExpected(){
+		$db = self::$db;
+		$URV = self::$URV.'baseExecute().';
+		$sql = 'SELECT * FROM acid_event WHERE 1=2';
+		$this->assertInstanceOf( 'baseRS', $db->baseExecute($sql,1,4), $URV );
+	}
+	public function testbaseExecuteInvalidLimitsReturnExpected(){
+		$db = self::$db;
+		$URV = self::$URV.'baseExecute().';
+		$sql = 'SELECT * FROM acid_event WHERE 1=2';
+		$TD = array ( '',NULL, 1.5 );
+		foreach($TD as $Top ){ // Test Start
+			$this->assertFalse( $db->baseExecute($sql,$Top,4), $URV );
+		}
+		foreach($TD as $Top ){ // Test Count
+			$this->assertFalse( $db->baseExecute($sql,1,$Top), $URV );
+		}
 	}
 
 	// Add code to a function if needed.

@@ -192,19 +192,18 @@ class QueryState {
 	function ExecuteOutputQuery( $sql, $db ){
 		GLOBAL $show_rows;
 		if ( $this->isCannedQuery() ){
-			$this->show_rows_on_screen = $this->GetCurrentCannedQueryCnt();
-			return $db->baseExecute($sql, 0, $this->show_rows_on_screen );
+			$RowCnt = $this->GetCurrentCannedQueryCnt();
+			$Start = 0;
 		}else{
 			if ( isset($show_rows) ){
-				$tmp = $show_rows;
+				$RowCnt = $show_rows;
 			}else{ // Issue #5
-				$tmp = 0;
+				$RowCnt = 0;
 			}
-			$this->show_rows_on_screen = $tmp;
-			return $db->baseExecute(
-				$sql, ($this->current_view * $tmp), $tmp
-			);
+			$Start = $this->current_view * $RowCnt;
 		}
+		$this->show_rows_on_screen = $RowCnt;
+		return $db->baseExecute($sql, $Start, $RowCnt );
 	}
 	function PrintResultCnt(){
 		GLOBAL $show_rows;

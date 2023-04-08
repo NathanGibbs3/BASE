@@ -113,25 +113,25 @@ $qro->AddTitle(_SIPLUNIDSTPORTS, '','','','','','','right');
 $qro->AddTitle(_SIPLUNIEVENTS, '','','','','','','right');
 $qro->AddTitle(_SIPLTOTALEVENTS, '','','','','','','right');
 
-  $sort_sql = $qro->GetSortSQL($qs->GetCurrentSort(), $qs->GetCurrentCannedQuerySort());
-
-  $sql = "SELECT DISTINCT acid_event.ip_src, acid_event.ip_dst, acid_event.ip_proto ".
-         $sort_sql[0].$from.$where.$sort_sql[1];
-
-  /* Run the Query again for the actual data (with the LIMIT) */
-  $qs->current_view = $submit;
-  $result = $qs->ExecuteOutputQuery($sql, $db);
-  $et->Mark("Retrieve Query Data");
-
-  if ( $debug_mode == 1 )
-  {
-     $qs->PrintCannedQueryList();
-     $qs->DumpState();
-     echo "$sql<BR>";
-  }
-
-  /* Print the current view number and # of rows */
-  $qs->PrintResultCnt();
+$sort_sql = $qro->GetSortSQL($qs->GetCurrentSort(), $qs->GetCurrentCannedQuerySort());
+$sql = "SELECT DISTINCT acid_event.ip_src, acid_event.ip_dst, acid_event.ip_proto ";
+$sqlPFX = $from.$where; // Issue #168
+if ( !is_null($sort_sql) ){
+	$sqlPFX = $sort_sql[0].$from.$where.$sort_sql[1];
+}
+$sql .= $sqlPFX;
+if ( is_numeric($submit) ){
+	$qs->current_view = $submit;
+}
+// Run the Query again for the actual data (with the LIMIT), if any.
+$result = $qs->ExecuteOutputQuery($sql, $db);
+$et->Mark("Retrieve Query Data");
+if ( $debug_mode > 0 ){
+	$qs->PrintCannedQueryList();
+	$qs->DumpState();
+	echo "$sql<BR>";
+}
+$qs->PrintResultCnt(); // Print current view number and # of rows.
 
   echo '<FORM METHOD="post" NAME="PacketForm" ACTION="base_stat_iplink.php">';
   

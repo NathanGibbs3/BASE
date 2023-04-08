@@ -885,6 +885,55 @@ class state_citemsTest extends TestCase {
 			$this->assertEquals('',$tc->criteria[$i],$URV);
 		}
 	}
+	public function testClassTCPFlagsCriteriaFunctionisEmptyFalse(){
+		$db = self::$db;
+		$cs = 'Test';
+		$URV = 'Unexpected Return Value.';
+		$this->assertInstanceOf(
+			'TCPFlagsCriteria',
+			$tc = new TCPFlagsCriteria($db, $cs, 'Test'),
+			'Class Not Initialized.'
+		);
+		$tc->Init();
+		$tc->criteria[0] = 'Test';
+		$this->assertFalse($tc->isEmpty(), $URV);
+	}
+	public function testClassTCPFlagsCriteriaFunctionisEmptyDefaultTRUE(){
+		$db = self::$db;
+		$cs = 'Test';
+		$URV = 'Unexpected Return Value.';
+		$this->assertInstanceOf(
+			'TCPFlagsCriteria',
+			$tc = new TCPFlagsCriteria($db, $cs, 'Test'),
+			'Class Not Initialized.'
+		);
+		$this->assertTrue($tc->isEmpty(), $URV);
+	}
+	public function testClassTCPFlagsCriteriaFunctionisEmptyInitTRUE(){
+		$db = self::$db;
+		$cs = 'Test';
+		$URV = 'Unexpected Return Value.';
+		$this->assertInstanceOf(
+			'TCPFlagsCriteria',
+			$tc = new TCPFlagsCriteria($db, $cs, 'Test'),
+			'Class Not Initialized.'
+		);
+		$tc->Init();
+		$this->assertTrue($tc->isEmpty(), $URV);
+	}
+	public function testClassTCPFlagsCriteriaFunctionisEmptyValueTRUE(){
+		$db = self::$db;
+		$cs = 'Test';
+		$URV = 'Unexpected Return Value.';
+		$this->assertInstanceOf(
+			'TCPFlagsCriteria',
+			$tc = new TCPFlagsCriteria($db, $cs, 'Test'),
+			'Class Not Initialized.'
+		);
+		$tc->Init();
+		$tc->criteria[0] = ' ';
+		$this->assertTrue($tc->isEmpty(), $URV);
+	}
 
 	// Add code to a function if needed.
 	// Stop here and mark test incomplete.

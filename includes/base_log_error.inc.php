@@ -153,6 +153,7 @@ print "\n         <B>SERVER:</B> ".$server_software."
 }
 print "\n         <B>BASE VERSION:</B> ".$GLOBALS['BASE_VERSION']."
          <B>SESSION ID:</B> ".session_id()."( ".strlen($tmp)." bytes )
+         <B>SCRIPT :</B> ".XSSPrintSafe($_SERVER['SCRIPT_NAME'])."
          </PRE>"; 
 	}
 }

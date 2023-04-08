@@ -215,14 +215,9 @@ function GetSingleSignatureReference($ref_system, $ref_tag, $style)
    }
 }
 
-
-
-
-function GetSignatureReference($sig_id, $db, $style)
-{
-   $ref = "";
-   GLOBAL $BASE_display_sig_links, $debug_mode;
-   
+function GetSignatureReference( $sig_id, $db, $style ){
+	GLOBAL $BASE_display_sig_links, $debug_mode;
+	$ref = '';
    if ( $BASE_display_sig_links == 1)
    {
       $temp_sql = "SELECT ref_seq, ref_id FROM sig_reference WHERE sig_id='". addslashes($sig_id) ."'";
@@ -295,10 +290,10 @@ function GetSignatureReference($sig_id, $db, $style)
 					// then we assume it is a rule based alert:
 					{						
 						$docu_file = "$bp/../signatures/$sig_sid.txt"; 
-            if ($debug_mode > 0) 
-            {
-						  error_log("sig_sid = $sig_sid; docu_file = $docu_file");
-            }
+
+				if ($debug_mode > 1 ){
+					 error_log("sig_sid = $sig_sid; docu_file = $docu_file");
+				}
 
 						if (file_exists($docu_file)) 
 						{
@@ -355,8 +350,7 @@ function GetSignatureReference($sig_id, $db, $style)
          }
       }
    }
-
-   return $ref;
+	return $ref;
 }
 
 function check_string($str){
@@ -713,5 +707,4 @@ function GetTagTriger($current_sig, $db, $sid, $cid)
       }
       return $current_sig;
 }
-
 ?>
