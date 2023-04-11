@@ -5,17 +5,20 @@ All notable changes to this project will be documented in this file using the
 
 ## [Unreleased]
 ### Added
- - PHP 8x Support.
+ - PHP 8x Support. [#149](
+https://github.com/NathanGibbs3/BASE/issues/149)
  - PHP 7x Support.
  - MariaDB Support.
  - PHPUnit Tests.
  - Whois support for LACNIC & Afrinic.
  - Support for Travis-CI build checks on commit.
  - Support for Coveralls.io & Codecov.io code coverage reports on commit.
+ - Support for colored alert category display. [#176](
+https://github.com/NathanGibbs3/BASE/issues/176)
 
 Contributor(s): [Nathan Gibbs]
 ### Changed
-- [#28 Change ADODB download URL in error message.](
+- ADODB download URL in error message. [#28](
 https://github.com/NathanGibbs3/BASE/issues/28)
 - Update snort.org sid lookup URL.  
 Now matches new functionality in the snort.org web site.  
@@ -27,14 +30,17 @@ https://github.com/NathanGibbs3/BASE/issues/76)
 https://github.com/NathanGibbs3/BASE/issues/73)
 - [#37 Use EventTiming class where page load timing info is displayed.](
 https://github.com/NathanGibbs3/BASE/issues/37)
-- [#86 Change Image_Graph download URL in error message.](
+- Change Image_Graph download URL in error message. [#86](
 https://github.com/NathanGibbs3/BASE/issues/86)
 - base_maintenance.pl renamed to BASEcli
 
 Contributor(s): [Nathan Gibbs]
 ### Deprecated
 ### Removed
-- ports.tantalo.net port lookup URL.  
+- securitystats.com port lookup URL. [#177](
+https://github.com/NathanGibbs3/BASE/issues/177)
+- ports.tantalo.net port lookup URL.
+
 Contributor(s): [Nathan Gibbs]
 ### Fixed
 - [#2 Return value of function `GetVendor()`. ](
@@ -85,7 +91,7 @@ https://github.com/NathanGibbs3/BASE/issues/51)
 - [#52 `Init()` does not check for unset conf variable `$MAX_ROWS`
 before access.](
 https://github.com/NathanGibbs3/BASE/issues/52)
-- [#53 'IPAddressCriteria::PrintForm()` does not check for unset conf
+- [#53 `IPAddressCriteria::PrintForm()` does not check for unset conf
 variable `$ip_address_input` before access.](
 https://github.com/NathanGibbs3/BASE/issues/53)
 - [#59 BASE does not check for unset conf variable `$priority_colors`
@@ -134,7 +140,7 @@ https://github.com/NathanGibbs3/BASE/issues/99)
 https://github.com/NathanGibbs3/BASE/issues/100)
 - [#19 User/Role Admin HTML styling hack, Re-implement via CSS.](
 https://github.com/NathanGibbs3/BASE/issues/19)
-- [@25 Search Criteria HTML styling hack, Re-implement via CSS.](
+- [#25 Search Criteria HTML styling hack, Re-implement via CSS.](
 https://github.com/NathanGibbs3/BASE/issues/25)
 - [#64 Number alignment in the "Total #" column of status pages.](
 https://github.com/NathanGibbs3/BASE/issues/64)
@@ -159,7 +165,7 @@ on sourceforge.net.
 Bug [reported](https://sourceforge.net/p/secureideas/bugs/239)
 on sourceforge.net.
 - [#23 Sensor Name sort in base_stat_sensor.php crashes App.](
-https://github.com/NathanGibbs3/BASE/issues/23)
+https://github.com/NathanGibbs3/BASE/issues/23)  
 Bug [reported](https://sourceforge.net/p/secureideas/bugs/244)
 on sourceforge.net.
 - [#101 Javascript Page redirect.](https://github.com/NathanGibbs3/BASE/issues/101)
@@ -192,17 +198,13 @@ https://github.com/NathanGibbs3/BASE/issues/132)
 https://github.com/NathanGibbs3/BASE/issues/133)
 - [#135 Remove call to `qmagic()` for compatibility with ADOdb 5.21+ and PHP 
 7.4+](https://github.com/NathanGibbs3/BASE/issues/135)
-- [#140 Form element <input> outside of table data <td> tag set.](
+- [#140 Form element `<input>` outside of table data `<td>` tag set.](
 https://github.com/NathanGibbs3/BASE/issues/140)
-- [#147 Incomplete DOCTYPE](https://github.com/NathanGibbs3/BASE/issues/147)
-- [#141 Usage of key_exists() & array_key_exists() breaks support for older PHP's](
+- [#147 Incomplete `DOCTYPE`](https://github.com/NathanGibbs3/BASE/issues/147)
+- [#141 Usage of `key_exists()` & `array_key_exists()` breaks support for older PHP's](
 https://github.com/NathanGibbs3/BASE/issues/141)
-- [#17 Authenticate() does not check for disabled user account.](
-https://github.com/NathanGibbs3/BASE/issues/17)
-- [#138 Make fitlerSql() aware of global database variable.](
+- [#138 Make `fitlerSql()` aware of global database variable.](
 https://github.com/NathanGibbs3/BASE/issues/138)
-- [#148 Fixes for Issue #146 break BASEcli.](
-https://github.com/NathanGibbs3/BASE/issues/148)
 - [#150 BASEcli enhancements.](https://github.com/NathanGibbs3/BASE/issues/150)
 - [#151 Tests for DateTimeRows2sql() do not cover PostqreSQL.](
 https://github.com/NathanGibbs3/BASE/issues/151)
@@ -224,23 +226,37 @@ https://github.com/NathanGibbs3/BASE/issues/160)
 https://github.com/NathanGibbs3/BASE/issues/162)
 - [#163 PHP 8x - Invalid SQL Tests break build.](
 https://github.com/NathanGibbs3/BASE/issues/163)
+- [#165 Default QueryState Initialization Issues.](
+https://github.com/NathanGibbs3/BASE/issues/165)
+- [#166 strftime() Deprecation Notices.](
+https://github.com/NathanGibbs3/BASE/issues/166)
+- [#167 Class TCPFlagsCriteria function isEmpty Deprecation Notice.](
+https://github.com/NathanGibbs3/BASE/issues/167)
+- [#168 PHP Warning: Trying to access array offset on value of type null.](
+https://github.com/NathanGibbs3/BASE/issues/168)
+- [#169 `baseExecute()` input validation error.](
+https://github.com/NathanGibbs3/BASE/issues/169)
+- [#172 Incorrect display of protocol bar graphs when DB is empty.](
+https://github.com/NathanGibbs3/BASE/issues/172)
+- [#174 Alert Display bug.](
+https://github.com/NathanGibbs3/BASE/issues/174)
 
 Contributor(s): [Nathan Gibbs]
 - [#57 `tr bgcolor="#"` if `$prio` not in `$priority_colors`
-(unknown event class)](
-https://github.com/NathanGibbs3/BASE/issues/57)  
+(unknown event class)](https://github.com/NathanGibbs3/BASE/issues/57)  
 Contributor(s):
-  - [FalcoGer]
-  - [Nathan Gibbs]
+  - [FalcoGer]  
+  - [Nathan Gibbs]  
 - [#94 Reaching Admin page appears to be programming problem with Index.php](
-https://github.com/NathanGibbs3/BASE/issues/94)
+https://github.com/NathanGibbs3/BASE/issues/94)  
 - [#142 Admin function not working on Windows installations.](
 https://github.com/NathanGibbs3/BASE/issues/142)
 - [#144 BASE offers non-operative choices when BASE Auth system is disabled or
 non admin user is logged in.](
 https://github.com/NathanGibbs3/BASE/issues/144)
 - [#145 BASE denied landing page not loading.](
-https://github.com/NathanGibbs3/BASE/issues/145)  
+https://github.com/NathanGibbs3/BASE/issues/145)
+
 Contributor(s):
   - [mesteele]
   - [Nathan Gibbs]
@@ -285,13 +301,20 @@ calling itself recursively](
 https://github.com/NathanGibbs3/BASE/issues/136)
 - [#137 `filterSQL()` does not process keyed arrays](
 https://github.com/NathanGibbs3/BASE/issues/137)
+- [#17 Authenticate() does not check for disabled user account.](
+https://github.com/NathanGibbs3/BASE/issues/17)
+- [#148 Fixes for Issue #146 break BASEcli.](
+https://github.com/NathanGibbs3/BASE/issues/148)
+- [#164 Disabling logged in user does not lock user out..](
+https://github.com/NathanGibbs3/BASE/issues/164)
 
 Contributor(s): [Nathan Gibbs]
 - [#143 `session_name()` called after `session_start()`](
 https://github.com/NathanGibbs3/BASE/issues/143)
-- [#146 `Information & destructive operations exposed to unauthenticated users.
-](
-https://github.com/NathanGibbs3/BASE/issues/146)  
+- [#146 Information & destructive operations exposed to unauthenticated users.](
+https://github.com/NathanGibbs3/BASE/issues/146)
+- [#161 Base allows unauthenticated users access to Alert Group Maintenance functions](
+https://github.com/NathanGibbs3/BASE/issues/161)  
 Contributor(s):
   - [mesteele]
   - [Nathan Gibbs]
