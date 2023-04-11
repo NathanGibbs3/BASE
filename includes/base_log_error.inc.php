@@ -111,6 +111,47 @@ function LibIncError (
 	}
 }
 
+// Debug Data Table
+function DDT ( $Items, $Desc = array(), $title = NULL, $tab = 3, $wd = 50 ){
+	if ( is_array($Items) ){
+		// Input Validation
+		if ( !is_int($tab) ){
+			$tab = 3;
+		}
+		if ( !is_int($wd) ){
+			$wd = 100;
+		}
+		if ( !LoadedString($title) ){
+			$title = 'Debug Data Table';
+		}
+			$title = XSSPrintSafe($title);
+		XSSPrintSafe($Desc);
+		XSSPrintSafe($Items);
+		PrintFramedBoxHeader($title, '', 0, $tab, '', $wd);
+		$icnt = count($Items);
+		if ( $icnt > 0 ){
+			NLIO('<td>', $tab + 2);
+			if ( $icnt <= count($Desc) ){
+				for ( $i = 0; $i < $icnt; $i++){
+					NLIO($Desc[$i], $tab + 3);
+					if ( $i != $icnt - 1 ){
+						NLIO('</td><td>', $tab + 2);
+					}
+				}
+				PrintTblNewRow( 1, '', $tab + 2 );
+			}
+			for ( $i = 0; $i < $icnt; $i++){
+				NLIO($Items[$i], $tab + 3);
+				if ( $i != $icnt - 1 ){
+					NLIO('</td><td>', $tab + 2);
+				}
+			}
+			NLIO('</td>', $tab + 2);
+		}
+		PrintFramedBoxFooter(0, $tab);
+	}
+}
+
 // @codeCoverageIgnoreStart
 function FatalError ($message){
 	print returnErrorMessage('<b>'._ERRBASEFATAL.'</b>',0,1)."\n".$message;

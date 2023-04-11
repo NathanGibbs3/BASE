@@ -150,15 +150,17 @@ class QueryState {
   }
 	function RunAction($submit, $which_page, $db){
 	GLOBAL $show_rows, $debug_mode;
-		ActOnSelectedAlerts(
-			$this->action, $this->valid_action_list, $submit,
-			$this->valid_action_op_list, $this->action_arg, $which_page,
-			$this->action_chk_lst, $this->action_lst, $show_rows,
-			$this->num_result_rows, $this->action_sql,
-			$this->current_canned_query, $db
-		);
-		if ( $debug_mode > 0 ){ // Issue #100 fix.
-			sleep(60);
+		if ( IsValidActionOp($submit, $this->valid_action_op_list) ){
+			ActOnSelectedAlerts(
+				$this->action, $this->valid_action_list, $submit,
+				$this->valid_action_op_list, $this->action_arg, $which_page,
+				$this->action_chk_lst, $this->action_lst, $show_rows,
+				$this->num_result_rows, $this->action_sql,
+				$this->current_canned_query, $db
+			);
+			if ( $debug_mode > 0 ){ // Issue #100 fix.
+				sleep(60);
+			}
 		}
 	}
 	function GetNumResultRows( $cnt_sql = '', $db = NULL ){

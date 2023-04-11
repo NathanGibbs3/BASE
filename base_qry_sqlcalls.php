@@ -38,6 +38,7 @@ global $colored_alerts, $debug_mode;
      $page = "base_qry_main.php";
      $cnt_sql = "SELECT COUNT(acid_event.cid) FROM acid_event ".$join_sql.$where_sql.$criteria_sql;
      $tmp_page_get = "";
+     $sql .= $join_sql.$where_sql.$criteria_sql;
   }
 
   /* Run the query to determine the number of rows (No LIMIT)*/
@@ -76,39 +77,28 @@ global $colored_alerts, $debug_mode;
 		"proto_d", " ", "$OB ip_proto DESC"
 );
 
-  if ( !$printing_ag )
-     $sql = $sql.$join_sql.$where_sql.$criteria_sql;
-
-  /* Apply sort criteria */
-  if ( $qs->isCannedQuery() )
-     $sql = $sql."$OB timestamp DESC ";
-  else
-  {
-     $sort_sql = $qro->GetSortSQL($qs->GetCurrentSort(), $qs->GetCurrentCannedQuerySort());
-     //  3/23/05 BDB   mods to make sort by work for Searches
-     $sort_sql = "";
+	if ( $qs->isCannedQuery() ){ // Apply sort criteria.
+		$sort_sql = "$OB timestamp DESC ";
+	}else{
+		$sort_sql = $qro->GetSortSQL($qs->GetCurrentSort(), $qs->GetCurrentCannedQuerySort());
+		if ( !is_null($sort_sql) ){ // Issue #168
+			$sort_sql = $sort_sql[1]; // Issue #133 fix.
+		}
 		if (!isset($sort_order)) {
 			$sort_order = NULL;
 		}
-		// Issue #133 fix.
-		$sort_sql = $qro->GetSortSQL($qs->GetCurrentSort(), '')[1];
-     ExportHTTPVar("prev_sort_order", $sort_order);
-    
-     $sql = $sql." ".$sort_sql;
-  }
-
-		if ( $debug_mode > 0 ){
-			print "<br/>SUBMIT: $submit <br/>";
-			print "sort_order: $sort_order <br/>";
-			print "SQL (save_sql): $sql <br/>";
-			print "SQL (sort_sql): $sort_sql <br/>";
-		}
-
-  /* Run the Query again for the actual data (with the LIMIT) */
-  //$result = ""; // $qs->ExecuteOutputQuery($sql, $db);
-  $result = $qs->ExecuteOutputQuery($sql, $db);
-  $et->Mark("Retrieve Query Data");
-
+		ExportHTTPVar("prev_sort_order", $sort_order);
+	}
+	$sql .= $sort_sql;
+	if ( $debug_mode > 0 ){
+		print "<br/>SUBMIT: $submit <br/>";
+		print "sort_order: $sort_order <br/>";
+		print "SQL (save_sql): $sql <br/>";
+		print "SQL (sort_sql): $sort_sql <br/>";
+	}
+	// Run the Query again for the actual data (with the LIMIT), if any.
+	$result = $qs->ExecuteOutputQuery($sql, $db);
+	$et->Mark("Retrieve Query Data");
 	if ( $debug_mode > 0 ){
 		if ( $qs->isCannedQuery() ){
 			$CCF = 'Yes';

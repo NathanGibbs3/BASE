@@ -140,31 +140,36 @@ $qro->AddTitle(_NBDESTADDR,
                 "last_d", ", max(timestamp) AS last_timestamp ",
                            " ORDER BY last_timestamp DESC");
 
-  $sort_sql = $qro->GetSortSQL($qs->GetCurrentSort(), $qs->GetCurrentCannedQuerySort());
-
-  $sql = "SELECT DISTINCT sig_class_id, ".
-         " COUNT(acid_event.cid) as num_events,".
-         " COUNT( DISTINCT acid_event.sid) as num_sensors, ".
-         " COUNT( DISTINCT signature ) as num_sig, ".
-         " COUNT( DISTINCT ip_src ) as num_sip, ".
-         " COUNT( DISTINCT ip_dst ) as num_dip, ".
-         " min(timestamp) as first_timestamp, ".
-         " max(timestamp) as last_timestamp ".
-         $sort_sql[0].$from.$where." GROUP BY sig_class_id ".$sort_sql[1];
-
-  /* Run the Query again for the actual data (with the LIMIT) */
-  $result = $qs->ExecuteOutputQuery($sql, $db);
-  $et->Mark("Retrieve Query Data");
-
-  if ( $debug_mode == 1 )
-  {
-     $qs->PrintCannedQueryList();
-     $qs->DumpState();
-     echo "$sql<BR>";
-  }
-
-  /* Print the current view number and # of rows */
-  $qs->PrintResultCnt();
+// Issue #168
+$sql = "SELECT DISTINCT sig_class_id, ".
+		" COUNT(acid_event.cid) as num_events,".
+		" COUNT( DISTINCT acid_event.sid) as num_sensors, ".
+		" COUNT( DISTINCT signature ) as num_sig, ".
+		" COUNT( DISTINCT ip_src ) as num_sip, ".
+		" COUNT( DISTINCT ip_dst ) as num_dip, ".
+		" min(timestamp) as first_timestamp, ".
+		" max(timestamp) as last_timestamp ";
+$sqlPFX = $from.$where." GROUP BY sig_class_id ";
+$sort_sql = $qro->GetSortSQL($qs->GetCurrentSort(), $qs->GetCurrentCannedQuerySort());
+if ( !is_null($sort_sql) ){
+	$sqlPFX = $sort_sql[0].$sqlPFX.$sort_sql[1];
+}
+$sql .= $sqlPFX;
+// Run the Query again for the actual data (with the LIMIT), if any.
+$result = $qs->ExecuteOutputQuery($sql, $db);
+$et->Mark("Retrieve Query Data");
+if ( $debug_mode > 0 ){
+	if ( $qs->isCannedQuery() ){
+		$CCF = 'Yes';
+		$qs->PrintCannedQueryList();
+	}else{
+		$CCF = 'No';
+	}
+	print "Canned Query: $CCF <br/>";
+	$qs->DumpState();
+	print "SQL Executed: $sql <br/>";
+}
+$qs->PrintResultCnt(); // Print current view number and # of rows.
 
   echo '<FORM METHOD="post" NAME="PacketForm" ACTION="base_stat_class.php">';
   
@@ -185,7 +190,26 @@ $qro->AddTitle(_NBDESTADDR,
      $max_time = $myrow[7];
 
      /* Print out */ 
-     qroPrintEntryHeader($i);
+	if ( isset($colored_alerts) && $colored_alerts == 1 ){
+		$tmp = 4; // Gray Default
+		$SCP1 = array (6,7,9,13,16,17,22); // Red
+		$SCP2 = array (2,3,4,5,8,10,14,15,20,21,23); // Yellow
+		$SCP3 = array (1,11,19); // Orange
+		$SCP4 = array (); // Gray
+		$SCP5 = array (); // White
+		$SCP6 = array (12); // Green
+		for ( $i = 1; $i < 7; $i++){
+			$T = 'SCP'.$i;
+			if ( in_array($class_id, $$T) ){
+				$tmp = $i;
+			}
+		}
+		$tmp2 = $colored_alerts;
+	}else{
+		$tmp = $i;
+		$tmp2 = 0;
+	}
+	qroPrintEntryHeader($tmp, $tmp2);
 
      $tmp_rowid = rawurlencode($class_id);
      echo '  <TD>&nbsp;&nbsp;

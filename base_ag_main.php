@@ -1,39 +1,42 @@
 <?php
-/*******************************************************************************
-** Basic Analysis and Security Engine (BASE)
-** Copyright (C) 2004 BASE Project Team
-** Copyright (C) 2000 Carnegie Mellon University
-**
-** (see the file 'base_main.php' for license details)
-**
-** Project Leads: Kevin Johnson <kjohnson@secureideas.net>
-** Built upon work by Roman Danyliw <rdd@cert.org>, <roman@danyliw.com>
-**
-** Purpose: Maintenance and configuration page for
-**          managing Alert Groups (AG)   
-**
-** Input GET/POST variables
-**   - ag_action:
-**   - ag_id: 
-**   - submit:
-********************************************************************************
-** Authors:
-********************************************************************************
-** Kevin Johnson <kjohnson@secureideas.net
-**
-********************************************************************************
-*/
-  require("base_conf.php");
+// Basic Analysis and Security Engine (BASE)
+// Copyright (C) 2019-2023 Nathan Gibbs
+// Copyright (C) 2004 BASE Project Team
+// Copyright (C) 2000 Carnegie Mellon University
+//
+//   For license info: See the file 'base_main.php'
+//
+//       Project Lead: Nathan Gibbs
+// Built upon work by: Kevin Johnson & the BASE Project Team
+//                     Roman Danyliw <rdd@cert.org>, <roman@danyliw.com>
+//
+//            Purpose: Maintenance & configuration page for managing
+//                     Alert Groups (AG)
+//
+//              Input: GET/POST variables
+//                     - ag_action:
+//                     - ag_id:
+//                     - submit:
+//
+//          Author(s): Nathan Gibbs
+//                     Kevin Johnson
+
+require("base_conf.php");
 include_once("$BASE_path/includes/base_constants.inc.php");
-  include("$BASE_path/includes/base_include.inc.php");
-  include_once("$BASE_path/includes/base_action.inc.php");
+include("$BASE_path/includes/base_include.inc.php");
   include_once("$BASE_path/base_db_common.php");
-  include_once("$BASE_path/base_common.php");
   include_once("$BASE_path/base_qry_common.php");
   include_once("$BASE_path/base_ag_common.php");
 
 AuthorizedRole(10000);
 $et = new EventTiming($debug_time_mode);
+$db = NewBASEDBConnection($DBlib_path, $DBtype); // Connect to Alert DB.
+$db->baseDBConnect(
+	$db_connect_method,$alert_dbname, $alert_host, $alert_port, $alert_user,
+	$alert_password
+);
+UpdateAlertCache($db);
+$AdminAuth = AuthorizedRole(50); // AG-Editor
   $cs = new CriteriaState("base_ag_main.php");
   $cs->ReadState();
   $qs = new QueryState();
@@ -45,46 +48,38 @@ $et = new EventTiming($debug_time_mode);
   $page_title = _AGMAINTTITLE;
   PrintBASESubHeader($page_title, $page_title, $cs->GetBackLink(), $refresh_all_pages);
 
-  /* Connect to the Alert database */
-  $db = NewBASEDBConnection($DBlib_path, $DBtype);
-  $db->baseDBConnect($db_connect_method,
-                     $alert_dbname, $alert_host, $alert_port, $alert_user, $alert_password);
-
-  /* a browsing button was clicked */
-  if ( is_numeric($submit) )
-  {
-    if ( $debug_mode > 0 ) ErrorMessage("Browsing Clicked ($submit)");
-    $qs->MoveView($submit);
-    $ag_action = "view";
-  }
-?>
-
-<div style='margin:auto'>
- <a href="base_ag_main.php?ag_action=list"><?php echo _LISTALL;?></a> | 
- <a href="base_ag_main.php?ag_action=create"><?php echo _CREATE;?></a> |
- <a href="base_ag_main.php?ag_action=view"><?php echo _VIEW;?></a> |
- <a href="base_ag_main.php?ag_action=edit"><?php echo _EDIT;?></a> |
- <a href="base_ag_main.php?ag_action=delete"><?php echo _DELETE;?></a> |
- <a href="base_ag_main.php?ag_action=clear"><?php echo _CLEAR;?></a>
-</div>
-<hr />
-
-<form name="PacketForm" action="base_ag_main.php" method="post">
-<?php
-if ($debug_mode == 1) {
-echo "
-  <table border='1'>
-    <tr>
-      <td>ag_action</td>
-      <td>submit</td>
-      <td>ag_id</td>
-    </tr>
-    <tr><td>htmlspecialchars($ag_action)</td>
-    <td>$submit</td>
-    <td>htmlspecialchars($ag_id)</td>
-  </tr>
-  </table>
-";
+if ( is_numeric($submit) ){ // A browsing button was clicked.
+	if ( $debug_mode > 0 ){
+		ErrorMessage("Browsing Clicked ($submit)");
+	}
+	$qs->MoveView($submit);
+	$ag_action = "view";
+}
+$Hrst = "<a href='base_ag_main.php?ag_action=";
+$Sep = ' | ';
+NLIO("<div style='margin:auto'>");
+NLIO($Hrst."list'>"._LISTALL.'</a>',4);
+if ( $AdminAuth ){
+	NLIO($Sep.$Hrst."create'>"._CREATE.'</a>',4);
+}
+NLIO($Sep.$Hrst."view'>"._VIEW.'</a>',4);
+if ( $AdminAuth ){
+	NLIO($Sep.$Hrst."edit'>"._EDIT.'</a>',4);
+	NLIO($Sep.$Hrst."delete'>"._DELETE.'</a>',4);
+}
+NLIO($Sep.$Hrst."clear'>"._CLEAR.'</a>',4);
+NLIO('</div>');
+NLIO('<hr/>');
+NLIO("<form name='PacketForm' action='base_ag_main.php' method='post'>");
+if ( $debug_mode > 0 ){
+	$TK = array ( 'ag_action', 'submit', 'ag_id' );
+	$DI = array();
+	$DD = array();
+	foreach ( $TK as $val ){
+		array_push($DD, $val);
+		array_push($DI, $$val);
+	}
+	DDT($DI,$DD,'Request Vars','',25);
 }
 $qs->AddValidAction("del_alert");
 $qs->AddValidAction("email_alert");
@@ -95,7 +90,7 @@ $qs->AddValidActionOp(_SELECTED);
 $qs->AddValidActionOp(_ALLONSCREEN);
 $qs->AddValidActionOp(_ENTIREQUERY);
 
-$qs->SetActionSQL("SELECT ag_sid, ag_cid FROM acid_ag_alert WHERE ag_id='".$ag_id."'"); 
+$qs->SetActionSQL("SELECT ag_sid, ag_cid FROM acid_ag_alert WHERE ag_id='".$ag_id."'");
 $et->Mark("Initialization");
 $qs->RunAction($submit, PAGE_QRY_AG, $db);
 $et->Mark("Alert Action");
@@ -210,10 +205,13 @@ if ($ag_action == "list") {
                <td class="plfieldhdr">'._NAME.'</td>
                <td class="plfieldhdr">'._NUMALERTS.'</td>
                <td class="plfieldhdr">'._DESC.'</td>
-               <td class="plfieldhdr">'._ACTIONS.'</td>
-             </tr>';
+               <td class="plfieldhdr">'._ACTIONS;
+
+		PrintTblNewRow( 0, '');
+		$Hrsfx = "&amp;submit=x'>";
         for ($i = 0; $i < $num; $i++) {
             $myrow = $result->baseFetchRow();
+			$AOA = urlencode($myrow[0]); // ActOnAG
 
             /* count the number of alerts in the AG */
             $result2 = $db->baseExecute("SELECT count(ag_cid) FROM acid_ag_alert WHERE ag_id='".$myrow[0]."'");
@@ -221,23 +219,24 @@ if ($ag_action == "list") {
             $num_alerts = $myrow2[0];
             $result2->baseFreeRows();
 
-            echo '<tr>
-                    <td class="plfield">
+echo '                    <td class="plfield">
                       <a href="base_ag_main.php?ag_action=view&amp;ag_id='.htmlspecialchars($myrow[0]).'&amp;submit=x">'.htmlspecialchars($myrow[0]).'</a></td>
                       <td class="plfield">'.htmlspecialchars($myrow[1]).'</TD>
                       <td class="plfield">'.$num_alerts.'</TD>
                       <td class="plfield">'.htmlspecialchars($myrow[2]).'</TD>
-                      <td class="plfield"> 
-                        <a href="base_ag_main.php?ag_action=edit&amp;ag_id='.urlencode($myrow[0]).'&amp;submit=x">'._EDIT.'</a> |
-                        <a href="base_ag_main.php?ag_action=delete&amp;ag_id='.urlencode($myrow[0]).'&amp;submit=x">'._DELETE.'</a> |
-                        <a href="base_ag_main.php?ag_action=clear&amp;ag_id='.urlencode($myrow[0]).'&amp;submit=x">'._CLEAR.'</a>
-                      </td>
-                  </tr>';
-        }
-        
+                      <td class="plfield">';
+
+			if ( $AdminAuth ){
+				NLIO($Hrst."edit&amp;ag_id=".$AOA.$Hrsfx._EDIT.'</a>',4);
+				NLIO($Sep.$Hrst."delete&amp;ag_id=".$AOA.$Hrsfx._DELETE.'</a>',4);
+				NLIO($Sep,4);
+			}
+			NLIO($Hrst."clear&amp;ag_id=".$AOA.$Hrsfx._CLEAR.'</a>',4);
+			PrintTblNewRow( 0, '');
+		}
         echo '</table>';
         $result->baseFreeRows();
-    }
+	}
 }
 
 if ($ag_action != "list") {
