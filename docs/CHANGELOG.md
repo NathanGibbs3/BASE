@@ -17,6 +17,7 @@ https://github.com/NathanGibbs3/BASE/issues/149)
 https://github.com/NathanGibbs3/BASE/issues/176)
 
 Contributor(s): [Nathan Gibbs]
+
 ### Changed
 - ADODB download URL in error message. [#28](
 https://github.com/NathanGibbs3/BASE/issues/28)
@@ -35,13 +36,16 @@ https://github.com/NathanGibbs3/BASE/issues/86)
 - base_maintenance.pl renamed to BASEcli
 
 Contributor(s): [Nathan Gibbs]
+
 ### Deprecated
+
 ### Removed
 - securitystats.com port lookup URL. [#177](
 https://github.com/NathanGibbs3/BASE/issues/177)
 - ports.tantalo.net port lookup URL.
 
 Contributor(s): [Nathan Gibbs]
+
 ### Fixed
 - [#2 Return value of function `GetVendor()`. ](
 https://github.com/NathanGibbs3/BASE/issues/2)
@@ -240,8 +244,11 @@ https://github.com/NathanGibbs3/BASE/issues/169)
 https://github.com/NathanGibbs3/BASE/issues/172)
 - [#174 Alert Display bug.](
 https://github.com/NathanGibbs3/BASE/issues/174)
+- [#179 Alert Group searches not displaying alerts.](
+https://github.com/NathanGibbs3/BASE/issues/179)
 
 Contributor(s): [Nathan Gibbs]
+
 - [#57 `tr bgcolor="#"` if `$prio` not in `$priority_colors`
 (unknown event class)](https://github.com/NathanGibbs3/BASE/issues/57)  
 Contributor(s):
@@ -256,10 +263,15 @@ non admin user is logged in.](
 https://github.com/NathanGibbs3/BASE/issues/144)
 - [#145 BASE denied landing page not loading.](
 https://github.com/NathanGibbs3/BASE/issues/145)
+- [#149 PHP 8.x compatibility.](
+https://github.com/NathanGibbs3/BASE/issues/149)
+- [#178 Invalid SQL Generation on PHP 8x.](
+https://github.com/NathanGibbs3/BASE/issues/178)
 
 Contributor(s):
   - [mesteele]
   - [Nathan Gibbs]
+
 ### Security
 - [#32 Add Anti XSS code to CGI Action "display" in base_user.php.](
 https://github.com/NathanGibbs3/BASE/issues/32)
@@ -314,7 +326,8 @@ https://github.com/NathanGibbs3/BASE/issues/143)
 - [#146 Information & destructive operations exposed to unauthenticated users.](
 https://github.com/NathanGibbs3/BASE/issues/146)
 - [#161 Base allows unauthenticated users access to Alert Group Maintenance functions](
-https://github.com/NathanGibbs3/BASE/issues/161)  
+https://github.com/NathanGibbs3/BASE/issues/161)
+
 Contributor(s):
   - [mesteele]
   - [Nathan Gibbs]
