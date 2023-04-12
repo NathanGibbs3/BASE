@@ -5,6 +5,7 @@ All notable changes to this project will be documented in this file using the
 
 ## [Unreleased]
 ### Added
+ - PHP 8x Support.
  - PHP 7x Support.
  - MariaDB Support.
  - PHPUnit Tests.
@@ -191,6 +192,38 @@ https://github.com/NathanGibbs3/BASE/issues/132)
 https://github.com/NathanGibbs3/BASE/issues/133)
 - [#135 Remove call to `qmagic()` for compatibility with ADOdb 5.21+ and PHP 
 7.4+](https://github.com/NathanGibbs3/BASE/issues/135)
+- [#140 Form element <input> outside of table data <td> tag set.](
+https://github.com/NathanGibbs3/BASE/issues/140)
+- [#147 Incomplete DOCTYPE](https://github.com/NathanGibbs3/BASE/issues/147)
+- [#141 Usage of key_exists() & array_key_exists() breaks support for older PHP's](
+https://github.com/NathanGibbs3/BASE/issues/141)
+- [#17 Authenticate() does not check for disabled user account.](
+https://github.com/NathanGibbs3/BASE/issues/17)
+- [#138 Make fitlerSql() aware of global database variable.](
+https://github.com/NathanGibbs3/BASE/issues/138)
+- [#148 Fixes for Issue #146 break BASEcli.](
+https://github.com/NathanGibbs3/BASE/issues/148)
+- [#150 BASEcli enhancements.](https://github.com/NathanGibbs3/BASE/issues/150)
+- [#151 Tests for DateTimeRows2sql() do not cover PostqreSQL.](
+https://github.com/NathanGibbs3/BASE/issues/151)
+- [#152 PHP 7.2 - runaway build.](
+https://github.com/NathanGibbs3/BASE/issues/152)
+- [#153 PHP 8.x - Use of each breaks builds](
+https://github.com/NathanGibbs3/BASE/issues/153)
+- [#154 PHP 7.2 - Downgrade PHPUnit on CI](
+https://github.com/NathanGibbs3/BASE/issues/154)
+- [#155 PHP 5.3 - SSL error blocks build.](
+https://github.com/NathanGibbs3/BASE/issues/155)
+- [#157 PHP 7.1+ - CleanVariable() invalid data mask crash.](
+https://github.com/NathanGibbs3/BASE/issues/157)
+- [#159 PHP 7.3 - PHPUnit Tests for Mysql throws warnings.](
+https://github.com/NathanGibbs3/BASE/issues/159)
+- [#160 PHP 8.x - ErrorMessage() & returnErrorMessage() output breaks.](
+https://github.com/NathanGibbs3/BASE/issues/160)
+- [#162 PHP 8x - Mysql errors in build.](
+https://github.com/NathanGibbs3/BASE/issues/162)
+- [#163 PHP 8x - Invalid SQL Tests break build.](
+https://github.com/NathanGibbs3/BASE/issues/163)
 
 Contributor(s): [Nathan Gibbs]
 - [#57 `tr bgcolor="#"` if `$prio` not in `$priority_colors`

@@ -215,14 +215,9 @@ function GetSingleSignatureReference($ref_system, $ref_tag, $style)
    }
 }
 
-
-
-
-function GetSignatureReference($sig_id, $db, $style)
-{
-   $ref = "";
-   GLOBAL $BASE_display_sig_links, $debug_mode;
-   
+function GetSignatureReference( $sig_id, $db, $style ){
+	GLOBAL $BASE_display_sig_links, $debug_mode;
+	$ref = '';
    if ( $BASE_display_sig_links == 1)
    {
       $temp_sql = "SELECT ref_seq, ref_id FROM sig_reference WHERE sig_id='". addslashes($sig_id) ."'";
@@ -295,10 +290,10 @@ function GetSignatureReference($sig_id, $db, $style)
 					// then we assume it is a rule based alert:
 					{						
 						$docu_file = "$bp/../signatures/$sig_sid.txt"; 
-            if ($debug_mode > 0) 
-            {
-						  error_log("sig_sid = $sig_sid; docu_file = $docu_file");
-            }
+
+				if ($debug_mode > 1 ){
+					 error_log("sig_sid = $sig_sid; docu_file = $docu_file");
+				}
 
 						if (file_exists($docu_file)) 
 						{
@@ -355,8 +350,7 @@ function GetSignatureReference($sig_id, $db, $style)
          }
       }
    }
-
-   return $ref;
+	return $ref;
 }
 
 function check_string($str){
@@ -622,43 +616,35 @@ function GetSigClassID($sig_id, $db)
 
   return $row[0]; 
 }
-
-function GetSigClassName ($class_id, $db)
-{
+function GetSigClassName ( $class_id, $db ){
 	GLOBAL $debug_mode;
-
-
-  if ( $class_id == "" )
-	{
-		error_log(__FILE__ . ":" . __LINE__ . ": WARNING: \$class_id is empty. Returning \"unclassified\"");
-		return "<I>"._UNCLASS."</I>";
-	}
-
-  $sql = "SELECT sig_class_name FROM sig_class ". 
-         "WHERE sig_class_id = '$class_id'";
-
-	if ($debug_mode > 0)
-	{
-		error_log(__FILE__ . ":" . __LINE__ . ": sql = \"$sql\"");
-	}
-  $result = $db->baseExecute($sql);
-
-  $row = $result->baseFetchRow();
-  if ( $row == "" ) 
-	{
-		if ($debug_mode > 0)
-		{
-			error_log(__FILE__ . ":" . __LINE__ . ": WARNING: Database query result is empty for \$class_id = \"$class_id\". Returning \"unclassified\""); 
+	$Ret = "<I>"._UNCLASS."</I>";
+	$EMPfx = __FUNCTION__ . ': ';
+	if ( $class_id == '' ){
+		error_log($EMPfx."WARNING: \$class_id is empty. Returning \"unclassified\"");
+	}else{
+		$sql = "SELECT sig_class_name FROM sig_class ".
+			"WHERE sig_class_id = '$class_id'";
+		$rs = $db->baseExecute($sql);
+		if (
+			$rs != false
+			&& $db->baseErrorMessage() == ''
+			&& $rs->baseRecordCount() > 0
+		){ // Error Check
+			$result = $rs->baseFetchRow();
+			$rs->baseFreeRows();
+			if ( isset($result[0]) ){
+				$Ret = $result[0];
+			}
+		}else{
+			if ( $debug_mode > 0 ){
+				error_log($EMPfx." sql = \"$sql\"");
+				error_log($EMPfx."WARNING: BASE DB Query Fail: for \$class_id = \"$class_id\". Returning \"unclassified\"");
+			}
 		}
-
-    return "<I>"._UNCLASS."</I>";
 	}
-  else
-	{
-    return $row[0]; 
-	}
+	return $Ret;
 }
-
 function GetTagTriger($current_sig, $db, $sid, $cid)
 {
 
@@ -713,5 +699,4 @@ function GetTagTriger($current_sig, $db, $sid, $cid)
       }
       return $current_sig;
 }
-
 ?>

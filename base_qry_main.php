@@ -244,8 +244,9 @@ if (
   $qs->RunAction($submit, PAGE_QRY_ALERTS, $db);
   $et->Mark("Alert Action");
 
-  if ( $debug_mode > 0 ) ErrorMessage("Initial/Canned Query or Sort Clicked");
-
+	if ( $debug_mode > 0 ){
+		ErrorMessage("Initial/Canned Query or Sort Clicked");
+	}
 	include("$BASE_path/base_qry_sqlcalls.php");
 }else{ // Return the input form to get more criteria from user.
 	include("$BASE_path/base_qry_form.php");

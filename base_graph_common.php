@@ -254,17 +254,17 @@ function GetTimeDataSet(
 			break;
 	}
 	if ( $debug_mode > 0 ){
-		PrintFramedBoxHeader('Time Constraints','',0,0,'',50);
-		print '<td>year_start</td><td>year_end</td>';
-		print '<td>month_start</td><td>month_end</td>';
-		print '<td>day_start</td><td>day_end</td>';
-		print '<td>hour_start</td><td>hour_end</td>';
-		print '<tr></tr>';
-		print '<td>'.$year_start.'</td><td>'.$year_end.'</td>';
-		print '<td>'.$month_start.'</td><td>'.$month_end.'</td>';
-		print '<td>'.$day_start.'</td><td>'.$day_end.'</td>';
-		print '<td>'.$hour_start.'</td><td>'.$hour_end.'</td>';
-		PrintFramedBoxFooter();
+		$TK = array ( 'year', 'month', 'day', 'hour' );
+		$DI = array();
+		$DD = array();
+		foreach ( $TK as $val ){
+			foreach ( array( 'start', 'end' ) as $vsf ){
+				$tmp = $val . '_' . $vsf;
+				array_push($DD, $tmp);
+				array_push($DI, $$tmp);
+			}
+		}
+		DDT($DI,$DD,'Time Constraints');
 	}
 	$cnt = 0;
 	$ag = $criteria[0];

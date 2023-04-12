@@ -214,36 +214,46 @@ $qro->AddTitle( $CPLast,
 	"last_d", " ", "$OB last_timestamp DESC"
 );
 
-  $sort_sql = $qro->GetSortSQL($qs->GetCurrentSort(), $qs->GetCurrentCannedQuerySort());
-
-  $sql = "SELECT DISTINCT $port_type_sql, MIN(ip_proto), ".
-         " COUNT(acid_event.cid) as num_events,".
-         " COUNT( DISTINCT acid_event.sid) as num_sensors, ".
-         " COUNT( DISTINCT signature ) as num_sig, ".
-         " COUNT( DISTINCT ip_src ) as num_sip, ".
-         " COUNT( DISTINCT ip_dst ) as num_dip, ".
-         " MIN(timestamp) as first_timestamp, ".
-         " MAX(timestamp) as last_timestamp ".
-         $sort_sql[0].
-         " FROM acid_event ".$criteria_clauses[0]." WHERE ".$proto_sql.$criteria_clauses[1].
-         " GROUP BY ".$port_type_sql." ".$sort_sql[1];
-
-  /* Run the Query again for the actual data (with the LIMIT) */
-  $result = $qs->ExecuteOutputQuery($sql, $db);
-  $et->Mark("Retrieve Query Data");
-if ( $debug_mode == 1 ){
-     $qs->PrintCannedQueryList();
-     $qs->DumpState();
-     echo "$sql<BR>";
-     echo '<HR><TABLE BORDER=1>
-             <TR><TD>port_type</TD>
-                 <TD>proto</TD></TR>
-             <TR><TD>'.$port_type.'</TD>
-                 <TD>'.$proto.'</TD></TR>
-           </TABLE>';
+// Issue #168
+$sql = "SELECT DISTINCT $port_type_sql, MIN(ip_proto), ".
+		" COUNT(acid_event.cid) as num_events,".
+		" COUNT( DISTINCT acid_event.sid) as num_sensors, ".
+		" COUNT( DISTINCT signature ) as num_sig, ".
+		" COUNT( DISTINCT ip_src ) as num_sip, ".
+		" COUNT( DISTINCT ip_dst ) as num_dip, ".
+		" MIN(timestamp) as first_timestamp, ".
+		" MAX(timestamp) as last_timestamp ";
+$sqlPFX = " FROM acid_event ".$criteria_clauses[0].
+	" WHERE ".$proto_sql.$criteria_clauses[1]." GROUP BY ".$port_type_sql." ";
+$sort_sql = $qro->GetSortSQL($qs->GetCurrentSort(), $qs->GetCurrentCannedQuerySort());
+if ( !is_null($sort_sql) ){
+	$sqlPFX = $sort_sql[0].$sqlPFX.$sort_sql[1];
 }
-// Print the current view number and # of rows.
-  $qs->PrintResultCnt();
+$sql .= $sqlPFX;
+// Run the Query again for the actual data (with the LIMIT), if any.
+$result = $qs->ExecuteOutputQuery($sql, $db);
+$et->Mark("Retrieve Query Data");
+if ( $debug_mode > 0 ){
+	if ( $qs->isCannedQuery() ){
+		$CCF = 'Yes';
+		$qs->PrintCannedQueryList();
+	}else{
+		$CCF = 'No';
+	}
+	print "Canned Query: $CCF <br/>";
+	$qs->DumpState();
+	print "SQL Executed: $sql <br/>";
+	$TK = array ( 'port_type', 'proto' );
+	$DI = array();
+	$DD = array();
+	foreach ( $TK as $val ){
+		array_push($DD, $val);
+		array_push($DI, $$val);
+	}
+	NLIO('<hr/>');
+	DDT($DI,$DD,'Port / Protocol Constraints', '', 12);
+}
+$qs->PrintResultCnt(); // Print current view number and # of rows.
 
   echo '<FORM METHOD="post" NAME="PacketForm" ACTION="base_stat_ports.php">'."\n";
 

@@ -144,7 +144,7 @@ class SingleElementCriteria extends BaseCriteria{
 		return $this->criteria;
 	}
 	function isEmpty(){
-		if ( $this->criteria == '' ){
+		if ( is_null($this->criteria) || $this->criteria == '' ){
 			$Ret = true;
 		}else{
 			$Ret = false;
@@ -253,7 +253,7 @@ class MultipleElementCriteria extends BaseCriteria {
 		return $this->criteria;
 	}
 	function isEmpty(){
-		if ( $this->criteria_cnt == 0 ){
+		if ( is_null($this->criteria) || $this->criteria_cnt == 0 ){
 			$Ret = true;
 		}else{
 			$Ret = false;
@@ -1319,7 +1319,6 @@ class TCPFlagsCriteria extends SingleElementCriteria{
 	//  - [2] : 2   (SYN)                      [7] : 64    (RSV0)
 	//  - [3] : 4   (PUSH)                     [8] : 128   (RSV1)
 	//  - [4] : 8   (RST)
-	var $criteria = array();
 
 	function Init(){
 		InitArray($this->criteria, TCPFLAGS_CFCNT, 0, '');
@@ -1390,16 +1389,16 @@ class TCPFlagsCriteria extends SingleElementCriteria{
 
          $tmp = $tmp.$this->cs->GetClearCriteriaString("tcp_flags").'<BR>';
       }
-
-      return $tmp;
+		return $tmp;
 	}
-   function isEmpty()
-   {
-     if ( strlen($this->criteria) != 0 && ($this->criteria[0] != "") && ($this->criteria[0] != " ") )
-        return false;
-     else
-        return true; 
-   }
+	function isEmpty(){
+		$Ret = false;
+		$TD = array ('', ' '); // Test Values
+		if ( is_null($this->criteria) || in_array($this->criteria[0], $TD) ){
+			$Ret = true;
+		}
+		return $Ret;
+	}
 };  /* TCPFlagCriteria */
 
 class UDPPortCriteria extends ProtocolFieldCriteria {
