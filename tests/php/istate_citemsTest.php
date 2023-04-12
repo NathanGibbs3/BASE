@@ -247,6 +247,10 @@ class state_citemsTest extends TestCase {
 			$tc = new SingleElementCriteria($db, $cs, 'Test'),
 			'Class Not Initialized.'
 		);
+		$this->assertNull($tc->criteria, $URV);
+		$this->assertTrue($tc->isEmpty(),$URV); // isEmtpy True
+		$tc->Set('');
+		$this->assertNotNull($tc->criteria, $URV);
 		$this->assertTrue($tc->isEmpty(),$URV); // isEmtpy True
 		$tc->Set(1); // Set
 		$this->assertEquals(1,$tc->criteria,$URV); // Verify Set
@@ -301,6 +305,10 @@ class state_citemsTest extends TestCase {
 			$tc = new MultipleElementCriteria($db, $cs, 'Test', 1),
 			'Class Not Initialized.'
 		);
+		$this->assertNull($tc->criteria, $URV);
+		$this->assertTrue($tc->isEmpty(),$URV); // isEmtpy True
+		$tc->Set(array());
+		$this->assertNotNull($tc->criteria, $URV);
 		$this->assertTrue($tc->isEmpty(),$URV); // isEmtpy True
 		$tc->SetFormItemCnt(1); // SetFormItemCnt
 		$this->assertEquals(1, $tc->criteria_cnt, $URV);

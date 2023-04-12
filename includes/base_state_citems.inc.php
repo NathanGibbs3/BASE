@@ -144,7 +144,7 @@ class SingleElementCriteria extends BaseCriteria{
 		return $this->criteria;
 	}
 	function isEmpty(){
-		if ( $this->criteria == '' ){
+		if ( is_null($this->criteria) || $this->criteria == '' ){
 			$Ret = true;
 		}else{
 			$Ret = false;
@@ -253,7 +253,7 @@ class MultipleElementCriteria extends BaseCriteria {
 		return $this->criteria;
 	}
 	function isEmpty(){
-		if ( $this->criteria_cnt == 0 ){
+		if ( is_null($this->criteria) || $this->criteria_cnt == 0 ){
 			$Ret = true;
 		}else{
 			$Ret = false;

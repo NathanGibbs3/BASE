@@ -289,24 +289,25 @@ if ( !is_null($sort_sql) ){
 }
 $save_sql .= $sqlPFX;
 GetQueryResultID($submit, $seq, $sid, $cid);
-if ( $qs->isCannedQuery() ){
-	$CCF = 'Yes';
-	$qs->PrintCannedQueryList();
-}else{
-	$CCF = 'No';
+if ( $debug_mode > 0 ){
+	if ( $qs->isCannedQuery() ){
+		$CCF = 'Yes';
+		$qs->PrintCannedQueryList();
+	}else{
+		$CCF = 'No';
+	}
+	print "Canned Query: $CCF <br/>";
+	$qs->DumpState();
+	print "SQL Saved: $save_sql <br/>";
+	$TK = array ( 'submit', 'sid', 'cid', 'seq' );
+	$DI = array();
+	$DD = array();
+	foreach ( $TK as $val ){
+		array_push($DD, $val);
+		array_push($DI, $$val);
+	}
+	DDT($DI,$DD,'Alert Lookup ','',25);
 }
-print "Canned Query: $CCF <br/>";
-$qs->DumpState();
-print "SQL Saved: $save_sql <br/>";
-
-  if ( $debug_mode > 0 )
-     echo "\n====== Alert Lookup =======<BR>
-        submit = $submit<BR>
-           sid = $sid<BR>
-           cid = $cid<BR>
-           seq = $seq<BR>\n".
-          "===========================<BR>\n";
-
 
 	// Verify (sid, cid) are extracted correctly.
 	if ( is_int($sid) && is_int($cid) && !($sid > 0 && $cid > 0) ){
