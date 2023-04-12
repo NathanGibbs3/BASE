@@ -116,6 +116,9 @@ function DDT (
 	$Items, $Desc = array(), $title = NULL, $tab = 3, $wd = 75, $vf = 0
 ){
 	if ( is_array($Items) ){ // Input Validation
+		if ( !is_array($Desc) ){
+			$Desc = array($Desc);
+		}
 		if ( !is_int($tab) ){
 			$tab = 3;
 		}
