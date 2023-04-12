@@ -18,7 +18,7 @@
 ********************************************************************************
 */
 
-if ( isset($join_sql) ){ // Issue #5
+if ( isset($join_sql) || $printing_ag ){ // Issue #5
 global $colored_alerts, $debug_mode;
   /* **************** Run the Query ************************************************** */
 
@@ -91,10 +91,18 @@ global $colored_alerts, $debug_mode;
 	}
 	$sql .= $sort_sql;
 	if ( $debug_mode > 0 ){
-		print "<br/>SUBMIT: $submit <br/>";
-		print "sort_order: $sort_order <br/>";
-		print "SQL (save_sql): $sql <br/>";
-		print "SQL (sort_sql): $sort_sql <br/>";
+		$TK = array ( 'SUBMIT', 'sort_order', 'SQL (save_sql)', 'SQL (sort_sql)' );
+		$DI = array($submit, $sort_order, $sql, $sort_sql );
+		$DD = array();
+		foreach ( $TK as $val ){
+			array_push($DD, $val);
+		}
+		if ( $printing_ag ){
+			$ttmp = 'Alert Group';
+		}else{
+			$ttmp = 'Query';
+		}
+		DDT($DI,$DD, "$ttmp Debug", '', '',1);
 	}
 	// Run the Query again for the actual data (with the LIMIT), if any.
 	$result = $qs->ExecuteOutputQuery($sql, $db);

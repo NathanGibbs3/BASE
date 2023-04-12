@@ -36,6 +36,18 @@ $db->baseDBConnect(
 	$alert_password
 );
 UpdateAlertCache($db);
+if ( class_exists('UILang') ){ // Issue 11 backport shim.
+	$CPSig = $UIL->CWA['Sig'];
+	$CPSA = $UIL->CPA['SrcAddr'];
+	$CPDA = $UIL->CPA['DstAddr'];
+	$CPTs = $UIL->CWA['Ts'];
+}else{
+	$CPSig = _SIGNATURE;
+	$CPSA = _NBSOURCEADDR;
+	$CPDA = _NBDESTADDR;
+	$CPTs = _TIMESTAMP;
+}
+
 $AdminAuth = AuthorizedRole(50); // AG-Editor
   $cs = new CriteriaState("base_ag_main.php");
   $cs->ReadState();

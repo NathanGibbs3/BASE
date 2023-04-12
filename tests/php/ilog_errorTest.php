@@ -192,7 +192,7 @@ class log_errorTest extends TestCase {
 		$UOV = self::$UOV.'DDT().';
 		$TA = array();
 		$EOM = "\n\t\t\t<table style = ".
-		"'border: 2px solid black; border-collapse: collapse; width:50%;' ".
+		"'border: 2px solid red; border-collapse: collapse; width:75%;' ".
 		"summary='Debug Data Table'>".
 		"\n\t\t\t\t<tr>".
 		"\n\t\t\t\t\t<td class='sectiontitle' style='text-align: center;' ".
@@ -205,7 +205,7 @@ class log_errorTest extends TestCase {
 		$UOV = self::$UOV.'DDT().';
 		$TA = array();
 		$EOM = "\n\t\t\t<table style = ".
-		"'border: 2px solid black; border-collapse: collapse; width:50%;' ".
+		"'border: 2px solid red; border-collapse: collapse; width:75%;' ".
 		"summary='Title'>".
 		"\n\t\t\t\t<tr>".
 		"\n\t\t\t\t\t<td class='sectiontitle' style='text-align: center;' ".
@@ -218,7 +218,7 @@ class log_errorTest extends TestCase {
 		$UOV = self::$UOV.'DDT().';
 		$TA = array();
 		$EOM = "\n\t<table style = ".
-		"'border: 2px solid black; border-collapse: collapse; width:50%;' ".
+		"'border: 2px solid red; border-collapse: collapse; width:75%;' ".
 		"summary='Debug Data Table'>".
 		"\n\t\t<tr>".
 		"\n\t\t\t<td class='sectiontitle' style='text-align: center;' ".
@@ -231,7 +231,7 @@ class log_errorTest extends TestCase {
 		$UOV = self::$UOV.'DDT().';
 		$TA = array();
 		$EOM = "\n\t\t\t<table style = ".
-		"'border: 2px solid black; border-collapse: collapse; width:100%;' ".
+		"'border: 2px solid red; border-collapse: collapse; width:100%;' ".
 		"summary='Debug Data Table'>".
 		"\n\t\t\t\t<tr>".
 		"\n\t\t\t\t\t<td class='sectiontitle' style='text-align: center;' ".
@@ -244,7 +244,7 @@ class log_errorTest extends TestCase {
 		$UOV = self::$UOV.'DDT().';
 		$TA = array( 'a', 'b', 'c' );
 		$EOM = "\n\t\t\t<table style = ".
-		"'border: 2px solid black; border-collapse: collapse; width:50%;' ".
+		"'border: 2px solid red; border-collapse: collapse; width:75%;' ".
 		"summary='Debug Data Table'>".
 		"\n\t\t\t\t<tr>".
 		"\n\t\t\t\t\t<td class='sectiontitle' style='text-align: center;' ".
@@ -256,12 +256,33 @@ class log_errorTest extends TestCase {
 		"\n\t\t\t\t\t</td>\n\t\t\t\t</tr>\n\t\t\t</table>";
 		$this->expectOutputString( $EOM, DDT($TA), $UOV );
 	}
+	public function testDDTIemsV() {
+		$UOV = self::$UOV.'DDT().';
+		$TA = array( 'a', 'b', 'c' );
+		$EOM = "\n\t\t\t<table style = ".
+		"'border: 2px solid red; border-collapse: collapse; width:75%;' ".
+		"summary='Debug Data Table'>".
+		"\n\t\t\t\t<tr>".
+		"\n\t\t\t\t\t<td class='sectiontitle' style='text-align: center;' ".
+		"colspan='20'>\n\t\t\t\t\t\tDebug Data Table\n\t\t\t\t\t</td>".
+		"\n\t\t\t\t</tr><tr>".
+		"\n\t\t\t\t\t<td>".
+		"\n\t\t\t\t\t\ta"."\n\t\t\t\t\t</td>".
+		"\n\t\t\t\t</tr><tr>".
+		"\n\t\t\t\t\t<td>".
+		"\n\t\t\t\t\t\tb"."\n\t\t\t\t\t</td>".
+		"\n\t\t\t\t</tr><tr>".
+		"\n\t\t\t\t\t<td>".
+		"\n\t\t\t\t\t\tc".
+		"\n\t\t\t\t\t</td>\n\t\t\t\t</tr>\n\t\t\t</table>";
+		$this->expectOutputString( $EOM, DDT($TA, '', '', '', '', 1), $UOV );
+	}
 	public function testDDTIemsDesc() {
 		$UOV = self::$UOV.'DDT().';
 		$TA = array( 'a', 'b', 'c' );
 		$TD = array( 'd', 'e', 'f' );
 		$EOM = "\n\t\t\t<table style = ".
-		"'border: 2px solid black; border-collapse: collapse; width:50%;' ".
+		"'border: 2px solid red; border-collapse: collapse; width:75%;' ".
 		"summary='Debug Data Table'>".
 		"\n\t\t\t\t<tr>".
 		"\n\t\t\t\t\t<td class='sectiontitle' style='text-align: center;' ".
@@ -275,6 +296,37 @@ class log_errorTest extends TestCase {
 		"\n\t\t\t\t\t\tb"."\n\t\t\t\t\t</td><td>"."\n\t\t\t\t\t\tc".
 		"\n\t\t\t\t\t</td>\n\t\t\t\t</tr>\n\t\t\t</table>";
 		$this->expectOutputString( $EOM, DDT($TA, $TD), $UOV );
+	}
+	public function testDDTIemsDesV() {
+		$UOV = self::$UOV.'DDT().';
+		$TA = array( 'a', 'b', 'c' );
+		$TD = array( 'd', 'e', 'f' );
+		$EOM = "\n\t\t\t<table style = ".
+		"'border: 2px solid red; border-collapse: collapse; width:75%;' ".
+		"summary='Debug Data Table'>".
+		"\n\t\t\t\t<tr>".
+		"\n\t\t\t\t\t<td class='sectiontitle' style='text-align: center;' ".
+		"colspan='20'>\n\t\t\t\t\t\tDebug Data Table\n\t\t\t\t\t</td>".
+		"\n\t\t\t\t</tr><tr>".
+		"\n\t\t\t\t\t<td class='sectiontitle' ".
+		"style='text-align: right; padding-right: 10px; width: 10%'>".
+		"\n\t\t\t\t\t\td: ".
+		"\n\t\t\t\t\t</td><td style='padding-left:10px;'>".
+		"\n\t\t\t\t\t\ta"."\n\t\t\t\t\t</td>".
+		"\n\t\t\t\t</tr><tr>".
+		"\n\t\t\t\t\t<td class='sectiontitle' ".
+		"style='text-align: right; padding-right: 10px; width: 10%'>".
+		"\n\t\t\t\t\t\te: ".
+		"\n\t\t\t\t\t</td><td style='padding-left:10px;'>".
+		"\n\t\t\t\t\t\tb"."\n\t\t\t\t\t</td>".
+		"\n\t\t\t\t</tr><tr>".
+		"\n\t\t\t\t\t<td class='sectiontitle' ".
+		"style='text-align: right; padding-right: 10px; width: 10%'>".
+		"\n\t\t\t\t\t\tf: ".
+		"\n\t\t\t\t\t</td><td style='padding-left:10px;'>".
+		"\n\t\t\t\t\t\tc"."\n\t\t\t\t\t</td>".
+		"\n\t\t\t\t</tr>\n\t\t\t</table>";
+		$this->expectOutputString( $EOM, DDT($TA, $TD, '', '', '', 1), $UOV );
 	}
 
 	// Add code to a function if needed.

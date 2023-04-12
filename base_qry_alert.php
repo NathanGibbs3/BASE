@@ -119,7 +119,7 @@ function PrintPcapDownload( $db, $cid, $sid ){
 	return $url;
 }
 
-function PrintPacketLookupBrowseButtons( $seq = 0, $sql, $db, &$p_b, &$n_b ){
+function PrintPacketLookupBrowseButtons( $seq, $sql, $db, &$p_b, &$n_b ){
 	GLOBAL $debug_mode;
 	$EMPfx = __FUNCTION__ . ': ';
 	if ( !is_int($seq) ){ // Input Validation
@@ -151,8 +151,7 @@ function PrintPacketLookupBrowseButtons( $seq = 0, $sql, $db, &$p_b, &$n_b ){
 			$p_b = '[ '._FIRST.' ]'."\n";
 		}
 		$Pfx = "<INPUT TYPE='submit' NAME='submit' VALUE='";
-		$i = $start;
-		while ( $i <= $seq + 1 ){
+		for ( $i = $start; $i <= $seq + 1; $i++  ){
 			$row = $rs->baseFetchRow();
 			if ( $debug_mode > 1 ){
 				ErrorMessage ("# $i - $seq", 'black',1);
@@ -168,7 +167,6 @@ function PrintPacketLookupBrowseButtons( $seq = 0, $sql, $db, &$p_b, &$n_b ){
 			}elseif ( $i == $seq + 1 ){
 				$n_b = $Pfx."&gt;&gt; "._NEXT." #".($seq+1).$Sfx;
 			}
-			$i++;
 		}
 		$rs->baseFreeRows();
 		if ( $debug_mode > 1 ){
@@ -180,17 +178,17 @@ function PrintPacketLookupBrowseButtons( $seq = 0, $sql, $db, &$p_b, &$n_b ){
 	}
 }
 
-  /* 
-   *  Need to import $submit and set the $QUERY_STRING early to support
-   *  the back button.  Otherwise, the value of $submit will not be passed
-   *  to the history.
-   */
-
-$sort_order = ImportHTTPVar('sort_order', VAR_LETTER | VAR_USCORE);
-  /* This call can include "#xx-(xx-xx)" values and "submit" values. */
-  $submit = ImportHTTPVar("submit", VAR_DIGIT | VAR_PUNC | VAR_LETTER, array(_SELECTED, _ALLONSCREEN, _ENTIREQUERY)); 
-
-  $_SERVER["QUERY_STRING"] = "submit=".rawurlencode($submit);
+$sort_order = ImportHTTPVar( 'sort_order', VAR_LETTER | VAR_USCORE );
+// Need to import $submit and set the $QUERY_STRING early to support the back
+// button. Otherwise, the value of $submit will not be passed to the history.
+//
+// $submit can contain values in the form of  "#xx-(xx-xx)" and
+// other "submit" values.
+$submit = ImportHTTPVar(
+	'submit', VAR_DIGIT | VAR_PUNC | VAR_LETTER,
+	array(_SELECTED, _ALLONSCREEN, _ENTIREQUERY)
+);
+$_SERVER["QUERY_STRING"] = "submit=".rawurlencode($submit);
 
   $et = new EventTiming($debug_time_mode);
   $cs = new CriteriaState("base_qry_main.php", "&amp;new=1&amp;submit="._QUERYDBP);
@@ -328,8 +326,8 @@ if ( $debug_mode > 0 ){
 			$cid = 1;
 		}
 	}
+PrintPacketLookupBrowseButtons($seq, $save_sql, $db, $previous, $next);
   echo "<FORM METHOD=\"GET\" ACTION=\"base_qry_alert.php\">\n"; 
-  PrintPacketLookupBrowseButtons($seq, $save_sql, $db, $previous, $next);
   echo "<CENTER>\n<B>"._ALERT." #".($seq)."</B><BR>\n$previous &nbsp&nbsp&nbsp\n$next\n</CENTER>\n";
   echo "<HR>\n";
 
@@ -338,8 +336,7 @@ if ( $debug_mode > 0 ){
 
   /* Event */
   $sql2 = "SELECT signature, timestamp FROM acid_event WHERE sid='".filterSql($sid)."' AND cid='".filterSql($cid)."'";
-	if ($debug_mode > 0)
-	{
+	if ( $debug_mode > 0 ){
 		print "<BR><BR>\n\n" . __FILE__ . ":" . __LINE__ . ": DEBUG: \$sql2 = \"$sql2\"<BR><BR>\n\n";
 	}
   $result2 = $db->baseExecute($sql2);

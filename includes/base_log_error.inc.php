@@ -112,38 +112,65 @@ function LibIncError (
 }
 
 // Debug Data Table
-function DDT ( $Items, $Desc = array(), $title = NULL, $tab = 3, $wd = 50 ){
-	if ( is_array($Items) ){
-		// Input Validation
+function DDT (
+	$Items, $Desc = array(), $title = NULL, $tab = 3, $wd = 75, $vf = 0
+){
+	if ( is_array($Items) ){ // Input Validation
 		if ( !is_int($tab) ){
 			$tab = 3;
 		}
 		if ( !is_int($wd) ){
-			$wd = 100;
+			$wd = 75;
+		}
+		if ( !is_int($vf) ){
+			$vf = 0;
 		}
 		if ( !LoadedString($title) ){
 			$title = 'Debug Data Table';
 		}
-			$title = XSSPrintSafe($title);
-		XSSPrintSafe($Desc);
-		XSSPrintSafe($Items);
-		PrintFramedBoxHeader($title, '', 0, $tab, '', $wd);
+		$title = XSSPrintSafe($title);
+		$Desc = XSSPrintSafe($Desc);
+		$Items = XSSPrintSafe($Items);
+		PrintFramedBoxHeader($title, 'red', 0, $tab, '', $wd);
 		$icnt = count($Items);
+		$DF = false;
+		if ( $icnt <= count($Desc) ){ // Do we have Descriptions?
+			$DF = true;
+		}
 		if ( $icnt > 0 ){
-			NLIO('<td>', $tab + 2);
-			if ( $icnt <= count($Desc) ){
-				for ( $i = 0; $i < $icnt; $i++){
-					NLIO($Desc[$i], $tab + 3);
+			$style = '';
+			if ( $vf == 1 && $DF ){ // Vertical Dsiplay
+				$style = " class='sectiontitle' style='text-align: right;".
+				" padding-right: 10px; width: 10%'";
+			}
+			NLIO("<td$style>", $tab + 2);
+			if ( $vf == 0 ){
+				if ( $DF ){
+					for ( $i = 0; $i < $icnt; $i++){
+						NLIO($Desc[$i], $tab + 3);
+						if ( $i != $icnt - 1 ){
+							NLIO('</td><td>', $tab + 2);
+						}
+					}
+					PrintTblNewRow( 1, '', $tab + 2 );
+				}
+			}
+			for ( $i = 0; $i < $icnt; $i++){
+				if ( $vf == 0 ){
+					NLIO($Items[$i], $tab + 3);
 					if ( $i != $icnt - 1 ){
 						NLIO('</td><td>', $tab + 2);
 					}
-				}
-				PrintTblNewRow( 1, '', $tab + 2 );
-			}
-			for ( $i = 0; $i < $icnt; $i++){
-				NLIO($Items[$i], $tab + 3);
-				if ( $i != $icnt - 1 ){
-					NLIO('</td><td>', $tab + 2);
+				}else{
+					if ( $DF ){
+						NLIO($Desc[$i].': ', $tab + 3);
+						NLIO("</td><td style='padding-left:10px;'>", $tab + 2);
+					}
+					NLIO($Items[$i], $tab + 3);
+					if ( $i != $icnt -1 ){
+						PrintTblNewRow( 0, '', $tab + 2 );
+						NLIO("<td$style>", $tab + 2);
+					}
 				}
 			}
 			NLIO('</td>', $tab + 2);
@@ -169,30 +196,47 @@ function PrintServerInformation()
 }
 
 function PrintPageHeader(){
-	GLOBAL $DBtype, $ADODB_vers, $Use_Auth_System;
+	GLOBAL $DBtype, $ADODB_vers, $Use_Auth_System, $BASE_VERSION;
 	if ( !AuthorizedPage('(base_denied|index)') ){
 		// Additional app info allowed everywhere but landing pages.
-		$tmp = session_encode();
+		$AdminAuth = AuthorizedRole(1); // Issue #146 Fix
+		if ( $AdminAuth ){ // Issue #146 Fix
+			if ( base_array_key_exists('SERVER_SOFTWARE',$_SERVER) ){
+				$SW_Svr = $_SERVER['SERVER_SOFTWARE'];
+			}else{
+				$SW_Svr = 'unknown';
+			}
+			$tmp = session_encode();
+			$SW_Svr = XSSPrintSafe($SW_Svr);
+		}
 		$request_uri = XSSPrintSafe($_SERVER['REQUEST_URI']);
-		$http_referer = '';
+		if ( base_array_key_exists('HTTP_USER_AGENT',$_SERVER) ){
+			$SW_Cli = $_SERVER['HTTP_USER_AGENT'];
+		}else{
+			$SW_Cli = 'unknown';
+		}
 		if ( base_array_key_exists('HTTP_REFERER', $_SERVER) ){
 			$http_referer = XSSPrintSafe($_SERVER['HTTP_REFERER']);
+		}else{
+			$http_referer = '';
 		}
-		$http_user_agent = XSSPrintSafe($_SERVER['HTTP_USER_AGENT']);
-		$server_software = XSSPrintSafe($_SERVER['SERVER_SOFTWARE']);
+		$SW_Cli = XSSPrintSafe($SW_Cli);
 		$query_string = XSSPrintSafe($_SERVER['QUERY_STRING']);
+		// TD these labels from Issue #11 at some point.
    echo "<PRE>
          <B>URL:</B> '".$request_uri."'
          (<B>referred by:</B> '".$http_referer."')
          <B>PARAMETERS:</B> '".$query_string."'
-         <B>CLIENT:</B> ".$http_user_agent;
+         <B>CLIENT:</B> ".$SW_Cli;
 if ( $Use_Auth_System == 1 && AuthorizedRole(1) ){ // Issue #146 Fix
-print "\n         <B>SERVER:</B> ".$server_software."
-         <B>SERVER HW:</B> ".php_uname()."
-         <B>DATABASE TYPE:</B> $DBtype  <B>DB ABSTRACTION VERSION:</B> $ADODB_vers
-         <B>PHP VERSION:</B> ".phpversion()."  <B>PHP API:</B> ".php_sapi_name();
+print "\n         <B>SERVER:</B> ".$SW_Svr."
+         <B>SERVER HW:</B> ".php_uname();
+print "\n         <B>PHP VERSION:</B> ".phpversion();
+print "\n         <B>PHP API:</B> ".php_sapi_name();
+print "\n         <B>DB TYPE:</B> ".$DBtype;
+print "\n         <B>DB ABSTRACTION VERSION:</B> ".$ADODB_vers;
 }
-print "\n         <B>BASE VERSION:</B> ".$GLOBALS['BASE_VERSION']."
+print "\n         <B>BASE VERSION:</B> ".$BASE_VERSION."
          <B>SESSION ID:</B> ".session_id()."( ".strlen($tmp)." bytes )
          <B>SCRIPT :</B> ".XSSPrintSafe($_SERVER['SCRIPT_NAME'])."
          </PRE>"; 
