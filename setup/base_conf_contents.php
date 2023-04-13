@@ -425,9 +425,10 @@ $lacnic_ip = "200.3.14.10";
     /* SamSpade \'all\' query */
     $external_all_link = \'http://www.whois.sc/\';
     
-    /* TCP/UDP port database */
-    $external_port_link = array(\'sans\'     => \'https://isc.sans.org/port.html?port=\',
-                                \'sstats\'   => \'http://www.securitystats.com/tools/portsearch.php?type=port&amp;select=any&amp;Submit=Submit&amp;input=\');
+// TCP/UDP port database
+$external_port_link = array(
+	\'sans\'     => \'https://isc.sans.edu/data/port.html?port=\'
+);
     
     /* Signature references */
     $external_sig_link = array(\'bugtraq\'   => array(\'http://www.securityfocus.com/bid/\', \'\'),
@@ -468,7 +469,7 @@ $lacnic_ip = "200.3.14.10";
      */
     $colored_alerts = 0;
 
-    // Red, yellow, orange, gray, white, blue
+    // Red, yellow, orange, gray, white, green
     $priority_colors = array (\'FF0000\',\'FFFF00\',\'FF9900\',\'999999\',\'FFFFFF\',\'006600\');
 
 

@@ -127,27 +127,35 @@ $qro->AddTitle( $CPLast,
 	"last_a", "", "$OB last_timestamp ASC",
 	"last_d", "", "$OB last_timestamp DESC"
 );
-$sort_sql = $qro->GetSortSQL($qs->GetCurrentSort(), "");
+
+// Issue #168
 $sql = "SELECT DISTINCT acid_event.sid, count(acid_event.cid) as event_cnt,".
 	" count(distinct(acid_event.signature)) as sig_cnt, ".
 	" count(distinct(acid_event.ip_src)) as saddr_cnt, ".
 	" count(distinct(acid_event.ip_dst)) as daddr_cnt, ".
-	"min(timestamp) as first_timestamp, max(timestamp) as last_timestamp".
-	$sort_sql[0].$from." JOIN sensor using (sid) ".$where.
-	" GROUP BY acid_event.sid ".$sort_sql[1];
-  /* Run the Query again for the actual data (with the LIMIT) */
-  $result = $qs->ExecuteOutputQuery($sql, $db);
-  $et->Mark("Retrieve Query Data");
+	"min(timestamp) as first_timestamp, max(timestamp) as last_timestamp";
+$sqlPFX = $from." JOIN sensor using (sid) ".$where. " GROUP BY acid_event.sid ";
+$sort_sql = $qro->GetSortSQL($qs->GetCurrentSort(), $qs->GetCurrentCannedQuerySort());
+if ( !is_null($sort_sql) ){
+	$sqlPFX = $sort_sql[0].$sqlPFX.$sort_sql[1];
+}
+$sql .= $sqlPFX;
+// Run the Query again for the actual data (with the LIMIT), if any.
+$result = $qs->ExecuteOutputQuery($sql, $db);
+$et->Mark("Retrieve Query Data");
+if ( $debug_mode > 0 ){
+	if ( $qs->isCannedQuery() ){
+		$CCF = 'Yes';
+		$qs->PrintCannedQueryList();
+	}else{
+		$CCF = 'No';
+	}
+	print "Canned Query: $CCF <br/>";
+	$qs->DumpState();
+	print "SQL Executed: $sql <br/>";
+}
+$qs->PrintResultCnt(); // Print current view number and # of rows.
 
-  if ( $debug_mode == 1 )
-  {
-     $qs->PrintCannedQueryList();
-     $qs->DumpState();
-     echo "$sql<BR>";
-  }
-
-  /* Print the current view number and # of rows */
-  $qs->PrintResultCnt();
   echo '<FORM METHOD="post" NAME="PacketForm" ACTION="base_stat_sensor.php">';
   $qro->PrintHeader();
 

@@ -1,32 +1,25 @@
 <?php
-/*******************************************************************************
-** Basic Analysis and Security Engine (BASE)
-** Copyright (C) 2004 BASE Project Team
-** Copyright (C) 2000 Carnegie Mellon University
-**
-** (see the file 'base_main.php' for license details)
-**
-** Project Lead: Kevin Johnson <kjohnson@secureideas.net>
-**                Sean Muller <samwise_diver@users.sourceforge.net>
-** Built upon work by Roman Danyliw <rdd@cert.org>, <roman@danyliw.com>
-**
-** Purpose: Creates a user object that will contain the authenticated user
-** information.  If the variable $Use_Auth_System is set to 0 (zero) then
-** it will be an default object that will return each user request as
-** an admin user effectively turning off the authorization system
-**
-** This file also contains the role object which is used to handle role management
-** 
-********************************************************************************
-** Authors:
-********************************************************************************
-** Kevin Johnson <kjohnson@secureideas.net
-**
-********************************************************************************
-*/
-/** The below check is to make sure that the conf file has been loaded before this one....
- **  This should prevent someone from accessing the page directly. -- Kevin
- **/
+// Basic Analysis and Security Engine (BASE)
+// Copyright (C) 2019-2023 Nathan Gibbs
+// Copyright (C) 2004 BASE Project Team
+// Copyright (C) 2000 Carnegie Mellon University
+//
+//   For license info: See the file 'base_main.php'
+//
+//       Project Lead: Nathan Gibbs
+// Built upon work by: Kevin Johnson & the BASE Project Team
+//                     Roman Danyliw <rdd@cert.org>, <roman@danyliw.com>
+//
+//            Purpose: User manangement object.
+//                     Role management object.
+//                     Access Authoriztion routines.
+//                     If the variable $Use_Auth_System = 0 (zero), Access
+//                     authorization checks always pass.
+//
+//          Author(s): Nathan Gibbs
+//                     Kevin Johnson
+
+// Ensure the conf file has been loaded. Prevent direct access to this file.
 defined( '_BASE_INC' ) or die( 'Accessing this file directly is not allowed.' );
 
 class BaseUser {
@@ -60,7 +53,7 @@ class BaseUser {
 		$this->db = $db;
 	}
 	// Core Authentication System.
-	// Accepts a username and a password.
+	// Accepts a username and password.
 	// Returns:
 	//	0 if the username and pwd are correct.
 	//	1 if the password is wrong.
@@ -128,15 +121,41 @@ class BaseUser {
 				&& $rs->baseRecordCount() > 0
 			){ // Error Check
 				$Ret = $rs->baseFetchRow();
+				$rs->baseFreeRows();
 				if ( isset($Ret[0]) ){
 					$Ret = intval($Ret[0]);
 				}
-				$rs->baseFreeRows();
 			}else{
 				$Ret = 'Failed';
 			}
 		}else{
 			$Ret = 'Failed';
+		}
+		return $Ret;
+	}
+	// Accepts a username.
+	// Returns true if user account is enabled, false otherwise.
+	function isActive( $user = '' ){
+		$Ret = false;
+		if ( LoadedString($user) ){ // Input Validation
+			$db = $this->db;
+			$user = filterSql($user,1,$db); // Input sanitazation.
+			$sql = "SELECT usr_enabled FROM base_users WHERE usr_login ='"
+			.$user."';";
+			$rs = $db->baseExecute($sql);
+			if (
+				$rs != false
+				&& $db->baseErrorMessage() == ''
+				&& $rs->baseRecordCount() > 0
+			){ // Error Check
+				$Active = $rs->baseFetchRow();
+				$rs->baseFreeRows();
+				if ( isset($Active[0]) ){
+					if ( intval($Active[0]) == 1 ){
+						$Ret = true;
+					}
+				}
+			}
 		}
 		return $Ret;
 	}
@@ -269,7 +288,11 @@ class BaseUser {
 			$db = $this->db;
 			$sql = "SELECT usr_id FROM base_users WHERE usr_login = '" . $user . "';";
 			$rs = $db->baseExecute($sql);
-			if ( $rs != false ){ // Error Check
+			if (
+				$rs != false
+				&& $db->baseErrorMessage() == ''
+				&& $rs->baseRecordCount() > 0
+			){ // Error Check
 				$usrid = $rs->baseFetchRow();
 				$rs->baseFreeRows();
 				if ( isset($usrid[0]) ){
@@ -378,30 +401,24 @@ class BaseUser {
         $cookievalue = $passwd . "|" . $user . "|";
         setcookie('BASERole', $cookievalue);
     }
-	function readRoleCookie(){ // Reads the roleCookie and returns the role id
+	function readRoleCookie(){ // Reads the roleCookie and returns the role id.
 		$Ret = 0;
-		// Check cookie sanity
-		if ( isset($_COOKIE['BASERole']) ){
+		if ( isset($_COOKIE['BASERole']) ){ // Check cookie sanity
 			$cookievalue = $_COOKIE['BASERole'];
 			$cookiearr = explode('|', $cookievalue);
 			$user = '';
-			$passwd = '';
+			$pwd = '';
 			if ( isset($cookiearr[0]) ){
-				$passwd = $cookiearr[0];
+				$pwd = $cookiearr[0];
 			}
 			if ( isset($cookiearr[1]) ){
 				$user = $cookiearr[1];
 			}
-			// Prepare cookie Values for use in SQL.
-			$version = explode('.', phpversion());
-			if ( $version[0] > 5 || ($version[0] == 5 && $version[1] > 3) ){
-				$Qh = 0;
-			}else{ // Figure out quote handling on PHP < 5.4.
-				$Qh = get_magic_quotes_runtime();
-			}
-			$passwd = $this->db->DB->qstr($passwd,$Qh);
-			$user = $this->db->DB->qstr($user,$Qh);
-			$sql = "SELECT role_id FROM base_users where usr_login=$user and usr_pwd=$passwd;";
+			$db = $this->db;
+			$user = filterSql($user,1,$db); // Input sanitazation.
+			$pwd  = filterSql($pwd,1,$db);
+			$sql = "SELECT role_id FROM base_users where usr_login='".$user
+			."' AND usr_pwd='".$pwd."';";
 			$result = $this->db->baseExecute($sql);
 			// Error Check
 			if ( $result != false && is_array($result->row->fields) ){
@@ -552,8 +569,10 @@ function AuthorizedRole( $roleneeded = 1, $header = '' ){
 		$Ret = true;
 	}else{ // Check role and possibly redirect.
 		$BUser = new BaseUser();
-		if ( $BUser->hasRole($roleneeded) == 0 ){ // Not Authorized
-			$user = $BUser->returnUser();
+		$user = $BUser->returnUser(); // User
+		$UAE = $BUser->isActive($user); // User Account Enabled.
+		$URN = $BUser->hasRole($roleneeded); // User role needed.
+		if ( $URN == 0 || $UAE == false ){ // Not Authorized
 			$msg = ' user access';
 			if ( $user == '' ){
 				$msg = "Unauthenticated$msg";
@@ -587,7 +606,8 @@ function AuthorizedRole( $roleneeded = 1, $header = '' ){
 function AuthorizedPage( $page = '' ){
 	GLOBAL $BASE_urlpath;
 	$Ret = false;
-	$ReqRE = preg_quote("$BASE_urlpath/",'/')."$page\.php";
+	$sc = DIRECTORY_SEPARATOR; // Issue #161
+	$ReqRE = preg_quote("$BASE_urlpath$sc",'/')."$page\.php";
 	if ( preg_match("/^" . $ReqRE ."$/", $_SERVER['SCRIPT_NAME']) ){
 		$Ret = true;
 	}

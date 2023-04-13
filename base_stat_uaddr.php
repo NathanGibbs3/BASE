@@ -153,34 +153,43 @@ if ( $addr_type == DEST_IP ){
 		"daddr_d", " ", "$OB num_dip DESC"
 	);
 }
-  $sort_sql = $qro->GetSortSQL($qs->GetCurrentSort(), $qs->GetCurrentCannedQuerySort());
 
-  $sql = "SELECT DISTINCT $addr_type_name, ".
-         " COUNT(acid_event.cid) as num_events,".
-         " COUNT( DISTINCT acid_event.sid) as num_sensors, ".
-         " COUNT( DISTINCT signature ) as num_sig, ";
-
-  if ( $addr_type == DEST_IP )
-     $sql = $sql." COUNT( DISTINCT ip_src ) as num_sip ";
-  else
-     $sql = $sql." COUNT( DISTINCT ip_dst ) as num_dip ";
-
-  $sql = $sql. $sort_sql[0]. $from. $where.
-         " GROUP BY $addr_type_name ".$sort_sql[1];
-
-  /* Run the Query again for the actual data (with the LIMIT) */
-  $result = $qs->ExecuteOutputQuery($sql, $db);
-  $et->Mark("Retrieve Query Data");
-
-  if ( $debug_mode == 1 )
-  {
-     $qs->PrintCannedQueryList();
-     $qs->DumpState();
-     echo "$sql<BR>";
-  }
-
-  /* Print the current view number and # of rows */
-  $qs->PrintResultCnt();
+// Issue #168
+$sql = "SELECT DISTINCT $addr_type_name, ".
+		" COUNT(acid_event.cid) as num_events,".
+		" COUNT( DISTINCT acid_event.sid) as num_sensors, ".
+		" COUNT( DISTINCT signature ) as num_sig, ";
+if ( $addr_type == DEST_IP ){
+	$tmp = 'src';
+	$tmp2 = 's';
+}else{
+	$tmp = 'dst';
+	$tmp2 = 'd';
+}
+$tmp = "ip_$tmp";
+$tmp2 = "num_$tmp2".'ip ';
+$sql .= " COUNT( DISTINCT $tmp ) as $tmp2 ";
+$sqlPFX = $from.$where." GROUP BY $addr_type_name ";
+$sort_sql = $qro->GetSortSQL($qs->GetCurrentSort(), $qs->GetCurrentCannedQuerySort());
+if ( !is_null($sort_sql) ){
+	$sqlPFX = $sort_sql[0].$sqlPFX.$sort_sql[1];
+}
+$sql .= $sqlPFX;
+// Run the Query again for the actual data (with the LIMIT), if any.
+$result = $qs->ExecuteOutputQuery($sql, $db);
+$et->Mark("Retrieve Query Data");
+if ( $debug_mode > 0 ){
+	if ( $qs->isCannedQuery() ){
+		$CCF = 'Yes';
+		$qs->PrintCannedQueryList();
+	}else{
+		$CCF = 'No';
+	}
+	print "Canned Query: $CCF <br/>";
+	$qs->DumpState();
+	print "SQL Executed: $sql <br/>";
+}
+$qs->PrintResultCnt(); // Print current view number and # of rows.
 
   echo '<FORM METHOD="post" NAME="PacketForm" ACTION="base_stat_uaddr.php">';
   

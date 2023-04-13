@@ -82,10 +82,10 @@ function PrintProtocolProfileGraphs ($db){
 	$icmp_cnt = ICMPPktCnt($db);
 	$portscan_cnt = PortscanPktCnt($db);
 	$layer4_cnt = $tcp_cnt + $udp_cnt + $icmp_cnt + $portscan_cnt;
-	$tcp_percent_show = HtmlPercent($tcp_cnt/$layer4_cnt);
-	$udp_percent_show = HtmlPercent($udp_cnt/$layer4_cnt);
-	$icmp_percent_show = HtmlPercent($icmp_cnt/$layer4_cnt);
-	$portscan_percent_show = HtmlPercent($portscan_cnt/$layer4_cnt);
+	$tcp_percent_show = HtmlPercent($tcp_cnt,$layer4_cnt);
+	$udp_percent_show = HtmlPercent($udp_cnt,$layer4_cnt);
+	$icmp_percent_show = HtmlPercent($icmp_cnt,$layer4_cnt);
+	$portscan_percent_show = HtmlPercent($portscan_cnt,$layer4_cnt);
    echo '<TABLE WIDTH="100%" BORDER=0>
          <TR><TD>TCP<A HREF="base_qry_main.php?new=1'.
                            '&amp;layer4=TCP&amp;num_result_rows=-1&amp;sort_order=time_d&amp;submit='._QUERYDBP.'">
@@ -723,9 +723,9 @@ function GetQueryResultID($submit, &$seq, &$sid, &$cid){
 		$submit = str_replace($find, '', $submit);
 		// Since the submit variable is not cleaned do so here:
 		$tmp = CleanVariable(explode("-", $submit), VAR_DIGIT);
-		$seq = $tmp[0];
-		$sid = $tmp[1];
-		$cid = $tmp[2];
+		$seq = intval($tmp[0]);
+		$sid = intval($tmp[1]);
+		$cid = intval($tmp[2]);
 		return true;
 	}else{
 		return false;

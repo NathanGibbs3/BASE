@@ -1,52 +1,65 @@
 <?php
-/*******************************************************************************
-** Basic Analysis and Security Engine (BASE)
-** Copyright (C) 2004 BASE Project Team
-** Copyright (C) 2000 Carnegie Mellon University
-**
-** (see the file 'base_main.php' for license details)
-**
-** Project Leads: Kevin Johnson <kjohnson@secureideas.net>
-** Built upon work by Roman Danyliw <rdd@cert.org>, <roman@danyliw.com>
-**
-** Purpose: Maintenance and configuration page for
-**          managing Alert Groups (AG)   
-**
-** Input GET/POST variables
-**   - ag_action:
-**   - ag_id: 
-**   - submit:
-********************************************************************************
-** Authors:
-********************************************************************************
-** Kevin Johnson <kjohnson@secureideas.net
-**
-********************************************************************************
-*/
-  require("base_conf.php");
+// Basic Analysis and Security Engine (BASE)
+// Copyright (C) 2019-2023 Nathan Gibbs
+// Copyright (C) 2004 BASE Project Team
+// Copyright (C) 2000 Carnegie Mellon University
+//
+//   For license info: See the file 'base_main.php'
+//
+//       Project Lead: Nathan Gibbs
+// Built upon work by: Kevin Johnson & the BASE Project Team
+//                     Roman Danyliw <rdd@cert.org>, <roman@danyliw.com>
+//
+//            Purpose: Maintenance & configuration page for managing
+//                     Alert Groups (AG)
+//
+//              Input: GET/POST variables
+//                     - ag_action:
+//                     - ag_id:
+//                     - submit:
+//
+//          Author(s): Nathan Gibbs
+//                     Kevin Johnson
+
+require("base_conf.php");
 include_once("$BASE_path/includes/base_constants.inc.php");
-  include("$BASE_path/includes/base_include.inc.php");
-  include_once("$BASE_path/includes/base_action.inc.php");
+include("$BASE_path/includes/base_include.inc.php");
   include_once("$BASE_path/base_db_common.php");
-  include_once("$BASE_path/base_common.php");
   include_once("$BASE_path/base_qry_common.php");
   include_once("$BASE_path/base_ag_common.php");
 
 AuthorizedRole(10000);
 $et = new EventTiming($debug_time_mode);
 $UIL = new UILang($BASE_Language); // Create UI Language Object.
-$AcEdit = $UIL->UAA['Edit'];
-$AcDelete = $UIL->UAA['Delete'];
-$AgiDesc = $UIL->CWA['Id'];
-$AgnDesc = $UIL->CWA['Name'];
-$AgdDesc = $UIL->CWA['Desc'];
-// Html Templates
-$Umca = "base_ag_main.php?ag_action="; // Role Managemnt Common Action.
-$Fct = " Method='POST'>"; // Form tag end.
-$Hrst = "<a href='$Umca"; // Href tag start.
-$Trc = "\n".str_repeat("\t",4).'</tr><tr>'; // Table row continue.
-$Thc = "<td class='plfieldhdr'>"; // Table header Class.
-$Tdc = "<td class='plfield'>"; // Table data Class.
+$db = NewBASEDBConnection($DBlib_path, $DBtype); // Connect to Alert DB.
+$db->baseDBConnect(
+	$db_connect_method,$alert_dbname, $alert_host, $alert_port, $alert_user,
+	$alert_password
+);
+UpdateAlertCache($db);
+if ( class_exists('UILang') ){ // Issue 11 backport shim.
+	$AcEdit = $UIL->UAA['Edit'];
+	$AcDelete = $UIL->UAA['Delete'];
+	$AgiDesc = $UIL->CWA['Id'];
+	$AgnDesc = $UIL->CWA['Name'];
+	$AgdDesc = $UIL->CWA['Desc'];
+	$CPSig = $UIL->CWA['Sig'];
+	$CPSA = $UIL->CPA['SrcAddr'];
+	$CPDA = $UIL->CPA['DstAddr'];
+	$CPTs = $UIL->CWA['Ts'];
+}else{
+	$AcEdit = _EDIT;
+	$AcDelete _DELETE;
+	$AgiDesc = _ID;
+	$AgnDesc = _NAME;
+	$AgdDesc = _DESC;
+	$CPSig = _SIGNATURE;
+	$CPSA = _NBSOURCEADDR;
+	$CPDA = _NBDESTADDR;
+	$CPTs = _TIMESTAMP;
+}
+
+$AdminAuth = AuthorizedRole(50); // AG-Editor
 $cs = new CriteriaState("base_ag_main.php");
 $cs->ReadState();
   $qs = new QueryState();
@@ -58,44 +71,44 @@ $cs->ReadState();
   $page_title = _AGMAINTTITLE;
   PrintBASESubHeader($page_title, $page_title, $cs->GetBackLink(), $refresh_all_pages);
 
-  /* Connect to the Alert database */
-  $db = NewBASEDBConnection($DBlib_path, $DBtype);
-  $db->baseDBConnect($db_connect_method,
-                     $alert_dbname, $alert_host, $alert_port, $alert_user, $alert_password);
-
-  /* a browsing button was clicked */
-  if ( is_numeric($submit) )
-  {
-    if ( $debug_mode > 0 ) ErrorMessage("Browsing Clicked ($submit)");
-    $qs->MoveView($submit);
-    $ag_action = "view";
-  }
-print "\n".str_repeat("\t",2)."<div style='margin:auto'>";
-print "\n".str_repeat("\t",3).$Hrst."list'>"._LISTALL.'</a> |';
-print "\n".str_repeat("\t",3).$Hrst."create'>"._CREATE.'</a> |';
-print "\n".str_repeat("\t",3).$Hrst."view'>"._VIEW.'</a> |';
-print "\n".str_repeat("\t",3).$Hrst."edit'>$AcEdit</a> |";
-print "\n".str_repeat("\t",3).$Hrst."delete'>$AcDelete</a> |";
-print "\n".str_repeat("\t",3).$Hrst."clear'>"._CLEAR.'</a>';
-print "\n".str_repeat("\t",2).'</div>';
-print "\n".str_repeat("\t",2).'<hr/>';
-print "\n".str_repeat("\t",2)."<form name='PacketForm' ";
-print "action='base_ag_main.php' $Fct";
-
-if ($debug_mode == 1) {
-echo "
-  <table border='1'>
-    <tr>
-      <td>ag_action</td>
-      <td>submit</td>
-      <td>ag_id</td>
-    </tr>
-    <tr><td>htmlspecialchars($ag_action)</td>
-    <td>$submit</td>
-    <td>htmlspecialchars($ag_id)</td>
-  </tr>
-  </table>
-";
+if ( is_numeric($submit) ){ // A browsing button was clicked.
+	if ( $debug_mode > 0 ){
+		ErrorMessage("Browsing Clicked ($submit)");
+	}
+	$qs->MoveView($submit);
+	$ag_action = "view";
+}
+$Sep = ' | ';
+// Html Templates
+$Umca = "base_ag_main.php?ag_action="; // AG Managemnt Common Action.
+$Fct = " Method='POST'>"; // Form tag end.
+$Hrst = "<a href='$Umca"; // Href tag start.
+$Trc = "\n".str_repeat("\t",4).'</tr><tr>'; // Table row continue.
+$Thc = "<td class='plfieldhdr'>"; // Table header Class.
+$Tdc = "<td class='plfield'>"; // Table data Class.
+NLIO("<div style='margin:auto'>");
+NLIO($Hrst."list'>"._LISTALL.'</a>',4);
+if ( $AdminAuth ){
+	NLIO($Sep.$Hrst."create'>"._CREATE.'</a>',4);
+}
+NLIO($Sep.$Hrst."view'>"._VIEW.'</a>',4);
+if ( $AdminAuth ){
+	NLIO($Sep.$Hrst."edit'>$AcEdit</a>",4);
+	NLIO($Sep.$Hrst."delete'>$AcDelete</a>",4);
+}
+NLIO($Sep.$Hrst."clear'>"._CLEAR.'</a>',4);
+NLIO('</div>');
+NLIO('<hr/>');
+NLIO("<form name='PacketForm' action='base_ag_main.php' $Fct");
+if ( $debug_mode > 0 ){
+	$TK = array ( 'ag_action', 'submit', 'ag_id' );
+	$DI = array();
+	$DD = array();
+	foreach ( $TK as $val ){
+		array_push($DD, $val);
+		array_push($DI, $$val);
+	}
+	DDT($DI,$DD,'Request Vars','',25);
 }
 $qs->AddValidAction("del_alert");
 $qs->AddValidAction("email_alert");
@@ -106,7 +119,7 @@ $qs->AddValidActionOp(_SELECTED);
 $qs->AddValidActionOp(_ALLONSCREEN);
 $qs->AddValidActionOp(_ENTIREQUERY);
 
-$qs->SetActionSQL("SELECT ag_sid, ag_cid FROM acid_ag_alert WHERE ag_id='".$ag_id."'"); 
+$qs->SetActionSQL("SELECT ag_sid, ag_cid FROM acid_ag_alert WHERE ag_id='".$ag_id."'");
 $et->Mark("Initialization");
 $qs->RunAction($submit, PAGE_QRY_AG, $db);
 $et->Mark("Alert Action");
@@ -222,25 +235,32 @@ if ($ag_action == "list") {
 		print "\n".str_repeat("\t",5).$Thc._NUMALERTS.'</td>';
 		print "\n".str_repeat("\t",5)."$Thc$AgdDesc</td>";
 		print "\n".str_repeat("\t",5).$Thc._ACTIONS.'</td>';
-		for ($i = 0; $i < $num; $i++) {
-			$myrow = $result->baseFetchRow();
+
+		PrintTblNewRow( 0, '');
+		$Hrsfx = "&amp;submit=x'>";
+        for ($i = 0; $i < $num; $i++) {
+            $myrow = $result->baseFetchRow();
+			$AOA = urlencode($myrow[0]); // ActOnAG
+
 			// count the number of alerts in the AG.
             $result2 = $db->baseExecute("SELECT count(ag_cid) FROM acid_ag_alert WHERE ag_id='".$myrow[0]."'");
             $myrow2 = $result2->baseFetchRow();
             $num_alerts = $myrow2[0];
             $result2->baseFreeRows();
 
-			print $Trc;
-            echo '  <td class="plfield">
+echo '                    <td class="plfield">
                       <a href="base_ag_main.php?ag_action=view&amp;ag_id='.htmlspecialchars($myrow[0]).'&amp;submit=x">'.htmlspecialchars($myrow[0]).'</a></td>
                       <td class="plfield">'.htmlspecialchars($myrow[1]).'</TD>
                       <td class="plfield">'.$num_alerts.'</TD>
                       <td class="plfield">'.htmlspecialchars($myrow[2]).'</TD>';
 			print "\n".str_repeat("\t",6).$Tdc;
-			print "\n".str_repeat("\t",7).$Hrst."edit&amp;ag_id=".urlencode($myrow[0])."&amp;submit=x'>$AcEdit</a> |";
-			print "\n".str_repeat("\t",7).$Hrst."delete&amp;ag_id=".urlencode($myrow[0])."&amp;submit=x'>$AcDelete</a> |";
-echo'                 <a href="base_ag_main.php?ag_action=clear&amp;ag_id='.urlencode($myrow[0]).'&amp;submit=x">'._CLEAR.'</a>
-                      </td>';
+			if ( $AdminAuth ){
+				NLIO($Hrst."edit&amp;ag_id=".$AOA.$Hrsfx.$AcEdit.'</a>',4);
+				NLIO($Sep.$Hrst."delete&amp;ag_id=".$AOA.$Hrsfx.$AcDelete.'</a>',4);
+				NLIO($Sep,4);
+			}
+			NLIO($Hrst."clear&amp;ag_id=".$AOA.$Hrsfx._CLEAR.'</a>',4);
+			PrintTblNewRow( 0, '');
 		}
 		print "\n".str_repeat("\t",4).'</tr>';
 		print "\n".str_repeat("\t",3).'</table>';

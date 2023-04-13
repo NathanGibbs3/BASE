@@ -565,7 +565,7 @@ function PrintCriteria( $caller ){
 		// Search criteria Display
 		$UIL->SetUILocale();
 		$save_criteria = NLIO(
-			'<b>'._QUERIED.'</b>: '.strftime($UIL->Timefmt),2
+			'<b>'._QUERIED.'</b>: '.date('D F d, Y H:i:s'),2
 		).
 		$save_criteria;
 		print $save_criteria;

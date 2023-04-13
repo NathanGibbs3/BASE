@@ -88,7 +88,8 @@ PrintCriteria('');
 NLIO ('</div>',3);
 NLIO ("<div style='float: right; width: 40%;'>",3);
 // RFE by Joel. Wanted the Summary Statistics box on the base_stat_alerts page.
-PrintFramedBoxHeader(_QSCSUMM, '#669999', 1,4);
+PrintFramedBoxHeader(_QSCSUMM, '#669999', 0, 4);
+NLIO('<td>',6);
 if ( isset($show_summary_stats) ){ // Issue #5
 	if ( getenv('TRAVIS') && version_compare(PHP_VERSION, "5.3.0", "<") ){
 		// Issue #5 Test Shim
@@ -183,24 +184,33 @@ $qro->AddTitle( $CPLast,
 	"last_a", ", max(timestamp) AS last_timestamp ", "$OB last_timestamp ASC",
 	"last_d", ", max(timestamp) AS last_timestamp ", "$OB last_timestamp DESC"
 );
-  $sort_sql = $qro->GetSortSQL($qs->GetCurrentSort(), $qs->GetCurrentCannedQuerySort());
-
-  /* mstone 20050309 add sig_name to GROUP BY & query so it can be used in postgres ORDER BY */
-  /* mstone 20050405 add sid & ip counts */
-  $sql = "SELECT DISTINCT signature, count(signature) as sig_cnt, ".
-         "min(timestamp), max(timestamp), sig_name, count(DISTINCT(sid)), count(DISTINCT(ip_src)), count(DISTINCT(ip_dst)), sig_class_id ".
-         $sort_sql[0].$from.$where." GROUP BY signature, sig_name, sig_class_id ".$sort_sql[1];
-
-  /* Run the Query again for the actual data (with the LIMIT) */
-  $result = $qs->ExecuteOutputQuery($sql, $db);
-$et->Mark("Retrieve Query Data");
-if ( $debug_mode == 1 ){
-     $qs->PrintCannedQueryList();
-     $qs->DumpState();
-     echo "$sql<BR>";
+// mstone 20050309 add sig_name to GROUP BY & query so it can be used in postgres ORDER BY.
+// mstone 20050405 add sid & ip counts.
+// Issue #168
+$sql = "SELECT DISTINCT signature, count(signature) as sig_cnt, ".
+		"min(timestamp), max(timestamp), sig_name, count(DISTINCT(sid)), ".
+		"count(DISTINCT(ip_src)), count(DISTINCT(ip_dst)), sig_class_id ";
+$sqlPFX = $from.$where." GROUP BY signature, sig_name, sig_class_id ";
+$sort_sql = $qro->GetSortSQL($qs->GetCurrentSort(), $qs->GetCurrentCannedQuerySort());
+if ( !is_null($sort_sql) ){
+	$sqlPFX = $sort_sql[0].$sqlPFX.$sort_sql[1];
 }
-  /* Print the current view number and # of rows */
-  $qs->PrintResultCnt();
+$sql .= $sqlPFX;
+// Run the Query again for the actual data (with the LIMIT), if any.
+$result = $qs->ExecuteOutputQuery($sql, $db);
+$et->Mark("Retrieve Query Data");
+if ( $debug_mode > 0 ){
+	if ( $qs->isCannedQuery() ){
+		$CCF = 'Yes';
+		$qs->PrintCannedQueryList();
+	}else{
+		$CCF = 'No';
+	}
+	print "Canned Query: $CCF <br/>";
+	$qs->DumpState();
+	print "SQL Executed: $sql <br/>";
+}
+$qs->PrintResultCnt(); // Print current view number and # of rows.
 
   echo '<FORM METHOD="post" NAME="PacketForm" ACTION="base_stat_alerts.php">';
   

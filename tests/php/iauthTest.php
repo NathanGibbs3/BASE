@@ -6,6 +6,7 @@ use PHPUnit\Framework\TestCase;
 
 /**
   * @covers BaseUser::AuthenticateCore
+  * @covers BaseUser::isActive
   * @covers BaseUser::returnEditUser
   * @covers BaseRole::returnEditRole
   * @covers BaseUser::returnRoleNamesDropDown
@@ -484,6 +485,29 @@ class authTest extends TestCase {
 		$user = self::$user;
 		$UN = 'TestUser';
 		$this->assertEquals( 0, $user->AuthenticateCore( $UN, 'password' ), $URV );
+	}
+	public function testisActiveDefaults(){
+		$URV = self::$URV . 'isActive().';
+		$user = self::$user;
+		$this->assertFalse( $user->isActive(), $URV );
+	}
+	public function testisActiveInvalidUser(){
+		$URV = self::$URV . 'isActive().';
+		$user = self::$user;
+		$UN = 'nonexistent';
+		$this->assertFalse( $user->isActive($UN), $URV );
+	}
+	public function testisActiveDisabledUser(){
+		$URV = self::$URV . 'isActive().';
+		$user = self::$user;
+		$UN = 'TestDisabledUser';
+		$this->assertFalse( $user->isActive($UN), $URV );
+	}
+	public function testisActiveEnabledUser(){
+		$URV = self::$URV . 'isActive().';
+		$user = self::$user;
+		$UN = 'TestUser';
+		$this->assertTrue( $user->isActive($UN), $URV );
 	}
 
 	// Add code to a function if needed.

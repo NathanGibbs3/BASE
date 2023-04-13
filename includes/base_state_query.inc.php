@@ -1,27 +1,20 @@
 <?php
-/*******************************************************************************
-** Basic Analysis and Security Engine (BASE)
-** Copyright (C) 2004 BASE Project Team
-** Copyright (C) 2000 Carnegie Mellon University
-**
-** (see the file 'base_main.php' for license details)
-**
-** Project Lead: Kevin Johnson <kjohnson@secureideas.net>
-**                Sean Muller <samwise_diver@users.sourceforge.net>
-** Built upon work by Roman Danyliw <rdd@cert.org>, <roman@danyliw.com>
-**
-** Purpose: manages the necessary state information for
-**          query results 
-********************************************************************************
-** Authors:
-********************************************************************************
-** Kevin Johnson <kjohnson@secureideas.net
-**
-********************************************************************************
-*/
-/** The below check is to make sure that the conf file has been loaded before this one....
- **  This should prevent someone from accessing the page directly. -- Kevin
- **/
+// Basic Analysis and Security Engine (BASE)
+// Copyright (C) 2019-2023 Nathan Gibbs
+// Copyright (C) 2004 BASE Project Team
+// Copyright (C) 2000 Carnegie Mellon University
+//
+//   For license info: See the file 'base_main.php'
+//
+//       Project Lead: Nathan Gibbs
+// Built upon work by: Kevin Johnson & the BASE Project Team
+//                     Roman Danyliw <rdd@cert.org>, <roman@danyliw.com>
+//
+//            Purpose: Manages necessary state information for query results.
+//
+//          Author(s): Nathan Gibbs
+//                     Kevin Johnson
+// Ensure the conf file has been loaded.  Prevent direct access to this file.
 defined( '_BASE_INC' ) or die( 'Accessing this file directly is not allowed.' );
 
 include_once("$BASE_path/base_common.php");
@@ -37,18 +30,18 @@ class QueryState {
 	var $current_sort_order = "";
 	var $current_view = -1;
 	var $show_rows_on_screen = -1;
-	var $valid_action_list = NULL;
+	var $valid_action_list = array();
 	var $action;
-	var $valid_action_op_list = NULL;
+	var $valid_action_op_list = array();
 	var $action_arg;
 	var $action_lst;
-	var $action_chk_lst = NULL;
+	var $action_chk_lst;
 	var $action_sql;
 
-	function __construct() { // PHP 5+ constructor Shim.
+	function __construct(){ // PHP 5+ constructor Shim.
 		// Class/Method agnostic shim code.
 		$SCname = get_class();
-		if ( method_exists($this, $SCname) ) {
+		if ( method_exists($this, $SCname) ){
 			$SCargs = func_get_args();
 			call_user_func_array(array($this, $SCname), $SCargs);
 		}else{
@@ -61,12 +54,12 @@ class QueryState {
 			// @codeCoverageIgnoreEnd
 		}
 	}
-	function QueryState() { // PHP 4x constructor.
+	function QueryState(){ // PHP 4x constructor.
 		$this->ReadState();
-		if ( $this->num_result_rows == "" ) {
+		if ( $this->num_result_rows == '' ){
 			$this->num_result_rows = -1;
 		}
-		if ( $this->current_view == "" ) {
+		if ( $this->current_view == '' ){
 			$this->current_view = -1;
 		}
 	}
@@ -157,15 +150,17 @@ class QueryState {
   }
 	function RunAction($submit, $which_page, $db){
 	GLOBAL $show_rows, $debug_mode;
-		ActOnSelectedAlerts(
-			$this->action, $this->valid_action_list, $submit,
-			$this->valid_action_op_list, $this->action_arg, $which_page,
-			$this->action_chk_lst, $this->action_lst, $show_rows,
-			$this->num_result_rows, $this->action_sql,
-			$this->current_canned_query, $db
-		);
-		if ( $debug_mode > 0 ){ // Issue #100 fix.
-			sleep(60);
+		if ( IsValidActionOp($submit, $this->valid_action_op_list) ){
+			ActOnSelectedAlerts(
+				$this->action, $this->valid_action_list, $submit,
+				$this->valid_action_op_list, $this->action_arg, $which_page,
+				$this->action_chk_lst, $this->action_lst, $show_rows,
+				$this->num_result_rows, $this->action_sql,
+				$this->current_canned_query, $db
+			);
+			if ( $debug_mode > 0 ){ // Issue #100 fix.
+				sleep(60);
+			}
 		}
 	}
 	function GetNumResultRows( $cnt_sql = '', $db = NULL ){
@@ -199,19 +194,18 @@ class QueryState {
 	function ExecuteOutputQuery( $sql, $db ){
 		GLOBAL $show_rows;
 		if ( $this->isCannedQuery() ){
-			$this->show_rows_on_screen = $this->GetCurrentCannedQueryCnt();
-			return $db->baseExecute($sql, 0, $this->show_rows_on_screen );
+			$RowCnt = $this->GetCurrentCannedQueryCnt();
+			$Start = 0;
 		}else{
 			if ( isset($show_rows) ){
-				$tmp = $show_rows;
+				$RowCnt = $show_rows;
 			}else{ // Issue #5
-				$tmp = 0;
+				$RowCnt = 0;
 			}
-			$this->show_rows_on_screen = $tmp;
-			return $db->baseExecute(
-				$sql, ($this->current_view * $tmp), $tmp
-			);
+			$Start = $this->current_view * $RowCnt;
 		}
+		$this->show_rows_on_screen = $RowCnt;
+		return $db->baseExecute($sql, $Start, $RowCnt );
 	}
 	function PrintResultCnt(){
 		GLOBAL $show_rows;
@@ -232,10 +226,8 @@ class QueryState {
 			print $Pfx.'<b>'._NOALERTS.'</b>'.$Sfx;
 		}
 	}
-  function PrintBrowseButtons()
-  {
-    GLOBAL $show_rows, $max_scroll_buttons;
-
+	function PrintBrowseButtons(){
+		GLOBAL $show_rows, $max_scroll_buttons;
     /* Don't print browsing buttons for canned query */
     if ( $this->isCannedQuery() )
        return;
@@ -283,13 +275,11 @@ class QueryState {
 
      echo "  </TD></TR>\n</TABLE>\n</CENTER>\n\n";
    }
-  }
-
-  function PrintAlertActionButtons()
-  { 
-    if ( $this->valid_action_list == NULL )
-       return;
-
+	}
+	function PrintAlertActionButtons(){
+		if ( count($this->valid_action_list) == 0 ){
+			return;
+		}
     echo "\n\n<!-- Alert Action Buttons -->\n". 
          "<CENTER>\n".
          " <TABLE BORDER=1>\n".
@@ -299,25 +289,21 @@ class QueryState {
          "    <SELECT NAME=\"action\">\n".
          '      <OPTION VALUE=" "         '.chk_select($this->action," ").'>'._DISPACTION."\n";
      
-	foreach ( $this->valid_action_list as $key => $val ){ // Issue #153
+		foreach ( $this->valid_action_list as $key => $val ){ // Issue #153
        echo '    <OPTION VALUE="'.$val.'" '.
               chk_select($this->action,$val).'>'.
               GetActionDesc($val)."\n";
-    }     
-    
+		}
     echo "    </SELECT>\n".
          "    <INPUT TYPE=\"text\" NAME=\"action_arg\" VALUE=\"".$this->action_arg."\">\n";
 
-
-	foreach ( $this->valid_action_op_list as $key => $val ){ // Issue #153
+		foreach ( $this->valid_action_op_list as $key => $val ){ // Issue #153
        echo "    <INPUT TYPE=\"submit\" NAME=\"submit\" VALUE=\"".$val."\">\n";
-    }
-	PrintFramedBoxFooter(1,2);
+		}
+		PrintFramedBoxFooter(1,2);
     echo "</CENTER>\n\n";
 	}
-
-  function ReadState()
-  {
+	function ReadState(){
      $this->current_canned_query = ImportHTTPVar("caller", VAR_LETTER | VAR_USCORE);
      $this->num_result_rows      = ImportHTTPVar("num_result_rows", VAR_DIGIT | VAR_SCORE);
      $this->current_sort_order   = ImportHTTPVar("sort_order", VAR_LETTER | VAR_USCORE);

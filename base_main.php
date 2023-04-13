@@ -234,9 +234,8 @@ echo'	            <td colspan=2>- <a href="base_stat_alerts.php?caller=last_aler
     <td align="right" valign="top">
       <div class="systemstats">';
 UpdateAlertCache($db);
-if ($UIL->SetUILocale()) {
-	printf("<b>"._QUERIED." </b> : %s<br />" , strftime($UIL->Timefmt));
-	if ( ChkCookie ('archive', 1) ){
+printf("<b>"._QUERIED." </b> : %s<br/>" , date('D F d, Y H:i:s'));
+if ( ChkCookie ('archive', 1) ){
         printf("<strong>"._DATABASE."</strong> %s &nbsp;&nbsp;&nbsp;(<strong>"._SCHEMAV."</strong> %d) \n<br />\n", 
 	    ($archive_dbname.'@'.$archive_host. ($archive_port != "" ? ':'.$archive_port : "") ),
             $db->baseGetDBversion()
