@@ -221,7 +221,9 @@ class baseCon {
   {
      $this->DB->Close();
   }
-	function baseExecute( $sql, $start_row=0, $num_rows=-1, $hard_error=true ){
+	function baseExecute(
+		$sql, $start_row = 0, $num_rows = -1, $hard_error = true
+	){
 		GLOBAL $debug_mode, $sql_trace_mode, $db_connect_method,
 			$alert_password, $archive_dbname, $archive_host, $archive_port,
 			$archive_user, $archive_password;
@@ -240,15 +242,15 @@ class baseCon {
 		}else{
 			$tdpw = $alert_password;
 		}
-		if ( $tdp != '') {
+		if ( $tdp != '' ){
 			$DSN = "$DSN:$tdp";
 		}
 		// Begin DB specific SQL fix-up.
 		// @codeCoverageIgnoreStart
 		// We have no way of testing Oracle or Ms-SQL functionality.
-		if ( $this->DB_type == "mssql" ){
+		if ( $this->DB_type == 'mssql' ){
 			$sql = preg_replace("/''/i", "NULL", $sql);
-		}elseif ( $this->DB_type == "oci8" ){
+		}elseif ( $this->DB_type == 'oci8' ){
 			if (!strpos($sql, 'TRIGGER')){
 				if (substr($sql, strlen($sql)-1, strlen($sql))==';'){
 					$sql=substr($sql, 0, strlen($sql)-1);
@@ -276,19 +278,24 @@ class baseCon {
 		}
 		$this->lastSQL = $sql;
 		$limit_str = '';
-		// Check whether need to add a LIMIT / TOP / ROWNUM clause.
-		if ( $num_rows != -1 ){
-			if ( $this->DB_class == 1 ){
-				$limit_str = " LIMIT ".$start_row.", ".$num_rows;
-			// @codeCoverageIgnoreStart
-			// We have no way of testing Oracle functionality.
-			}elseif ( $this->DB_type == "oci8" ){
-				// $limit_str = " LIMIT ".$start_row.", ".$num_rows;
-				// Why, we don't use it.
-			// @codeCoverageIgnoreEnd
-			}elseif ( $this->DB_type == "postgres" ){
-				$limit_str = " LIMIT ".$num_rows." OFFSET ".$start_row;
+		if ( is_int($start_row) & is_int($num_rows) ){ // Issue #169
+			if ( $num_rows != -1 ){ // Do we add a LIMIT / TOP / ROWNUM clause.
+				if ( $this->DB_class == 1 ){
+					$limit_str = " LIMIT ".$start_row.", ".$num_rows;
+				// @codeCoverageIgnoreStart
+				// We have no way of testing Oracle functionality.
+				}elseif ( $this->DB_type == "oci8" ){
+					// $limit_str = " LIMIT ".$start_row.", ".$num_rows;
+					// Why, we don't use it.
+				// @codeCoverageIgnoreEnd
+				}elseif ( $this->DB_type == "postgres" ){
+					$limit_str = " LIMIT ".$num_rows." OFFSET ".$start_row;
+				}
 			}
+		}else{ // Log error & quit.
+			$msg = $EPfx.'Query Halt: Invalid LIMIT.';
+			error_log($msg);
+			return $rs;
 		}
 		$qry = $sql.$limit_str;
 		if ( $debug_mode > 1 ){
@@ -328,14 +335,14 @@ class baseCon {
      }
 		$tmp = $this->baseErrorMessage();
 		if ( (!$rs || $tmp != '') && $hard_error ){
-			$msg = $EPfx;
+			$msg = $EPfx.'Query Fail: ';
 			if ( !$rs ){
 				$msg .= 'NULL Recordset ';
 			}
 			if ( $tmp !='' ){
 				$msg .= $tmp;
 			}else{
-				$msg .= 'NO ADODB Error Msg';
+				$msg .= 'NO ADOdb Error Msg';
 			}
 			$msg = returnErrorMessage($msg,0,1);
 			if ( $debug_mode > 0
@@ -814,7 +821,7 @@ function NewBASEDBConnection($path, $type){
 		$msg = 'Check the DB abstraction library variable <code>$DBlib_path</code> in <code>base_conf.php</code>.';
 		// Translation data the first param when we get to _ERRSQLDBALLOAD1
 		// on Issue#11
-		LibIncError ('DB Abstraction', $AXpath, $Lib, $msg, 'ADODB', $tmp, 1 );
+		LibIncError ('DB Abstraction', $AXpath, $Lib, $msg, 'ADOdb', $tmp, 1 );
 		// @codeCoverageIgnoreEnd
 	}
 	ADOLoadCode($Wtype);

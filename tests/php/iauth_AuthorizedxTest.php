@@ -9,6 +9,7 @@ use PHPUnit\Framework\TestCase;
   * @covers ::AuthorizedPage
   * @covers ::AuthorizedURI
   * @uses ::base_header
+  * @uses ::filterSql
   * @uses ::ChkAccess
   * @uses ::ChkLib
   * @uses ::LoadedString
@@ -22,6 +23,7 @@ use PHPUnit\Framework\TestCase;
 class authTest2 extends TestCase {
 	// Pre Test Setup.
 	protected static $user;
+	protected static $URV;
 
 	// Share class instance as common test fixture.
 	public static function setUpBeforeClass() {
@@ -88,9 +90,11 @@ class authTest2 extends TestCase {
 			);
 			self::$user = $user;
 		}
+		self::$URV = 'Unexpected Return Value: ';
 	}
 	public static function tearDownAfterClass() {
 		self::$user = null;
+		self::$URV = null;
 	}
 
 	// Tests go here.
@@ -98,16 +102,15 @@ class authTest2 extends TestCase {
 		GLOBAL $Use_Auth_System;
 		$BAStmp = $Use_Auth_System;
 		$Use_Auth_System = 0;
-		$this->assertTrue(
-			AuthorizedRole(),
-			'Unexpected Return Value.'
-		);
+		$URV = self::$URV . 'AuthorizedRole().';
+		$this->assertTrue( AuthorizedRole(), $URV );
 		$Use_Auth_System = $BAStmp;
 	}
 	/**
 	 * @backupGlobals disabled
 	 */
 	public function testAuthorizedRoleThrowsAuthenticateError(){
+		$URV = self::$URV . 'AuthorizedRole().';
 		$EEM = 'Unauthenticated user access';
 		$PHPUV = GetPHPUV();
 		if (version_compare($PHPUV, '3.0', '<')) {
@@ -126,25 +129,21 @@ class authTest2 extends TestCase {
 			$this->expectNotice();
 			$this->expectNoticeMessage($EEM);
 		}
-		$this->assertFalse(
-			AuthorizedRole(),
-			'Unexpected Return Value.'
-		);
+		$this->assertFalse( AuthorizedRole(), $URV );
 	}
 	/**
 	 * @backupGlobals disabled
 	 */
 	public function testAuthorizedRole(){
-		$this->assertFalse(
-			@AuthorizedRole(),
-			'Unexpected Return Value.'
-		);
+		$URV = self::$URV . 'AuthorizedRole().';
+		$this->assertFalse( @AuthorizedRole(), $URV );
 	}
 	// test against test users.
 	/**
 	 * @backupGlobals disabled
 	 */
 	public function testAuthorizedRoleThrowsAuthorizeError(){
+		$URV = self::$URV . 'AuthorizedRole().';
 		$user = self::$user;
 		$pw = $user->cryptpassword('password');
 		$_COOKIE['BASERole'] = "$pw|TestAnonUser|";
@@ -166,46 +165,48 @@ class authTest2 extends TestCase {
 			$this->expectNotice();
 			$this->expectNoticeMessage($EEM);
 		}
-		$this->assertFalse(
-			AuthorizedRole(1),
-			'Unexpected Return Value.'
-		);
+		$this->assertFalse( AuthorizedRole(1), $URV );
 		unset ($_COOKIE['BASERole']);
 	}
 	/**
 	 * @backupGlobals disabled
 	 */
 	public function testAuthorizedRoleRedirectLock(){
+		$URV = self::$URV . 'AuthorizedRole().';
 		$user = self::$user;
 		$pw = $user->cryptpassword('password');
 		$_COOKIE['BASERole'] = "$pw|TestOver|";
-		$this->assertFalse(
-			@AuthorizedRole(10000),
-			'Unexpected Return Value.'
-		);
+		$this->assertFalse( @AuthorizedRole(10000), $URV );
 		unset ($_COOKIE['BASERole']);
 	}
 	/**
 	 * @backupGlobals disabled
 	 */
 	public function testAuthorizedRoleFail(){
+		$URV = self::$URV . 'AuthorizedRole().';
 		$user = self::$user;
 		$pw = $user->cryptpassword('password');
 		$_COOKIE['BASERole'] = "$pw|TestUser|";
-		$this->assertFalse(
-			@AuthorizedRole(1),
-			'Unexpected Return Value.'
-		);
+		$this->assertFalse( @AuthorizedRole(1), $URV );
+		unset ($_COOKIE['BASERole']);
+	}
+	/**
+	 * @backupGlobals disabled
+	 */
+	public function testAuthorizedRoleDisabledUserFail(){
+		$URV = self::$URV . 'AuthorizedRole().';
+		$user = self::$user;
+		$pw = $user->cryptpassword('password');
+		$_COOKIE['BASERole'] = "$pw|TestDisabledUser|";
+		$this->assertFalse( @AuthorizedRole(1000), $URV );
 		unset ($_COOKIE['BASERole']);
 	}
 	public function testAuthorizedRolePass(){
+		$URV = self::$URV . 'AuthorizedRole().';
 		$user = self::$user;
 		$pw = $user->cryptpassword('password');
 		$_COOKIE['BASERole'] = "$pw|TestOver|";
-		$this->assertTrue(
-			AuthorizedRole(20000),
-			'Unexpected Return Value.'
-		);
+		$this->assertTrue( AuthorizedRole(20000), $URV );
 		unset ($_COOKIE['BASERole']);
 	}
 	public function testAuthorizedPageFail(){

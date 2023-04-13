@@ -119,55 +119,83 @@ function PrintPcapDownload( $db, $cid, $sid ){
 	return $url;
 }
 
-function PrintPacketLookupBrowseButtons($seq, $save_sql, $db, &$previous_button, &$next_button)
-{
-  $sf_portscan_flag = 0;
-
-
-  echo "\n\n<!-- Single Alert Browsing Buttons -->\n";
-
-  $result2 = $db->baseExecute($save_sql);
-
-  if ( $seq == 0 )
-     $previous_button = '[ '._FIRST.' ]'."\n";
-
-  $i = 0;
-  while ($i <= $seq+1 )
-  {
-     $myrow2 = $result2->baseFetchRow();
-
-     if ( $myrow2 == "" )
-        $next_button = '[ '._LAST.' ]'."\n"; 
-     else if ( $i == $seq-1 ) {
-        $previous_button = '<INPUT TYPE="submit" NAME="submit" VALUE="&lt;&lt; '._PREVIOUS.' #';
-        $previous_button.= ($seq-1).'-('.$myrow2[0].'-'.$myrow2[1].')">'."\n";
-     }
-     else if ( $i == $seq+1 ) {
-        $next_button = '<INPUT TYPE="submit" NAME="submit" VALUE="&gt;&gt; '._NEXT.' #';
-        $next_button.= ($seq+1).'-('.$myrow2[0].'-'.$myrow2[1].')">'."\n";
-     }
-     $i++;
-  }
-
-  $result2->baseFreeRows();
+function PrintPacketLookupBrowseButtons( $seq, $sql, $db, &$p_b, &$n_b ){
+	GLOBAL $debug_mode;
+	$EMPfx = __FUNCTION__ . ': ';
+	if ( !is_int($seq) ){ // Input Validation
+		$seq = 0;
+	}
+	NLIO ("<!-- Single Alert Browsing Buttons -->");
+	if ( $seq > 0 ){
+		$start = $seq -1;
+	}else{
+		$start = $seq;
+	}
+	if ( $debug_mode > 0 ){
+		ErrorMessage (
+			$EMPfx. "Execute SQL: $sql LIMIT $start, 3",'black',1
+		);
+	}
+	$rs = $db->baseExecute($sql, $start, 3);
+	if (
+		$rs != false
+		&& $db->baseErrorMessage() == ''
+		&& $rs->baseRecordCount() > 0
+	){ // Error Check
+		if ( $debug_mode > 1 ){
+			ErrorMessage (
+				$EMPfx. "Records: ".$rs->baseRecordCount(),'black', 1
+			);
+		}
+		if ( $seq == 0 ){
+			$p_b = '[ '._FIRST.' ]'."\n";
+		}
+		$Pfx = "<INPUT TYPE='submit' NAME='submit' VALUE='";
+		for ( $i = $start; $i <= $seq + 1; $i++  ){
+			$row = $rs->baseFetchRow();
+			if ( $debug_mode > 1 ){
+				ErrorMessage ("# $i - $seq", 'black',1);
+				var_dump($row);
+			}
+			if ( $row == '' ){
+				$n_b = '[ '._LAST.' ]'."\n";
+				break;
+			}
+			$Sfx = '-('.$row[0].'-'.$row[1].")'>";
+			if ( $i == $seq - 1 ){
+				$p_b = $Pfx."&lt;&lt; "._PREVIOUS." #".($seq-1).$Sfx;
+			}elseif ( $i == $seq + 1 ){
+				$n_b = $Pfx."&gt;&gt; "._NEXT." #".($seq+1).$Sfx;
+			}
+		}
+		$rs->baseFreeRows();
+		if ( $debug_mode > 1 ){
+			ErrorMessage ( $EMPfx. "Ret-P: ".XSSPrintSafe($p_b),'black',1 );
+			ErrorMessage ( $EMPfx. "Ret-N: ".XSSPrintSafe($n_b),'black',1 );
+		}
+	}else{
+		ErrorMessage ($EMPfx. "BASE DB Error: ".$db->baseErrorMessage() == '');
+	}
 }
 
-  /* 
-   *  Need to import $submit and set the $QUERY_STRING early to support
-   *  the back button.  Otherwise, the value of $submit will not be passed
-   *  to the history.
-   */
-
-  /* This call can include "#xx-(xx-xx)" values and "submit" values. */
-  $submit = ImportHTTPVar("submit", VAR_DIGIT | VAR_PUNC | VAR_LETTER, array(_SELECTED, _ALLONSCREEN, _ENTIREQUERY)); 
-
-  $_SERVER["QUERY_STRING"] = "submit=".rawurlencode($submit);
+$sort_order = ImportHTTPVar( 'sort_order', VAR_LETTER | VAR_USCORE );
+// Need to import $submit and set the $QUERY_STRING early to support the back
+// button. Otherwise, the value of $submit will not be passed to the history.
+//
+// $submit can contain values in the form of  "#xx-(xx-xx)" and
+// other "submit" values.
+$submit = ImportHTTPVar(
+	'submit', VAR_DIGIT | VAR_PUNC | VAR_LETTER,
+	array(_SELECTED, _ALLONSCREEN, _ENTIREQUERY)
+);
+$_SERVER["QUERY_STRING"] = "submit=".rawurlencode($submit);
 
   $et = new EventTiming($debug_time_mode);
   $cs = new CriteriaState("base_qry_main.php", "&amp;new=1&amp;submit="._QUERYDBP);
   $cs->ReadState();
 
   $qs = new QueryState();
+$qs->current_sort_order = $sort_order;
 
   $page_title = _ALERT;
   PrintBASESubHeader($page_title, $page_title, $cs->GetBackLink(), $refresh_all_pages);
@@ -176,6 +204,19 @@ $db->baseDBConnect(
 	$db_connect_method,$alert_dbname, $alert_host, $alert_port, $alert_user,
 	$alert_password
 );
+UpdateAlertCache($db);
+if ( class_exists('UILang') ){ // Issue 11 backport shim.
+	$CPSig = $UIL->CWA['Sig'];
+	$CPSA = $UIL->CPA['SrcAddr'];
+	$CPDA = $UIL->CPA['DstAddr'];
+	$CPTs = $UIL->CWA['Ts'];
+}else{
+	$CPSig = _SIGNATURE;
+	$CPSA = _NBSOURCEADDR;
+	$CPDA = _NBDESTADDR;
+	$CPTs = _TIMESTAMP;
+}
+
   PrintCriteria("");
   $criteria_clauses = ProcessCriteria();  
 
@@ -214,36 +255,58 @@ $db->baseDBConnect(
    *  base_qry_sqlcalls.php 
    */
   $qro = new QueryResultsOutput("");
+	// Common SQL Strings
+	$OB = ' ORDER BY';
+	$qro->AddTitle($CPSig,
+		"sig_a", " ", "$OB sig_name ASC",
+		"sig_d", " ", "$OB sig_name DESC"
+	);
+	$qro->AddTitle($CPTs,
+		"time_a", " ", "$OB timestamp ASC ",
+		"time_d", " ", "$OB timestamp DESC "
+	);
+	$qro->AddTitle($CPSA,
+		"sip_a", " ", "$OB ip_src ASC",
+		"sip_d", " ", "$OB ip_src DESC"
+	);
+	$qro->AddTitle($CPDA,
+		"dip_a", " ", "$OB ip_dst ASC",
+		"dip_d", " ", "$OB ip_dst DESC"
+	);
+	$qro->AddTitle(_NBLAYER4,
+		"proto_a", " ", "$OB ip_proto ASC",
+		"proto_d", " ", "$OB ip_proto DESC"
+	);
 
-  $qro->AddTitle("Signature",
-                 "sig_a", " ", " ORDER BY sig_name ASC",
-                 "sig_d", " ", " ORDER BY sig_name DESC");
-  $qro->AddTitle("Timestamp",
-                 "time_a", " ", " ORDER BY timestamp ASC ",
-                 "time_d", " ", " ORDER BY timestamp DESC ");
-  $qro->AddTitle("Source<BR>Address",
-                 "sip_a", " ", " ORDER BY ip_src ASC",
-                 "sip_d", " ", " ORDER BY ip_src DESC");
-  $qro->AddTitle("Dest.<BR>Address",
-                 "dip_a", " ", " ORDER BY ip_dst ASC",
-                 "dip_d", " ", " ORDER BY ip_dst DESC");
-  $qro->AddTitle("Layer 4<BR>Proto",
-                 "proto_a", " ", " ORDER BY layer4_proto ASC",
-                 "proto_d", " ", " ORDER BY layer4_proto DESC");
-
-  $sort_sql = $qro->GetSortSQL($qs->GetCurrentSort(), "");
-  $save_sql = "SELECT acid_event.sid, acid_event.cid".$sort_sql[0].
-              $from.$where.$sort_sql[1];
-
-UpdateAlertCache($db);
+// Issue #168
+$save_sql = "SELECT acid_event.sid, acid_event.cid";
+$sqlPFX = $from.$where;
+$sort_sql = $qro->GetSortSQL($qs->GetCurrentSort(), $qs->GetCurrentCannedQuerySort());
+if ( !is_null($sort_sql) ){
+	$sqlPFX = $sort_sql[0].$sqlPFX.$sort_sql[1];
+}
+$save_sql .= $sqlPFX;
 GetQueryResultID($submit, $seq, $sid, $cid);
+if ( $debug_mode > 0 ){
+	if ( $qs->isCannedQuery() ){
+		$CCF = 'Yes';
+		$qs->PrintCannedQueryList();
+	}else{
+		$CCF = 'No';
+	}
+	print "Canned Query: $CCF <br/>";
+	$qs->DumpState();
+	print "SQL Saved: $save_sql <br/>";
+	$TK = array ( 'submit', 'sid', 'cid', 'seq' );
+	$DI = array();
+	$DD = array();
+	foreach ( $TK as $val ){
+		array_push($DD, $val);
+		array_push($DI, $$val);
+	}
+	DDT($DI,$DD,'Alert Lookup ','',25);
+}
 
-  if ( $debug_mode > 0 )
-     echo "\n====== Alert Lookup =======<BR>
-           sid = $sid<BR>
-           cid = $cid<BR>
-           seq = $seq<BR>\n".
-          "===========================<BR>\n";
 	// Verify (sid, cid) are extracted correctly.
 	if ( is_int($sid) && is_int($cid) && !($sid > 0 && $cid > 0) ){
 		// Added is_int checks as Issue #5 fix. If the above call to
@@ -263,8 +326,8 @@ GetQueryResultID($submit, $seq, $sid, $cid);
 			$cid = 1;
 		}
 	}
+PrintPacketLookupBrowseButtons($seq, $save_sql, $db, $previous, $next);
   echo "<FORM METHOD=\"GET\" ACTION=\"base_qry_alert.php\">\n"; 
-  PrintPacketLookupBrowseButtons($seq, $save_sql, $db, $previous, $next);
   echo "<CENTER>\n<B>"._ALERT." #".($seq)."</B><BR>\n$previous &nbsp&nbsp&nbsp\n$next\n</CENTER>\n";
   echo "<HR>\n";
 
@@ -273,8 +336,7 @@ GetQueryResultID($submit, $seq, $sid, $cid);
 
   /* Event */
   $sql2 = "SELECT signature, timestamp FROM acid_event WHERE sid='".filterSql($sid)."' AND cid='".filterSql($cid)."'";
-	if ($debug_mode > 0)
-	{
+	if ( $debug_mode > 0 ){
 		print "<BR><BR>\n\n" . __FILE__ . ":" . __LINE__ . ": DEBUG: \$sql2 = \"$sql2\"<BR><BR>\n\n";
 	}
   $result2 = $db->baseExecute($sql2);
@@ -1079,7 +1141,7 @@ GetQueryResultID($submit, $seq, $sid, $cid);
   $qs->PrintAlertActionButtons();
   $qs->SaveState();
   ExportHTTPVar("caller", $caller);
-
+ExportHTTPVar("sort_order", $sort_order);
   echo "\n</FORM>\n";
 $et->Mark("Get Query Elements");
 PrintBASESubFooter();

@@ -237,7 +237,7 @@ if (!setlocale(LC_TIME, _LOCALESTR1)) {
         setlocale (LC_TIME, _LOCALESTR3);
     }
     
-printf("<b>"._QUERIED." </b> : %s<br/>" , strftime(_STRFTIMEFORMAT));
+printf("<b>"._QUERIED." </b> : %s<br/>" , date('D F d, Y H:i:s'));
 if ( ChkCookie ('archive', 1) ){
         printf("<strong>"._DATABASE."</strong> %s &nbsp;&nbsp;&nbsp;(<strong>"._SCHEMAV."</strong> %d) \n<br />\n", 
 	    ($archive_dbname.'@'.$archive_host. ($archive_port != "" ? ':'.$archive_port : "") ),

@@ -169,23 +169,21 @@ function PrintBASEMenu( $type = '', $back_link = '' ){
 			NLIO ('<tr>',4);
 			NLIO ("<td class='menuitem'>",5);
 			if ( $type == 'header' ){ // Header
-				NLIO ($HrstTL."main.php'>"._HOME.'</a>'.$Sep,6);
-				NLIO ($HrstTL."qry_main.php?new=1'>"._SEARCH."</a>$Sep",6);
+				NLIO ($HrstTL."main.php'>"._HOME.'</a>',6);
+				NLIO ($Sep.$HrstTL."qry_main.php?new=1'>"._SEARCH.'</a>',6);
 			}elseif ( $type == 'footer' ){ // Footer
-				NLIO ($HrstTL."ag_main.php?ag_action=list'>". _AGMAINT."</a>$Sep",6);
-				NLIO ($HrstTL."maintenance.php'>". _CACHE."</a>$Sep",6);
+				NLIO ($HrstTL."ag_main.php?ag_action=list'>". _AGMAINT.'</a>',6);
+				NLIO ($Sep.$HrstTL."maintenance.php'>". _CACHE.'</a>',6);
 			}
 			if ($Use_Auth_System == 1){
-				NLIO ($HrstTL."user.php'>". _USERPREF ."</a>$Sep",6);
-				NLIO ($HrstTL."logout.php'>". _LOGOUT .'</a>',6);
+				NLIO ($Sep.$HrstTL."user.php'>". _USERPREF .'</a>',6);
+				NLIO ($Sep.$HrstTL."logout.php'>". _LOGOUT .'</a>',6);
 			}
 			if ( $type == 'header' && $back_link != '' ){ // Header
-				print $Sep;
-				NLIO($back_link,6);
+				NLIO($Sep.$back_link,6);
 			}elseif ( $type == 'footer' ){ // Footer
 				if ( AuthorizedRole(1) ){ // Issue #144 fix
-					print $Sep;
-					NLIO ($Hrst."admin/index.php'>". _ADMIN .'</a>',6);
+					NLIO ($Sep.$Hrst."admin/index.php'>". _ADMIN .'</a>',6);
 				}
 				if ( is_object($et) ){
 					print $Sep;
