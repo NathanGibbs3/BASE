@@ -30,7 +30,7 @@ include("$BASE_path/includes/base_include.inc.php");
 
 $tcc = new BaseCapsRegistry();
 $Lv = $tcc->GetCap('PHP_Ver');
-$Av = $tcc->GetCap('BASE_Ver')
+$Av = $tcc->GetCap('BASE_Ver');
 
 $ExitCode = 1; // Assume failure.
 $User = 'NathanGibbs3';
@@ -38,7 +38,7 @@ $Repo = 'BASE';
 $tmp = '';
 
 print " PHP $Lv\n";
-print "BASE $Bv\n";
+print "BASE $Av\n";
 
 $api = 'https://api.github.com/search/commits?q='; // GH API Search Endpoint.
 // From GitHub docs:
@@ -57,7 +57,7 @@ $opts = array('http' =>
 	)
 );
 
-if ( getenv('TRAVIS') && version_compare($Lv, '5.3.0', '<' ){
+if ( getenv('TRAVIS') && version_compare($Lv, '5.3.0', '<') ){
 	// Cutout for lack of SSL support in PHP 5.2 on Travis CI.
 	// This is why we have a Unit Test that will catch this as well.
 	$ExitCode = 0; // Success
