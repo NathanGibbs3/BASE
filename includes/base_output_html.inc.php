@@ -17,8 +17,6 @@
 // Ensure the conf file has been loaded.  Prevent direct access to this file.
 defined( '_BASE_INC' ) or die( 'Accessing this file directly is not allowed.' );
 
-include_once("$BASE_path/includes/base_state_common.inc.php");
-
 function PageStart ( $refresh = 0, $page_title = '' ){
 	GLOBAL $BASE_VERSION, $BASE_installID, $base_style, $BASE_urlpath,
 	$html_no_cache, $refresh_stat_page, $stat_page_refresh_time, $UIL;
@@ -45,7 +43,7 @@ function PageStart ( $refresh = 0, $page_title = '' ){
 		if ($page_title != ''){
 			$title .= ': ' . XSSPrintSafe($page_title);
 		}
-		if ( ChkCookie ('archive', 1) ){
+		if ( ChkArchive() ){
 			$SfxA = ' -- ARCHIVE';  // Need to add this to Translation Data.
 			$title .= $SfxA;
 			$HT .= $SfxA;
@@ -300,6 +298,17 @@ function TblNewRow( $td = 0, $align = '', $tab = 3 ){
 }
 function PrintTblNewRow( $td = 0, $align = '', $tab = 3 ){
 	print TblNewRow( $td, $align, $tab );
+}
+function LINext( $tab = 3 ){
+	$Ret = '';
+	if ( !is_int($tab) || $tab < 1 ){ // Input Validation
+		$tab = 3;
+	}
+	$Ret = NLI('</li><li>', $tab );
+	return $Ret;
+}
+function PrintLINext( $tab = 3 ){
+	print LINext( $tab );
 }
 function returnExportHTTPVar ( $var_name = '', $var_value = '', $tab = 3 ){
 	$Ret = '';

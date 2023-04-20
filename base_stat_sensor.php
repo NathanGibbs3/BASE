@@ -34,6 +34,12 @@ include_once ("$BASE_path/base_ag_common.php");
 
 AuthorizedRole(10000);
 $et = new EventTiming($debug_time_mode);
+$db = NewBASEDBConnection($DBlib_path, $DBtype); // Connect to DB.
+$db->baseDBConnect(
+	$db_connect_method,$alert_dbname, $alert_host, $alert_port, $alert_user,
+	$alert_password
+);
+UpdateAlertCache($db);
 $cs = new CriteriaState("base_stat_sensor.php");
 $cs->ReadState();
 $qs = new QueryState();
@@ -47,12 +53,6 @@ if ( $action == '' ){
 }else{
 	PrintBASESubHeader($page_title, $page_title, $cs->GetBackLink(), $refresh_all_pages);
 }
-$db = NewBASEDBConnection($DBlib_path, $DBtype); // Connect to Alert DB.
-$db->baseDBConnect(
-	$db_connect_method,$alert_dbname, $alert_host, $alert_port, $alert_user,
-	$alert_password
-);
-UpdateAlertCache($db);
 $criteria_clauses = ProcessCriteria();
 PrintCriteria('');
 
@@ -172,7 +172,7 @@ $qs->PrintResultCnt(); // Print current view number and # of rows.
     echo '    <TD><INPUT TYPE="checkbox" NAME="action_chk_lst['.$i.']" VALUE="'.$tmp_rowid.'">';
     echo '        <INPUT TYPE="hidden" NAME="action_lst['.$i.']" VALUE="'.$tmp_rowid.'"></TD>';
 
-    qroPrintEntry($sensor_id);
+	qroPrintEntry($sensor_id);
 	qroPrintEntry(GetSensorName($sensor_id, $db),'left');
 	qroPrintEntry(
 		"<a href='base_qry_main.php?new=1&amp;sensor=$sensor_id".
@@ -191,23 +191,18 @@ $qs->PrintResultCnt(); // Print current view number and # of rows.
 		BuildUniqueAddressLink(2, "&amp;sensor=".$sensor_id)."$num_dst_ip</a>",
 		'right'
 	);
-     qroPrintEntry($start_time);
-     qroPrintEntry($stop_time);
-
-     qroPrintEntryFooter();
-
-     $i++;
-  }
-
-  $result->baseFreeRows();
-
-  $qro->PrintFooter();
-
-  $qs->PrintBrowseButtons();
-  $qs->PrintAlertActionButtons();
-  $qs->SaveState();
-	ExportHTTPVar("sort_order", $sort_order);
-  echo "\n</FORM>\n";
+	qroPrintEntry($start_time);
+	qroPrintEntry($stop_time);
+	qroPrintEntryFooter();
+	$i++;
+}
+$result->baseFreeRows();
+$qro->PrintFooter();
+$qs->PrintBrowseButtons();
+$qs->PrintAlertActionButtons();
+$qs->SaveState();
+ExportHTTPVar("sort_order", $sort_order);
+NLIO('</form>',2);
 $et->Mark("Get Query Elements");
 PrintBASESubFooter();
 ?>

@@ -252,7 +252,7 @@ if (
 	include("$BASE_path/base_qry_form.php");
 }
 $qs->SaveState();
-NLIO('</form>');
+NLIO('</form>',2);
 $et->Mark("Get Query Elements");
 PrintBASESubFooter();
 ?>

@@ -19,8 +19,10 @@ $debug_mode = 0;
 $sql_trace_mode = 0;
 $event_cache_auto_update = 0;
 $last_num_alerts = 15;
-// Red, yellow, orange, gray, white, blue
+$colored_alerts = 0;
+// Red, yellow, orange, gray, white, green
 $priority_colors = array ('FF0000','FFFF00','FF9900','999999','FFFFFF','006600');
+$archive_exists = 0;
 
 session_start();
 print "   Testing with: (BASE) $BASE_installID $BASE_VERSION\n";

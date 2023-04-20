@@ -253,7 +253,6 @@ function PrintHTTPPost()
    echo "</PRE>";
 }
 
-
 function SQLTraceLog($message)
 {
   GLOBAL $sql_trace_mode, $sql_trace_file;
@@ -281,11 +280,9 @@ function SQLTraceLog($message)
       {
         ErrorMessage("ERROR: Could not open " . $sql_trace_file);
       }
-    }
-    else
-    {
-      error_log($message);
-    }
-  }
+		}else{
+			error_log($message);
+		}
+	}
 }
 ?>

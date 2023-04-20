@@ -20,8 +20,9 @@
 */
 
 // Issue #5
-if (!isset($BASE_path)
-	|| ( getenv('TRAVIS') && version_compare(PHP_VERSION, "5.3.0", "<") )
+if (
+	!isset($BASE_path)
+	|| ( getenv('TRAVIS') && version_compare(PHP_VERSION, '5.3.0', '<') )
 ){
 	if ( !isset($BASE_path) ){
 		// Testing via php -f CLI on local system.
@@ -30,11 +31,10 @@ if (!isset($BASE_path)
 	}
 	// Code Coverage for PHP 5.2x on CI.
 	// Default a bunch of things to fix issue #5.
-	include_once ("base_conf.php");
-	include_once ("$BASE_path/includes/base_constants.inc.php");
-	include ("$BASE_path/includes/base_include.inc.php");
-	include_once ("$BASE_path/base_db_common.php");
-	include_once ("$BASE_path/base_common.php");
+	include_once("base_conf.php");
+	include_once("$BASE_path/includes/base_constants.inc.php");
+	include("$BASE_path/includes/base_include.inc.php");
+	include_once("$BASE_path/base_db_common.php");
 	$db = NewBASEDBConnection($DBlib_path, $DBtype);
 	$db->baseDBConnect(
 		$db_connect_method, $alert_dbname, $alert_host, $alert_port,

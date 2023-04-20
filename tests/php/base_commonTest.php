@@ -5,6 +5,7 @@ use PHPUnit\Framework\TestCase;
 /**
   * Code Coverage Directives.
   * @covers ::ChkAccess
+  * @covers ::ChkArchive
   * @covers ::ChkCookie
   * @covers ::ChkGet
   * @covers ::ChkLib
@@ -13,21 +14,34 @@ use PHPUnit\Framework\TestCase;
   * @covers ::GetVendor
   * @covers ::Htmlcolor
   * @covers ::LoadedString
+  * @covers ::PearInc
   * @covers ::Percent
   * @covers ::base_array_key_exists
   * @covers ::base_include
   * @uses ::CleanVariable
-  * @uses ::XSSPrintSafe
   * @uses ::ErrorMessage
+  * @uses ::LibIncError
+  * @uses ::XSSPrintSafe
   * @uses ::returnErrorMessage
   */
+
 class base_commonTest extends TestCase {
 	// Pre Test Setup.
 	protected static $TA;
+	protected static $PHPUV;
+	protected static $UOV;
 	protected static $URV;
 
 	public static function setUpBeforeClass(){
+		self::$UOV = 'Unexpected Output Value: ';
 		self::$URV = 'Unexpected Return Value: ';
+		// PHPUnit Version
+		$PHPUV = GetPHPUV();
+		if (version_compare($PHPUV, '9.0', '<')){ // PHPUnit < 9x
+			self::$PHPUV = 1;
+		}else{ // PHPUnit 9+
+			self::$PHPUV = 2;
+		}
 		self::$TA = array (
 			null => 'null',
 			23 => 'int',
@@ -36,8 +50,10 @@ class base_commonTest extends TestCase {
 		);
 	}
 	public static function tearDownAfterClass(){
+		self::$UOV = null;
 		self::$URV = null;
 		self::$TA = null;
+		self::$PHPUV = null;
 	}
 
 	// Tests go here.
@@ -574,6 +590,7 @@ class base_commonTest extends TestCase {
 			);
 		}
 	}
+
 	public function testreturnChkLibEmpty(){
 		GLOBAL $debug_mode;
 		$expected ="<font color='#ff0000'>ChkLib: No Lib specified.</font><br/>";
@@ -721,7 +738,6 @@ class base_commonTest extends TestCase {
 		ChkLib($path,'',$Lib);
 		$debug_mode = $odb;
 	}
-
 	public function testBAKEDefaultReturnsExpected(){
 		$URV = self::$URV.'base_array_key_exists().';
 		$TA = self::$TA;
@@ -770,6 +786,228 @@ class base_commonTest extends TestCase {
 		$Idx = 'array';
 		$this->assertTrue( base_array_key_exists($Idx, $TA), $URV );
 		$this->assertTrue( is_array($TA[$Idx]), $URV );
+	}
+	public function testreturnPearincEmpty(){
+		$URV = self::$URV.'PearInc().';
+		$UOV = self::$UOV.'PearInc().';
+		GLOBAL $debug_mode;
+		$EOM ="<font color='#ff0000'>PearInc: No Lib specified.</font><br/>";
+		$this->assertFalse( PearInc(), $URV );
+		$odb = $debug_mode;
+		$debug_mode = 1;
+		$this->expectOutputString( $EOM, PearInc(), $UOV );
+		$debug_mode = $odb;
+	}
+	public function testreturnPearincInvalidLib(){
+		$URV = self::$URV.'PearInc().';
+		$UOV = self::$UOV.'PearInc().';
+		GLOBAL $debug_mode;
+		$Lib = 'Notthere';
+		$EOM ="<font color='#ff0000'>PearInc: Notthere Lib: /Notthere.php ".
+		'not accessable.</font><br/>';
+		$this->assertFalse( PearInc('','',$Lib), $URV );
+		$odb = $debug_mode;
+		$debug_mode = 1;
+		$this->expectOutputString( $EOM, PearInc('','',$Lib), $UOV );
+		$debug_mode = $odb;
+	}
+	public function testreturnPearincInvalidLibDisplayError(){
+		$URV = self::$URV.'PearInc().';
+		$UOV = self::$UOV.'PearInc().';
+		$Lib = 'Notthere';
+		$EOM = "<font color='black'><b>Error loading the Notthere library:".
+		'</b> from &quot;&quot;.<br/>The underlying Notthere library '.
+		'currently used is Notthere, that can be downloaded at '.
+		"<a href='https://pear.php.net/package/Notthere'>".
+		'https://pear.php.net/package/Notthere</a>.</font><br/>'.
+		"<font color='black'>Notthere Lib: /Notthere.php not accessable.".
+		'</font><br/>'.
+		"<font color='black'>Check your Pear::Notthere installation!<br/>Make ".
+		'sure PEAR libraries can be found by PHP.<pre>pear config-show | grep '.
+		'&quot;PEAR directory&quot;'."\n".'PEAR directory      php_dir     '.
+		'/usr/share/pear</pre>This path must be part of the include path of '.
+		'php (cf. /etc/php.ini).<pre>php -i | '.
+		'grep &quot;include_path&quot;include_path =&gt; '.
+		'.:/usr/share/pear:/usr/share/php =&gt; '.
+		'.:/usr/share/pear:/usr/share/php</pre>';
+		if ( ini_get('safe_mode') ){
+			$EOM .= 'In &quot;safe_mode&quot; it must also be part of '.
+			'safe_mode_include_dir in /etc/php.ini';
+		};
+		$EOM .= '</font><br/>'.
+		"<font color='#ff0000'>PHP setup incomplete: Notthere required.".
+		'</font><br/>';
+		$this->expectOutputString( $EOM, PearInc('','',$Lib, 0), $UOV );
+	}
+	public function testreturnPearincInvalidLoc(){
+		$URV = self::$URV.'PearInc().';
+		$UOV = self::$UOV.'PearInc().';
+		GLOBAL $debug_mode;
+		$Loc = 'Imag';
+		$Lib = 'Graph';
+		$EOM ="<font color='#ff0000'>PearInc: Imag_Graph Lib: Imag/Graph.php ".
+		'not accessable.</font><br/>';
+		$this->assertFalse( PearInc('',$Loc,$Lib), $URV );
+		$odb = $debug_mode;
+		$debug_mode = 1;
+		$this->expectOutputString( $EOM, PearInc('',$Loc,$Lib), $UOV );
+		$debug_mode = $odb;
+	}
+	public function testreturnPearincInvalidLocDisplayError(){
+		$URV = self::$URV.'PearInc().';
+		$UOV = self::$UOV.'PearInc().';
+		$Loc = 'Imag';
+		$Lib = 'Graph';
+		$EOM = "<font color='black'><b>Error loading the Imag_Graph library:".
+		'</b> from &quot;Imag&quot;.<br/>The underlying Imag_Graph library '.
+		'currently used is Imag_Graph, that can be downloaded at '.
+		"<a href='https://pear.php.net/package/Imag_Graph'>".
+		'https://pear.php.net/package/Imag_Graph</a>.</font><br/>'.
+		"<font color='black'>Imag_Graph Lib: Imag/Graph.php not accessable.".
+		'</font><br/>'."<font color='black'>".
+		'Check your Pear::Imag_Graph installation!<br/>Make '.
+		'sure PEAR libraries can be found by PHP.<pre>pear config-show | grep '.
+		'&quot;PEAR directory&quot;'."\n".'PEAR directory      php_dir     '.
+		'/usr/share/pear</pre>This path must be part of the include path of '.
+		'php (cf. /etc/php.ini).<pre>php -i | '.
+		'grep &quot;include_path&quot;include_path =&gt; '.
+		'.:/usr/share/pear:/usr/share/php =&gt; '.
+		'.:/usr/share/pear:/usr/share/php</pre>';
+		if ( ini_get('safe_mode') ){
+			$EOM .= 'In &quot;safe_mode&quot; it must also be part of '.
+			'safe_mode_include_dir in /etc/php.ini';
+		};
+		$EOM .= '</font><br/>'.
+		"<font color='#ff0000'>PHP setup incomplete: Imag_Graph required.".
+		'</font><br/>';
+		$this->expectOutputString( $EOM, PearInc('',$Loc,$Lib,0), $UOV );
+	}
+	public function testreturnPearincValidLib(){
+		$URV = self::$URV.'PearInc().';
+		$UOV = self::$UOV.'PearInc().';
+		GLOBAL $debug_mode;
+		$Lib = 'Mail';
+		$this->assertTrue( PearInc('','',$Lib), $URV );
+	}
+	public function testreturnPearincValidLoc(){
+		$URV = self::$URV.'PearInc().';
+		$UOV = self::$UOV.'PearInc().';
+		GLOBAL $debug_mode;
+		$Loc = 'Mail';
+		$Lib = 'mime';
+		$this->assertTrue( PearInc('', $Loc,$Lib), $URV );
+	}
+	public function testreturnPearincInvalidOpts(){
+		$URV = self::$URV.'PearInc().';
+		$UOV = self::$UOV.'PearInc().';
+		GLOBAL $debug_mode;
+		$Lib = 'Mail';
+		$this->assertTrue( PearInc('','',$Lib, 'string', 'string'), $URV );
+	}
+	public function testreturnChkArchiveDBOffNoParams(){
+		$URV = self::$URV.'ChkArchive().';
+		$UOV = self::$UOV.'ChkArchive().';
+		// Test Env defaults to Archive DB disabled.
+//		GLOBAL $archive_exists;
+//		$cur_error_log = ini_get( 'error_log' );
+//		ini_set( 'error_log', '/dev/stdout' );
+//		$ogv = $archive_exists;
+//		$archive_exists = 1;
+		$this->assertFalse( ChkArchive(), $URV );
+//		$archive_exists = $ogv;
+//		ini_set( 'error_log', $cur_error_log );
+	}
+	public function testreturnChkArchiveDBOffNoGET(){
+		$URV = self::$URV.'ChkArchive().';
+		$UOV = self::$UOV.'ChkArchive().';
+		$PHPUV = self::$PHPUV;
+		// Test Env defaults to Archive DB disabled.
+//		GLOBAL $archive_exists;
+		$EOM = 'BASE Security Alert ChkArchive: HTTP GET tampering detected.';
+		$cur_e_l = ini_get( 'error_log' ); // Shim error_log output On
+		$capture = tmpfile();
+		ini_set('error_log', stream_get_meta_data($capture)['uri']);
+//		$ogv = $archive_exists;
+//		$archive_exists = 1;
+		$_GET['archive'] = 1;
+		$this->assertFalse( ChkArchive(), $URV );
+		unset ($_GET['archive']);
+		ini_set( 'error_log', $cur_e_l ); // Shim error_log output Off
+//		$archive_exists = $ogv;
+		$elOutput = stream_get_contents($capture);
+		if ( $PHPUV > 1 ){ // PHPUnit 9+
+			$this->assertMatchesRegularExpression(
+				'/'.$EOM.'/', $elOutput, $UOV
+			);
+		}else{ // Legacy PHPUnit
+			$this->assertRegExp(
+				'/'.$EOM.'/', $elOutput, $UOV
+			);
+		}
+	}
+	public function testreturnChkArchiveDBOffNoCookie(){
+		$URV = self::$URV.'ChkArchive().';
+		$UOV = self::$UOV.'ChkArchive().';
+		$PHPUV = self::$PHPUV;
+		// Test Env defaults to Archive DB disabled.
+//		GLOBAL $archive_exists;
+		$EOM = 'BASE Security Alert ChkArchive: COOKIE tampering detected.';
+		$cur_e_l = ini_get( 'error_log' ); // Shim error_log output On
+		$capture = tmpfile();
+		ini_set('error_log', stream_get_meta_data($capture)['uri']);
+//		$ogv = $archive_exists;
+//		$archive_exists = 1;
+		$_COOKIE['archive'] = 1;
+		$this->assertFalse( ChkArchive(), $URV );
+		unset ($_COOKIE['archive']);
+		ini_set( 'error_log', $cur_e_l ); // Shim error_log output Off
+//		$archive_exists = $ogv;
+		$elOutput = stream_get_contents($capture);
+		if ( $PHPUV > 1 ){ // PHPUnit 9+
+			$this->assertMatchesRegularExpression(
+				'/'.$EOM.'/', $elOutput, $UOV
+			);
+		}else{ // Legacy PHPUnit
+			$this->assertRegExp(
+				'/'.$EOM.'/', $elOutput, $UOV
+			);
+		}
+	}
+	public function testreturnChkArchiveADBOnNoParams(){
+		$URV = self::$URV.'ChkArchive().';
+		$UOV = self::$UOV.'ChkArchive().';
+		// Test Env defaults to Archive DB disabled.
+		GLOBAL $archive_exists;
+		$ogv = $archive_exists;
+		$archive_exists = 1;
+		$this->assertFalse( ChkArchive(), $URV );
+		$archive_exists = $ogv;
+	}
+	public function testreturnChkArchiveDBOnNoGET(){
+		$URV = self::$URV.'ChkArchive().';
+		$UOV = self::$UOV.'ChkArchive().';
+		$PHPUV = self::$PHPUV;
+		// Test Env defaults to Archive DB disabled.
+		GLOBAL $archive_exists;
+		$ogv = $archive_exists;
+		$archive_exists = 1;
+		$_GET['archive'] = 1;
+		$this->assertTrue( ChkArchive(), $URV );
+		unset ($_GET['archive']);
+		$archive_exists = $ogv;
+	}
+	public function testreturnChkArchiveDBOnNoCookie(){
+		$URV = self::$URV.'ChkArchive().';
+		$UOV = self::$UOV.'ChkArchive().';
+		$PHPUV = self::$PHPUV;
+		// Test Env defaults to Archive DB disabled.
+		GLOBAL $archive_exists;
+		$ogv = $archive_exists;
+		$archive_exists = 1;
+		$_COOKIE['archive'] = 1;
+		$this->assertTrue( ChkArchive(), $URV );
+		unset ($_COOKIE['archive']);
+		$archive_exists = $ogv;
 	}
 
 	// Add code to a function if needed.

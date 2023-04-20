@@ -32,13 +32,15 @@
 ********************************************************************************
 */
 
-include ("base_conf.php");
-include_once ("$BASE_path/includes/base_constants.inc.php");
-include_once ("$BASE_path/includes/base_state_common.inc.php");
-include_once ("$BASE_path/base_graph_common.php");
-require_once('Image/Graph.php');
+require_once("base_conf.php");
+include_once("$BASE_path/includes/base_constants.inc.php");
+include_once("$BASE_path/includes/base_state_common.inc.php");
+include_once("$BASE_path/base_graph_common.php");
 
-$EMPfx = __FILE__ . ": "; // Error Message Prefix.
+$EMPfx = __FILE__ . ': '; // Error Message Prefix.
+if ( VerifyGraphingLib() ){ // Graphics Libs Check
+	require_once('Image/Graph.php');
+
   // One more time: A workaround for the inability of PEAR::Image_Canvas-0.3.1
   // to deal with strings as x-axis labels in a proper way in the case
   // of a logarithmic y-axis.
@@ -534,5 +536,12 @@ if ( $debug_mode > 0 ){
 // Now, that the png has been drawn, we can allow the old value, again.
 if ( !empty($old_display_error_type) ){
 	ini_set("display_errors", $old_display_error_type);
+}
+}else{ // Graphics Libs Check failed.
+	// @codeCoverageIgnoreStart
+	// Should never execute. Log it.
+	error_log($EMPfx . 'Graphics Libs check failed.');
+	base_header("Location: base_graph_main.php");
+	// @codeCoverageIgnoreEnd
 }
 ?>

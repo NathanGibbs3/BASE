@@ -68,8 +68,7 @@ class baseCon {
 		$EMPfx = __FUNCTION__ . '(): ';
 		// Check archive cookie to see if we need to use the archive tables.
 		// Only honnor cookie if not forced to use specified database.
-		if ( $force != 1 && ChkCookie ('archive', 1) ){
-			// Connect to the archive tables.
+		if ( $force != 1 && ChkArchive() ){ // Connect to archive DB.
 			$DBDesc = 'Archive'; // Need to TD this in Issue #11 branch.
 
       if ( $method == DB_CONNECT )

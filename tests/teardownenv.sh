@@ -55,18 +55,21 @@ pvr=`echo $puv|sed -r -e "s/^[0-9]\.[0-9]\.//"`
 echo "System PHP Version: $puv"
 
 if [ "$1" == "" ]; then
-	if [ "$td" != "tests" ]; then
-		echo "Current directory: `pwd`"
-		echo "Removing custom footer Directory: `pwd`/custom"
-		sudo rm -rdf custom
-		sudo rm -f /etc/BASEtestsym.htm
-		if [ "$TRAVIS" != "true" ]; then
-			# Running on Local Test System.
-			# Default Debian/Ubuntu location.
-			ADODBPATH='/usr/share/php/adodb'
-		fi
-		sudo rm -f $ADODBPATH/readTestFail.php
+	echo "Current directory: `pwd`"
+	if [ "$td" == "tests" ]; then
+		pfx=".."
+	else
+		pfx="."
 	fi
+	echo "Removing custom footer Directory: `pwd`/$pfx/custom"
+	sudo rm -rdf $pfx/custom
+	sudo rm -f /etc/BASEtestsym.htm
+	if [ "$TRAVIS" != "true" ]; then
+		# Running on Local Test System.
+		# Default Debian/Ubuntu location.
+		ADODBPATH='/usr/share/php/adodb'
+	fi
+	sudo rm -f $ADODBPATH/readTestFail.php
 	if [ "$td" == "tests" ]; then
 		php ./teardowntestdb.php
 	else

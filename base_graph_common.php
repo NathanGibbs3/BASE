@@ -19,7 +19,7 @@
 ********************************************************************************
 */
 
-include_once("base_conf.php");
+require_once("base_conf.php");
 include_once("$BASE_path/includes/base_constants.inc.php");
 include_once("$BASE_path/base_common.php");
 include_once("$BASE_path/base_qry_common.php");
@@ -52,38 +52,27 @@ SetConst('CHARTTYPE_DST_COUNTRY', 16);
 SetConst('CHARTTYPE_DST_COUNTRY_ON_MAP', 17);
 SetConst('CHARTTYPE_UNIQUE_SIGNATURE', 18);
 
+// @codeCoverageIgnoreStart
+// These code paths are installation dependent.
+// Testing would be problematic.
 function VerifyGraphingLib(){
-	$EMPfx = __FUNCTION__ . ': ';
-	$IGL = false;
-	if ( !(function_exists("ImageDestroy")) ){// Is GD compiled into PHP.
+	$Ret = false; // Lib Error
+	if( !function_exists('imagecreate') ){// Is GD compiled into PHP.
 		BuildError (
 			'<b>PHP build incomplete</b>: GD support required.<br/>'."\n".
-			'Recompile PHP with GD support (<code>--with-gd</code>)',
+			'Recompile PHP with GD support (<code>--with-gd</code>)'."\n".
 			'PHP build incomplete: GD support required.'
 		);
+	}else{
+		$Ret = PearInc('Graphing', 'Image', 'Graph');
 	}
-	$sc = DIRECTORY_SEPARATOR;
-	$LibLoc = 'Image';
-	$LibFile = 'Graph';
-	$tmp = ChkLib('', $LibLoc , $LibFile);
-	if ( LoadedString($tmp) == true ){
-		$IGL = include_once($tmp);
+	if ( $Ret == false ){ // Keep Issue #100 from happening here.
+		sleep(60);
 	}
-	if ( $tmp == '' || $IGL == false){
-		$Lib = implode( $sc, array($LibLoc, $LibFile) ).'.php';
-		$EMsg = "Graphing Lib: $Lib not ";
-		if ( $tmp == '' ){
-			$EMsg .= 'accessable';
-		}elseif ( $IGL == false ){
-			$EMsg .= 'loaded';
-		}
-		$EMsg .= '.<br/>';
-		// Sorry dude, you haven't finished your home work. -- Alejandro
-		$LibName = 'Image_Graph';
-		$tmp = "https://pear.php.net/package/$LibName";
-		LibIncError ('Graphing', $LibLoc, $Lib, $EMsg, $LibName, $tmp, 1, 1 );
-	}
+	return $Ret;
 }
+// @codeCoverageIgnoreEnd
+
 function ProcessChartTimeConstraint(
 	$start_hour, $start_day, $start_month, $start_year,
 	$stop_hour,  $stop_day,  $stop_month,  $stop_year

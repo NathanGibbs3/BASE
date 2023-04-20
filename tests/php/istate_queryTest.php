@@ -5,8 +5,12 @@ use PHPUnit\Framework\TestCase;
 /**
   * Code Coverage Directives.
   * @covers QueryState
+  * @uses ::ChkArchive
+  * @uses ::ChkCookie
   * @uses ::CleanVariable
+  * @uses ::ChkGET
   * @uses ::ImportHTTPVar
+  * @uses ::LoadedString
   */
 
 class state_queryTest extends TestCase {
@@ -43,10 +47,76 @@ class state_queryTest extends TestCase {
 		$this->assertEmpty($tc->action_chk_lst, $URV);
 		$this->assertEmpty($tc->action_sql, $URV);
 	}
+	public function testClassQueryStateAddValidActionArchiveDBOn(){
+		$URV = self::$URV.'AddValidAction().';
+		$this->assertInstanceOf(
+			'QueryState',
+			$tc = new QueryState(),
+			'Class Not Initialized.'
+		);
+		$TA = array(
+			'ag_by_id', 'ag_by_name', 'add_new_ag', 'clear_alert',
+			'del_alert', 'email_alert', 'email_alert2', 'csv_alert',
+			'archive_alert', 'archive_alert2'
+		);
+		GLOBAL $archive_exists;
+		$ogv = $archive_exists;
+		$archive_exists = 1;
+		foreach( $TA as $val ){
+			$this->assertTrue($tc->AddValidAction($val));
+		}
+		$archive_exists = $ogv;
+		$this->assertEquals($TA, $tc->valid_action_list, $URV);
+	}
+	public function testClassQueryStateAddValidActionArchiveDBInUse(){
+		$URV = self::$URV.'AddValidAction().';
+		$this->assertInstanceOf(
+			'QueryState',
+			$tc = new QueryState(),
+			'Class Not Initialized.'
+		);
+		$TA = array(
+			'ag_by_id', 'ag_by_name', 'add_new_ag', 'clear_alert',
+			'del_alert', 'email_alert', 'email_alert2', 'csv_alert'
+		);
+		$TB = array( 'archive_alert', 'archive_alert2' );
+		GLOBAL $archive_exists;
+		$ogv = $archive_exists;
+		$archive_exists = 1;
+		$_COOKIE['archive'] = 1;
+		foreach( $TA as $val ){
+			$this->assertTrue($tc->AddValidAction($val));
+		}
+		foreach( $TB as $val ){
+			$this->assertFalse($tc->AddValidAction($val));
+		}
+		unset ($_COOKIE['archive']);
+		$archive_exists = $ogv;
+		$this->assertEquals($TA, $tc->valid_action_list, $URV);
+	}
+	public function testClassQueryStateAddValidActionArchiveDBOff(){
+		$URV = self::$URV.'AddValidAction().';
+		$this->assertInstanceOf(
+			'QueryState',
+			$tc = new QueryState(),
+			'Class Not Initialized.'
+		);
+		$TA = array(
+			'ag_by_id', 'ag_by_name', 'add_new_ag', 'clear_alert',
+			'del_alert', 'email_alert', 'email_alert2', 'csv_alert'
+		);
+		$TB = array( 'archive_alert', 'archive_alert2' );
+		foreach( $TA as $val ){
+			$this->assertTrue($tc->AddValidAction($val));
+		}
+		foreach( $TB as $val ){
+			$this->assertFalse($tc->AddValidAction($val));
+		}
+		$this->assertEquals($TA, $tc->valid_action_list, $URV);
+	}
 
 	// Add code to a function if needed.
 	// Stop here and mark test incomplete.
 	//$this->markTestIncomplete('Incomplete Test.');
 }
-
 ?>

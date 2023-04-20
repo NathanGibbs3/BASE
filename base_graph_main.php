@@ -22,11 +22,14 @@
 ********************************************************************************
 */
 
-include ("base_conf.php");
-include_once ("$BASE_path/includes/base_constants.inc.php");
-include ("$BASE_path/includes/base_include.inc.php");
-include_once ("$BASE_path/base_db_common.php");
-include_once ("$BASE_path/base_graph_common.php");
+require_once("base_conf.php");
+include_once("$BASE_path/includes/base_constants.inc.php");
+include("$BASE_path/includes/base_include.inc.php");
+include_once("$BASE_path/base_db_common.php");
+include_once("$BASE_path/base_graph_common.php");
+
+$EMPfx = __FILE__ . ': '; // Error Message Prefix.
+if ( VerifyGraphingLib() ){ // Graphics Libs Check
 
 function check_worldmap(){
 	GLOBAL $debug_mode;
@@ -155,7 +158,6 @@ if ( $new == 1 && $submit == '' ){ // Totally new Graph
 
 $page_title = _GRAPHALERTDATA;
 PrintBASESubHeader($page_title, $page_title, $cs->GetBackLink(), $refresh_all_pages);
-VerifyGraphingLib(); // Check if Image_Graph install is ok -- Alejandro
 $db = NewBASEDBConnection($DBlib_path, $DBtype); // Connect to the Alert DB.
 $db->baseDBConnect(
 	$db_connect_method,$alert_dbname, $alert_host, $alert_port, $alert_user,
@@ -459,10 +461,8 @@ if ( $submit != '' && $chart_type == ' ' ){ // Error Conditions.
 		}
       echo "</CENTER>";
 
-      echo '</TD>
-            </TR>
-            </TABLE>
-            <BR>';
+	PrintFramedBoxFooter(1,2);
+	NLIO('<br/>',2);
 		if ( $WorldMap ){
         echo '(click at the image or - after it has been reloaded - click at it for a second time to get a bigger size of it)<BR><BR>';
 		}
@@ -473,4 +473,8 @@ if ( $submit != '' && $chart_type == ' ' ){ // Error Conditions.
 	}
 }
 PrintBASESubFooter();
+}else{ // Graphics Libs Check failed.
+	error_log($EMPfx . 'Graphics Libs check failed.');
+	base_header("Location: base_main.php");
+}
 ?>

@@ -10,6 +10,7 @@ use PHPUnit\Framework\TestCase;
   * @covers ::XSSPrintSafe
   * @covers ::filterSql
   * @uses ::ChkAccess
+  * @uses ::ChkArchive
   * @uses ::ChkCookie
   * @uses ::ChkLib
   * @uses ::ErrorMessage

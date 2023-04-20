@@ -35,6 +35,12 @@ include_once("$BASE_path/base_common.php");
 
 AuthorizedRole(10000);
 $et = new EventTiming($debug_time_mode);
+$db = NewBASEDBConnection($DBlib_path, $DBtype); // Connect to DB.
+$db->baseDBConnect(
+	$db_connect_method,$alert_dbname, $alert_host, $alert_port, $alert_user,
+	$alert_password
+);
+UpdateAlertCache($db);
 $cs = new CriteriaState("base_stat_ipaddr.php");
 $cs->ReadState();
 $ip = ImportHTTPVar("ip", VAR_DIGIT | VAR_PERIOD);
@@ -224,8 +230,6 @@ function PrintPortscanEvents($db, $ip)
         </TABLE>';
 }
 
-
-
 function PrintEventsByIP($db, $ip)
 {
   GLOBAL $debug_mode;
@@ -304,12 +308,6 @@ function PrintEventsByIP($db, $ip)
 
  echo "</TABLE>\n";
 }
-$db = NewBASEDBConnection($DBlib_path, $DBtype); // Connect to Alert DB.
-$db->baseDBConnect(
-	$db_connect_method,$alert_dbname, $alert_host, $alert_port, $alert_user,
-	$alert_password
-);
-UpdateAlertCache($db);
 
   if ( sizeof($sig) != 0 && strstr($sig[1], "spp_portscan") )
      $sig[1] = "";
@@ -475,6 +473,6 @@ UpdateAlertCache($db);
      PrintPortscanEvents($db, $ip);
      echo ' </CENTER>';	
   }
-  echo "\n</FORM>\n";
+NLIO('</form>',2);
 PrintBASESubFooter();
 ?>
