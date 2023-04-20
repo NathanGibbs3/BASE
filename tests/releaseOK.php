@@ -27,7 +27,6 @@ define( '_BASE_INC', 1 );
 $BASE_installID = 'GH API Check';
 
 include("$BASE_path/includes/base_include.inc.php");
-include("$BASE_path/includes/base_capabilities.php");
 
 $tcc = new BaseCapsRegistry();
 print 'BASE ' . $tcc->GetCap('BASE_Ver')."\n";
