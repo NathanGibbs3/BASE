@@ -6,7 +6,8 @@
 		"infosec",
 		"php",
 		"php5",
-		"php7"
+		"php7",
+		"php8"
 	],
 	"homepage": "https://github.com/NathanGibbs3/BASE",
 	"support": {
@@ -35,6 +36,11 @@
 			"role": "Base Project Lead & Developer"
 		}
 	],
+	"config": {
+		"allow-plugins": {
+			"dealerdirect/phpcodesniffer-composer-installer": true
+		}
+	},
 	"require": {
 		"php": ">=4.0.4"
 	},
@@ -43,8 +49,8 @@
 		"php-coveralls/php-coveralls": "^2.1 || ^1.1",
 		"phpunit/phpcov": "^4.0 || ^3.0 || ^2.0",
 		"wapmorgan/php-deprecation-detector": "^2.0",
-		"squizlabs/php_codesniffer": "^3.7",
-		"dealerdirect/phpcodesniffer-composer-installer": "^1.0",
+		"squizlabs/php_codesniffer": "^3.7 || ^2.0",
+		"dealerdirect/phpcodesniffer-composer-installer": "<=1.0",
 		"phpcompatibility/php-compatibility": "^9.3"
 	},
 	"suggest": {

@@ -926,7 +926,8 @@ class base_commonTest extends TestCase {
 		$EOM = 'BASE Security Alert ChkArchive: HTTP GET tampering detected.';
 		$cur_e_l = ini_get( 'error_log' ); // Shim error_log output On
 		$capture = tmpfile();
-		ini_set('error_log', stream_get_meta_data($capture)['uri']);
+		$tmp = stream_get_meta_data($capture);
+		ini_set('error_log', $tmp['uri']);
 //		$ogv = $archive_exists;
 //		$archive_exists = 1;
 		$_GET['archive'] = 1;
@@ -954,7 +955,8 @@ class base_commonTest extends TestCase {
 		$EOM = 'BASE Security Alert ChkArchive: COOKIE tampering detected.';
 		$cur_e_l = ini_get( 'error_log' ); // Shim error_log output On
 		$capture = tmpfile();
-		ini_set('error_log', stream_get_meta_data($capture)['uri']);
+		$tmp = stream_get_meta_data($capture);
+		ini_set('error_log', $tmp['uri']);
 //		$ogv = $archive_exists;
 //		$archive_exists = 1;
 		$_COOKIE['archive'] = 1;
