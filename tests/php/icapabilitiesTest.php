@@ -118,7 +118,8 @@ class capabilitiesTest extends TestCase {
 		$EOM = ' BASE Security Alert AddCap: SubReg: .* tampering detected.';
 		$cur_e_l = ini_get( 'error_log' ); // Shim error_log output On
 		$capture = tmpfile();
-		ini_set('error_log', stream_get_meta_data($capture)['uri']);
+		$tmp = stream_get_meta_data($capture);
+		ini_set('error_log', $tmp['uri']);
 		$this->assertTrue($tc->AddCap('BASE_Ver', 'YES'), $URV);
 		unset ($_COOKIE['archive']);
 		ini_set( 'error_log', $cur_e_l ); // Shim error_log output Off
@@ -153,7 +154,8 @@ class capabilitiesTest extends TestCase {
 		$EOM = ' BASE Security Alert DelCap: Reg: .* tampering detected.';
 		$cur_e_l = ini_get( 'error_log' ); // Shim error_log output On
 		$capture = tmpfile();
-		ini_set('error_log', stream_get_meta_data($capture)['uri']);
+		$tmp = stream_get_meta_data($capture);
+		ini_set('error_log', $tmp['uri']);
 		$this->assertTrue($tc->DelCap('NotExist'), $URV);
 		unset ($_COOKIE['archive']);
 		ini_set( 'error_log', $cur_e_l ); // Shim error_log output Off
@@ -176,7 +178,8 @@ class capabilitiesTest extends TestCase {
 		$EOM = ' BASE Security Alert DelCap: SubReg: .* tampering detected.';
 		$cur_e_l = ini_get( 'error_log' ); // Shim error_log output On
 		$capture = tmpfile();
-		ini_set('error_log', stream_get_meta_data($capture)['uri']);
+		$tmp = stream_get_meta_data($capture);
+		ini_set('error_log', $tmp['uri']);
 		$this->assertTrue($tc->DelCap('BASE_Ver'), $URV);
 		unset ($_COOKIE['archive']);
 		ini_set( 'error_log', $cur_e_l ); // Shim error_log output Off
