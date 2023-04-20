@@ -87,6 +87,7 @@ class base_commonSPTest extends TestCase {
 		ChkLib($path,'',$Lib);
 		$debug_mode = $odb;
 	}
+
 	// Add code to a function if needed.
 	// Stop here and mark test incomplete.
 	//$this->markTestIncomplete('Incomplete Test.');

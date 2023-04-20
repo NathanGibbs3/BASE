@@ -19,7 +19,7 @@ $TRAVIS = getenv('TRAVIS');
 if (!$TRAVIS){ // Running on Local Test System.
 	// Default Debian/Ubuntu location.
 	$DBlib_path = '/usr/share/php/adodb';
-	require('../database.php');
+	require("$BASE_path/../database.php");
 }else{
 	$ADO = getenv('ADODBPATH');
 	if (!$ADO) {

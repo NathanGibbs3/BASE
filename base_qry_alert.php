@@ -120,8 +120,15 @@ function PrintPcapDownload( $db, $cid, $sid ){
 }
 
 function PrintPacketLookupBrowseButtons( $seq, $sql, $db, &$p_b, &$n_b ){
-	GLOBAL $debug_mode;
+	GLOBAL $debug_mode, $UIL;
 	$EMPfx = __FUNCTION__ . ': ';
+	if ( class_exists('UILang') ){ // Issue 11 backport shim.
+		$BtnLast = $UIL->CWA['Last'];
+		$BtnFirst = $UIL->CWA['First'];
+	}else{
+		$BtnLast = _LAST;
+		$BtnFirst = _FIRST;
+	}
 	if ( !is_int($seq) ){ // Input Validation
 		$seq = 0;
 	}
@@ -148,7 +155,7 @@ function PrintPacketLookupBrowseButtons( $seq, $sql, $db, &$p_b, &$n_b ){
 			);
 		}
 		if ( $seq == 0 ){
-			$p_b = '[ '._FIRST.' ]'."\n";
+			$p_b = "[ $BtnFirst ]";
 		}
 		$Pfx = "<INPUT TYPE='submit' NAME='submit' VALUE='";
 		for ( $i = $start; $i <= $seq + 1; $i++  ){
@@ -158,7 +165,7 @@ function PrintPacketLookupBrowseButtons( $seq, $sql, $db, &$p_b, &$n_b ){
 				var_dump($row);
 			}
 			if ( $row == '' ){
-				$n_b = '[ '._LAST.' ]'."\n";
+				$n_b = "[ $BtnLast ]";
 				break;
 			}
 			$Sfx = '-('.$row[0].'-'.$row[1].")'>";

@@ -267,16 +267,15 @@ $qs->PrintResultCnt(); // Print current view number and # of rows.
 	qroPrintEntryFooter();
       ++$i;
 }
-  $result->baseFreeRows();     
+$result->baseFreeRows();
 
-  $qro->PrintFooter();
-
-  $qs->PrintBrowseButtons();
-  $qs->PrintAlertActionButtons();
-  $qs->SaveState();
-  ExportHTTPVar("addr_type", $addr_type);
+$qro->PrintFooter();
+$qs->PrintBrowseButtons();
+$qs->PrintAlertActionButtons();
+$qs->SaveState();
+ExportHTTPVar("addr_type", $addr_type);
 ExportHTTPVar("sort_order", $sort_order);
-  echo "\n</FORM>\n";
+NLIO('</form>',2);
 $et->Mark("Get Query Elements");
 PrintBASESubFooter();
 ?>

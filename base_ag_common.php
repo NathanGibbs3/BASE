@@ -113,5 +113,4 @@ function CreateAG($db, $ag_name, $ag_desc)
 
    return $ag_id;
 }
-
 ?>

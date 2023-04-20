@@ -1,6 +1,6 @@
 <?php
 // Basic Analysis and Security Engine (BASE)
-// Copyright (C) 2019-2022 Nathan Gibbs
+// Copyright (C) 2019-2023 Nathan Gibbs
 // Copyright (C) 2004 BASE Project Team
 // Copyright (C) 2000 Carnegie Mellon University
 //
@@ -30,7 +30,7 @@ include_once ("$BASE_path/base_stat_common.php");
 
 AuthorizedRole(10000);
 $et = new EventTiming($debug_time_mode);
-$db = NewBASEDBConnection($DBlib_path, $DBtype); // Connect to Alert DB.
+$db = NewBASEDBConnection($DBlib_path, $DBtype); // Connect to DB.
 $db->baseDBConnect(
 	$db_connect_method,$alert_dbname, $alert_host, $alert_port, $alert_user,
 	$alert_password
@@ -110,7 +110,9 @@ if ( isset($show_summary_stats) ){ // Issue #5
 		$db, 1, $show_summary_stats, "$join_sql ", "$where_sql $criteria_sql"
 	);
 }
-echo('<BR><LI><A HREF="base_stat_time.php">'._QSCTIMEPROF.'</A> '._QSCOFALERTS . "</LI>");
+NLIO("<ul class='stats'><li>");
+NLIO('<a href="base_stat_time.php">' . _QSCTIMEPROF . '</a> ' . _QSCOFALERTS);
+NLIO('</li></ul>');
 PrintFramedBoxFooter(1,4);
 NLIO ('</div>',3);
 NLIO ('</div>',2);
@@ -371,15 +373,14 @@ $qs->PrintResultCnt(); // Print current view number and # of rows.
      $prev_time = null;
   }
 
-  $result->baseFreeRows();
+$result->baseFreeRows();
 
-  $qro->PrintFooter();
-
-  $qs->PrintBrowseButtons();
-  $qs->PrintAlertActionButtons();
-  $qs->SaveState();
-	ExportHTTPVar("sort_order", $sort_order);
-  echo "\n</FORM>\n";
+$qro->PrintFooter();
+$qs->PrintBrowseButtons();
+$qs->PrintAlertActionButtons();
+$qs->SaveState();
+ExportHTTPVar("sort_order", $sort_order);
+NLIO('</form>',2);
 $et->Mark("Get Query Elements");
 PrintBASESubFooter();
 ?>

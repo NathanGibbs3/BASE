@@ -15,14 +15,28 @@
 //
 //          Author(s): Nathan Gibbs
 //                     Kevin Johnson
-
 // Ensure the conf file has been loaded. Prevent direct access to this file.
-defined( '_BASE_INC' ) or die( 'Accessing this file directly is not allowed.' );
+defined('_BASE_INC') or die('Accessing this file directly is not allowed.');
 
 include_once("$BASE_path/base_ag_common.php");
 include_once("$BASE_path/includes/base_constants.inc.php");
-include_once("Mail.php"); // r.rioux added for PEAR::Mail
-include_once("Mail/mime.php"); //r.rioux added for PEAR::Mail attachments
+include_once("$BASE_path/includes/base_log_error.inc.php");
+
+$Mail = 0;
+$Mime = 0;
+if ( isset($archive_exists) ){
+	$Archive = $archive_exists;
+}else{
+	$Archive = 0;
+}
+if ( PearInc('Mail', '', 'Mail') ){
+	include_once("Mail.php"); // r.rioux added for PEAR::Mail
+	$Mail = 1;
+	if ( PearInc('Mime', 'Mail', 'mime') ){
+		include_once("Mail/mime.php"); //r.rioux added for PEAR::Mail attachments
+		$Mime = 1;
+	}
+}
 
 function IsValidAction($action, $valid_actions){
 	return in_array($action, $valid_actions);
@@ -224,7 +238,7 @@ function ProcessSelectedAlerts(
 	$action, &$action_op, $action_arg, $action_param, $context, $action_lst,
 	&$num_alert, $action_sql, $db, $limit_start=-1, $limit_offset=-1
 ){
-	GLOBAL $debug_mode;
+	GLOBAL $debug_mode, $Mail, $Mime, $Archive;
 	$action_cnt = 0;
 	$dup_cnt = 0;
 	$action_desc = '';
@@ -242,6 +256,14 @@ function ProcessSelectedAlerts(
            context = $context<BR>
            limit_start = $limit_start<BR>
            limit_offset = $limit_offset<BR>";
+		$TK = array ('Mail', 'Mime', 'Archive');
+		$DI = array();
+		$DD = array();
+		foreach ( $TK as $val ){
+			array_push($DD, $val);
+			array_push($DI, $$val);
+		}
+		DDT($DI,$DD,'Action Capabilities','',25, 1);
 		ErrorMessage(
 			'Debug delay active BASE resmuing in 60 '._SECONDS.'.<br/>', 0, 1
 		);
@@ -608,9 +630,9 @@ function Action_email_alert_post(
 	GLOBAL $BASE_VERSION, $action_email_from, $action_email_mode,
 	$action_email_subject, $action_email_msg, $action_email_smtp_host,
 	$action_email_smtp_auth, $action_email_smtp_user, $action_email_smtp_pw,
-	$action_email_smtp_localhost;
+	$action_email_smtp_localhost, $Mail, $Mime;
 	// Return if there is no alerts.
-	if ( $action_ctx == '' ){
+	if ( $MAIL == 0 || $action_ctx == '' ){
 		return;
 	}
 	$smtp_host = $action_email_smtp_host;
@@ -625,7 +647,7 @@ function Action_email_alert_post(
 		'Subject' => $action_email_subject
 	);
 	$mail_content = $action_email_msg . _GENBASE . " v$BASE_VERSION on ".date("r",time())."\n";
-	if ( $action_email_mode == 0 ){ // Alerts inline.
+	if ( $Mime == 0 || $action_email_mode == 0 ){ // Alerts inline.
 		$body = $mail_content."\n".$action_ctx . "\n";
 	}else{ // Alerts as attachment.
 		$boundary = strtoupper(md5(uniqid(time())));
@@ -1375,7 +1397,11 @@ function send_email(
 	$smtp_host, $smtp_auth, $smtp_user, $smtp_pw, $to, $hdrs, $body,
 	$smtp_localhost='localhost'
 ){
+	GLOBAL $Mail;
 	$Ret = false;
+	if ( $Mail == 0 ){
+		ErrorMessage( 'No capability registered.'._ERRNOEMAILPHP);
+	}
 	if ( $to != '' ){
 		$smtp =& Mail::factory('smtp',
 			array ('host'     => $smtp_host,

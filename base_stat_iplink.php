@@ -32,6 +32,12 @@ include_once ("$BASE_path/base_stat_common.php");
 
 AuthorizedRole(10000);
 $et = new EventTiming($debug_time_mode);
+$db = NewBASEDBConnection($DBlib_path, $DBtype); // Connect to DB.
+$db->baseDBConnect(
+	$db_connect_method, $alert_dbname, $alert_host, $alert_port, $alert_user,
+	$alert_password
+);
+UpdateAlertCache($db);
 $submit = ImportHTTPVar("submit", VAR_ALPHA | VAR_SPACE, array(_SELECTED, _ALLONSCREEN, _ENTIREQUERY));
 $sort_order=ImportHTTPVar("sort_order", VAR_LETTER | VAR_USCORE);
 $action = ImportHTTPVar("action", VAR_ALPHA);	
@@ -59,12 +65,6 @@ if ( $qs->isCannedQuery() ){
 		PrintBASESubHeader($page_title, $page_title, $cs->GetBackLink(), $refresh_all_pages);
 	}
 }
-$db = NewBASEDBConnection($DBlib_path, $DBtype); // Connect to the Alert DB.
-$db->baseDBConnect(
-	$db_connect_method, $alert_dbname, $alert_host, $alert_port, $alert_user,
-	$alert_password
-);
-UpdateAlertCache($db);
 $criteria_clauses = ProcessCriteria();
 PrintCriteria('');
 
@@ -210,15 +210,14 @@ $qs->PrintResultCnt(); // Print current view number and # of rows.
 	}
 	$i++;
 }
-  $result->baseFreeRows();
+$result->baseFreeRows();
 
-  $qro->PrintFooter();
-
-  $qs->PrintBrowseButtons();
-  $qs->PrintAlertActionButtons();
-  $qs->SaveState();
-	ExportHTTPVar("sort_order", $sort_order);
-  echo "\n</FORM>\n";
+$qro->PrintFooter();
+$qs->PrintBrowseButtons();
+$qs->PrintAlertActionButtons();
+$qs->SaveState();
+ExportHTTPVar("sort_order", $sort_order);
+NLIO('</form>',2);
 $et->Mark("Get Query Elements");
 PrintBASESubFooter();
 ?>

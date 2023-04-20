@@ -9,12 +9,14 @@ use PHPUnit\Framework\TestCase;
   * @covers ::FramedBoxHeader
   * @covers ::HBarGraph
   * @covers ::HtmlPercent
+  * @covers ::LINext
   * @covers ::NLI
   * @covers ::NLIO
   * @covers ::PageEnd
   * @covers ::TblNewRow
   * @covers ::PrintFramedBoxFooter
   * @covers ::PrintFramedBoxHeader
+  * @covers ::PrintLINext
   * @covers ::PrintTblNewRow
   * @covers ::chk_check
   * @covers ::chk_select
@@ -347,10 +349,30 @@ class output_htmlTest extends TestCase {
 			$this->expectOutputString( $msg, PrintTblNewRow(1, $align), $UOV );
 		}
 	}
+	public function testLINextDefaultReturnsExpected() {
+		$URV = self::$URV.'LINext().';
+		$msg = "\n\t\t\t</li><li>";
+		$this->assertEquals( $msg, LINext(), $URV );
+	}
+	public function testLINextInvalidReturnsExpected() {
+		$URV = self::$URV.'LINext().';
+		$msg = "\n\t\t\t</li><li>";
+		$this->assertEquals( $msg, LINext('string'), $URV );
+	}
+	public function testPrintLINextDefaultReturnsExpected() {
+		$URV = self::$URV.'PrintLINext().';
+		$msg = "\n\t\t\t</li><li>";
+		$this->expectOutputString( $msg, PrintLINext(), $URV );
+	}
+	public function testPrintLINextInvalidReturnsExpected() {
+		$URV = self::$URV.'PrintLINext().';
+		$msg = "\n\t\t\t</li><li>";
+		$this->expectOutputString( $msg, PrintLINext('string'), $URV );
+	}
 	public function testreturnExportHTTPVarDefaults() {
 		$URV = self::$URV.'returnExportHTTPVar().';
 		$msg = '';
-		$this->assertEquals( $msg, returnExportHTTPVar(),$URV );
+		$this->assertEquals( $msg, returnExportHTTPVar(), $URV );
 	}
 	public function testreturnExportHTTPVarNameValid() {
 		$URV = self::$URV.'returnExportHTTPVar().';

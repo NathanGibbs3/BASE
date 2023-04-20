@@ -342,16 +342,15 @@ while ( ($myrow = $result->baseFetchRow()) && ($i < $qs->GetDisplayRowCnt()) ){
       ++$i;
 }
 $result->baseFreeRows();
+
 $qro->PrintFooter();
-
-  $qs->PrintBrowseButtons();
-  $qs->PrintAlertActionButtons();
-  $qs->SaveState();
-  ExportHTTPVar("port_type", $port_type);
-  ExportHTTPVar("proto", $proto);
-	ExportHTTPVar("sort_order", $sort_order);	
-
-  echo "\n</FORM>\n";
+$qs->PrintBrowseButtons();
+$qs->PrintAlertActionButtons();
+$qs->SaveState();
+ExportHTTPVar("port_type", $port_type);
+ExportHTTPVar("proto", $proto);
+ExportHTTPVar("sort_order", $sort_order);
+NLIO('</form>',2);
 $et->Mark("Get Query Elements");
 PrintBASESubFooter();
 ?>

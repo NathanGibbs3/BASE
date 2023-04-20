@@ -191,7 +191,8 @@ class output_htmlSPTest extends TestCase {
 		PageStart(0,'Custom Title');
 	}
 	public function testPageStartArchiveTitle() {
-		GLOBAL $BASE_installID, $BASE_VERSION, $UIL, $base_style;
+		GLOBAL $BASE_installID, $BASE_VERSION, $UIL, $base_style,
+		$archive_exists;
 		$_COOKIE['archive'] = 1;
 		$MHE = "<meta http-equiv='";
 		$MNM = "<meta name='";
@@ -224,8 +225,11 @@ class output_htmlSPTest extends TestCase {
 		."\n\t\t<div class=\"mainheadertitle\">$HTitle</div>"
 		;
 		$this->expectOutputString($EOM);
+		$ogv = $archive_exists;
+		$archive_exists = 1;
 		PageStart();
-		$_COOKIE['archive'] = 0;
+		unset ($_COOKIE['archive']);
+		$archive_exists = $ogv;
 	}
 	public function testPageStartNoCacheON() {
 		GLOBAL $BASE_installID, $BASE_VERSION, $UIL, $base_style,

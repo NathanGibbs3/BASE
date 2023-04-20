@@ -485,16 +485,11 @@ function CacheSensor($sid, $cid, $db)
 	}
 }
 
-
 // This is an auxiliary function for problems with updating acid_event
-function dump_missing_events($db, $sid, $start_cid, $end_cid)
-{
-  GLOBAL $debug_mode;
-  GLOBAL $archive_exists;
-  GLOBAL $DBlib_path, $DBtype, 
-         $archive_dbname, $archive_host, $archive_port,
-         $archive_user, $archive_password;
-
+function dump_missing_events( $db, $sid, $start_cid, $end_cid ){
+	GLOBAL $debug_mode, $archive_exists, $DBlib_path, $DBtype,
+	$archive_dbname, $archive_host, $archive_port, $archive_user,
+	$archive_password;
 
   for ($n = (integer)$start_cid; $n <= (integer)$end_cid; $n++)
   {

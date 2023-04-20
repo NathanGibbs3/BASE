@@ -52,7 +52,7 @@ function verify_db($db, $alert_dbname, $alert_host){
 	return '';
 }
 
-function verify_php_build($DBtype){
+function verify_php_build( $DBtype ){
 	// Checks that the necessary libraries are built into PHP.
 	// @codeCoverageIgnoreStart
 	// Check PHP version >= 4.0.4

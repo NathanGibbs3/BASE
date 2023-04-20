@@ -131,13 +131,27 @@ class QueryState {
     return $this->show_rows_on_screen;
   }
 	function AddValidAction( $action ){
-		// Add all actions on Alert DB. Skip Archive action on Archive DB.
+		GLOBAL $archive_exists, $Mail;
+		$AAF = 0; // Archive Action Flag
+		$MAF = 0; // Mail Action Flag
+		if ( preg_match("/^archive_alert(2)?$/", $action) ){
+			$AAF = 1;
+		}
+		if ( preg_match("/^(csv|email)_alert(2)?$/", $action) ){
+			$MAF = 1;
+		}
+		$Pass = true;
 		if (
-			!ChkCookie ('archive', 1)
-			|| !preg_match("/^archive_alert(2)?$/", $action)
+			( $Mail == 0 && $MAF == 1 ) // No Mail
+			|| ( $archive_exists == 0 && $AAF == 1 ) // Alert DB.
+			|| ( ChkArchive() && $AAF == 1 ) // Archive DB.
 		){
+			$Pass = false;
+		}
+		if ( $Pass ){
 			$this->valid_action_list[ count($this->valid_action_list) ] = $action;
 		}
+		return $Pass;
 	}
   function AddValidActionOp($action_op)
   {

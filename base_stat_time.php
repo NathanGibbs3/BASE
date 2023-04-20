@@ -116,12 +116,17 @@ include ("base_conf.php");
 include_once ("$BASE_path/includes/base_constants.inc.php");
 include ("$BASE_path/includes/base_include.inc.php");
 include_once ("$BASE_path/base_db_common.php");
-include_once ("$BASE_path/base_common.php");
 include_once ("$BASE_path/base_stat_common.php");
 include_once ("$BASE_path/base_qry_common.php");
 
 AuthorizedRole(10000);
 $et = new EventTiming($debug_time_mode);
+$db = NewBASEDBConnection($DBlib_path, $DBtype); // Connect to DB.
+$db->baseDBConnect(
+	$db_connect_method, $alert_dbname, $alert_host, $alert_port, $alert_user,
+	$alert_password
+);
+UpdateAlertCache($db);
 $time_sep = ImportHTTPVar("time_sep", VAR_ALPHA);
 $time = ImportHTTPVar("time", VAR_DIGIT);
 $submit = ImportHTTPVar("submit", VAR_ALPHA | VAR_SPACE);
@@ -129,11 +134,6 @@ $cs = new CriteriaState("base_stat_alerts.php");
 $cs->ReadState();
 $page_title = _BSTTITLE;
 PrintBASESubHeader($page_title, $page_title, $cs->GetBackLink(), 1);
-$db = NewBASEDBConnection($DBlib_path, $DBtype); // Connect to Alert DB.
-$db->baseDBConnect(
-	$db_connect_method, $alert_dbname, $alert_host, $alert_port, $alert_user,
-	$alert_password
-);
 $criteria_clauses = ProcessCriteria();
 PrintCriteria('');
 $from = " FROM acid_event ".$criteria_clauses[0];
