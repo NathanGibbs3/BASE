@@ -83,13 +83,11 @@ $qs->AddCannedQuery(
 $qs->MoveView($submit); // Increment the view if necessary.
 $page_title = _ALERTTITLE;
 if ( $qs->isCannedQuery() ){
-	$page_title.': '.$qs->GetCurrentCannedQueryDesc();
+	$page_title . ': ' . $qs->GetCurrentCannedQueryDesc();
 }
 PrintBASESubHeader( $page_title, $page_title, $cs->GetBackLink(), 1 );
 
-if (is_object($cs)){ // Issue #5
-  $criteria_clauses = ProcessCriteria();
-}
+$criteria_clauses = ProcessCriteria();
 // Issue #114 fix
 NLIO ("<div style='overflow:hidden'>",2);
 NLIO ("<div style='float: left; width: 60%;'>",3);

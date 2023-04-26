@@ -256,7 +256,9 @@ class state_commonTest extends TestCase {
 		$URV = self::$URV.'SetSessionVar().';
 		$UOV = self::$UOV.'SetSessionVar().';
 		$this->expectOutputString(
-			"<font color='black'>SetSessionVar(): Importing GET var '$a'</font><br/>",
+			"<font color='black'>SetSessionVar(): Importing GET var '$a'"
+			. "</font><br/>"
+			. "<font color='black'>SetSessionVar(): $a: $a</font><br/>",
 			$Ret = SetSessionVar($a),$UOV
 		);
 		$this->assertNotEmpty($Ret, $URV);
@@ -274,7 +276,10 @@ class state_commonTest extends TestCase {
 		$URV = self::$URV.'SetSessionVar().';
 		$UOV = self::$UOV.'SetSessionVar().';
 		$this->expectOutputString(
-			"<font color='black'>SetSessionVar(): Importing POST var '$a'</font><br/>",
+			"<font color='black'>SetSessionVar(): Importing POST var '$a'"
+			. "</font><br/>"
+			. "<font color='black'>SetSessionVar(): $a: $a</font><br/>"
+			,
 			$Ret = SetSessionVar($a),$UOV
 		);
 		$this->assertNotEmpty($Ret, $URV);

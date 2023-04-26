@@ -106,7 +106,7 @@ switch ( $port_type ){
 		break;
 }
 if ( $qs->isCannedQuery() ){
-	$page_title.': '.$qs->GetCurrentCannedQueryDesc();
+	$page_title . ': ' . $qs->GetCurrentCannedQueryDesc();
 }
 $tr = 1; // Page Refresh
 if ($action != '' ){

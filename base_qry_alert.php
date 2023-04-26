@@ -248,14 +248,25 @@ if ( class_exists('UILang') ){ // Issue 11 backport shim.
   $qs->RunAction($submit, PAGE_ALERT_DISPLAY, $db);
   $et->Mark("Alert Action");
 
-  /* If get a valid (sid,cid) store it in $caller.  
-   * But if $submit is returning from an alert action 
-   * get the (sid,cid) back from $caller 
-   */ 
-  if ( $submit == _SELECTED )
-     $submit = ImportHTTPVar("caller", VAR_DIGIT | VAR_PUNC);
-  else
-     $caller = $submit;
+	//If get a valid (sid,cid) store it in $caller. If $submit is returning
+	// from an alert action get the (sid,cid) back from $caller.
+	if ( $submit == _SELECTED ){
+		$submit = ImportHTTPVar('caller', VAR_DIGIT | VAR_PUNC);
+	}else{
+		$caller = $submit;
+	}
+	if ( $debug_mode > 0 ){
+		$TK = array ( 'caller', 'submit' );
+		$DI = array();
+		$DD = array();
+		foreach ( $TK as $val ){
+			array_push($DD, $val);
+			array_push($DI, $$val);
+		}
+		array_push($DD, 'QS-CCQ');
+		array_push($DI, $qs->GetCurrentCannedQuery());
+		DDT($DI,$DD,'Caller / Submit / QS-CCQ Values','',25);
+	}
 
   /* Setup the Query Results Table -- However, this data structure is not
    * really used for output.  Rather, it duplicates the sort SQL set in
@@ -304,7 +315,7 @@ if ( $debug_mode > 0 ){
 	print "Canned Query: $CCF <br/>";
 	$qs->DumpState();
 	print "SQL Saved: $save_sql <br/>";
-	$TK = array ( 'submit', 'sid', 'cid', 'seq' );
+	$TK = array ( 'caller', 'submit', 'sid', 'cid', 'seq' );
 	$DI = array();
 	$DD = array();
 	foreach ( $TK as $val ){
@@ -1147,9 +1158,9 @@ PrintPacketLookupBrowseButtons($seq, $save_sql, $db, $previous, $next);
 
   $qs->PrintAlertActionButtons();
   $qs->SaveState();
-  ExportHTTPVar("caller", $caller);
+ExportHTTPVar("caller", $caller); // QueryState Onject property Override.
 ExportHTTPVar("sort_order", $sort_order);
-  echo "\n</FORM>\n";
+NLIO('</form>',2);
 $et->Mark("Get Query Elements");
 PrintBASESubFooter();
 ?>

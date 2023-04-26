@@ -48,11 +48,11 @@ $sort_order=ImportHTTPVar("sort_order", VAR_LETTER | VAR_USCORE);
 $action = ImportHTTPVar("action", VAR_ALPHA);
 $qs->MoveView($submit);             /* increment the view if necessary */
 $page_title = SPSENSORLIST;
-if ( $action == '' ){
-	PrintBASESubHeader($page_title, $page_title, $cs->GetBackLink(), 1);
-}else{
-	PrintBASESubHeader($page_title, $page_title, $cs->GetBackLink(), $refresh_all_pages);
+$tr = 1; // Page Refresh
+if ($action != '' ){
+	$tr = $refresh_all_pages;
 }
+PrintBASESubHeader( $page_title, $page_title, $cs->GetBackLink(), $tr );
 $criteria_clauses = ProcessCriteria();
 PrintCriteria('');
 

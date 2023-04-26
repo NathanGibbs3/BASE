@@ -224,9 +224,15 @@ function SetSessionVar($var_name){
 		$Ret = '';
 	}
 	if ( $debug_mode > 0 && $msg != '' ){
+		$EMPfx = __FUNCTION__ . "(): ";
 		ErrorMessage(
-			__FUNCTION__ ."(): Importing $msg var '$var_name'", 'black', 1
+			$EMPfx . "Importing $msg var '$var_name'", 'black', 1
 		);
+		if ( $msg != 'SESSION' ){ // Session Vars can contain arrays.
+			ErrorMessage(
+				$EMPfx . XSSPrintSafe("$var_name: $Ret"), 'black', 1
+			);
+		}
 	}
 	return $Ret;
 }
@@ -257,24 +263,28 @@ function SetSessionVar($var_name){
  *         by $var_name
  *
  ************************************************************************/
-function ImportHTTPVar($var_name, $valid_data = "", $exception = "")
-{
-   $tmp = "";
-
-   if ( isset($_POST[$var_name]) ) 
-   {
-      //if ( $debug_mode > 0 )  echo "importing POST var '$var_name'<BR>";
-      $tmp = $_POST[$var_name];
-   }
-   else if ( isset($_GET[$var_name]) )
-   { 
-      //if ( $debug_mode > 0 )  echo "importing GET var '$var_name'<BR>";
-      $tmp = $_GET[$var_name];
-   }
-   else
-      $tmp = "";
-
-   return CleanVariable($tmp, $valid_data, $exception);
+function ImportHTTPVar( $var_name, $valid_data = '', $exception = '' ){
+	GLOBAL $debug_mode;
+	$msg = '';
+	$Ret = '';
+	if ( isset($_POST[$var_name]) ){
+		$msg = 'POST';
+		$Ret = $_POST[$var_name];
+	}elseif ( isset($_GET[$var_name]) ){
+		$msg = 'GET';
+		$Ret = $_GET[$var_name];
+	}
+	if ( $debug_mode > 0 && $msg != '' ){
+		$EMPfx = __FUNCTION__ . "(): ";
+		ErrorMessage(
+			$EMPfx . "Importing $msg var '$var_name'", 'black', 1
+		);
+		ErrorMessage(
+			$EMPfx . XSSPrintSafe("$var_name: $Ret"),  'black', 1
+		);
+	}
+	$Ret = CleanVariable($Ret, $valid_data, $exception);
+	return $Ret;
 }
 
 // Function: ExportHTTPVar()

@@ -49,22 +49,14 @@ $qs->AddCannedQuery("last_alerts", $last_num_ualerts, _LASTALERTS, "last_d");
 $qs->MoveView($submit);             /* increment the view if necessary */
 $page_title = _SIPLTITLE;
 if ( $qs->isCannedQuery() ){
-	if ( $action == '' ){
-    	PrintBASESubHeader($page_title.": ".$qs->GetCurrentCannedQueryDesc(),
-     	                   $page_title.": ".$qs->GetCurrentCannedQueryDesc(), 
-      	                 $cs->GetBackLink(), 1);
-	}else{
-			PrintBASESubHeader($page_title.": ".$qs->GetCurrentCannedQueryDesc(),
-     	                   $page_title.": ".$qs->GetCurrentCannedQueryDesc(), 
-      	                 $cs->GetBackLink(), $refresh_all_pages);
-	}
-}else{
-	if ($action ==  '' ){
-		PrintBASESubHeader($page_title, $page_title, $cs->GetBackLink(), 1);
-	}else{
-		PrintBASESubHeader($page_title, $page_title, $cs->GetBackLink(), $refresh_all_pages);
-	}
+	$page_title . ': ' . $qs->GetCurrentCannedQueryDesc();
 }
+$tr = 1; // Page Refresh
+if ($action != '' ){
+	$tr = $refresh_all_pages;
+}
+PrintBASESubHeader( $page_title, $page_title, $cs->GetBackLink(), $tr );
+
 $criteria_clauses = ProcessCriteria();
 PrintCriteria('');
 

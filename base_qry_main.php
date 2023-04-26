@@ -170,7 +170,7 @@ $tmp = '';
 
 $page_title = _QUERYRESULTS;
 if ( $qs->isCannedQuery() ){
-	$page_title.': '.$qs->GetCurrentCannedQueryDesc();
+	$page_title . ': ' . $qs->GetCurrentCannedQueryDesc();
 }
 PrintBASESubHeader(
 	$page_title, $page_title, $cs->GetBackLink(), $refresh_all_pages

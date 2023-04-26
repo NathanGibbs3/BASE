@@ -16,6 +16,7 @@ use PHPUnit\Framework\TestCase;
   * @uses ::HtmlColor
   * @uses ::InitArray
   * @uses ::SetSessionVar
+  * @uses ::XSSPrintSafe
   * @uses ::returnErrorMessage
   */
 class state_citemsTest extends TestCase {
@@ -411,10 +412,10 @@ class state_citemsTest extends TestCase {
 		$debug_mode = 2;
 		$_SESSION[$cs] = '';
 		$this->expectOutputString(
-			"<font color='black'>SetSessionVar(): ".
-			"Importing SESSION var 'Test'</font><br/>".
-			"Import: Test<br/>\nCriteria Type: NULL<br/>\n".
-			"Criteria Import: Denied.<br/>\n",
+			"<font color='black'>SetSessionVar(): "
+			. "Importing SESSION var 'Test'</font><br/>"
+			. "Import: Test<br/>\nCriteria Type: NULL<br/>\n"
+			. "Criteria Import: Denied.<br/>\n",
 			$UOV
 		);
 		$tc->Import();
