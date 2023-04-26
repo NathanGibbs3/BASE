@@ -559,10 +559,12 @@ class BaseRole {
         return $rolearray;
     }
 }
+
 // Returns true if the role of current user is authorized.
 // Redirect if valid header is given.
 function AuthorizedRole( $roleneeded = 1, $header = '' ){
 	GLOBAL $BASE_urlpath, $Use_Auth_System, $et;
+	$EMPfx = 'BASE Security Alert ' . __FUNCTION__ . ': ';
 	$Ret = false;
 	if ( $Use_Auth_System != 1 ){ // Auth system off, always pass.
 		$Ret = true;
@@ -578,7 +580,7 @@ function AuthorizedRole( $roleneeded = 1, $header = '' ){
 			}else{
 				$msg = "Unauthorized$msg: $user";
 			}
-			trigger_error($msg);
+			error_log($EMPfx . $msg);
 			if ( $roleneeded >= 10000 ){ // Lock redirect :-)
 				error_log('Redirect Lock Engaged');
 				$header = 'base_denied';
@@ -601,6 +603,7 @@ function AuthorizedRole( $roleneeded = 1, $header = '' ){
 	}
 	return $Ret;
 }
+
 // Returns true if the passed value is part of the running script name.
 function AuthorizedPage( $page = '' ){
 	GLOBAL $BASE_urlpath;
@@ -612,6 +615,7 @@ function AuthorizedPage( $page = '' ){
 	}
 	return $Ret;
 }
+
 // Returns true if URI is set & matches URL path & running script name.
 function AuthorizedURI(){
 	GLOBAL $BASE_urlpath;
@@ -625,4 +629,5 @@ function AuthorizedURI(){
 	}
 	return $Ret;
 }
+
 ?>

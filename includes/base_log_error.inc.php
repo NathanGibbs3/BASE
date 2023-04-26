@@ -28,7 +28,10 @@ function DivErrorMessage ($message, $Count = 0 ){
 }
 
 function ErrorMessage ($message, $color = "#ff0000", $br = 0 ){
-	print returnErrorMessage($message, $color, $br);
+	GLOBAL $GOF; // Graphics Output Flag.
+	if ( !isset($GOF) || $GOF === false ){
+		print returnErrorMessage($message, $color, $br);
+	}
 }
 
 function returnErrorMessage ($message, $color = "#ff0000", $br = 0 ){
