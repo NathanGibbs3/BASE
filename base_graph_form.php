@@ -31,8 +31,8 @@ if (
 	}
 	// Code Coverage for PHP 5.2x on CI.
 	// Default a bunch of things to fix issue #5.
-	include_once("base_conf.php");
-	include_once("$BASE_path/includes/base_constants.inc.php");
+	$sc = DIRECTORY_SEPARATOR;
+	require_once("includes$sc" . 'base_krnl.php');
 	include("$BASE_path/includes/base_include.inc.php");
 	include_once("$BASE_path/base_db_common.php");
 	$db = NewBASEDBConnection($DBlib_path, $DBtype);

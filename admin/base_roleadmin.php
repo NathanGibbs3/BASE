@@ -1,6 +1,6 @@
 <?php
 // Basic Analysis and Security Engine (BASE)
-// Copyright (C) 2019-2021 Nathan Gibbs
+// Copyright (C) 2019-2023 Nathan Gibbs
 // Copyright (C) 2004 BASE Project Team
 // Copyright (C) 2000 Carnegie Mellon University
 //
@@ -15,14 +15,8 @@
 //          Author(s): Nathan Gibbs
 //                     Kevin Johnson
 
-if (!isset($BASE_path)){ // Issue #5
-	$BASE_path = dirname(__FILE__);
-	$sc = DIRECTORY_SEPARATOR;
-	$ReqRE =  "\\".$sc.'admin.*';
-	$BASE_path = preg_replace("/".$ReqRE."/", "", $BASE_path);
-}
-include("$BASE_path/base_conf.php");
-include_once("$BASE_path/includes/base_constants.inc.php");
+$sc = DIRECTORY_SEPARATOR;
+require_once("..$sc" . "includes$sc" . 'base_krnl.php');
 include("$BASE_path/includes/base_include.inc.php");
 include_once("$BASE_path/base_db_common.php");
 include_once("$BASE_path/base_stat_common.php");
@@ -34,7 +28,6 @@ if ( isset($_GET['action']) ){
 }
 if ($Use_Auth_System == 1) {
 	AuthorizedRole(1,'base_main');
-	$et = new EventTiming($debug_time_mode);
 	$cs = new CriteriaState("admin/base_roleadmin.php");
 	$cs->ReadState();
 	$page_title = _ROLEADMIN;
@@ -143,7 +136,7 @@ if ($Use_Auth_System == 1) {
 			$form .= NLI('</form>',3);
 			$pagebody = $form;
 			break;
-		case "updaterole"; // Updates role from above form....
+		case 'updaterole'; // Updates role from above form....
 			// Setup array in this format for the updateRole function
 			// $rolearray[0] = $roleid
 			// $rolearray[1] = $rolename
@@ -154,11 +147,11 @@ if ($Use_Auth_System == 1) {
 				filterSql($_POST['desc']),
 			);
 			$role->updateRole($rolearray);
-			base_header("Location: $Umca"."list");
+			HTTP_header("Location: $Umca" . 'list');
 			break;
-		case "deleterole"; // Deletes role.
+		case 'deleterole'; // Deletes role.
 			$BRole->deleteRole($roleid);
-			base_header("Location: $Umca"."list");
+			HTTP_header("Location: $Umca" . 'list');
 			break;
 		case "list"; // Generate HTML Role Table.
 			if ( class_exists('UILang') ){ // Issue 11 backport shim.
@@ -176,7 +169,9 @@ if ($Use_Auth_System == 1) {
 			$thc = "<td class='plfieldhdr'";
 			$thcw5 = "$thc width='5%'>";
 			$tdac = "<td align='center'>";
-			$imgc = NLI( "<img border='0' src='".$BASE_urlpath ."/images/", 5);
+			$imgc = NLI(
+				"<img border='0' src='$BASE_urlpath$sc" . "images$sc", 5
+			);
 			$imgc .= 'button_';
 			$tduma = $tdac.$Hrst;
 			// Roles Table Display
@@ -196,13 +191,13 @@ if ($Use_Auth_System == 1) {
 				$tmpHTML .= $imgc."edit.png' alt='button_edit'>";
 				$tmpHTML .= NLI('</a></td>',4);
 				$tmpHTML .= NLI($tduma."delete$urid'>",4);
-				$tmpHTML .= $imgc."delete.png' alt='button_delete'>";
+				$tmpHTML .= $imgc . "delete.png' alt='button_delete'>";
 				$tmpHTML .= NLI('</a></td>',4);
 				// Anti XSS Output Data
 				$tmpRow = XSSPrintSafe($tmpRow);
-				$tmpHTML .= $tdac.$tmpRow[0].'</td>';
-				$tmpHTML .= $tdac.$tmpRow[1].'</td>';
-				$tmpHTML .= $tdac.$tmpRow[2].'</td>';
+				$tmpHTML .= $tdac . $tmpRow[0] . '</td>';
+				$tmpHTML .= $tdac . $tmpRow[1] . '</td>';
+				$tmpHTML .= $tdac . $tmpRow[2] . '</td>';
 				$tmpHTML .= NLI('</tr>',3);
 			}
 			$tmpHTML .= NLI('</table>',2);
@@ -212,12 +207,14 @@ if ($Use_Auth_System == 1) {
 			$pagebody = returnErrorMessage('Invalid Action!');
 	}
 	// Generate Page.
-	PrintBASESubHeader($page_title, $page_title, $cs->GetBackLink(), $refresh_all_pages);
+	PrintBASESubHeader(
+		$page_title, $page_title, $cs->GetBackLink(), $refresh_all_pages
+	);
 	PrintBASEAdminMenuHeader();
 	print $pagebody;
 	PrintBASEAdminMenuFooter();
 	PrintBASESubFooter();
 }else{
-	base_header("Location: ". $BASE_urlpath . "/base_main.php");
+	HTTP_header("Location: $BASE_urlpath/base_main.php");
 }
 ?>

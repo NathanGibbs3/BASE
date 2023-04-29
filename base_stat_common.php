@@ -18,7 +18,7 @@
 **
 ********************************************************************************
 */
-defined( '_BASE_INC' ) or die( 'Accessing this file directly is not allowed.' );
+defined('_BASE_INC') or die('Accessing this file directly is not allowed.');
 include_once("$BASE_path/includes/base_constants.inc.php");
 
 function SensorCnt( $db, $join = '', $where = '' ){
@@ -306,27 +306,61 @@ function PrintGeneralStats(
 	$db, $compact, $show_stats, $join = '', $where = '',
 	$show_total_events = false
 ){
-	GLOBAL $et;
+	GLOBAL $et, $debug_mode;
+	if ( $show_stats == 1 || $show_total_events ){
+		$event_cnt = EventCnt($db, $join, $where);
+		if ( $debug_mode > 1 && isset($et) && is_object($et) ){
+			$et->Mark('Stats: Alert Count');
+		}
+	}
 	if ( $show_stats == 1 ){
      $sensor_cnt = SensorCnt($db, $join, $where);
      $sensor_total = SensorTotal($db);
+		if ( $debug_mode > 1 && isset($et) && is_object($et) ){
+			$et->Mark('Stats: Sensor Data');
+		}
      $unique_alert_cnt = UniqueAlertCnt($db, $join, $where);
-     $event_cnt = EventCnt($db, $join, $where);
+		if ( $debug_mode > 1 && isset($et) && is_object($et) ){
+			$et->Mark('Stats: Unique Alert');
+		}
      $unique_ip_cnt = UniqueIPCnt($db, $join, $where);
+		if ( $debug_mode > 1 && isset($et) && is_object($et) ){
+			$et->Mark('Stats: Unique IP');
+		}
      $unique_links_cnt = UniqueLinkCnt($db, $join, $where);
+		if ( $debug_mode > 1 && isset($et) && is_object($et) ){
+			$et->Mark('Stats: Unique IP Links');
+		}
      $unique_port_cnt = UniquePortCnt($db, $join, $where);
+		if ( $debug_mode > 1 && isset($et) && is_object($et) ){
+			$et->Mark('Stats: Unique Ports ALL');
+		}
      $unique_tcp_port_cnt = UniqueTCPPortCnt($db, $join, $where);
+		if ( $debug_mode > 1 && isset($et) && is_object($et) ){
+			$et->Mark('Stats: Unique Ports TCP');
+		}
      $unique_udp_port_cnt = UniqueUDPPortCnt($db, $join, $where);
+		if ( $debug_mode > 1 && isset($et) && is_object($et) ){
+			$et->Mark('Stats: Unique Ports UDP');
+		}
+		if ( $debug_mode == 1 && isset($et) && is_object($et) ){
+			$et->Mark("Stats: Unique Data");
+		}
 	}
 	if ( $db->baseGetDBversion() >= 103 ){
-		// mstone 20050309 this is an expensive calculation.
-		// Only do it if we're going to use it.
-      if ($show_stats == 1) {
-      	$result = $db->baseExecute("SELECT count(DISTINCT(sig_class_id)) FROM acid_event");
-      	$myrow = $result->baseFetchRow();
-      	$class_cnt = $myrow[0];
-      	$result->baseFreeRows();
-      }
+		// Michael Stone 2005-03-09
+		// This is an expensive calculation. Do it, only if we need it.
+		if ( $show_stats == 1 ){
+			$result = $db->baseExecute(
+				"SELECT count(DISTINCT(sig_class_id)) FROM acid_event"
+			);
+			$myrow = $result->baseFetchRow();
+			$class_cnt = $myrow[0];
+			$result->baseFreeRows();
+			if ( $debug_mode > 1 && isset($et) && is_object($et) ){
+				$et->Mark("Stats: Classification Count");
+			}
+		}
 
       $class_cnt_info[0] = " <strong>"._SCCATEGORIES." </strong>";
       $class_cnt_info[1] = "<a href=\"base_stat_class.php?sort_order=class_a\">";
@@ -461,7 +495,6 @@ function PrintGeneralStats(
 		NLIO('</li></ul>');
 	}else{
 		if ( $show_total_events ){
-			$event_cnt = EventCnt($db, $join, $where);
 			NLIO("<ul class='stats'><li>");
 			print $event_cnt_info[0] . $event_cnt_info[1] . $event_cnt
 				. $event_cnt_info[2];
@@ -475,7 +508,7 @@ function PrintGeneralStats(
 		PrintLINext();
 		if ( $db->baseGetDBversion() >= 103 ){
 			print '&nbsp;&nbsp;&nbsp;( ' . $class_cnt_info[1]
-				. _SCCLASS.'</a> )';
+				. _SCCLASS . $class_cnt_info[2] . ' )';
 		}
 		PrintLINext();
 		print _SCUNIADDRESS
@@ -498,7 +531,7 @@ function PrintGeneralStats(
 		NLIO('</li></ul>');
 	}
 	if ( isset($et) && is_object($et) ){
-		$et->Mark("Output Stats");
+		$et->Mark("Stats: Output");
 	}
 }
 ?>

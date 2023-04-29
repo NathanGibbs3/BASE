@@ -22,8 +22,8 @@
 ********************************************************************************
 */
 
-include ("base_conf.php");
-include_once ("$BASE_path/includes/base_constants.inc.php");
+$sc = DIRECTORY_SEPARATOR;
+require_once("includes$sc" . 'base_krnl.php');
 include ("$BASE_path/includes/base_include.inc.php");
 include_once ("$BASE_path/base_db_common.php");
 include_once ("$BASE_path/base_qry_common.php");
@@ -197,7 +197,6 @@ $submit = ImportHTTPVar(
 );
 $_SERVER["QUERY_STRING"] = "submit=".rawurlencode($submit);
 
-  $et = new EventTiming($debug_time_mode);
   $cs = new CriteriaState("base_qry_main.php", "&amp;new=1&amp;submit="._QUERYDBP);
   $cs->ReadState();
 

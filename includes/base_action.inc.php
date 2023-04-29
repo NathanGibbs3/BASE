@@ -422,6 +422,9 @@ function ProcessSelectedAlerts(
 			$blob_alert_cnt = $limit_offset;
 		}
 		// Loop through the specific alerts in a particular blob.
+		if( $debug_mode > 1 ){
+			print 'Blob Item(s): ';
+		}
 		for ( $i = 0; $i < $blob_alert_cnt; $i++ ){
 			if ( isset($action_lst[$i]) || $using_blobs ){
 				// Verify that have a selected alert.
@@ -432,9 +435,10 @@ function ProcessSelectedAlerts(
 				}else{
 					GetQueryResultID($action_lst[$i], $seq, $sid, $cid);
 				}
-				if ( $sid != "" ){
-					if ( $debug_mode > 0 ){
-						 echo $sid.' - '.$cid.'<BR>';
+				if( LoadedString($sid) ){
+					if( $debug_mode > 1 ){
+						// List each blob item, this could be hundreds.
+						print "$sid - $cid, ";
 					}
 					// SOME ACTION on (sid, cid).
 					$function_op = "Action_".$action."_op";
@@ -578,9 +582,9 @@ function Action_add_new_ag_Post($action_arg, &$action_ctx, $db, &$num_alert, $ac
 			ErrorMessage(_ERRREMOVEFAIL);
 		}
 	}else{ // Add was successful, so redirect user to AG edit page.
-		base_header(
-			"Location: base_ag_main.php?ag_action=edit&amp;ag_id='".
-			$action_ctx."'&amp;submit=x"
+		HTTP_header(
+			"Location: base_ag_main.php?ag_action=edit&amp;ag_id='"
+			. $action_ctx."'&amp;submit=x"
 		);
 	}
 }
@@ -627,14 +631,15 @@ function Action_email_alert_op($sid, $cid, $db, $action_arg, &$ctx){
 function Action_email_alert_post(
 	$action_arg, &$action_ctx, $db, &$num_alert, &$action_cnt
 ){
-	GLOBAL $BASE_VERSION, $action_email_from, $action_email_mode,
-	$action_email_subject, $action_email_msg, $action_email_smtp_host,
-	$action_email_smtp_auth, $action_email_smtp_user, $action_email_smtp_pw,
-	$action_email_smtp_localhost, $Mail, $Mime;
+	GLOBAL $action_email_from, $action_email_mode, $action_email_subject,
+	$action_email_msg, $action_email_smtp_host, $action_email_smtp_auth,
+	$action_email_smtp_user, $action_email_smtp_pw,
+	$action_email_smtp_localhost, $Mail, $Mime, $BCR;
 	// Return if there is no alerts.
 	if ( $MAIL == 0 || $action_ctx == '' ){
 		return;
 	}
+	$BV = $BCR->GetCap('BASE_Ver');
 	$smtp_host = $action_email_smtp_host;
 	$smtp_auth = $action_email_smtp_auth;
 	$smtp_user = $action_email_smtp_user;
@@ -646,7 +651,8 @@ function Action_email_alert_post(
 		'To' => $mail_recip,
 		'Subject' => $action_email_subject
 	);
-	$mail_content = $action_email_msg . _GENBASE . " v$BASE_VERSION on ".date("r",time())."\n";
+	$mail_content = $action_email_msg . _GENBASE . " v$BV on "
+	. date("r",time()) . "\n";
 	if ( $Mime == 0 || $action_email_mode == 0 ){ // Alerts inline.
 		$body = $mail_content."\n".$action_ctx . "\n";
 	}else{ // Alerts as attachment.

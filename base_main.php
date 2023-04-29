@@ -41,20 +41,12 @@
  *
  */
 
-   require("base_conf.php");
-   include_once("$BASE_path/includes/base_auth.inc.php");
-   include_once("$BASE_path/includes/base_db.inc.php");
-   include_once("$BASE_path/includes/base_output_html.inc.php");
-   include_once("$BASE_path/base_common.php");
-   include_once("$BASE_path/base_db_common.php");
-   include_once("$BASE_path/includes/base_cache.inc.php");
-   include_once("$BASE_path/includes/base_state_criteria.inc.php");
-   include_once("$BASE_path/includes/base_log_error.inc.php");
-   include_once("$BASE_path/includes/base_log_timing.inc.php");
+$sc = DIRECTORY_SEPARATOR;
+require_once("includes$sc" . 'base_krnl.php');
+include_once("$BASE_path/includes/base_include.inc.php");
+include_once("$BASE_path/base_db_common.php");
 
 AuthorizedRole(10000);
-$et = new EventTiming($debug_time_mode);
-RegisterGlobalState();
 // Initialize the history
 $_SESSION = NULL;
 InitArray($_SESSION['back_list'], 1, 3, "");
@@ -63,7 +55,7 @@ PushHistory();
 if ( isset($_GET['archive']) ){ // Set cookie to use the correct db.
 	"no" == $_GET['archive'] ? $value = 0 : $value = 1;
 	setcookie('archive', $value);
-	base_header("Location: $BASE_urlpath/base_main.php");
+	HTTP_header("Location: $BASE_urlpath/base_main.php");
 }
 
 function DBLink(){ // Generate link to select other DB.
@@ -75,7 +67,7 @@ function DBLink(){ // Generate link to select other DB.
 	}
 }
 
-PrintBASESubHeader('', '', '',1);
+PrintBASESubHeader('', '', '', 1);
 $CTR = verify_php_build($DBtype); // Check that PHP was built correctly.
 // @codeCoverageIgnoreStart
 if ( LoadedString($CTR) ){

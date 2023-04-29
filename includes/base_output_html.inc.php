@@ -15,11 +15,16 @@
 //          Author(s): Nathan Gibbs
 //                     Kevin Johnson
 // Ensure the conf file has been loaded.  Prevent direct access to this file.
-defined( '_BASE_INC' ) or die( 'Accessing this file directly is not allowed.' );
+defined('_BASE_INC') or die('Accessing this file directly is not allowed.');
 
 function PageStart ( $refresh = 0, $page_title = '' ){
 	GLOBAL $BASE_VERSION, $BASE_installID, $base_style, $BASE_urlpath,
-	$html_no_cache, $refresh_stat_page, $stat_page_refresh_time, $UIL;
+	$html_no_cache, $refresh_stat_page, $stat_page_refresh_time, $UIL, $BCR;
+	if ( isset($BCR) && is_object($BCR) ){
+		$BV = $BCR->GetCap('BASE_Ver');
+	}else{
+		$BV = $BASE_VERSION;
+	}
 	$MHE = "<meta http-equiv='";
 	$MNM = "<meta name='";
 	$GT = 'BASE'; // Generator Meta Attribute.
@@ -34,12 +39,12 @@ function PageStart ( $refresh = 0, $page_title = '' ){
 	$HT = $title; // Header Title
 	if ( !AuthorizedPage('(base_denied|index)') ){
 		// Additional app info allowed everywhere but landing pages.
-		$GT .= " $BASE_VERSION";
+		$GT .= " $BV";
 		if ( isset($BASE_installID) && $BASE_installID != ''){
 			$title .= " $BASE_installID";
 			$HT = $title;
 		}
-		$title .= " $BASE_VERSION";
+		$title .= " $BV";
 		if ($page_title != ''){
 			$title .= ': ' . XSSPrintSafe($page_title);
 		}
@@ -82,36 +87,32 @@ function PageStart ( $refresh = 0, $page_title = '' ){
 	NLIO('<body>', 1);
 	NLIO('<div class="mainheadertitle">'.$HT.'</div>',2);
 }
+
 function PageEnd (){
 	NLIO('</body>',1);
 	NLIO('</html>');
 }
-function NLI ( $Item = '', $Count = 0 ){
-	if ( !is_int($Count) ){
-		$Count = 0;
-	}
-	return "\n".str_repeat ("\t", $Count).$Item;
-}
-function NLIO ( $Item = '', $Count = 0 ){
-	print NLI ($Item, $Count);
-}
+
 function PrintBASESubHeader(
-	$page_title = '', $page_name = '', $back_link = '', $refresh = 0, $page = ''
+	$page_title = '', $page_name = '', $back_link = '', $refresh = 0,
+	$page = ''
 ){
-	GLOBAL $debug_mode, $BASE_installID, $BASE_path, $BASE_urlpath,
-	$html_no_cache, $max_script_runtime, $Use_Auth_System, $base_style, $UIL;
+	GLOBAL $debug_mode, $max_script_runtime, $UIL, $BCR;
 	if ( ini_get("safe_mode") != true ){
 		set_time_limit($max_script_runtime);
 	}
+	$BCR->AddCap('UIMode', 'Web');
 	PageStart($refresh, $page_title);
 	PrintBASEMenu( 'Header', $back_link);
 	if ( $debug_mode > 0 ){
 		PrintPageHeader();
 	}
 }
+
 function PrintBASESubFooter(){
-	GLOBAL $BASE_VERSION, $BASE_path, $BASE_urlpath, $Use_Auth_System,
-	$base_custom_footer;
+	GLOBAL $BASE_path, $BASE_urlpath, $Use_Auth_System,
+	$base_custom_footer, $BCR;
+	$BV = $BCR->GetCap('BASE_Ver');
 	NLIO ('<!-- BASE Footer -->',2);
 	PrintBASEMenu( 'Footer' );
 	NLIO ("<div class='mainfootertext'>",2);
@@ -122,7 +123,7 @@ function PrintBASESubFooter(){
 	);
 	$tmp = '';
 	if ( !AuthorizedPage('(base_denied|index)') ){
-		$tmp = "$BASE_VERSION ";
+		$tmp = "$BV ";
 	}
 	$tmp .= _FOOTER;
 	NLIO ($tmp,3);
@@ -143,6 +144,7 @@ function PrintBASESubFooter(){
 	}
 	PageEnd();
 }
+
 function PrintBASEMenu( $type = '', $back_link = '' ){
 	GLOBAL $BASE_urlpath, $Use_Auth_System, $et;
 	if ( LoadedString( $type ) == true ){
@@ -181,7 +183,12 @@ function PrintBASEMenu( $type = '', $back_link = '' ){
 				NLIO($Sep.$back_link,6);
 			}elseif ( $type == 'footer' ){ // Footer
 				if ( AuthorizedRole(1) ){ // Issue #144 fix
-					NLIO ($Sep.$Hrst."admin/index.php'>". _ADMIN .'</a>',6);
+					if ($Use_Auth_System == 1){
+						$tmp = _ADMIN;
+					}else{
+						$tmp = _CREATEU;
+					}
+					NLIO( "$Sep$Hrst" . "admin/index.php'>$tmp</a>", 6);
 				}
 				if ( is_object($et) ){
 					print $Sep;
@@ -194,12 +201,14 @@ function PrintBASEMenu( $type = '', $back_link = '' ){
 		}
 	}
 }
+
 function PrintFramedBoxHeader(
 	$title = '', $cc = 'black' , $td = 0, $tab = 3, $align = 'center',
 	$wd = 100
 ){
 	print FramedBoxHeader( $title, $cc, $td, $tab, $align, $wd);
 }
+
 function FramedBoxHeader(
 	$title = '', $cc = 'black' , $td = 0, $tab = 3, $align = 'center',
 	$wd = 100
@@ -250,9 +259,11 @@ function FramedBoxHeader(
 	}
 	return $Ret;
 }
+
 function PrintFramedBoxFooter( $td = 0, $tab = 3 ){
 	print FramedBoxFooter( $td, $tab);
 }
+
 function FramedBoxFooter( $td = 0, $tab = 3 ){
 	$Ret = '';
 	// Input Validation
@@ -270,6 +281,7 @@ function FramedBoxFooter( $td = 0, $tab = 3 ){
 	$Ret .= NLI('</table>',$tab);
 	return $Ret;
 }
+
 function TblNewRow( $td = 0, $align = '', $tab = 3 ){
 	$Ret = '';
 	// Input Validation
@@ -296,9 +308,11 @@ function TblNewRow( $td = 0, $align = '', $tab = 3 ){
 	}
 	return $Ret;
 }
+
 function PrintTblNewRow( $td = 0, $align = '', $tab = 3 ){
 	print TblNewRow( $td, $align, $tab );
 }
+
 function LINext( $tab = 3 ){
 	$Ret = '';
 	if ( !is_int($tab) || $tab < 1 ){ // Input Validation
@@ -307,9 +321,11 @@ function LINext( $tab = 3 ){
 	$Ret = NLI('</li><li>', $tab );
 	return $Ret;
 }
+
 function PrintLINext( $tab = 3 ){
 	print LINext( $tab );
 }
+
 function returnExportHTTPVar ( $var_name = '', $var_value = '', $tab = 3 ){
 	$Ret = '';
 	if ( LoadedString( $var_name ) == true ){ // Input Validation
@@ -381,10 +397,12 @@ function PrintBASEAdminMenuHeader(){
 	);
 	print $menu;
 }
+
 function PrintBASEAdminMenuFooter(){
 	NLIO("</div>",3);
 	NLIO("</div>",2);
 }
+
 function PrintBASEHelpLink($target)
 {
   /*
@@ -420,6 +438,7 @@ function HBarGraph (
 	}
 	return($Ret);
 }
+
 function HtmlPercent ( $Value = 1, $Count = 1 ){
 	$ent_pct = Percent( $Value, $Count );
 	if ( $ent_pct == 0 ){
@@ -430,4 +449,5 @@ function HtmlPercent ( $Value = 1, $Count = 1 ){
 	$Ret = $tmp . '%';
 	return($Ret);
 }
+
 ?>

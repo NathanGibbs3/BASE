@@ -21,29 +21,10 @@
 /** The below check is to make sure that the conf file has been loaded before this one....
  **  This should prevent someone from accessing the page directly. -- Kevin
  **/
-defined( '_BASE_INC' ) or die( 'Accessing this file directly is not allowed.' );
+defined('_BASE_INC') or die('Accessing this file directly is not allowed.');
 
 function DivErrorMessage ($message, $Count = 0 ){
 	NLIO ("<div class='errorMsg' align='center'>$message</div>",$Count);
-}
-
-function ErrorMessage ($message, $color = "#ff0000", $br = 0 ){
-	GLOBAL $GOF; // Graphics Output Flag.
-	if ( !isset($GOF) || $GOF === false ){
-		print returnErrorMessage($message, $color, $br);
-	}
-}
-
-function returnErrorMessage ($message, $color = "#ff0000", $br = 0 ){
-	if ( HtmlColor($color) == false ){
-		// Default to Red if we are passed something odd.
-		$color = "#ff0000";
-	}
-	$error = "<font color='$color'>$message</font>";
-	if ( is_numeric($br) && $br == 1 ){ // Issue #160
-		$error .= '<br/>';
-	}
-	return $error;
 }
 
 function BuildError ($message = '', $fmessage = '' ){
@@ -202,8 +183,9 @@ function PrintServerInformation()
 }
 
 function PrintPageHeader(){
-	GLOBAL $DBtype, $ADODB_vers, $Use_Auth_System, $BASE_VERSION;
+	GLOBAL $DBtype, $ADODB_vers, $Use_Auth_System, $BCR;
 	if ( !AuthorizedPage('(base_denied|index)') ){
+		$BV = $BCR->GetCap('BASE_Ver');
 		// Additional app info allowed everywhere but landing pages.
 		$AdminAuth = AuthorizedRole(1); // Issue #146 Fix
 		if ( $AdminAuth ){ // Issue #146 Fix
@@ -242,7 +224,7 @@ print "\n         <B>PHP API:</B> ".php_sapi_name();
 print "\n         <B>DB TYPE:</B> ".$DBtype;
 print "\n         <B>DB ABSTRACTION VERSION:</B> ".$ADODB_vers;
 }
-print "\n         <B>BASE VERSION:</B> ".$BASE_VERSION."
+print "\n         <B>BASE VERSION:</B> $BV
          <B>SESSION ID:</B> ".session_id()."( ".strlen($tmp)." bytes )
          <B>SCRIPT :</B> ".XSSPrintSafe($_SERVER['SCRIPT_NAME'])."
          </PRE>"; 

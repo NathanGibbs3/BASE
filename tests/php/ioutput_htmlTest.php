@@ -10,8 +10,6 @@ use PHPUnit\Framework\TestCase;
   * @covers ::HBarGraph
   * @covers ::HtmlPercent
   * @covers ::LINext
-  * @covers ::NLI
-  * @covers ::NLIO
   * @covers ::PageEnd
   * @covers ::TblNewRow
   * @covers ::PrintFramedBoxFooter
@@ -23,9 +21,12 @@ use PHPUnit\Framework\TestCase;
   * @covers ::returnExportHTTPVar
   * @uses ::Htmlcolor
   * @uses ::LoadedString
+  * @uses ::NLI
+  * @uses ::NLIO
   * @uses ::Percent
   * @uses ::XSSPrintSafe
   */
+
 class output_htmlTest extends TestCase {
 	protected static $UOV;
 	protected static $URV;
@@ -40,38 +41,6 @@ class output_htmlTest extends TestCase {
 	}
 
 	// Tests go here.
-	public function testNLIBlankReturnsExpected() {
-		$URV = self::$URV.'NLI().';
-		$this->assertEquals( "\n", NLI(), $URV );
-	}
-	public function testNLIInvalidCountReturnsExpected() {
-		$URV = self::$URV.'NLI().';
-		$this->assertEquals( "\n<td>", NLI('<td>','string'), $URV );
-	}
-	public function testNLINoIndentReturnsExpected() {
-		$URV = self::$URV.'NLI().';
-		$this->assertEquals( "\n<td>", NLI('<td>'), $URV );
-	}
-	public function testNLIIndentReturnsExpected() {
-		$URV = self::$URV.'NLI().';
-		$this->assertEquals( "\n\t\t\t\t\t<td>", NLI('<td>',5), $URV );
-	}
-	public function testNLIOBlankOutputsExpected() {
-		$UOV = self::$UOV.'NLIO().';
-		$this->expectOutputString( "\n", NLIO(), $UOV );
-	}
-	public function testNLIOInvalidCountOutputsExpected() {
-		$UOV = self::$UOV.'NLIO().';
-		$this->expectOutputString( "\n<td>", NLIO('<td>','string'), $UOV );
-	}
-	public function testNLIONoIndentOutputsExpected() {
-		$UOV = self::$UOV.'NLIO().';
-		$this->expectOutputString( "\n<td>", NLIO('<td>'), $UOV );
-	}
-	public function testNLIOIndentOutputsExpected() {
-		$UOV = self::$UOV.'NLIO().';
-		$this->expectOutputString( "\n\t\t\t\t\t<td>", NLIO('<td>',5), $UOV );
-	}
 	public function testPageEndOutputsExpected() {
 		$UOV = self::$UOV.'PageEnd().';
 		$this->expectOutputString( "\n\t</body>\n</html>", PageEnd(), $UOV );

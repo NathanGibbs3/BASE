@@ -31,7 +31,7 @@ class state_citemsTest extends TestCase {
 	public static function setUpBeforeClass() {
 		GLOBAL $BASE_path, $DBlib_path, $DBtype, $debug_mode, $alert_dbname,
 			$alert_host, $alert_user, $alert_password, $alert_port,
-			$db_connect_method, $db;
+			$db_connect_method, $db, $BCR;
 		$tf = __FUNCTION__;
 		$ll = 'english';
 		self::$langs = $ll;
@@ -93,10 +93,20 @@ class state_citemsTest extends TestCase {
 				$db,
 				'DB Object Not Initialized.'
 			);
+			// Shim for testing functions that access the BaseCapsRegestry
+			// Class via the global $BCR var, which is not defined under test
+			// conditions.
+			if( !isset($BCR) ){
+				$BCR = 'Temp';
+			}
 			self::$db = $db;
 		}
 	}
 	public static function tearDownAfterClass() {
+		GLOBAL $BCR;
+		if ( $BCR == 'Temp' ){ // EventTiming Shim clean up.
+			unset($BCR);
+		}
 		self::$UIL = null;
 		self::$langs = null;
 		self::$files = null;
@@ -412,9 +422,10 @@ class state_citemsTest extends TestCase {
 		$debug_mode = 2;
 		$_SESSION[$cs] = '';
 		$this->expectOutputString(
-			"<font color='black'>SetSessionVar(): "
-			. "Importing SESSION var 'Test'</font><br/>"
-			. "Import: Test<br/>\nCriteria Type: NULL<br/>\n"
+			"<font color='black'>SetSessionVar(): Importing SESSION var '$cs'"
+			. '</font><br/>'
+			. "<font color='black'>SetSessionVar(): $cs: </font><br/>"
+			. "Import: $cs<br/>\nCriteria Type: NULL<br/>\n"
 			. "Criteria Import: Denied.<br/>\n",
 			$UOV
 		);
@@ -433,7 +444,7 @@ class state_citemsTest extends TestCase {
 		$UOV = 'Unexpected Output.';
 		$this->assertInstanceOf(
 			'MultipleElementCriteria',
-			$tc = new MultipleElementCriteria($db, $cs, 'Test', 1),
+			$tc = new MultipleElementCriteria($db, $cs, $cs, 1),
 			'Class Not Initialized.'
 		);
 		$odb = $debug_mode;
@@ -442,12 +453,13 @@ class state_citemsTest extends TestCase {
 		$_SESSION[$cs] = array(0 => '1', 1 => '2');
 		$_SESSION[$cc] = 1;
 		$this->expectOutputString(
-			"<font color='black'>SetSessionVar(): ".
-			"Importing SESSION var 'Test'</font><br/>".
-			"<font color='black'>SetSessionVar(): ".
-			"Importing SESSION var 'Test_cnt'</font><br/>".
-			"Import: Test<br/>\nCriteria Type: array<br/>\n".
-			"Criteria Import: Allowed.<br/>\n",
+			"<font color='black'>SetSessionVar(): Importing SESSION var '$cs'"
+			. '</font><br/>'
+			. "<font color='black'>SetSessionVar(): Importing SESSION var '$cs"
+			. "_cnt'</font><br/>"
+			. "<font color='black'>SetSessionVar(): $cs"."_cnt: 1</font><br/>"
+			. "Import: $cs<br/>\nCriteria Type: array<br/>\n"
+			. "Criteria Import: Allowed.<br/>\n",
 			$UOV
 		);
 		$tc->Import();
@@ -589,10 +601,11 @@ class state_citemsTest extends TestCase {
 		$debug_mode = 2;
 		$_SESSION[$cs] = '';
 		$this->expectOutputString(
-			"<font color='black'>SetSessionVar(): ".
-			"Importing SESSION var 'Test'</font><br/>".
-			"Import: Test<br/>\nCriteria Type: NULL<br/>\n".
-			"Criteria Import: Denied.<br/>\n",
+			"<font color='black'>SetSessionVar(): Importing SESSION var '$cs'"
+			. '</font><br/>'
+			. "<font color='black'>SetSessionVar(): $cs: </font><br/>"
+			. "Import: $cs<br/>\nCriteria Type: NULL<br/>\n"
+			. "Criteria Import: Denied.<br/>\n",
 			$UOV
 		);
 		$tc->Import();
@@ -698,10 +711,11 @@ class state_citemsTest extends TestCase {
 		$debug_mode = 2;
 		$_SESSION[$cs] = '';
 		$this->expectOutputString(
-			"<font color='black'>SetSessionVar(): ".
-			"Importing SESSION var 'Test'</font><br/>".
-			"Import: Test<br/>\nCriteria Type: NULL<br/>\n".
-			"Criteria Import: Denied.<br/>\n",
+			"<font color='black'>SetSessionVar(): Importing SESSION var '$cs'"
+			. '</font><br/>'
+			. "<font color='black'>SetSessionVar(): $cs: </font><br/>"
+			. "Import: $cs<br/>\nCriteria Type: NULL<br/>\n"
+			. "Criteria Import: Denied.<br/>\n",
 			$UOV
 		);
 		$tc->Import();
@@ -837,10 +851,11 @@ class state_citemsTest extends TestCase {
 		$debug_mode = 2;
 		$_SESSION[$cs] = '';
 		$this->expectOutputString(
-			"<font color='black'>SetSessionVar(): ".
-			"Importing SESSION var 'Test'</font><br/>".
-			"Import: Test<br/>\nCriteria Type: NULL<br/>\n".
-			"Criteria Import: Denied.<br/>\n",
+			"<font color='black'>SetSessionVar(): Importing SESSION var '$cs'"
+			. '</font><br/>'
+			. "<font color='black'>SetSessionVar(): $cs: </font><br/>"
+			. "Import: $cs<br/>\nCriteria Type: NULL<br/>\n"
+			. "Criteria Import: Denied.<br/>\n",
 			$UOV
 		);
 		$tc->Import();

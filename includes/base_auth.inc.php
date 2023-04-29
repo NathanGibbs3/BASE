@@ -590,7 +590,7 @@ function AuthorizedRole( $roleneeded = 1, $header = '' ){
 				if ( preg_match("/^" . $ReqRE ."$/", $header) ){
 					// Redirect to allowed locations only.
 					error_log('Attempt Redirect');
-					base_header("Location: $BASE_urlpath/$header.php");
+					HTTP_header("Location: $BASE_urlpath/$header.php");
 					error_log('Redirect failed');
 				}
 			}

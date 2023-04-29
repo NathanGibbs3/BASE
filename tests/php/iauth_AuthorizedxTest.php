@@ -8,7 +8,7 @@ use PHPUnit\Framework\TestCase;
   * @covers ::AuthorizedRole
   * @covers ::AuthorizedPage
   * @covers ::AuthorizedURI
-  * @uses ::base_header
+  * @uses ::HTTP_header
   * @uses ::filterSql
   * @uses ::ChkAccess
   * @uses ::ChkLib

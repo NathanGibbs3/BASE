@@ -26,49 +26,69 @@ use PHPUnit\Framework\TestCase;
 
 class output_queryTest extends TestCase {
 	// Pre Test Setup.
+	protected static $UOV;
+	protected static $URV;
 	var $pfx;
 	var $sfx;
 	var $cf;
+
+	public static function setUpBeforeClass() {
+		GLOBAL $BCR;
+		// Shim for testing functions that access the BaseCapsRegestry Class
+		// via the global $BCR var, which is not defined under test conditions.
+		if ( !isset($BCR) ){
+			$BCR = 'Temp';
+		}
+		self::$UOV = 'Unexpected Output Value: ';
+		self::$URV = 'Unexpected Return Value: ';
+	}
+	public static function tearDownAfterClass() {
+		GLOBAL $BCR;
+		if ( $BCR == 'Temp' ){ // EventTiming Shim clean up.
+			unset($BCR);
+		}
+		self::$UOV = null;
+		self::$URV = null;
+	}
 
 	protected function setUp() {
 		$this->pfx = '<tr bgcolor="#';
 		$this->sfx = '">';
 		$this->cf = 1;
 	}
+
 	// Tests go here.
 	// Check normal running conditions.
 	public function testoutput_qroPrintEntryHeaderTestDefault() {
+		$UOV = self::$UOV.'qroPrintEntryHeader().';
 		$pfx = $this->pfx;
 		$sfx = $this->sfx;
 		$this->expectOutputString(
-			$pfx.'FFFFFF'.$sfx,
-			qroPrintEntryHeader(),
-			'Unexpected Return Value.'
+			$pfx . 'FFFFFF' . $sfx, qroPrintEntryHeader(), $UOV
 		);
 	}
 	public function testoutput_qroPrintEntryHeaderTestEven() {
+		$UOV = self::$UOV.'qroPrintEntryHeader().';
 		$pfx = $this->pfx;
 		$sfx = $this->sfx;
 		$this->expectOutputString(
-			$pfx.'DDDDDD'.$sfx,
-			qroPrintEntryHeader(2),
-			'Unexpected Return Value.'
+			$pfx . 'DDDDDD' . $sfx, qroPrintEntryHeader(2), $UOV
 		);
 	}
 	public function testoutput_qroPrintEntryHeaderTestOdd() {
+		$UOV = self::$UOV.'qroPrintEntryHeader().';
 		$pfx = $this->pfx;
 		$sfx = $this->sfx;
 		$this->expectOutputString(
-			$pfx.'FFFFFF'.$sfx,
-			qroPrintEntryHeader(1),
-			'Unexpected Return Value.'
+			$pfx . 'FFFFFF' . $sfx, qroPrintEntryHeader(1), $UOV
 		);
 	}
 	// Color Tests
 	// From base_conf.php.dist
-	// Red, yellow, orange, gray, white, blue
+	// Red, yellow, orange, gray, white, green
 	// $priority_colors = array ('FF0000','FFFF00','FF9900','999999','FFFFFF','006600');
 	public function testoutput_qroPrintEntryHeaderTestPriColors() {
+		$UOV = self::$UOV.'qroPrintEntryHeader().';
 		GLOBAL $priority_colors;
 		$pfx = $this->pfx;
 		$sfx = $this->sfx;
@@ -76,106 +96,103 @@ class output_queryTest extends TestCase {
 		$msg ='';
 		for ($i = 1; $i < 7; $i++){
 			$msg .= $pfx.$priority_colors[$i-1].$sfx;
-			$this->expectOutputString(
-				$msg,
-				qroPrintEntryHeader($i,$cf),
-				'Unexpected Return Value.'
-			);
+			$this->expectOutputString($msg, qroPrintEntryHeader($i,$cf), $UOV);
 		}
 	}
 	// Check for Issue #57
-	public function testoutput_qroPrintEntryHeaderTestNULL() {
+	public function testoutput_qroPrintEntryHeaderTestNULL(){
+		$UOV = self::$UOV.'qroPrintEntryHeader().';
 		$pfx = $this->pfx;
 		$sfx = $this->sfx;
 		$this->expectOutputString(
-			$pfx.'DDDDDD'.$sfx,
-			qroPrintEntryHeader(NULL),
-			'Unexpected Return Value.'
+			$pfx . 'DDDDDD' . $sfx, qroPrintEntryHeader(NULL), $UOV
 		);
 	}
-	public function testoutput_qroPrintEntryHeaderTestNULLColor() {
+	public function testoutput_qroPrintEntryHeaderTestNULLColor(){
+		$UOV = self::$UOV.'qroPrintEntryHeader().';
 		$pfx = $this->pfx;
 		$sfx = $this->sfx;
 		$cf = $this->cf;
 		$this->expectOutputString(
-			$pfx.'999999'.$sfx,
-			qroPrintEntryHeader(NULL,$cf),
-			'Unexpected Return Value.'
+			$pfx . '999999' . $sfx, qroPrintEntryHeader(NULL,$cf), $UOV
 		);
 	}
-	public function testoutput_qroPrintEntryHeaderTestInvalidIndexColor() {
+	public function testoutput_qroPrintEntryHeaderTestInvalidIndexColor(){
+		$UOV = self::$UOV.'qroPrintEntryHeader().';
 		$pfx = $this->pfx;
 		$sfx = $this->sfx;
 		$cf = $this->cf;
 		$this->expectOutputString(
-			$pfx.'999999'.$sfx,
-			qroPrintEntryHeader(7,$cf),
-			'Unexpected Return Value.'
+			$pfx . '999999' . $sfx, qroPrintEntryHeader(7,$cf), $UOV
 		);
 	}
-	public function testoutput_qroPrintEntryHeaderTestNegativeIndexColor() {
+	public function testoutput_qroPrintEntryHeaderTestNegativeIndexColor(){
+		$UOV = self::$UOV.'qroPrintEntryHeader().';
 		$pfx = $this->pfx;
 		$sfx = $this->sfx;
 		$cf = $this->cf;
 		$this->expectOutputString(
-			$pfx.'999999'.$sfx,
-			qroPrintEntryHeader(-1,$cf),
-			'Unexpected Return Value.'
+			$pfx . '999999' . $sfx, qroPrintEntryHeader(-1,$cf), $UOV
 		);
 	}
-	public function testoutput_qroPrintEntryHeaderTestInvalidStringColor() {
+	public function testoutput_qroPrintEntryHeaderTestInvalidStringColor(){
+		$UOV = self::$UOV.'qroPrintEntryHeader().';
 		$pfx = $this->pfx;
 		$sfx = $this->sfx;
 		$cf = $this->cf;
 		$this->expectOutputString(
-			$pfx.'999999'.$sfx,
-			qroPrintEntryHeader('red',$cf),
-			'Unexpected Return Value.'
+			$pfx . '999999' . $sfx, qroPrintEntryHeader('red',$cf), $UOV
 		);
 	}
 	public function testoutput_qroPrintEntryTestDefault() {
+		$UOV = self::$UOV . 'qroPrintEntry().';
 		$expected = "\n\t\t\t".
 		"<td style='text-align: center; vertical-align: top; ".
 		"padding-left: 15px; padding-right: 15px'>".
 		"\n\t\t\t\tvalue".
 		"\n\t\t\t</td>";
-		$this->expectOutputString($expected);
-		qroPrintEntry('value');
+		$this->expectOutputString($expected, qroPrintEntry('value'), $UOV);
 	}
-	public function testoutput_qroPrintEntryTestAlignmentValues() {
+	public function testoutput_qroPrintEntryTestAlignmentValues(){
+		$UOV = self::$UOV . 'qroPrintEntry().';
 		$expected = "\n\t\t\t".
 		"<td style='text-align: left; vertical-align: bottom; ".
 		"padding-left: 15px; padding-right: 15px'>".
 		"\n\t\t\t\tvalue".
 		"\n\t\t\t</td>";
-		$this->expectOutputString($expected);
-		qroPrintEntry('value','left','bottom');
+		$this->expectOutputString(
+			$expected, qroPrintEntry('value','left','bottom'), $UOV
+		);
 	}
-	public function testoutput_qroPrintEntryFooterTestDefault() {
+	public function testoutput_qroPrintEntryFooterTestDefault(){
+		$UOV = self::$UOV . 'qroPrintEntryFooter().';
 		$expected = "\n\t\t</tr>";
-		$this->expectOutputString($expected);
-		qroPrintEntryFooter();
+		$this->expectOutputString($expected, qroPrintEntryFooter(), $UOV);
 	}
-	public function testoutput_qroPrintEntryTestMalformed() {
+	public function testoutput_qroPrintEntryTestMalformed(){
+		$UOV = self::$UOV . 'qroPrintEntry().';
 		$expected = "\n\t\t\t".
 		"<td style='text-align: left; vertical-align: bottom; ".
 		"padding-left: 15px; padding-right: 15px'>".
 		"\n\t\t\t\tvalue".
 		"\n\t\t\t</td>";
-		$this->expectOutputString($expected);
-		qroPrintEntry('value','LEFT','BoTTOm');
+		$this->expectOutputString(
+			$expected, qroPrintEntry('value','LEFT','BoTTOm'), $UOV
+		);
 	}
 	public function testoutput_qroPrintEntryTestInvalid() {
+		$UOV = self::$UOV . 'qroPrintEntry().';
 		$expected = "\n\t\t\t".
 		"<td style='text-align: center; vertical-align: top; ".
 		"padding-left: 15px; padding-right: 15px'>".
 		"\n\t\t\t\tvalue".
 		"\n\t\t\t</td>";
-		$this->expectOutputString($expected);
-		qroPrintEntry('value','Invalid','Invalid');
+		$this->expectOutputString(
+			$expected, qroPrintEntry('value','Invalid','Invalid'), $UOV
+		);
 	}
 	public function testoutput_qroReturnSelectALLCheckTestDefault() {
-		$URV = 'Unexpected Return Value.';
+		$URV = self::$URV . 'qroReturnSelectALLCheck().';
 		$expected = "<input type=checkbox value='Select All' ".
 		"onClick='if (this.checked) SelectAll(); ".
 		"if (!this.checked) UnselectAll();'>";
@@ -183,7 +200,7 @@ class output_queryTest extends TestCase {
 	}
 	// Tests for Class QueryResultsOutput
 	public function testClassQueryResultsOutputConstruct(){
-		$URV = 'Unexpected Return Value.';
+		$URV = self::$URV . 'Construct().';
 		$this->assertInstanceOf(
 			'QueryResultsOutput',
 			$tc = new QueryResultsOutput('uri'),
@@ -197,7 +214,7 @@ class output_queryTest extends TestCase {
 	}
 	public function testClassQueryResultsOutputConstructDebugModeJavaScriptYes(){
 		GLOBAL $debug_mode;
-		$URV = 'Unexpected Return Value.';
+		$URV = self::$URV . 'Construct().';
 		$odb = $debug_mode;
 		$debug_mode = 1;
 		$expected = "<font color='black'>Resource available JavaScript: /js/base_output_query.inc.js</font><br/>";
@@ -211,7 +228,7 @@ class output_queryTest extends TestCase {
 	}
 	public function testClassQueryResultsOutputConstructDebugModeJavaScriptNo(){
 		GLOBAL $debug_mode;
-		$URV = 'Unexpected Return Value.';
+		$URV = self::$URV . 'Construct().';
 		$odb = $debug_mode;
 		$debug_mode = 1;
 		$expected = "<font color='#ff0000'>Resource not available JavaScript: /js/base_output_query.inc.js</font><br/>";
@@ -226,7 +243,7 @@ class output_queryTest extends TestCase {
 		rename ("./js/base_output_query.inc.tmp","./js/base_output_query.inc.js");
 	}
 	public function testClassQueryResultsOutputAddTitleDefault(){
-		$URV = 'Unexpected Return Value.';
+		$URV = self::$URV . 'AddTitle().';
 		$this->assertInstanceOf(
 			'QueryResultsOutput',
 			$tc = new QueryResultsOutput('uri'),
@@ -242,7 +259,7 @@ class output_queryTest extends TestCase {
 		$this->assertEmpty($tc->qroHeader[$tmp][$te][1], $URV);
 	}
 	public function testClassQueryResultsOutputAddTitleFullEmpty(){
-		$URV = 'Unexpected Return Value.';
+		$URV = self::$URV . 'AddTitle().';
 		$this->assertInstanceOf(
 			'QueryResultsOutput',
 			$tc = new QueryResultsOutput('uri'),
@@ -263,7 +280,7 @@ class output_queryTest extends TestCase {
 		$this->assertEmpty($tc->qroHeader[$tmp][$te2][1], $URV);
 	}
 	public function testClassQueryResultsOutputAddTitleFullValued(){
-		$URV = 'Unexpected Return Value.';
+		$URV = self::$URV . 'AddTitle().';
 		$this->assertInstanceOf(
 			'QueryResultsOutput',
 			$tc = new QueryResultsOutput('uri'),
@@ -285,7 +302,7 @@ class output_queryTest extends TestCase {
 		$this->assertEquals('4',$tc->qroHeader[$tmp][$te2][1], $URV);
 	}
 	public function testClassQueryResultsOutputGetSortSQL(){
-		$URV = 'Unexpected Return Value.';
+		$URV = self::$URV . 'GetSortSQL().';
 		$this->assertInstanceOf(
 			'QueryResultsOutput',
 			$tc = new QueryResultsOutput('uri'),
@@ -322,7 +339,7 @@ class output_queryTest extends TestCase {
 		$this->assertNull($tc->GetSortSQL('5th',''), $URV);
 	}
 	public function testClassQueryResultsOutputGetSortSQLNull(){
-		$URV = 'Unexpected Return Value.';
+		$URV = self::$URV . 'GetSortSQL().';
 		$this->assertInstanceOf(
 			'QueryResultsOutput',
 			$tc = new QueryResultsOutput('uri'),
@@ -331,7 +348,7 @@ class output_queryTest extends TestCase {
 		$this->assertNull($tc->GetSortSQL('5th',''), $URV);
 	}
 	public function testClassQueryResultsOutputPrintHeaderDefault(){
-		$URV = 'Unexpected Return Value.';
+		$UOV = self::$UOV . 'PrintHeader().';
 		$this->assertInstanceOf(
 			'QueryResultsOutput',
 			$tc = new QueryResultsOutput('uri'),
@@ -352,11 +369,10 @@ class output_queryTest extends TestCase {
 		"\n\t\t\t\t\t\ttitleSecond".
 		"\n\t\t\t\t\t</td>\n\t\t\t\t</tr>".
 		"\n\t\t\t\t<!-- Query Results Table -->";
-		$this->expectOutputString($expected);
-		$tc->PrintHeader();
+		$this->expectOutputString($expected, $tc->PrintHeader(), $UOV);
 	}
 	public function testClassQueryResultsOutputPrintHeaderAlign(){
-		$URV = 'Unexpected Return Value.';
+		$UOV = self::$UOV . 'PrintHeader().';
 		$this->assertInstanceOf(
 			'QueryResultsOutput',
 			$tc = new QueryResultsOutput('uri'),
@@ -372,11 +388,10 @@ class output_queryTest extends TestCase {
 		"\n\t\t\t\t\t\ttitle".
 		"\n\t\t\t\t\t</td>\n\t\t\t\t</tr>".
 		"\n\t\t\t\t<!-- Query Results Table -->";
-		$this->expectOutputString($expected);
-		$tc->PrintHeader('left');
+		$this->expectOutputString($expected, $tc->PrintHeader('left'), $UOV);
 	}
 	public function testClassQueryResultsOutputPrintHeaderNull(){
-		$URV = 'Unexpected Return Value.';
+		$UOV = self::$UOV . 'PrintHeader().';
 		$this->assertInstanceOf(
 			'QueryResultsOutput',
 			$tc = new QueryResultsOutput('uri'),
@@ -390,11 +405,10 @@ class output_queryTest extends TestCase {
 		"\n\t\t\t\t\t<td class='plfieldhdr'>".
 		"NULL Header.</td>\n\t\t\t\t</tr>".
 		"\n\t\t\t\t<!-- Query Results Table -->";
-		$this->expectOutputString($expected);
-		$tc->PrintHeader();
+		$this->expectOutputString($expected, $tc->PrintHeader(), $UOV);
 	}
 	public function testClassQueryResultsOutputPrintHeaderInvalid(){
-		$URV = 'Unexpected Return Value.';
+		$UOV = self::$UOV . 'PrintHeader().';
 		$this->assertInstanceOf(
 			'QueryResultsOutput',
 			$tc = new QueryResultsOutput('uri'),
@@ -412,16 +426,16 @@ class output_queryTest extends TestCase {
 		$tc->PrintHeader('Invalid');
 	}
 	public function testClassQueryResultsOutputPrintFooterDefault(){
-		$URV = 'Unexpected Return Value.';
+		$UOV = self::$UOV . 'PrintHeader().';
 		$this->assertInstanceOf(
 			'QueryResultsOutput',
 			$tc = new QueryResultsOutput('uri'),
 			'Class Not Initialized.'
 		);
 		$expected = "\n\t\t\t</table>";
-		$this->expectOutputString($expected);
-		$tc->PrintFooter();
+		$this->expectOutputString($expected, $tc->PrintFooter(), $UOV);
 	}
+
 	// Add code to a function if needed.
 	// Stop here and mark test incomplete.
 	//$this->markTestIncomplete('Incomplete Test.');

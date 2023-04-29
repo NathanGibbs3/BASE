@@ -948,34 +948,9 @@ function ExportPacket_summary( $sid, $cid, $db, $export_type = 0 ){
   return $s; 
 }
 
-function base_header( $url ){
-	if ( !headers_sent() ){
-		header($url);
-		exit;
-	}
-}
-
 function base_microtime(){
   list($usec, $sec) = explode(" ", microtime());
   return ((float)$usec + (float)$sec);
-}
-
-// Returns true if color is valid html color code.
-function HtmlColor ( $color ){
-	$color = strtolower($color);
-	$wsc = array(
-		'black', 'silver', 'gray', 'white', 'maroon', 'red', 'pruple',
-		'fuchsia', 'green', 'lime', 'olive', 'yellow', 'navy', 'blue', 'teal',
-		'aqua'
-	);
-	$Ret = false;
-	if (
-		in_array($color, $wsc) // Web Safe Color.
-		|| preg_match("/^#?[0-9A-F]{6}$/i", $color) // Hex RGB Color Code.
-	){
-		$Ret = true;
-	}
-	return ($Ret);
 }
 
 function Percent ( $Value = 1, $Count = 1 ){
@@ -991,15 +966,6 @@ function Percent ( $Value = 1, $Count = 1 ){
 		$Ret = round($Value/$Count*100);
 	}
 	return ($Ret);
-}
-
-// Returns true if var is a string containing data.
-function LoadedString ( $var ){
-	$Ret = false;
-	if ( is_string($var) && !empty($var)){
-		$Ret = true;
-	}
-	return $Ret;
 }
 
 // Returns true if file passes include safety checks.
@@ -1048,55 +1014,6 @@ function GetAsciiClean(){
 		$Ret = ChkGet('asciiclean', 1);
 	}else{ // No GET, check for cookie.
 		$Ret = ChkCookie('asciiclean', 'clean');
-	}
-	return $Ret;
-}
-
-// Returns 1 if file or directory passes access checks.
-// Returns < 1 error code otherwise.
-function ChkAccess( $path, $type='f' ){
-	$Ret = 0; // Path Error
-	if ( LoadedString($path) ){
-		$type = strtolower($type);
-		$rcf = 0;
-		$Ret = -1; // Type Error
-		if ( $type == 'f' ){
-			if ( is_file($path) ){
-				$rcf = 1;
-			}
-		}elseif ( $type == 'd' ){
-			if ( is_dir($path) ){
-				$rcf = 1;
-			}
-		}
-		if ( $rcf == 1 ){
-			$Ret = -2; // Readable Error
-			$version = explode('.', phpversion());
-			// PHP Safe Mode cutout.
-			//    Added: 2005-03-25 for compatabibility with PHP 4x & 5.0x
-			//      See: https://sourceforge.net/p/secureideas/bugs/47
-			// PHP Safe Mode w/o cutout successful.
-			// Verified: 2019-05-31 PHP 5.3.29 via CI & Unit Tests.
-			//      See: https://github.com/NathanGibbs3/BASE/issues/34
-			// May work: PHP > 5.1.4.
-			//      See: https://www.php.net/manual/en/function.is-readable.php
-			if (
-				$version[0] > 5
-				|| ($version[0] == 5 && $version[1] > 1)
-				|| ($version[0] == 5 && $version[1] == 1 && $version[2] > 4 )
-				|| ini_get("safe_mode") != true
-			){
-				if ( is_readable($path) ){
-					$Ret = 1;
-				}
-			}else{
-				// @codeCoverageIgnoreStart
-				// PHPUnit test only covers this code path on PHP < 5.1.5
-				// Unable to validate in CI.
-				$Ret = 1;
-				// @codeCoverageIgnoreEnd
-			}
-		}
 	}
 	return $Ret;
 }
@@ -1205,31 +1122,6 @@ function ChkGET( $var, $val ){
 	return $Ret;
 }
 
-// Returns true when key is in array, false otherwise.
-function base_array_key_exists( $SKey, $SArray ){ // PHP Version Agnostic.
-	$Ret = false;
-	if ( is_array($SArray) && count($SArray) > 0 ){
-		$version = explode('.', phpversion());
-		// Use built in functions when we can.
-		if ( $version[0] > 4 || ($version[0] == 4 && $version[1] > 1) ){
-			// PHP > 4.1
-			$Ret = array_key_exists( $SKey, $SArray );
-		// @codeCoverageIgnoreStart
-		// PHPUnit test only covers this code path on PHP < 4.2.0
-		// Unable to validate in CI.
-		}elseif (
-			($version[0] == 4 && $version[1] > 0 )
-			|| ($version[0] == 4 && $version[1] == 0 && $version[2] > 5)
-		){ // PHP > 4.0.5
-			$Ret = key_exists($SKey, $SArray);
-		}else{ // No built in functions, PHP Version agnostic.
-			$Ret = in_array($SKey, array_keys($SArray) );
-		}
-		// @codeCoverageIgnoreEnd
-	}
-	return $Ret;
-}
-
 // Returns true if PEAR library can be loaded, false otherwise.
 function PearInc( $Desc = '', $Loc = '', $Lib = '', $Silent = 1, $Fatal = 0 ){
 	GLOBAL $debug_mode;
@@ -1312,4 +1204,36 @@ function ChkArchive(){ // Issue #183
 	}
 	return $Ret;
 }
+
+// Function: RegisterGlobalState()
+// @doc Application-specific wrapper for PHP session_start(). It performs a
+// couple of additional configuration checks (notably for custom PHP session
+// handlers).
+function RegisterGlobalState(){
+	GLOBAL $use_user_session, $user_session_path, $user_session_function;
+	$EMsg = '';
+	// Deal with user specified session handlers.
+	if( session_module_name() == 'user' ){
+		if( $use_user_session != 1 ){
+			$EMsg = _PHPERRORCSESSION;
+		}elseif( $user_session_path != '' ){
+			if( is_file($user_session_path) ){
+				include_once($user_session_path);
+				if( $user_session_function != '' ){
+					$user_session_function();
+				}
+			}else{
+				$EMsg = _PHPERRORCSESSIONCODE;
+			}
+		}else{
+			$EMsg = _PHPERRORCSESSIONVAR;
+		}
+	}
+	if( $EMsg != '' ){
+		FatalError($EMsg);
+	}
+	session_start();
+	KML("Start: Session", 1);
+}
+
 ?>

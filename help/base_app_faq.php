@@ -18,16 +18,9 @@
 **
 ********************************************************************************
 */
-if (!isset($BASE_path)){ // Issue #5
-	$BASE_path = dirname(__FILE__);
-	$BASE_path = preg_replace("/\/help.*/", "", $BASE_path);
-}
-include("$BASE_path/base_conf.php");
-include_once("$BASE_path/includes/base_auth.inc.php");
-include_once("$BASE_path/includes/base_db.inc.php");
-include_once("$BASE_path/includes/base_output_html.inc.php");
-include_once("$BASE_path/includes/base_constants.inc.php");
-include_once("$BASE_path/base_common.php");
+
+$sc = DIRECTORY_SEPARATOR;
+require_once("..$sc" . "includes$sc" . 'base_krnl.php');
 
 AuthorizedRole(10000);
 PrintBASESubHeader('Local FAQ');

@@ -4,7 +4,8 @@ $BASE_path = dirname(__FILE__);
 $sc = DIRECTORY_SEPARATOR;
 $ReqRE =  "\\".$sc.'tests.*';
 $BASE_path = preg_replace('/'.$ReqRE.'/', '', $BASE_path);
-define( '_BASE_INC', 1 );
+
+// Conf File Values.
 $BASE_VERSION = '0.0.0 (Joette)';
 $Use_Auth_System = 1;
 $BASE_urlpath = '';
@@ -31,9 +32,14 @@ print "   Testing with: (BASE) $BASE_installID $BASE_VERSION\n";
 print "Testing code in: $BASE_path\n";
 
 include ("$BASE_path/tests/phpcommon/tsf.php"); // Test Support Functions.
-$GOF = false; // Graphics Output Flag
-// BASE Runtime
-include("$BASE_path/includes/base_constants.inc.php");
+
+// BASE Runtime.
+include_once("$BASE_path$sc" . "includes$sc" . "base_rtl.php");
+SetConst('_BASE_INC', 1); // Include Load Flag.
+include_once("$BASE_path$sc" . "base_common.php");
+include_once("$BASE_path$sc" . "includes$sc" . "base_auth.inc.php");
+include_once("$BASE_path$sc". "includes$sc" . "base_capabilities.php");
+
 include("$BASE_path/includes/base_include.inc.php");
 include_once("$BASE_path/base_db_common.php");
 include_once("$BASE_path/base_qry_common.php");

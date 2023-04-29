@@ -43,10 +43,10 @@ class QueryResultsOutput {
 		$this->url = $uri;
 		$sc = DIRECTORY_SEPARATOR;
 		$file = __FILE__;
-		$ReqRE = preg_quote("$BASE_path$sc"."includes$sc",'/');
+		$ReqRE = preg_quote("$BASE_path$sc" . "includes$sc", '/');
 		$file = preg_replace("/^" . $ReqRE ."/", '', $file);
 		$file = preg_replace("/".preg_quote('.php','/')."$/", '', $file);
-		$file = $sc."js$sc$file".'.js';
+		$file = $sc . "js$sc$file" . '.js';
 		$tf = "$BASE_path$file";
 		$file = "$BASE_urlpath$file";
 		if ( ChkAccess($tf) == 1 ){

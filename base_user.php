@@ -19,15 +19,13 @@
 ********************************************************************************
 */
 
-include("base_conf.php");
-include_once("$BASE_path/includes/base_constants.inc.php");
-include("$BASE_path/includes/base_include.inc.php");
+$sc = DIRECTORY_SEPARATOR;
+require_once("includes$sc" . 'base_krnl.php');
+include_once("$BASE_path/includes/base_include.inc.php");
 include_once("$BASE_path/base_db_common.php");
-include_once("$BASE_path/base_common.php");
 include_once("$BASE_path/base_stat_common.php");
 
 AuthorizedRole(10000);
-$et = new EventTiming($debug_time_mode);
 $page_body='';
 $cs = new CriteriaState("base_user.php");
 $cs->ReadState();
@@ -36,10 +34,14 @@ $userobj = new BaseUser();
 $username = $userobj->returnUser();
 $page_title = _BASEUSERTITLE;
 PrintBASESubHeader($page_title, $page_title, $cs->GetBackLink(), $refresh_all_pages);
+
+$Action = 'display'; // Default Action.
 if ( isset($_GET['action']) ){
-	// This is where the processing of this page happens.
-	switch ( $_GET['action'] ){
-		case "change": //call auth.inc
+	$Action = filterSql($_GET['action']);
+}
+// This is where the processing of this page happens.
+switch ( $Action ){
+	case "change": //call auth.inc
         if (($_POST['newpasswd1'] == $_POST['newpasswd2']) && ($_POST['newpasswd1'] != ""))
         {
           $pwdresponse = $userobj->changePassword($username, filterSql($_POST['oldpasswd']), filterSql($_POST['newpasswd1']));
@@ -69,6 +71,15 @@ if ( isset($_GET['action']) ){
         $userlogin = $user->returnUser();
         $userid = $user->returnUserID($userlogin);
 			$userinfo = $user->returnEditUser($userid); // Anti XSS by default.
+
+//			TODO: Need to build a generic table builder that works like DDT.
+//			$DD = array(_FRMUID, _FRMLOGIN, _FRMFULLNAME, _FRMROLE);
+//			$DI = array(
+//				$userinfo[0], $userinfo[1], $userinfo[3],
+//				$user->roleName($userinfo[2])
+//			);
+//			DDT($DI, $DD, _USERPREF, '', 12, 1);
+
         $form = "<table border=1 class='query'>";
         $form = $form . "<tr><td width='25%' align='right'>"._FRMUID."</td>";
         $form = $form . "<td align='left'>". $userinfo[0] ."</td></tr>";
@@ -86,8 +97,6 @@ if ( isset($_GET['action']) ){
       default:
         $page_body = $page_body . " ";
     }
-    
-  }
 
 // Design barrowed from PrintBASEAdminMenuHeader();
 $menu = NLI("<div>",2);

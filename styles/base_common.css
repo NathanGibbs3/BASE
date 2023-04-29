@@ -32,10 +32,14 @@ div.systemdebug {
 	font-family: Arial;
 	border: double;
 	width: 100%;
-	background: #cccccc;
+	background: #bbbbbb;
 	padding: 3px;
 }
 
 ul.stats {
 	padding-left: 20px;
+}
+
+input.admin {
+	color: red;
 }

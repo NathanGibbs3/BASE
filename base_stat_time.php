@@ -22,6 +22,9 @@
 ********************************************************************************
 */
 
+$sc = DIRECTORY_SEPARATOR;
+require_once("includes$sc" . 'base_krnl.php');
+
 function StoreAlertNum($sql, $label, $time_sep, $i_year, $i_month, $i_day, $i_hour)
 {  
   GLOBAL $db, $cnt, $label_lst, $value_lst, $value_POST_lst, $debug_mode;
@@ -112,15 +115,12 @@ function PrintTimeProfile(){
 	NLIO('</table>',2);
 }
 
-include ("base_conf.php");
-include_once ("$BASE_path/includes/base_constants.inc.php");
-include ("$BASE_path/includes/base_include.inc.php");
-include_once ("$BASE_path/base_db_common.php");
-include_once ("$BASE_path/base_stat_common.php");
-include_once ("$BASE_path/base_qry_common.php");
+include_once("$BASE_path/includes/base_include.inc.php");
+include_once("$BASE_path/base_db_common.php");
+include_once("$BASE_path/base_stat_common.php");
+include_once("$BASE_path/base_qry_common.php");
 
 AuthorizedRole(10000);
-$et = new EventTiming($debug_time_mode);
 $db = NewBASEDBConnection($DBlib_path, $DBtype); // Connect to DB.
 $db->baseDBConnect(
 	$db_connect_method, $alert_dbname, $alert_host, $alert_port, $alert_user,

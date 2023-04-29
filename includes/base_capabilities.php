@@ -42,26 +42,35 @@ class BaseCapsRegistry{ // Capabilities Registry class definition
 
 	function BaseCapsRegistry(){ // PHP 4x constructor.
 		GLOBAL $Use_Auth_System, $BASE_Language, $event_cache_auto_update,
-		$colored_alerts, $archive_exists, $BASE_VERSION, $BASE_installID;
+		$colored_alerts, $archive_exists, $BASE_VERSION, $BASE_installID,
+		$debug_time_mode, $debug_mode;
+		if( $debug_mode > 1 ){
+			KML('Init: Caps Registry', 2);
+		}
 		// Automatically detect capabilities.
 		$this->BCReg['PHP'] = array(); // PHP Capabilities.
 		$this->BCReg['BASE'] = array(); // BASE Capabilities.
 		// PHP
-		$phpv = phpversion();
-		$phpv = explode('.', $phpv);
-		// Account for x.x.xXX subversions possibly having text like 4.0.4pl1
-		if( is_numeric(substr($phpv[2], 1, 1)) ){ // No Text
-			$phpv[2] = substr($phpv[2], 0, 2);
-		}else{
-			$phpv[2] = substr($phpv[2], 0, 1);
-		}
-		$this->AddCap('PHP_Ver', implode('.', $phpv));
+		$this->AddCap('PHP_Ver', GetPHPSV()); // PHP Version
 		if( function_exists('mail') ){ // PHP Mail
 			$this->AddCap('PHP_Mail');
 		}
 		if( function_exists('imagecreate') ){ // PHP GD
 			$this->AddCap('PHP_GD');
 		}
+		// BASE Kernel & RTL Registartion
+		if ( SetConst('BASE_KERNEL', 'None') ){
+			$BKV = NULL;
+		}else{
+			$BKV = BASE_KERNEL;
+		}
+		$this->AddCap('BASE_Kernel',$BKV);
+		if ( SetConst('BASE_RTL', 'None') ){
+			$BRV = NULL;
+		}else{
+			$BRV = BASE_RTL;
+		}
+		$this->AddCap('BASE_RTL',$BRV);
 		// BASE Version Info, change on new release.
 		$Ver = '1.4.5'; // Official Release
 		$Lady = 'lilias'; // Official Release Name
@@ -100,6 +109,13 @@ class BaseCapsRegistry{ // Capabilities Registry class definition
 		if( $colored_alerts != 0 ){ // Colored Alerts
 			$this->AddCap('BASE_UICA');
 		}
+		if( $debug_mode != 0 ){ // Debug Mode
+			$this->AddCap('BASE_UIDiag', $debug_mode);
+		}
+		if( $debug_time_mode != 0 ){ // Debug Time Mode
+			$this->AddCap('BASE_UIDiagTime', $debug_time_mode);
+		}
+		$this->AddCap('UIMode', 'Knl');
 		// Libs
 		if ( PearInc('Mail', '', 'Mail') ){ // PEAR::MAIL
 			$this->AddCap('Mail');
