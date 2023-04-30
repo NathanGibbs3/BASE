@@ -43,7 +43,7 @@
 
 $sc = DIRECTORY_SEPARATOR;
 require_once("includes$sc" . 'base_krnl.php');
-include_once("$BASE_path/includes/base_include.inc.php");
+include_once("$BASE_path$sc" . "includes$sc" . 'base_include.inc.php');
 include_once("$BASE_path/base_db_common.php");
 
 AuthorizedRole(10000);
