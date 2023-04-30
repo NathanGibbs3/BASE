@@ -1,7 +1,7 @@
 <?php
 use PHPUnit\Framework\TestCase;
 
-// Test fucntions in /includes/base_signature.inc.php
+// Test fucntions in: includes/base_signature.inc.php
 
 /**
   * @covers ::BuildSigLookup

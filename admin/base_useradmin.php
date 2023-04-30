@@ -1,6 +1,6 @@
 <?php
 // Basic Analysis and Security Engine (BASE)
-// Copyright (C) 2019-2021 Nathan Gibbs
+// Copyright (C) 2019-2023 Nathan Gibbs
 // Copyright (C) 2004 BASE Project Team
 // Copyright (C) 2000 Carnegie Mellon University
 //
@@ -15,14 +15,8 @@
 //          Author(s): Nathan Gibbs
 //                     Kevin Johnson
 
-if (!isset($BASE_path)){ // Issue #5
-	$BASE_path = dirname(__FILE__);
-	$sc = DIRECTORY_SEPARATOR;
-	$ReqRE =  "\\".$sc.'admin.*';
-	$BASE_path = preg_replace("/".$ReqRE."/", "", $BASE_path);
-}
-include("$BASE_path/base_conf.php");
-include_once("$BASE_path/includes/base_constants.inc.php");
+$sc = DIRECTORY_SEPARATOR;
+require_once("..$sc" . "includes$sc" . 'base_krnl.php');
 include("$BASE_path/includes/base_include.inc.php");
 include_once("$BASE_path/base_db_common.php");
 include_once("$BASE_path/base_stat_common.php");
@@ -40,7 +34,6 @@ if ( preg_match("/(create|add)/", $Action) || $Use_Auth_System == 1 ){
 	$UIL = new UILang($BASE_Language); // Create UI Language Object.
 	$Use_Auth_System = $BAStmp;
 	AuthorizedRole(1,'base_main');
-	$et = new EventTiming($debug_time_mode);
 	$cs = new CriteriaState("admin/base_useradmin.php");
 	$cs->ReadState();
 	$page_title = _USERADMIN;
@@ -153,7 +146,7 @@ if ( preg_match("/(create|add)/", $Action) || $Use_Auth_System == 1 ){
 			$form .= NLI('</form>',3);
 			$pagebody = $form;
 			break;
-		case "updateuser"; // Updates user account from above form....
+		case 'updateuser'; // Updates user account from above form....
 			// Setup array in this format for the updateUser function
 			// $userarray[0] = $userid
 			// $userarray[1] = $fullname
@@ -164,21 +157,21 @@ if ( preg_match("/(create|add)/", $Action) || $Use_Auth_System == 1 ){
 				filterSql($_POST['roleID']),
 			);
 			$user->updateUser($userarray);
-			base_header("Location: $Umca"."list");
+			HTTP_header("Location: $Umca" . 'list');
 			break;
-		case "disableuser"; // Disable user account.
+		case 'disableuser'; // Disable user account.
 			$BUser->disableUser($userid);
-			base_header("Location: $Umca"."list");
+			HTTP_header("Location: $Umca" . 'list');
 			break;
-		case "enableuser"; // Enable user account.
+		case 'enableuser'; // Enable user account.
 			$BUser->enableUser($userid);
-			base_header("Location: $Umca"."list");
+			HTTP_header("Location: $Umca" . 'list');
 			break;
-		case "deleteuser"; // Delete user account.
+		case 'deleteuser'; // Delete user account.
 			$BUser->deleteUser($userid);
-			base_header("Location: $Umca"."list");
+			HTTP_header("Location: $Umca" . 'list');
 			break;
-		case "list"; // Generate HTML User Table.
+		case 'list'; // Generate HTML User Table.
 			$ridesc = $UIL->ADA['DescRI'];
 			$asdesc = $UIL->ADA['DescAS'];
 			$AcEdit = $UIL->UAA['Edit'];
@@ -201,22 +194,24 @@ if ( preg_match("/(create|add)/", $Action) || $Use_Auth_System == 1 ){
 			$tmpHTML .= NLI('</tr>',3);
 			if ( $users <> '' ){ // Verify we have a user in the db --Kevin;
 				$imgc = NLI('',6);
-				$imgc .= "<img border='0' src='".$BASE_urlpath ."/images/";
-				$tduma = $tdac.NLI($Hrst,5);
+				$imgc .= "<img border='0' src='" . $BASE_urlpath  . "/images/";
+				$tduma = $tdac . NLI($Hrst,5);
 				foreach ( $users as $row ){ // Iterate users & build table.
 					$tmpRow = explode("|", $row);
 					// Setup User ID URL param.
-					$uuid = "user&amp;userid=".urlencode($tmpRow[0]);
+					$uuid = "user&amp;userid=" . urlencode($tmpRow[0]);
 					// Set up enable/disable action URL
 					if ( $tmpRow[4] == 1 ){
-						$enabled = $tduma."disable$uuid'>";
-						$enabled .= $imgc."greencheck.png' alt='button_greencheck";
+						$enabled = $tduma . "disable$uuid'>";
+						$enabled .= $imgc
+						. "greencheck.png' alt='button_greencheck";
 					}else{
-						$enabled = $tduma."enable$uuid'>";
-						$enabled .= $imgc."button_exclamation.png' alt='button_exclamation";
+						$enabled = $tduma . "enable$uuid'>";
+						$enabled .= $imgc
+						. "button_exclamation.png' alt='button_exclamation";
 					}
 					$enabled .= "'/>";
-					$enabled .= NLI('</a>',5).NLI('</td>',4);
+					$enabled .= NLI('</a>',5) . NLI('</td>',4);
 					// Anti XSS Output Data
 					$tmpRow = XSSPrintSafe($tmpRow);
 					$uid = $tmpRow[0];
@@ -248,12 +243,14 @@ if ( preg_match("/(create|add)/", $Action) || $Use_Auth_System == 1 ){
 			$pagebody = returnErrorMessage('Invalid Action!');
 	}
 	// Generate Page.
-	PrintBASESubHeader($page_title, $page_title, $cs->GetBackLink(), $refresh_all_pages);
+	PrintBASESubHeader(
+		$page_title, $page_title, $cs->GetBackLink(), $refresh_all_pages
+	);
 	PrintBASEAdminMenuHeader();
 	print $pagebody;
 	PrintBASEAdminMenuFooter();
 	PrintBASESubFooter();
 }else{
-	base_header("Location: ". $BASE_urlpath . "/base_main.php");
+	HTTP_header("Location: $BASE_urlpath/base_main.php");
 }
 ?>

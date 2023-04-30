@@ -43,7 +43,7 @@ my $ME; # Var Setup
 my $line1 = '=' x 80 . "\n";
 my $line2 = '-' x 80 . "\n";
 my %opt;
-my $Ver = '1.2';
+my $Ver = '1.2.1';
 my $SCM = 0; # Single command mode off.
 my $cmd; # Local cmd.
 my $rcmd = ''; # Remote cmd.
@@ -110,12 +110,12 @@ sub cmd_proc(){ # Cli
 				&set_url;
 			}elsif( $cmd eq 'user' ){ # Set User.
 				&cmd_usr;
-			}elsif( $cmd eq 'password' ){ # Set Password.
+			}elsif( $cmd eq 'password' || $cmd eq 'pw' ){ # Set Password.
 				&cmd_pwd;
-			}elsif( $cmd eq 'version' ){ # SSL toggle.
+			}elsif( $cmd eq 'version' || $cmd eq 'ver' ){ # Version.
 				print "$ME $Ver\n";
 			# Remote cmds.
-			}elsif( $cmd eq 'status' ){
+			}elsif( $cmd eq 'status' || $cmd eq 'stat' ){
 				$rcmd = 'status';
 			}elsif( $cmd eq 'ualert' ){
 				$rcmd = 'Update Alert Cache';
@@ -196,27 +196,27 @@ sub cmd_logout(){
 sub cmd_help_local(){
 	print "Valid cli commands are:\n";
 	print $line2;
-	print "         env - Print cli envionemnt.\n";
-	print "   help or ? - Print this help text.\n";
-	print "        host - Set host portion of URI.\n";
-	print "       login - Set login credentials if unset.\n";
-	print "      logout - Clear login credentials.\n";
-	print "        path - Set path portion of URI.\n";
-	print "    password - Set password login credential.\n";
-	print "quit or exit - Exit BASEcli.\n";
-	print "         ssl - Toggle SSL state of URI.\n";
-	print "        user - Set user login credential.\n";
-	print "     version - Print BASEcli version.\n";
+	print "           env - Print cli envionemnt.\n";
+	print "     help or ? - Print this help text.\n";
+	print "          host - Set host portion of URI.\n";
+	print "         login - Set login credentials if unset.\n";
+	print "        logout - Clear login credentials.\n";
+	print "          path - Set path portion of URI.\n";
+	print "password or pw - Set password login credential.\n";
+	print "  quit or exit - Exit BASEcli.\n";
+	print "           ssl - Toggle SSL state of URI.\n";
+	print "          user - Set user login credential.\n";
+	print "version or ver - Print BASEcli version.\n";
 	print "\n";
 	print "Valid server cli commands are:\n";
-	print "   ualert - Update Alert Cache.\n";
-	print "   ralert - Rebuild Alert Cache.\n";
-	print "      uip - Update IP Cache.\n";
-	print "      rip - Rebuild IP Cache.\n";
-	print "   uwhois - Update Whois Cache.\n";
-	print "   rwhois - Rebuild Whois Cache.\n";
-	print "  rtables - Repair Tables.\n";
-	print "   status - Print BASE status.\n";
+	print "        ualert - Update Alert Cache.\n";
+	print "        ralert - Rebuild Alert Cache.\n";
+	print "           uip - Update IP Cache.\n";
+	print "           rip - Rebuild IP Cache.\n";
+	print "        uwhois - Update Whois Cache.\n";
+	print "        rwhois - Rebuild Whois Cache.\n";
+	print "       rtables - Repair Tables.\n";
+	print "status or stat - Print BASE status.\n";
 }
 sub cmd_help_remote(){
 	print $usage;

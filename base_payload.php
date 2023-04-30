@@ -26,7 +26,8 @@
 ********************************************************************************
 */
 
-include ("base_conf.php");
+$sc = DIRECTORY_SEPARATOR;
+require_once("includes$sc" . 'base_krnl.php');
 include_once ("$BASE_path/includes/base_constants.inc.php");
 include ("$BASE_path/includes/base_include.inc.php");
 

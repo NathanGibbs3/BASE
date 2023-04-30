@@ -1,41 +1,31 @@
 <?php
-/*******************************************************************************
-** Basic Analysis and Security Engine (BASE)
-** Copyright (C) 2004 BASE Project Team
-** Copyright (C) 2000 Carnegie Mellon University
-**
-** (see the file 'base_main.php' for license details)
-**
-** Project Leads: Kevin Johnson <kjohnson@secureideas.net>
-**                Sean Muller <samwise_diver@users.sourceforge.net>
-** Built upon work by Roman Danyliw <rdd@cert.org>, <roman@danyliw.com>
-**
-** Purpose: Common Functions
-********************************************************************************
-** Authors:
-********************************************************************************
-** Kevin Johnson <kjohnson@secureideas.net
-**
-********************************************************************************
-*/
+// Basic Analysis and Security Engine (BASE)
+// Copyright (C) 2019-2023 Nathan Gibbs
+// Copyright (C) 2004 BASE Project Team
+// Copyright (C) 2000 Carnegie Mellon University
+//
+//   For license info: See the file 'base_main.php'
+//
+//       Project Lead: Nathan Gibbs
+// Built upon work by: Kevin Johnson & the BASE Project Team
+//                     Roman Danyliw <rdd@cert.org>, <roman@danyliw.com>
+//
+//            Purpose: Common Functions
+//
+//          Author(s): Nathan Gibbs
+//                     Kevin Johnson
 
-function GetSensorIDs($db)
-{
-   $result = $db->baseExecute("SELECT sid FROM sensor;");
-
-   while( $myrow = $result->baseFetchRow() ) {
-	$sensor_ids[] = $myrow[0];
-   }
-
-   $result->baseFreeRows();
-
-   return $sensor_ids;
+function GetSensorIDs( $db ){
+	$result = $db->baseExecute("SELECT sid FROM sensor;");
+	while( $myrow = $result->baseFetchRow() ){
+		$sensor_ids[] = $myrow[0];
+	}
+	$result->baseFreeRows();
+	return $sensor_ids;
 }
 
-function GetSensorName($sid, $db)
-{
-    $name = "";
-
+function GetSensorName( $sid, $db ){
+	$name = '';
     $temp_sql = "SELECT sid, hostname, interface, filter FROM sensor WHERE sid='".$sid."'";
     $tmp_result = $db->baseExecute($temp_sql);
     if ( $tmp_result )
@@ -46,18 +36,19 @@ function GetSensorName($sid, $db)
           $name = $name.':'.$myrow[3];
     }
     $tmp_result->baseFreeRows();
-
-    return $name;
+	return $name;
 }
 
-function GetVendor($mac) {
-	$mac = str_replace(":", "", $mac);
+function GetVendor( $mac ){
+	$mac = str_replace(':', '', $mac);
 	$mac = substr($mac, 0, 6);
 	$vendor = 'unknown';
-	if (@$fp = fopen("base_mac_prefixes.map", "r")) {
-		while (!feof($fp)) {
+	$file = 'base_mac_prefixes.map';
+	if ( ChkAccess($file) == 1 ){
+		$fp = fopen($file, 'r');
+		while ( !feof($fp) ){
 			$line = fgets($fp);
-			if (strcmp($mac, substr($line, 0, 6)) == 0) {
+			if ( strcmp($mac, substr($line, 0, 6)) == 0 ){
 				$vendor = substr($line, 8, strlen($line)-9);
 			}
 		}
@@ -68,15 +59,15 @@ function GetVendor($mac) {
 	return $vendor;
 }
 
-function InputSafeSQL (&$SQLstr)
-/* Removes the escape sequence of \' => ' which arise when a variable containing a '-character is passed
-   through a POST query.  This is needed since otherwise the MySQL parser complains */
-{
-   $SQLstr = str_replace("\'", "'", $SQLstr);
-   $SQLstr = str_replace("\\\"", "\"", $SQLstr);
+function InputSafeSQL( &$SQLstr ){
+	// Removes the escape sequence of \' => ' which arise when a variable
+	// containing a '-character is passed through a POST query. This is
+	// needed since otherwise the MySQL parser complains.
+	$SQLstr = str_replace("\'", "'", $SQLstr);
+	$SQLstr = str_replace("\\\"", "\"", $SQLstr);
 }
 
-function PrintProtocolProfileGraphs ($db){
+function PrintProtocolProfileGraphs( $db ){
 	$tcp_cnt = TCPPktCnt($db);
 	$udp_cnt = UDPPktCnt($db);
 	$icmp_cnt = ICMPPktCnt($db);
@@ -91,25 +82,25 @@ function PrintProtocolProfileGraphs ($db){
                            '&amp;layer4=TCP&amp;num_result_rows=-1&amp;sort_order=time_d&amp;submit='._QUERYDBP.'">
                            ('.$tcp_percent_show.')</A></TD><TD></TD></TR></TABLE>
                   <TABLE class="summarygraph" WIDTH="100%" BORDER=1 CELLSPACING=0 CELLPADDING=0>';
-	print '<tr>'. HBarGraph($tcp_cnt,$layer4_cnt,'ff0000','cccccc');
-		      echo '</TR></TABLE>';
+	print '<tr>' . HBarGraph($tcp_cnt,$layer4_cnt,'ff0000','cccccc');
+	PrintFramedBoxFooter(0,2);
 
     echo '<TABLE WIDTH="100%" BORDER=0>
           <TR><TD>UDP<A HREF="base_qry_main.php?new=1'.
                             '&amp;layer4=UDP&amp;num_result_rows=-1&amp;sort_order=time_d&amp;submit='._QUERYDBP.'">
                             ('.$udp_percent_show.')</A></TD><TD></TD></TR></TABLE>
                   <TABLE class="summarygraph" WIDTH="100%" BORDER=1 CELLSPACING=0 CELLPADDING=0>';
-	print '<tr>'. HBarGraph($udp_cnt,$layer4_cnt,'ff0000','cccccc');
-		      echo '</TR></TABLE>';
+	print '<tr>' . HBarGraph($udp_cnt,$layer4_cnt,'ff0000','cccccc');
+	PrintFramedBoxFooter(0,2);
 
      echo '<TABLE WIDTH="100%" BORDER=0>
            <TR><TD>ICMP<A HREF="base_qry_main.php?new=1'.
                               '&amp;layer4=ICMP&amp;num_result_rows=-1&amp;sort_order=time_d&amp;submit='._QUERYDBP.'">
                               ('.$icmp_percent_show.')</A></TD><TD></TD></TR></TABLE>
                   <TABLE class="summarygraph" WIDTH="100%" BORDER=1 CELLSPACING=0 CELLPADDING=0>';
-	print '<tr>'. HBarGraph($icmp_cnt,$layer4_cnt,'ff0000','cccccc');
-		      echo '</TR></TABLE>';
-    
+	print '<tr>' . HBarGraph($icmp_cnt,$layer4_cnt,'ff0000','cccccc');
+	PrintFramedBoxFooter(0,2);
+
      echo '<CENTER><HR NOSHADE WIDTH="70%"></CENTER>';
 
      echo '<TABLE WIDTH="100%" BORDER=0>
@@ -118,13 +109,12 @@ function PrintProtocolProfileGraphs ($db){
 '&amp;layer4=RawIP&amp;num_result_rows=-1&amp;sort_order=time_d&amp;submit='._QUERYDBP.'">('.$portscan_percent_show.')</A>
                     </TD><TD></TD></TR></TABLE>
                   <TABLE class="summarygraph" WIDTH="100%" BORDER=1 CELLSPACING=0 CELLPADDING=0>';
-	print '<tr>'. HBarGraph($portscan_cnt,$layer4_cnt,'ff0000','cccccc');
-		      echo '</TR></TABLE>';
+	print '<tr>' . HBarGraph($portscan_cnt,$layer4_cnt,'ff0000','cccccc');
+	PrintFramedBoxFooter(0,2);
 }
 
-function BuildIPFormVars($ipaddr)
-{
-    return ''.
+function BuildIPFormVars( $ipaddr ){
+	return '' .
     '&amp;ip_addr%5B0%5D%5B0%5D=+&amp;ip_addr%5B0%5D%5B1%5D=ip_src&amp;ip_addr%5B0%5D%5B2%5D=%3D'.
     '&amp;ip_addr%5B0%5D%5B3%5D='.$ipaddr.
     '&amp;ip_addr%5B0%5D%5B8%5D=+&amp;ip_addr%5B0%5D%5B9%5D=OR'.
@@ -133,51 +123,44 @@ function BuildIPFormVars($ipaddr)
     '&amp;ip_addr%5B1%5D%5B8%5D=+&amp;ip_addr%5B1%5D%5B9%5D=+';
 }
 
-function BuildSrcIPFormVars($ipaddr)
-{
-    return ''.
+function BuildSrcIPFormVars( $ipaddr ){
+	return '' .
     '&amp;ip_addr%5B0%5D%5B0%5D=+&amp;ip_addr%5B0%5D%5B1%5D=ip_src&amp;ip_addr%5B0%5D%5B2%5D=%3D'.
     '&amp;ip_addr%5B0%5D%5B3%5D='.$ipaddr.
     '&amp;ip_addr%5B0%5D%5B8%5D=+&amp;ip_addr%5B0%5D%5B9%5D=+';
 }
 
-function BuildDstIPFormVars($ipaddr)
-{
-    return ''.
+function BuildDstIPFormVars( $ipaddr ){
+	return '' .
     '&amp;ip_addr%5B0%5D%5B0%5D=+&amp;ip_addr%5B0%5D%5B1%5D=ip_dst&amp;ip_addr%5B0%5D%5B2%5D=%3D'.
     '&amp;ip_addr%5B0%5D%5B3%5D='.$ipaddr.
     '&amp;ip_addr%5B0%5D%5B8%5D=+&amp;ip_addr%5B0%5D%5B9%5D=+';
 }
 
-function BuildUniqueAddressLink($addr_type, $raw = "" )
-{
-   return '<A HREF="base_stat_uaddr.php?addr_type='.$addr_type.$raw.'">';
+function BuildUniqueAddressLink( $addr_type, $raw = '' ){
+	return '<A HREF="base_stat_uaddr.php?addr_type=' . $addr_type . $raw . '">';
 }
 
-function BuildUniqueAlertLink($raw)
-{
-   return '<A HREF="base_stat_alerts.php'.$raw.'">';
+function BuildUniqueAlertLink( $raw ){
+	return '<A HREF="base_stat_alerts.php' . $raw . '">';
 }
 
-function BuildAddressLink($ipaddr, $netmask)
-{
-   return '<A HREF="base_stat_ipaddr.php?ip='.rawurlencode($ipaddr).
-                                       '&amp;netmask='.$netmask.'">';
+function BuildAddressLink( $ipaddr, $netmask ){
+	return '<A HREF="base_stat_ipaddr.php?ip=' . rawurlencode($ipaddr)
+	. '&amp;netmask=' . $netmask . '">';
 }
 
-/* Adds another blank row to a given criteria element */
-function AddCriteriaFormRow ( &$submit, $submit_value, &$cnt, &$criteria_array, $max )
-{
-   $submit = $submit_value;
-
-  ++$cnt;
-  InitArray($criteria_array[$cnt-1], $max, 0, "");   
+// Add blank row to given criteria element.
+function AddCriteriaFormRow(
+	&$submit, $submit_value, &$cnt, &$criteria_array, $max
+){
+	$submit = $submit_value;
+	++$cnt;
+	InitArray($criteria_array[$cnt-1], $max, 0, '');
 }
 
-function IPProto2str($ipproto_code)
-{
-   switch($ipproto_code)
-   {
+function IPProto2str( $ipproto_code ){
+	switch( $ipproto_code ){
       case 0:
           return "IP";
       case 1:
@@ -231,13 +214,10 @@ function IPProto2str($ipproto_code)
       default:
           return $ipproto_code;
    }
-} 
+}
 
-function TCPOption2str($tcpopt_code)
-/* per RFC 1072, 1323, 1644 */
-{
-   switch($tcpopt_code)
-   {
+function TCPOption2str( $tcpopt_code ){ // per RFC(s) 1072, 1323, 1644
+	switch( $tcpopt_code ){
       case 2:                  /* TCPOPT_MAXSEG - maximum segment*/ 
           return "(2) MSS";
       case 0:                  /* TCPOPT_EOL */
@@ -297,10 +277,8 @@ function TCPOption2str($tcpopt_code)
    }
 }
 
-function IPOption2str($ipopt_code)
-{
-   switch($ipopt_code)
-   {
+function IPOption2str( $ipopt_code ){
+	switch( $ipopt_code ){
       case 7:              /* IPOPT_RR */
           return "RR";
       case 0:              /* IPOPT_EOL */
@@ -322,10 +300,8 @@ function IPOption2str($ipopt_code)
   }
 }
 
-function ICMPType2str($icmp_type)
-{
-  switch ($icmp_type)
-  {
+function ICMPType2str( $icmp_type ){
+	switch ( $icmp_type ){
       case 0:                             /* ICMP_ECHOREPLY */
           return "Echo Reply";
 		case 3:	// ICMP Dest Unreach
@@ -405,12 +381,9 @@ function ICMPType2str($icmp_type)
   }
 }
 
-function ICMPCode2str($icmp_type, $icmp_code)
-{
-  if ( $icmp_type == 3 )
-  {
-     switch ($icmp_code)
-     {
+function ICMPCode2str( $icmp_type, $icmp_code ){
+	if ( $icmp_type == 3 ){
+		switch ( $icmp_code ){
         case 0:                                    /* ICMP_NET_UNREACH */
             return "Network Unreachable";
         case 1:                                    /* ICMP_HOST_UNREACH */
@@ -446,11 +419,8 @@ function ICMPCode2str($icmp_type, $icmp_code)
         default:
             return $icmp_code;
      }
-  } 
-  elseif ( $icmp_type == 5 )
-  {
-     switch ($icmp_code)
-     {
+	}elseif ( $icmp_type == 5 ){
+		switch ( $icmp_code ){
         case 0:
             return "Redirect datagram for network/subnet";
         case 1:
@@ -462,11 +432,8 @@ function ICMPCode2str($icmp_type, $icmp_code)
         default:
             return $icmp_code;
       }
-   }
-   elseif ( $icmp_type == 9 ) 
-   {
-      switch ($icmp_code)
-      {
+	}elseif ( $icmp_type == 9 ){
+		switch ( $icmp_code ){
          case 0:
              return "Normal router advertisement";
          case 16:
@@ -474,11 +441,8 @@ function ICMPCode2str($icmp_type, $icmp_code)
          default:
              return $icmp_code;
       }
-   }
-   elseif ( $icmp_type == 11 )
-   {
-      switch ($icmp_code)
-      {
+	}elseif ( $icmp_type == 11 ){
+		switch ( $icmp_code ){
          case 0:
              return "TTL exceeded in transit";
          case 1:
@@ -486,9 +450,7 @@ function ICMPCode2str($icmp_type, $icmp_code)
          default:
              return $icmp_code;
       }
-   }
-   elseif ( $icmp_type == 12 ) 
-   {
+	}elseif ( $icmp_type == 12 ){
       switch ($icmp_code)
       {
          case 0:
@@ -500,9 +462,7 @@ function ICMPCode2str($icmp_type, $icmp_code)
          default:
              return $icmp_code;
       }
-   }
-   elseif ( $icmp_type == 40 )
-   {
+	}elseif ( $icmp_type == 40 ){
       switch ($icmp_code)
       {
          case 0:
@@ -520,13 +480,12 @@ function ICMPCode2str($icmp_type, $icmp_code)
          default:
              return $icmp_code;
       }
-   }
-  else
-     return $icmp_code;
+	}else{
+		return $icmp_code;
+	}
 }
 
-function PrintPayloadChar( $char, $output_type )
-{
+function PrintPayloadChar( $char, $output_type ){
    if ( $char >= 32 && $char <= 127 )
    {
       if ( $output_type == 2 )
@@ -538,8 +497,7 @@ function PrintPayloadChar( $char, $output_type )
       return '.';
 }
 
-function PrintBase64PacketPayload ( $encoded_payload, $output_type )
-{
+function PrintBase64PacketPayload( $encoded_payload, $output_type ){
      /* strip out the <CR> at the end of each block */
      $encoded_payload = str_replace("\n", "", $encoded_payload);
 
@@ -583,13 +541,11 @@ function PrintBase64PacketPayload ( $encoded_payload, $output_type )
      return $s;
 }
 
-function PrintAsciiPacketPayload ( $encoded_payload, $output_type )
-{
-   return wordwrap($encoded_payload, 70);
+function PrintAsciiPacketPayload( $encoded_payload, $output_type ){
+	return wordwrap($encoded_payload, 70);
 }
 
-function PrintHexPacketPayload ( $encoded_payload, $output_type )
-{
+function PrintHexPacketPayload( $encoded_payload, $output_type ){
      /* strip out the <CR> at the end of each block */
      $encoded_payload = str_replace("\n", "", $encoded_payload);
      $payload = $encoded_payload;
@@ -638,9 +594,7 @@ function PrintHexPacketPayload ( $encoded_payload, $output_type )
      return $s;
 }
 
-// ************************************************************************************
-function PrintCleanHexPacketPayload( $encoded_payload, $output_type )
-{
+function PrintCleanHexPacketPayload( $encoded_payload, $output_type ){
      $len = strlen($encoded_payload);
      $s = '';
      $count = 0;
@@ -669,8 +623,7 @@ function PrintCleanHexPacketPayload( $encoded_payload, $output_type )
      return $s;
 }
 
-function PrintCleanPayloadChar( $char, $output_type )
-{
+function PrintCleanPayloadChar( $char, $output_type ){
    if ( $char >= 32 && $char <= 127 )
    {
       if ( $output_type == 2 )
@@ -682,10 +635,7 @@ function PrintCleanPayloadChar( $char, $output_type )
       return '<br>';
 }
 
-// ************************************************************************************
-
-function PrintPacketPayload($data, $encode_type, $output_type)
-{
+function PrintPacketPayload( $data, $encode_type, $output_type ){
      if ( $output_type == 1 )
         printf("\n<PRE>\n");
 
@@ -705,11 +655,11 @@ function PrintPacketPayload($data, $encode_type, $output_type)
    
      if ( $output_type == 1 )
         echo "$payload\n</PRE>\n";
-     
-     return $payload;
+
+	return $payload;
 }
 
-function GetQueryResultID($submit, &$seq, &$sid, &$cid){
+function GetQueryResultID( $submit, &$seq, &$sid, &$cid ){
 	// Extract the sid and cid from the $submit variable of the form
 	// #XX-(XX-XX)
 	//  |   |  |
@@ -717,7 +667,7 @@ function GetQueryResultID($submit, &$seq, &$sid, &$cid){
 	//  |   |------ sid
 	//  |---------- sequence number of DB lookup
 
-	if (preg_match('/#[0-9]+-\([0-9]+-[0-9]+\)$/', $submit)){
+	if ( preg_match('/#[0-9]+-\([0-9]+-[0-9]+\)$/', $submit) ){
 		$submit = strstr($submit, '#');
 		$find = array('#','(',')');
 		$submit = str_replace($find, '', $submit);
@@ -732,11 +682,9 @@ function GetQueryResultID($submit, &$seq, &$sid, &$cid){
 	}
 }
 
-function ExportPacket($sid, $cid, $db)
-{
-  GLOBAL $action, $action_arg;
-
-  /* Event */
+function ExportPacket( $sid, $cid, $db ){
+	GLOBAL $action, $action_arg;
+	// Event.
   $sql2 = "SELECT signature, timestamp FROM acid_event WHERE sid='".$sid."' AND cid='".$cid."'";
   $result2 = $db->baseExecute($sql2);
   $myrow2 = $result2->baseFetchRow();
@@ -895,11 +843,9 @@ function ExportPacket($sid, $cid, $db)
   return $s; 
 }
 
-function ExportPacket_summary($sid, $cid, $db, $export_type = 0)
-{
-  GLOBAL $action, $action_arg;
-
-  /* Event */
+function ExportPacket_summary( $sid, $cid, $db, $export_type = 0 ){
+	GLOBAL $action, $action_arg;
+	// Event.
   $sql2 = "SELECT signature, timestamp FROM acid_event WHERE sid='".$sid."' AND cid='".$cid."'";
   $result2 = $db->baseExecute($sql2);
   $myrow2 = $result2->baseFetchRow();
@@ -1002,35 +948,9 @@ function ExportPacket_summary($sid, $cid, $db, $export_type = 0)
   return $s; 
 }
 
-function base_header($url){
-	if (!headers_sent()) {
-		header($url);
-		exit;
-	}
-}
-
-function base_microtime()
-{
+function base_microtime(){
   list($usec, $sec) = explode(" ", microtime());
   return ((float)$usec + (float)$sec);
-}
-
-// Returns true if color is valid html color code.
-function HtmlColor ( $color ){
-	$color = strtolower($color);
-	$wsc = array(
-		'black', 'silver', 'gray', 'white', 'maroon', 'red', 'pruple',
-		'fuchsia', 'green', 'lime', 'olive', 'yellow', 'navy', 'blue', 'teal',
-		'aqua'
-	);
-	$Ret = false;
-	if (
-		in_array($color, $wsc) // Web Safe Color.
-		|| preg_match("/^#?[0-9A-F]{6}$/i", $color) // Hex RGB Color Code.
-	){
-		$Ret = true;
-	}
-	return ($Ret);
 }
 
 function Percent ( $Value = 1, $Count = 1 ){
@@ -1048,18 +968,9 @@ function Percent ( $Value = 1, $Count = 1 ){
 	return ($Ret);
 }
 
-// Returns true if var is a string containing data.
-function LoadedString ( $var ){
-	$Ret = false;
-	if ( is_string($var) && !empty($var)){
-		$Ret = true;
-	}
-	return $Ret;
-}
-
 // Returns true if file passes include safety checks.
 // Also includes the file.
-function base_include ( $file='' ){
+function base_include ( $file = '' ){
 	GLOBAL $BASE_path, $debug_mode;
 	$Ret = false;
 	$EMsg = '';
@@ -1103,55 +1014,6 @@ function GetAsciiClean(){
 		$Ret = ChkGet('asciiclean', 1);
 	}else{ // No GET, check for cookie.
 		$Ret = ChkCookie('asciiclean', 'clean');
-	}
-	return $Ret;
-}
-
-// Returns 1 if file or directory passes access checks.
-// Returns < 1 error code otherwise.
-function ChkAccess( $path, $type='f' ){
-	$Ret = 0; // Path Error
-	if ( LoadedString($path) ){
-		$type = strtolower($type);
-		$rcf = 0;
-		$Ret = -1; // Type Error
-		if ( $type == 'f' ){
-			if ( is_file($path) ){
-				$rcf = 1;
-			}
-		}elseif ( $type == 'd' ){
-			if ( is_dir($path) ){
-				$rcf = 1;
-			}
-		}
-		if ( $rcf == 1 ){
-			$Ret = -2; // Readable Error
-			$version = explode('.', phpversion());
-			// PHP Safe Mode cutout.
-			//    Added: 2005-03-25 for compatabibility with PHP 4x & 5.0x
-			//      See: https://sourceforge.net/p/secureideas/bugs/47
-			// PHP Safe Mode w/o cutout successful.
-			// Verified: 2019-05-31 PHP 5.3.29 via CI & Unit Tests.
-			//      See: https://github.com/NathanGibbs3/BASE/issues/34
-			// May work: PHP > 5.1.4.
-			//      See: https://www.php.net/manual/en/function.is-readable.php
-			if (
-				$version[0] > 5
-				|| ($version[0] == 5 && $version[1] > 1)
-				|| ($version[0] == 5 && $version[1] == 1 && $version[2] > 4 )
-				|| ini_get("safe_mode") != true
-			){
-				if ( is_readable($path) ){
-					$Ret = 1;
-				}
-			}else{
-				// @codeCoverageIgnoreStart
-				// PHPUnit test only covers this code path on PHP < 5.1.5
-				// Unable to validate in CI.
-				$Ret = 1;
-				// @codeCoverageIgnoreEnd
-			}
-		}
 	}
 	return $Ret;
 }
@@ -1239,7 +1101,7 @@ function ChkLib ( $path='', $LibLoc='', $LibFile='' ){
 }
 
 // Returns true if cookie is set & contains value.
-function ChkCookie($var,$val){
+function ChkCookie( $var, $val ){
 	$Ret = false;
 	if ( LoadedString($var) ){
 		if ( isset($_COOKIE[$var]) && $_COOKIE[$var] == $val ){
@@ -1250,7 +1112,7 @@ function ChkCookie($var,$val){
 }
 
 // Returns true if HTTP GET param is set & contains value.
-function ChkGET($var,$val){
+function ChkGET( $var, $val ){
 	$Ret = false;
 	if ( LoadedString($var) ){
 		if ( isset($_GET[$var]) && $_GET[$var] == $val ){
@@ -1260,28 +1122,118 @@ function ChkGET($var,$val){
 	return $Ret;
 }
 
-// Returns true when key is in array, false otherwise.
-function base_array_key_exists( $SKey, $SArray ){ // PHP Version Agnostic.
+// Returns true if PEAR library can be loaded, false otherwise.
+function PearInc( $Desc = '', $Loc = '', $Lib = '', $Silent = 1, $Fatal = 0 ){
+	GLOBAL $debug_mode;
+	$EMPfx = __FUNCTION__ . ': ';
 	$Ret = false;
-	if ( is_array($SArray) && count($SArray) > 0 ){
-		$version = explode('.', phpversion());
-		// Use built in functions when we can.
-		if ( $version[0] > 4 || ($version[0] == 4 && $version[1] > 1) ){
-			// PHP > 4.1
-			$Ret = array_key_exists( $SKey, $SArray );
-		// @codeCoverageIgnoreStart
-		// PHPUnit test only covers this code path on PHP < 4.2.0
-		// Unable to validate in CI.
-		}elseif (
-			($version[0] == 4 && $version[1] > 0 )
-			|| ($version[0] == 4 && $version[1] == 0 && $version[2] > 5)
-		){ // PHP > 4.0.5
-			$Ret = key_exists($SKey, $SArray);
-		}else{ // No built in functions, PHP Version agnostic.
-			$Ret = in_array($SKey, array_keys($SArray) );
+	if ( LoadedString($Lib) ){
+		if ( !is_int($Silent) ){ // Input Validation
+			$Silent = 1; // Default to no error message display.
 		}
-		// @codeCoverageIgnoreEnd
+		if ( !is_int($Fatal) ){
+			$Fatal = 0;
+		}
+		$LLF = ChkLib('', $Loc , $Lib); // Load Lib File.
+		if ( LoadedString($LLF) ){
+			$LLI = include_once($LLF); // Load Lib Include.
+		}
+		if ( $LLF == '' || $LLI == false ){
+			if ( LoadedString($Loc) ){
+				$LibName = $Loc.'_'.$Lib;
+			}else{
+				$LibName = $Lib;
+				$Loc = '';
+			}
+			if ( !LoadedString($Desc) ){
+				$Desc = $LibName;
+			}
+			$sc = DIRECTORY_SEPARATOR;
+			$Lib = implode( $sc, array($Loc, $Lib) ).'.php';
+			$EMsg = "$Desc Lib: $Lib not ";
+			if ( $LLF == '' ){
+				$EMsg .= 'accessable';
+			}elseif ( $LLI == false ){
+				// @codeCoverageIgnoreStart
+				// This code path should never run.
+				$EMsg .= 'loaded';
+				// @codeCoverageIgnoreEnd
+			}
+			$EMsg .= '.';
+			if ( $Silent != 1 ){ // Display fancy error to user.
+				$URL = "https://pear.php.net/package/$LibName";
+				LibIncError (
+					$Desc, $Loc, $Lib, $EMsg, $LibName, $URL, $Fatal, 1
+				);
+			}else{
+				if ( $debug_mode > 0 ){
+					ErrorMessage("$EMPfx$EMsg", 0, 1);
+				}
+			}
+		}else{
+			$Ret = true;
+		}
+	}else{
+		if ( $debug_mode > 0 ){
+			ErrorMessage($EMPfx . 'No Lib specified.', 0, 1);
+		}
 	}
 	return $Ret;
 }
+
+// Returns true if Archive DB is in use, false otherwise.
+function ChkArchive(){ // Issue #183
+	GLOBAL $archive_exists;
+	$EMPfx = 'BASE Security Alert ' . __FUNCTION__ . ': ';
+	$Ret = false;
+	if ( $archive_exists != 0 ){
+		if ( ChkCookie ('archive', 1) || ChkGet ('archive', 1) ){
+			$Ret = true;
+		}
+	}else{ // Archive DB disabled. Alert on param tampering.
+		$tmp = ''; // No Alert
+		if ( isset($_GET['archive']) ){ // Get param Hack Alert
+			$tmp = 'HTTP GET';
+		}
+		if ( isset($_COOKIE['archive']) ){ // Cookie Hack Alert.
+			$tmp = 'COOKIE';
+		}
+		if ( $tmp != '' ){
+			error_log($EMPfx . "$tmp tampering detected.");
+		}
+	}
+	return $Ret;
+}
+
+// Function: RegisterGlobalState()
+// @doc Application-specific wrapper for PHP session_start(). It performs a
+// couple of additional configuration checks (notably for custom PHP session
+// handlers).
+function RegisterGlobalState(){
+	GLOBAL $use_user_session, $user_session_path, $user_session_function;
+	$EMsg = '';
+	// Deal with user specified session handlers.
+	if( session_module_name() == 'user' ){
+		if( $use_user_session != 1 ){
+			$EMsg = _PHPERRORCSESSION;
+		}elseif( $user_session_path != '' ){
+			if( is_file($user_session_path) ){
+				include_once($user_session_path);
+				if( $user_session_function != '' ){
+					$user_session_function();
+				}
+			}else{
+				$EMsg = _PHPERRORCSESSIONCODE;
+			}
+		}else{
+			$EMsg = _PHPERRORCSESSIONVAR;
+		}
+	}
+	if( $EMsg != '' ){
+		FatalError($EMsg);
+	}
+	session_start();
+	KML("Start: Session", 1);
+}
+
 ?>

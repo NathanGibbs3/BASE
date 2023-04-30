@@ -125,7 +125,12 @@ if ( isset($join_sql) || $printing_ag ){ // Issue #5
 			$db, 1, $show_summary_stats, "$join_sql ",
 			"$where_sql $criteria_sql"
 		);
-		echo('<BR><LI><A HREF="base_stat_time.php">'._QSCTIMEPROF.'</A> '._QSCOFALERTS . "</LI>");
+		NLIO("<ul class='stats'><li>");
+		NLIO(
+			"<a href='base_stat_time.php'>" . _QSCTIMEPROF . '</a> '
+			. _QSCOFALERTS
+		);
+		NLIO('</li></ul>');
 		PrintFramedBoxFooter(1,4);
 		NLIO ('</div>',3);
 		NLIO ('</div>',2);
@@ -203,7 +208,7 @@ if ( isset($join_sql) || $printing_ag ){ // Issue #5
 	);
 	$tmp = '';
 	/** Fix for bug #1116034 -- Input by Tim Rupp, original solution and code by Alejandro Flores **/
-	$temp = "<A HREF='base_qry_alert.php?submit=".rawurlencode($tmp_rowid)."&amp;sort_order=";
+	$temp = "<a href='base_qry_alert.php?submit=".rawurlencode($tmp_rowid)."&amp;sort_order=";
 	$temp .= ($qs->isCannedQuery()) ? $qs->getCurrentCannedQuerySort() : $qs->getCurrentSort();
 	$temp .= "'>".$tmp_rowid."</a>";
 	qroPrintEntry($temp);

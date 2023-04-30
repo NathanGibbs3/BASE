@@ -1,7 +1,8 @@
 <?php
 use PHPUnit\Framework\TestCase;
 
-// Test fucntions in base_qry_common.php
+// Test fucntions in: base_qry_common.php
+
 /**
   * @covers ::FormatTimeDigit
   */

@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ruleset
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	name="BASE"
+	xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/squizlabs/PHP_CodeSniffer/master/phpcs.xsd"
+>
+	<description>The coding standard for the BASE Project.</description>
+	<config name="testVersion" value="4.0-"/>
+
+	<arg name="basepath" value="./"/>
+	<arg name="cache" value="./build/logs/phpcs.cache"/>
+	<arg name="colors"/>
+	<arg name="report-width" value="75"/>
+	<arg name="tab-width" value="4"/>
+
+	<file>./</file>
+	<!-- # Local PHPUnit Testing noise -->
+	<exclude-pattern type="relative">^build/*</exclude-pattern>
+	<!-- # Local Composer noise -->
+	<exclude-pattern type="relative">^vendor/*</exclude-pattern>
+	<exclude-pattern type="relative">^composer.phar$</exclude-pattern>
+	<!-- # Local PHPUnit Test Generation noise -->
+	<exclude-pattern type="relative">^(custom|tests)/*</exclude-pattern>
+	<!-- # BASE user contributed software -->
+	<exclude-pattern type="relative">^contrib/*</exclude-pattern>
+
+	<rule ref="PHPCompatibility">
+		<exclude name="PHPCompatibility.FunctionNameRestrictions.NewMagicMethods.__constructFound"/>
+	</rule>
+	<rule ref="Generic.Arrays.ArrayIndent">
+	</rule>
+	<rule ref="Generic.CodeAnalysis.UnusedFunctionParameter">
+	</rule>
+	<rule ref="Generic.Debug.ClosureLinter">
+	</rule>
+	<rule ref="Generic.Files.LineEndings">
+	</rule>
+	<rule ref="Generic.Files.LineLength">
+	</rule>
+	<rule ref="Generic.Formatting.SpaceAfterCast">
+	</rule>
+	<rule ref="Generic.Formatting.SpaceAfterNot">
+		<properties>
+			<property name="spacing" value="0" />
+		</properties>
+	</rule>
+	<rule ref="Generic.Metrics.CyclomaticComplexity">
+		<properties>
+			<property name="complexity" value="15" />
+		</properties>
+	</rule>
+	<rule ref="Generic.Metrics.NestingLevel">
+	</rule>
+	<rule ref="Generic.PHP.ForbiddenFunctions">
+	</rule>
+	<rule ref="Generic.PHP.NoSilencedErrors">
+	</rule>
+	<rule ref="Generic.Strings.UnnecessaryStringConcat">
+		<properties>
+			<property name="allowMultiline" value="true" />
+		</properties>
+	</rule>
+	<rule ref="Generic.WhiteSpace.ArbitraryParenthesesSpacing">
+		<properties>
+			<property name="spacing" value="1" />
+			<property name="ignoreNewlines" value="true" />
+		</properties>
+	</rule>
+	<rule ref="Generic.WhiteSpace.ScopeIndent">
+		<properties>
+			<property name="tabIndent" value="true" />
+		</properties>
+	</rule>
+	<rule ref="PEAR.Functions.FunctionCallSignature">
+	</rule>
+	<rule ref="PSR12.ControlStructures.BooleanOperatorPlacement">
+		<properties>
+			<property name="allowOnly" value="first" />
+		</properties>
+	</rule>
+	<rule ref="Squiz.ControlStructures.ForEachLoopDeclaration">
+		<properties>
+			<property name="requiredSpacesAfterOpen" value="1" />
+			<property name="requiredSpacesBeforeClose" value="1" />
+		</properties>
+	</rule>
+	<rule ref="Squiz.ControlStructures.ForLoopDeclaration">
+		<properties>
+			<property name="requiredSpacesAfterOpen" value="1" />
+			<property name="requiredSpacesBeforeClose" value="1" />
+		</properties>
+	</rule>
+	<rule ref="Squiz.CSS.ForbiddenStyles">
+	</rule>
+	<rule ref="Squiz.CSS.Indentation">
+	</rule>
+	<rule ref="Squiz.Functions.FunctionDeclaration">
+		<properties>
+			<property name="ignoreComments" value="true" />
+		</properties>
+	</rule>
+	<rule ref="Squiz.Functions.FunctionDeclarationArgumentSpacing">
+		<properties>
+			<property name="equalsSpacing" value="1" />
+			<property name="requiredSpacesAfterOpen" value="1" />
+			<property name="requiredSpacesBeforeClose" value="1" />
+		</properties>
+	</rule>
+	<rule ref="Squiz.PHP.CommentedOutCode">
+	</rule>
+	<rule ref="Squiz.Strings.ConcatenationSpacing">
+		<properties>
+			<property name="spacing" value="1" />
+			<property name="ignoreNewlines" value="true" />
+		</properties>
+	</rule>
+	<rule ref="Squiz.WhiteSpace.FunctionSpacing">
+		<properties>
+			<property name="spacing" value="1" />
+		</properties>
+	</rule>
+	<rule ref="Squiz.WhiteSpace.SuperfluousWhitespace">
+	</rule>
+</ruleset>

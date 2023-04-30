@@ -205,7 +205,7 @@ elif [ "$pvM" \> "5" ]; then # PHP 7x
 	fi
 elif [ "$pvM" \> "4" ]; then # PHP 5x
 	if [ "$pvm" \> "2" ]; then # PHP 5.3+
-		ADODBVer=5.20.18
+		ADODBVer=5.21.0
 	else
 		ADODBVer=5.01beta
 	fi
@@ -273,31 +273,34 @@ else
 	echo "Would Download https://$ADOSrc/$ADODl/$ADOFile"
 fi
 if [ "$1" == "" ]; then
-	if [ "$td" != "tests" ]; then
-		echo "Current directory: `pwd`"
-		echo "Creating Build Log Directory: `pwd`/build/logs"
-		mkdir -p build/logs
-		echo "Creating custom footer Directory: `pwd`/custom"
-		mkdir -p custom/testdir.htm
-		touch custom/testext.php
-		touch custom/testhtm.htm
-		touch custom/testhtml.html
-		touch custom/testCASE.HTML
-		touch custom/readTestOK.txt
-		touch custom/readTestFail.txt
-		sudo chown -h nobody:nogroup custom/*
-		sudo touch /etc/BASEtestsym.htm
-		sudo chown 1000:nogroup /etc/BASEtestsym.htm
-		ln -s /etc/BASEtestsym.htm custom/testsym.htm
-		ln -s testhtm.htm custom/testsymok.htm
-		touch custom/testuser.htm
-		sudo chown root:root custom/testuser.htm
-		sudo chown root:root custom/readTestFail.txt
-		sudo chmod 000 custom/readTestFail.txt
-		sudo touch $RFADODBPATH/readTestFail.php
-		sudo chown root:root $RFADODBPATH/readTestFail.php
-		sudo chmod 000 $RFADODBPATH/readTestFail.php
+	echo "Current directory: `pwd`"
+	if [ "$td" == "tests" ]; then
+		pfx=".."
+	else
+		pfx="."
 	fi
+	echo "Creating Build Log Directory: `pwd`/$pfx/build/logs"
+	mkdir -p $pfx/build/logs
+	echo "Creating custom footer Directory: `pwd`/$pfx/custom"
+	mkdir -p $pfx/custom/testdir.htm
+	touch $pfx/custom/testext.php
+	touch $pfx/custom/testhtm.htm
+	touch $pfx/custom/testhtml.html
+	touch $pfx/custom/testCASE.HTML
+	touch $pfx/custom/readTestOK.txt
+	touch $pfx/custom/readTestFail.txt
+	sudo chown -h nobody:nogroup $pfx/custom/*
+	sudo touch /etc/BASEtestsym.htm
+	sudo chown 1000:nogroup /etc/BASEtestsym.htm
+	ln -s /etc/BASEtestsym.htm $pfx/custom/testsym.htm
+	ln -s testhtm.htm $pfx/custom/testsymok.htm
+	touch $pfx/custom/testuser.htm
+	sudo chown root:root $pfx/custom/testuser.htm
+	sudo chown root:root $pfx/custom/readTestFail.txt
+	sudo chmod 000 $pfx/custom/readTestFail.txt
+	sudo touch $RFADODBPATH/readTestFail.php
+	sudo chown root:root $RFADODBPATH/readTestFail.php
+	sudo chmod 000 $RFADODBPATH/readTestFail.php
 	if [ "$TRAVIS" != "true" ]; then
 		if [ "$td" == "tests" ]; then
 			php ./setuptestdb.php

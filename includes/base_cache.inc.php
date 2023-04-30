@@ -21,7 +21,7 @@
 /** The below check is to make sure that the conf file has been loaded before this one....
  **  This should prevent someone from accessing the page directly. -- Kevin
  **/
-defined( '_BASE_INC' ) or die( 'Accessing this file directly is not allowed.' );
+defined('_BASE_INC') or die('Accessing this file directly is not allowed.');
 
 include_once("$BASE_path/base_stat_common.php");
 include_once("$BASE_path/includes/base_log_error.inc.php");
@@ -199,18 +199,17 @@ function CacheAlert($sid, $cid, $db)
      return 1;
 }
 
-function CacheSensor($sid, $cid, $db) {
-	// Caches all alerts for sensor $sid newer than the event $cid.
+// Caches all alerts for sensor $sid newer than the event $cid
+function CacheSensor( $sid, $cid, $db ){
 	GLOBAL $UIL, $debug_mode;
 	$CPSensor = $UIL->CWA['Sensor'];
 	$CPET = $UIL->CPA['ET'];
-	$EPfx = '<BR>' . __FUNCTION__ . ':';
+	$EMPfx = __FUNCTION__ . ': '; // Error Message Prefix.
 	$schema_specific = array(2);
 	$schema_specific[0] = '';
 	$schema_specific[1] = '';
 	$schema_specific[2] = '';
-  if ( $db->baseGetDBversion() >= 100 ) 
-  {
+	if ( $db->baseGetDBversion() >= 100 ){
      $schema_specific[1] = ", sig_name"; 
      $schema_specific[2] = " INNER JOIN signature ON (signature = signature.sig_id) ";
   }
@@ -443,33 +442,33 @@ function CacheSensor($sid, $cid, $db) {
   }
 
 
-  // Some checks for unexpected errors
+	// Some checks for unexpected errors
+	$mystr = '';
   $update_cnt = count($update_sql);
   if (!isset($update_cnt)) 
   {
-    $mystr = '<BR>' . __FILE__ . ':' . __LINE__ . ": WARNING: \$update_cnt has not been set. sid = $sid, cid = $cid<BR>";
-    echo $mystr; 
+    $mystr = "\$update_cnt has not been set. sid = $sid, cid = $cid";
   }
   else if ((integer)$update_cnt == 0) 
   {
-    $mystr = '<BR>' . __FILE__ . ':' . __LINE__ . ": WARNING: \$update_cnt = 0 with sid = $sid, cid = $cid<BR>";
-    echo $mystr; 
+    $mystr = "\$update_cnt = 0 with sid = $sid, cid = $cid";
   }
   else if (!isset($update_sql[0]) && !isset($update_sql[1]) && !isset($update_sql[2]) && !isset($update_sql[3])) 
   {
-    $mystr = '<BR>' . __FILE__ . ':' . __LINE__ . ": WARNING: \$update_sql[] has only empty elements with sid = $sid, cid = $cid<BR>";
-    echo $mystr;
+    $mystr = "\$update_sql[] has only empty elements with sid = $sid, cid = $cid";
   } 
   else if ($update_sql[0] == "" && $update_sql[1] == "" && $update_sql[2] == "" && $update_sql[3] == "") 
   {
-    $mystr = '<BR>' . __FILE__ . ':' . __LINE__ . ": WARNING: \$update_sql[] has only empty elements with sid = $sid, cid = $cid<BR>";
-    echo $mystr;
+    $mystr = "\$update_sql[] has only empty elements with sid = $sid, cid = $cid";
   }
-	// Commit all SQL commands.
-	for ( $i = 0; $i < $update_cnt; $i++ ){
-		if ($debug_mode > 0){
-			$DMsg = $EPfx . "<BR>\n$update_sql[$i] <BR><BR>\n";
-			print "$DMsg\n";
+
+	if ( LoadedString($mystr) ){
+		NLIO($EMPfx . "WARNING: $mystr<br/>");
+	}
+	for ( $i = 0; $i < $update_cnt; $i++ ){ // Commit all SQL commands.
+		if ($debug_mode > 1 ){
+			$DMsg  = $EMPfx . "$update_sql[$i]<br/>";
+			NLIO($DMsg);
 		}
 		$db->baseExecute($update_sql[$i]);
 		if ( $db->baseErrorMessage() != "" ){
@@ -481,14 +480,10 @@ function CacheSensor($sid, $cid, $db) {
 }
 
 // This is an auxiliary function for problems with updating acid_event
-function dump_missing_events($db, $sid, $start_cid, $end_cid)
-{
-  GLOBAL $debug_mode;
-  GLOBAL $archive_exists;
-  GLOBAL $DBlib_path, $DBtype, 
-         $archive_dbname, $archive_host, $archive_port,
-         $archive_user, $archive_password;
-
+function dump_missing_events( $db, $sid, $start_cid, $end_cid ){
+	GLOBAL $debug_mode, $archive_exists, $DBlib_path, $DBtype,
+	$archive_dbname, $archive_host, $archive_port, $archive_user,
+	$archive_password;
 
   for ($n = (integer)$start_cid; $n <= (integer)$end_cid; $n++)
   {
@@ -649,8 +644,12 @@ function UpdateAlertCache($db, $force = 0 ){
     }
     if ( $ccid == NULL ) $ccid = 0;
 
-    if ( $debug_mode > 0 )
-      echo "sensor #$sid: event.cid = $cid, acid_event.cid = $ccid";
+	if ( $debug_mode > 1 ){
+		NLIO(
+			$EMPfx
+			. "sensor #$sid: event.cid = $cid, acid_event.cid = $ccid<br/>"
+		);
+	}
 
     /* if the CID in the cache < the CID in the event table 
      *  then there are events which have NOT been added to the cache 
@@ -663,9 +662,6 @@ function UpdateAlertCache($db, $force = 0 ){
       CacheSensor($sid, $ccid, $db);
       $updated_cache_cnt += EventCntBySensor($sid, $db) - $before_cnt;
     }
-
-    if ( $debug_mode > 0 )
-      echo "<BR>";
 
     if ($cid_row != NULL)
     {
@@ -784,11 +780,11 @@ function UpdateAlertCache($db, $force = 0 ){
   
   $sensor_lst->baseFreeRows();
 	if ( $updated_cache_cnt != 0 ){
+		$tmp = '';
 		if ( AuthorizedPage('base_main') ){
-			ErrorMessage(_ADDED.$updated_cache_cnt._ALERTSCACHE, "yellow", 1);
-		}else{
-			ErrorMessage(_ADDED.$updated_cache_cnt._ALERTSCACHE);
+			$tmp = 'yellow';
 		}
+		ErrorMessage(_ADDED.$updated_cache_cnt._ALERTSCACHE, $tmp, 1);
 	}
 	if ( is_object($et) ){ // Need to TD this in Issue #11 branch.
 		$et->Mark('Updated ALERT Cache.');

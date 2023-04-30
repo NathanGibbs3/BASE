@@ -22,8 +22,8 @@
 ********************************************************************************
 */
 
-include ("base_conf.php");
-include_once ("$BASE_path/includes/base_constants.inc.php");
+$sc = DIRECTORY_SEPARATOR;
+require_once("includes$sc" . 'base_krnl.php');
 include ("$BASE_path/includes/base_include.inc.php");
 include_once ("$BASE_path/base_db_common.php");
 include_once ("$BASE_path/base_qry_common.php");
@@ -141,7 +141,7 @@ function PrintPacketLookupBrowseButtons( $seq, $sql, $db, &$p_b, &$n_b ){
 			);
 		}
 		if ( $seq == 0 ){
-			$p_b = "[ $BtnFirst ]";;
+			$p_b = "[ $BtnFirst ]";
 		}
 		// HTML Templates
 		$Pfx = '<input type="submit" name="submit" value="';
@@ -201,7 +201,6 @@ $submit = ImportHTTPVar(
 );
 $_SERVER["QUERY_STRING"] = "submit=".rawurlencode($submit);
 
-  $et = new EventTiming($debug_time_mode);
   $cs = new CriteriaState("base_qry_main.php", "&amp;new=1&amp;submit="._QUERYDBP);
   $cs->ReadState();
 
@@ -251,14 +250,25 @@ if ( class_exists('UILang') ){ // Issue 11 backport shim.
   $qs->RunAction($submit, PAGE_ALERT_DISPLAY, $db);
   $et->Mark("Alert Action");
 
-  /* If get a valid (sid,cid) store it in $caller.  
-   * But if $submit is returning from an alert action 
-   * get the (sid,cid) back from $caller 
-   */ 
-  if ( $submit == _SELECTED )
-     $submit = ImportHTTPVar("caller", VAR_DIGIT | VAR_PUNC);
-  else
-     $caller = $submit;
+	//If get a valid (sid,cid) store it in $caller. If $submit is returning
+	// from an alert action get the (sid,cid) back from $caller.
+	if ( $submit == _SELECTED ){
+		$submit = ImportHTTPVar('caller', VAR_DIGIT | VAR_PUNC);
+	}else{
+		$caller = $submit;
+	}
+	if ( $debug_mode > 0 ){
+		$TK = array ( 'caller', 'submit' );
+		$DI = array();
+		$DD = array();
+		foreach ( $TK as $val ){
+			array_push($DD, $val);
+			array_push($DI, $$val);
+		}
+		array_push($DD, 'QS-CCQ');
+		array_push($DI, $qs->GetCurrentCannedQuery());
+		DDT($DI,$DD,'Caller / Submit / QS-CCQ Values','',25);
+	}
 
   /* Setup the Query Results Table -- However, this data structure is not
    * really used for output.  Rather, it duplicates the sort SQL set in
@@ -307,7 +317,7 @@ if ( $debug_mode > 0 ){
 	print "Canned Query: $CCF <br/>";
 	$qs->DumpState();
 	print "SQL Saved: $save_sql <br/>";
-	$TK = array ( 'submit', 'sid', 'cid', 'seq' );
+	$TK = array ( 'caller', 'submit', 'sid', 'cid', 'seq' );
 	$DI = array();
 	$DD = array();
 	foreach ( $TK as $val ){
@@ -1148,9 +1158,9 @@ echo'                  <TD class="plfield">'.
 
   $qs->PrintAlertActionButtons();
   $qs->SaveState();
-  ExportHTTPVar("caller", $caller);
+ExportHTTPVar("caller", $caller); // QueryState Onject property Override.
 ExportHTTPVar("sort_order", $sort_order);
-NLIO('</form>',3);
+NLIO('</form>',2);
 $et->Mark("Get Query Elements");
 PrintBASESubFooter();
 ?>

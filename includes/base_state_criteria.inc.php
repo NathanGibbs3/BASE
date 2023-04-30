@@ -77,18 +77,16 @@ class CriteriaState {
 		// For new criteria, add a call to the appropriate constructor here,
 		// and implement the appropriate class in base_state_citems.inc.php
 	}
-  function InitState()
-  {
-     RegisterGlobalState();
-  
-     $valid_criteria_list = array_keys($this->criteria);
 
-     foreach ( $valid_criteria_list as $cname )
-         $this->criteria[$cname]->Init();
-  }
+	function InitState(){
+		$valid_criteria_list = array_keys($this->criteria);
+		foreach( $valid_criteria_list as $cname ){
+			$this->criteria[$cname]->Init();
+		}
+	}
+
 	function ReadState(){
 		GLOBAL $maintain_history;
-		RegisterGlobalState();
 		// If the BACK button was clicked, shuffle the appropriate criteria
 		// variables from the $back_list (history) array into the current
 		// session ($_SESSION).
@@ -277,20 +275,19 @@ function PushHistory(){
  ************************************************************************/
 function PrintBackButton(){
 	GLOBAL $maintain_history;
-	if ( $maintain_history == 1 && is_array($_SESSION) && session_id() != '' ){
+	$Ret = '';
+	if( $maintain_history == 1 && is_array($_SESSION) && session_id() != '' ){
 		// We have a session, so proceed.
 		$criteria_num = $_SESSION['back_list_cnt'] - 1;
 		if ( isset($_SESSION['back_list'][$criteria_num]["SCRIPT_NAME"]) ){
-			return "<a class='menuitem' href=\"".
+			$Ret = "<a class='menuitem' href=\"".
 			$_SESSION['back_list'][$criteria_num]["SCRIPT_NAME"].
 			"?back=1&".
 			$_SESSION['back_list'][$criteria_num]["QUERY_STRING"].
 			"\">"._BACK."</a>";
-		}else{
-			return '';
 		}
-	}else{
-		return '';
 	}
+	return $Ret;
 }
+
 ?>

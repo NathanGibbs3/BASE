@@ -22,11 +22,14 @@
 ********************************************************************************
 */
 
-include ("base_conf.php");
-include_once ("$BASE_path/includes/base_constants.inc.php");
-include ("$BASE_path/includes/base_include.inc.php");
-include_once ("$BASE_path/base_db_common.php");
-include_once ("$BASE_path/base_graph_common.php");
+$sc = DIRECTORY_SEPARATOR;
+require_once("includes$sc" . 'base_krnl.php');
+include("$BASE_path/includes/base_include.inc.php");
+include_once("$BASE_path/base_db_common.php");
+include_once("$BASE_path/base_graph_common.php");
+
+$EMPfx = __FILE__ . ': '; // Error Message Prefix.
+if ( VerifyGraphingLib() ){ // Graphics Libs Check
 
 function check_worldmap(){
 	GLOBAL $debug_mode;
@@ -100,7 +103,6 @@ function check_worldmap(){
 }
 
 AuthorizedRole(10000);
-$et = new EventTiming($debug_time_mode);
 $UIL = new UILang($BASE_Language); // Create UI Language Abstraction Object.
 $cs = new CriteriaState("base_stat_alerts.php");
 $cs->ReadState();
@@ -155,8 +157,9 @@ if ( $new == 1 && $submit == '' ){ // Totally new Graph
   $aggregate_type    = ImportHTTPVar("aggregate_type", VAR_DIGIT);
 
 $page_title = _GRAPHALERTDATA;
-PrintBASESubHeader($page_title, $page_title, $cs->GetBackLink(), $refresh_all_pages);
-VerifyGraphingLib(); // Check if Image_Graph install is ok -- Alejandro
+PrintBASESubHeader(
+	$page_title, $page_title, $cs->GetBackLink(), $refresh_all_pages
+);
 $db = NewBASEDBConnection($DBlib_path, $DBtype); // Connect to the Alert DB.
 $db->baseDBConnect(
 	$db_connect_method,$alert_dbname, $alert_host, $alert_port, $alert_user,
@@ -462,18 +465,20 @@ if ( $submit != '' && $chart_type == ' ' ){ // Error Conditions.
 		}
       echo "</CENTER>";
 
-      echo '</TD>
-            </TR>
-            </TABLE>
-            <BR>';
+	PrintFramedBoxFooter(1,2);
+	NLIO('<br/>',2);
 		if ( $WorldMap ){
         echo '(click at the image or - after it has been reloaded - click at it for a second time to get a bigger size of it)<BR><BR>';
 		}
       echo '</CENTER>';
-		$et->Mark("Rendering graph");
-	}else{
-		ErrorMessage(_ERRCHRTNODATAPOINTS);
+			$et->Mark('Rendering graph.');
+		}else{
+			ErrorMessage(_ERRCHRTNODATAPOINTS);
+		}
 	}
+	PrintBASESubFooter();
+}else{ // Graphics Libs Check failed.
+	error_log($EMPfx . 'Graphics Libs check failed.');
+	HTTP_header('Location: base_main.php');
 }
-PrintBASESubFooter();
 ?>

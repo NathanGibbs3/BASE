@@ -20,23 +20,17 @@
 ********************************************************************************
 */
 
-// Check if the base_conf.php file exists and is big enough...
-// if not redirect to the setup/index.php page
-if (!file_exists('base_conf.php') || filesize('base_conf.php') < 10){
-	header( 'Location: setup/index.php' );
-	die();
-}
-
-require("base_conf.php");
-include("$BASE_path/includes/base_include.inc.php");
+$sc = DIRECTORY_SEPARATOR;
+require_once("includes$sc" . 'base_krnl.php');
+include_once("$BASE_path/includes/base_include.inc.php");
 include_once("$BASE_path/base_db_common.php");
 
 $errorMsg      = '';
 $displayError  = 0;
 
-// Redirect to base_main.php if auth system is off
-if ( $Use_Auth_System == 0 ) {
-    base_header("Location: base_main.php");
+// Redirect to base_main.php if auth system is off.
+if ( $Use_Auth_System == 0 ){
+	HTTP_header("Location: base_main.php");
 }
 
 $UIL = new UILang($BASE_Language); // Create UI Language Abstraction Object.
@@ -48,8 +42,8 @@ if (isset($_POST['submit'])) {
     $user       = filterSql($_POST['login']);
     $pwd        = filterSql($_POST['password']);
 
-    if (($BASEUSER->Authenticate($user, $pwd)) == 0) {
-		base_header("Location: base_main.php");
+	if ( $BASEUSER->Authenticate($user, $pwd) == 0 ){
+		HTTP_header("Location: base_main.php");
 	}
     $displayError = 1;
     $errorMsg     = _LOGINERROR;

@@ -23,7 +23,6 @@ class state_criteriaSPTest extends TestCase {
 		}
 		self::$omh = $maintain_history;
 		$maintain_history = 1;
-		RegisterGlobalState();
 		/* Initialize the history */
 		$_SESSION = NULL;
 		InitArray($_SESSION['back_list'], 1, 3, "");

@@ -6,16 +6,21 @@ use PHPUnit\Framework\TestCase;
 
 /**
   * Code Coverage Directives.
+  * @Covers ::PageStart()
+  * @uses ::NLI
+  * @uses ::NLIO
   * @backupGlobals disabled
   * A necessary evil for tests touching legacy TD.
   * @preserveGlobalState disabled
   * @runTestsInSeparateProcesses
   */
+
 class output_htmlSPTest extends TestCase {
 	// Pre Test Setup.
 	protected static $files;
 	protected static $langs;
 	protected static $user;
+	protected static $PHPUV;
 	protected static $UIL;
 	protected static $UOV;
 	protected static $URV;
@@ -191,7 +196,8 @@ class output_htmlSPTest extends TestCase {
 		PageStart(0,'Custom Title');
 	}
 	public function testPageStartArchiveTitle() {
-		GLOBAL $BASE_installID, $BASE_VERSION, $UIL, $base_style;
+		GLOBAL $BASE_installID, $BASE_VERSION, $UIL, $base_style,
+		$archive_exists;
 		$_COOKIE['archive'] = 1;
 		$MHE = "<meta http-equiv='";
 		$MNM = "<meta name='";
@@ -224,8 +230,11 @@ class output_htmlSPTest extends TestCase {
 		."\n\t\t<div class=\"mainheadertitle\">$HTitle</div>"
 		;
 		$this->expectOutputString($EOM);
+		$ogv = $archive_exists;
+		$archive_exists = 1;
 		PageStart();
-		$_COOKIE['archive'] = 0;
+		unset ($_COOKIE['archive']);
+		$archive_exists = $ogv;
 	}
 	public function testPageStartNoCacheON() {
 		GLOBAL $BASE_installID, $BASE_VERSION, $UIL, $base_style,
@@ -476,7 +485,8 @@ class output_htmlSPTest extends TestCase {
 		$EOM .= "\n\t\t\t\t\t".'</td><td>';
 		$EOM .= "\n\t\t\t\t\t\t".'<!-- Timing Information -->';
 		$EOM .= "\n\t\t\t\t\t\t".'<div class=\'systemdebug\'>';
-		$EOM .= "\n\t\t\t\t\t\t\t".'[Loaded in 0 seconds]<br/>';
+		$EOM .= "\n\t\t\t\t\t\t\t<span style='color: green;'>Loaded in</span>"
+		.' [0 seconds]<br/>';
 		$EOM .= "\n\t\t\t\t\t\t".'</div>';
 		$EOM .= "\n\t\t\t\t\t".'</td>';
 		$EOM .= "\n\t\t\t\t".'</tr>';

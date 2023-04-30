@@ -156,7 +156,7 @@ class SingleElementCriteria extends BaseCriteria{
 class MultipleElementCriteria extends BaseCriteria {
 	var $element_cnt;
 	var $criteria_cnt;
-	var $valid_field_list = Array();
+	var $valid_field_list = array();
 
 	function __construct(
 		&$db, &$cs, $export_name, $element_cnt, $field_list = Array()

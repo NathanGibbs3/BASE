@@ -84,15 +84,6 @@ function returnContents()
 
     $BASE_installID = \'\';
 
-    /*
-     * Create a unique cookie name for each BASE installation.
-     */
-
-    $sessionName = str_replace(\' \', \'_\', $BASE_installID . session_name());
-    session_name($sessionName);
-
-session_start(); // Interim Fix for Issue #143
-
 // Name of custom footer file.
 // If set, will cause BASE to include the specified file as a custom footer to
 // the main page.  The custom footer file must:

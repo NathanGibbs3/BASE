@@ -1,7 +1,7 @@
 <?php
 
-include_once ("base_conf.php");
-include_once ("$BASE_path/includes/base_constants.inc.php");
+$sc = DIRECTORY_SEPARATOR;
+require_once("includes$sc" . 'base_krnl.php');
 include_once ("$BASE_path/includes/base_include.inc.php");
 
 $rv = false;
@@ -80,8 +80,8 @@ function pcre_grep_file_poor($file, $key, $sid){
 
 	$lines_array = file($file);
 
-	if ( $debug_mode > 0 ){
-		echo "file = \"$OFile\", pattern = \"" . htmlspecialchars($pattern) . "\"\n<BR>";
+	if ( $debug_mode > 1 ){
+		echo "Pattern = \"" . htmlspecialchars($pattern) . "\"\n<BR>";
 	}
 	foreach ( $lines_array as $val ){ // Issue #153
 		$rv = preg_match($pattern, $val, $matches);
@@ -104,26 +104,27 @@ function search_dir($dir, $sid){
 	$sc = DIRECTORY_SEPARATOR;
 	$rv = FALSE;
 	if ( !LoadedString($dir) ){
-		ErrorMessage($EMPfx ."dir is empty.", 0, 1);
+		ErrorMessage($EMPfx . 'dir is empty.', 0, 1);
 		return FALSE;
 	}
 	if ( !LoadedString($sid) ){
-		ErrorMessage($EMPfx ."sid is empty.", 0, 1);
+		ErrorMessage($EMPfx . 'sid is empty.', 0, 1);
 		return FALSE;
 	}
 	if ( $debug_mode > 1 ){
-		echo "In front of glob, with \$dir = " . htmlspecialchars($dir) . "\n<BR>";
+		echo "In front of glob, with \$dir = " . XSSPrintSafe($dir) . "\n<BR>";
 	}
+	$OF = XSSPrintSafe($filename);
 	foreach ( glob($dir . $sc . "*") as $filename ){
-		if ( $debug_mode > 0 ){
-			echo "filename = " . htmlspecialchars($filename) . "\n";
+		if ( $debug_mode > 1 ){
+			echo "Filename: $OF ";
 		}
 		if ( ChkAccess($filename,'d') == 1 ){
 			search_dir($filename, $sid);
 		}else{
 			$tmp = ChkAccess($filename);
 			if ( $tmp == 1 ){
-				if ( pcre_grep_file_poor($filename, "", $sid) ){
+				if ( pcre_grep_file_poor($filename, '', $sid) ){
 					$rv = true;
 					if ( $debug_mode > 0 ){
 						echo "Found\n<BR>";
@@ -131,7 +132,7 @@ function search_dir($dir, $sid){
 					break;
 				}
 			}else{
-				$EMsg = $EMPfx . '"' . XSSPrintSafe($filename) . '" not ';
+				$EMsg = $EMPfx . '"' . $OF . '" not ';
 				if ( $tmp == -1 ){
 					$EMsg .= 'found';
 				}elseif ( $tmp == -2 ){

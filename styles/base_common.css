@@ -27,11 +27,19 @@ div.errorMsg {
 }
 
 div.systemdebug {
-	font-size: 10px;
+	font-size: 7pt;
 	color: #666666;
 	font-family: Arial;
 	border: double;
 	width: 100%;
-	background: #cccccc;
+	background: #bbbbbb;
 	padding: 3px;
+}
+
+ul.stats {
+	padding-left: 20px;
+}
+
+input.admin {
+	color: red;
 }

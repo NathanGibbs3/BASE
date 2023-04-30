@@ -1,6 +1,6 @@
 <?php
 // Basic Analysis and Security Engine (BASE)
-// Copyright (C) 2019-2020 Nathan Gibbs
+// Copyright (C) 2019-2023 Nathan Gibbs
 // Copyright (C) 2004 BASE Project Team
 // Copyright (C) 2000 Carnegie Mellon University
 //
@@ -15,27 +15,14 @@
 //          Author(s): Nathan Gibbs
 //                     Kevin Johnson
 
-if (!isset($BASE_path)){ // Issue #5
-	$BASE_path = dirname(__FILE__);
-	$sc = DIRECTORY_SEPARATOR;
-	$ReqRE =  "\\".$sc.'admin.*';
-	$BASE_path = preg_replace("/".$ReqRE."/", "", $BASE_path);
-}
-include("$BASE_path/base_conf.php");
-include_once("$BASE_path/includes/base_constants.inc.php");
+$sc = DIRECTORY_SEPARATOR;
+require_once("..$sc" . "includes$sc" . 'base_krnl.php');
 include("$BASE_path/includes/base_include.inc.php");
-include_once("$BASE_path/base_db_common.php");
-include_once("$BASE_path/base_stat_common.php");
-
-AuthorizedRole(1,'base_main');
-$et = new EventTiming($debug_time_mode);
-$UIL = new UILang($BASE_Language); // Create UI Language Object.
-$cs = new CriteriaState("admin/index.php");
-$cs->ReadState();
-$page_title = _BASEADMIN;
-PrintBASESubHeader($page_title, $page_title, $cs->GetBackLink(), $refresh_all_pages);
-PrintBASEAdminMenuHeader();
-print _BASEADMINTEXT;
-PrintBASEAdminMenuFooter();
-PrintBASESubFooter();
+if ( $Use_Auth_System == 1 ){
+	AuthorizedRole(1,'base_main');
+	$Action = 'list';
+}else{
+	$Action = 'create';
+}
+HTTP_header("Location: $BASE_urlpath/admin/base_useradmin.php?action=$Action");
 ?>

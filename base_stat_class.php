@@ -23,15 +23,14 @@
 ********************************************************************************
 */
 
-include ("base_conf.php");
-include_once ("$BASE_path/includes/base_constants.inc.php");
-include ("$BASE_path/includes/base_include.inc.php");
-include_once ("$BASE_path/base_db_common.php");
-include_once ("$BASE_path/base_qry_common.php");
-include_once ("$BASE_path/base_stat_common.php");
+$sc = DIRECTORY_SEPARATOR;
+require_once("includes$sc" . 'base_krnl.php');
+include_once("$BASE_path/includes/base_include.inc.php");
+include_once("$BASE_path/base_db_common.php");
+include_once("$BASE_path/base_qry_common.php");
+include_once("$BASE_path/base_stat_common.php");
 
 AuthorizedRole(10000);
-$et = new EventTiming($debug_time_mode);
 $UIL = new UILang($BASE_Language); // Create UI Language Object.
 $CPSensor = $UIL->CWA['Sensor'];
 $CPSig = $UIL->CWA['Sig'];
@@ -40,6 +39,12 @@ $CPDA = $UIL->CPA['DstAddr'];
 $CPLast = $UIL->CWA['Last'];
 $CPFirst = $UIL->CWA['First'];
 $CPTotal = $UIL->CWA['Total'];
+$db = NewBASEDBConnection($DBlib_path, $DBtype); // Connect to DB.
+$db->baseDBConnect(
+	$db_connect_method, $alert_dbname, $alert_host, $alert_port, $alert_user,
+	$alert_password
+);
+UpdateAlertCache($db);
 $cs = new CriteriaState("base_stat_class.php");
 $cs->ReadState();
 $qs = new QueryState();
@@ -49,29 +54,14 @@ $action = ImportHTTPVar("action", VAR_ALPHA);
 $qs->MoveView($submit);             /* increment the view if necessary */
 $page_title = _CHRTCLASS;
 if ( $qs->isCannedQuery() ){
-	if ($action == '' ){
-    	PrintBASESubHeader($page_title.": ".$qs->GetCurrentCannedQueryDesc(),
-                         $page_title.": ".$qs->GetCurrentCannedQueryDesc(), 
-         	               $cs->GetBackLink(), 1);
-	}else{
-			PrintBASESubHeader($page_title.": ".$qs->GetCurrentCannedQueryDesc(),
-                         $page_title.": ".$qs->GetCurrentCannedQueryDesc(), 
-         	               $cs->GetBackLink(), $refresh_all_pages);
-	}
-}else{
-	if ($action == '' ){
-		PrintBASESubHeader($page_title, $page_title, $cs->GetBackLink(), 1);
-	}else{
-		PrintBASESubHeader($page_title, $page_title, $cs->GetBackLink(), $refresh_all_pages);
-	}
+	$page_title . ': ' . $qs->GetCurrentCannedQueryDesc();
 }
-// Connect to the Alert DB.
-$db = NewBASEDBConnection($DBlib_path, $DBtype);
-$db->baseDBConnect(
-	$db_connect_method, $alert_dbname, $alert_host, $alert_port, $alert_user,
-	$alert_password
-);
-UpdateAlertCache($db);
+$tr = 1; // Page Refresh
+if ($action != '' ){
+	$tr = $refresh_all_pages;
+}
+PrintBASESubHeader( $page_title, $page_title, $cs->GetBackLink(), $tr );
+
 $criteria_clauses = ProcessCriteria();
 PrintCriteria('');
 $from = " FROM acid_event ".$criteria_clauses[0];
@@ -253,15 +243,14 @@ $qs->PrintResultCnt(); // Print current view number and # of rows.
      $prev_time = null;
   }
 
-  $result->baseFreeRows();
+$result->baseFreeRows();
 
-  $qro->PrintFooter();
-
-  $qs->PrintBrowseButtons();
-  $qs->PrintAlertActionButtons();
-  $qs->SaveState();
-	ExportHTTPVar("sort_order", $sort_order);
-  echo "\n</FORM>\n";
+$qro->PrintFooter();
+$qs->PrintBrowseButtons();
+$qs->PrintAlertActionButtons();
+$qs->SaveState();
+ExportHTTPVar("sort_order", $sort_order);
+NLIO('</form>',2);
 $et->Mark("Get Query Elements");
 PrintBASESubFooter();
 ?>

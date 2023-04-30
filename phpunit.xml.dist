@@ -27,6 +27,7 @@
 				<directory>./tests</directory>
 				<directory>./vendor</directory>
 				<file>base_conf.php</file>
+				<file>includes/base_krnl.php</file>
 				<file>languages/czech.lang.php</file>
 				<file>languages/danish.lang.php</file>
 				<file>languages/french.lang.php</file>

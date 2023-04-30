@@ -1,6 +1,6 @@
 <?php
 // Basic Analysis and Security Engine (BASE)
-// Copyright (C) 2019-2021 Nathan Gibbs
+// Copyright (C) 2019-2023 Nathan Gibbs
 // Copyright (C) 2004 BASE Project Team
 // Copyright (C) 2000 Carnegie Mellon University
 //
@@ -14,11 +14,8 @@
 //
 //          Author(s): Nathan Gibbs
 //                     Kevin Johnson
-
 // Ensure the conf file has been loaded.  Prevent direct access to this file.
 defined( '_BASE_INC' ) or die( 'Accessing this file directly is not allowed.' );
-
-include_once("$BASE_path/base_common.php");
 
 /* IP encapsulated layer4 proto */
 SetConst("UDP", 17);
@@ -71,13 +68,4 @@ SetConst("VAR_AT",       8192);
 SetConst("VAR_SCORE",   16384);
 SetConst("VAR_BOOLEAN", 32768);
 
-function SetConst($var,$val){
-	$Ret = false;
-	if ( LoadedString($var) ){
-		if (!defined($var)){
-			$Ret = define($var, $val);
-		}
-	}
-	return $Ret;
-}
 ?>
