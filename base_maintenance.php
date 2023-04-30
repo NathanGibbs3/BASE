@@ -15,8 +15,8 @@
 //          Author(s): Nathan Gibbs
 //                     Kevin Johnson
 
-include("base_conf.php");
-include_once("$BASE_path/includes/base_constants.inc.php");
+$sc = DIRECTORY_SEPARATOR;
+require_once("includes$sc" . 'base_krnl.php');
 include("$BASE_path/includes/base_include.inc.php");
 include_once("$BASE_path/base_db_common.php");
 include_once("$BASE_path/base_stat_common.php");
@@ -36,18 +36,18 @@ if ($Use_Auth_System == 1){
 			filterSql($_POST['user']), filterSql($_POST['pwd'])
 		);
 		if ($usrrole == 'Failed'){
-			base_header('HTTP/1.0 401');
+			HTTP_header('HTTP/1.0 401');
 		}elseif ($usrrole > $roleneeded){
-			base_header('HTTP/1.0 403');
+			HTTP_header('HTTP/1.0 403');
 		}elseif ( $usrrole == 1 ){
 			$AdminAuth = true;
 		}
+		$BCR->AddCap('UIMode', 'Con');
 	}else{
 		AuthorizedRole($roleneeded);
 		$AdminAuth = AuthorizedRole(1);
 	}
 }
-$et = new EventTiming($debug_time_mode);
 $cs = new CriteriaState("base_maintenance.php");
 $cs->ReadState();
 $db = NewBASEDBConnection($DBlib_path, $DBtype); // Connect to the Alert DB.
@@ -73,7 +73,7 @@ if ($SaM == 'yes'){
 
 $submit = ImportHTTPVar("submit", VAR_ALPHA | VAR_SPACE);
 if ( $AdminAuth ){ // Issue #146 Fix
-	// Lockout nonadmin users from admin commands
+	// Lockout non admin users from admin commands
 	if ($SaM != 'yes'){
 		print '<FORM METHOD="POST" ACTION="base_maintenance.php">';
 	}
@@ -125,20 +125,17 @@ if ( $AdminAuth ){ // Issue #146 Fix
 }
 NLIO();
 
+$SW_Cli = 'unknown';
 if ( base_array_key_exists('HTTP_USER_AGENT',$_SERVER) ){
 	$SW_Cli = $_SERVER['HTTP_USER_AGENT'];
-}else{
-	$SW_Cli = 'unknown';
 }
+$title = _MNTCLIENT;
 if ( $AdminAuth ){ // Issue #146 Fix
 	$title = _MNTPHP;
+	$SW_Svr = 'unknown';
 	if ( base_array_key_exists('SERVER_SOFTWARE',$_SERVER) ){
 		$SW_Svr = $_SERVER['SERVER_SOFTWARE'];
-	}else{
-		$SW_Svr = 'unknown';
 	}
-}else{
-	$title = _MNTCLIENT;
 }
 if ($SaM == 'yes'){
 	if ($submit == 'status'){
@@ -152,47 +149,50 @@ if ($SaM == 'yes'){
 	NLIO('<b>'._MNTCLIENT.'</b> '.XSSPrintSafe($SW_Cli).'<br/>',4);
 }
 if ( $AdminAuth ){ // Issue #146 Fix
-  $tmp_error_reporting_str = "";
-
-  if ( (ini_get("error_reporting") & E_ERROR) > 0 )
-     $tmp_error_reporting_str .= " [E_ERROR] ";
-
-  if ( (ini_get("error_reporting") & E_WARNING) > 0 )
-     $tmp_error_reporting_str .= " [E_WARNING] ";
-
-  if ( (ini_get("error_reporting") & E_PARSE) > 0 )
-     $tmp_error_reporting_str .= " [E_PARSE] ";
-
-  if ( (ini_get("error_reporting") & E_NOTICE) > 0 )
-     $tmp_error_reporting_str .= " [E_NOTICE] ";
-
-  if ( (ini_get("error_reporting") & E_CORE_WARNING) > 0 )
-     $tmp_error_reporting_str .= " [E_CORE_WARNING] ";
-
-  if ( (ini_get("error_reporting") & E_CORE_ERROR) > 0 )
-     $tmp_error_reporting_str .= " [E_CORE_ERROR] ";
-
-  if ( (ini_get("error_reporting") & E_COMPILE_ERROR) > 0 )
-     $tmp_error_reporting_str .= " [E_COMPILE_ERROR] ";
-
-  if ( (ini_get("error_reporting") & E_COMPILE_WARNING) > 0 )
-     $tmp_error_reporting_str .= " [E_COMPILE_WARNING] ";
-
-	$module_lst = get_loaded_extensions();
-	$LmW = '';
-	$LmC = '';
-	for ( $i = 0; $i < count($module_lst); $i++ ){
-		$LmW .= ' [ '.$module_lst[$i].' ]';
-		$LmC .= ' '.$module_lst[$i];
+	$IER = ini_get('error_reporting');
+	$ER_lst = array();
+	if ( ($IER & E_ERROR) > 0 ){
+		array_push($ER_lst, 'E_ERROR');
 	}
+	if ( ($IER & E_WARNING) > 0 ){
+		array_push($ER_lst, 'E_WARNING');
+	}
+	if ( ($IER & E_PARSE) > 0 ){
+		array_push($ER_lst, 'E_PARSE');
+	}
+	if ( ($IER & E_NOTICE) > 0 ){
+		array_push($ER_lst, 'E_NOTICE');
+	}
+	if ( ($IER & E_CORE_WARNING) > 0 ){
+		array_push($ER_lst, 'E_CORE_WARNING');
+	}
+	if ( ($IER & E_CORE_ERROR) > 0 ){
+		array_push($ER_lst, 'E_CORE_ERROR');
+	}
+	if ( ($IER & E_COMPILE_ERROR) > 0 ){
+		array_push($ER_lst, 'E_COMPILE_ERROR');
+	}
+	if ( ($IER & E_COMPILE_WARNING) > 0 ){
+		array_push($ER_lst, 'E_COMPILE_WARNING');
+	}
+	$module_lst = get_loaded_extensions();
+	foreach( $module_lst as $key => $val ){
+		if ( preg_match("/ /", $val) ){
+			$module_lst[$key] = "'$val'";
+		}
+	}
+	$PERL = ' '. implode(', ', $ER_lst);
+	$PLM = ' ' . implode(', ', $module_lst);
 	if ($SaM == 'yes'){
 		if ($submit == 'status'){
-			NLIO(_MNTSERVER.' '.XSSPrintSafe($SW_Svr));
-			NLIO(_MNTSERVERHW.' '.php_uname());
-			NLIO(_MNTPHPVER.' '.phpversion());
-			NLIO('PHP API: '.php_sapi_name());
-			NLIO(_MNTPHPLOGLVL.' ('.ini_get("error_reporting").')'.$tmp_error_reporting_str);
-			NLIO(_MNTPHPMODS.$LmC);
+			NLIO(_MNTSERVER . ' ' . XSSPrintSafe($SW_Svr));
+			NLIO(_MNTSERVERHW .' ' . php_uname());
+			NLIO(_MNTPHPVER . ' ' . phpversion());
+			NLIO('PHP API: ' . php_sapi_name());
+			NLIO(
+				_MNTPHPLOGLVL . ' (' . $IER . ')' . $PERL
+			);
+			NLIO(_MNTPHPMODS . $PLM);
 		}
 	}else{
 print'         <B>'._MNTSERVER.'</B> '.XSSPrintSafe($SW_Svr).'<BR>
@@ -200,9 +200,11 @@ print'         <B>'._MNTSERVER.'</B> '.XSSPrintSafe($SW_Svr).'<BR>
          <B>'._MNTPHPVER.'</B> '.phpversion().'<BR>
          <B>PHP API:</B> '.php_sapi_name().'<BR>';
 
-  echo ' <B>'._MNTPHPLOGLVL.' </B> ('.ini_get("error_reporting").')'.$tmp_error_reporting_str.'<BR>
-         <B>'._MNTPHPMODS.' </B> '.$LmW;
-
+		NLIO(
+			'<b>' ._MNTPHPLOGLVL . ': </b> (' . $IER . ')' . $PERL . '<br/>', 
+			6
+		);
+		NLIO('<b>' ._MNTPHPMODS . ': </b>' . $PLM . '<br/>', 6);
 	}
 }
 if ($SaM == 'yes'){
@@ -214,29 +216,116 @@ if ($SaM == 'yes'){
 	NLIO ('<br/>',3);
 }
 if ( $AdminAuth ){ // Issue #146 Fix
-	GLOBAL $ADODB_vers;
+	$BV = $BCR->GetCap('BASE_Ver');
+	$BInID = $BCR->GetCap('BASE_InID');
+	$BK = $BCR->GetCap('BASE_Kernel');
+	$BR = $BCR->GetCap('BASE_RTL');
+	$BDev = $BCR->GetCap('BASE_Dev');
+	$BF_lst = array('Mail', 'Mime', 'Graph');
+	foreach( $BF_lst as $val ){
+		$BF_St[$val] = $BCR->GetCap($val);
+	}
+	$imgc = NLI('',6);
+	$imgc .= "<img border='0' src='".$BASE_urlpath ."/images/";
+	$BDevI = $imgc;
+	if ( $BDev ){ // TD These.
+		$BDevStatus = 'Development';
+		$BDevI .= "button_exclamation.png' alt='button_exclamation";
+	}else{
+		$BDevStatus = 'Official';
+		$BDevI .= "greencheck.gif' alt='button_greencheck";
+	}
+	$BDevI .= "'/>";
+	$BADB = $BCR->GetCap('BASE_ADB');
 	if ($SaM == 'yes'){
 		if ($submit == 'status'){
+			NLIO("BASE Version: $BV");
+			if ( LoadedString($BInID) ){
+				NLIO("Install ID: $BInID");
+			}
+			NLIO("Kernel: $BK Runtime: $BR");
+			NLIO("Release: $BDevStatus");
+			NLIO("Features:");
+			foreach( $BF_St as $key => $val ){
+				$tmp = "$key ";
+				if ( !$val ){
+					$tmp .= 'not ';
+				}
+				$tmp .= 'installed.';
+				NLIO($tmp);
+			}
+			NLIO();
 			NLIO(_DATABASE);
-			NLIO(_MNTDBTYPE." $DBtype");
 			NLIO(_MNTDBALV." $ADODB_vers");
+			NLIO(_MNTDBTYPE." $DBtype");
 			NLIO(_MNTDBALERTNAME." $alert_dbname");
-			NLIO(_MNTDBARCHNAME." $archive_dbname");
+			if ( $BADB ){
+				$ADBStatus = _MNTDBARCHNAME." $archive_dbname";
+			}else{
+				$ADBStatus = 'Archive DB: not enabled.'; // TD This.
+			}
+			NLIO($ADBStatus);
 			if ( $repair_output != '' ){
 				NLIO($repair_output);
 			}
 			NLIO();
 		}
 	}else{
+		$ADBI = $imgc;
+		$ADBStatus = '<b>';
+		if ( $BADB ){
+			$ADBStatus .= _MNTDBARCHNAME
+			. ": </b>$archive_dbname";
+			$ADBI .= "greencheck.gif' alt='button_greencheck";
+		}else{ // TD This.
+			$ADBStatus .= 'Archive DB: </b>not enabled.';
+			$ADBI .= "redcheck.gif' alt='button_redcheck";
+		}
+		$ADBI .= "'/>";
+		PrintFramedBoxHeader('BASE Build:', '#669999', 1, 3, 'left');
+		NLIO('<b>Version: </b>' . XSSPrintSafe($BV) . $BDevI . '<br/>', 6);
+		if ( LoadedString($BInID) ){
+			NLIO('<b>Install ID: </b>' . XSSPrintSafe($BInID) . '<br/>', 6);
+		}
+		NLIO(
+			'<b>Kernel: </b>' . XSSPrintSafe($BK)
+			. ' <b>Runtime: </b>' . XSSPrintSafe($BR) . '<br/>',
+			6
+		);
+		NLIO(
+			'<b>Release: </b>' . XSSPrintSafe($BDevStatus) . $BDevI . '<br/>',
+			6
+		);
+		NLIO('<b>Features: </b>', 6);
+		foreach( $BF_St as $key => $val ){
+			$FI = "greencheck.gif' alt='button_greencheck";
+			$tmp = "<b>$key: </b>";
+			if ( !$val ){
+				$tmp .= 'not ';
+				$FI = "redcheck.gif' alt='button_redcheck";
+			}
+			$FI .= "'/>";
+			$tmp .= 'installed.';
+			NLIO("$tmp$imgc$FI",6);
+		}
+		PrintFramedBoxFooter(1,3);
+		NLIO ('<br/>',3);
 		PrintFramedBoxHeader(_DATABASE, '#669999', 1,3,'left');
+		NLIO( '<b>' . _MNTDBALV . ": </b>$ADODB_vers" . '<br/>', 6);
   echo "<B>"._MNTDBTYPE."</B> $DBtype <BR>  
-        <B>"._MNTDBALV."</B> $ADODB_vers <BR>
         <B>"._MNTDBALERTNAME."</B> $alert_dbname <BR>
-        <B>"._MNTDBARCHNAME."</B> $archive_dbname <BR>
-
-        <INPUT TYPE=\"submit\" NAME=\"submit\" VALUE=\"Repair Tables\">
-        <INPUT TYPE=\"submit\" NAME=\"submit\" VALUE=\"Clear Data Tables\">";
-
+";
+		NLIO("$ADBStatus$ADBI" . '<br/>', 6);
+		NLIO(
+			"<input class='admin' type='submit' neme='submit'"
+			. " value='Repair Tables'>",
+			6
+		);
+		NLIO(
+			"<input class='admin' type='submit' neme='submit'"
+			. " value='Clear Data Tables'>",
+			6
+		);
   echo $repair_output;
 		PrintFramedBoxFooter(1,3);
 		NLIO ('<br/>',3);
@@ -302,20 +391,26 @@ if ($SaM == 'yes'){
 		NLIO();
 	}
 }else{
-PrintFramedBoxHeader(_MNTAIC, '#669999', 1,3,'left');
+	PrintFramedBoxHeader(_MNTAIC, '#669999', 0,3,'left');
+	NLIO("<td style='text-align: left; width: 25%;'>",5);
 
   echo '<B>'._MNTAICTE.'</B> '.$event_cnt.'&nbsp&nbsp
         <B>'._MNTAICCE.'</B> '.$cache_event_cnt;
 
-if ( $AdminAuth ){ // Issue #146 Fix
-echo'        &nbsp;&nbsp;
-        <INPUT TYPE="submit" NAME="submit" VALUE="Update Alert Cache">
-        &nbsp;&nbsp;
-        <INPUT TYPE="submit" NAME="submit" VALUE="Rebuild Alert Cache">';
-}
-PrintFramedBoxFooter(1,3);
-NLIO ('<br/>',3);
-PrintFramedBoxHeader(_MNTIPAC, '#669999', 1,3,'left');
+	if ( $AdminAuth ){ // Issue #146 Fix
+		NLIO(
+			"<input type='submit' neme='submit' value='Update Alert Cache'>",
+			6
+		);
+		NLIO(
+			"<input class='admin' type='submit' neme='submit'"
+			. " value='Rebuild Alert Cache'>",
+			6
+		);
+	}
+	PrintFramedBoxFooter(1,3);
+	NLIO ('<br/>',3);
+	PrintFramedBoxHeader(_MNTIPAC, '#669999', 1,3,'left');
 
   echo '<B>'._MNTIPACUSIP.'</B> '.$uncached_sip_cnt.'&nbsp;&nbsp&nbsp;'.
        '<B>'._MNTIPACDNSC.'</B> '.$cached_sip_cnt.'&nbsp;&nbsp;&nbsp;'.
@@ -324,10 +419,24 @@ PrintFramedBoxHeader(_MNTIPAC, '#669999', 1,3,'left');
        '<B>'._MNTIPACDNSC.'</B> '.$cached_dip_cnt.'&nbsp;&nbsp;&nbsp;'.
        '<B>'._MNTIPACWC.':</B> '.$cached_dwhois_cnt.'<BR>';
 	if ( $AdminAuth ){ // Issue #146 Fix
-echo'        <INPUT TYPE="submit" NAME="submit" VALUE="Update IP Cache">&nbsp;
-        <INPUT TYPE="submit" NAME="submit" VALUE="Update Whois Cache"><BR>
-        <INPUT TYPE="submit" NAME="submit" VALUE="Rebuild IP Cache">&nbsp;
-        <INPUT TYPE="submit" NAME="submit" VALUE="Rebuild Whois Cache"><BR>';
+		NLIO(
+			"<input type='submit' neme='submit' value='Update IP Cache'>",
+			6
+		);
+		NLIO(
+			"<input type='submit' neme='submit' value='Update Whois Cache'>",
+			6
+		);
+		NLIO(
+			"<input class='admin' type='submit' neme='submit'"
+			. " value='Rebuild IP Cache'>",
+			6
+		);
+		NLIO(
+			"<input class='admin' type='submit' neme='submit'"
+			. " value='Rebuild Whois Cache'>",
+			6
+		);
 	}
 	PrintFramedBoxFooter(1,3);
 	NLIO ('<br/>',3);

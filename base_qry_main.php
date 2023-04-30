@@ -66,18 +66,16 @@
  * $action_lst[]: array of (sid,cid) of all alerts on screen
  */
 
-  include("base_conf.php");
-include_once("$BASE_path/includes/base_constants.inc.php");
-  include("$BASE_path/includes/base_include.inc.php");
+$sc = DIRECTORY_SEPARATOR;
+require_once("includes$sc" . 'base_krnl.php');
+include_once("$BASE_path/includes/base_include.inc.php");
 
   include_once("$BASE_path/includes/base_action.inc.php");
   include_once("$BASE_path/base_db_common.php");
-  include_once("$BASE_path/base_common.php");
   include_once("$BASE_path/base_ag_common.php");
   include_once("$BASE_path/base_qry_common.php");
 
 AuthorizedRole(10000);
-$et = new EventTiming($debug_time_mode);
 $db = NewBASEDBConnection($DBlib_path, $DBtype); // Connect to Alert DB.
 $db->baseDBConnect(
 	$db_connect_method,$alert_dbname, $alert_host, $alert_port, $alert_user,
@@ -170,7 +168,7 @@ $tmp = '';
 
 $page_title = _QUERYRESULTS;
 if ( $qs->isCannedQuery() ){
-	$page_title.': '.$qs->GetCurrentCannedQueryDesc();
+	$page_title . ': ' . $qs->GetCurrentCannedQueryDesc();
 }
 PrintBASESubHeader(
 	$page_title, $page_title, $cs->GetBackLink(), $refresh_all_pages
@@ -252,7 +250,7 @@ if (
 	include("$BASE_path/base_qry_form.php");
 }
 $qs->SaveState();
-NLIO('</form>');
+NLIO('</form>',2);
 $et->Mark("Get Query Elements");
 PrintBASESubFooter();
 ?>

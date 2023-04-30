@@ -21,15 +21,14 @@
 //          Author(s): Nathan Gibbs
 //                     Kevin Johnson
 
-require("base_conf.php");
-include_once("$BASE_path/includes/base_constants.inc.php");
+$sc = DIRECTORY_SEPARATOR;
+require_once("includes$sc" . 'base_krnl.php');
 include("$BASE_path/includes/base_include.inc.php");
-  include_once("$BASE_path/base_db_common.php");
-  include_once("$BASE_path/base_qry_common.php");
-  include_once("$BASE_path/base_ag_common.php");
+include_once("$BASE_path/base_db_common.php");
+include_once("$BASE_path/base_qry_common.php");
+include_once("$BASE_path/base_ag_common.php");
 
 AuthorizedRole(10000);
-$et = new EventTiming($debug_time_mode);
 $db = NewBASEDBConnection($DBlib_path, $DBtype); // Connect to Alert DB.
 $db->baseDBConnect(
 	$db_connect_method,$alert_dbname, $alert_host, $alert_port, $alert_user,
@@ -354,12 +353,10 @@ if ( $ag_action == "view" && $submit != "" ) {
     $ag = $ag_id;
     include("$BASE_path/base_qry_sqlcalls.php");
 }
-
 $qs->SaveState();
- 
-/* Export action_arg = current AG ID, so that Actions work */
+// Export action_arg = current AG ID, so that Actions work.
 ExportHTTPVar($ag_id, "action_arg");
-echo "\n</form>\n";
+NLIO('</form>',2);
 $et->Mark("Get Query Elements");
 PrintBASESubFooter();
 ?>

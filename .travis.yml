@@ -119,6 +119,9 @@ notifications:
   webhooks: https://coveralls.io/webhook
 
 before_install:
+  # If we have pushed to master without changing release data in the source
+  # code, fail the build immediately.
+  - php -f ./tests/releaseOK.php
   # - sudo apt-get update > /dev/null
   # Where to look if installed modules in PHP don't work. :-)
   # Like xdebug on PHP 5.2

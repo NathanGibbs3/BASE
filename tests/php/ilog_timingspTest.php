@@ -73,7 +73,8 @@ class log_timingSPTest extends TestCase {
 		}
 		$expected = "\n\t\t\t\t\t\t".'<!-- Timing Information -->';
 		$expected .= "\n\t\t\t\t\t\t".'<div class=\'systemdebug\'>';
-		$expected .= "\n\t\t\t\t\t\t\t".'[Loaded in 0 seconds]<br/>';
+		$expected .= "\n\t\t\t\t\t\t\t<span style='color: green;'>"
+		. 'Loaded in</span> [0 seconds]<br/>';
 		$expected .= "\n\t\t\t\t\t\t".'</div>';
 		$this->expectOutputString($expected);
 		$tc->PrintTiming();
@@ -94,10 +95,13 @@ class log_timingSPTest extends TestCase {
 		}
 		$expected = "\n\t\t\t\t\t\t".'<!-- Timing Information -->';
 		$expected .= "\n\t\t\t\t\t\t".'<div class=\'systemdebug\'>';
-		$expected .= "\n\t\t\t\t\t\t\t".'[Loaded in 0 seconds]<br/>';
+		$expected .= "\n\t\t\t\t\t\t\t<span style='color: green;'>"
+		. 'Loaded in</span> [0 seconds]<br/>';
 		$expected .= "\n\t\t\t\t\t\t\t".'Event Log:<br/>';
-		$expected .= "\n\t\t\t\t\t\t\t".'1 Page Load. [0 seconds]<br/>';
-		$expected .= "\n\t\t\t\t\t\t\t".'2 What [0 seconds]<br/>';
+		$expected .= "\n\t\t\t\t\t\t\t1 <span style='color: green;'>"
+		. 'Page Load.</span> [0 seconds]<br/>';
+		$expected .= "\n\t\t\t\t\t\t\t2 <span style='color: green;'>"
+		. 'What</span> [0 seconds]<br/>';
 		$expected .= "\n\t\t\t\t\t\t".'</div>';
 		$this->expectOutputString($expected);
 		$tc->PrintTiming();

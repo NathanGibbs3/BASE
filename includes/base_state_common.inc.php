@@ -51,45 +51,6 @@ function InitArray(&$a, $dim1 = 1, $dim2 = 0, $value = NULL ){
 		return true;
 	}
 }
-/* ***********************************************************************
- * Function: RegisterGlobalState()
- *
- * @doc Application-specific wrapper for PHP session_start().  It performs
- *      a couple of additional configuration checks (notably for custom
- *      PHP session handlers).
- *
- ************************************************************************/
-function RegisterGlobalState(){
-	GLOBAL $use_user_session, $user_session_path, $user_session_function,
-	$debug_mode;
-	$EMsg = '';
-	// Deal with user specified session handlers.
-	if (session_module_name() == "user" ){
-		if ( $use_user_session != 1 ){
-			$EMsg = _PHPERRORCSESSION;
-		}elseif( $user_session_path != '' ){
-			if ( is_file($user_session_path) ){
-				include_once($user_session_path);
-				if ( $user_session_function != '' ){
-					$user_session_function();
-				}
-			}else{
-				$EMsg = _PHPERRORCSESSIONCODE;
-			}
-		}else{
-			$EMsg = _PHPERRORCSESSIONVAR;
-		}
-	}
-	if ( $EMsg != '' ){
-		FatalError($EMsg);
-	}
-
-   //session_start();
-
-	if ( $debug_mode > 0 ){
-		ErrorMessage(_PHPSESSREG, '#ff0000', 1);
-	}
-}
 
 // Function: CleanVariable()
 // @doc Removes invalid characters/data from a variable based on a specified
@@ -206,7 +167,11 @@ function CleanVariable( $item, $valid_data = '', $exception = '' ){
 // $var_name
 //
 function SetSessionVar($var_name){
-	GLOBAL $debug_mode;
+	GLOBAL $BCR, $debug_mode;
+	$UIM = 'Web'; // Default UI Mode.
+	if ( isset($BCR) && is_object($BCR) ){
+		$UIM = $BCR->GetCap('UIMode');
+	}
 	if ( isset($_POST[$var_name]) ){
 		$msg = 'POST';
 		$Ret = $_POST[$var_name];
@@ -223,10 +188,16 @@ function SetSessionVar($var_name){
 		// Leaving it at the moment, so as not to break things.
 		$Ret = '';
 	}
-	if ( $debug_mode > 0 && $msg != '' ){
+	if ( $debug_mode > 0 && $UIM == 'Web' && $msg != '' ){
+		$EMPfx = __FUNCTION__ . "(): ";
 		ErrorMessage(
-			__FUNCTION__ ."(): Importing $msg var '$var_name'", 'black', 1
+			$EMPfx . "Importing $msg var '$var_name'", 'black', 1
 		);
+		if ( !is_array($Ret) ){ // Vars can contain arrays.
+			ErrorMessage(
+				$EMPfx . XSSPrintSafe("$var_name: $Ret"), 'black', 1
+			);
+		}
 	}
 	return $Ret;
 }
@@ -257,24 +228,34 @@ function SetSessionVar($var_name){
  *         by $var_name
  *
  ************************************************************************/
-function ImportHTTPVar($var_name, $valid_data = "", $exception = "")
-{
-   $tmp = "";
-
-   if ( isset($_POST[$var_name]) ) 
-   {
-      //if ( $debug_mode > 0 )  echo "importing POST var '$var_name'<BR>";
-      $tmp = $_POST[$var_name];
-   }
-   else if ( isset($_GET[$var_name]) )
-   { 
-      //if ( $debug_mode > 0 )  echo "importing GET var '$var_name'<BR>";
-      $tmp = $_GET[$var_name];
-   }
-   else
-      $tmp = "";
-
-   return CleanVariable($tmp, $valid_data, $exception);
+function ImportHTTPVar( $var_name, $valid_data = '', $exception = '' ){
+	GLOBAL $BCR, $debug_mode;
+	$UIM = 'Web'; // Default UI Mode.
+	if ( isset($BCR) && is_object($BCR) ){
+		$UIM = $BCR->GetCap('UIMode');
+	}
+	$msg = '';
+	$Ret = '';
+	if ( isset($_POST[$var_name]) ){
+		$msg = 'POST';
+		$Ret = $_POST[$var_name];
+	}elseif ( isset($_GET[$var_name]) ){
+		$msg = 'GET';
+		$Ret = $_GET[$var_name];
+	}
+	if ( $debug_mode > 0 && $UIM == 'Web' && $msg != '' ){
+		$EMPfx = __FUNCTION__ . "(): ";
+		ErrorMessage(
+			$EMPfx . "Importing $msg var '$var_name'", 'black', 1
+		);
+		if ( !is_array($Ret) ){ // Vars can contain arrays.
+			ErrorMessage(
+				$EMPfx . XSSPrintSafe("$var_name: $Ret"),  'black', 1
+			);
+		}
+	}
+	$Ret = CleanVariable($Ret, $valid_data, $exception);
+	return $Ret;
 }
 
 // Function: ExportHTTPVar()
@@ -349,24 +330,5 @@ function filterSql ( $item, $force_alert_db=0, $db = ''){
 		}
 	}
 }
-// Function: XSSPrintSafe()
-// @doc Converts unsafe html special characters to print safe
-//      equivalents as an Anti XSS defense.
-// @return a sanitized version of the passed variable.
-function XSSPrintSafe($item){
-	if ( !isset($item) ){ // Unset Value.
-		return $item;
-	}else{
-		if ( is_array($item) ){ // Array.
-			// Recursively convert array elements.
-			// Works with both Keyed & NonKeyed arrays.
-			foreach ($item as $key => $value) {
-				$item[$key] = XSSPrintSafe($value);
-			}
-			return $item;
-		}else{ // Single Value.
-			return htmlspecialchars($item);
-		}
-	}
-}
+
 ?>

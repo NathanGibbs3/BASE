@@ -32,13 +32,17 @@
 ********************************************************************************
 */
 
-include ("base_conf.php");
-include_once ("$BASE_path/includes/base_constants.inc.php");
-include_once ("$BASE_path/includes/base_state_common.inc.php");
-include_once ("$BASE_path/base_graph_common.php");
-require_once('Image/Graph.php');
+$sc = DIRECTORY_SEPARATOR;
+require_once("includes$sc" . 'base_krnl.php');
+include_once("$BASE_path/includes/base_state_common.inc.php");
+include_once("$BASE_path/base_graph_common.php");
 
-$EMPfx = __FILE__ . ": "; // Error Message Prefix.
+$EMPfx = __FILE__ . ': '; // Error Message Prefix.
+if ( VerifyGraphingLib() ){ // Graphics Libs Check
+	require_once('Image/Graph.php');
+	$OUIM = $BCR->GetCap('UIMode');
+	$BCR->AddCap('UIMode', 'Gfx');
+
   // One more time: A workaround for the inability of PEAR::Image_Canvas-0.3.1
   // to deal with strings as x-axis labels in a proper way in the case
   // of a logarithmic y-axis.
@@ -474,8 +478,8 @@ if ( $WorldMap ){ // Worldmap
 // Show time! -- Alejandro
 if ( version_compare(PHP_VERSION, "5.0.0", "<") ){
 	$rv =& $Graph->done();
-	if ( PEAR::isError($rv) ){
-		error_log( $EMPfx . "ERROR: \$Graph->done() has failed.");
+	if( PEAR::isError($rv) ){
+		error_log($EMPfx . 'ERROR: $Graph->done() has failed.');
 	}
 }else{
 	try{
@@ -486,8 +490,8 @@ if ( version_compare(PHP_VERSION, "5.0.0", "<") ){
 		}else{
 			$rv = false;
 		}
-		if ( PEAR::isError($rv) ){
-			error_log($EMPfx . "ERROR: \$Graph->done() has failed.");
+		if( PEAR::isError($rv) ){
+			error_log($EMPfx . 'ERROR: $Graph->done() has failed.');
 		}
 	}
 	catch ( Exception $exc1 ){
@@ -527,12 +531,20 @@ if ( version_compare(PHP_VERSION, "5.0.0", "<") ){
 		} // try - catch
 	} // try - catch 
 } // if (version_compare(PHP_VERSION, "5.0.0", "<"))
-if ( $debug_mode > 0 ){
-	$peak_memory = number_format(memory_get_peak_usage(TRUE));
-	error_log($EMPfx . "peak_memory = $peak_memory bytes");
-}
-// Now, that the png has been drawn, we can allow the old value, again.
-if ( !empty($old_display_error_type) ){
-	ini_set("display_errors", $old_display_error_type);
+	if ( $debug_mode > 0 ){
+		$peak_memory = number_format(memory_get_peak_usage(TRUE));
+		error_log($EMPfx . "peak_memory = $peak_memory bytes");
+	}
+	$BCR->AddCap('UIMode', $OUIM);
+	// Now, that the png has been drawn, we can allow the old value, again.
+	if ( !empty($old_display_error_type) ){
+		ini_set("display_errors", $old_display_error_type);
+	}
+}else{ // Graphics Libs Check failed.
+	// @codeCoverageIgnoreStart
+	// Should never execute. Log it.
+	error_log($EMPfx . 'Graphics Libs check failed.');
+	HTTP_header('Location: base_graph_main.php');
+	// @codeCoverageIgnoreEnd
 }
 ?>

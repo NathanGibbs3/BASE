@@ -9,21 +9,24 @@ use PHPUnit\Framework\TestCase;
   * @covers ::FramedBoxHeader
   * @covers ::HBarGraph
   * @covers ::HtmlPercent
-  * @covers ::NLI
-  * @covers ::NLIO
+  * @covers ::LINext
   * @covers ::PageEnd
   * @covers ::TblNewRow
   * @covers ::PrintFramedBoxFooter
   * @covers ::PrintFramedBoxHeader
+  * @covers ::PrintLINext
   * @covers ::PrintTblNewRow
   * @covers ::chk_check
   * @covers ::chk_select
   * @covers ::returnExportHTTPVar
   * @uses ::Htmlcolor
   * @uses ::LoadedString
+  * @uses ::NLI
+  * @uses ::NLIO
   * @uses ::Percent
   * @uses ::XSSPrintSafe
   */
+
 class output_htmlTest extends TestCase {
 	protected static $UOV;
 	protected static $URV;
@@ -38,38 +41,6 @@ class output_htmlTest extends TestCase {
 	}
 
 	// Tests go here.
-	public function testNLIBlankReturnsExpected() {
-		$URV = self::$URV.'NLI().';
-		$this->assertEquals( "\n", NLI(), $URV );
-	}
-	public function testNLIInvalidCountReturnsExpected() {
-		$URV = self::$URV.'NLI().';
-		$this->assertEquals( "\n<td>", NLI('<td>','string'), $URV );
-	}
-	public function testNLINoIndentReturnsExpected() {
-		$URV = self::$URV.'NLI().';
-		$this->assertEquals( "\n<td>", NLI('<td>'), $URV );
-	}
-	public function testNLIIndentReturnsExpected() {
-		$URV = self::$URV.'NLI().';
-		$this->assertEquals( "\n\t\t\t\t\t<td>", NLI('<td>',5), $URV );
-	}
-	public function testNLIOBlankOutputsExpected() {
-		$UOV = self::$UOV.'NLIO().';
-		$this->expectOutputString( "\n", NLIO(), $UOV );
-	}
-	public function testNLIOInvalidCountOutputsExpected() {
-		$UOV = self::$UOV.'NLIO().';
-		$this->expectOutputString( "\n<td>", NLIO('<td>','string'), $UOV );
-	}
-	public function testNLIONoIndentOutputsExpected() {
-		$UOV = self::$UOV.'NLIO().';
-		$this->expectOutputString( "\n<td>", NLIO('<td>'), $UOV );
-	}
-	public function testNLIOIndentOutputsExpected() {
-		$UOV = self::$UOV.'NLIO().';
-		$this->expectOutputString( "\n\t\t\t\t\t<td>", NLIO('<td>',5), $UOV );
-	}
 	public function testPageEndOutputsExpected() {
 		$UOV = self::$UOV.'PageEnd().';
 		$this->expectOutputString( "\n\t</body>\n</html>", PageEnd(), $UOV );
@@ -347,10 +318,30 @@ class output_htmlTest extends TestCase {
 			$this->expectOutputString( $msg, PrintTblNewRow(1, $align), $UOV );
 		}
 	}
+	public function testLINextDefaultReturnsExpected() {
+		$URV = self::$URV.'LINext().';
+		$msg = "\n\t\t\t</li><li>";
+		$this->assertEquals( $msg, LINext(), $URV );
+	}
+	public function testLINextInvalidReturnsExpected() {
+		$URV = self::$URV.'LINext().';
+		$msg = "\n\t\t\t</li><li>";
+		$this->assertEquals( $msg, LINext('string'), $URV );
+	}
+	public function testPrintLINextDefaultReturnsExpected() {
+		$URV = self::$URV.'PrintLINext().';
+		$msg = "\n\t\t\t</li><li>";
+		$this->expectOutputString( $msg, PrintLINext(), $URV );
+	}
+	public function testPrintLINextInvalidReturnsExpected() {
+		$URV = self::$URV.'PrintLINext().';
+		$msg = "\n\t\t\t</li><li>";
+		$this->expectOutputString( $msg, PrintLINext('string'), $URV );
+	}
 	public function testreturnExportHTTPVarDefaults() {
 		$URV = self::$URV.'returnExportHTTPVar().';
 		$msg = '';
-		$this->assertEquals( $msg, returnExportHTTPVar(),$URV );
+		$this->assertEquals( $msg, returnExportHTTPVar(), $URV );
 	}
 	public function testreturnExportHTTPVarNameValid() {
 		$URV = self::$URV.'returnExportHTTPVar().';

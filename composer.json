@@ -6,11 +6,12 @@
 		"infosec",
 		"php",
 		"php5",
-		"php7"
+		"php7",
+		"php8"
 	],
 	"homepage": "https://github.com/NathanGibbs3/BASE",
 	"support": {
-		"forum": "https://sourceforge.net/p/secureideas/discussion",
+		"forum": "https://github.com/NathanGibbs3/BASE/discussions",
 		"issues": "https://github.com/NathanGibbs3/BASE/issues",
 		"wiki": "https://github.com/NathanGibbs3/BASE/wiki",
 		"docs": "https://github.com/NathanGibbs3/BASE/tree/master/docs",
@@ -32,17 +33,28 @@
 		},
 		{
 			"name": "Nathan Gibbs",
-			"role": "Base Developer"
+			"role": "Base Project Lead & Developer"
 		}
 	],
+	"config": {
+		"allow-plugins": {
+			"dealerdirect/phpcodesniffer-composer-installer": true
+		}
+	},
 	"require": {
-		"php": ">=4.0.4",
-		"pear/mail_mime": ">=1.5.2",
-		"pear/mail": ">=1.4.1"
+		"php": ">=4.0.4"
 	},
 	"require-dev": {
 		"phpunit/phpunit": ">=5.7.28 || >=4.8.19",
 		"php-coveralls/php-coveralls": "^2.1 || ^1.1",
-		"phpunit/phpcov": "^4.0 || ^3.0 || ^2.0"
+		"phpunit/phpcov": "^4.0 || ^3.0 || ^2.0",
+		"wapmorgan/php-deprecation-detector": "^2.0",
+		"squizlabs/php_codesniffer": "^3.7 || ^2.0",
+		"dealerdirect/phpcodesniffer-composer-installer": "<=1.0",
+		"phpcompatibility/php-compatibility": "^9.3"
+	},
+	"suggest": {
+		"pear/mail_mime": ">=1.5.2 - Allows alerts to be sent as attachemnts.",
+		"pear/mail": ">=1.4.1 - Allows sending of alerts via email."
 	}
 }

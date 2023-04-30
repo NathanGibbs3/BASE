@@ -7,9 +7,9 @@ use PHPUnit\Framework\TestCase;
   * @covers ::ExportHTTPVar
   * @covers ::InitArray
   * @covers ::SetSessionVar
-  * @covers ::XSSPrintSafe
   * @covers ::filterSql
   * @uses ::ChkAccess
+  * @uses ::ChkArchive
   * @uses ::ChkCookie
   * @uses ::ChkLib
   * @uses ::ErrorMessage
@@ -19,6 +19,7 @@ use PHPUnit\Framework\TestCase;
   * @uses ::NLI
   * @uses ::NLIO
   * @uses ::SetConst
+  * @uses ::XSSPrintSafe
   * @uses ::returnErrorMessage
   * @uses ::returnExportHTTPVar
   * @uses baseCon
@@ -34,7 +35,7 @@ class state_commonTest extends TestCase {
 		GLOBAL $BASE_path, $DBlib_path, $DBtype, $debug_mode, $alert_dbname,
 		$alert_host, $alert_user, $alert_password, $alert_port,
 		$db_connect_method, $db, $archive_dbname, $archive_host,
-		$archive_port, $archive_user, $archive_password;
+		$archive_port, $archive_user, $archive_password, $BCR;
 		$tf = __FUNCTION__;
 		// Setup DB System.
 		$TRAVIS = getenv('TRAVIS');
@@ -88,12 +89,21 @@ class state_commonTest extends TestCase {
 				'DB Object Not Initialized.'
 			);
 		}
+		// Shim for testing functions that access the BaseCapsRegestry Class
+		// via the global $BCR var, which is not defined under test conditions.
+		if ( !isset($BCR) ){
+			$BCR = 'Temp';
+		}
 		self::$db = $db;
 		self::$CVT = '0Az ./()_@~!#$%^&*=<>+:;,?-|';
 		self::$UOV = 'Unexpected Output Value: ';
 		self::$URV = 'Unexpected Return Value: ';
 	}
 	public static function tearDownAfterClass() {
+		GLOBAL $BCR;
+		if ( $BCR == 'Temp' ){ // EventTiming Shim clean up.
+			unset($BCR);
+		}
 		self::$db = null;
 		self::$CVT = null;
 		self::$UOV = null;
@@ -171,75 +181,6 @@ class state_commonTest extends TestCase {
 			}
 		}
 	}
-	public function testXSSPrintSafeNullReturnsNull() {
-		$URV = self::$URV.'XSSPrintSafe().';
-		$this->assertNull(XSSPrintSafe(NULL),$URV);
-	}
-	public function testXSSPrintSafeValueReturnsNotNull() {
-		$URV = self::$URV.'XSSPrintSafe().';
-		$this->assertNotNull(XSSPrintSafe('Value'),$URV);
-	}
-	public function testXSSPrintSafeNoTransformValue() {
-		$URV = self::$URV.'XSSPrintSafe().';
-		$this->assertEquals('Value',XSSPrintSafe('Value'),$URV);
-	}
-	public function testXSSPrintSafeTransformValue() {
-		$URV = self::$URV.'XSSPrintSafe().';
-		$Value = '&"<>';
-		$this->assertEquals('&amp;&quot;&lt;&gt;',XSSPrintSafe($Value),$URV);
-	}
-	public function testXSSPrintSafeNoTransformNonKeyedArray() {
-		$URV = self::$URV.'XSSPrintSafe().';
-		$Value = array (1,2,3,4);
-		$this->assertEquals(array(1,2,3,4),XSSPrintSafe($Value),$URV);
-	}
-	public function testXSSPrintSafeTransformNonKeyedArray() {
-		$URV = self::$URV.'XSSPrintSafe().';
-		$Value = array ('&"<>',1,2,3,4);
-		$this->assertEquals(
-			array('&amp;&quot;&lt;&gt;',1,2,3,4),XSSPrintSafe($Value),$URV
-		);
-	}
-	public function testXSSPrintSafeNoTransformKeyedArray() {
-		$URV = self::$URV.'XSSPrintSafe().';
-		$Value = array (
-			'key1' => 0,
-			'key2' => 1,
-			'key3' => 2,
-			'key4' => 3,
-			'key5' => 4
-		);
-		$this->assertEquals(
-			array(
-				'key1' => '0',
-				'key2' => '1',
-				'key3' => '2',
-				'key4' => '3',
-				'key5' => '4'
-			),
-			XSSPrintSafe($Value),$URV
-		);
-	}
-	public function testXSSPrintSafeTransformKeyedArray() {
-		$URV = self::$URV.'XSSPrintSafe().';
-		$Value = array (
-			'key1' => '&"<>',
-			'key2' => 1,
-			'key3' => 2,
-			'key4' => 3,
-			'key5' => 4
-		);
-		$this->assertEquals(
-			array(
-				'key1' => '&amp;&quot;&lt;&gt;',
-				'key2' => '1',
-				'key3' => '2',
-				'key4' => '3',
-				'key5' => '4'
-			),
-			XSSPrintSafe($Value),$URV
-		);
-	}
 	public function testSetSessionVarDefaults() {
 		$URV = self::$URV.'SetSessionVar().';
 		$a = NULL;
@@ -255,7 +196,9 @@ class state_commonTest extends TestCase {
 		$URV = self::$URV.'SetSessionVar().';
 		$UOV = self::$UOV.'SetSessionVar().';
 		$this->expectOutputString(
-			"<font color='black'>SetSessionVar(): Importing GET var '$a'</font><br/>",
+			"<font color='black'>SetSessionVar(): Importing GET var '$a'"
+			. '</font><br/>'
+			. "<font color='black'>SetSessionVar(): $a: $a</font><br/>",
 			$Ret = SetSessionVar($a),$UOV
 		);
 		$this->assertNotEmpty($Ret, $URV);
@@ -273,7 +216,9 @@ class state_commonTest extends TestCase {
 		$URV = self::$URV.'SetSessionVar().';
 		$UOV = self::$UOV.'SetSessionVar().';
 		$this->expectOutputString(
-			"<font color='black'>SetSessionVar(): Importing POST var '$a'</font><br/>",
+			"<font color='black'>SetSessionVar(): Importing POST var '$a'"
+			. '</font><br/>'
+			. "<font color='black'>SetSessionVar(): $a: $a</font><br/>",
 			$Ret = SetSessionVar($a),$UOV
 		);
 		$this->assertNotEmpty($Ret, $URV);
@@ -291,7 +236,9 @@ class state_commonTest extends TestCase {
 		$URV = self::$URV.'SetSessionVar().';
 		$UOV = self::$UOV.'SetSessionVar().';
 		$this->expectOutputString(
-			"<font color='black'>SetSessionVar(): Importing SESSION var '$a'</font><br/>",
+			"<font color='black'>SetSessionVar(): Importing SESSION var '$a'"
+			. '</font><br/>'
+			. "<font color='black'>SetSessionVar(): $a: $a</font><br/>",
 			$Ret = SetSessionVar($a),$UOV
 		);
 		$this->assertNotEmpty($Ret, $URV);
