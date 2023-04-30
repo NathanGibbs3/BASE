@@ -25,11 +25,11 @@ https://github.com/NathanGibbs3/BASE/issues/28)
 Now matches new functionality in the snort.org web site.  
 Such a lookup needs a URL, such as https://snort.org/rule_docs/1-2003 .
 - Update isc.sans.org port lookup URL.
-- [#76 Merge Back Link into page header Menu.](
+- Merge Back Link into page header Menu. [#76](
 https://github.com/NathanGibbs3/BASE/issues/76)
-- [#73 Standardize generation of HTML for Timing Display.](
+- Standardize generation of HTML for Timing Display. [#73](
 https://github.com/NathanGibbs3/BASE/issues/73)
-- [#37 Use EventTiming class where page load timing info is displayed.](
+- Use EventTiming class where page load timing info is displayed. [#37](
 https://github.com/NathanGibbs3/BASE/issues/37)
 - Change Image_Graph download URL in error message. [#86](
 https://github.com/NathanGibbs3/BASE/issues/86)
@@ -47,30 +47,30 @@ https://github.com/NathanGibbs3/BASE/issues/177)
 Contributor(s): [Nathan Gibbs]
 
 ### Fixed
-- [#2 Return value of function `GetVendor()`. ](
+- Return value of function `GetVendor()`. [#2](
 https://github.com/NathanGibbs3/BASE/issues/2)
-- [#6 PHP Strict standards/Warning: Declaration Messages on Travis-CI & Local.](
+- PHP Strict standards/Warning: Declaration Messages on Travis-CI & Local. [#6](
 https://github.com/NathanGibbs3/BASE/issues/6)
-- [#7 PHP Deprecated: Messages on Travis-CI & Local.](
+- PHP Deprecated: Messages on Travis-CI & Local. [#7](
 https://github.com/NathanGibbs3/BASE/issues/7)
-- [#34 `VerifyDBAbstractionLib()` Not operative under safe mode.](
+- `VerifyDBAbstractionLib()` Not operative under safe mode. [#34](
 https://github.com/NathanGibbs3/BASE/issues/34)
-- [#38 BASE does not check for unset variables in admin pages before access.](
+- BASE does not check for unset variables in admin pages before access. [#38](
 https://github.com/NathanGibbs3/BASE/issues/38)
-- [#39 Function `base_header()` does not check if headers where sent before
-calling `header()` and exiting.](
+- Function `base_header()` does not check if headers where sent before
+calling `header()` and exiting. [#39](
 https://github.com/NathanGibbs3/BASE/issues/39)
-- [#40 `PrintFreshPage()` does not check for unset Superglobal variable
-`$_SERVER['REQUEST_URI']` before access.](
+- `PrintFreshPage()` does not check for unset Superglobal variable
+`$_SERVER['REQUEST_URI']` before access. [#40](
 https://github.com/NathanGibbs3/BASE/issues/40)
-- [#31 BASE does not check for unset conf variables external_*_link before
-access.](
+- BASE does not check for unset conf variables `external_*_link` before
+access. [#31](
 https://github.com/NathanGibbs3/BASE/issues/31)
-- [#44 `SignatureCriteria::PrintForm()` does not check for unset conf
-variable `$GLOBALS['use_sig_list']` before access.](
+- `SignatureCriteria::PrintForm()` does not check for unset conf
+variable `$GLOBALS['use_sig_list']` before access. [#44](
 https://github.com/NathanGibbs3/BASE/issues/44)
-- [#45 BASE does not check for unset conf variable `$show_expanded_query`
-before access.](
+- BASE does not check for unset conf variable `$show_expanded_query`
+before access. [#45](
 https://github.com/NathanGibbs3/BASE/issues/45)
 - [#27 `BuildSigLookup()` does not check for unset conf variable
 `external_sig_link` before access.](
@@ -226,47 +226,58 @@ https://github.com/NathanGibbs3/BASE/issues/157)
 https://github.com/NathanGibbs3/BASE/issues/159)
 - [#160 PHP 8.x - ErrorMessage() & returnErrorMessage() output breaks.](
 https://github.com/NathanGibbs3/BASE/issues/160)
-- [#162 PHP 8x - Mysql errors in build.](
+- PHP 8x - Mysql errors in build. [#162](
 https://github.com/NathanGibbs3/BASE/issues/162)
-- [#163 PHP 8x - Invalid SQL Tests break build.](
+- PHP 8x - Invalid SQL Tests break build. [#163](
 https://github.com/NathanGibbs3/BASE/issues/163)
-- [#165 Default QueryState Initialization Issues.](
+- Default QueryState Initialization Issues. [#165](
 https://github.com/NathanGibbs3/BASE/issues/165)
-- [#166 strftime() Deprecation Notices.](
+- `strftime()` Deprecation Notices. [#166](
 https://github.com/NathanGibbs3/BASE/issues/166)
-- [#167 Class TCPFlagsCriteria function isEmpty Deprecation Notice.](
+- Class `TCPFlagsCriteria` function `isEmpty` Deprecation Notice. [#167](
 https://github.com/NathanGibbs3/BASE/issues/167)
-- [#168 PHP Warning: Trying to access array offset on value of type null.](
+- PHP Warning: Trying to access array offset on value of type null. [#168](
 https://github.com/NathanGibbs3/BASE/issues/168)
-- [#169 `baseExecute()` input validation error.](
+- `baseExecute()` input validation error. [#169](
 https://github.com/NathanGibbs3/BASE/issues/169)
-- [#172 Incorrect display of protocol bar graphs when DB is empty.](
+- Incorrect display of protocol bar graphs when DB is empty. [#172](
 https://github.com/NathanGibbs3/BASE/issues/172)
-- [#174 Alert Display bug.](
-https://github.com/NathanGibbs3/BASE/issues/174)
-- [#179 Alert Group searches not displaying alerts.](
+- Alert Display bug. [#174 ](https://github.com/NathanGibbs3/BASE/issues/174)
+- Alert Group searches not displaying alerts. [#179](
 https://github.com/NathanGibbs3/BASE/issues/179)
+- Standardize code to handle library inclusion errors. [#92](
+https://github.com/NathanGibbs3/BASE/issues/92)
+- Make the graphing & email functions optional based on the availablity of the required PEAR packages. [#180](
+https://github.com/NathanGibbs3/BASE/issues/180)
+- Archive actions display when archive DB is disabled. [#181](
+https://github.com/NathanGibbs3/BASE/issues/181)
+- BASE assumes that presence of archive cookie indicates presence of Archive DB. [#183](
+https://github.com/NathanGibbs3/BASE/issues/183)
+- QueryState makes assumptions about internal property type. [#185](
+https://github.com/NathanGibbs3/BASE/issues/185)
 
 Contributor(s): [Nathan Gibbs]
 
-- [#57 `tr bgcolor="#"` if `$prio` not in `$priority_colors`
-(unknown event class)](https://github.com/NathanGibbs3/BASE/issues/57)  
+- `tr bgcolor="#"` if `$prio` not in `$priority_colors`
+(unknown event class) [#57](https://github.com/NathanGibbs3/BASE/issues/57)  
 Contributor(s):
   - [FalcoGer]  
   - [Nathan Gibbs]  
-- [#94 Reaching Admin page appears to be programming problem with Index.php](
+- Reaching Admin page appears to be programming problem with Index.php [#94](
 https://github.com/NathanGibbs3/BASE/issues/94)  
-- [#142 Admin function not working on Windows installations.](
+- Admin function not working on Windows installations. [#142](
 https://github.com/NathanGibbs3/BASE/issues/142)
-- [#144 BASE offers non-operative choices when BASE Auth system is disabled or
-non admin user is logged in.](
+- BASE offers non-operative choices when BASE Auth system is disabled or
+non admin user is logged in. [#144](
 https://github.com/NathanGibbs3/BASE/issues/144)
-- [#145 BASE denied landing page not loading.](
+- BASE denied landing page not loading. [#145](
 https://github.com/NathanGibbs3/BASE/issues/145)
-- [#149 PHP 8.x compatibility.](
+- PHP 8.x compatibility. [#149](
 https://github.com/NathanGibbs3/BASE/issues/149)
-- [#178 Invalid SQL Generation on PHP 8x.](
+- Invalid SQL Generation on PHP 8x. [#178](
 https://github.com/NathanGibbs3/BASE/issues/178)
+-  Main page, stats display bug. [#182](
+https://github.com/NathanGibbs3/BASE/issues/182)
 
 Contributor(s):
   - [mesteele]
