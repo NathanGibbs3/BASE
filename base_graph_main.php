@@ -22,8 +22,8 @@
 ********************************************************************************
 */
 
-require_once("base_conf.php");
-include_once("$BASE_path/includes/base_constants.inc.php");
+$sc = DIRECTORY_SEPARATOR;
+require_once("includes$sc" . 'base_krnl.php');
 include("$BASE_path/includes/base_include.inc.php");
 include_once("$BASE_path/base_db_common.php");
 include_once("$BASE_path/base_graph_common.php");
@@ -103,7 +103,6 @@ function check_worldmap(){
 }
 
 AuthorizedRole(10000);
-$et = new EventTiming($debug_time_mode);
 $cs = new CriteriaState("base_stat_alerts.php");
 $cs->ReadState();
 $new = ImportHTTPVar("new", VAR_DIGIT);
@@ -157,7 +156,9 @@ if ( $new == 1 && $submit == '' ){ // Totally new Graph
   $aggregate_type    = ImportHTTPVar("aggregate_type", VAR_DIGIT);
 
 $page_title = _GRAPHALERTDATA;
-PrintBASESubHeader($page_title, $page_title, $cs->GetBackLink(), $refresh_all_pages);
+PrintBASESubHeader(
+	$page_title, $page_title, $cs->GetBackLink(), $refresh_all_pages
+);
 $db = NewBASEDBConnection($DBlib_path, $DBtype); // Connect to the Alert DB.
 $db->baseDBConnect(
 	$db_connect_method,$alert_dbname, $alert_host, $alert_port, $alert_user,
@@ -467,14 +468,14 @@ if ( $submit != '' && $chart_type == ' ' ){ // Error Conditions.
         echo '(click at the image or - after it has been reloaded - click at it for a second time to get a bigger size of it)<BR><BR>';
 		}
       echo '</CENTER>';
-		$et->Mark("Rendering graph");
-	}else{
-		ErrorMessage(_ERRCHRTNODATAPOINTS);
+			$et->Mark('Rendering graph.');
+		}else{
+			ErrorMessage(_ERRCHRTNODATAPOINTS);
+		}
 	}
-}
-PrintBASESubFooter();
+	PrintBASESubFooter();
 }else{ // Graphics Libs Check failed.
 	error_log($EMPfx . 'Graphics Libs check failed.');
-	base_header("Location: base_main.php");
+	HTTP_header('Location: base_main.php');
 }
 ?>

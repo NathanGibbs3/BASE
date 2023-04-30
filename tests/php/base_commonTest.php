@@ -1,10 +1,10 @@
 <?php
 use PHPUnit\Framework\TestCase;
 
-// Test fucntions in /base_common.php
+// Test fucntions in: base_common.php
+
 /**
   * Code Coverage Directives.
-  * @covers ::ChkAccess
   * @covers ::ChkArchive
   * @covers ::ChkCookie
   * @covers ::ChkGet
@@ -12,15 +12,15 @@ use PHPUnit\Framework\TestCase;
   * @covers ::GetAsciiClean
   * @covers ::GetQueryResultID
   * @covers ::GetVendor
-  * @covers ::Htmlcolor
-  * @covers ::LoadedString
   * @covers ::PearInc
   * @covers ::Percent
-  * @covers ::base_array_key_exists
   * @covers ::base_include
+  * @uses ::ChkAccess
   * @uses ::CleanVariable
   * @uses ::ErrorMessage
+  * @uses ::HtmlColor
   * @uses ::LibIncError
+  * @uses ::LoadedString
   * @uses ::XSSPrintSafe
   * @uses ::returnErrorMessage
   */
@@ -33,6 +33,12 @@ class base_commonTest extends TestCase {
 	protected static $URV;
 
 	public static function setUpBeforeClass(){
+		GLOBAL $BCR;
+		// Shim for testing functions that access the BaseCapsRegestry Class
+		// via the global $BCR var, which is not defined under test conditions.
+		if ( !isset($BCR) ){
+			$BCR = 'Temp';
+		}
 		self::$UOV = 'Unexpected Output Value: ';
 		self::$URV = 'Unexpected Return Value: ';
 		// PHPUnit Version
@@ -50,6 +56,10 @@ class base_commonTest extends TestCase {
 		);
 	}
 	public static function tearDownAfterClass(){
+		GLOBAL $BCR;
+		if ( $BCR == 'Temp' ){ // EventTiming Shim clean up.
+			unset($BCR);
+		}
 		self::$UOV = null;
 		self::$URV = null;
 		self::$TA = null;
@@ -89,46 +99,6 @@ class base_commonTest extends TestCase {
 		);
 		rename ("./base_mac_prefixes.tmp","./base_mac_prefixes.map");
 	}
-	public function testHtmlColorWSC (){
-		$URV = self::$URV.'HtmlColor().';
-		$wsc = array(
-			'black', 'silver', 'gray', 'white', 'maroon', 'red', 'pruple',
-			'fuchsia', 'green', 'lime', 'olive', 'yellow', 'navy', 'blue',
-			'teal', 'aqua'
-		);
-		foreach($wsc as $tc){
-			$this->assertTrue( HtmlColor($tc), $URV );
-		}
-	}
-	public function testHtmlColorHex (){
-		$URV = self::$URV.'HtmlColor().';
-		for ($i = 0; $i < 257; $i++ ){
-			$tc = substr("00".dechex($i),-2);
-			$tc = str_repeat ($tc, 3);
-			$this->assertTrue( HtmlColor($tc), $URV );
-		}
-	}
-	public function testHtmlColorPfxHex (){
-		$URV = self::$URV.'HtmlColor().';
-		for ($i = 0; $i < 257; $i++ ){
-			$tc = substr("00".dechex($i),-2);
-			$tc = str_repeat ($tc, 3);
-			$tc = '#' . $tc;
-			$this->assertTrue( HtmlColor($tc), $URV );
-		}
-	}
-	public function testHtmlColorInvalidWSC (){
-		$URV = self::$URV.'HtmlColor().';
-		$this->assertFalse( HtmlColor('#yellow'), $URV );
-	}
-	public function testHtmlColorInvalidHex (){
-		$URV = self::$URV.'HtmlColor().';
-		$this->assertFalse( HtmlColor('af'), $URV );
-	}
-	public function testHtmlColorInvalidPfHex (){
-		$URV = self::$URV.'HtmlColor().';
-		$this->assertFalse( HtmlColor('#af'), $URV );
-	}
 	public function testPercentDefaultReturnsExpected(){
 		$URV = self::$URV.'Percent().';
 		$this->assertEquals( '100', Percent(), $URV );
@@ -156,36 +126,6 @@ class base_commonTest extends TestCase {
 		$URV = self::$URV.'Percent().';
 		$msg = 0;
 		$this->assertEquals( $msg, Percent(-2,-1), $URV );
-	}
-	public function testLoadedStringNotSet(){
-		$this->assertFalse(
-			LoadedString(null),
-			'Unexpected return SetConst().'
-		);
-	}
-	public function testLoadedStringBool(){
-		$this->assertFalse(
-			LoadedString(false),
-			'Unexpected return SetConst().'
-		);
-	}
-	public function testLoadedStringInt(){
-		$this->assertFalse(
-			LoadedString(1),
-			'Unexpected return SetConst().'
-		);
-	}
-	public function testLoadadStringEmpty(){
-		$this->assertFalse(
-			LoadedString(''),
-			'Unexpected return SetConst().'
-		);
-	}
-	public function testLoadedStringFull(){
-		$this->assertTrue(
-			LoadedString('Valid'),
-			'Unexpected return SetConst().'
-		);
 	}
 	public function testbase_includeEmpty(){
 		GLOBAL $BASE_path, $debug_mode;
@@ -515,81 +455,6 @@ class base_commonTest extends TestCase {
 		);
 		unset ($_GET['test']);
 	}
-	public function testreturnChkAccessDirectoryTypeInvalid(){
-		GLOBAL $BASE_path;
-		$sc = DIRECTORY_SEPARATOR;
-		$Testfile = "$BASE_path$sc" . 'custom';
-		$this->assertEquals(
-			-1,
-			ChkAccess($Testfile),
-			'Unexpected return ChkAccess().'
-		);
-	}
-	public function testreturnChkAccessDirectoryTypeValid(){
-		GLOBAL $BASE_path;
-		$sc = DIRECTORY_SEPARATOR;
-		$Testfile = "$BASE_path$sc" . 'custom';
-		$this->assertEquals(
-			1,
-			ChkAccess($Testfile,'d'),
-			'Unexpected return ChkAccess().'
-		);
-	}
-	public function testreturnChkAccessInValid(){
-		GLOBAL $BASE_path;
-		$sc = DIRECTORY_SEPARATOR;
-		$file = 'doesnotexist.htm';
-		$Testfile = "$BASE_path$sc" . "custom$sc$file";
-		$this->assertEquals(
-			-1,
-			ChkAccess($Testfile),
-			'Unexpected return ChkAccess().'
-		);
-	}
-	public function testreturnChkAccessValid(){
-		GLOBAL $BASE_path;
-		$sc = DIRECTORY_SEPARATOR;
-		$file = 'testCASE.HTML';
-		$Testfile = "$BASE_path$sc" . "custom$sc$file";
-		$this->assertEquals(
-			1,
-			ChkAccess($Testfile),
-			'Unexpected return ChkAccess().'
-		);
-	}
-	public function testreturnChkAccessSafeModeCutoutDirectory(){
-		GLOBAL $BASE_path;
-		$sc = DIRECTORY_SEPARATOR;
-		$Testfile = "$BASE_path$sc" . 'custom';
-		$PHPV = GetPHPV();
-		if (version_compare($PHPV, '5.1.4', '>')){
-			$this->assertTrue(true,'Passing Test.');
-		}else{
-			$this->assertTrue(ini_get("safe_mode"),'PHP SafeMode: Off');
-			$this->assertEquals(
-				1,
-				ChkAccess($Testfile,'d'),
-				'Unexpected return ChkAccess().'
-			);
-		}
-	}
-	public function testreturnChkAccessSafeModeCutoutValid(){
-		GLOBAL $BASE_path;
-		$sc = DIRECTORY_SEPARATOR;
-		$file = 'testCASE.HTML';
-		$Testfile = "$BASE_path$sc" . "custom$sc$file";
-		$PHPV = GetPHPV();
-		if (version_compare($PHPV, '5.1.4', '>')){
-			$this->assertTrue(true,'Passing Test.');
-		}else{
-			$this->assertTrue(ini_get("safe_mode"),'PHP SafeMode: Off');
-			$this->assertEquals(
-				1,
-				ChkAccess($Testfile),
-				'Unexpected return ChkAccess().'
-			);
-		}
-	}
 
 	public function testreturnChkLibEmpty(){
 		GLOBAL $debug_mode;
@@ -738,55 +603,7 @@ class base_commonTest extends TestCase {
 		ChkLib($path,'',$Lib);
 		$debug_mode = $odb;
 	}
-	public function testBAKEDefaultReturnsExpected(){
-		$URV = self::$URV.'base_array_key_exists().';
-		$TA = self::$TA;
-		$this->assertFalse( base_array_key_exists('notthere', $TA), $URV );
-	}
-	public function testBAKENonArrayreturnsExpected(){
-		$URV = self::$URV.'base_array_key_exists().';
-		$Idx = 'array';
-		$this->assertFalse( base_array_key_exists($Idx, $Idx), $URV );
-	}
-	public function testBAKENullreturnsExpected(){
-		$URV = self::$URV.'base_array_key_exists().';
-		$TA = self::$TA;
-		$Idx = null;
-		$msg = 'null';
-		$this->assertTrue( base_array_key_exists($Idx, $TA), $URV );
-		$this->assertEquals( $msg, $TA[$Idx], $URV );
-	}
-	public function testBAKEEmptyreturnsExpected(){
-		$URV = self::$URV.'base_array_key_exists().';
-		$TA = self::$TA;
-		$Idx = '';
-		$msg = 'null';
-		$this->assertTrue( base_array_key_exists($Idx, $TA), $URV );
-		$this->assertEquals( $msg, $TA[$Idx], $URV );
-	}
-	public function testBAKEIntreturnsExpected(){
-		$URV = self::$URV.'base_array_key_exists().';
-		$TA = self::$TA;
-		$Idx = 23;
-		$msg = 'int';
-		$this->assertTrue( base_array_key_exists($Idx, $TA), $URV );
-		$this->assertEquals( $msg, $TA[$Idx], $URV );
-	}
-	public function testBAKEStringreturnsExpected(){
-		$URV = self::$URV.'base_array_key_exists().';
-		$TA = self::$TA;
-		$Idx = 'test';
-		$msg = 'string';
-		$this->assertTrue( base_array_key_exists($Idx, $TA), $URV );
-		$this->assertEquals( $msg, $TA[$Idx], $URV );
-	}
-	public function testBAKEArrayreturnsExpected(){
-		$URV = self::$URV.'base_array_key_exists().';
-		$TA = self::$TA;
-		$Idx = 'array';
-		$this->assertTrue( base_array_key_exists($Idx, $TA), $URV );
-		$this->assertTrue( is_array($TA[$Idx]), $URV );
-	}
+
 	public function testreturnPearincEmpty(){
 		$URV = self::$URV.'PearInc().';
 		$UOV = self::$UOV.'PearInc().';

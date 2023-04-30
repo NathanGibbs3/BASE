@@ -21,15 +21,14 @@
 //   - submit
 //   - sort_order
 
-include_once ("base_conf.php");
-include_once ("$BASE_path/includes/base_constants.inc.php");
-include ("$BASE_path/includes/base_include.inc.php");
-include_once ("$BASE_path/base_db_common.php");
-include_once ("$BASE_path/base_qry_common.php");
-include_once ("$BASE_path/base_stat_common.php");
+$sc = DIRECTORY_SEPARATOR;
+require_once("includes$sc" . 'base_krnl.php');
+include_once("$BASE_path/includes/base_include.inc.php");
+include_once("$BASE_path/base_db_common.php");
+include_once("$BASE_path/base_qry_common.php");
+include_once("$BASE_path/base_stat_common.php");
 
 AuthorizedRole(10000);
-$et = new EventTiming($debug_time_mode);
 $db = NewBASEDBConnection($DBlib_path, $DBtype); // Connect to DB.
 $db->baseDBConnect(
 	$db_connect_method,$alert_dbname, $alert_host, $alert_port, $alert_user,
@@ -83,13 +82,11 @@ $qs->AddCannedQuery(
 $qs->MoveView($submit); // Increment the view if necessary.
 $page_title = _ALERTTITLE;
 if ( $qs->isCannedQuery() ){
-	$page_title.': '.$qs->GetCurrentCannedQueryDesc();
+	$page_title . ': ' . $qs->GetCurrentCannedQueryDesc();
 }
 PrintBASESubHeader( $page_title, $page_title, $cs->GetBackLink(), 1 );
 
-if (is_object($cs)){ // Issue #5
-  $criteria_clauses = ProcessCriteria();
-}
+$criteria_clauses = ProcessCriteria();
 // Issue #114 fix
 NLIO ("<div style='overflow:hidden'>",2);
 NLIO ("<div style='float: left; width: 60%;'>",3);

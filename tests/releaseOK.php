@@ -19,14 +19,19 @@
 //
 //          Author(s): Nathan Gibbs
 
+$BASE_installID = 'GH API Check';
 $BASE_path = dirname(__FILE__);
 $sc = DIRECTORY_SEPARATOR;
 $ReqRE =  "\\".$sc.'tests.*';
 $BASE_path = preg_replace('/'.$ReqRE.'/', '', $BASE_path);
-define( '_BASE_INC', 1 );
-$BASE_installID = 'GH API Check';
 
-include("$BASE_path/includes/base_include.inc.php");
+// BASE Runtime.
+include_once("$BASE_path$sc" . "includes$sc" . "base_rtl.php");
+SetConst('_BASE_INC', 1); // Include Load Flag.
+include_once("$BASE_path$sc" . "base_common.php");
+include_once("$BASE_path$sc". "includes$sc" . "base_capabilities.php");
+
+//include("$BASE_path/includes/base_include.inc.php");
 
 $tcc = new BaseCapsRegistry();
 $Lv = $tcc->GetCap('PHP_Ver');

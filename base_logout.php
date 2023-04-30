@@ -15,10 +15,11 @@
 //          Author(s): Nathan Gibbs
 //                     Kevin Johnson
 
-include("base_conf.php");
-include_once("$BASE_path/base_common.php");
-if (!headers_sent()) {
-	setcookie('BASERole', '', time()-600000);
-	base_header("Location: $BASE_urlpath/index.php");
+$sc = DIRECTORY_SEPARATOR;
+require_once("includes$sc" . 'base_krnl.php');
+if( !headers_sent() ){
+	setcookie('BASERole', '', 1);
+	setcookie(session_name(), session_id(), 1);
+	HTTP_header("Location: $BASE_urlpath/index.php");
 }
 ?>

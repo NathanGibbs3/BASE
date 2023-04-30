@@ -18,11 +18,11 @@ class base_qry_commonspTest extends TestCase {
 	protected static $files;
 	protected static $langs;
 	protected static $UIL;
-	protected static $db;
 	protected static $EOP;
 	protected static $EOS;
 	protected static $DTR2SQL;
 	protected static $URV;
+	protected static $db;
 
 	// We are using a single TD file.
 	// Share class instance as common test fixture.
@@ -130,8 +130,8 @@ class base_qry_commonspTest extends TestCase {
 		self::$DTR2SQL = null;
 		self::$EOS = null;
 		self::$EOP = null;
-		self::$db = null;
 		self::$UIL = null;
+		self::$db = null;
 		self::$langs = null;
 		self::$files = null;
 	}

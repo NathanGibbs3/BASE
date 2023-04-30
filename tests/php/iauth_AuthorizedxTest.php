@@ -8,7 +8,7 @@ use PHPUnit\Framework\TestCase;
   * @covers ::AuthorizedRole
   * @covers ::AuthorizedPage
   * @covers ::AuthorizedURI
-  * @uses ::base_header
+  * @uses ::HTTP_header
   * @uses ::filterSql
   * @uses ::ChkAccess
   * @uses ::ChkLib
@@ -23,6 +23,8 @@ use PHPUnit\Framework\TestCase;
 class authTest2 extends TestCase {
 	// Pre Test Setup.
 	protected static $user;
+	protected static $PHPUV;
+	protected static $UOV;
 	protected static $URV;
 
 	// Share class instance as common test fixture.
@@ -90,11 +92,21 @@ class authTest2 extends TestCase {
 			);
 			self::$user = $user;
 		}
+		// PHPUnit Version
+		$PHPUV = GetPHPUV();
+		if (version_compare($PHPUV, '9.0', '<')){ // PHPUnit < 9x
+			self::$PHPUV = 1;
+		}else{ // PHPUnit 9+
+			self::$PHPUV = 2;
+		}
+		self::$UOV = 'Unexpected Output Value: ';
 		self::$URV = 'Unexpected Return Value: ';
 	}
 	public static function tearDownAfterClass() {
 		self::$user = null;
+		self::$PHPUV = null;
 		self::$URV = null;
+		self::$UOV = null;
 	}
 
 	// Tests go here.
@@ -109,27 +121,28 @@ class authTest2 extends TestCase {
 	/**
 	 * @backupGlobals disabled
 	 */
-	public function testAuthorizedRoleThrowsAuthenticateError(){
+	public function testAuthorizedRoleLogsAuthenticateError(){
 		$URV = self::$URV . 'AuthorizedRole().';
-		$EEM = 'Unauthenticated user access';
-		$PHPUV = GetPHPUV();
-		if (version_compare($PHPUV, '3.0', '<')) {
-			$this->markTestSkipped('Requires Phpunit 3+ to run.');
-		}elseif (version_compare($PHPUV, '5.0', '<')) { // PHPUnit 3x - 4x
-			$this->setExpectedException(
-				"PHPUnit_Framework_Error_Notice", $EEM
-			);
-		}elseif (version_compare($PHPUV, '6.0', '<')) { // PHPUnit 5x
-			$this->expectException("PHPUnit_Framework_Error_Notice");
-			$this->expectExceptionMessage($EEM);
-		}elseif (version_compare($PHPUV, '9.0', '<')) { // PHPUnit 6x - 8x
-			$this->expectException("PHPUnit\Framework\Error\Notice");
-			$this->expectExceptionMessage($EEM);
-		}else{ // PHPUnit 9+
-			$this->expectNotice();
-			$this->expectNoticeMessage($EEM);
-		}
+		$UOV = self::$UOV . 'AuthorizedRole().';
+		$PHPUV = self::$PHPUV;
+		$EOM = ' BASE Security Alert AuthorizedRole(): '
+		. 'Unauthenticated user access';
+		$cur_e_l = ini_get( 'error_log' ); // Shim error_log output On
+		$capture = tmpfile();
+		$tmp = stream_get_meta_data($capture);
+		ini_set('error_log', $tmp['uri']);
 		$this->assertFalse( AuthorizedRole(), $URV );
+		ini_set( 'error_log', $cur_e_l ); // Shim error_log output Off
+		$elOutput = stream_get_contents($capture);
+		if ( $PHPUV > 1 ){ // PHPUnit 9+
+			$this->assertMatchesRegularExpression(
+				'/'.$EOM.'/', $elOutput, $UOV
+			);
+		}else{ // Legacy PHPUnit
+			$this->assertRegExp(
+				'/'.$EOM.'/', $elOutput, $UOV
+			);
+		}
 	}
 	/**
 	 * @backupGlobals disabled
@@ -142,30 +155,31 @@ class authTest2 extends TestCase {
 	/**
 	 * @backupGlobals disabled
 	 */
-	public function testAuthorizedRoleThrowsAuthorizeError(){
+	public function testAuthorizedRoleLogsAuthorizeError(){
 		$URV = self::$URV . 'AuthorizedRole().';
+		$UOV = self::$UOV . 'AuthorizedRole().';
+		$PHPUV = self::$PHPUV;
+		$EOM = ' BASE Security Alert AuthorizedRole(): '
+		. 'Unauthorized user access: TestAnonUser';
 		$user = self::$user;
 		$pw = $user->cryptpassword('password');
 		$_COOKIE['BASERole'] = "$pw|TestAnonUser|";
-		$EEM = 'Unauthorized user access: TestAnonUser';
-		$PHPUV = GetPHPUV();
-		if (version_compare($PHPUV, '3.0', '<')) {
-			$this->markTestSkipped('Requires Phpunit 3+ to run.');
-		}elseif (version_compare($PHPUV, '5.0', '<')) { // PHPUnit 3x - 4x
-			$this->setExpectedException(
-				"PHPUnit_Framework_Error_Notice", $EEM
-			);
-		}elseif (version_compare($PHPUV, '6.0', '<')) { // PHPUnit 5x
-			$this->expectException("PHPUnit_Framework_Error_Notice");
-			$this->expectExceptionMessage($EEM);
-		}elseif (version_compare($PHPUV, '9.0', '<')) { // PHPUnit 6x - 8x
-			$this->expectException("PHPUnit\Framework\Error\Notice");
-			$this->expectExceptionMessage($EEM);
-		}else{ // PHPUnit 9+
-			$this->expectNotice();
-			$this->expectNoticeMessage($EEM);
-		}
+		$cur_e_l = ini_get( 'error_log' ); // Shim error_log output On
+		$capture = tmpfile();
+		$tmp = stream_get_meta_data($capture);
+		ini_set('error_log', $tmp['uri']);
 		$this->assertFalse( AuthorizedRole(1), $URV );
+		ini_set( 'error_log', $cur_e_l ); // Shim error_log output Off
+		$elOutput = stream_get_contents($capture);
+		if ( $PHPUV > 1 ){ // PHPUnit 9+
+			$this->assertMatchesRegularExpression(
+				'/'.$EOM.'/', $elOutput, $UOV
+			);
+		}else{ // Legacy PHPUnit
+			$this->assertRegExp(
+				'/'.$EOM.'/', $elOutput, $UOV
+			);
+		}
 		unset ($_COOKIE['BASERole']);
 	}
 	/**

@@ -23,17 +23,15 @@
 ********************************************************************************
 */
 
-include ("base_conf.php");
-include_once ("$BASE_path/includes/base_constants.inc.php");
-include ("$BASE_path/includes/base_include.inc.php");
-include_once ("$BASE_path/base_db_common.php");
-include_once ("$BASE_path/base_common.php");
-include_once ("$BASE_path/base_stat_common.php");
-include_once ("$BASE_path/base_qry_common.php");
-include_once ("$BASE_path/base_ag_common.php");
+$sc = DIRECTORY_SEPARATOR;
+require_once("includes$sc" . 'base_krnl.php');
+include_once("$BASE_path/includes/base_include.inc.php");
+include_once("$BASE_path/base_db_common.php");
+include_once("$BASE_path/base_stat_common.php");
+include_once("$BASE_path/base_qry_common.php");
+include_once("$BASE_path/base_ag_common.php");
 
 AuthorizedRole(10000);
-$et = new EventTiming($debug_time_mode);
 $db = NewBASEDBConnection($DBlib_path, $DBtype); // Connect to DB.
 $db->baseDBConnect(
 	$db_connect_method,$alert_dbname, $alert_host, $alert_port, $alert_user,
@@ -48,11 +46,11 @@ $sort_order=ImportHTTPVar("sort_order", VAR_LETTER | VAR_USCORE);
 $action = ImportHTTPVar("action", VAR_ALPHA);
 $qs->MoveView($submit);             /* increment the view if necessary */
 $page_title = SPSENSORLIST;
-if ( $action == '' ){
-	PrintBASESubHeader($page_title, $page_title, $cs->GetBackLink(), 1);
-}else{
-	PrintBASESubHeader($page_title, $page_title, $cs->GetBackLink(), $refresh_all_pages);
+$tr = 1; // Page Refresh
+if ($action != '' ){
+	$tr = $refresh_all_pages;
 }
+PrintBASESubHeader( $page_title, $page_title, $cs->GetBackLink(), $tr );
 $criteria_clauses = ProcessCriteria();
 PrintCriteria('');
 

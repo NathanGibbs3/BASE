@@ -23,15 +23,14 @@
 ********************************************************************************
 */
 
-include ("base_conf.php");
-include_once ("$BASE_path/includes/base_constants.inc.php");
-include ("$BASE_path/includes/base_include.inc.php");
-include_once ("$BASE_path/base_db_common.php");
-include_once ("$BASE_path/base_qry_common.php");
-include_once ("$BASE_path/base_stat_common.php");
+$sc = DIRECTORY_SEPARATOR;
+require_once("includes$sc" . 'base_krnl.php');
+include_once("$BASE_path/includes/base_include.inc.php");
+include_once("$BASE_path/base_db_common.php");
+include_once("$BASE_path/base_qry_common.php");
+include_once("$BASE_path/base_stat_common.php");
 
 AuthorizedRole(10000);
-$et = new EventTiming($debug_time_mode);
 $db = NewBASEDBConnection($DBlib_path, $DBtype); // Connect to DB.
 $db->baseDBConnect(
 	$db_connect_method, $alert_dbname, $alert_host, $alert_port, $alert_user,
@@ -49,22 +48,14 @@ $qs->AddCannedQuery("last_alerts", $last_num_ualerts, _LASTALERTS, "last_d");
 $qs->MoveView($submit);             /* increment the view if necessary */
 $page_title = _SIPLTITLE;
 if ( $qs->isCannedQuery() ){
-	if ( $action == '' ){
-    	PrintBASESubHeader($page_title.": ".$qs->GetCurrentCannedQueryDesc(),
-     	                   $page_title.": ".$qs->GetCurrentCannedQueryDesc(), 
-      	                 $cs->GetBackLink(), 1);
-	}else{
-			PrintBASESubHeader($page_title.": ".$qs->GetCurrentCannedQueryDesc(),
-     	                   $page_title.": ".$qs->GetCurrentCannedQueryDesc(), 
-      	                 $cs->GetBackLink(), $refresh_all_pages);
-	}
-}else{
-	if ($action ==  '' ){
-		PrintBASESubHeader($page_title, $page_title, $cs->GetBackLink(), 1);
-	}else{
-		PrintBASESubHeader($page_title, $page_title, $cs->GetBackLink(), $refresh_all_pages);
-	}
+	$page_title . ': ' . $qs->GetCurrentCannedQueryDesc();
 }
+$tr = 1; // Page Refresh
+if ($action != '' ){
+	$tr = $refresh_all_pages;
+}
+PrintBASESubHeader( $page_title, $page_title, $cs->GetBackLink(), $tr );
+
 $criteria_clauses = ProcessCriteria();
 PrintCriteria('');
 

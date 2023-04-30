@@ -17,22 +17,20 @@
 // Ensure the conf file has been loaded.  Prevent direct access to this file.
 defined( '_BASE_INC' ) or die( 'Accessing this file directly is not allowed.' );
 
-include_once("$BASE_path/base_common.php");
 include_once("$BASE_path/includes/base_db.inc.php");
 include_once("$BASE_path/includes/base_constants.inc.php");
 include_once("$BASE_path/includes/base_action.inc.php");
-// include_once("$BASE_path/includes/base_capabilities.php"); //Commented out by Kevin for testing
 
 class QueryState {
 	var $canned_query_list = NULL;
 	var $num_result_rows = -1;
-	var $current_canned_query = "";
-	var $current_sort_order = "";
+	var $current_canned_query = '';
+	var $current_sort_order = '';
 	var $current_view = -1;
 	var $show_rows_on_screen = -1;
 	var $valid_action_list = array();
-	var $action;
 	var $valid_action_op_list = array();
+	var $action;
 	var $action_arg;
 	var $action_lst;
 	var $action_chk_lst;
@@ -75,10 +73,16 @@ class QueryState {
     echo "</PRE>\n";
   }
 
-  function isCannedQuery()
-  {
-    return ( $this->current_canned_query != ""); 
-  }
+	function isCannedQuery(){
+		$Ret = false;
+		if (
+			!is_null($this->canned_query_list)
+			&& LoadedString($this->current_canned_query)
+		){
+			$Ret = true;
+		}
+		return $Ret;
+	}
 
   /* returns the name of the current canned query (e.g. "last_tcp") */
   function GetCurrentCannedQuery()
@@ -86,32 +90,38 @@ class QueryState {
     return $this->current_canned_query;
   }
 
-  function GetCurrentCannedQueryCnt()
-  {
-    return $this->canned_query_list[$this->current_canned_query][0];
-  }
+	function GetCurrentCannedQueryCnt(){
+		$Ret = 0;
+		if ( $this->isCannedQuery() == true ){
+			$Ret = $this->canned_query_list[$this->current_canned_query][0];
+		}
+		return $Ret;
+	}
 
-  function GetCurrentCannedQueryDesc()
-  {
-    return $this->canned_query_list[$this->current_canned_query][0]." ".
-           $this->canned_query_list[$this->current_canned_query][1];
-  }
+	function GetCurrentCannedQueryDesc(){
+		$Ret = '';
+		if ( $this->isCannedQuery() == true ){
+			$Ret = $this->canned_query_list[$this->current_canned_query][0]
+			. ' '. $this->canned_query_list[$this->current_canned_query][1];
+		}
+		return $Ret;
+	}
 
-  function GetCurrentCannedQuerySort()
-  {
-    if ( $this->isCannedQuery() )
-      return $this->canned_query_list[$this->current_canned_query][2];
-    else
-      return "";
-  }
+	function GetCurrentCannedQuerySort(){
+		$Ret = '';
+		if ( $this->isCannedQuery() == true ){
+			$Ret = $this->canned_query_list[$this->current_canned_query][2];
+		}
+		return $Ret;
+	}
 
-  function isValidCannedQuery($potential_caller)
-  {
-    if ( $this->canned_query_list == NULL )
-       return false;
-
-    return in_array($potential_caller, array_keys($this->canned_query_list));
-  }
+	function isValidCannedQuery( $caller = '' ){
+		$Ret = false;
+		if ( $this->isCannedQuery() == true && LoadedString($caller) ){
+			$Ret = in_array($caller, array_keys($this->canned_query_list));
+		}
+		return $Ret;
+	}
 
   function GetCurrentView()
   {
@@ -227,17 +237,17 @@ class QueryState {
 		$Sfx = "</div>";
 		if ( $this->num_result_rows != 0 ){
 			if ( $this->isCannedQuery() ){
-				print $Pfx._DISPLAYING." ".
-				$this->GetCurrentCannedQueryDesc().$Sfx;
+				print $Pfx . _DISPLAYING . ' ' .
+				$this->GetCurrentCannedQueryDesc() . $Sfx;
 			}else{
-				printf( $Pfx._DISPLAYINGTOTAL.$Sfx,
+				printf( $Pfx . _DISPLAYINGTOTAL . $Sfx,
                   ($this->current_view * $show_rows)+1,
                   (($this->current_view * $show_rows) + $show_rows-1) < $this->num_result_rows ? 
                   (($this->current_view * $show_rows) + $show_rows) : $this->num_result_rows, 
                   $this->num_result_rows);
 			}
 		}else{
-			print $Pfx.'<b>'._NOALERTS.'</b>'.$Sfx;
+			print $Pfx . '<b>' . _NOALERTS . '</b>' . $Sfx;
 		}
 	}
 	function PrintBrowseButtons(){

@@ -340,13 +340,14 @@ class state_citemsSPTest extends TestCase {
 		$debug_mode = 2;
 		$_SESSION[$cs] = '';
 		$this->expectOutputString(
-			"<font color='black'>SetSessionVar(): ".
-			"Importing SESSION var 'Test'</font><br/>".
-			"Import: Test<br/>\nCriteria Type: NULL<br/>\n".
-			"Criteria Import: Denied.<br/>\n".
-			"Import: Test<br/>\nCriteria Type: NULL<br/>\n".
-			"Property Type: string<br/>\n".
-			"Property Import: Denied.<br/>\n",
+			"<font color='black'>SetSessionVar(): Importing SESSION var '$cs'"
+			. '</font><br/>'
+			. "<font color='black'>SetSessionVar(): $cs: </font><br/>"
+			. "Import: $cs<br/>\nCriteria Type: NULL<br/>\n"
+			. "Criteria Import: Denied.<br/>\n"
+			. "Import: Test<br/>\nCriteria Type: NULL<br/>\n"
+			. "Property Type: string<br/>\n"
+			. "Property Import: Denied.<br/>\n",
 			$UOV
 		);
 		$tc->Import();

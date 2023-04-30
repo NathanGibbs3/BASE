@@ -19,9 +19,8 @@
 ********************************************************************************
 */
 
-require_once("base_conf.php");
-include_once("$BASE_path/includes/base_constants.inc.php");
-include_once("$BASE_path/base_common.php");
+$sc = DIRECTORY_SEPARATOR;
+require_once("includes$sc" . 'base_krnl.php');
 include_once("$BASE_path/base_qry_common.php");
 include_once("$BASE_path/includes/base_log_error.inc.php");
 include_once("$BASE_path/includes/base_signature.inc.php");

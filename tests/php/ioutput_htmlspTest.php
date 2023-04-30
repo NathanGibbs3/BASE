@@ -6,16 +6,21 @@ use PHPUnit\Framework\TestCase;
 
 /**
   * Code Coverage Directives.
+  * @Covers ::PageStart()
+  * @uses ::NLI
+  * @uses ::NLIO
   * @backupGlobals disabled
   * A necessary evil for tests touching legacy TD.
   * @preserveGlobalState disabled
   * @runTestsInSeparateProcesses
   */
+
 class output_htmlSPTest extends TestCase {
 	// Pre Test Setup.
 	protected static $files;
 	protected static $langs;
 	protected static $user;
+	protected static $PHPUV;
 	protected static $UIL;
 	protected static $UOV;
 	protected static $URV;
@@ -480,7 +485,8 @@ class output_htmlSPTest extends TestCase {
 		$EOM .= "\n\t\t\t\t\t".'</td><td>';
 		$EOM .= "\n\t\t\t\t\t\t".'<!-- Timing Information -->';
 		$EOM .= "\n\t\t\t\t\t\t".'<div class=\'systemdebug\'>';
-		$EOM .= "\n\t\t\t\t\t\t\t".'[Loaded in 0 seconds]<br/>';
+		$EOM .= "\n\t\t\t\t\t\t\t<span style='color: green;'>Loaded in</span>"
+		.' [0 seconds]<br/>';
 		$EOM .= "\n\t\t\t\t\t\t".'</div>';
 		$EOM .= "\n\t\t\t\t\t".'</td>';
 		$EOM .= "\n\t\t\t\t".'</tr>';

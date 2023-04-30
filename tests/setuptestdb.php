@@ -1,16 +1,18 @@
 <?php
 
-$BASE_path = dirname(__FILE__);
-$BASE_path = preg_replace("/\/tests.*/", "", $BASE_path);
-define( '_BASE_INC', 1 );
 $BASE_VERSION = '0.0.0 (Joette)';
 $BASE_installID = 'DB Setup';
+$BASE_path = dirname(__FILE__);
+$sc = DIRECTORY_SEPARATOR;
+$ReqRE =  "\\".$sc.'tests.*';
+$BASE_path = preg_replace('/'.$ReqRE.'/', '', $BASE_path);
 
-// BASE Runtime
-include("$BASE_path/includes/base_constants.inc.php");
+// BASE Runtime.
+include_once("$BASE_path$sc" . "includes$sc" . "base_rtl.php");
+SetConst('_BASE_INC', 1); // Include Load Flag.
+include_once("$BASE_path$sc" . "base_common.php");
+include_once("$BASE_path$sc" . "includes$sc" . "base_auth.inc.php");
 include("$BASE_path/includes/base_include.inc.php");
-include_once("$BASE_path/base_db_common.php");
-include_once("$BASE_path/base_common.php");
 // Language
 include_once("$BASE_path/languages/english.lang.php");
 
