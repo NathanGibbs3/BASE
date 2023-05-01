@@ -34,7 +34,7 @@ if ( $Use_Auth_System == 0 ){
 }
 $LoginDesc = _FRMLOGIN;
 $PWDesc = _FRMPWD;
-if (isset($_POST['submit'])) {
+if( isset($_POST['submit']) ){
     $debug_mode = 0; // wont login with debug_mode
     $BASEUSER   = new BaseUser();
     $user       = filterSql($_POST['login']);

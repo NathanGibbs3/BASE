@@ -20,7 +20,6 @@ class output_htmlSPTest extends TestCase {
 	protected static $files;
 	protected static $langs;
 	protected static $user;
-	protected static $PHPUV;
 	protected static $UIL;
 	protected static $UOV;
 	protected static $URV;

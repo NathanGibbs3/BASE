@@ -790,7 +790,7 @@ function Action_archive_alert_op($sid, $cid, &$db, $action_arg, &$ctx){
 		$sig = $tmp_row[0];
 		$timestamp = $tmp_row[1];
 		// Not everybody uses FLoP.
-		if ( base_array_key_exists(2, $tmp_row) ){
+		if( is_key(2, $tmp_row) ){
 			$reference = $tmp_row[2]; // FLoP's event reference.
 		}else{
 			$reference = '';

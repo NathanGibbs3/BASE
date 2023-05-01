@@ -513,15 +513,6 @@ $external_port_link = array(
      */
      //$IP2CC = "/usr/bin/ip2cc";
 
-
-    /*
-     The below line should not be changed!
-     */
-    $BASE_path = dirname(__FILE__);
-    
-    // _BASE_INC is a variable set to prevent direct access to certain include files....
-    define( \'_BASE_INC\', 1 );
-    
     // Include for languages
     include("$BASE_path/languages/$BASE_Language.lang.php");
     ?>';

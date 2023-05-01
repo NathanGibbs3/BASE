@@ -393,13 +393,14 @@ class BaseUser {
 		$tmpHTML .= NLI('</select>',7);
 		return $tmpHTML;
 	}
-    function setRoleCookie($passwd, $user)
-    {
-        //sets a cookie with the md5 summed passwd embedded
+
+	function setRoleCookie( $passwd, $user ){
+		//Sets cookie with the md5 summed passwd embedded.
         $hash = md5($passwd . $user . "BASEUserRole");
         $cookievalue = $passwd . "|" . $user . "|";
-        setcookie('BASERole', $cookievalue);
-    }
+		BCS('BASERole', $cookievalue);
+	}
+
 	function readRoleCookie(){ // Reads the roleCookie and returns the role id.
 		$Ret = 0;
 		if ( isset($_COOKIE['BASERole']) ){ // Check cookie sanity
@@ -594,7 +595,9 @@ function AuthorizedRole( $roleneeded = 1, $header = '' ){
 					error_log('Redirect failed');
 				}
 			}
-		}else{
+		}else{ // Authenticated & enabled user.
+			$cookievalue = $_COOKIE['BASERole'];
+			BCS('BASERole', $cookievalue); // Refresh cookie expiration.
 			$Ret = true;
 		}
 	}

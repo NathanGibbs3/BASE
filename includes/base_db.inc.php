@@ -410,11 +410,13 @@ class baseCon {
 			$tmp = $this->DB->MetaIndexes($table);
 			if ( $tmp != false ){
 				foreach ($tmp as $key => $value) { // Iterate Index List
-					if ( base_array_key_exists('columns', $value) ){
-						if ( in_array(
+					if( is_key('columns', $value) ){
+						if(
+							in_array(
 								$index_name,
 								array_values($value['columns'])
-						) ){
+							)
+						){
 							$Ret = 1;
 						}
 					}

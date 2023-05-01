@@ -432,7 +432,7 @@ function BuildSigLookup($signature, $style = 1 ){
     return $tmp1;
   }
 
-	if ( base_array_key_exists('external_sig_link',$GLOBALS) ){ // Issue #27
+	if( is_key('external_sig_link',$GLOBALS) ){ // Issue #27
   $pattern = "/BUGTRAQ ID (\d+)/";
   $replace = "<A HREF=\"".$GLOBALS['external_sig_link']['bugtraq'][0]."\\1\" TARGET=\"_ACID_ALERT_DESC\">BUGTRAQ ID \\1</A>";
   $tmp3 = preg_replace($pattern, $replace, $tmp2);

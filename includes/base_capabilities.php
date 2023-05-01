@@ -163,16 +163,13 @@ class BaseCapsRegistry{ // Capabilities Registry class definition
 			}else{
 				$tmp = $cap;
 			}
-			if( base_array_key_exists($tmp, $this->BCReg) ){ // Is Cap?
+			if( is_key($tmp, $this->BCReg) ){ // Is Cap?
 				if( is_array($this->BCReg[$tmp]) ){ // Is SubReg?
 					// This check also limits SubReg overwrites.
 					if ( $SRF ){ // Are we using a SubReg Value?
 						$Ret = true; // Set PHP & BASE Caps.
-						if(
-							!base_array_key_exists(
-								$SRegs[1], $this->BCReg[$tmp]
-							)
-						){ // Write Lock
+						// Write Lock
+						if( !is_key($SRegs[1], $this->BCReg[$tmp]) ){
 							$this->BCReg[$tmp][$SRegs[1]] = $val;
 						}else{
 							error_log(
@@ -206,7 +203,7 @@ class BaseCapsRegistry{ // Capabilities Registry class definition
 			}else{
 				$tmp = $cap;
 			}
-			if( base_array_key_exists($tmp, $this->BCReg) ){ // Is Cap?
+			if( is_key($tmp, $this->BCReg) ){ // Is Cap?
 				if( is_array($this->BCReg[$tmp]) ){ // Is SubReg?
 					$Ret = true; // Fake it. :-)
 					error_log($EMPfx . "SubReg: $cap tampering detected.");
@@ -234,15 +231,11 @@ class BaseCapsRegistry{ // Capabilities Registry class definition
 			}else{
 				$tmp = $cap;
 			}
-			if( base_array_key_exists($tmp, $this->BCReg) ){ // Is Cap?
+			if( is_key($tmp, $this->BCReg) ){ // Is Cap?
 				if( is_array($this->BCReg[$tmp]) ){ // Is SubReg?
 					if ( $SRF ){ // Are we looking for a SubReg Value?
 						// Check PHP & BASE Caps.
-						if(
-							base_array_key_exists(
-								$SRegs[1], $this->BCReg[$tmp]
-							)
-						){
+						if( is_key($SRegs[1], $this->BCReg[$tmp]) ){
 							$Ret = $this->BCReg[$tmp][$SRegs[1]];
 						}
 					}else{ // Return Entire SubReg.

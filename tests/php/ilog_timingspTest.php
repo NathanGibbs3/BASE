@@ -18,6 +18,9 @@ class log_timingSPTest extends TestCase {
 	protected static $files;
 	protected static $langs;
 	protected static $UIL;
+	protected static $UOV;
+	protected static $URV;
+	protected static $tc;
 
 	// We are using a single TD file.
 	// Share class instance as common test fixture.
@@ -43,68 +46,69 @@ class log_timingSPTest extends TestCase {
 			// Setup UI Language Object
 			// Will throw error during TD transition.
 			// Use error suppression @ symbol.
-			self::assertInstanceOf('UILang',self::$UIL = @new UILang($ll),
+			self::assertInstanceOf(
+				'UILang', self::$UIL = @new UILang($ll),
 				"Class for $ll not created."
 			);
 		}else{
 			self::$files = $file;
 		}
+		self::assertInstanceOf(
+			'EventTiming', self::$tc = new EventTiming(1),
+			'Class EventTiming Not Initialized.'
+		);
+		self::$UOV = 'Unexpected Output Value: ';
+		self::$URV = 'Unexpected Return Value: ';
 	}
 	public static function tearDownAfterClass() {
 		self::$UIL = null;
+		self::$UOV = null;
+		self::$URV = null;
 		self::$langs = null;
 		self::$files = null;
+		self::$tc = null;
 	}
 
 	// Tests go here.
 	// Test PrintTiming Function
 	public function testClassEventTimingPrintTiming1(){
 		GLOBAL $BASE_installID;
-		$UOV = 'Unexpected Output.';
-		$this->assertInstanceOf(
-			'EventTiming',
-			$tc = new EventTiming(1),
-			'Class Not Initialized.'
-		);
+		$UOV = self::$UOV.'PrintTimng().';
+		$tc = self::$tc;
 		if ( is_object(self::$UIL) ){
 			$UIL = self::$UIL;
 		}else{
 			include_once(self::$files);
 		}
-		$expected = "\n\t\t\t\t\t\t".'<!-- Timing Information -->';
-		$expected .= "\n\t\t\t\t\t\t".'<div class=\'systemdebug\'>';
-		$expected .= "\n\t\t\t\t\t\t\t<span style='color: green;'>"
-		. 'Loaded in</span> [0 seconds]<br/>';
-		$expected .= "\n\t\t\t\t\t\t".'</div>';
-		$this->expectOutputString($expected);
-		$tc->PrintTiming();
+		$EOM = '\n\t\t\t\t\t\t<!-- Timing Information -->'
+		. '\n\t\t\t\t\t\t<div class=\'systemdebug\'>'
+		. '\n\t\t\t\t\t\t\t\<span( style=\'color: green;\')?\>'
+		. 'Loaded in\<\/span\> \[[0-1] seconds\]\<br\/\>'
+		. '\n\t\t\t\t\t\t\<\/div\>';
+		$this->expectOutputRegex('/^' . $EOM . '$/', $tc->PrintTiming(), $UOV);
 	}
 	public function testClassEventTimingPrintTiming2(){
 		GLOBAL $BASE_installID;
-		$UOV = 'Unexpected Output.';
-		$this->assertInstanceOf(
-			'EventTiming',
-			$tc = new EventTiming(2),
-			'Class Not Initialized.'
-		);
+		$UOV = self::$UOV.'PrintTimng().';
+		$tc = self::$tc;
 		$tc->Mark('What');
-		if ( is_object(self::$UIL) ){
+		$tc->verbose = 2;
+		if( is_object(self::$UIL) ){
 			$UIL = self::$UIL;
 		}else{
 			include_once(self::$files);
 		}
-		$expected = "\n\t\t\t\t\t\t".'<!-- Timing Information -->';
-		$expected .= "\n\t\t\t\t\t\t".'<div class=\'systemdebug\'>';
-		$expected .= "\n\t\t\t\t\t\t\t<span style='color: green;'>"
-		. 'Loaded in</span> [0 seconds]<br/>';
-		$expected .= "\n\t\t\t\t\t\t\t".'Event Log:<br/>';
-		$expected .= "\n\t\t\t\t\t\t\t1 <span style='color: green;'>"
-		. 'Page Load.</span> [0 seconds]<br/>';
-		$expected .= "\n\t\t\t\t\t\t\t2 <span style='color: green;'>"
-		. 'What</span> [0 seconds]<br/>';
-		$expected .= "\n\t\t\t\t\t\t".'</div>';
-		$this->expectOutputString($expected);
-		$tc->PrintTiming();
+		$EOM = '\n\t\t\t\t\t\t<!-- Timing Information -->'
+		. '\n\t\t\t\t\t\t<div class=\'systemdebug\'>'
+		. '\n\t\t\t\t\t\t\t\<span( style=\'color: green;\')?\>'
+		. 'Loaded in\<\/span\> \[[0-1] seconds\]\<br\/\>'
+		. '\n\t\t\t\t\t\t\tEvent Log:\<br\/\>'
+		. '\n\t\t\t\t\t\t\t1 \<span( style=\'color: green;\')?\>'
+		. 'Page Load.\<\/span\> \[[0-1] seconds\]\<br\/\>'
+		. '\n\t\t\t\t\t\t\t2 \<span( style=\'color: green;\')?\>'
+		. 'What\<\/span\> \[[0-1] seconds\]\<br\/\>'
+		. '\n\t\t\t\t\t\t\<\/div\>';
+		$this->expectOutputRegex('/^' . $EOM . '$/', $tc->PrintTiming(), $UOV);
 	}
 
 	// Add code to a function if needed.

@@ -14,7 +14,7 @@ use PHPUnit\Framework\TestCase;
   * @covers ::NLIO
   * @covers ::SetConst
   * @covers ::XSSPrintSafe
-  * @covers ::base_array_key_exists
+  * @covers ::is_key
   * @covers ::returnErrorMessage
   */
 
@@ -154,53 +154,53 @@ class base_rtlTest extends TestCase {
 	public function testSetConstSetSuccessValue() {
 		$this->assertTrue(defined('Valid'),'CONST not defined');
 	}
-	public function testBAKEDefaultReturnsExpected(){
-		$URV = self::$URV.'base_array_key_exists().';
+	public function testis_keyDefaultReturnsExpected(){
+		$URV = self::$URV.'is_key().';
 		$TA = self::$TA;
-		$this->assertFalse( base_array_key_exists('notthere', $TA), $URV );
+		$this->assertFalse( is_key('notthere', $TA), $URV );
 	}
-	public function testBAKENonArrayreturnsExpected(){
-		$URV = self::$URV.'base_array_key_exists().';
+	public function testis_keyNonArrayreturnsExpected(){
+		$URV = self::$URV.'is_key().';
 		$Idx = 'array';
-		$this->assertFalse( base_array_key_exists($Idx, $Idx), $URV );
+		$this->assertFalse( is_key($Idx, $Idx), $URV );
 	}
-	public function testBAKENullreturnsExpected(){
-		$URV = self::$URV.'base_array_key_exists().';
+	public function testis_keyNullreturnsExpected(){
+		$URV = self::$URV.'is_key().';
 		$TA = self::$TA;
 		$Idx = null;
 		$msg = 'null';
-		$this->assertTrue( base_array_key_exists($Idx, $TA), $URV );
+		$this->assertTrue( is_key($Idx, $TA), $URV );
 		$this->assertEquals( $msg, $TA[$Idx], $URV );
 	}
-	public function testBAKEEmptyreturnsExpected(){
-		$URV = self::$URV.'base_array_key_exists().';
+	public function testis_keyEmptyreturnsExpected(){
+		$URV = self::$URV.'is_key().';
 		$TA = self::$TA;
 		$Idx = '';
 		$msg = 'null';
-		$this->assertTrue( base_array_key_exists($Idx, $TA), $URV );
+		$this->assertTrue( is_key($Idx, $TA), $URV );
 		$this->assertEquals( $msg, $TA[$Idx], $URV );
 	}
-	public function testBAKEIntreturnsExpected(){
-		$URV = self::$URV.'base_array_key_exists().';
+	public function testis_keyIntreturnsExpected(){
+		$URV = self::$URV.'is_key().';
 		$TA = self::$TA;
 		$Idx = 23;
 		$msg = 'int';
-		$this->assertTrue( base_array_key_exists($Idx, $TA), $URV );
+		$this->assertTrue( is_key($Idx, $TA), $URV );
 		$this->assertEquals( $msg, $TA[$Idx], $URV );
 	}
-	public function testBAKEStringreturnsExpected(){
-		$URV = self::$URV.'base_array_key_exists().';
+	public function testis_keyStringreturnsExpected(){
+		$URV = self::$URV.'is_key().';
 		$TA = self::$TA;
 		$Idx = 'test';
 		$msg = 'string';
-		$this->assertTrue( base_array_key_exists($Idx, $TA), $URV );
+		$this->assertTrue( is_key($Idx, $TA), $URV );
 		$this->assertEquals( $msg, $TA[$Idx], $URV );
 	}
-	public function testBAKEArrayreturnsExpected(){
-		$URV = self::$URV.'base_array_key_exists().';
+	public function testis_keyArrayreturnsExpected(){
+		$URV = self::$URV.'is_key().';
 		$TA = self::$TA;
 		$Idx = 'array';
-		$this->assertTrue( base_array_key_exists($Idx, $TA), $URV );
+		$this->assertTrue( is_key($Idx, $TA), $URV );
 		$this->assertTrue( is_array($TA[$Idx]), $URV );
 	}
 	public function testNLIBlankReturnsExpected() {

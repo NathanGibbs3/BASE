@@ -16,7 +16,7 @@
 //          Author(s): Nathan Gibbs
 //                     Kevin Johnson
 
-$BRTL_Ver = '0.0.1';
+$BRTL_Ver = '0.0.2';
 
 if( !function_exists('LoadedString') ){
 	// Returns true if var is a string containing data.
@@ -80,6 +80,18 @@ if( !function_exists('HTTP_header') ){
 		}
 	}
 }
+
+if( !function_exists('KML') ){
+	// Mini KML mocking shim for testing code that calls the real KML.
+	function KML ( $msg = '', $lvl = 0 ){
+		if ( LoadedString($msg) ){
+			if ( !is_int($lvl) || $lvl < 0 ){
+				$lvl = 0;
+			}
+			error_log($msg);
+		}
+	}
+}
 // @codeCoverageIgnoreEnd
 
 if( !function_exists('ChkAccess') ){
@@ -134,20 +146,21 @@ if( !function_exists('ChkAccess') ){
 }
 
 // Returns true when key is in array, false otherwise.
-function base_array_key_exists( $SKey, $SArray ){ // PHP Version Agnostic.
+function is_key( $SKey, $SArray ){ // PHP Version Agnostic.
 	$Ret = false;
-	if ( is_array($SArray) && count($SArray) > 0 ){
-		$version = explode('.', phpversion());
+	if( is_array($SArray) && count($SArray) > 0 ){
+		$PHPVer = GetPHPSV();
 		// Use built in functions when we can.
-		if ( $version[0] > 4 || ($version[0] == 4 && $version[1] > 1) ){
-			// PHP > 4.1
+		if(
+			$PHPVer[0] > 4 || ($PHPVer[0] == 4 && $PHPVer[1] > 0 )
+			|| ($PHPVer[0] == 4 && $PHPVer[1] == 0 && $PHPVer[2] > 6)
+		){ // PHP > 4.0.7
 			$Ret = array_key_exists( $SKey, $SArray );
 		// @codeCoverageIgnoreStart
-		// PHPUnit test only covers this code path on PHP < 4.2.0
+		// PHPUnit test only covers this code path on PHP < 4.0.7
 		// Unable to validate in CI.
-		}elseif (
-			($version[0] == 4 && $version[1] > 0 )
-			|| ($version[0] == 4 && $version[1] == 0 && $version[2] > 5)
+		}elseif(
+			$PHPVer[0] == 4 && $PHPVer[1] == 0 && $PHPVer[2] > 5
 		){ // PHP > 4.0.5
 			$Ret = key_exists($SKey, $SArray);
 		}else{ // No built in functions, PHP Version agnostic.

@@ -14,13 +14,14 @@ use PHPUnit\Framework\TestCase;
   * @uses ::CleanVariable
   * @uses ::ErrorMessage
   * @uses ::FramedBoxHeader
+  * @uses ::GetPHPSV
   * @uses ::HtmlColor
   * @uses ::LoadedString
   * @uses ::NLI
   * @uses ::NLIO
   * @uses ::PrintFramedBoxHeader
   * @uses ::XSSPrintSafe
-  * @uses ::base_array_key_exists
+  * @uses ::is_key
   * @uses ::returnErrorMessage
   */
 

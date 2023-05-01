@@ -25,21 +25,21 @@ include_once("$BASE_path/setup/setup_db.inc.php");
 $roleneeded = 10000;
 $BUser = new BaseUser();
 $AdminAuth = false; // Admin Actions Not Authorized by default.
-if ($Use_Auth_System == 1){
-	if ( base_array_key_exists('standalone',$_POST) ){
+if( $Use_Auth_System == 1 ){
+	if( is_key('standalone', $_POST) ){
 		$SaM = $_POST['standalone'];
 	}else{
 		$SaM = 'no';
 	}
-	if ($SaM == 'yes'){
+	if( $SaM == 'yes' ){
 		$usrrole = $BUser->AuthenticateNoCookie(
 			filterSql($_POST['user']), filterSql($_POST['pwd'])
 		);
-		if ($usrrole == 'Failed'){
+		if( $usrrole == 'Failed' ){
 			HTTP_header('HTTP/1.0 401');
-		}elseif ($usrrole > $roleneeded){
+		}elseif( $usrrole > $roleneeded ){
 			HTTP_header('HTTP/1.0 403');
-		}elseif ( $usrrole == 1 ){
+		}elseif( $usrrole == 1 ){
 			$AdminAuth = true;
 		}
 		$BCR->AddCap('UIMode', 'Con');
@@ -117,8 +117,8 @@ if ( $AdminAuth ){ // Issue #146 Fix
   {
      ClearDataTables($db);
   }
-	if ($SaM == 'yes'){
-		if ($submit != ''){
+	if( $SaM == 'yes' ){
+		if( LoadedString($submit) ){
 			NLIO('Executed command: ' . XSSPrintSafe($submit));
 		}
 	}
@@ -126,14 +126,14 @@ if ( $AdminAuth ){ // Issue #146 Fix
 NLIO();
 
 $SW_Cli = 'unknown';
-if ( base_array_key_exists('HTTP_USER_AGENT',$_SERVER) ){
+if( is_key('HTTP_USER_AGENT', $_SERVER) ){
 	$SW_Cli = $_SERVER['HTTP_USER_AGENT'];
 }
 $title = _MNTCLIENT;
-if ( $AdminAuth ){ // Issue #146 Fix
+if( $AdminAuth ){ // Issue #146 Fix
 	$title = _MNTPHP;
 	$SW_Svr = 'unknown';
-	if ( base_array_key_exists('SERVER_SOFTWARE',$_SERVER) ){
+	if( is_key('SERVER_SOFTWARE', $_SERVER) ){
 		$SW_Svr = $_SERVER['SERVER_SOFTWARE'];
 	}
 }

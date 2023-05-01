@@ -1010,10 +1010,10 @@ function base_include ( $file = '' ){
 // HTTP GET params take precedence over cookie values.
 function GetAsciiClean(){
 	$Ret = false;
-	if ( isset($_GET['asciiclean']) ){ // Check HTTP GET param.
+	if( isset($_GET['asciiclean']) ){ // Check HTTP GET param.
 		$Ret = ChkGet('asciiclean', 1);
 	}else{ // No GET, check for cookie.
-		$Ret = ChkCookie('asciiclean', 'clean');
+		$Ret = ChkCookie('asciiclean', 1);
 	}
 	return $Ret;
 }
@@ -1190,7 +1190,7 @@ function ChkArchive(){ // Issue #183
 		if ( ChkCookie ('archive', 1) || ChkGet ('archive', 1) ){
 			$Ret = true;
 		}
-	}else{ // Archive DB disabled. Alert on param tampering.
+	}else{ // Archive DB disabled. Alert or param tampering.
 		$tmp = ''; // No Alert
 		if ( isset($_GET['archive']) ){ // Get param Hack Alert
 			$tmp = 'HTTP GET';
@@ -1234,6 +1234,59 @@ function RegisterGlobalState(){
 	}
 	session_start();
 	KML("Start: Session", 1);
+}
+
+function BCS( $Name, $Value = '' ){
+	GLOBAL $BASE_urlpath;
+	$EMPfx = __FUNCTION__ . ': ';
+	$Ret = false;
+	if( LoadedString($Name) ){
+		$tmp = 'Clear';
+		$expire = 1;
+		if( LoadedString(strval($Value)) ){ // Type Slam it.
+			$tmp = 'Set';
+			$expire = time() + 60*60*24*14; // 2 weeks
+			if ( $Name == 'BASERole' ){
+				$expire = time() + 60*60; // 1 Hour
+			}
+		}
+		$msg = "$tmp Cookie: $Name";
+		if (
+			isset($BCR) && is_object($BCR) && $BCR->GetCap('UIMode') == 'Web'
+		){ // Only set cookies in Web UIMode.
+			// @codeCoverageIgnoreStart
+			$BCO = array(
+				'expires' => $expire,
+				'path' => $BASE_urlpath,
+				//leading dot for compatibility or use subdomain
+				// '.example.com',
+				'domain' => '',
+				'secure' => false,
+				'httponly' => true,
+				'samesite' => 'Strict' // None || Lax  || Strict
+			);
+			$PHPVer = GetPHPSV();
+			if( $PHPVer[0] > 7 || ($PHPVer[0] == 7 && $PHPVer[1] > 2 )
+			){ // PHP > 7.2x
+				$Ret = setcookie($Name, $Value, $BCO);
+			}else{ // Older PHP
+				// Path param hack to slam the SameSite param into cookies on
+				// versions of setcookie() that don't support it.
+				$tmp = $BCO['path'] . '; SameSite=' . $BCO['samesite'];
+				$Ret = setcookie(
+					$Name, $Value, $BCO['expires'], $tmp, $BCO['domain'],
+					$BCO['secure'], $BCO['httponly']
+				);
+			}
+			// @codeCoverageIgnoreEnd
+		}else{ // Other UI Modes (PHPUnit), fake successful setcookie() Op.
+			$Ret = true;
+		}
+	}else{
+		$msg = 'No Cookie.';
+	}
+	KML($EMPfx . $msg, 3);
+	return $Ret;
 }
 
 ?>
