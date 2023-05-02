@@ -16,7 +16,7 @@
 //          Author(s): Nathan Gibbs
 //                     Kevin Johnson
 
-$BRTL_Ver = '0.0.2';
+$BRTL_Ver = '0.0.3';
 
 if( !function_exists('LoadedString') ){
 	// Returns true if var is a string containing data.
@@ -249,7 +249,44 @@ function HtmlColor ( $color ){
 	){
 		$Ret = true;
 	}
-	return ($Ret);
+	return $Ret;
+}
+
+function CCS(){
+	$Ret = false;
+	$Stat = '';
+	if( is_key('HTTPS', $_SERVER) ){ // Check the server first.
+		$tmp = $_SERVER['HTTPS'];
+		if( LoadedString($tmp) && strtolower($tmp) == 'on' ){
+			$Stat = 'SVR-FLAG';
+		}
+	}elseif( is_key('SERVER_PORT', $_SERVER) ){ // Assume secure on port 443.
+		$tmp = $_SERVER['SERVER_PORT'];
+		if( intval($tmp) == 443 ){
+			$Stat = 'SVR-PORT';
+		}
+	}else{ // Check for Load Balancer / Reverse Proxy.
+		if( is_key('HTTP_X_FORWARDED_PROTO', $_SERVER) ){
+			$tmp = $_SERVER['HTTP_X_FORWARDED_PROTO'];
+			if( LoadedString($tmp) && strtolower($tmp) == 'https' ){
+				$Stat = 'PRX-PROT';
+			}
+		}elseif( is_key('HTTP_X_FORWARDED_SSL', $_SERVER) ){
+			$tmp = $_SERVER['HTTP_X_FORWARDED_SSL'];
+			if( LoadedString($tmp) && strtolower($tmp) == 'on' ){
+				$Stat = 'PRX-SSL';
+			}
+		}elseif( is_key('HTTP_X_FORWARDED_PORT', $_SERVER) ){
+			$tmp = $_SERVER['HTTP_X_FORWARDED_PORT'];
+			if( intval($tmp) == 443 ){
+				$Stat = 'PRX-PORT';
+			}
+		}
+	}
+	if( LoadedString($Stat) ){
+		$Ret = true;
+	}
+	return array($Ret, $Stat);
 }
 
 ?>

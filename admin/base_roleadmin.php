@@ -170,7 +170,7 @@ if ($Use_Auth_System == 1) {
 			$thcw5 = "$thc width='5%'>";
 			$tdac = "<td align='center'>";
 			$imgc = NLI(
-				"<img border='0' src='$BASE_urlpath$sc" . "images$sc", 5
+				"<img border='0' src='$BASE_urlpath" . "/images/", 5
 			);
 			$imgc .= 'button_';
 			$tduma = $tdac.$Hrst;

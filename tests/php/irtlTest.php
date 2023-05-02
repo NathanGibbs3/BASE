@@ -6,6 +6,7 @@ use PHPUnit\Framework\TestCase;
 /**
   * Code Coverage Directives.
   * @covers ::ChkAccess
+  * @covers ::CCS
   * @covers ::ErrorMessage
   * @covers ::GetPHPSV
   * @covers ::Htmlcolor
@@ -26,6 +27,12 @@ class base_rtlTest extends TestCase {
 	protected static $URV;
 
 	public static function setUpBeforeClass(){
+		GLOBAL $BCR;
+		// Shim for testing functions that access the BaseCapsRegestry Class
+		// via the global $BCR var, which is not defined under test conditions.
+		if ( !isset($BCR) ){
+			$BCR = 'Temp';
+		}
 		self::$UOV = 'Unexpected Output Value: ';
 		self::$URV = 'Unexpected Return Value: ';
 		// PHPUnit Version
@@ -43,6 +50,10 @@ class base_rtlTest extends TestCase {
 		);
 	}
 	public static function tearDownAfterClass(){
+		GLOBAL $BCR;
+		if ( $BCR == 'Temp' ){ // EventTiming Shim clean up.
+			unset($BCR);
+		}
 		self::$UOV = null;
 		self::$URV = null;
 		self::$TA = null;
@@ -423,6 +434,57 @@ class base_rtlTest extends TestCase {
 	public function testHtmlColorInvalidPfHex (){
 		$URV = self::$URV.'HtmlColor().';
 		$this->assertFalse( HtmlColor('#af'), $URV );
+	}
+	public function testCCS(){
+		$URV = self::$URV.'CCS().';
+		$tmp = CCS();
+		$this->assertFalse( $tmp[0], $URV );
+		$this->assertEmpty( $tmp[1], $URV );
+	}
+	public function testCCSSvrFLAG(){
+		$URV = self::$URV.'CCS().';
+		$tgs = $_SERVER;
+		$_SERVER['HTTPS'] = 'On';
+		$tmp = CCS();
+		$this->assertTrue( $tmp[0], $URV );
+		$this->assertEQuals( 'SVR-FLAG', $tmp[1], $URV );
+		$_SERVER = $tgs;
+	}
+	public function testCCSSvrPort(){
+		$URV = self::$URV.'CCS().';
+		$tgs = $_SERVER;
+		$_SERVER['SERVER_PORT'] = 443;
+		$tmp = CCS();
+		$this->assertTrue( $tmp[0], $URV );
+		$this->assertEQuals( 'SVR-PORT', $tmp[1], $URV );
+		$_SERVER = $tgs;
+	}
+	public function testCCSProxyProt(){
+		$URV = self::$URV.'CCS().';
+		$tgs = $_SERVER;
+		$_SERVER['HTTP_X_FORWARDED_PROTO'] = 'https';
+		$tmp = CCS();
+		$this->assertTrue( $tmp[0], $URV );
+		$this->assertEQuals( 'PRX-PROT', $tmp[1], $URV );
+		$_SERVER = $tgs;
+	}
+	public function testCCSProxySSL(){
+		$URV = self::$URV.'CCS().';
+		$tgs = $_SERVER;
+		$_SERVER['HTTP_X_FORWARDED_SSL'] = 'On';
+		$tmp = CCS();
+		$this->assertTrue( $tmp[0], $URV );
+		$this->assertEQuals( 'PRX-SSL', $tmp[1], $URV );
+		$_SERVER = $tgs;
+	}
+	public function testCCSProxyPort(){
+		$URV = self::$URV.'CCS().';
+		$tgs = $_SERVER;
+		$_SERVER['HTTP_X_FORWARDED_PORT'] = 443;
+		$tmp = CCS();
+		$this->assertTrue( $tmp[0], $URV );
+		$this->assertEQuals( 'PRX-PORT', $tmp[1], $URV );
+		$_SERVER = $tgs;
 	}
 
 	// Add code to a function if needed.

@@ -1241,27 +1241,33 @@ function BCS( $Name, $Value = '' ){
 	$EMPfx = __FUNCTION__ . ': ';
 	$Ret = false;
 	if( LoadedString($Name) ){
-		$tmp = 'Clear';
+		$msg = 'Clear';
 		$expire = 1;
 		if( LoadedString(strval($Value)) ){ // Type Slam it.
-			$tmp = 'Set';
+			$msg = 'Set';
 			$expire = time() + 60*60*24*14; // 2 weeks
 			if ( $Name == 'BASERole' ){
 				$expire = time() + 60*60; // 1 Hour
 			}
 		}
-		$msg = "$tmp Cookie: $Name Exp: ". date('F-d-Y H:i:s', $expire);
 		if( isset($BCR) && is_object($BCR) ){
 			// @codeCoverageIgnoreStart
 			$tmp = $BCR->GetCap('UIMode');
 			if( $tmp != 'Con' ){ // Don't set cookies in Console UIMode.
+				$tmp = CCS();
+				$SF = $tmp[0];
+				$Stat = $tmp[1];
+				if ($SF && $msg == 'Set' ){
+					KML($EMPfx . "Sec: $Stat", 3);
+					$msg .= ' Secure';
+				}
 				$BCO = array(
 					'expires' => $expire,
 					'path' => $BASE_urlpath,
 					//leading dot for compatibility or use subdomain
 					// '.example.com',
 					'domain' => '',
-					'secure' => false,
+					'secure' => $SF,
 					'httponly' => true,
 					'samesite' => 'Strict' // None || Lax  || Strict
 				);
@@ -1283,6 +1289,7 @@ function BCS( $Name, $Value = '' ){
 		}else{ // No or Con UI Mode (PHPUnit), fake successful setcookie() Op.
 			$Ret = true;
 		}
+		$msg .= " Cookie: $Name Exp: ". date('F-d-Y H:i:s', $expire);
 	}else{
 		$msg = 'No Cookie.';
 	}
