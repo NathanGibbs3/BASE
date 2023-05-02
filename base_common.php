@@ -1237,7 +1237,7 @@ function RegisterGlobalState(){
 }
 
 function BCS( $Name, $Value = '' ){
-	GLOBAL $BASE_urlpath;
+	GLOBAL $BASE_urlpath, $BCR;
 	$EMPfx = __FUNCTION__ . ': ';
 	$Ret = false;
 	if( LoadedString($Name) ){
@@ -1250,36 +1250,37 @@ function BCS( $Name, $Value = '' ){
 				$expire = time() + 60*60; // 1 Hour
 			}
 		}
-		$msg = "$tmp Cookie: $Name";
-		if (
-			isset($BCR) && is_object($BCR) && $BCR->GetCap('UIMode') == 'Web'
-		){ // Only set cookies in Web UIMode.
+		$msg = "$tmp Cookie: $Name Exp: ". date('F-d-Y H:i:s', $expire);
+		if( isset($BCR) && is_object($BCR) ){
 			// @codeCoverageIgnoreStart
-			$BCO = array(
-				'expires' => $expire,
-				'path' => $BASE_urlpath,
-				//leading dot for compatibility or use subdomain
-				// '.example.com',
-				'domain' => '',
-				'secure' => false,
-				'httponly' => true,
-				'samesite' => 'Strict' // None || Lax  || Strict
-			);
-			$PHPVer = GetPHPSV();
-			if( $PHPVer[0] > 7 || ($PHPVer[0] == 7 && $PHPVer[1] > 2 )
-			){ // PHP > 7.2x
-				$Ret = setcookie($Name, $Value, $BCO);
-			}else{ // Older PHP
-				// Path param hack to slam the SameSite param into cookies on
-				// versions of setcookie() that don't support it.
-				$tmp = $BCO['path'] . '; SameSite=' . $BCO['samesite'];
-				$Ret = setcookie(
-					$Name, $Value, $BCO['expires'], $tmp, $BCO['domain'],
-					$BCO['secure'], $BCO['httponly']
+			$tmp = $BCR->GetCap('UIMode');
+			if( $tmp != 'Con' ){ // Don't set cookies in Console UIMode.
+				$BCO = array(
+					'expires' => $expire,
+					'path' => $BASE_urlpath,
+					//leading dot for compatibility or use subdomain
+					// '.example.com',
+					'domain' => '',
+					'secure' => false,
+					'httponly' => true,
+					'samesite' => 'Strict' // None || Lax  || Strict
 				);
+				$PHPVer = GetPHPSV();
+				if( $PHPVer[0] > 7 || ($PHPVer[0] == 7 && $PHPVer[1] > 2 )
+				){ // PHP > 7.2x
+					$Ret = setcookie($Name, $Value, $BCO);
+				}else{ // Older PHP
+					// Path param hack to slam the SameSite param into cookies
+					// on versions of setcookie() that don't support it.
+					$tmp = $BCO['path'] . '; SameSite=' . $BCO['samesite'];
+					$Ret = setcookie(
+						$Name, $Value, $BCO['expires'], $tmp, $BCO['domain'],
+						$BCO['secure'], $BCO['httponly']
+					);
+				}
 			}
 			// @codeCoverageIgnoreEnd
-		}else{ // Other UI Modes (PHPUnit), fake successful setcookie() Op.
+		}else{ // No or Con UI Mode (PHPUnit), fake successful setcookie() Op.
 			$Ret = true;
 		}
 	}else{

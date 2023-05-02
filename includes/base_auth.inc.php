@@ -97,8 +97,10 @@ class BaseUser {
 	// Same inputs/returns as AuthenticateCore.
 	// Sets the role cookie on success.
 	function Authenticate( $user = '', $pwd = '' ){
+		$EMPfx = __FUNCTION__ . ': ';
 		$Ret = $this->AuthenticateCore( $user, $pwd );
 		if ( $Ret == 0 ){
+			KML($EMPfx . 'Pass', 2);
 			$this->setRoleCookie($this->cryptpassword($pwd), $user);
 		}
 		return $Ret;
