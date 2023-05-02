@@ -94,7 +94,7 @@ class BaseCapsRegistry{ // Capabilities Registry class definition
 		if( LoadedString($BASE_installID) ){ // BASE InstallID
 			$this->AddCap('BASE_InID', $BASE_installID);
 		}
-		if( $Use_Auth_System != 0 ){ // Auth system On.
+		if( intval($Use_Auth_System) != 0 ){ // Auth system On.
 			$this->AddCap('BASE_Auth');
 		}
 		if( LoadedString($BASE_Language) ){ // UI Lang.

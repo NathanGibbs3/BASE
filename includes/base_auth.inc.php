@@ -597,9 +597,7 @@ function AuthorizedRole( $roleneeded = 1, $header = '' ){
 					error_log('Redirect failed');
 				}
 			}
-		}else{ // Authenticated & enabled user.
-			$cookievalue = $_COOKIE['BASERole'];
-			BCS('BASERole', $cookievalue); // Refresh cookie expiration.
+		}else{
 			$Ret = true;
 		}
 	}

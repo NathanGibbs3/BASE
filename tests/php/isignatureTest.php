@@ -7,6 +7,7 @@ use PHPUnit\Framework\TestCase;
   * @covers ::BuildSigLookup
   * @covers ::check_string
   * @uses ::GetPHPSV
+  * @uses ::LoadedString
   * @uses ::is_key
   */
 

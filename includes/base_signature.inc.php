@@ -24,8 +24,7 @@
  **/
 defined( '_BASE_INC' ) or die( 'Accessing this file directly is not allowed.' );
 
-function GetSignatureName($sig_id, $db)
-{
+function GetSignatureName( $sig_id, $db ){
    $name = "";
 
    $temp_sql = "SELECT sig_name FROM signature WHERE sig_id='". addslashes($sig_id) . "'";
@@ -106,19 +105,13 @@ function GetRefSystemName($ref_system_id, $db)
    return trim($ref_system_name);
 }
 
-function GetSingleSignatureReference($ref_system, $ref_tag, $style)
-{
+function GetSingleSignatureReference( $ref_system, $ref_tag, $style ){
 	GLOBAL $BASE_urlpath, $debug_mode;
-
-
-
-   $tmp_ref_system_name = strtolower($ref_system);
-   if ( in_array($tmp_ref_system_name, array_keys($GLOBALS['external_sig_link'])) )
-   {
-      if ($tmp_ref_system_name == "local_rules_dir")
-      {
-				$dir = $GLOBALS['external_sig_link'][$tmp_ref_system_name][0];
-        $to_look_for = $ref_tag;
+	$TRSName = strtolower($ref_system); // Temp Ref Sys Name.
+	if( is_key($TRSName, $GLOBALS['external_sig_link']) ){
+		if ($TRSName == 'local_rules_dir'){
+			$dir = $GLOBALS['external_sig_link'][$TRSName][0];
+			$to_look_for = $ref_tag;
 
 				if (file_exists($dir))
 				{       	
@@ -141,7 +134,7 @@ function GetSingleSignatureReference($ref_system, $ref_tag, $style)
       }
       elseif ( $style == 1 )
       {
-         if ($tmp_ref_system_name == "snort")
+         if ($TRSName == "snort")
          {
 			if (preg_match("/([0-9]+):([0-9]+)/", $ref_tag, $backref))
            {
@@ -187,9 +180,9 @@ function GetSingleSignatureReference($ref_system, $ref_tag, $style)
            else
            {
              return "<FONT SIZE=-1>[".
-                    "<A HREF=\"".$GLOBALS['external_sig_link'][$tmp_ref_system_name][0].
+                    "<A HREF=\"".$GLOBALS['external_sig_link'][$TRSName][0].
                              $ref_tag.
-                             $GLOBALS['external_sig_link'][$tmp_ref_system_name][1]."\" ".
+                             $GLOBALS['external_sig_link'][$TRSName][1]."\" ".
                              "TARGET=\"_ACID_ALERT_DESC\">".$ref_system."</A>".
                     "]</FONT> ";
            }
@@ -197,9 +190,9 @@ function GetSingleSignatureReference($ref_system, $ref_tag, $style)
          else
          {
            return "<FONT SIZE=-1>[".
-                "<A HREF=\"".$GLOBALS['external_sig_link'][$tmp_ref_system_name][0].
+                "<A HREF=\"".$GLOBALS['external_sig_link'][$TRSName][0].
                              $ref_tag.
-                             $GLOBALS['external_sig_link'][$tmp_ref_system_name][1]."\" ".
+                             $GLOBALS['external_sig_link'][$TRSName][1]."\" ".
                              "TARGET=\"_ACID_ALERT_DESC\">".$ref_system."</A>".
                  "]</FONT> ";
         }
@@ -208,11 +201,9 @@ function GetSingleSignatureReference($ref_system, $ref_tag, $style)
       {
          return "[".$ref_system."/$ref_tag] ";
       }
-   }            
-   else
-   {
+	}else{
       return $ref_system;
-   }
+	}
 }
 
 function GetSignatureReference( $sig_id, $db, $style ){
@@ -229,9 +220,9 @@ function GetSignatureReference( $sig_id, $db, $style ){
          for ( $i = 0; $i < $num_references; $i++)
          {
             $mysig_ref = $tmp_sig_ref->baseFetchRow();
-		if ( $db->DB_class == 1 ) { /* Mysql & MariaDB */
+		if( $db->DB_class == 1 ){ // Mysql & MariaDB.
 			$temp_sql = "SELECT `ref_system_id`, ref_tag FROM reference WHERE ref_id='".$mysig_ref[1]."'";
-		}else{ /* Everyone else */
+		}else{ // Everyone else.
 			$temp_sql = "SELECT ref_system_id, ref_tag FROM reference WHERE ref_id='".$mysig_ref[1]."'";
 		}
             $tmp_ref_tag = $db->baseExecute($temp_sql);
@@ -370,46 +361,55 @@ function check_string($str){
 	}
 }
 
-function BuildSigLookup($signature, $style = 1 ){
-// style : how should the signature be returned?
-//         - 1: (default) HTML
-//         - 2: text
-//
-// - Paul Harrington <paul@pizza.org> : reference URL links
-// - Michael Bell <michael.bell@web.de> : links for IP address in
-//   spp_portscan alerts
-  GLOBAL $debug_mode;
-
-  if (
-       !isset($signature) ||
-       empty($signature) ||
-       !is_string($signature)
-     )
-  {
-    if ($debug_mode > 1)
-    {
-      SQLTraceLog(__FILE__ . ":" . __LINE__ . ":" . __FUNCTION__ . ": ERROR: \$signature == \"" . var_dump($signature) . "\". Returning with empty string.");
-
-    }
-
-    return "";
-  }
-
-
-
-  if ($style == 2)
-     return $signature;
-
+function BuildSigLookup( $signature, $style = 1 ){
+	// style: how should the signature be returned?
+	// - 1: (default) HTML
+	// - 2: text
+	//
+	// - Paul Harrington <paul@pizza.org> : reference URL links
+	// - Michael Bell <michael.bell@web.de> : links for IP address in
+	//   spp_portscan alerts
+	GLOBAL $debug_mode;
+	$EMPfx = __FUNCTION__ . ': ';
+	$Ret = '';
+	if ( !is_int($style) ){
+		$style = 1;
+	}
+	if( !LoadedString($signature) ){
+		if( $debug_mode > 1 ){
+			$msg = $EMPfx . "\$signature == \"" . var_dump($signature) . "\". Returning with empty string.";
+			NLIO(XSSPrintSafe($msg));
+			SQLTraceLog($msg);
+		}
+		return $Ret;
+	}elseif( $style == 2 ){
+		return $signature;
+	}
+	if( $debug_mode > 1 ){
+		NLIO($EMPfx . 'Sig: ' . XSSPrintSafe($signature) . '<br/>');
+	}
 	// Create hyperlinks for references.
+
 	// Arachnids sig referneces. Supports mixed styles in same sig. The old
 	// code worked, but nested <A> tags, really, seriously. :-)
 	if(preg_match("/(IDS)(\d+)/",$signature,$matches)){
 		$replace = "<A HREF=\"http://www.whitehats.com/".$matches[1];
 		$target = " TARGET=\"_ACID_ALERT_DESC\">".$matches[1];
+
+// We are stripping the leading 0 out of the url, the target shouldn't matter
+// Why did we get all complicated with this?
+
 		$ts = $signature;
 		preg_match_all("/IDS\d+/",$signature,$MC);
+
+// -- We put the loop in to catch multiple
+// arachnids refs in the same rule.
+
 		for ($i = 0; $i < count($MC[0]); $i++){
 			$pattern = '/'.$MC[0][$i].'/';
+
+// ---
+
 			if(preg_match("/(0+)(\d+)/",$pattern,$hit)){
 				// Anarchnids Leading Zero Sig URL Shim
 				$tmp = $hit[2];
@@ -422,6 +422,9 @@ function BuildSigLookup($signature, $style = 1 ){
 			$tr = $replace."/$tmp\"$tt</A>";
 			$ts = preg_replace($pattern, $tr, $ts);
 		}
+
+//--
+
 		$tmp2 = $ts;
 	}else{
 		$tmp2 = $signature;
@@ -432,7 +435,7 @@ function BuildSigLookup($signature, $style = 1 ){
     return $tmp1;
   }
 
-	if( is_key('external_sig_link',$GLOBALS) ){ // Issue #27
+	if( is_key('external_sig_link', $GLOBALS) ){ // Issue #27
   $pattern = "/BUGTRAQ ID (\d+)/";
   $replace = "<A HREF=\"".$GLOBALS['external_sig_link']['bugtraq'][0]."\\1\" TARGET=\"_ACID_ALERT_DESC\">BUGTRAQ ID \\1</A>";
   $tmp3 = preg_replace($pattern, $replace, $tmp2);
@@ -492,118 +495,72 @@ function BuildSigLookup($signature, $style = 1 ){
 	return $msg;
 }
 
-function BuildSigByID($sig_id, $db, $style = 1)
-/*
- * sig_id: DB schema dependent
- *         - < v100: a text string of the signature
- *         - > v100: an ID (key) of a signature
- * db    : database handle
- * style : how should the signature be returned?
- *         - 1: (default) HTML
- *         - 2: text
- *
- * RETURNS: a formatted signature and the associated references
- */
-{
-  GLOBAL $debug_mode;
-
-
-  if ( $db->baseGetDBversion() >= 100 )
-  {
-     /* Catch the odd circumstance where $sig_id is still an alert text string
-      * despite using normalized signature as of DB version 100. 
-      */
-     if ( !is_numeric($sig_id) )
-       return $sig_id;
-
-     if ($debug_mode > 1)
-     {
-       SQLTraceLog(__FILE__ . ":" . __LINE__ . ":" . __FUNCTION__ . ": Before GetSignatureName()");
-     }
-     $sig_name = GetSignatureName($sig_id, $db);
-     if ($debug_mode > 1)
-     {
-       SQLTraceLog(__FILE__ . ":" . __LINE__ . ":" . __FUNCTION__ . ": After GetSignatureName()");
-     }
-
-     if (
-          isset($sig_name) &&
-          !empty($sig_name) &&
-          is_string($sig_name) &&
-          ($sig_name != "")
-        )
-     {
+function BuildSigByID( $sig_id, $db, $style = 1 ){
+	// sig_id: DB schema dependent
+	// - < v100: a text string of the signature
+	// - > v100: an ID (key) of a signature
+	// db : database handle
+	// style: how should the signature be returned?
+	// - 1: (default) HTML
+	// - 2: text
+	// RETURNS: a formatted signature and the associated references
+	GLOBAL $debug_mode;
+	$EMPfx = __FUNCTION__ . ': ';
+	if ( $db->baseGetDBversion() >= 100 ){
+		// Catch odd instance of $sig_id still being an alert text string
+		// despite using normalized signature as of DB version 100.
+		if ( !is_numeric($sig_id) ){
+			return $sig_id;
+		}
+		if( $debug_mode > 1 ){
+			SQLTraceLog($EMPfx . 'Before GetSignatureName()');
+		}
+		$sig_name = GetSignatureName($sig_id, $db);
+		if( $debug_mode > 1 ){
+			SQLTraceLog($EMPfx . 'After GetSignatureName()');
+		}
+		if( LoadedString($sig_name) ){
        //return GetSignatureReference($sig_id, $db, $style)." ".BuildSigLookup($sig_name, $style);
-       if ($debug_mode > 1)
-       {
-         SQLTraceLog(__FILE__ . ":" . __LINE__ . ":" . __FUNCTION__ . ": Before BuildSigLookup() with \$sig_name == \"" . $sig_name . "\"");
-       }
-
-       # try-catch is php-5.x only :-(
-       #try
-       #{
-         $buf1 = BuildSigLookup($sig_name, $style);
-       #}
-       #catch(Exception $e)
-       #{
-       #  $error_msg = __FILE__ . ":" . __LINE__ . ":" . __FUNCTION__ . ": ERROR: BuildSigLookup() has failed: \"" . $e . "\". Returning with empty string.";
-       #  if ($debug_mode > 1)
-       #  {
-       #    SQLTraceLog($error_msg);
-       #  }
-       #
-       #  return "(" . $sig_id . ") (1) " . _ERRSIGNAMEUNK;
-       #}
-
-       if (
-            !isset($buf1) ||
-            empty($buf1) ||
-            !is_string($buf1)
-          )
-       {
-         $error_msg = var_dump($buf1);
-         if ($debug_mode > 1)
-         {
-           SQLTraceLog($error_msg);
-         }
-         return "(" . $sig_id . ") (2) " . _ERRSIGNAMEUNK;
-       }
-
-       if ($debug_mode > 1)
-       {
-         SQLTraceLog(__FILE__ . ":" . __LINE__ . ":" . __FUNCTION__ . ": After BuildSigLookup() and before GetSignatureReference()");
-       }
+			if( $debug_mode > 1 ){
+				SQLTraceLog($EMPfx . "Before BuildSigLookup() with \$sig_name == \"" . $sig_name . "\"");
+			}
+			$buf1 = BuildSigLookup($sig_name, $style);
+			if( !LoadedString($buf1) ){
+				$msg = "$EMPfx BuildSigLookup() has failed on "
+				. "\$sig_bane == \"" . var_dump($buf1) . '"Returning with'
+				. ' empty string.';
+				if( $debug_mode > 1 ){
+					NLIO(XSSPrintSafe($msg));
+					SQLTraceLog($msg);
+				}
+				return "($sig_id) " . _ERRSIGNAMEUNK;
+			}
+			if( $debug_mode > 1 ){
+				SQLTraceLog($EMPfx . "After BuildSigLookup() and before GetSignatureReference()");
+			}
        $buf2 = GetSignatureReference($sig_id, $db, $style)." " . $buf1;
-       if ($debug_mode > 1)
-       {
-         SQLTraceLog(__FILE__ . ":" . __LINE__ . ":" . __FUNCTION__ . ": After GetSignatureReference() and about to return.");
-       }
-
+			if( $debug_mode > 1 ){
+				SQLTraceLog($EMPfx . "After GetSignatureReference() and about to return.");
+			}
        return $buf2;
-     }
-     else
-     {
+		}else{
         if ( $style == 1 )
            return "($sig_id)<I>"._ERRSIGNAMEUNK."</I>";
         else
            return "($sig_id) "._ERRSIGNAMEUNK;
-     }
-  }
-  else
-  {
-    if ($debug_mode > 1)
-    {
-      SQLTraceLog(__FILE__ . ":" . __LINE__ . ":" . __FUNCTION__ . ": Before BuildSigLookup()");
-    }
-    $buf1 = BuildSigLookup($sig_id, $style);
-    if ($debug_mode > 1)
-    {
-      SQLTraceLog(__FILE__ . ":" . __LINE__ . ":" . __FUNCTION__ . ": After BuildSigLookup() and about to return.");
-    }
 
+		}
+	}else{
+		if( $debug_mode > 1 ){
+			SQLTraceLog($EMPfx . 'Before BuildSigLookup()');
+		}
+    $buf1 = BuildSigLookup($sig_id, $style);
+		if( $debug_mode > 1 ){
+			SQLTraceLog($EMPfx . 'After BuildSigLookup() and about to return.');
+		}
     //return BuildSigLookup($sig_id, $style);
     return $buf1;
-  }
+	}
 }
 
 function GetSigClassID($sig_id, $db)
@@ -616,6 +573,7 @@ function GetSigClassID($sig_id, $db)
 
   return $row[0]; 
 }
+
 function GetSigClassName ( $class_id, $db ){
 	GLOBAL $debug_mode;
 	$Ret = "<I>"._UNCLASS."</I>";
@@ -645,6 +603,7 @@ function GetSigClassName ( $class_id, $db ){
 	}
 	return $Ret;
 }
+
 function GetTagTriger($current_sig, $db, $sid, $cid)
 {
 
@@ -699,4 +658,5 @@ function GetTagTriger($current_sig, $db, $sid, $cid)
       }
       return $current_sig;
 }
+
 ?>

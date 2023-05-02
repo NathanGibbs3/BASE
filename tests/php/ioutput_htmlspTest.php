@@ -29,7 +29,7 @@ class output_htmlSPTest extends TestCase {
 	public static function setUpBeforeClass() {
 		GLOBAL $BASE_path, $DBlib_path, $DBtype, $debug_mode, $alert_dbname,
 			$alert_host, $alert_user, $alert_password, $alert_port,
-			$db_connect_method, $db;
+			$db_connect_method, $db, $BCR;
 		// Issue #36 Cutout.
 		// See: https://github.com/NathanGibbs3/BASE/issues/36
 		$PHPV = GetPHPV();
@@ -117,8 +117,18 @@ class output_htmlSPTest extends TestCase {
 			);
 			self::$user = $user;
 		}
+		GLOBAL $BCR;
+		// Shim for testing functions that access the BaseCapsRegestry Class
+		// via the global $BCR var, which is not defined under test conditions.
+		if ( !isset($BCR) ){
+			$BCR = 'Temp';
+		}
 	}
 	public static function tearDownAfterClass() {
+		GLOBAL $BCR;
+		if ( $BCR == 'Temp' ){ // EventTiming Shim clean up.
+			unset($BCR);
+		}
 		self::$UIL = null;
 		self::$langs = null;
 		self::$files = null;

@@ -53,6 +53,14 @@ function PageStart ( $refresh = 0, $page_title = '' ){
 			$title .= $SfxA;
 			$HT .= $SfxA;
 		}
+		// Cookie Refresh if needed.
+		if( isset($BCR) && is_object($BCR) && $BCR->GetCap('BASE_Auth') ){
+			// Auth System in use.
+			if( AuthorizedRole(10000) ){// Authenticated & enabled user.
+				$cookievalue = $_COOKIE['BASERole'];
+				BCS('BASERole', $cookievalue); // Refresh cookie expiration.
+			}
+		}
 	}
 	print "<!DOCTYPE html PUBLIC '-//W3C//DTD HTML 4.01 Transitional//EN' 'http://www.w3.org/TR/html4/loose.dtd'>";
 	NLIO('<!-- '. $title . ' -->');
