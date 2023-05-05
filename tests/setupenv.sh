@@ -77,12 +77,12 @@ if [ "$pvM" \< "5" ] || ( [ "$pvM" == "5" ] && [ "$pvm" \< "3" ]); then
 else
 	echo "enabled."
 fi
-if [ "$pvM" \> "7" ] || ( [ "$pvM" == "7" ] && [ "$pvm" \> "2" ]); then
-	echo "Enabling PHP 7.3+ Code Coverage fix."
-	if [ "$1" == "" ] && [ "$TRAVIS" == "true" ]; then
-		phpenv config-add tests/phpcommon/xdebug-7.3+.ini
-	fi
-fi
+#if [ "$pvM" \> "7" ] || ( [ "$pvM" == "7" ] && [ "$pvm" \> "2" ]); then
+#	echo "Enabling PHP 7.3+ Code Coverage fix."
+#	if [ "$1" == "" ] && [ "$TRAVIS" == "true" ]; then
+#		phpenv config-add tests/phpcommon/xdebug-7.3+.ini
+#	fi
+#fi
 # PHP Safe Mode not available on PHP 5.4+
 # Throws Deprecation errors on 5.3x.
 # Breaks unit tests that need process isolation and don't preserve global
@@ -205,7 +205,7 @@ elif [ "$pvM" \> "5" ]; then # PHP 7x
 	fi
 elif [ "$pvM" \> "4" ]; then # PHP 5x
 	if [ "$pvm" \> "2" ]; then # PHP 5.3+
-		ADODBVer=5.21.3
+		ADODBVer=5.21.4
 	else
 		ADODBVer=5.01beta
 	fi
