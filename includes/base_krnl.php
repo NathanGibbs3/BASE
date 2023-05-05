@@ -17,7 +17,7 @@
 //
 //          Author(s): Nathan Gibbs
 
-$BK_Ver = '0.0.1';
+$BK_Ver = '0.0.2';
 $BASE_path = dirname(__FILE__);
 $sc = DIRECTORY_SEPARATOR;
 $ReqRE =  "\\".$sc.'includes.*';
@@ -26,7 +26,7 @@ $BASE_path = $BK_Path;
 $file = "$BASE_path$sc" . 'base_conf.php'; // BASE Conf File.
 
 if ( ChkAccess($file) == 1 && filesize($file) > 10 ){
-	KML("Loading Conf from: $file");
+	KML("BASE Conf Set: $file");
 	require_once($file);
 	SetConst('BASE_Conf', $file);
 	SetConst('_BASE_INC', 1); // Include Load Flag.
@@ -68,8 +68,45 @@ if ( ChkAccess($file) == 1 && filesize($file) > 10 ){
 	$et = new EventTiming($BCR->GetCap('BASE_UIDiagTime'));
 	$et->Mark('Starting BASE: ' . $BCR->GetCap('BASE_Ver'));
 	KML("Load: Telemetry", 2);
+	$Lang = $BCR->GetCap('BASE_UILang');
+	$Act = 'Set';
+	if( !LoadedString($Lang) ){
+		$Act = 'Default';
+		$Lang = 'english';
+		$BCR->AddCap('BASE_UILang', $Lang);
+	}
+	KML("BASE Lang $Act: $Lang", 2);
+	$LA = '';
+	if( ChkAccess("$BASE_path$sc" . "languages$sc$Lang" . '.lang.php') != 1 ){
+		$LA = 'not ';
+	}
+	$tmp = $LA . 'accessible';
+	KML("BASE Lang File: $tmp", 2);
+	if( LoadedString($LA) ){ // Display error to user.
+		$BCR->AddCap('UIMode', 'Web');
+		ErrorMessage("BASE Lang File: $tmp");
+		exit;
+	}
+	$tmp = $BASE_urlpath; // Issue #190
+	if( LoadedString($tmp) ){
+		$ReqRE = 'http(s)?' . preg_quote('://','/')
+		. '[0-9A-Za-z\.\-]+(\:[0-9]+)?';
+		$tmp1 = $tmp;
+		$tmp = preg_replace('/^' . $ReqRE . '/', '', $tmp);
+		if( $tmp1 != $tmp ){
+			KML('BASE Security Alert Krnl(): Issue #190 attack blocked.');
+		}
+		if( $tmp == '/' ){
+			$tmp = '';
+		}
+		$BASE_urlpath = $tmp;
+	}
+	if( is_key('SCRIPT_NAME', $_SERVER) ){
+		$tmp = $_SERVER['SCRIPT_NAME'];
+		KML("Start: $tmp");
+	}
 }else{
-	KML("Can't open Conf from: $file.");
+	KML("BASE Conf access error: $file.");
 	HTTP_header('Location: setup/index.php');
 }
 

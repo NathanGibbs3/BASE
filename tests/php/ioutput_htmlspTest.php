@@ -469,6 +469,7 @@ class output_htmlSPTest extends TestCase {
 	}
 	public function testPrintBASEMenuFooterDebugTimeModeOn() {
 		GLOBAL $BASE_installID, $et;
+		$UOV = self::$UOV.'PrintBASEMenuFooter().';
 		$user = self::$user;
 		$et = new EventTiming(1);
 		if ( is_object(self::$UIL) ){
@@ -476,35 +477,36 @@ class output_htmlSPTest extends TestCase {
 		}else{
 			include_once(self::$files);
 		}
-		$EOM = "\n\t\t".'<div class=\'mainheadermenu\'>';
-		$EOM .= "\n\t\t\t".'<table border=\'0\'>';
-		$EOM .= "\n\t\t\t\t".'<tr>';
-		$EOM .= "\n\t\t\t\t\t".'<td class=\'menuitem\'>';
-		$EOM .= "\n\t\t\t\t\t\t".'<a class=\'menuitem\' ';
-		$EOM .= 'href=\'/base_ag_main.php?ag_action=list\'>';
-		$EOM .= 'Alert Group Maintenance</a>';
-		$EOM .= "\n\t\t\t\t\t\t".' | <a class=\'menuitem\' ';
-		$EOM .= 'href=\'/base_maintenance.php\'>Cache & Status</a>';
-		$EOM .= "\n\t\t\t\t\t\t".' | <a class=\'menuitem\' ';
-		$EOM .= 'href=\'/base_user.php\'>User Preferences</a>';
-		$EOM .= "\n\t\t\t\t\t\t".' | <a class=\'menuitem\' ';
-		$EOM .= 'href=\'/base_logout.php\'>Logout</a>';
-		$EOM .= "\n\t\t\t\t\t\t".' | <a class=\'menuitem\' ';
-		$EOM .= 'href=\'/admin/index.php\'>Administration</a> | ';
-		$EOM .= "\n\t\t\t\t\t".'</td><td>';
-		$EOM .= "\n\t\t\t\t\t\t".'<!-- Timing Information -->';
-		$EOM .= "\n\t\t\t\t\t\t".'<div class=\'systemdebug\'>';
-		$EOM .= "\n\t\t\t\t\t\t\t<span style='color: green;'>Loaded in</span>"
-		.' [0 seconds]<br/>';
-		$EOM .= "\n\t\t\t\t\t\t".'</div>';
-		$EOM .= "\n\t\t\t\t\t".'</td>';
-		$EOM .= "\n\t\t\t\t".'</tr>';
-		$EOM .= "\n\t\t\t".'</table>';
-		$EOM .= "\n\t\t".'</div>';
+		$EOM = '\n\t\t<div class=\'mainheadermenu\'>';
+		$EOM .= '\n\t\t\t<table border=\'0\'>';
+		$EOM .= '\n\t\t\t\t<tr>';
+		$EOM .= '\n\t\t\t\t\t<td class=\'menuitem\'>';
+		$EOM .= '\n\t\t\t\t\t\t<a class=\'menuitem\' ';
+		$EOM .= 'href=\'\/base_ag_main.php?ag_action=list\'>';
+		$EOM .= 'Alert Group Maintenance<\/a>';
+		$EOM .= '\n\t\t\t\t\t\t | <a class=\'menuitem\' ';
+		$EOM .= 'href=\'\/base_maintenance.php\'>Cache & Status<\/a>';
+		$EOM .= '\n\t\t\t\t\t\t | <a class=\'menuitem\' ';
+		$EOM .= 'href=\'\/base_user.php\'>User Preferences<\/a>';
+		$EOM .= '\n\t\t\t\t\t\t | <a class=\'menuitem\' ';
+		$EOM .= 'href=\'\/base_logout.php\'>Logout<\/a>';
+		$EOM .= '\n\t\t\t\t\t\t | <a class=\'menuitem\' ';
+		$EOM .= 'href=\'\/admin\/index.php\'>Administration<\/a> | ';
+		$EOM .= '\n\t\t\t\t\t<\/td><td>';
+		$EOM .= '\n\t\t\t\t\t\t<!-- Timing Information -->'
+		. '\n\t\t\t\t\t\t<div class=\'systemdebug\'>'
+		. '\n\t\t\t\t\t\t\t\<span( style=\'color: green;\')?\>'
+		. 'Loaded in\<\/span\> \[[0-1] seconds\]\<br\/\>'
+		. '\n\t\t\t\t\t\t\<\/div\>';
+		$EOM .= '\n\t\t\t\t\t<\/td>';
+		$EOM .= '\n\t\t\t\t<\/tr>';
+		$EOM .= '\n\t\t\t<\/table>';
+		$EOM .= '\n\t\t<\/div>';
 		$pw = $user->cryptpassword('password');
 		$_COOKIE['BASERole'] = "$pw|TestAdmin|";
-		$this->expectOutputString($EOM);
-		PrintBASEMenu('Footer');
+		$this->expectOutputRegex(
+			'/^' . $EOM . '$/', PrintBASEMenu('Footer'), $UOV
+		);
 		unset ($_COOKIE['BASERole']);
 	}
 

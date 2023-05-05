@@ -20,6 +20,7 @@
 */
 // Ensure the conf file has been loaded. Prevent direct access to this file.
 defined('_BASE_INC') or die('Accessing this file directly is not allowed.');
+$sc = DIRECTORY_SEPARATOR;
 include_once("$BASE_path$sc" . "includes$sc" . "base_constants.inc.php");
 include_once("$BASE_path$sc" . "includes$sc" . "base_db.inc.php");
 include_once("$BASE_path/includes/base_output_html.inc.php");
@@ -29,7 +30,6 @@ include_once("$BASE_path/includes/base_state_query.inc.php");
 include_once("$BASE_path/includes/base_state_criteria.inc.php");
 include_once("$BASE_path/includes/base_output_query.inc.php");
 include_once("$BASE_path/includes/base_log_error.inc.php");
-include_once("$BASE_path/includes/base_log_timing.inc.php");
 include_once("$BASE_path/includes/base_action.inc.php");
 include_once("$BASE_path/includes/base_cache.inc.php");
 include_once("$BASE_path/includes/base_net.inc.php");

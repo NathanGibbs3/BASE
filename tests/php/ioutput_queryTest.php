@@ -217,7 +217,7 @@ class output_queryTest extends TestCase {
 		GLOBAL $debug_mode;
 		$URV = self::$URV . 'Construct().';
 		$odb = $debug_mode;
-		$debug_mode = 1;
+		$debug_mode = 2;
 		$expected = "<font color='black'>Resource available JavaScript: /js/base_output_query.inc.js</font><br/>";
 		$this->expectOutputString($expected);
 		$this->assertInstanceOf(
@@ -231,7 +231,7 @@ class output_queryTest extends TestCase {
 		GLOBAL $debug_mode;
 		$URV = self::$URV . 'Construct().';
 		$odb = $debug_mode;
-		$debug_mode = 1;
+		$debug_mode = 2;
 		$expected = "<font color='#ff0000'>Resource not available JavaScript: /js/base_output_query.inc.js</font><br/>";
 		$this->expectOutputString($expected);
 		rename ("./js/base_output_query.inc.js","./js/base_output_query.inc.tmp");

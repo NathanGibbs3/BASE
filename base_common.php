@@ -1261,9 +1261,13 @@ function BCS( $Name, $Value = '' ){
 					KML($EMPfx . "Sec: $Stat", 3);
 					$msg .= ' Secure';
 				}
+				$path = $BASE_urlpath;
+				if( !LoadedString($BASE_urlpath) ){
+					$path = '/';
+				}
 				$BCO = array(
 					'expires' => $expire,
-					'path' => $BASE_urlpath,
+					'path' => $path,
 					//leading dot for compatibility or use subdomain
 					// '.example.com',
 					'domain' => '',

@@ -97,14 +97,15 @@ class BaseCapsRegistry{ // Capabilities Registry class definition
 		if( intval($Use_Auth_System) != 0 ){ // Auth system On.
 			$this->AddCap('BASE_Auth');
 		}
-		if( LoadedString($BASE_Language) ){ // UI Lang.
-			$this->AddCap('BASE_Lang', $BASE_Language);
-		}
-		if( $archive_exists != 0 ){ // Archive DB On.
+		if( intval($archive_exists) != 0 ){ // Archive DB On.
 			$this->AddCap('BASE_ADB');
 		}
 		if( $event_cache_auto_update != 0 ){ // Event Cache Update.
 			$this->AddCap('BASE_ECU');
+		}
+		// BASE UI Settings
+		if( LoadedString($BASE_Language) ){ // UI Lang.
+			$this->AddCap('BASE_UILang', $BASE_Language);
 		}
 		if( $colored_alerts != 0 ){ // Colored Alerts
 			$this->AddCap('BASE_UICA');

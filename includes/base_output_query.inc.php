@@ -52,7 +52,7 @@ class QueryResultsOutput {
 		if ( ChkAccess($tf) == 1 ){
 			$this->JavaScript = $file;
 		}
-		if ( $debug_mode > 0 ){
+		if( $debug_mode > 1 ){
 			$tmp = '';
 			$cc = '';
 			if ( is_null($this->JavaScript) ){
