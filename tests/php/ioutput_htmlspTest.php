@@ -117,7 +117,6 @@ class output_htmlSPTest extends TestCase {
 			);
 			self::$user = $user;
 		}
-		GLOBAL $BCR;
 		// Shim for testing functions that access the BaseCapsRegestry Class
 		// via the global $BCR var, which is not defined under test conditions.
 		if ( !isset($BCR) ){
@@ -139,7 +138,7 @@ class output_htmlSPTest extends TestCase {
 
 	// Tests go here.
 	public function testPageStartDefaults() {
-		GLOBAL $BASE_installID, $BASE_VERSION, $UIL, $base_style;
+		GLOBAL $BASE_installID, $BASE_VERSION, $UIL, $base_style, $BCR;
 		$MHE = "<meta http-equiv='";
 		$MNM = "<meta name='";
 		if ( is_object(self::$UIL) ){
@@ -172,7 +171,7 @@ class output_htmlSPTest extends TestCase {
 		PageStart();
 	}
 	public function testPageStartCustomTitle() {
-		GLOBAL $BASE_installID, $BASE_VERSION, $UIL, $base_style;
+		GLOBAL $BASE_installID, $BASE_VERSION, $UIL, $base_style, $BCR;
 		$MHE = "<meta http-equiv='";
 		$MNM = "<meta name='";
 		if ( is_object(self::$UIL) ){
@@ -206,7 +205,7 @@ class output_htmlSPTest extends TestCase {
 	}
 	public function testPageStartArchiveTitle() {
 		GLOBAL $BASE_installID, $BASE_VERSION, $UIL, $base_style,
-		$archive_exists;
+		$archive_exists, $BCR;
 		$_COOKIE['archive'] = 1;
 		$MHE = "<meta http-equiv='";
 		$MNM = "<meta name='";
@@ -247,7 +246,7 @@ class output_htmlSPTest extends TestCase {
 	}
 	public function testPageStartNoCacheON() {
 		GLOBAL $BASE_installID, $BASE_VERSION, $UIL, $base_style,
-		$html_no_cache;
+		$html_no_cache, $BCR;
 		$html_no_cache = 1;
 		$MHE = "<meta http-equiv='";
 		$MNM = "<meta name='";
@@ -284,7 +283,7 @@ class output_htmlSPTest extends TestCase {
 	}
 	public function testPageStartRefreshON() {
 		GLOBAL $BASE_installID, $BASE_VERSION, $UIL, $base_style,
-		$stat_page_refresh_time;
+		$stat_page_refresh_time, $BCR;
 		$MHE = "<meta http-equiv='";
 		$MNM = "<meta name='";
 		if ( is_object(self::$UIL) ){

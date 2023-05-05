@@ -2,12 +2,14 @@
 use PHPUnit\Framework\TestCase;
 
 // Test fucntions in /includes/base_state_criteria.inc.php
+
 /**
   * A necessary evil for tests touching legacy TD.
   * @preserveGlobalState disabled
   * @runTestsInSeparateProcesses
   * @covers ::PrintBackButton
   */
+
 class state_criteriaSPTest extends TestCase {
 	// Pre Test Setup.
 	protected static $omh;

@@ -19,7 +19,7 @@ defined('_BASE_INC') or die('Accessing this file directly is not allowed.');
 
 function PageStart ( $refresh = 0, $page_title = '' ){
 	GLOBAL $BASE_VERSION, $BASE_installID, $base_style, $BASE_urlpath,
-	$html_no_cache, $refresh_stat_page, $stat_page_refresh_time, $UIL, $BCR, 
+	$html_no_cache, $refresh_stat_page, $stat_page_refresh_time, $UIL, $BCR,
 	$Use_Auth_System;
 	$AS = false;
 	if( isset($BCR) && is_object($BCR) ){
