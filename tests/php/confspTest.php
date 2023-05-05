@@ -19,6 +19,13 @@ class ConfTest extends TestCase {
 
 	// Share class instance as common test fixture.
 	public static function setUpBeforeClass() {
+		// Issue #36 Cutout.
+		// See: https://github.com/NathanGibbs3/BASE/issues/36
+		$PHPV = GetPHPV();
+		$PSM = getenv('SafeMode');
+		if (version_compare($PHPV, '5.4', '<') && $PSM == 1){
+			self::markTestSkipped();
+		}
 		self::$files = array ('base_conf.php', 'base_conf.php.dist');
 		self::$cvars = array(
 			'Use_Auth_System', 'BASE_urlpath', 'BASE_Language',

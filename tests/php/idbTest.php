@@ -99,6 +99,9 @@ class dbTest extends TestCase {
 	}
 
 	// Tests go here.
+	/**
+	 * @backupGlobals disabled
+	 */
 	public function testbaseFieldExistsNonExistantTableReturnsExpected(){
 		$db = self::$db;
 		$URV = self::$URV.'baseFieldExists().';
