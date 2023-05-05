@@ -138,7 +138,8 @@ class output_htmlSPTest extends TestCase {
 
 	// Tests go here.
 	public function testPageStartDefaults() {
-		GLOBAL $BASE_installID, $BASE_VERSION, $UIL, $base_style, $BCR;
+		GLOBAL $BASE_installID, $BASE_VERSION, $UIL, $base_style, $BCR,
+		$Use_Auth_System;
 		$MHE = "<meta http-equiv='";
 		$MNM = "<meta name='";
 		if ( is_object(self::$UIL) ){
@@ -171,7 +172,8 @@ class output_htmlSPTest extends TestCase {
 		PageStart();
 	}
 	public function testPageStartCustomTitle() {
-		GLOBAL $BASE_installID, $BASE_VERSION, $UIL, $base_style, $BCR;
+		GLOBAL $BASE_installID, $BASE_VERSION, $UIL, $base_style, $BCR,
+		$Use_Auth_System;
 		$MHE = "<meta http-equiv='";
 		$MNM = "<meta name='";
 		if ( is_object(self::$UIL) ){
@@ -205,7 +207,7 @@ class output_htmlSPTest extends TestCase {
 	}
 	public function testPageStartArchiveTitle() {
 		GLOBAL $BASE_installID, $BASE_VERSION, $UIL, $base_style,
-		$archive_exists, $BCR;
+		$archive_exists, $BCR, $Use_Auth_System;
 		$_COOKIE['archive'] = 1;
 		$MHE = "<meta http-equiv='";
 		$MNM = "<meta name='";
@@ -246,7 +248,7 @@ class output_htmlSPTest extends TestCase {
 	}
 	public function testPageStartNoCacheON() {
 		GLOBAL $BASE_installID, $BASE_VERSION, $UIL, $base_style,
-		$html_no_cache, $BCR;
+		$html_no_cache, $BCR, $Use_Auth_System;
 		$html_no_cache = 1;
 		$MHE = "<meta http-equiv='";
 		$MNM = "<meta name='";
@@ -283,7 +285,7 @@ class output_htmlSPTest extends TestCase {
 	}
 	public function testPageStartRefreshON() {
 		GLOBAL $BASE_installID, $BASE_VERSION, $UIL, $base_style,
-		$stat_page_refresh_time, $BCR;
+		$stat_page_refresh_time, $BCR, $Use_Auth_System;
 		$MHE = "<meta http-equiv='";
 		$MNM = "<meta name='";
 		if ( is_object(self::$UIL) ){
