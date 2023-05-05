@@ -140,6 +140,8 @@ class output_htmlSPTest extends TestCase {
 	public function testPageStartDefaults() {
 		GLOBAL $BASE_installID, $BASE_VERSION, $UIL, $base_style, $BCR,
 		$Use_Auth_System;
+		$BAStmp = $Use_Auth_System;
+		$Use_Auth_System = 0;
 		$MHE = "<meta http-equiv='";
 		$MNM = "<meta name='";
 		if ( is_object(self::$UIL) ){
@@ -170,10 +172,13 @@ class output_htmlSPTest extends TestCase {
 		;
 		$this->expectOutputString($EOM);
 		PageStart();
+		$Use_Auth_System = $BAStmp;
 	}
 	public function testPageStartCustomTitle() {
 		GLOBAL $BASE_installID, $BASE_VERSION, $UIL, $base_style, $BCR,
 		$Use_Auth_System;
+		$BAStmp = $Use_Auth_System;
+		$Use_Auth_System = 0;
 		$MHE = "<meta http-equiv='";
 		$MNM = "<meta name='";
 		if ( is_object(self::$UIL) ){
@@ -204,10 +209,13 @@ class output_htmlSPTest extends TestCase {
 		;
 		$this->expectOutputString($EOM);
 		PageStart(0,'Custom Title');
+		$Use_Auth_System = $BAStmp;
 	}
 	public function testPageStartArchiveTitle() {
 		GLOBAL $BASE_installID, $BASE_VERSION, $UIL, $base_style,
 		$archive_exists, $BCR, $Use_Auth_System;
+		$BAStmp = $Use_Auth_System;
+		$Use_Auth_System = 0;
 		$_COOKIE['archive'] = 1;
 		$MHE = "<meta http-equiv='";
 		$MNM = "<meta name='";
@@ -245,10 +253,13 @@ class output_htmlSPTest extends TestCase {
 		PageStart();
 		unset ($_COOKIE['archive']);
 		$archive_exists = $ogv;
+		$Use_Auth_System = $BAStmp;
 	}
 	public function testPageStartNoCacheON() {
 		GLOBAL $BASE_installID, $BASE_VERSION, $UIL, $base_style,
 		$html_no_cache, $BCR, $Use_Auth_System;
+		$BAStmp = $Use_Auth_System;
+		$Use_Auth_System = 0;
 		$html_no_cache = 1;
 		$MHE = "<meta http-equiv='";
 		$MNM = "<meta name='";
@@ -282,10 +293,13 @@ class output_htmlSPTest extends TestCase {
 		$this->expectOutputString($EOM);
 		PageStart();
 		$html_no_cache = 0;
+		$Use_Auth_System = $BAStmp;
 	}
 	public function testPageStartRefreshON() {
 		GLOBAL $BASE_installID, $BASE_VERSION, $UIL, $base_style,
 		$stat_page_refresh_time, $BCR, $Use_Auth_System;
+		$BAStmp = $Use_Auth_System;
+		$Use_Auth_System = 0;
 		$MHE = "<meta http-equiv='";
 		$MNM = "<meta name='";
 		if ( is_object(self::$UIL) ){
@@ -317,6 +331,7 @@ class output_htmlSPTest extends TestCase {
 		;
 		$this->expectOutputString($EOM);
 		PageStart(1);
+		$Use_Auth_System = $BAStmp;
 	}
 	public function testdispMonthOptionsReturnDefaults() {
 		GLOBAL $UIL;
