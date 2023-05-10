@@ -267,7 +267,7 @@ Haiti	522.52	354.0
 hu	921.25	206.22
 Hungary	921.25	206.22
 i0	411.26	35.64
-private network (rfc 1918)	411.26	35.64
+private network (rfc 1918)	5.0	750
 private network	411.26	35.64
 id	1327.6	480.61
 Indonesia	1327.6	480.61

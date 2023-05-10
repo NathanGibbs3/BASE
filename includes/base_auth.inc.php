@@ -565,7 +565,7 @@ class BaseRole {
 
 // Returns true if the role of current user is authorized.
 // Redirect if valid header is given.
-function AuthorizedRole( $roleneeded = 1, $header = '' ){
+function AuthorizedRole ( $roleneeded = 1, $header = '' ){
 	GLOBAL $BASE_urlpath, $Use_Auth_System, $et;
 	$EMPfx = 'BASE Security Alert ' . __FUNCTION__ . ': ';
 	$Ret = false;
@@ -608,7 +608,7 @@ function AuthorizedRole( $roleneeded = 1, $header = '' ){
 }
 
 // Returns true if the passed value is part of the running script name.
-function AuthorizedPage( $page = '' ){
+function AuthorizedPage ( $page = '' ){
 	GLOBAL $BASE_urlpath;
 	$Ret = false;
 	$ReqRE = preg_quote("$BASE_urlpath/",'/')."$page\.php";
@@ -619,7 +619,7 @@ function AuthorizedPage( $page = '' ){
 }
 
 // Returns true if URI is set & matches URL path & running script name.
-function AuthorizedURI(){
+function AuthorizedURI (){
 	GLOBAL $BASE_urlpath;
 	$Ret = false;
 	if (isset($_SERVER["REQUEST_URI"])){
@@ -627,6 +627,62 @@ function AuthorizedURI(){
 		$ReqRE = preg_quote($BASE_urlpath.$_SERVER['SCRIPT_NAME'],'/');
 		if ( preg_match("/^" . $ReqRE ."/", $URI) ){
 			$Ret = true;
+		}
+	}
+	return $Ret;
+}
+
+// Returns true if Client Host is allowed to connect.
+function AuthorizedClient (){
+	GLOBAL $AllowedClients;
+	$Ret = true; // Fail Open for configs where this isn't set.
+	if( LoadedString($AllowedClients) ){
+		$IpTmp = $AllowedClients;
+		$Ret = false; // Lock the gate.
+		$IPF = 0;
+		$IPL = 0;
+		$IPC = 0;
+		$IPV = 0;
+		$Snm = netmask ($IpTmp);
+		if ( $Snm > 0 ){
+			$MaskRE = '\/' . $Snm;
+			$IpTmp = preg_replace( '/'. $MaskRE .'$/', '', $IpTmp );
+			if( is_ip4 ($IpTmp) ){
+				if( $Snm > 32 ){ // Invalid IPv4 Netmask
+					$Snm = 32;
+				}
+				$IPC = NMHC($Snm);
+			}elseif( is_ip6 ($IpTmp) ){
+				$IPC = NMHC($Snm, true);
+			}
+		}
+		$IPF = ipconvert($IpTmp);
+		$IPL = $IPF;
+		if( is_ip4 ($IpTmp) ){
+			$IPV = 4;
+			if( $Snm > 0 ){
+				$IPL = $IPL + $IPC;
+			}
+		}elseif( is_ip6 ($IpTmp) ){
+			$IPV = 6;
+			if( $Snm > 0 && defined('GMP_VERSION') ){
+				$IPL = gmp_strval(gmp_add($IPF, $IPC));
+			}
+		}
+		if( $IPV != 0 && is_key('REMOTE_ADDR', $_SERVER) ){
+			$ipcli = $_SERVER['REMOTE_ADDR'];
+			$ipcT = ipconvert($ipcli);
+			if( $IPV == 4 && is_ip4 ($ipcli) ){
+				if( $ipcT >= $IPF && $ipcT <= $IPL ){
+					$Ret = true;
+				}
+			}elseif( $IPV == 6 && is_ip6 ($ipcli) && defined('GMP_VERSION') ){
+				if(
+					gmp_cmp($ipcT, $IPF) > -1 && gmp_cmp($ipcT, $IPL) < 1
+				){
+					$Ret = true;
+				}
+			}
 		}
 	}
 	return $Ret;

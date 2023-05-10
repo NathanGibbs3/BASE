@@ -57,9 +57,6 @@ $sort_order = ImportHTTPVar('sort_order', VAR_LETTER | VAR_USCORE);
 $caller = ImportHTTPVar('caller', VAR_LETTER | VAR_USCORE);
 $cs = new CriteriaState('base_stat_alerts.php');
 $cs->ReadState();
-if ( $debug_mode > 0 ){ // Dump debugging info on the shared state.
-	PrintCriteriaState();
-}
 if ( $caller == 'most_frequent' && $sort_order = 'occur_d' ){
 	// Interim Issue #120 Fix
 	$sort_order = $CPTotal.'_occur_d';
@@ -81,18 +78,20 @@ $qs->AddCannedQuery(
 );
 $qs->MoveView($submit); // Increment the view if necessary.
 $page_title = _ALERTTITLE;
-if ( $qs->isCannedQuery() ){
+if( $qs->isCannedQuery() ){
 	$page_title . ': ' . $qs->GetCurrentCannedQueryDesc();
 }
 PrintBASESubHeader( $page_title, $page_title, $cs->GetBackLink(), 1 );
-
+if( $debug_mode > 0 ){ // Dump debugging info on the shared state.
+	PrintCriteriaState();
+}
 $criteria_clauses = ProcessCriteria();
 // Issue #114 fix
-NLIO ("<div style='overflow:hidden'>",2);
-NLIO ("<div style='float: left; width: 60%;'>",3);
+NLIO("<div style='overflow:hidden'>", 2);
+NLIO("<div style='float: left; width: 60%;'>", 3);
 PrintCriteria('');
-NLIO ('</div>',3);
-NLIO ("<div style='float: right; width: 40%;'>",3);
+NLIO('</div>', 3);
+NLIO("<div style='float: right; width: 40%;'>", 3);
 // RFE by Joel. Wanted the Summary Statistics box on the base_stat_alerts page.
 PrintFramedBoxHeader(_QSCSUMM, '#669999', 0, 4);
 NLIO('<td>',6);

@@ -51,12 +51,15 @@ class BaseCapsRegistry{ // Capabilities Registry class definition
 		$this->BCReg['PHP'] = array(); // PHP Capabilities.
 		$this->BCReg['BASE'] = array(); // BASE Capabilities.
 		// PHP
-		$this->AddCap('PHP_Ver', GetPHPSV()); // PHP Version
+		$this->AddCap('PHP_Ver', implode('.', GetPHPSV())); // PHP Version
 		if( function_exists('mail') ){ // PHP Mail
 			$this->AddCap('PHP_Mail');
 		}
 		if( function_exists('imagecreate') ){ // PHP GD
 			$this->AddCap('PHP_GD');
+		}
+		if( defined('GMP_VERSION') ){
+			$this->AddCap('PHP_GMP', GMP_VERSION);
 		}
 		// BASE Kernel & RTL Registartion
 		if ( SetConst('BASE_KERNEL', 'None') ){

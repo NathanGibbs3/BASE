@@ -22,19 +22,12 @@ include_once("$BASE_path/base_ag_common.php");
 include_once("$BASE_path/includes/base_constants.inc.php");
 include_once("$BASE_path/includes/base_log_error.inc.php");
 
-$Mail = 0;
-$Mime = 0;
-if ( isset($archive_exists) ){
-	$Archive = $archive_exists;
-}else{
-	$Archive = 0;
-}
-if ( PearInc('Mail', '', 'Mail') ){
-	include_once("Mail.php"); // r.rioux added for PEAR::Mail
-	$Mail = 1;
-	if ( PearInc('Mime', 'Mail', 'mime') ){
-		include_once("Mail/mime.php"); //r.rioux added for PEAR::Mail attachments
-		$Mime = 1;
+if( isset($BCR) && is_object($BCR) ){
+	if( $BCR->GetCap('Mail') ){
+		include_once("Mail.php"); // r.rioux added for PEAR::Mail
+		if( $BCR->GetCap('Mime') ){
+			include_once("Mail/mime.php"); //r.rioux added for PEAR::Mail attachments
+		}
 	}
 }
 
@@ -238,11 +231,14 @@ function ProcessSelectedAlerts(
 	$action, &$action_op, $action_arg, $action_param, $context, $action_lst,
 	&$num_alert, $action_sql, $db, $limit_start=-1, $limit_offset=-1
 ){
-	GLOBAL $debug_mode, $Mail, $Mime, $Archive;
+	GLOBAL $debug_mode, $BCR;
+	$Archive = $BCR->GetCap('BASE_ADB');
+	$Mail = $BCR->GetCap('Mail');
+	$Mime = $BCR->GetCap('Mime');
 	$action_cnt = 0;
 	$dup_cnt = 0;
 	$action_desc = '';
-	if ( $action == '' ){
+	if ( !LoadedString($action) ){
 		return;
 	}
 	$action_desc = GetActionDesc($action);
@@ -430,12 +426,12 @@ function ProcessSelectedAlerts(
 				// Verify that have a selected alert.
 				if ( $using_blobs ){ // If acting on a blob.
 					$myrow = $result->baseFetchRow();
-					$sid = $myrow[0];
-					$cid = $myrow[1];
+					$sid = intval($myrow[0]);
+					$cid = intval($myrow[1]);
 				}else{
 					GetQueryResultID($action_lst[$i], $seq, $sid, $cid);
 				}
-				if( LoadedString($sid) ){
+				if( $sid > 0 ){
 					if( $debug_mode > 1 ){
 						// List each blob item, this could be hundreds.
 						print "$sid - $cid, ";
@@ -634,12 +630,14 @@ function Action_email_alert_post(
 	GLOBAL $action_email_from, $action_email_mode, $action_email_subject,
 	$action_email_msg, $action_email_smtp_host, $action_email_smtp_auth,
 	$action_email_smtp_user, $action_email_smtp_pw,
-	$action_email_smtp_localhost, $Mail, $Mime, $BCR;
+	$action_email_smtp_localhost, $BCR;
+	$Mail = $BCR->GetCap('Mail');
 	// Return if there is no alerts.
-	if ( $MAIL == 0 || $action_ctx == '' ){
+	if ( !$Mail || !LoadedString($action_ctx) ){
 		return;
 	}
 	$BV = $BCR->GetCap('BASE_Ver');
+	$Mime = $BCR->GetCap('Mime');
 	$smtp_host = $action_email_smtp_host;
 	$smtp_auth = $action_email_smtp_auth;
 	$smtp_user = $action_email_smtp_user;
@@ -653,7 +651,7 @@ function Action_email_alert_post(
 	);
 	$mail_content = $action_email_msg . _GENBASE . " v$BV on "
 	. date("r",time()) . "\n";
-	if ( $Mime == 0 || $action_email_mode == 0 ){ // Alerts inline.
+	if ( !$Mime || $action_email_mode == 0 ){ // Alerts inline.
 		$body = $mail_content."\n".$action_ctx . "\n";
 	}else{ // Alerts as attachment.
 		$boundary = strtoupper(md5(uniqid(time())));
@@ -1399,16 +1397,17 @@ function PurgeAlert( $sid, $cid, $db ){
 	return $del_cnt;
 }
 // Returns true on success of sending message, false on failure.
-function send_email(
+function send_email (
 	$smtp_host, $smtp_auth, $smtp_user, $smtp_pw, $to, $hdrs, $body,
-	$smtp_localhost='localhost'
+	$smtp_localhost = 'localhost'
 ){
-	GLOBAL $Mail;
+	GLOBAL $BCR;
+	$Mail = $BCR->GetCap('Mail');
 	$Ret = false;
-	if ( $Mail == 0 ){
-		ErrorMessage( 'No capability registered.'._ERRNOEMAILPHP);
+	if( !$Mail ){
+		ErrorMessage('No capability registered.' . _ERRNOEMAILPHP);
 	}
-	if ( $to != '' ){
+	if ( LoadedString($to) ){
 		$smtp =& Mail::factory('smtp',
 			array ('host'     => $smtp_host,
 				'auth'     => $smtp_auth,

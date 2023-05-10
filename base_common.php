@@ -1276,10 +1276,10 @@ function BCS( $Name, $Value = '' ){
 					'samesite' => 'Strict' // None || Lax  || Strict
 				);
 				$PHPVer = GetPHPSV();
-				if( $PHPVer[0] > 7 || ($PHPVer[0] == 7 && $PHPVer[1] > 2 )
-				){ // PHP > 7.2x
+				if( $PHPVer[0] > 7 || ($PHPVer[0] == 7 && $PHPVer[1] > 2)
+				){ // PHP 7.3+
 					$Ret = setcookie($Name, $Value, $BCO);
-				}else{ // Older PHP
+				}else{ // Older PHP < 7.3
 					// Path param hack to slam the SameSite param into cookies
 					// on versions of setcookie() that don't support it.
 					$tmp = $BCO['path'] . '; SameSite=' . $BCO['samesite'];

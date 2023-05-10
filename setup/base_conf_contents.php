@@ -59,6 +59,16 @@ function returnContents()
     
     $Use_Auth_System = '.$useauth.';
 
+// Allowed Client IP addresses IPv4 or IPv6.
+// Host
+// $AllowedClients = 192.168.0.1
+// $AllowedClients = fd00:0000:0000::1
+// Subnets
+// $AllowedClients = 192.168.0.0/24
+// $AllowedClients = fd00:0000:0000::/48
+
+$AllowedClients = \'\';
+
 // Set the base_urlpath to the url location that is the root of your BASE
 // install. This must be set for BASE to function! Do not include a trailing
 // slash! But also put the preceding slash.
@@ -66,7 +76,7 @@ function returnContents()
 // e.g. Your URL is http://127.0.0.1/base or http://hostname/base
 // Set this to /base
 // e.g. Your URL is http://127.0.0.1/ or http://hostname/
-// Set this to an empty string '';
+// Set this to an empty string \'\'.
 
 $BASE_urlpath = \''. $uri .'\';
 

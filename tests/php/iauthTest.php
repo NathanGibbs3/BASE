@@ -1,7 +1,7 @@
 <?php
 use PHPUnit\Framework\TestCase;
 
-// Test fucntions in /includes/base_auth.inc.php
+// Test fucntions in includes/base_auth.inc.php
 // in the BaseUser class.
 
 /**
@@ -28,6 +28,7 @@ use PHPUnit\Framework\TestCase;
   * @uses baseRS
   * @uses BaseUser::cryptpassword
   */
+
 class authTest extends TestCase {
 	// Pre Test Setup.
 	protected static $db;

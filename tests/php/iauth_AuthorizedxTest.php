@@ -1,10 +1,11 @@
 <?php
 use PHPUnit\Framework\TestCase;
 
-// Test fucntions in /includes/base_auth.inc.php
-// in the AuthorizedRole() function
+// Test fucntions in includes/base_auth.inc.php
+// The Authorized*() functions.
 
 /**
+  * @covers ::AuthorizedClient
   * @covers ::AuthorizedRole
   * @covers ::AuthorizedPage
   * @covers ::AuthorizedURI
@@ -13,14 +14,22 @@ use PHPUnit\Framework\TestCase;
   * @uses ::filterSql
   * @uses ::ChkAccess
   * @uses ::ChkLib
+  * @uses ::GetPHPSV
   * @uses ::LoadedString
   * @uses ::NewBASEDBConnection
+  * @uses ::NMHC
   * @uses ::SetConst
   * @uses ::XSSPrintSafe
+  * @uses ::ipconvert
+  * @uses ::is_ip4
+  * @uses ::is_ip6
+  * @uses ::is_key
+  * @uses ::netmask
   * @uses BaseUser
   * @uses baseCon
   * @uses baseRS
   */
+
 class authTest2 extends TestCase {
 	// Pre Test Setup.
 	protected static $user;
@@ -254,6 +263,7 @@ class authTest2 extends TestCase {
 		unset ($_SERVER['REQUEST_URI']);
 	}
 	public function testAuthorizedURISetOK(){
+		$URV = self::$URV . 'AuthorizedURI().';
 		$TRAVIS = getenv('TRAVIS');
 		if (!$TRAVIS){ // Running on Local Test System.
 			$tmp = '/usr';
@@ -271,11 +281,67 @@ class authTest2 extends TestCase {
 		}
 		$tmp .= '/bin/phpunit';
 		$_SERVER['REQUEST_URI'] = $tmp;
-		$this->assertTrue(
-			AuthorizedURI(),
-			'Unexpected Return Value.'
-		);
+		$this->assertTrue(AuthorizedURI(), $URV);
 		unset ($_SERVER['REQUEST_URI']);
+	}
+	public function testAuthorizedRoleClientNone(){
+		$URV = self::$URV . 'AuthorizedClient().';
+		$this->assertTrue(AuthorizedClient(), $URV);
+	}
+	public function testAuthorizedRoleClientIPv4Fail(){
+		GLOBAL $AllowedClients;
+		$URV = self::$URV . 'AuthorizedClient().';
+		$osv = $_SERVER;
+		$oAC = $AllowedClients;
+		$_SERVER['REMOTE_ADDR'] = '192.168.1.1';
+		$AllowedClients = '192.168.0.0/24';
+		$this->assertFalse(AuthorizedClient(), $URV);
+		$AllowedClients = $oAC;
+		$_SERVER = $osv;
+	}
+	public function testAuthorizedRoleClientIPv4Pass(){
+		GLOBAL $AllowedClients;
+		$URV = self::$URV . 'AuthorizedClient().';
+		$osv = $_SERVER;
+		$oAC = $AllowedClients;
+		$_SERVER['REMOTE_ADDR'] = '192.168.0.1';
+		$AllowedClients = '192.168.0.0/24';
+		$this->assertTrue(AuthorizedClient(), $URV);
+		$AllowedClients = $oAC;
+		$_SERVER = $osv;
+	}
+	public function testAuthorizedRoleClientIPv4InvalidNetmask(){
+		GLOBAL $AllowedClients;
+		$URV = self::$URV . 'AuthorizedClient().';
+		$osv = $_SERVER;
+		$oAC = $AllowedClients;
+		$_SERVER['REMOTE_ADDR'] = '192.168.0.1';
+		$AllowedClients = '192.168.0.0/35';
+		$this->assertTrue(AuthorizedClient(), $URV);
+		$AllowedClients = $oAC;
+		$_SERVER = $osv;
+	}
+	public function testAuthorizedRoleClientIPv6Fail(){
+		GLOBAL $AllowedClients;
+		$URV = self::$URV . 'AuthorizedClient().';
+		$osv = $_SERVER;
+		$oAC = $AllowedClients;
+		$_SERVER['REMOTE_ADDR'] = '1000::1';
+		$AllowedClients = '::/96';
+		$this->assertFalse(AuthorizedClient(), $URV);
+		$AllowedClients = $oAC;
+		$_SERVER = $osv;
+	}
+	public function testAuthorizedRoleClientIPv6Pass(){
+		GLOBAL $AllowedClients;
+		$URV = self::$URV . 'AuthorizedClient().';
+		$osv = $_SERVER;
+		$oAC = $AllowedClients;
+		$_SERVER['REMOTE_ADDR'] = '::1';
+		$AllowedClients = '::/96';
+		$this->assertTrue(AuthorizedClient(), $URV);
+		$AllowedClients = $oAC;
+		$_SERVER = $osv;
 	}
 
 	// Add code to a function if needed.

@@ -149,6 +149,12 @@ if ($SaM == 'yes'){
 	NLIO('<b>'._MNTCLIENT.'</b> '.XSSPrintSafe($SW_Cli).'<br/>',4);
 }
 if ( $AdminAuth ){ // Issue #146 Fix
+	$imgc = NLI('', 6);
+	$imgc .= "<img border='0' src='" . $BASE_urlpath . '/images/';
+	$PF_lst = array('Mail', 'GD', 'GMP');
+	foreach( $PF_lst as $val ){
+		$PF_St[$val] = $BCR->GetCap("PHP_$val");
+	}
 	$IER = ini_get('error_reporting');
 	$ER_lst = array();
 	if ( ($IER & E_ERROR) > 0 ){
@@ -193,6 +199,16 @@ if ( $AdminAuth ){ // Issue #146 Fix
 				_MNTPHPLOGLVL . ' (' . $IER . ')' . $PERL
 			);
 			NLIO(_MNTPHPMODS . $PLM);
+			NLIO('PHP Capabilities: ');
+			foreach( $PF_St as $key => $val ){
+				$tmp = "$key ";
+				if ( !$val ){
+					$tmp .= 'not ';
+				}
+				$tmp .= 'installed.';
+				NLIO($tmp);
+			}
+			NLIO();
 		}
 	}else{
 print'         <B>'._MNTSERVER.'</B> '.XSSPrintSafe($SW_Svr).'<BR>
@@ -204,7 +220,22 @@ print'         <B>'._MNTSERVER.'</B> '.XSSPrintSafe($SW_Svr).'<BR>
 			'<b>' ._MNTPHPLOGLVL . ': </b> (' . $IER . ')' . $PERL . '<br/>', 
 			6
 		);
-		NLIO('<b>' ._MNTPHPMODS . ': </b>' . $PLM . '<br/>', 6);
+		NLIO('<b>' . _MNTPHPMODS . ': </b>' . $PLM . '<br/>', 6);
+		NLIO('<b>PHP Capabilities: </b>', 6);
+		foreach( $PF_St as $key => $val ){
+			$FI = "greencheck.gif' alt='button_greencheck";
+			$tmp = "<b>$key: </b>";
+			if ( !$val ){
+				$tmp .= 'not ';
+				$FI = "redcheck.gif' alt='button_redcheck";
+			}
+			$FI .= "'/>";
+			if ( LoadedString($val) ){
+				$tmp .= " $val ";
+			};
+			$tmp .= 'installed.';
+			NLIO("$tmp$imgc$FI", 6);
+		}
 	}
 }
 if ($SaM == 'yes'){
@@ -225,8 +256,6 @@ if ( $AdminAuth ){ // Issue #146 Fix
 	foreach( $BF_lst as $val ){
 		$BF_St[$val] = $BCR->GetCap($val);
 	}
-	$imgc = NLI('',6);
-	$imgc .= "<img border='0' src='".$BASE_urlpath ."/images/";
 	$BDevI = $imgc;
 	if ( $BDev ){ // TD These.
 		$BDevStatus = 'Development';
@@ -306,7 +335,7 @@ if ( $AdminAuth ){ // Issue #146 Fix
 			}
 			$FI .= "'/>";
 			$tmp .= 'installed.';
-			NLIO("$tmp$imgc$FI",6);
+			NLIO("$tmp$imgc$FI", 6);
 		}
 		PrintFramedBoxFooter(1,3);
 		NLIO ('<br/>',3);
@@ -317,12 +346,12 @@ if ( $AdminAuth ){ // Issue #146 Fix
 ";
 		NLIO("$ADBStatus$ADBI" . '<br/>', 6);
 		NLIO(
-			"<input class='admin' type='submit' neme='submit'"
+			"<input class='admin' type='submit' name='submit'"
 			. " value='Repair Tables'>",
 			6
 		);
 		NLIO(
-			"<input class='admin' type='submit' neme='submit'"
+			"<input class='admin' type='submit' name='submit'"
 			. " value='Clear Data Tables'>",
 			6
 		);
@@ -399,11 +428,11 @@ if ($SaM == 'yes'){
 
 	if ( $AdminAuth ){ // Issue #146 Fix
 		NLIO(
-			"<input type='submit' neme='submit' value='Update Alert Cache'>",
+			"<input type='submit' name='submit' value='Update Alert Cache'>",
 			6
 		);
 		NLIO(
-			"<input class='admin' type='submit' neme='submit'"
+			"<input class='admin' type='submit' name='submit'"
 			. " value='Rebuild Alert Cache'>",
 			6
 		);
@@ -420,20 +449,20 @@ if ($SaM == 'yes'){
        '<B>'._MNTIPACWC.':</B> '.$cached_dwhois_cnt.'<BR>';
 	if ( $AdminAuth ){ // Issue #146 Fix
 		NLIO(
-			"<input type='submit' neme='submit' value='Update IP Cache'>",
+			"<input type='submit' name='submit' value='Update IP Cache'>",
 			6
 		);
 		NLIO(
-			"<input type='submit' neme='submit' value='Update Whois Cache'>",
+			"<input type='submit' name='submit' value='Update Whois Cache'>",
 			6
 		);
 		NLIO(
-			"<input class='admin' type='submit' neme='submit'"
+			"<input class='admin' type='submit' name='submit'"
 			. " value='Rebuild IP Cache'>",
 			6
 		);
 		NLIO(
-			"<input class='admin' type='submit' neme='submit'"
+			"<input class='admin' type='submit' name='submit'"
 			. " value='Rebuild Whois Cache'>",
 			6
 		);

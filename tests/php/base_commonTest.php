@@ -19,6 +19,7 @@ use PHPUnit\Framework\TestCase;
   * @uses ::ChkAccess
   * @uses ::CleanVariable
   * @uses ::ErrorMessage
+  * @uses ::GetPHPSV
   * @uses ::HtmlColor
   * @uses ::LibIncError
   * @uses ::LoadedString
