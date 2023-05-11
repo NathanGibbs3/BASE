@@ -124,8 +124,8 @@ if( !function_exists('ChkAccess') ){
 			}
 			if ( $rcf == 1 ){
 				$Ret = -2; // Readable Error
-//				$PHPVer = GetPHPSV();
-				$PHPVer = explode('.', phpversion());
+//				$version = GetPHPSV();
+				$version = explode('.', phpversion());
 				// PHP Safe Mode cutout.
 				//    Added: 2005-03-25 for compatabibility with PHP 4x & 5.0x
 				//      See: https://sourceforge.net/p/secureideas/bugs/47
@@ -135,8 +135,9 @@ if( !function_exists('ChkAccess') ){
 				// May work: PHP > 5.1.4.
 				//      See: https://www.php.net/manual/en/function.is-readable.php
 				if (
-					$PHPVer[0] > 5 || ($PHPVer[0] == 5 && $PHPVer[1] > 1)
-					|| ($PHPVer[0] == 5 && $PHPVer[1] == 1 && $PHPVer[2] > 4 )
+					$version[0] > 5
+					|| ($version[0] == 5 && $version[1] > 1)
+					|| ($version[0] == 5 && $version[1] == 1 && $version[2] > 4 )
 					|| ini_get("safe_mode") != true
 				){
 					if ( is_readable($path) ){
@@ -352,8 +353,8 @@ function netmask ( $ip = '' ){
 
 function ipdeconvert ( $ip = '' ){
 	$Ret = 0;
-	if( is_numeric($ip) ){
-		$tmp = $ip; // Attempt to avoid PHP 5x type slamming.
+	$tmp = $ip; // Attempt to avoid PHP 5x type slamming.
+	if( is_numeric($tmp) ){
 		$OCA = array();
 		$t4 = 0;
 		$t6 = 0;
