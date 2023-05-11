@@ -124,8 +124,7 @@ if( !function_exists('ChkAccess') ){
 			}
 			if ( $rcf == 1 ){
 				$Ret = -2; // Readable Error
-//				$version = GetPHPSV();
-				$version = explode('.', phpversion());
+				$PHPVer = GetPHPSV();
 				// PHP Safe Mode cutout.
 				//    Added: 2005-03-25 for compatabibility with PHP 4x & 5.0x
 				//      See: https://sourceforge.net/p/secureideas/bugs/47
@@ -135,12 +134,11 @@ if( !function_exists('ChkAccess') ){
 				// May work: PHP > 5.1.4.
 				//      See: https://www.php.net/manual/en/function.is-readable.php
 				if (
-					$version[0] > 5
-					|| ($version[0] == 5 && $version[1] > 1)
-					|| ($version[0] == 5 && $version[1] == 1 && $version[2] > 4 )
+					$PHPVer[0] > 5 || ($PHPVer[0] == 5 && $PHPVer[1] > 1)
+					|| ($PHPVer[0] == 5 && $PHPVer[1] == 1 && $PHPVer[2] > 4 )
 					|| ini_get("safe_mode") != true
 				){
-					if ( is_readable($path) ){
+					if( is_readable($path) ){
 						$Ret = 1;
 					}
 				}else{
@@ -369,8 +367,8 @@ function ipdeconvert ( $ip = '' ){
 			$pwr = $i - 1;
 			if ( $t6 ){ // IPv6 Use Gmp lib.
 				$tmp = gmp_pow(256, $pwr);
-				$tt = gmp_div($ip, $tmp);
-				$ip = gmp_sub($ip, gmp_mul($tmp, $tt));
+				$tt = gmp_div(strval($ip), $tmp);
+				$ip = gmp_sub(strval($ip), gmp_mul($tmp, $tt));
 			}else{ // IPv4 Use PHP
 				$tmp = pow(256, $pwr);
 				$tt = intval($ip / $tmp);
