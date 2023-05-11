@@ -363,6 +363,7 @@ function ipdeconvert ( $ip = '' ){
 		}else{ // IPv6
 			$t6 = 1;
 			$tl = 16;
+			$PHPVer = GetPHPSV();
 			$tip = gmp_init($ip, 10);
 		}
 		for ( $i = $tl; $i > 0 ; $i-- ){
@@ -371,10 +372,15 @@ function ipdeconvert ( $ip = '' ){
 //				$tmp = str_pad(gmp_export($ip), 16, "\0", STR_PAD_LEFT);
 //				break;
 				$tmp = gmp_strval(gmp_pow(256, $pwr));
-				$tt = gmp_strval(gmp_div($tip, $tmp));
-				$tip = gmp_strval(
-					gmp_sub($tip,gmp_strval(gmp_mul($tmp, $tt)))
-				);
+				$res = gmp_div_qr($tip, $tmp);
+				$tt = intval($res[0]);
+				$tip = gmp_strval($res[1]);
+
+				// Works
+//				$tt = gmp_strval(gmp_div($tip, $tmp));
+//				$tip = gmp_strval(
+//					gmp_sub($tip,gmp_strval(gmp_mul($tmp, $tt)))
+//				);
 			}else{ // IPv4 Use PHP
 				$tmp = pow(256, $pwr);
 				$tt = intval($ip / $tmp);
