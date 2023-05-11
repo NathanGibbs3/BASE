@@ -10,7 +10,7 @@ use PHPUnit\Framework\TestCase;
   * @runTestsInSeparateProcesses
   */
 
-class base_db_commonTest extends TestCase {
+class base_db_commonspTest extends TestCase {
 	// Pre Test Setup.
 	protected static $files;
 	protected static $langs;

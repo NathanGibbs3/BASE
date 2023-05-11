@@ -17,8 +17,6 @@
 
 $sc = DIRECTORY_SEPARATOR;
 require_once("includes$sc" . 'base_krnl.php');
-include_once("$BASE_path/base_common.php");
-include_once("$BASE_path/includes/base_auth.inc.php");
 include_once("$BASE_path/includes/base_log_error.inc.php");
 include_once("$BASE_path/includes/base_output_html.inc.php");
 

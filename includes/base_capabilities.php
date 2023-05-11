@@ -51,12 +51,15 @@ class BaseCapsRegistry{ // Capabilities Registry class definition
 		$this->BCReg['PHP'] = array(); // PHP Capabilities.
 		$this->BCReg['BASE'] = array(); // BASE Capabilities.
 		// PHP
-		$this->AddCap('PHP_Ver', GetPHPSV()); // PHP Version
+		$this->AddCap('PHP_Ver', implode('.', GetPHPSV())); // PHP Version
 		if( function_exists('mail') ){ // PHP Mail
 			$this->AddCap('PHP_Mail');
 		}
 		if( function_exists('imagecreate') ){ // PHP GD
 			$this->AddCap('PHP_GD');
+		}
+		if( defined('GMP_VERSION') ){
+			$this->AddCap('PHP_GMP', GMP_VERSION);
 		}
 		// BASE Kernel & RTL Registartion
 		if ( SetConst('BASE_KERNEL', 'None') ){
@@ -75,7 +78,7 @@ class BaseCapsRegistry{ // Capabilities Registry class definition
 		$Ver = '1.4.5'; // Official Release
 		$Lady = 'lilias'; // Official Release Name
 		// Last Dev Merge to master branch, change on new merge.
-		$LPM = '2023-04-13';
+		$LPM = '2023-04-30';
 		// Switch this off and update the official release Unit Test when
 		// pushing a new release to master.
 		$Dev = true; // Is this a Development build?
@@ -94,17 +97,18 @@ class BaseCapsRegistry{ // Capabilities Registry class definition
 		if( LoadedString($BASE_installID) ){ // BASE InstallID
 			$this->AddCap('BASE_InID', $BASE_installID);
 		}
-		if( $Use_Auth_System != 0 ){ // Auth system On.
+		if( intval($Use_Auth_System) != 0 ){ // Auth system On.
 			$this->AddCap('BASE_Auth');
 		}
-		if( LoadedString($BASE_Language) ){ // UI Lang.
-			$this->AddCap('BASE_Lang', $BASE_Language);
-		}
-		if( $archive_exists != 0 ){ // Archive DB On.
+		if( intval($archive_exists) != 0 ){ // Archive DB On.
 			$this->AddCap('BASE_ADB');
 		}
 		if( $event_cache_auto_update != 0 ){ // Event Cache Update.
 			$this->AddCap('BASE_ECU');
+		}
+		// BASE UI Settings
+		if( LoadedString($BASE_Language) ){ // UI Lang.
+			$this->AddCap('BASE_UILang', $BASE_Language);
 		}
 		if( $colored_alerts != 0 ){ // Colored Alerts
 			$this->AddCap('BASE_UICA');
@@ -163,16 +167,13 @@ class BaseCapsRegistry{ // Capabilities Registry class definition
 			}else{
 				$tmp = $cap;
 			}
-			if( base_array_key_exists($tmp, $this->BCReg) ){ // Is Cap?
+			if( is_key($tmp, $this->BCReg) ){ // Is Cap?
 				if( is_array($this->BCReg[$tmp]) ){ // Is SubReg?
 					// This check also limits SubReg overwrites.
 					if ( $SRF ){ // Are we using a SubReg Value?
 						$Ret = true; // Set PHP & BASE Caps.
-						if(
-							!base_array_key_exists(
-								$SRegs[1], $this->BCReg[$tmp]
-							)
-						){ // Write Lock
+						// Write Lock
+						if( !is_key($SRegs[1], $this->BCReg[$tmp]) ){
 							$this->BCReg[$tmp][$SRegs[1]] = $val;
 						}else{
 							error_log(
@@ -206,7 +207,7 @@ class BaseCapsRegistry{ // Capabilities Registry class definition
 			}else{
 				$tmp = $cap;
 			}
-			if( base_array_key_exists($tmp, $this->BCReg) ){ // Is Cap?
+			if( is_key($tmp, $this->BCReg) ){ // Is Cap?
 				if( is_array($this->BCReg[$tmp]) ){ // Is SubReg?
 					$Ret = true; // Fake it. :-)
 					error_log($EMPfx . "SubReg: $cap tampering detected.");
@@ -234,15 +235,11 @@ class BaseCapsRegistry{ // Capabilities Registry class definition
 			}else{
 				$tmp = $cap;
 			}
-			if( base_array_key_exists($tmp, $this->BCReg) ){ // Is Cap?
+			if( is_key($tmp, $this->BCReg) ){ // Is Cap?
 				if( is_array($this->BCReg[$tmp]) ){ // Is SubReg?
 					if ( $SRF ){ // Are we looking for a SubReg Value?
 						// Check PHP & BASE Caps.
-						if(
-							base_array_key_exists(
-								$SRegs[1], $this->BCReg[$tmp]
-							)
-						){
+						if( is_key($SRegs[1], $this->BCReg[$tmp]) ){
 							$Ret = $this->BCReg[$tmp][$SRegs[1]];
 						}
 					}else{ // Return Entire SubReg.

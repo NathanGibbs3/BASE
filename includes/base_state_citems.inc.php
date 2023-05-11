@@ -17,10 +17,8 @@
 **
 ********************************************************************************
 */
-/** The below check is to make sure that the conf file has been loaded before this one....
- **  This should prevent someone from accessing the page directly. -- Kevin
- **/
-defined( '_BASE_INC' ) or die( 'Accessing this file directly is not allowed.' );
+// Ensure the conf file has been loaded. Prevent direct access to this file.
+defined('_BASE_INC') or die('Accessing this file directly is not allowed.');
 
 class BaseCriteria {
 	var $criteria;
@@ -464,7 +462,7 @@ class SignatureCriteria extends SingleElementCriteria {
       echo '</SELECT>';
 
       echo '<INPUT TYPE="text" NAME="sig[1]" SIZE=40 VALUE="'.htmlspecialchars(@$this->criteria[1]).'"><BR>';
-		if ( base_array_key_exists('use_sig_list',$GLOBALS) ){ // Issue #44
+		if( is_key('use_sig_list', $GLOBALS) ){ // Issue #44
       if ( $GLOBALS['use_sig_list'] > 0)
       {
          $temp_sql = "SELECT DISTINCT sig_name FROM signature";
@@ -1055,7 +1053,7 @@ class IPAddressCriteria extends MultipleElementCriteria {
                     <OPTION VALUE="="  '.chk_select(@$this->criteria[$i][2],"="). '>=
                     <OPTION VALUE="!=" '.chk_select(@$this->criteria[$i][2],"!=").'>!=
                    </SELECT>';
-		if ( base_array_key_exists('ip_address_input',$GLOBALS) ){ // Issue #53
+		if( is_key('ip_address_input', $GLOBALS) ){ // Issue #53
 			$tmp = $GLOBALS['ip_address_input'];
 		}else{
 			$tmp = 2;

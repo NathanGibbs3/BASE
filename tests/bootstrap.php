@@ -26,6 +26,7 @@ $colored_alerts = 0;
 // Red, yellow, orange, gray, white, green
 $priority_colors = array ('FF0000','FFFF00','FF9900','999999','FFFFFF','006600');
 $archive_exists = 0;
+$AllowedClients = '';
 
 session_start();
 print "   Testing with: (BASE) $BASE_installID $BASE_VERSION\n";
@@ -39,6 +40,7 @@ SetConst('_BASE_INC', 1); // Include Load Flag.
 include_once("$BASE_path$sc" . "base_common.php");
 include_once("$BASE_path$sc" . "includes$sc" . "base_auth.inc.php");
 include_once("$BASE_path$sc". "includes$sc" . "base_capabilities.php");
+include_once("$BASE_path$sc". "includes$sc" . "base_log_timing.inc.php");
 
 include("$BASE_path/includes/base_include.inc.php");
 include_once("$BASE_path/base_db_common.php");

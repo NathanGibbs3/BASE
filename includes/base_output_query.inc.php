@@ -52,7 +52,7 @@ class QueryResultsOutput {
 		if ( ChkAccess($tf) == 1 ){
 			$this->JavaScript = $file;
 		}
-		if ( $debug_mode > 0 ){
+		if( $debug_mode > 1 ){
 			$tmp = '';
 			$cc = '';
 			if ( is_null($this->JavaScript) ){
@@ -173,18 +173,18 @@ function qroPrintEntryHeader($prio=1, $color=0) {
 		}
 	}else{ // Row colors by alert priority.
 		$prio --; // Fix Issue #60
-		if ( // Fix Issue #59
-			base_array_key_exists('priority_colors',$GLOBALS)
-			&& base_array_key_exists($prio,$priority_colors)
+		$tmp ='';
+		// Fix Issue #59
+		if(
+			is_key('priority_colors', $GLOBALS)
+			&& is_key($prio, $priority_colors)
 		){
 			$tmp = $priority_colors[$prio];
-		}else{
-			$tmp ='';
 		}
 		// Fix Issue #57
 		// Expect 6 digit hex color code.
 		// Default to Dark Gray ( $prio=4 ), if something's odd.
-		if ( !preg_match("/^[0-9A-F]{6}$/i", $tmp) ){
+		if( !preg_match('/^[0-9A-F]{6}$/i', $tmp) ){
 			$tmp = '999999';
 		}
 	}

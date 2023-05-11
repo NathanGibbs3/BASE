@@ -16,7 +16,7 @@
 //          Author(s): Nathan Gibbs
 //                     Kevin Johnson
 
-$BRTL_Ver = '0.0.1';
+$BRTL_Ver = '0.0.6';
 
 if( !function_exists('LoadedString') ){
 	// Returns true if var is a string containing data.
@@ -57,26 +57,48 @@ function NLIO ( $Item = '', $Count = 0 ){
 	print NLI ($Item, $Count);
 }
 
-// Returns Semantic PHP Version
-function GetPHPSV (){
-	$phpv = phpversion();
-	$phpv = explode('.', $phpv);
-	// Account for x.x.xXX subversions possibly having text like 4.0.4pl1
-	if( is_numeric(substr($phpv[2], 1, 1)) ){ // No Text
-		$phpv[2] = substr($phpv[2], 0, 2);
-	}else{
-		$phpv[2] = substr($phpv[2], 0, 1);
+if( !function_exists('GetPHPSV') ){
+	function GetPHPSV (){ // Returns Semantic PHP Version
+		$phpv = phpversion();
+		$phpv = explode('.', $phpv);
+		// @codeCoverageIgnoreStart
+		// Account for x.x.xXX subversions possibly having text like 4.0.4pl1
+		if( is_numeric(substr($phpv[2], 1, 1)) ){ // No Text
+			$phpv[2] = substr($phpv[2], 0, 2);
+		}else{
+			$phpv[2] = substr($phpv[2], 0, 1);
+		}
+		// @codeCoverageIgnoreEnd
+		return $phpv;
 	}
-	return implode('.', $phpv);
 }
 
 // @codeCoverageIgnoreStart
 if( !function_exists('HTTP_header') ){
 	// Send HTTP header if clear to do so.
-	function HTTP_header( $url ){
+	function HTTP_header( $url = '', $status = 200 ){
+		if( !is_int($status) ){ // Default to OK.
+			$status = 200;
+		}
+		if( preg_match ('/^Location\: /', $url) ){
+			$status = 302;
+		}
 		if ( !headers_sent() ){
-			header($url);
+			header($_SERVER['SERVER_PROTOCOL'] . " $status");
+			header($url,true,$status);
 			exit;
+		}
+	}
+}
+
+if( !function_exists('KML') ){
+	// Mini KML mocking shim for testing code that calls the real KML.
+	function KML ( $msg = '', $lvl = 0 ){
+		if ( LoadedString($msg) ){
+			if ( !is_int($lvl) || $lvl < 0 ){
+				$lvl = 0;
+			}
+			error_log($msg);
 		}
 	}
 }
@@ -102,7 +124,7 @@ if( !function_exists('ChkAccess') ){
 			}
 			if ( $rcf == 1 ){
 				$Ret = -2; // Readable Error
-				$version = explode('.', phpversion());
+				$PHPVer = GetPHPSV();
 				// PHP Safe Mode cutout.
 				//    Added: 2005-03-25 for compatabibility with PHP 4x & 5.0x
 				//      See: https://sourceforge.net/p/secureideas/bugs/47
@@ -112,9 +134,8 @@ if( !function_exists('ChkAccess') ){
 				// May work: PHP > 5.1.4.
 				//      See: https://www.php.net/manual/en/function.is-readable.php
 				if (
-					$version[0] > 5
-					|| ($version[0] == 5 && $version[1] > 1)
-					|| ($version[0] == 5 && $version[1] == 1 && $version[2] > 4 )
+					$PHPVer[0] > 5 || ($PHPVer[0] == 5 && $PHPVer[1] > 1)
+					|| ($PHPVer[0] == 5 && $PHPVer[1] == 1 && $PHPVer[2] > 4 )
 					|| ini_get("safe_mode") != true
 				){
 					if ( is_readable($path) ){
@@ -134,20 +155,21 @@ if( !function_exists('ChkAccess') ){
 }
 
 // Returns true when key is in array, false otherwise.
-function base_array_key_exists( $SKey, $SArray ){ // PHP Version Agnostic.
+function is_key( $SKey, $SArray ){ // PHP Version Agnostic.
 	$Ret = false;
-	if ( is_array($SArray) && count($SArray) > 0 ){
-		$version = explode('.', phpversion());
+	if( is_array($SArray) && count($SArray) > 0 ){
+		$PHPVer = GetPHPSV();
 		// Use built in functions when we can.
-		if ( $version[0] > 4 || ($version[0] == 4 && $version[1] > 1) ){
-			// PHP > 4.1
+		if(
+			$PHPVer[0] > 4 || ($PHPVer[0] == 4 && $PHPVer[1] > 0 )
+			|| ($PHPVer[0] == 4 && $PHPVer[1] == 0 && $PHPVer[2] > 6)
+		){ // PHP > 4.0.7
 			$Ret = array_key_exists( $SKey, $SArray );
 		// @codeCoverageIgnoreStart
-		// PHPUnit test only covers this code path on PHP < 4.2.0
+		// PHPUnit test only covers this code path on PHP < 4.0.7
 		// Unable to validate in CI.
-		}elseif (
-			($version[0] == 4 && $version[1] > 0 )
-			|| ($version[0] == 4 && $version[1] == 0 && $version[2] > 5)
+		}elseif(
+			$PHPVer[0] == 4 && $PHPVer[1] == 0 && $PHPVer[2] > 5
 		){ // PHP > 4.0.5
 			$Ret = key_exists($SKey, $SArray);
 		}else{ // No built in functions, PHP Version agnostic.
@@ -236,7 +258,285 @@ function HtmlColor ( $color ){
 	){
 		$Ret = true;
 	}
-	return ($Ret);
+	return $Ret;
+}
+
+function CCS(){
+	$Ret = false;
+	$Stat = '';
+	if( is_key('HTTPS', $_SERVER) ){ // Check the server first.
+		$tmp = $_SERVER['HTTPS'];
+		if( LoadedString($tmp) && strtolower($tmp) == 'on' ){
+			$Stat = 'SVR-FLAG';
+		}
+	}elseif( is_key('SERVER_PORT', $_SERVER) ){ // Assume secure on port 443.
+		$tmp = $_SERVER['SERVER_PORT'];
+		if( intval($tmp) == 443 ){
+			$Stat = 'SVR-PORT';
+		}
+	}else{ // Check for Load Balancer / Reverse Proxy.
+		if( is_key('HTTP_X_FORWARDED_PROTO', $_SERVER) ){
+			$tmp = $_SERVER['HTTP_X_FORWARDED_PROTO'];
+			if( LoadedString($tmp) && strtolower($tmp) == 'https' ){
+				$Stat = 'PRX-PROT';
+			}
+		}elseif( is_key('HTTP_X_FORWARDED_SSL', $_SERVER) ){
+			$tmp = $_SERVER['HTTP_X_FORWARDED_SSL'];
+			if( LoadedString($tmp) && strtolower($tmp) == 'on' ){
+				$Stat = 'PRX-SSL';
+			}
+		}elseif( is_key('HTTP_X_FORWARDED_PORT', $_SERVER) ){
+			$tmp = $_SERVER['HTTP_X_FORWARDED_PORT'];
+			if( intval($tmp) == 443 ){
+				$Stat = 'PRX-PORT';
+			}
+		}
+	}
+	if( LoadedString($Stat) ){
+		$Ret = true;
+	}
+	return array($Ret, $Stat);
+}
+
+function is_ip ( $ip = '' ){
+	$Ret = false;
+	if( LoadedString($ip) ){
+		if( is_ip4($ip) || is_ip6($ip) ){
+			$Ret = true;
+		}
+	}
+	return $Ret;
+}
+
+function is_ip4 ( $ip = '' ){
+	$Ret = false;
+	if( LoadedString($ip) ){
+		$ReOc = '\d{1,3}';
+		$ReIp = str_repeat("$ReOc\.",3) . $ReOc;
+		if( preg_match ('/^'. $ReIp .'$/', $ip) ){
+			$Ret = true;
+		}
+	}
+	return $Ret;
+}
+
+function is_ip6 ( $ip = '' ){
+	$Ret = false;
+	if( LoadedString($ip) ){
+		$ReOc = '\d{1,3}';
+		$ReIp = str_repeat("$ReOc\.",3) . $ReOc;
+		$ReOc6 = '[[:xdigit:]]{1,4}';
+		$ReIp6 = "\:?(\:?$ReOc6){0,6}" . "\:($ReIp|($ReOc6)?\:$ReOc6)?";
+		if( preg_match ('/^'. $ReIp6 .'$/', $ip) ){
+			$Ret = true;
+		}
+	}
+	return $Ret;
+}
+
+function netmask ( $ip = '' ){
+	$Ret = 0;
+	if( LoadedString($ip) ){
+		$MaskRE = '\/\d{1,3}';
+		if( preg_match ('/'. $MaskRE .'$/', $ip , $Snm) ){
+			$Snm = $Snm[0];
+			$Ret = preg_replace( '/^'. '\/' .'/', '', $Snm );
+			if ( $Ret > 128 ){ // Lock down max value.
+				$Ret = 128;
+			}
+		}
+	}
+	return $Ret;
+}
+
+function ipdeconvert ( $ip = '' ){
+	$Ret = 0;
+	if( is_numeric($ip) ){
+		$OCA = array();
+		$t4 = 0;
+		$t6 = 0;
+		if( $ip < pow(256, 4) ){ // IPv4
+			$t4 = 1;
+			$tl = 4;
+		}else{ // IPv6
+			$t6 = 1;
+			$tl = 16;
+		}
+		for ( $i =  $tl; $i > 0 ; $i-- ){
+			$pwr = $i - 1;
+			if ( $t6 ){ // IPv6 Use Gmp lib.
+				$tmp = gmp_pow(256, $pwr);
+				$tt = gmp_div($ip, $tmp);
+				$ip = gmp_sub($ip, gmp_mul($tmp, $tt));
+			}else{ // IPv4 Use PHP
+				$tmp = pow(256, $pwr);
+				$tt = intval($ip / $tmp);
+				$ip = $ip - ($tmp * $tt);
+			}
+			array_push($OCA, $tt);
+		}
+		$tmp = '';
+		$PHPVer = GetPHPSV();
+		if( $PHPVer[0] > 5 || ($PHPVer[0] == 5 && $PHPVer[1] > 0) ){
+			// Use built in functions.
+			foreach ($OCA as $val) {
+				$tt = pack('C*', $val);
+				$tmp .= $tt;
+			}
+			$Ret = inet_ntop($tmp);
+		}else{ // Figure it out.
+			// @codeCoverageIgnoreStart
+			$Sep = '.';
+			if( $t6 ){
+				$Sep = ':';
+			}
+			$i = 1;
+			foreach ($OCA as $val) {
+				$tt = $val;
+				$SF = true;
+				if( $t6 ){
+					$tt = str_pad(dechex($tt), 2, '0', STR_PAD_LEFT);
+					if( ($i % 2) != 0 ){
+						$SF = false;
+					}
+				}
+				if( $SF && $i < $tl ){
+					$tt .= $Sep;
+				}
+				$i++;
+				$tmp .= $tt;
+			}
+			$Ret = $tmp;
+			// @codeCoverageIgnoreEnd
+		}
+	}
+	return $Ret;
+}
+
+function ipconvert ( $ip = '' ){
+	$Ret = 0;
+	if( LoadedString($ip) ){
+		$ip = trim($ip);
+		$OCA = array();
+		$ReOc = '\d{1,3}';
+		$ReIp = str_repeat("$ReOc\.",3) . $ReOc;
+		$ReOc6 = '[[:xdigit:]]{1,4}';
+		$ReIp6 = "\:?(\:?$ReOc6){0,6}" . "\:($ReIp|($ReOc6)?\:$ReOc6)?";
+		$t4 = preg_match ('/^'. $ReIp .'$/', $ip, $t4m);
+		if ( $t4 ){ // IPv4 Data Normalization.
+			$OCA = explode('.',$t4m[0]);
+			foreach ($OCA as $key => $val) {
+				$OCA[$key] = intval($val);
+			}
+			$ip = implode('.', $OCA);
+		}
+		$t6 = preg_match ('/^'. $ReIp6 .'$/', $ip, $t6m);
+		if ( $t6 ){ // IPv6 Data Normalization.
+			$t6mTmp = '';
+			$t6m = $t6m[0];
+			$t6t4 = preg_match ('/'. $ReIp .'$/', $t6m, $t6t4m);
+			if ( $t6t4 ){
+				$t6mTmp = preg_replace(
+					'/'. preg_quote(':' . $t6t4m[0]) .'$/', '', $t6m
+				);
+				$t6t4m = explode('.', $t6t4m[0]);
+				foreach ($t6t4m as $key => $val) {
+					$t6t4m[$key] = intval($val);
+				}
+				$t6m = $t6mTmp;
+				$OCA = $t6t4m;
+				$ip = $t6mTmp . ':' . implode('.',$t6t4m);
+			}
+		}
+		$tl = 0;
+		$PHPVer = GetPHPSV();
+		if( $PHPVer[0] > 5 || ($PHPVer[0] == 5 && $PHPVer[1] > 0) ){
+			$tmp = inet_pton($ip); // Use built in functions.
+		}else{ // Figure it out.
+			// @codeCoverageIgnoreStart
+			if ( $t6 ){ // IPv6 Address
+				$Snm = 128 - (count($OCA) * 8);
+				// Process Standard IPv6 Notation
+				while( $Snm > 0 ){
+					$t6Oc = preg_match (
+						'/'. "\:?($ReOc6)" .'$/', $t6m, $t6Ocm
+					);
+					if ( $t6Oc ){
+						$t6Ocr = $t6Ocm[0];
+						$t6Ocm = $t6Ocm[1];
+						for ( $i = 4; $i > 0; $i = $i - 2 ){
+							$tmp = substr($t6Ocm, strlen($t6Ocm) - 2, 2);
+							if( !LoadedString($tmp) ){
+								$tmp = '00';
+							}
+							array_unshift($OCA, intval(hexdec($tmp)));
+							$t6Ocm = preg_replace( '/' . $tmp . '$/', '', $t6Ocm );
+						}
+						$Snm = $Snm - 16;
+						$t6m = preg_replace( '/' . preg_quote($t6Ocr) . '$/', '', $t6m );
+					}else{
+						$TOL = $Snm / 16;
+						$t6Oc = preg_match_all (
+							'/'. "$ReOc6\:" .'/', $t6m, $t6Ocm
+						);
+						$t6m = preg_replace( '/' . '\:' . '$/', '', $t6m );
+						if ( $t6Oc !== false ){
+							$tmp = '00';
+							$TOL = $TOL * 2;
+							$t6Oc = $t6Oc * 2;
+							for ( $i = $TOL; $i > $t6Oc; $i-- ){
+								array_unshift($OCA, intval(hexdec($tmp)));
+								$Snm = $Snm - 8;
+							}
+						}
+					}
+				}
+			}
+			$tmp = '';
+			foreach ($OCA as $val) {
+				$tt = pack('C', $val);
+				$tmp .= $tt;
+			}
+			// @codeCoverageIgnoreEnd
+		}
+		$t1 = '';
+		foreach (unpack('C*', $tmp) as $byte) {
+			$t1 .= str_pad(decbin($byte), 8, '0', STR_PAD_LEFT);
+		}
+		if( $t4 ){ // IPv4
+			$Ret = base_convert(ltrim($t1, '0'), 2, 10);
+		}else{ // IPv6 returns 0 if gmp is not available.
+			if( defined('GMP_VERSION') ){
+				$Ret = gmp_strval(gmp_init($t1, 2));
+			}
+		}
+	}
+	return $Ret;
+}
+
+function NMHC ( $Snm = 0, $v6 = false ){ // Get host Count from netmask.
+	$Ret = 0;
+	if( !is_bool($v6) ){
+		$v6 = false;
+	}
+	if( is_numeric($Snm) ){
+		$Snm = intval($Snm);
+		$Top = 0;
+		$Floor = 32;
+		if( $v6 ){ // Specifically handle netmasks below 33 as IPv6
+			$Floor = 0;
+		}
+		if( $Snm > $Floor && $Snm < 129 ){ // IPv6
+			if( defined('GMP_VERSION') ){
+				$Top = gmp_pow(256, 16);
+				$Ret = gmp_strval(gmp_div($Top, gmp_pow(2, $Snm)));
+			}
+		}elseif( $Snm > 0 && $Snm < 33 ){ // IPv4
+			$Top = pow(256, 4);
+			$Ret = $Top / pow(2, $Snm);
+		}
+	}
+	return $Ret;
 }
 
 ?>

@@ -12,12 +12,14 @@ use PHPUnit\Framework\TestCase;
   * @covers baseCon::baseIndexExists
   * @covers baseCon::baseExecute
   * @uses ::ChkAccess
-  * @uses ::LoadedString
+  * @uses ::GetPHPSV
   * @uses ::HtmlColor
-  * @uses ::base_array_key_exists
+  * @uses ::LoadedString
+  * @uses ::is_key
   * @uses ::returnErrorMessage
   * @uses baseRS
   */
+
 class dbTest extends TestCase {
 	// Pre Test Setup.
 	protected static $db;
@@ -97,6 +99,9 @@ class dbTest extends TestCase {
 	}
 
 	// Tests go here.
+	/**
+	 * @backupGlobals disabled
+	 */
 	public function testbaseFieldExistsNonExistantTableReturnsExpected(){
 		$db = self::$db;
 		$URV = self::$URV.'baseFieldExists().';

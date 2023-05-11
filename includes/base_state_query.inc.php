@@ -141,7 +141,19 @@ class QueryState {
     return $this->show_rows_on_screen;
   }
 	function AddValidAction( $action ){
-		GLOBAL $archive_exists, $Mail;
+		GLOBAL $archive_exists, $BCR, $BASE_VERSION, $BASE_installID;
+		if (
+			!getenv('TRAVIS')
+			&& !(
+				$BASE_VERSION == '0.0.0 (Joette)'
+				&& $BASE_installID == 'Test Runner'
+			)
+		){ // Production
+			$Archive = $BCR->GetCap('BASE_ADB');
+			$Mail = $BCR->GetCap('Mail');
+		}else{ // Test Conditions
+			$Mail = true;
+		}
 		$AAF = 0; // Archive Action Flag
 		$MAF = 0; // Mail Action Flag
 		if ( preg_match("/^archive_alert(2)?$/", $action) ){
@@ -152,7 +164,7 @@ class QueryState {
 		}
 		$Pass = true;
 		if (
-			( $Mail == 0 && $MAF == 1 ) // No Mail
+			( !$Mail && $MAF == 1 ) // No Mail
 			|| ( $archive_exists == 0 && $AAF == 1 ) // Alert DB.
 			|| ( ChkArchive() && $AAF == 1 ) // Archive DB.
 		){

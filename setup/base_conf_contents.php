@@ -47,13 +47,9 @@ function returnContents()
 ********************************************************************************
 */
     $BASE_VERSION = \'1.4.5 (lilias)\';
-    
-    /*
-     Set the below to the language you would like people to use while viewing
-     your install of BASE.
-    */
-    $BASE_Language = \''.$language.'\';
-    
+
+// BASE Server Config settings
+
     /*
      Set the $Use_Auth_System variable to 1 if you would like to force users to
      authenticate to use the system.  Only turn this off if the system is not
@@ -62,20 +58,40 @@ function returnContents()
     */
     
     $Use_Auth_System = '.$useauth.';
-    
+
+// Allowed Client IP addresses IPv4 or IPv6.
+// Host
+// $AllowedClients = 192.168.0.1
+// $AllowedClients = fd00:0000:0000::1
+// Subnets
+// $AllowedClients = 192.168.0.0/24
+// $AllowedClients = fd00:0000:0000::/48
+
+$AllowedClients = \'\';
+
+// Set the base_urlpath to the url location that is the root of your BASE
+// install. This must be set for BASE to function! Do not include a trailing
+// slash! But also put the preceding slash.
+//
+// e.g. Your URL is http://127.0.0.1/base or http://hostname/base
+// Set this to /base
+// e.g. Your URL is http://127.0.0.1/ or http://hostname/
+// Set this to an empty string \'\'.
+
+$BASE_urlpath = \''. $uri .'\';
+
+// BASE UI Settings
+
+    /*
+     Set the below to the language you would like people to use while viewing
+     your install of BASE.
+    */
+    $BASE_Language = \''.$language.'\';
+
     /*
      Set the below to 0 to remove the links from the display of alerts.
     */
     $BASE_display_sig_links = 1;
-
-    /*
-     Set the base_urlpath to the url location that is the root of your BASE install.
-     This must be set for BASE to function! Do not include a trailing slash!
-     But also put the preceding slash. e.g. Your URL is http://127.0.0.1/base
-     set this to /base
-
-     */
-    $BASE_urlpath = \''. $uri .'\';
 
     /* Unique BASE ID.  The below variable, if set, will append its value to the
      * title bar of the browser.  This is for people who manage multiple installs
@@ -513,15 +529,6 @@ $external_port_link = array(
      */
      //$IP2CC = "/usr/bin/ip2cc";
 
-
-    /*
-     The below line should not be changed!
-     */
-    $BASE_path = dirname(__FILE__);
-    
-    // _BASE_INC is a variable set to prevent direct access to certain include files....
-    define( \'_BASE_INC\', 1 );
-    
     // Include for languages
     include("$BASE_path/languages/$BASE_Language.lang.php");
     ?>';

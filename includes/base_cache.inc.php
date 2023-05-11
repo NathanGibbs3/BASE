@@ -18,19 +18,15 @@
 **
 ********************************************************************************
 */
-/** The below check is to make sure that the conf file has been loaded before this one....
- **  This should prevent someone from accessing the page directly. -- Kevin
- **/
+// Ensure the conf file has been loaded. Prevent direct access to this file.
 defined('_BASE_INC') or die('Accessing this file directly is not allowed.');
 
 include_once("$BASE_path/base_stat_common.php");
 include_once("$BASE_path/includes/base_log_error.inc.php");
 
-function UpdateDNSCache($db)
-{
-  GLOBAL $debug_mode, $dns_cache_lifetime;
-
-  $cnt = 0;
+function UpdateDNSCache ( $db ){
+	GLOBAL $debug_mode, $dns_cache_lifetime;
+	$cnt = 0;
 
   $ip_result = $db->baseExecute("SELECT DISTINCT ip_src FROM acid_event ".
                                 "LEFT JOIN acid_ip_cache ON ipc_ip = ip_src ".

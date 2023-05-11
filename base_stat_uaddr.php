@@ -57,9 +57,6 @@ $caller = ImportHTTPVar('caller', VAR_LETTER | VAR_USCORE);
 $action = ImportHTTPVar('action', VAR_ALPHA);
 $cs = new CriteriaState("base_stat_uaddr.php", "&amp;addr_type=$addr_type");
 $cs->ReadState();
-if ( $debug_mode > 0 ){ // Dump debugging info on the shared state.
-	PrintCriteriaState();
-}
 if ( $addr_type == SOURCE_IP ){
 	$page_title = _UNISADD;
 	$results_title = _SUASRCIP;
@@ -93,6 +90,9 @@ if ( $qs->isCannedQuery() ){
 	}
 }
 PrintBASESubHeader( $page_title, $page_title, $cs->GetBackLink(), $tr );
+if( $debug_mode > 0 ){ // Dump debugging info on the shared state.
+	PrintCriteriaState();
+}
 $criteria_clauses = ProcessCriteria();
 PrintCriteria('');
   $criteria = $criteria_clauses[0]." ".$criteria_clauses[1];

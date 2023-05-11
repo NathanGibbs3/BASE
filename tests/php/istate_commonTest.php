@@ -18,12 +18,14 @@ use PHPUnit\Framework\TestCase;
   * @uses ::NewBASEDBConnection
   * @uses ::NLI
   * @uses ::NLIO
+  * @uses ::GetPHPSV
   * @uses ::SetConst
   * @uses ::XSSPrintSafe
   * @uses ::returnErrorMessage
   * @uses ::returnExportHTTPVar
   * @uses baseCon
   */
+
 class state_commonTest extends TestCase {
 	// Pre Test Setup.
 	protected static $db;

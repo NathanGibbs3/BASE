@@ -1,7 +1,7 @@
 <?php
 use PHPUnit\Framework\TestCase;
 
-// Test fucntions in /includes/base_db.inc.php
+// Test fucntions in includes/base_db.inc.php
 
 /**
   * @covers baseCon::baseErrorMessage

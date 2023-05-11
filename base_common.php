@@ -1010,17 +1010,17 @@ function base_include ( $file = '' ){
 // HTTP GET params take precedence over cookie values.
 function GetAsciiClean(){
 	$Ret = false;
-	if ( isset($_GET['asciiclean']) ){ // Check HTTP GET param.
+	if( isset($_GET['asciiclean']) ){ // Check HTTP GET param.
 		$Ret = ChkGet('asciiclean', 1);
 	}else{ // No GET, check for cookie.
-		$Ret = ChkCookie('asciiclean', 'clean');
+		$Ret = ChkCookie('asciiclean', 1);
 	}
 	return $Ret;
 }
 
 // Returns Library if found & file passes access checks.
 // Returns empty string otherwise.
-function ChkLib ( $path='', $LibLoc='', $LibFile='' ){
+function ChkLib ( $path = '', $LibLoc = '', $LibFile = '' ){
 	GLOBAL $debug_mode;
 	$EMPfx = __FUNCTION__ . ': ';
 	$Ret = '';
@@ -1190,7 +1190,7 @@ function ChkArchive(){ // Issue #183
 		if ( ChkCookie ('archive', 1) || ChkGet ('archive', 1) ){
 			$Ret = true;
 		}
-	}else{ // Archive DB disabled. Alert on param tampering.
+	}else{ // Archive DB disabled. Alert or param tampering.
 		$tmp = ''; // No Alert
 		if ( isset($_GET['archive']) ){ // Get param Hack Alert
 			$tmp = 'HTTP GET';
@@ -1234,6 +1234,71 @@ function RegisterGlobalState(){
 	}
 	session_start();
 	KML("Start: Session", 1);
+}
+
+function BCS( $Name, $Value = '' ){
+	GLOBAL $BASE_urlpath, $BCR;
+	$EMPfx = __FUNCTION__ . ': ';
+	$Ret = false;
+	if( LoadedString($Name) ){
+		$msg = 'Clear';
+		$expire = 1;
+		if( LoadedString(strval($Value)) ){ // Type Slam it.
+			$msg = 'Set';
+			$expire = time() + 60*60*24*14; // 2 weeks
+			if ( $Name == 'BASERole' ){
+				$expire = time() + 60*60; // 1 Hour
+			}
+		}
+		if( isset($BCR) && is_object($BCR) ){
+			// @codeCoverageIgnoreStart
+			$tmp = $BCR->GetCap('UIMode');
+			if( $tmp != 'Con' ){ // Don't set cookies in Console UIMode.
+				$tmp = CCS();
+				$SF = $tmp[0];
+				$Stat = $tmp[1];
+				if ($SF && $msg == 'Set' ){
+					KML($EMPfx . "Sec: $Stat", 3);
+					$msg .= ' Secure';
+				}
+				$path = $BASE_urlpath;
+				if( !LoadedString($BASE_urlpath) ){
+					$path = '/';
+				}
+				$BCO = array(
+					'expires' => $expire,
+					'path' => $path,
+					//leading dot for compatibility or use subdomain
+					// '.example.com',
+					'domain' => '',
+					'secure' => $SF,
+					'httponly' => true,
+					'samesite' => 'Strict' // None || Lax  || Strict
+				);
+				$PHPVer = GetPHPSV();
+				if( $PHPVer[0] > 7 || ($PHPVer[0] == 7 && $PHPVer[1] > 2)
+				){ // PHP 7.3+
+					$Ret = setcookie($Name, $Value, $BCO);
+				}else{ // Older PHP < 7.3
+					// Path param hack to slam the SameSite param into cookies
+					// on versions of setcookie() that don't support it.
+					$tmp = $BCO['path'] . '; SameSite=' . $BCO['samesite'];
+					$Ret = setcookie(
+						$Name, $Value, $BCO['expires'], $tmp, $BCO['domain'],
+						$BCO['secure'], $BCO['httponly']
+					);
+				}
+			}
+			// @codeCoverageIgnoreEnd
+		}else{ // No or Con UI Mode (PHPUnit), fake successful setcookie() Op.
+			$Ret = true;
+		}
+		$msg .= " Cookie: $Name Exp: ". date('F-d-Y H:i:s', $expire);
+	}else{
+		$msg = 'No Cookie.';
+	}
+	KML($EMPfx . $msg, 3);
+	return $Ret;
 }
 
 ?>
