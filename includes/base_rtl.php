@@ -365,14 +365,16 @@ function ipdeconvert ( $ip = '' ){
 			$tl = 16;
 			$tip = gmp_init($ip, 10);
 		}
-		for ( $i =  $tl; $i > 0 ; $i-- ){
+		for ( $i = $tl; $i > 0 ; $i-- ){
 			$pwr = $i - 1;
 			if ( $t6 ){ // IPv6 Use Gmp lib.
 //				$tmp = str_pad(gmp_export($ip), 16, "\0", STR_PAD_LEFT);
 //				break;
-				$tmp = gmp_pow(256, $pwr);
-				$tt = gmp_div($tip, $tmp);
-				$tip = gmp_sub($tip, gmp_mul($tmp, $tt));
+				$tmp = gmp_strval(gmp_pow(256, $pwr));
+				$tt = gmp_strval(gmp_div($tip, $tmp));
+				$tip = gmp_strval(
+					gmp_sub($tip,gmp_strval(gmp_mul($tmp, $tt)))
+				);
 			}else{ // IPv4 Use PHP
 				$tmp = pow(256, $pwr);
 				$tt = intval($ip / $tmp);
