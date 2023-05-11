@@ -1020,7 +1020,7 @@ function GetAsciiClean(){
 
 // Returns Library if found & file passes access checks.
 // Returns empty string otherwise.
-function ChkLib ( $path='', $LibLoc='', $LibFile='' ){
+function ChkLib ( $path = '', $LibLoc = '', $LibFile = '' ){
 	GLOBAL $debug_mode;
 	$EMPfx = __FUNCTION__ . ': ';
 	$Ret = '';

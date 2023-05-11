@@ -35,6 +35,7 @@ class base_rtlTest extends TestCase {
 	protected static $TAIPv4cR;
 	protected static $TAIPv6;
 	protected static $TAIPv6cR;
+	protected static $TAIPv6dR;
 	protected static $PHPUV;
 	protected static $UOV;
 	protected static $URV;
@@ -102,6 +103,16 @@ class base_rtlTest extends TestCase {
 			'0:0:0:0:0:ffff:192.1.56.10' => '281473903048714',
 			'::ffff:192.001.56.10' => '281473903048714',
 			'::ffff:192.1.56.10' => '281473903048714',
+		);
+		self::$TAIPv6dR = array (
+			 '1' => '0.0.0.1',
+			 '0' => '0.0.0.0',
+			'340282366920938463463374607431768211455'
+				=> 'ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff',
+			'21683031681241440176744766643582546539'
+				=> '1050::5:600:300c:326b',
+			'338984292706304756556241983349463187651' => 'ff06::c3',
+			'281473903048714' => '::ffff:192.1.56.10'
 		);
 		self::$NMHCv4 = array (
 			0 => '0',
@@ -284,6 +295,7 @@ class base_rtlTest extends TestCase {
 		self::$TAIPv4cR = null;
 		self::$TAIPv6 = null;
 		self::$TAIPv6cR = null;
+		self::$TAIPv6dR = null;
 		self::$PHPUV = null;
 	}
 
@@ -823,12 +835,7 @@ class base_rtlTest extends TestCase {
 	public function testipdeconvertIPv6(){
 		$URV = self::$URV.'ipdeconvert().';
 		$TAv6 = self::$TAIPv6;
-		$TAv6R = self::$TAIPv6cR;
-		$TAv6R = array_flip($TAv6R);
-		$TAv6R[0] = '0.0.0.0';
-		$TAv6R[1] = '0.0.0.1';
-		$TAv6R['21683031681241440176744766643582546539']
-		= '1050::5:600:300c:326b';
+		$TAv6R = self::$TAIPv6dR;
 		if( defined('GMP_VERSION') ){
 			foreach( $TAv6R as $key => $IP ){
 				$this->assertEQuals($IP, ipdeconvert($key), $URV);

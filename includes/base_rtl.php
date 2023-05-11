@@ -16,7 +16,7 @@
 //          Author(s): Nathan Gibbs
 //                     Kevin Johnson
 
-$BRTL_Ver = '0.0.5';
+$BRTL_Ver = '0.0.6';
 
 if( !function_exists('LoadedString') ){
 	// Returns true if var is a string containing data.
@@ -505,8 +505,10 @@ function ipconvert ( $ip = '' ){
 		}
 		if( $t4 ){ // IPv4
 			$Ret = base_convert(ltrim($t1, '0'), 2, 10);
-		}else{ // IPv6
-			$Ret = gmp_strval(gmp_init($t1, 2));
+		}else{ // IPv6 returns 0 if gmp is not available.
+			if( defined('GMP_VERSION') ){
+				$Ret = gmp_strval(gmp_init($t1, 2));
+			}
 		}
 	}
 	return $Ret;
