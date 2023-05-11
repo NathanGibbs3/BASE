@@ -124,7 +124,8 @@ if( !function_exists('ChkAccess') ){
 			}
 			if ( $rcf == 1 ){
 				$Ret = -2; // Readable Error
-				$PHPVer = GetPHPSV();
+//				$PHPVer = GetPHPSV();
+				$PHPVer = explode('.', phpversion());
 				// PHP Safe Mode cutout.
 				//    Added: 2005-03-25 for compatabibility with PHP 4x & 5.0x
 				//      See: https://sourceforge.net/p/secureideas/bugs/47
@@ -352,10 +353,11 @@ function netmask ( $ip = '' ){
 function ipdeconvert ( $ip = '' ){
 	$Ret = 0;
 	if( is_numeric($ip) ){
+		$tmp = $ip; // Attempt to avoid PHP 5x type slamming.
 		$OCA = array();
 		$t4 = 0;
 		$t6 = 0;
-		if( $ip < pow(256, 4) ){ // IPv4
+		if( $tmp < pow(256, 4) ){ // IPv4
 			$t4 = 1;
 			$tl = 4;
 		}else{ // IPv6
