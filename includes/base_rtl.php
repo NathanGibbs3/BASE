@@ -366,9 +366,11 @@ function ipdeconvert ( $ip = '' ){
 		for ( $i =  $tl; $i > 0 ; $i-- ){
 			$pwr = $i - 1;
 			if ( $t6 ){ // IPv6 Use Gmp lib.
-				$tmp = gmp_pow(256, $pwr);
-				$tt = gmp_div(strval($ip), $tmp);
-				$ip = gmp_sub(strval($ip), gmp_mul($tmp, $tt));
+				$tmp = str_pad(gmp_export($ip), 16, "\0", STR_PAD_LEFT);
+				break;
+//				$tmp = gmp_pow(256, $pwr);
+//				$tt = gmp_div(strval($ip), $tmp);
+//				$ip = gmp_sub(strval($ip), gmp_mul($tmp, $tt));
 			}else{ // IPv4 Use PHP
 				$tmp = pow(256, $pwr);
 				$tt = intval($ip / $tmp);
@@ -376,13 +378,16 @@ function ipdeconvert ( $ip = '' ){
 			}
 			array_push($OCA, $tt);
 		}
-		$tmp = '';
+//		$tmp = '';
 		$PHPVer = GetPHPSV();
 		if( $PHPVer[0] > 5 || ($PHPVer[0] == 5 && $PHPVer[1] > 0) ){
 			// Use built in functions.
-			foreach ($OCA as $val) {
-				$tt = pack('C*', $val);
-				$tmp .= $tt;
+			if ( $t4 ){
+				$tmp = '';
+				foreach ($OCA as $val) {
+					$tt = pack('C*', $val);
+					$tmp .= $tt;
+				}
 			}
 			$Ret = inet_ntop($tmp);
 		}else{ // Figure it out.
@@ -500,15 +505,17 @@ function ipconvert ( $ip = '' ){
 			}
 			// @codeCoverageIgnoreEnd
 		}
+		if( $t4 ){ // IPv4
 		$t1 = '';
 		foreach (unpack('C*', $tmp) as $byte) {
 			$t1 .= str_pad(decbin($byte), 8, '0', STR_PAD_LEFT);
 		}
-		if( $t4 ){ // IPv4
+//		if( $t4 ){ // IPv4
 			$Ret = base_convert(ltrim($t1, '0'), 2, 10);
 		}else{ // IPv6 returns 0 if gmp is not available.
 			if( defined('GMP_VERSION') ){
-				$Ret = gmp_strval(gmp_init($t1, 2));
+				$Ret = gmp_strval(gmp_import($tmp));
+//				$Ret = gmp_strval(gmp_init($t1, 2));
 			}
 		}
 	}
