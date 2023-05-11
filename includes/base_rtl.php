@@ -16,7 +16,7 @@
 //          Author(s): Nathan Gibbs
 //                     Kevin Johnson
 
-$BRTL_Ver = '0.0.4';
+$BRTL_Ver = '0.0.5';
 
 if( !function_exists('LoadedString') ){
 	// Returns true if var is a string containing data.
@@ -355,7 +355,7 @@ function ipdeconvert ( $ip = '' ){
 		$OCA = array();
 		$t4 = 0;
 		$t6 = 0;
-		if( $ip < (256 ** 4) ){ // IPv4
+		if( $ip < pow(256, 4) ){ // IPv4
 			$t4 = 1;
 			$tl = 4;
 		}else{ // IPv6
@@ -369,7 +369,7 @@ function ipdeconvert ( $ip = '' ){
 				$tt = gmp_div($ip, $tmp);
 				$ip = gmp_sub($ip, gmp_mul($tmp, $tt));
 			}else{ // IPv4 Use PHP
-				$tmp = 256 ** $pwr;
+				$tmp = pow(256, $pwr);
 				$tt = intval($ip / $tmp);
 				$ip = $ip - ($tmp * $tt);
 			}
@@ -530,8 +530,8 @@ function NMHC ( $Snm = 0, $v6 = false ){ // Get host Count from netmask.
 				$Ret = gmp_strval(gmp_div($Top, gmp_pow(2, $Snm)));
 			}
 		}elseif( $Snm > 0 && $Snm < 33 ){ // IPv4
-			$Top = (256 ** 4);
-			$Ret = $Top / (2 ** $Snm);
+			$Top = pow(256, 4);
+			$Ret = $Top / pow(2, $Snm);
 		}
 	}
 	return $Ret;
