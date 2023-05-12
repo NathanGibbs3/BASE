@@ -351,53 +351,55 @@ function netmask ( $ip = '' ){
 
 function ipdeconvert ( $ip = '' ){
 	$Ret = 0;
-	$ip = trim($ip);
-	$tmp = $ip; // Attempt to avoid PHP 5x type slamming.
-	if( is_numeric($tmp) ){
+	if( is_numeric($ip) ){
+		$ip = trim($ip);
 		$PHPVer = GetPHPSV();
 		$SF = false;
 		$OCA = array();
 		$t4 = 0;
 		$t6 = 0;
-		if( $tmp < pow(256, 4) ){ // IPv4
+		if( $ip < pow(256, 4) ){ // IPv4
 			$t4 = 1;
 			$tl = 4;
 		}else{ // IPv6
 			$t6 = 1;
 			$tl = 16;
 			if(
-				$PHPVer[0] > 5
-				|| ($PHPVer[0] == 5 && $PHPVer[1] == 6 && $PHPVer[2] > 0)
+				defined('GMP_VERSION')
+				&& (
+					$PHPVer[0] > 5
+					|| ($PHPVer[0] == 5 && $PHPVer[1] == 6 && $PHPVer[2] > 0)
+				)
 			){ // Fast way on PHP > 5.6.0
 				$SF = true;
 				$tmp = str_pad(gmp_export($ip), 16, "\0", STR_PAD_LEFT);
 			}
-
-
-			$tip = gmp_init($ip, 10);
 		}
-		for ( $i = $tl; $i > 0 ; $i-- ){
-			$pwr = $i - 1;
-			if ( $t6 ){ // IPv6 Use Gmp lib.
-				if ( $SF ){
-					break;
-				}
-				$tmp = gmp_strval(gmp_pow(256, $pwr));
-				$res = gmp_div_qr($tip, $tmp);
-				$tt = gmp_intval($res[0]);
-				$tip = gmp_strval($res[1]);
+		if( !$SF ){
+			for ( $i = $tl; $i > 0 ; $i-- ){
+				$pwr = $i - 1;
+				if ( $t6 ){ // IPv6 Use Gmp lib.
+					$tmp = gmp_strval(gmp_pow(256, $pwr));
+					$res = gmp_div_qr($ip, $tmp);
+					$tt = gmp_intval($res[0]);
+					$ip = gmp_strval($res[1]);
 
+				// Works
+//				$res = gmp_div_qr($tip, $tmp);
+//				$tt = gmp_intval($res[0]);
+//				$tip = gmp_strval($res[1]);
 				// Works
 //				$tt = gmp_strval(gmp_div($tip, $tmp));
 //				$tip = gmp_strval(
 //					gmp_sub($tip,gmp_strval(gmp_mul($tmp, $tt)))
 //				);
-			}else{ // IPv4 Use PHP
-				$tmp = pow(256, $pwr);
-				$tt = intval($ip / $tmp);
-				$ip = $ip - ($tmp * $tt);
+				}else{ // IPv4 Use PHP
+					$tmp = pow(256, $pwr);
+					$tt = intval($ip / $tmp);
+					$ip = $ip - ($tmp * $tt);
+				}
+				array_push($OCA, $tt);
 			}
-			array_push($OCA, $tt);
 		}
 		if( $PHPVer[0] > 5 || ($PHPVer[0] == 5 && $PHPVer[1] > 0) ){
 			// Use built in functions.
@@ -418,14 +420,14 @@ function ipdeconvert ( $ip = '' ){
 			$i = 1;
 			foreach ($OCA as $val) {
 				$tt = $val;
-				$SF = true;
+				$SPF = true;
 				if( $t6 ){
 					$tt = str_pad(dechex($tt), 2, '0', STR_PAD_LEFT);
 					if( ($i % 2) != 0 ){
-						$SF = false;
+						$SPF = false;
 					}
 				}
-				if( $SF && $i < $tl ){
+				if( $SPF && $i < $tl ){
 					$tt .= $Sep;
 				}
 				$i++;
@@ -442,6 +444,8 @@ function ipconvert ( $ip = '' ){
 	$Ret = 0;
 	if( LoadedString($ip) ){
 		$ip = trim($ip);
+		$PHPVer = GetPHPSV();
+		$SF = false;
 		$OCA = array();
 		$ReOc = '\d{1,3}';
 		$ReIp = str_repeat("$ReOc\.",3) . $ReOc;
@@ -474,9 +478,17 @@ function ipconvert ( $ip = '' ){
 			}
 		}
 		$tl = 0;
-		$PHPVer = GetPHPSV();
 		if( $PHPVer[0] > 5 || ($PHPVer[0] == 5 && $PHPVer[1] > 0) ){
 			$tmp = inet_pton($ip); // Use built in functions.
+			if(
+				$PHPVer[0] > 5
+				|| ($PHPVer[0] == 5 && $PHPVer[1] == 6 && $PHPVer[2] > 0)
+			){ // Fast way on PHP > 5.6.0
+				if( $t6 && defined('GMP_VERSION') ){
+					$SF = true;
+					$Ret = gmp_strval(gmp_import($tmp));
+				}
+			}
 		}else{ // Figure it out.
 			// @codeCoverageIgnoreStart
 			if ( $t6 ){ // IPv6 Address
@@ -524,16 +536,17 @@ function ipconvert ( $ip = '' ){
 			}
 			// @codeCoverageIgnoreEnd
 		}
-		$t1 = '';
-		foreach (unpack('C*', $tmp) as $byte) {
-			$t1 .= str_pad(decbin($byte), 8, '0', STR_PAD_LEFT);
-		}
-		if( $t4 ){ // IPv4
-			$Ret = base_convert(ltrim($t1, '0'), 2, 10);
-		}else{ // IPv6 returns 0 if gmp is not available.
-			if( defined('GMP_VERSION') ){
-//				$Ret = gmp_strval(gmp_import($tmp));
-				$Ret = gmp_strval(gmp_init($t1, 2));
+		if( !$SF ){
+			$t1 = '';
+			foreach (unpack('C*', $tmp) as $byte) {
+				$t1 .= str_pad(decbin($byte), 8, '0', STR_PAD_LEFT);
+			}
+			if( $t4 ){ // IPv4
+				$Ret = base_convert(ltrim($t1, '0'), 2, 10);
+			}else{ // IPv6 returns 0 if gmp is not available.
+				if( defined('GMP_VERSION') ){
+					$Ret = gmp_strval(gmp_init($t1, 2));
+				}
 			}
 		}
 	}
