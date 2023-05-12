@@ -16,7 +16,7 @@
 //          Author(s): Nathan Gibbs
 //                     Kevin Johnson
 
-$BRTL_Ver = '0.0.6';
+$BRTL_Ver = '0.0.7';
 
 if( !function_exists('LoadedString') ){
 	// Returns true if var is a string containing data.
@@ -383,16 +383,6 @@ function ipdeconvert ( $ip = '' ){
 					$res = gmp_div_qr($ip, $tmp);
 					$tt = gmp_intval($res[0]);
 					$ip = gmp_strval($res[1]);
-
-				// Works
-//				$res = gmp_div_qr($tip, $tmp);
-//				$tt = gmp_intval($res[0]);
-//				$tip = gmp_strval($res[1]);
-				// Works
-//				$tt = gmp_strval(gmp_div($tip, $tmp));
-//				$tip = gmp_strval(
-//					gmp_sub($tip,gmp_strval(gmp_mul($tmp, $tt)))
-//				);
 				}else{ // IPv4 Use PHP
 					$tmp = pow(256, $pwr);
 					$tt = intval($ip / $tmp);
