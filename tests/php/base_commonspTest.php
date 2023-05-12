@@ -1,7 +1,7 @@
 <?php
 use PHPUnit\Framework\TestCase;
 
-// Test fucntions in /base_common.php
+// Test fucntions in base_common.php
 // Tests that need process isolation.
 
 /**
@@ -9,6 +9,7 @@ use PHPUnit\Framework\TestCase;
   * @covers ::ChkLib
   * @runTestsInSeparateProcesses
   */
+
 class base_commonSPTest extends TestCase {
 	// Pre Test Setup.
 

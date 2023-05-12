@@ -701,7 +701,10 @@ class base_commonTest extends TestCase {
 		'</font><br/>';
 		$this->expectOutputString( $EOM, PearInc('',$Loc,$Lib,0), $UOV );
 	}
-	public function testreturnPearincValidLib(){
+	/**
+	 * @backupGlobals disabled
+	 */
+	public function testreturnPearIncValidLib(){
 		$URV = self::$URV.'PearInc().';
 		$UOV = self::$UOV.'PearInc().';
 		$Lib = 'Mail';

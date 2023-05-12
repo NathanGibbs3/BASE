@@ -16,7 +16,7 @@
 //          Author(s): Nathan Gibbs
 //                     Kevin Johnson
 
-$BRTL_Ver = '0.0.6';
+$BRTL_Ver = '0.0.7';
 
 if( !function_exists('LoadedString') ){
 	// Returns true if var is a string containing data.
@@ -109,20 +109,20 @@ if( !function_exists('ChkAccess') ){
 	// Returns < 1 error code otherwise.
 	function ChkAccess( $path, $type='f' ){
 		$Ret = 0; // Path Error
-		if ( LoadedString($path) ){
+		if( LoadedString($path) ){
 			$type = strtolower($type);
 			$rcf = 0;
 			$Ret = -1; // Type Error
-			if ( $type == 'f' ){
-				if ( is_file($path) ){
+			if( $type == 'f' ){
+				if( is_file($path) ){
 					$rcf = 1;
 				}
-			}elseif ( $type == 'd' ){
-				if ( is_dir($path) ){
+			}elseif( $type == 'd' ){
+				if( is_dir($path) ){
 					$rcf = 1;
 				}
 			}
-			if ( $rcf == 1 ){
+			if( $rcf == 1 ){
 				$Ret = -2; // Readable Error
 				$PHPVer = GetPHPSV();
 				// PHP Safe Mode cutout.
@@ -133,12 +133,12 @@ if( !function_exists('ChkAccess') ){
 				//      See: https://github.com/NathanGibbs3/BASE/issues/34
 				// May work: PHP > 5.1.4.
 				//      See: https://www.php.net/manual/en/function.is-readable.php
-				if (
+				if(
 					$PHPVer[0] > 5 || ($PHPVer[0] == 5 && $PHPVer[1] > 1)
-					|| ($PHPVer[0] == 5 && $PHPVer[1] == 1 && $PHPVer[2] > 4 )
+					|| ($PHPVer[0] == 5 && $PHPVer[1] == 1 && $PHPVer[2] > 4)
 					|| ini_get("safe_mode") != true
 				){
-					if ( is_readable($path) ){
+					if( is_readable($path) ){
 						$Ret = 1;
 					}
 				}else{
@@ -161,7 +161,7 @@ function is_key( $SKey, $SArray ){ // PHP Version Agnostic.
 		$PHPVer = GetPHPSV();
 		// Use built in functions when we can.
 		if(
-			$PHPVer[0] > 4 || ($PHPVer[0] == 4 && $PHPVer[1] > 0 )
+			$PHPVer[0] > 4 || ($PHPVer[0] == 4 && $PHPVer[1] > 0)
 			|| ($PHPVer[0] == 4 && $PHPVer[1] == 0 && $PHPVer[2] > 6)
 		){ // PHP > 4.0.7
 			$Ret = array_key_exists( $SKey, $SArray );
@@ -352,6 +352,9 @@ function netmask ( $ip = '' ){
 function ipdeconvert ( $ip = '' ){
 	$Ret = 0;
 	if( is_numeric($ip) ){
+		$ip = trim($ip);
+		$PHPVer = GetPHPSV();
+		$SF = false;
 		$OCA = array();
 		$t4 = 0;
 		$t6 = 0;
@@ -361,27 +364,41 @@ function ipdeconvert ( $ip = '' ){
 		}else{ // IPv6
 			$t6 = 1;
 			$tl = 16;
-		}
-		for ( $i =  $tl; $i > 0 ; $i-- ){
-			$pwr = $i - 1;
-			if ( $t6 ){ // IPv6 Use Gmp lib.
-				$tmp = gmp_pow(256, $pwr);
-				$tt = gmp_div($ip, $tmp);
-				$ip = gmp_sub($ip, gmp_mul($tmp, $tt));
-			}else{ // IPv4 Use PHP
-				$tmp = pow(256, $pwr);
-				$tt = intval($ip / $tmp);
-				$ip = $ip - ($tmp * $tt);
+			if(
+				defined('GMP_VERSION')
+				&& (
+					$PHPVer[0] > 5
+					|| ($PHPVer[0] == 5 && $PHPVer[1] == 6 && $PHPVer[2] > 0)
+				)
+			){ // Fast way on PHP > 5.6.0
+				$SF = true;
+				$tmp = str_pad(gmp_export($ip), 16, "\0", STR_PAD_LEFT);
 			}
-			array_push($OCA, $tt);
 		}
-		$tmp = '';
-		$PHPVer = GetPHPSV();
+		if( !$SF ){
+			for ( $i = $tl; $i > 0 ; $i-- ){
+				$pwr = $i - 1;
+				if ( $t6 ){ // IPv6 Use Gmp lib.
+					$tmp = gmp_strval(gmp_pow(256, $pwr));
+					$res = gmp_div_qr($ip, $tmp);
+					$tt = gmp_intval($res[0]);
+					$ip = gmp_strval($res[1]);
+				}else{ // IPv4 Use PHP
+					$tmp = pow(256, $pwr);
+					$tt = intval($ip / $tmp);
+					$ip = $ip - ($tmp * $tt);
+				}
+				array_push($OCA, $tt);
+			}
+		}
 		if( $PHPVer[0] > 5 || ($PHPVer[0] == 5 && $PHPVer[1] > 0) ){
 			// Use built in functions.
-			foreach ($OCA as $val) {
-				$tt = pack('C*', $val);
-				$tmp .= $tt;
+			if( !$SF ){
+				$tmp = '';
+				foreach ($OCA as $val) {
+					$tt = pack('C*', $val);
+					$tmp .= $tt;
+				}
 			}
 			$Ret = inet_ntop($tmp);
 		}else{ // Figure it out.
@@ -393,14 +410,14 @@ function ipdeconvert ( $ip = '' ){
 			$i = 1;
 			foreach ($OCA as $val) {
 				$tt = $val;
-				$SF = true;
+				$SPF = true;
 				if( $t6 ){
 					$tt = str_pad(dechex($tt), 2, '0', STR_PAD_LEFT);
 					if( ($i % 2) != 0 ){
-						$SF = false;
+						$SPF = false;
 					}
 				}
-				if( $SF && $i < $tl ){
+				if( $SPF && $i < $tl ){
 					$tt .= $Sep;
 				}
 				$i++;
@@ -417,6 +434,8 @@ function ipconvert ( $ip = '' ){
 	$Ret = 0;
 	if( LoadedString($ip) ){
 		$ip = trim($ip);
+		$PHPVer = GetPHPSV();
+		$SF = false;
 		$OCA = array();
 		$ReOc = '\d{1,3}';
 		$ReIp = str_repeat("$ReOc\.",3) . $ReOc;
@@ -449,9 +468,17 @@ function ipconvert ( $ip = '' ){
 			}
 		}
 		$tl = 0;
-		$PHPVer = GetPHPSV();
 		if( $PHPVer[0] > 5 || ($PHPVer[0] == 5 && $PHPVer[1] > 0) ){
 			$tmp = inet_pton($ip); // Use built in functions.
+			if(
+				$PHPVer[0] > 5
+				|| ($PHPVer[0] == 5 && $PHPVer[1] == 6 && $PHPVer[2] > 0)
+			){ // Fast way on PHP > 5.6.0
+				if( $t6 && defined('GMP_VERSION') ){
+					$SF = true;
+					$Ret = gmp_strval(gmp_import($tmp));
+				}
+			}
 		}else{ // Figure it out.
 			// @codeCoverageIgnoreStart
 			if ( $t6 ){ // IPv6 Address
@@ -499,15 +526,17 @@ function ipconvert ( $ip = '' ){
 			}
 			// @codeCoverageIgnoreEnd
 		}
-		$t1 = '';
-		foreach (unpack('C*', $tmp) as $byte) {
-			$t1 .= str_pad(decbin($byte), 8, '0', STR_PAD_LEFT);
-		}
-		if( $t4 ){ // IPv4
-			$Ret = base_convert(ltrim($t1, '0'), 2, 10);
-		}else{ // IPv6 returns 0 if gmp is not available.
-			if( defined('GMP_VERSION') ){
-				$Ret = gmp_strval(gmp_init($t1, 2));
+		if( !$SF ){
+			$t1 = '';
+			foreach (unpack('C*', $tmp) as $byte) {
+				$t1 .= str_pad(decbin($byte), 8, '0', STR_PAD_LEFT);
+			}
+			if( $t4 ){ // IPv4
+				$Ret = base_convert(ltrim($t1, '0'), 2, 10);
+			}else{ // IPv6 returns 0 if gmp is not available.
+				if( defined('GMP_VERSION') ){
+					$Ret = gmp_strval(gmp_init($t1, 2));
+				}
 			}
 		}
 	}

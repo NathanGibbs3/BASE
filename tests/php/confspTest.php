@@ -53,6 +53,7 @@ class ConfTest extends TestCase {
 			'external_dns_link', 'external_all_link', 'external_port_link',
 			'external_sig_link', 'use_user_session', 'user_session_path',
 			'user_session_function', 'colored_alerts', 'graph_font_name',
+			'AllowedClients'
 		);
 		self::$UOV = 'Unexpected Output Value: ';
 		self::$URV = 'Unexpected Return Value: ';
@@ -81,8 +82,8 @@ class ConfTest extends TestCase {
 						. '.lang.php';
 						$this->assertEquals(
 							1, ChkAccess($tmp),
-							$URV . " Lang: $$var = $BASE_Language "
-							. "TD File: $tmp"
+							$URV . " Lang: $$var = $BASE_Language TD File: "
+							. $tmp
 						);
 					}elseif( $var == 'BASE_urlpath' ){
 						$ReqRE = 'http(s)?' . preg_quote('://','/')
@@ -92,6 +93,17 @@ class ConfTest extends TestCase {
 							preg_replace('/^' . $ReqRE . '/', '', $$var),
 							$URV . "URL Path: $$var"
 						);
+					}elseif( $var == 'AllowedClients' ){
+						if( $file == 'base_conf.php.dist' ){
+							$this->assertEmpty(
+								$$var, $URV . "AllowedClients: $$var"
+							);
+						}else{
+//							$this->assertTrue(
+//								is_ip($$var),
+//								$URV . "AllowedClients: $$var"
+//							);
+						}
 					}
 				}
 			}
