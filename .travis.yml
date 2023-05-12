@@ -52,7 +52,7 @@ matrix:
     - php: 5.6
       env: DB=postgres
     - php: 7.0
-     if: branch != php5only
+      if: branch != php5only
       dist: trusty
       env: DB=mysql
     - php: 7.0
