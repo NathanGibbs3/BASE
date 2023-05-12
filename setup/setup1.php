@@ -100,11 +100,9 @@ if (@$_GET['action'] == "check")
 <?php
     $langCount = count($languages);
     for ($y = 0; $y < $langCount; $y++) {
-        /* If there is language saved from session then make it selected. 
-         * If there was no session language - make 'english' selected.
-         */        
-        if (base_array_key_exists('language', $_SESSION)) 
-        {
+		// If there is language saved from session then make it selected. If
+		// there was no session language - make 'english' selected.
+		if( is_key('language', $_SESSION) ){
             if ( 
                  ($languages[$y] == $_SESSION['language']) || 
                  ($_SESSION['language'] == '' && $languages[$y] == 'english')

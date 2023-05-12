@@ -18,13 +18,24 @@
 **
 ********************************************************************************
 */
-/** The below check is to make sure that the conf file has been loaded before this one....
- **  This should prevent someone from accessing the page directly. -- Kevin
- **/
+// Ensure the conf file has been loaded. Prevent direct access to this file.
 defined('_BASE_INC') or die('Accessing this file directly is not allowed.');
 
 function DivErrorMessage ($message, $Count = 0 ){
 	NLIO ("<div class='errorMsg' align='center'>$message</div>",$Count);
+}
+
+function returnBuildError( $Desc, $Opt ){ // Standardiazed PHP build error.
+	if ( LoadedString($Desc) && LoadedString($Opt) ){
+		$Desc = XSSPrintSafe($Desc);
+		$Opt = XSSPrintSafe($Opt);
+		$Ret = returnErrorMessage(_ERRPHPERROR.':',0,1);
+		// TD this.
+		$Ret .=
+		NLI("<b>PHP build incomplete</b>: $Desc support required.<br/>")
+		. NLI("Recompile PHP with $Desc support (<code>$Opt</code>) .<br/>");
+		return $Ret;
+	}
 }
 
 function BuildError ($message = '', $fmessage = '' ){
@@ -184,12 +195,12 @@ function PrintServerInformation()
 
 function PrintPageHeader(){
 	GLOBAL $DBtype, $ADODB_vers, $Use_Auth_System, $BCR;
-	if ( !AuthorizedPage('(base_denied|index)') ){
+	if( !AuthorizedPage('(base_denied|index)') ){
 		$BV = $BCR->GetCap('BASE_Ver');
 		// Additional app info allowed everywhere but landing pages.
 		$AdminAuth = AuthorizedRole(1); // Issue #146 Fix
-		if ( $AdminAuth ){ // Issue #146 Fix
-			if ( base_array_key_exists('SERVER_SOFTWARE',$_SERVER) ){
+		if( $AdminAuth ){ // Issue #146 Fix
+			if( is_key('SERVER_SOFTWARE', $_SERVER) ){
 				$SW_Svr = $_SERVER['SERVER_SOFTWARE'];
 			}else{
 				$SW_Svr = 'unknown';
@@ -198,12 +209,12 @@ function PrintPageHeader(){
 			$SW_Svr = XSSPrintSafe($SW_Svr);
 		}
 		$request_uri = XSSPrintSafe($_SERVER['REQUEST_URI']);
-		if ( base_array_key_exists('HTTP_USER_AGENT',$_SERVER) ){
+		if( is_key('HTTP_USER_AGENT', $_SERVER) ){
 			$SW_Cli = $_SERVER['HTTP_USER_AGENT'];
 		}else{
 			$SW_Cli = 'unknown';
 		}
-		if ( base_array_key_exists('HTTP_REFERER', $_SERVER) ){
+		if( is_key('HTTP_REFERER', $_SERVER) ){
 			$http_referer = XSSPrintSafe($_SERVER['HTTP_REFERER']);
 		}else{
 			$http_referer = '';

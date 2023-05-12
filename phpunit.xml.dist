@@ -14,6 +14,7 @@
 >
 	<filter>
 		<whitelist>
+			<file>base_conf.php.dist</file>
 			<directory suffix=".php">./</directory>
 			<exclude>
 				<directory>./build</directory>
@@ -49,6 +50,7 @@
 		<includePath>includes</includePath>
 		<ini name="error_reporting" value="E_ALL" />
 		<ini name="xdebug.cli_color" value = "1" />
+		<ini name="xdebug.mode" value = "coverage" />
 		<ini name="display_errors" value = "1" />
 		<ini name="log_errors" value = "1" />
 		<ini name="error_log" value = "build/error.log" />

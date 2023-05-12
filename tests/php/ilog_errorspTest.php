@@ -6,6 +6,7 @@ use PHPUnit\Framework\TestCase;
 /**
   * Code Coverage Directives.
   * @covers ::BuildError
+  * @covers ::returnBuildError
   * @uses ::LoadedString
   * A necessary evil for tests touching legacy TD.
   * @preserveGlobalState disabled
@@ -17,6 +18,8 @@ class log_errorspTest extends TestCase {
 	protected static $files;
 	protected static $langs;
 	protected static $UIL;
+	protected static $UOV;
+	protected static $URV;
 
 	// We are using a single TD file.
 	// Share class instance as common test fixture.
@@ -48,9 +51,13 @@ class log_errorspTest extends TestCase {
 		}else{
 			self::$files = $file;
 		}
+		self::$UOV = 'Unexpected Output Value: ';
+		self::$URV = 'Unexpected Return Value: ';
 	}
 	public static function tearDownAfterClass() {
 		self::$UIL = null;
+		self::$UOV = null;
+		self::$URV = null;
 		self::$langs = null;
 		self::$files = null;
 	}
@@ -58,18 +65,35 @@ class log_errorspTest extends TestCase {
 	// Tests go here.
 	public function testBuildErrorDefault(){
 		GLOBAL $BASE_installID;
-		$UOV = 'Unexpected Output.';
+		$UOV = self::$UOV.'BuildError().';
 		if ( is_object(self::$UIL) ){
 			$UIL = self::$UIL;
 		}else{
 			include_once(self::$files);
 		}
-		$expected = "<font color='#ff0000'>PHP ERROR:</font><br/>";
-		$expected .= "<font color='black'>message</font><br/><br/>";
+		$EOM = "<font color='#ff0000'>PHP ERROR:</font><br/>";
+		$EOM .= "<font color='black'>message</font><br/><br/>";
 		$this->expectOutputString(
-			$expected, BuildError('message'), $UOV
+			$EOM, BuildError('message'), $UOV
 		);
 	}
+	public function testreturnBuildError(){
+		GLOBAL $BASE_installID;
+		$URV = self::$URV.'returnBuildError().';
+		if ( is_object(self::$UIL) ){
+			$UIL = self::$UIL;
+		}else{
+			include_once(self::$files);
+		}
+		$EOM = "<font color='#ff0000'>PHP ERROR:</font><br/>\n"
+		. "<b>PHP build incomplete</b>: Monkey Food support required.<br/>\n"
+		. 'Recompile PHP with Monkey Food support '
+		. '(<code>--with-bananas</code>) .<br/>';
+		$this->assertEquals(
+			$EOM, returnBuildError('Monkey Food', '--with-bananas'), $URV
+		);
+	}
+
 	// Add code to a function if needed.
 	// Stop here and mark test incomplete.
 	//$this->markTestIncomplete('Incomplete Test.');

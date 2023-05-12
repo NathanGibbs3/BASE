@@ -57,11 +57,7 @@ SetConst('CHARTTYPE_UNIQUE_SIGNATURE', 18);
 function VerifyGraphingLib(){
 	$Ret = false; // Lib Error
 	if( !function_exists('imagecreate') ){// Is GD compiled into PHP.
-		BuildError (
-			'<b>PHP build incomplete</b>: GD support required.<br/>'."\n".
-			'Recompile PHP with GD support (<code>--with-gd</code>)'."\n".
-			'PHP build incomplete: GD support required.'
-		);
+		print returnBuildError('GD', '--with-gd');
 	}else{
 		$Ret = PearInc('Graphing', 'Image', 'Graph');
 	}
@@ -538,11 +534,10 @@ function GetUniqueDataSet(&$xdata, $chart_type, $data_source, $min_threshold, $c
   return $cnt;
 }
 
-
-
-function GetSensorDataSet(&$xdata, $chart_type, $data_source, $min_threshold, $criteria)
-{
-   GLOBAL $db, $debug_mode;
+function GetSensorDataSet(
+	&$xdata, $chart_type, $data_source, $min_threshold, $criteria
+){
+	GLOBAL $db, $debug_mode;
 
    $sql = "SELECT DISTINCT acid_event.sid, COUNT(acid_event.cid) ".
           "FROM acid_event ".$criteria[0].
@@ -601,7 +596,7 @@ function ReadGeoIPfreeFileAscii(&$Geo_IPfree_array){
       ErrorMessage("<BR>ERROR: \$iso_3166 has not been defined.<BR>\n");
       return 0;
 		}else{
-			if ( !base_array_key_exists($index, $iso_3166) ){
+			if( !is_key($index, $iso_3166) ){
         $estr = "ERROR: index \"" . $index . "\" = ascii codes ";
         $estr .= ord($index[0]) . ", " . ord($index[1]) . " ";
         $estr .= "does not exist. Ignoring.<BR>\n";
@@ -613,8 +608,7 @@ function ReadGeoIPfreeFileAscii(&$Geo_IPfree_array){
         $index .= " (" . $iso_3166[$index] . ")";
 			}
 			if (
-				!isset($Geo_IPfree_array)
-				|| !base_array_key_exists($index, $Geo_IPfree_array)
+				!isset($Geo_IPfree_array) || !is_key($index, $Geo_IPfree_array)
 			){
         $Geo_IPfree_array[$index][0] = array($begin, $end);
 			}else{
@@ -727,18 +721,18 @@ function run_ip2cc($address_with_dots, &$country)
 
 function IncreaseCountryValue( &$countries, $to_search, $number_of_alerts ){
 	GLOBAL $db, $debug_mode;
-	if (count($countries) == 0 ){
+	if( count($countries) == 0 ){
 		$countries[$to_search] = $number_of_alerts;
 		return;
 	}
 	$tmp = '';
-	if ( base_array_key_exists($to_search, $countries) ){
+	if( is_key($to_search, $countries) ){
 		$countries[$to_search] += $number_of_alerts;
 	}else{
 		$tmp = 'NOT ';
 		$countries[$to_search] = $number_of_alerts;
 	}
-	if ( $debug_mode > 1 ){
+	if( $debug_mode > 1 ){
 		ErrorMessage($to_search . ' does ' . $tmp .'exist.', 0, 1);
 	}
 }

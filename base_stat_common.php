@@ -18,7 +18,9 @@
 **
 ********************************************************************************
 */
+// Ensure the conf file has been loaded. Prevent direct access to this file.
 defined('_BASE_INC') or die('Accessing this file directly is not allowed.');
+
 include_once("$BASE_path/includes/base_constants.inc.php");
 
 function SensorCnt( $db, $join = '', $where = '' ){

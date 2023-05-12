@@ -5,6 +5,7 @@ use PHPUnit\Framework\TestCase;
 
 /**
   * Code Coverage Directives.
+  * @covers ::BCS
   * @covers ::ChkArchive
   * @covers ::ChkCookie
   * @covers ::ChkGet
@@ -18,6 +19,7 @@ use PHPUnit\Framework\TestCase;
   * @uses ::ChkAccess
   * @uses ::CleanVariable
   * @uses ::ErrorMessage
+  * @uses ::GetPHPSV
   * @uses ::HtmlColor
   * @uses ::LibIncError
   * @uses ::LoadedString
@@ -378,7 +380,7 @@ class base_commonTest extends TestCase {
 		unset ($_COOKIE['asciiclean']);
 	}
 	public function testGetAsciiCleanCookieOn(){
-		$_COOKIE['asciiclean'] = 'clean';
+		$_COOKIE['asciiclean'] = 1;
 		$this->assertTrue(
 			GetAsciiClean(),
 			'Unexpected Return Value.'
@@ -387,7 +389,7 @@ class base_commonTest extends TestCase {
 	}
 	public function testGetAsciiCleanGetOffCookieOn(){
 		$_GET['asciiclean'] = 0;
-		$_COOKIE['asciiclean'] = 'clean';
+		$_COOKIE['asciiclean'] = 1;
 		$this->assertFalse(
 			GetAsciiClean(),
 			'Unexpected Return Value.'
@@ -699,17 +701,18 @@ class base_commonTest extends TestCase {
 		'</font><br/>';
 		$this->expectOutputString( $EOM, PearInc('',$Loc,$Lib,0), $UOV );
 	}
-	public function testreturnPearincValidLib(){
+	/**
+	 * @backupGlobals disabled
+	 */
+	public function testreturnPearIncValidLib(){
 		$URV = self::$URV.'PearInc().';
 		$UOV = self::$UOV.'PearInc().';
-		GLOBAL $debug_mode;
 		$Lib = 'Mail';
 		$this->assertTrue( PearInc('','',$Lib), $URV );
 	}
 	public function testreturnPearincValidLoc(){
 		$URV = self::$URV.'PearInc().';
 		$UOV = self::$UOV.'PearInc().';
-		GLOBAL $debug_mode;
 		$Loc = 'Mail';
 		$Lib = 'mime';
 		$this->assertTrue( PearInc('', $Loc,$Lib), $URV );
@@ -717,7 +720,6 @@ class base_commonTest extends TestCase {
 	public function testreturnPearincInvalidOpts(){
 		$URV = self::$URV.'PearInc().';
 		$UOV = self::$UOV.'PearInc().';
-		GLOBAL $debug_mode;
 		$Lib = 'Mail';
 		$this->assertTrue( PearInc('','',$Lib, 'string', 'string'), $URV );
 	}
@@ -805,7 +807,6 @@ class base_commonTest extends TestCase {
 	public function testreturnChkArchiveDBOnNoGET(){
 		$URV = self::$URV.'ChkArchive().';
 		$UOV = self::$UOV.'ChkArchive().';
-		$PHPUV = self::$PHPUV;
 		// Test Env defaults to Archive DB disabled.
 		GLOBAL $archive_exists;
 		$ogv = $archive_exists;
@@ -818,7 +819,6 @@ class base_commonTest extends TestCase {
 	public function testreturnChkArchiveDBOnNoCookie(){
 		$URV = self::$URV.'ChkArchive().';
 		$UOV = self::$UOV.'ChkArchive().';
-		$PHPUV = self::$PHPUV;
 		// Test Env defaults to Archive DB disabled.
 		GLOBAL $archive_exists;
 		$ogv = $archive_exists;
@@ -827,6 +827,72 @@ class base_commonTest extends TestCase {
 		$this->assertTrue( ChkArchive(), $URV );
 		unset ($_COOKIE['archive']);
 		$archive_exists = $ogv;
+	}
+	public function testBCSEmpty(){
+		$URV = self::$URV.'BCS().';
+		$UOV = self::$UOV.'BCS().';
+		$PHPUV = self::$PHPUV;
+		$EOM = 'BCS: No Cookie.';
+		$cur_e_l = ini_get( 'error_log' ); // Shim error_log output On
+		$capture = tmpfile();
+		$tmp = stream_get_meta_data($capture);
+		ini_set('error_log', $tmp['uri']);
+		$this->assertFalse( BCS(''), $URV );
+		ini_set( 'error_log', $cur_e_l ); // Shim error_log output Off
+		$elOutput = stream_get_contents($capture);
+		if ( $PHPUV > 1 ){ // PHPUnit 9+
+			$this->assertMatchesRegularExpression(
+				'/'.$EOM.'/', $elOutput, $UOV
+			);
+		}else{ // Legacy PHPUnit
+			$this->assertRegExp(
+				'/'.$EOM.'/', $elOutput, $UOV
+			);
+		}
+	}
+	public function testBCSSet(){
+		$URV = self::$URV.'BCS().';
+		$UOV = self::$UOV.'BCS().';
+		$PHPUV = self::$PHPUV;
+		$EOM = 'BCS: Set Cookie: BASERole';
+		$cur_e_l = ini_get( 'error_log' ); // Shim error_log output On
+		$capture = tmpfile();
+		$tmp = stream_get_meta_data($capture);
+		ini_set('error_log', $tmp['uri']);
+		$this->assertTrue( BCS('BASERole', 1 ), $URV );
+		ini_set( 'error_log', $cur_e_l ); // Shim error_log output Off
+		$elOutput = stream_get_contents($capture);
+		if ( $PHPUV > 1 ){ // PHPUnit 9+
+			$this->assertMatchesRegularExpression(
+				'/'.$EOM.'/', $elOutput, $UOV
+			);
+		}else{ // Legacy PHPUnit
+			$this->assertRegExp(
+				'/'.$EOM.'/', $elOutput, $UOV
+			);
+		}
+	}
+	public function testBCSClear(){
+		$URV = self::$URV.'BCS().';
+		$UOV = self::$UOV.'BCS().';
+		$PHPUV = self::$PHPUV;
+		$EOM = 'BCS: Clear Cookie: BASERole';
+		$cur_e_l = ini_get( 'error_log' ); // Shim error_log output On
+		$capture = tmpfile();
+		$tmp = stream_get_meta_data($capture);
+		ini_set('error_log', $tmp['uri']);
+		$this->assertTrue( BCS('BASERole'), $URV );
+		ini_set( 'error_log', $cur_e_l ); // Shim error_log output Off
+		$elOutput = stream_get_contents($capture);
+		if ( $PHPUV > 1 ){ // PHPUnit 9+
+			$this->assertMatchesRegularExpression(
+				'/'.$EOM.'/', $elOutput, $UOV
+			);
+		}else{ // Legacy PHPUnit
+			$this->assertRegExp(
+				'/'.$EOM.'/', $elOutput, $UOV
+			);
+		}
 	}
 
 	// Add code to a function if needed.

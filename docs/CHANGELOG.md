@@ -15,6 +15,10 @@ https://github.com/NathanGibbs3/BASE/issues/149)
  - Support for Coveralls.io & Codecov.io code coverage reports on commit.
  - Support for colored alert category display. [#176](
 https://github.com/NathanGibbs3/BASE/issues/176)
+ - BASE Kernel, standardized startup routines.
+ - BASE RTL (Runtime Library), standardized runtime routines.
+ - New Configuration file variable `$AllowedClients` Add client host access
+configuration options. [#175 ](https://github.com/NathanGibbs3/BASE/issues/175)
 
 Contributor(s): [Nathan Gibbs]
 
@@ -38,11 +42,18 @@ https://github.com/NathanGibbs3/BASE/issues/86)
 Contributor(s): [Nathan Gibbs]
 
 ### Deprecated
+- Configuration File Variables.
+  - `$BASE_VERSION`
+  - `$BASE_path`
+- Session initialization code in the BASE Configuration file.
+Current BASE Kernels allow for this future versions may not.
 
 ### Removed
 - securitystats.com port lookup URL. [#177](
 https://github.com/NathanGibbs3/BASE/issues/177)
 - ports.tantalo.net port lookup URL.
+- Configuration File Variable.
+  - Constant, `_BASE_INC`, Now set by BASE Kernel.
 
 Contributor(s): [Nathan Gibbs]
 
@@ -72,55 +83,52 @@ https://github.com/NathanGibbs3/BASE/issues/44)
 - BASE does not check for unset conf variable `$show_expanded_query`
 before access. [#45](
 https://github.com/NathanGibbs3/BASE/issues/45)
-- [#27 `BuildSigLookup()` does not check for unset conf variable
-`external_sig_link` before access.](
+- `BuildSigLookup()` does not check for unset conf variable
+`external_sig_link` before access. [#27](
 https://github.com/NathanGibbs3/BASE/issues/27)
-- [#46 BASE does not check for unset conf variable `$show_summary_stats`
-before access.](
+- BASE does not check for unset conf variable `$show_summary_stats`
+before access. [#46](
 https://github.com/NathanGibbs3/BASE/issues/46)
-- [#47 BASE does not check for unset conf variable `$show_previous_alert`
-before access.](
+- BASE does not check for unset conf variable `$show_previous_alert`
+before access. [#47](
 https://github.com/NathanGibbs3/BASE/issues/47)
-- [#48 `QueryState::ExecuteOutputQuery()` does not check for unset conf
-variable `$show_rows` before access.](
+- `QueryState::ExecuteOutputQuery()` does not check for unset conf
+variable `$show_rows` before access. [#48](
 https://github.com/NathanGibbs3/BASE/issues/48)
-- [#49 BASE does not check for unset conf variable `$show_first_last_links`
-before access.](
+- BASE does not check for unset conf variable `$show_first_last_links`
+before access. [#49](
 https://github.com/NathanGibbs3/BASE/issues/49)
-- [#50 BASE does not check for unset conf variable `$colored_alerts`
-before access.](
+- BASE does not check for unset conf variable `$colored_alerts`
+before access. [#50](
 https://github.com/NathanGibbs3/BASE/issues/50)
-- [#51 `returnUser()` does not check for set cookie before access.](
+- `returnUser()` does not check for set cookie before access. [#51](
 https://github.com/NathanGibbs3/BASE/issues/51)
-- [#52 `Init()` does not check for unset conf variable `$MAX_ROWS`
-before access.](
+- `Init()` does not check for unset conf variable `$MAX_ROWS`
+before access. [#52](
 https://github.com/NathanGibbs3/BASE/issues/52)
-- [#53 `IPAddressCriteria::PrintForm()` does not check for unset conf
-variable `$ip_address_input` before access.](
+- IPAddressCriteria::PrintForm()` does not check for unset conf
+variable `$ip_address_input` before access. [#53 ](
 https://github.com/NathanGibbs3/BASE/issues/53)
-- [#59 BASE does not check for unset conf variable `$priority_colors`
-before access.](
-https://github.com/NathanGibbs3/BASE/issues/59)
-- [#60 BASE color alert severity information is downgraded by one.](
+- BASE does not check for unset conf variable `$priority_colors` before
+access. [#59](https://github.com/NathanGibbs3/BASE/issues/59)
+- BASE color alert severity information is downgraded by one. [#60](
 https://github.com/NathanGibbs3/BASE/issues/60)
-- [#58 FQDN DB errors.](
-https://github.com/NathanGibbs3/BASE/issues/58)
-- [#67 `baseExecute()` returns invalid data structure.](
+- FQDN DB errors. [#58](https://github.com/NathanGibbs3/BASE/issues/58)
+- `baseExecute()` returns invalid data structure. [#67](
 https://github.com/NathanGibbs3/BASE/issues/67)
-- [#69 BASE does not check for unset variable `$src_ip` before access.](
+- BASE does not check for unset variable `$src_ip` before access. [#69](
 https://github.com/NathanGibbs3/BASE/issues/69)
-- [#70 Standardize HTML page closures.](
+- Standardize HTML page closures. [#70](
 https://github.com/NathanGibbs3/BASE/issues/70)
-- [#72 Incorrect Display of Admin Users.](
+- Incorrect Display of Admin Users. [#72](
 https://github.com/NathanGibbs3/BASE/issues/72)
-- [#62 Convert Changelog.](
-https://github.com/NathanGibbs3/BASE/issues/62)
-- [#75 Standardize generation of HTML for Header & Footer Menus.](
+- Convert Changelog. [#62](https://github.com/NathanGibbs3/BASE/issues/62)
+- Standardize generation of HTML for Header & Footer Menus. [#75](
 https://github.com/NathanGibbs3/BASE/issues/75)
-- [#77 PrintTiming() returns partial event log.](
+- PrintTiming() returns partial event log. [#77](
 https://github.com/NathanGibbs3/BASE/issues/77)
-- [#26 `CriteriaState::ReadState()` does not check for unset conf variable
-`$maintain_history` before access.](
+- `CriteriaState::ReadState()` does not check for unset conf variable
+`$maintain_history` before access. [#26](
 https://github.com/NathanGibbs3/BASE/issues/26)
 - [#81 BASE does not check for unset conf variable `$maintain_history` before
 access.](
@@ -207,24 +215,24 @@ https://github.com/NathanGibbs3/BASE/issues/140)
 - [#147 Incomplete `DOCTYPE`](https://github.com/NathanGibbs3/BASE/issues/147)
 - [#141 Usage of `key_exists()` & `array_key_exists()` breaks support for older PHP's](
 https://github.com/NathanGibbs3/BASE/issues/141)
-- [#138 Make `fitlerSql()` aware of global database variable.](
+- Make `fitlerSql()` aware of global database variable. [#138](
 https://github.com/NathanGibbs3/BASE/issues/138)
-- [#150 BASEcli enhancements.](https://github.com/NathanGibbs3/BASE/issues/150)
-- [#151 Tests for DateTimeRows2sql() do not cover PostqreSQL.](
+- BASEcli enhancements. [#150](https://github.com/NathanGibbs3/BASE/issues/150)
+- Tests for DateTimeRows2sql() do not cover PostqreSQL. [#151](
 https://github.com/NathanGibbs3/BASE/issues/151)
-- [#152 PHP 7.2 - runaway build.](
+- PHP 7.2 - runaway build. [#152](
 https://github.com/NathanGibbs3/BASE/issues/152)
-- [#153 PHP 8.x - Use of each breaks builds](
+- PHP 8.x - Use of each breaks builds [#153](
 https://github.com/NathanGibbs3/BASE/issues/153)
-- [#154 PHP 7.2 - Downgrade PHPUnit on CI](
+- PHP 7.2 - Downgrade PHPUnit on CI [#154](
 https://github.com/NathanGibbs3/BASE/issues/154)
-- [#155 PHP 5.3 - SSL error blocks build.](
+- PHP 5.3 - SSL error blocks build. [#155](
 https://github.com/NathanGibbs3/BASE/issues/155)
-- [#157 PHP 7.1+ - CleanVariable() invalid data mask crash.](
+- PHP 7.1+ - CleanVariable() invalid data mask crash. [#157](
 https://github.com/NathanGibbs3/BASE/issues/157)
-- [#159 PHP 7.3 - PHPUnit Tests for Mysql throws warnings.](
+- PHP 7.3 - PHPUnit Tests for Mysql throws warnings. [#159](
 https://github.com/NathanGibbs3/BASE/issues/159)
-- [#160 PHP 8.x - ErrorMessage() & returnErrorMessage() output breaks.](
+- PHP 8.x - ErrorMessage() & returnErrorMessage() output breaks. [#160](
 https://github.com/NathanGibbs3/BASE/issues/160)
 - PHP 8x - Mysql errors in build. [#162](
 https://github.com/NathanGibbs3/BASE/issues/162)
@@ -251,10 +259,14 @@ https://github.com/NathanGibbs3/BASE/issues/92)
 https://github.com/NathanGibbs3/BASE/issues/180)
 - Archive actions display when archive DB is disabled. [#181](
 https://github.com/NathanGibbs3/BASE/issues/181)
-- BASE assumes that presence of archive cookie indicates presence of Archive DB. [#183](
-https://github.com/NathanGibbs3/BASE/issues/183)
 - QueryState makes assumptions about internal property type. [#185](
 https://github.com/NathanGibbs3/BASE/issues/185)
+- Test flagged as Risky in some CI PostgreSQL builds. [#98](
+https://github.com/NathanGibbs3/BASE/issues/98)
+- PHPUnit Tests for Postgresql flag as risky. [#158 ](
+https://github.com/NathanGibbs3/BASE/issues/158)
+- BASE RTL compatibility PHP < 5.6 [#198 ](
+https://github.com/NathanGibbs3/BASE/issues/198)
 
 Contributor(s): [Nathan Gibbs]
 
@@ -276,8 +288,14 @@ https://github.com/NathanGibbs3/BASE/issues/145)
 https://github.com/NathanGibbs3/BASE/issues/149)
 - Invalid SQL Generation on PHP 8x. [#178](
 https://github.com/NathanGibbs3/BASE/issues/178)
--  Main page, stats display bug. [#182](
+- Main page, stats display bug. [#182](
 https://github.com/NathanGibbs3/BASE/issues/182)
+- Auth system crashing BASE on Windows. [#189](
+https://github.com/NathanGibbs3/BASE/issues/189)
+- Non-operable buttons in Cache and Status. [#194](
+https://github.com/NathanGibbs3/BASE/issues/194)
+- Unable to Delete events or Move/Copy events to the Archive database. [#195](
+https://github.com/NathanGibbs3/BASE/issues/195)
 
 Contributor(s):
   - [mesteele]
@@ -312,32 +330,38 @@ https://github.com/NathanGibbs3/BASE/issues/104)
 https://github.com/NathanGibbs3/BASE/issues/107)
 - [#119 `DateTimeRows2sql()` does not do input validation on passed params](
 https://github.com/NathanGibbs3/BASE/issues/119)
-- [#128 `DateTimeRows2sql()` assumes anything in year and month parts of data 
-structure are valid.](
-https://github.com/NathanGibbs3/BASE/issues/128
-)
-- [#130 `CleanVariable()` does not return expected value when there is an 
-exception list and `$valid_data` is empty. ](
+- `DateTimeRows2sql()` assumes anything in year and month parts of data 
+structure are valid. [#128 ](https://github.com/NathanGibbs3/BASE/issues/128)
+- `CleanVariable()` does not return expected value when there is an 
+exception list and `$valid_data` is empty. [#130](
 https://github.com/NathanGibbs3/BASE/issues/130)
-- [#136 `filterSql()` passes arrays through `XSSPrintSafe()` instead of 
-calling itself recursively](
+- `filterSql()` passes arrays through `XSSPrintSafe()` instead of 
+calling itself recursively. [#136](
 https://github.com/NathanGibbs3/BASE/issues/136)
-- [#137 `filterSQL()` does not process keyed arrays](
+- `filterSQL()` does not process keyed arrays. [#137](
 https://github.com/NathanGibbs3/BASE/issues/137)
-- [#17 Authenticate() does not check for disabled user account.](
+- Authenticate() does not check for disabled user account. [#17](
 https://github.com/NathanGibbs3/BASE/issues/17)
-- [#148 Fixes for Issue #146 break BASEcli.](
-https://github.com/NathanGibbs3/BASE/issues/148)
-- [#164 Disabling logged in user does not lock user out..](
+- Fixes for Issue [#146](https://github.com/NathanGibbs3/BASE/issues/146) break BASEcli. [#148](https://github.com/NathanGibbs3/BASE/issues/148)
+- Disabling logged in user does not lock user out. [#164](
 https://github.com/NathanGibbs3/BASE/issues/164)
+- BASE assumes that presence of archive cookie indicates presence of Archive DB. [#183](
+https://github.com/NathanGibbs3/BASE/issues/183)
+- BASE RTL GetPHPSV() wrong return type. [#193](
+https://github.com/NathanGibbs3/BASE/issues/193)
 
 Contributor(s): [Nathan Gibbs]
-- [#143 `session_name()` called after `session_start()`](
+- `session_name()` called after `session_start()`. [#143](
 https://github.com/NathanGibbs3/BASE/issues/143)
-- [#146 Information & destructive operations exposed to unauthenticated users.](
-https://github.com/NathanGibbs3/BASE/issues/146)
-- [#161 Base allows unauthenticated users access to Alert Group Maintenance functions](
-https://github.com/NathanGibbs3/BASE/issues/161)
+- Information & destructive operations exposed to unauthenticated users.
+[#146](https://github.com/NathanGibbs3/BASE/issues/146)
+- Base allows unauthenticated users access to Alert Group Maintenance functions.
+[#161](https://github.com/NathanGibbs3/BASE/issues/161)
+- End user misconfiguration re exposes Issue [#89](
+https://github.com/NathanGibbs3/BASE/issues/190). [#190](
+https://github.com/NathanGibbs3/BASE/issues/190)
+- PHP 7 Auth = 1 causes error. [#191](
+https://github.com/NathanGibbs3/BASE/issues/191)
 
 Contributor(s):
   - [mesteele]

@@ -54,7 +54,7 @@ $_SESSION['back_list_cnt'] = 0;
 PushHistory();
 if ( isset($_GET['archive']) ){ // Set cookie to use the correct db.
 	"no" == $_GET['archive'] ? $value = 0 : $value = 1;
-	setcookie('archive', $value);
+	BCS('archive', $value);
 	HTTP_header("Location: $BASE_urlpath/base_main.php");
 }
 

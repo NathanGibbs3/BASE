@@ -56,20 +56,41 @@ class log_timingTest extends TestCase {
 		$this->assertEquals('Page Load.', $tc->event_log[0][1], $URV);
 	}
 	// Test Mark Function
-	public function testClassEventTimingMark(){
+	public function testClassEventTimingMarkEmpty(){
+		$URV = self::$URV.'Mark().';
+		$tc = self::$tc;
+		$tc->Mark();
+		$this->assertNotEquals(0, $tc->event_log[1][0], $URV);
+		$this->assertEquals('MARK', $tc->event_log[1][1], $URV);
+	}
+	public function testClassEventTimingMarkLoaded(){
 		$URV = self::$URV.'Mark().';
 		$tc = self::$tc;
 		$tc->Mark('What');
-		$this->assertNotEquals(0, $tc->event_log[1][0], $URV);
-		$this->assertEquals('What', $tc->event_log[1][1], $URV);
+		$this->assertNotEquals(0, $tc->event_log[2][0], $URV);
+		$this->assertEquals('What', $tc->event_log[2][1], $URV);
 	}
 	// Test PrintTiming Function
 	public function testClassEventTimingPrintTimng0(){
 		$UOV = self::$UOV.'PrintTimng().';
 		$tc = self::$tc;
 		$expected = '';
-		$this->expectOutputString($expected);
-		$tc->PrintTiming();
+		$this->expectOutputString($expected, $tc->PrintTiming(), $UOV);
+	}
+	// Test Classify Function
+	public function testClassEventTimingClassify(){
+		$URV = self::$URV.'Classify().';
+		$tc = self::$tc;
+		$TA = array(0, 10, 30, 60);
+		$TE = array(
+			0 => "<span style='color: green;'>",
+			10 => "<span>",
+			30 => "<span style='color: yellow;'>",
+			60 => "<span style='color: red;'>"
+		);
+		foreach( $TA as $val ){
+			$this->assertEquals($TE[$val], $tc->Classify($val), $URV);
+		}
 	}
 
 	// Add code to a function if needed.

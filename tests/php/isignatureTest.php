@@ -6,8 +6,11 @@ use PHPUnit\Framework\TestCase;
 /**
   * @covers ::BuildSigLookup
   * @covers ::check_string
-  * @uses ::base_array_key_exists
+  * @uses ::GetPHPSV
+  * @uses ::LoadedString
+  * @uses ::is_key
   */
+
 class signatureTest extends TestCase {
 
 public static function setUpBeforeClass() {

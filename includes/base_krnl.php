@@ -17,7 +17,7 @@
 //
 //          Author(s): Nathan Gibbs
 
-$BK_Ver = '0.0.1';
+$BK_Ver = '0.0.3';
 $BASE_path = dirname(__FILE__);
 $sc = DIRECTORY_SEPARATOR;
 $ReqRE =  "\\".$sc.'includes.*';
@@ -26,9 +26,10 @@ $BASE_path = $BK_Path;
 $file = "$BASE_path$sc" . 'base_conf.php'; // BASE Conf File.
 
 if ( ChkAccess($file) == 1 && filesize($file) > 10 ){
-	KML("Loading Conf from: $file");
+	KML("BASE Conf Set: $file");
 	require_once($file);
 	SetConst('BASE_Conf', $file);
+	SetConst('BASE_SecMsg', 'BASE Security Alert ');
 	SetConst('_BASE_INC', 1); // Include Load Flag.
 	$BASE_path = $BK_Path; // Restore Kernel path in case of Legacy Conf.
 	SetConst('BASE_Path', $BK_Path);
@@ -38,8 +39,7 @@ if ( ChkAccess($file) == 1 && filesize($file) > 10 ){
 	$BK_SDL = "(base_(denied|logout|main)|index)";
 	// Start legacy base_conf.php support
 	if ( AuthorizedPage($BK_SDL) && LoadedString(session_id()) ){
-		// Destroy preexisting session.
-		session_unset();
+		session_unset(); // Destroy pre existing session.
 		session_destroy();
 		session_write_close();
 	}
@@ -49,6 +49,12 @@ if ( ChkAccess($file) == 1 && filesize($file) > 10 ){
 	include_once("$BASE_path$sc" . "includes$sc" . "base_rtl.php");
 	KML("Load: RTL", 2);
 	KML("BASE kernel $BK_Ver Runtime $BRTL_Ver");
+	if( !AuthorizedClient() ){ // Issue #175
+		KML(BASE_SecMsg . 'Krnl(): Unauthorized Client: '
+		. $_SERVER['REMOTE_ADDR']);
+		HTTP_header('', 403);
+		exit;
+	}
 	include_once("$BASE_path$sc" . "base_common.php");
 	KML("Load: BASE Common", 2);
 	if ( !LoadedString(session_id()) ){ // Start new session.
@@ -68,8 +74,45 @@ if ( ChkAccess($file) == 1 && filesize($file) > 10 ){
 	$et = new EventTiming($BCR->GetCap('BASE_UIDiagTime'));
 	$et->Mark('Starting BASE: ' . $BCR->GetCap('BASE_Ver'));
 	KML("Load: Telemetry", 2);
+	$Lang = $BCR->GetCap('BASE_UILang');
+	$Act = 'Set';
+	if( !LoadedString($Lang) ){
+		$Act = 'Default';
+		$Lang = 'english';
+		$BCR->AddCap('BASE_UILang', $Lang);
+	}
+	KML("BASE Lang $Act: $Lang", 2);
+	$LA = '';
+	if( ChkAccess("$BASE_path$sc" . "languages$sc$Lang" . '.lang.php') != 1 ){
+		$LA = 'not ';
+	}
+	$tmp = $LA . 'accessible';
+	KML("BASE Lang File: $tmp", 2);
+	if( LoadedString($LA) ){ // Display error to user.
+		$BCR->AddCap('UIMode', 'Web');
+		ErrorMessage("BASE Lang File: $tmp");
+		exit;
+	}
+	$tmp = $BASE_urlpath; // Issue #190
+	if( LoadedString($tmp) ){
+		$ReqRE = 'http(s)?' . preg_quote('://','/')
+		. '[0-9A-Za-z\.\-]+(\:[0-9]+)?';
+		$tmp1 = $tmp;
+		$tmp = preg_replace('/^' . $ReqRE . '/', '', $tmp);
+		if( $tmp1 != $tmp ){
+			KML(BASE_SecMsg . 'Krnl(): Issue #190 attack blocked.');
+		}
+		if( $tmp == '/' ){
+			$tmp = '';
+		}
+		$BASE_urlpath = $tmp;
+	}
+	if( is_key('SCRIPT_NAME', $_SERVER) ){
+		$tmp = $_SERVER['SCRIPT_NAME'];
+		KML("Start: $tmp");
+	}
 }else{
-	KML("Can't open Conf from: $file.");
+	KML("BASE Conf access error: $file.");
 	HTTP_header('Location: setup/index.php');
 }
 
@@ -110,11 +153,31 @@ function SetConst( $const, $val ){
 	return $Ret;
 }
 
+// Returns Semantic PHP Version
+function GetPHPSV (){
+	$phpv = phpversion();
+	$phpv = explode('.', $phpv);
+	// Account for x.x.xXX subversions possibly having text like 4.0.4pl1
+	if( is_numeric(substr($phpv[2], 1, 1)) ){ // No Text
+		$phpv[2] = substr($phpv[2], 0, 2);
+	}else{
+		$phpv[2] = substr($phpv[2], 0, 1);
+	}
+	return $phpv;
+}
+
 // @codeCoverageIgnoreStart
 // Send HTTP header if clear to do so.
-function HTTP_header( $url ){
+function HTTP_header( $url = '', $status = 200 ){
+	if( !is_int($status) ){ // Default to OK.
+		$status = 200;
+	}
+	if( preg_match ('/^Location\: /', $url) ){
+		$status = 302;
+	}
 	if ( !headers_sent() ){
-		header($url);
+		header($_SERVER['SERVER_PROTOCOL'] . " $status");
+		header($url,true,$status);
 		exit;
 	}
 }
@@ -139,7 +202,7 @@ function ChkAccess( $path, $type='f' ){
 		}
 		if ( $rcf == 1 ){
 			$Ret = -2; // Readable Error
-			$version = explode('.', phpversion());
+			$PHPVer = GetPHPSV();
 			// PHP Safe Mode cutout.
 			//    Added: 2005-03-25 for compatabibility with PHP 4x & 5.0x
 			//      See: https://sourceforge.net/p/secureideas/bugs/47
@@ -149,9 +212,8 @@ function ChkAccess( $path, $type='f' ){
 			// May work: PHP > 5.1.4.
 			//      See: https://www.php.net/manual/en/function.is-readable.php
 			if (
-				$version[0] > 5
-				|| ($version[0] == 5 && $version[1] > 1)
-				|| ($version[0] == 5 && $version[1] == 1 && $version[2] > 4 )
+				$PHPVer[0] > 5 || ($PHPVer[0] == 5 && $PHPVer[1] > 1)
+				|| ($PHPVer[0] == 5 && $PHPVer[1] == 1 && $PHPVer[2] > 4 )
 				|| ini_get("safe_mode") != true
 			){
 				if ( is_readable($path) ){

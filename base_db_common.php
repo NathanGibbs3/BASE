@@ -1,6 +1,6 @@
 <?php
 // Basic Analysis and Security Engine (BASE)
-// Copyright (C) 2019-2021 Nathan Gibbs
+// Copyright (C) 2019-2023 Nathan Gibbs
 // Copyright (C) 2004 BASE Project Team
 // Copyright (C) 2000 Carnegie Mellon University
 //
@@ -54,55 +54,48 @@ function verify_db($db, $alert_dbname, $alert_host){
 
 function verify_php_build( $DBtype ){
 	// Checks that the necessary libraries are built into PHP.
+	$Ret = ''; // Default return Value.
+	$PHPVer = GetPHPSV(); // Check PHP version >= 4.0.4
 	// @codeCoverageIgnoreStart
-	// Check PHP version >= 4.0.4
-	$current_php_version = phpversion();
-	$version = explode(".", $current_php_version);
-	// Account for x.x.xXX subversions possibly having text like 4.0.4pl1
-	if ( is_numeric(substr($version[2], 1, 1)) ){ // No Text
-		$version[2] = substr($version[2], 0, 2);
-	}else{
-		$version[2] = substr($version[2], 0, 1);
-	}
-	// Only version PHP 4.0.4+ or 4.1+.* are valid.
-	if ( $version[0] < 4 ||
-		( $version[0] == 4 && $version[1] == 0 && $version[2] < 4 )
-	){
-		return '<b>'._ERRPHPERROR1.'</b>: '._ERRVERSION.
-		" $current_php_version "._ERRPHPERROR2;
+	if(
+		$PHPVer[0] < 4
+		|| ( $PHPVer[0] == 4 && $PHPVer[1] == 0 && $PHPVer[2] < 4 )
+	){ // Only executes on PHP < 4.0.4. Cannot test in CI.
+		return '<b>' . _ERRPHPERROR1 . '</b>: ' . _ERRVERSION
+		. ' ' . phpversion() . ' ' . _ERRPHPERROR2;
 	}
 	// @codeCoverageIgnoreEnd
-	if ( $DBtype == "mysql" || $DBtype == "mysqlt" || $DBtype == "maxsql" ){
+	if( $DBtype == 'mysql' || $DBtype == 'mysqlt' || $DBtype == 'maxsql' ){
 		// On PHP 5.5+, use mysqli ADODB driver & gracefully deprecate the
 		// mysql, mysqlt & maxsql drivers.
-		if ( $version[0] > 5 || ( $version[0] == 5 && $version[1] > 4) ){
-			if ( !(function_exists("mysqli_connect")) ){
-				return _ERRPHPMYSQLISUP;
-				// The Constant above does not exist.
-				// We need to fix that.
+		if( $PHPVer[0] > 5 || ( $PHPVer[0] == 5 && $PHPVer[1] > 4) ){
+			if( !(function_exists('mysqli_connect')) ){
+				$Ret = returnBuildError('MySQLi', '--with-mysqli');
+				$Ret .= NLI('Unable to read ALERT DB.<br/>'); // TD This.
 			}
 		}else{
-			if ( !(function_exists("mysql_connect")) ){
+			if( !(function_exists("mysql_connect")) ){
 				return _ERRPHPMYSQLSUP;
 			}
 		}
-	}elseif ( $DBtype == "postgres" ){
-		if ( !(function_exists("pg_connect")) ){
+	}elseif( $DBtype == "postgres" ){
+		if( !(function_exists("pg_connect")) ){
 			return _ERRPHPPOSTGRESSUP;
 		}
-	}elseif ( $DBtype == "mssql" ){
-		if ( !(function_exists("mssql_connect")) ){
+	}elseif( $DBtype == "mssql" ){
+		if( !(function_exists("mssql_connect")) ){
 			return _ERRPHPMSSQLSUP;
 		}
-	}elseif ( $DBtype == "oci8" ){
-		if ( !(function_exists("ocilogon")) ){
+	}elseif( $DBtype == "oci8" ){
+		if( !(function_exists("ocilogon")) ){
 			return _ERRPHPORACLESUP;
 		}
 	// Additional DB Support would tie in here.
 	}else{
-		return '<b>'._ERRSQLDBTYPE.'</b>: '._ERRSQLDBTYPEINFO1."'$DBtype'.". _ERRSQLDBTYPEINFO2;
+		return '<b>' . _ERRSQLDBTYPE . '</b>: ' . _ERRSQLDBTYPEINFO1
+		. "'$DBtype'." . _ERRSQLDBTYPEINFO2;
 	}
-	return '';
+	return $Ret;
 }
 
 /* ******************* DB Query Routines ************************************ */

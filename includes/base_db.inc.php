@@ -18,10 +18,8 @@
 **
 ********************************************************************************
 */
-/** The below check is to make sure that the conf file has been loaded before this one....
- **  This should prevent someone from accessing the page directly. -- Kevin
- **/
-defined( '_BASE_INC' ) or die( 'Accessing this file directly is not allowed.' );
+// Ensure the conf file has been loaded. Prevent direct access to this file.
+defined('_BASE_INC') or die('Accessing this file directly is not allowed.');
 
 class baseCon {
 	var $DB;
@@ -410,11 +408,13 @@ class baseCon {
 			$tmp = $this->DB->MetaIndexes($table);
 			if ( $tmp != false ){
 				foreach ($tmp as $key => $value) { // Iterate Index List
-					if ( base_array_key_exists('columns', $value) ){
-						if ( in_array(
+					if( is_key('columns', $value) ){
+						if(
+							in_array(
 								$index_name,
 								array_values($value['columns'])
-						) ){
+							)
+						){
 							$Ret = 1;
 						}
 					}
