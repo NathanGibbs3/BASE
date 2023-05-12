@@ -109,29 +109,26 @@ https://github.com/NathanGibbs3/BASE/issues/52)
 - IPAddressCriteria::PrintForm()` does not check for unset conf
 variable `$ip_address_input` before access. [#53 ](
 https://github.com/NathanGibbs3/BASE/issues/53)
-- BASE does not check for unset conf variable `$priority_colors`
-before access. [#59](
-https://github.com/NathanGibbs3/BASE/issues/59)
-- [#60 BASE color alert severity information is downgraded by one.](
+- BASE does not check for unset conf variable `$priority_colors` before
+access. [#59](https://github.com/NathanGibbs3/BASE/issues/59)
+- BASE color alert severity information is downgraded by one. [#60](
 https://github.com/NathanGibbs3/BASE/issues/60)
-- [#58 FQDN DB errors.](
-https://github.com/NathanGibbs3/BASE/issues/58)
-- [#67 `baseExecute()` returns invalid data structure.](
+- FQDN DB errors. [#58](https://github.com/NathanGibbs3/BASE/issues/58)
+- `baseExecute()` returns invalid data structure. [#67](
 https://github.com/NathanGibbs3/BASE/issues/67)
-- [#69 BASE does not check for unset variable `$src_ip` before access.](
+- BASE does not check for unset variable `$src_ip` before access. [#69](
 https://github.com/NathanGibbs3/BASE/issues/69)
-- [#70 Standardize HTML page closures.](
+- Standardize HTML page closures. [#70](
 https://github.com/NathanGibbs3/BASE/issues/70)
-- [#72 Incorrect Display of Admin Users.](
+- Incorrect Display of Admin Users. [#72](
 https://github.com/NathanGibbs3/BASE/issues/72)
-- [#62 Convert Changelog.](
-https://github.com/NathanGibbs3/BASE/issues/62)
-- [#75 Standardize generation of HTML for Header & Footer Menus.](
+- Convert Changelog. [#62](https://github.com/NathanGibbs3/BASE/issues/62)
+- Standardize generation of HTML for Header & Footer Menus. [#75](
 https://github.com/NathanGibbs3/BASE/issues/75)
-- [#77 PrintTiming() returns partial event log.](
+- PrintTiming() returns partial event log. [#77](
 https://github.com/NathanGibbs3/BASE/issues/77)
-- [#26 `CriteriaState::ReadState()` does not check for unset conf variable
-`$maintain_history` before access.](
+- `CriteriaState::ReadState()` does not check for unset conf variable
+`$maintain_history` before access. [#26](
 https://github.com/NathanGibbs3/BASE/issues/26)
 - [#81 BASE does not check for unset conf variable `$maintain_history` before
 access.](
@@ -218,24 +215,24 @@ https://github.com/NathanGibbs3/BASE/issues/140)
 - [#147 Incomplete `DOCTYPE`](https://github.com/NathanGibbs3/BASE/issues/147)
 - [#141 Usage of `key_exists()` & `array_key_exists()` breaks support for older PHP's](
 https://github.com/NathanGibbs3/BASE/issues/141)
-- [#138 Make `fitlerSql()` aware of global database variable.](
+- Make `fitlerSql()` aware of global database variable. [#138](
 https://github.com/NathanGibbs3/BASE/issues/138)
-- [#150 BASEcli enhancements.](https://github.com/NathanGibbs3/BASE/issues/150)
-- [#151 Tests for DateTimeRows2sql() do not cover PostqreSQL.](
+- BASEcli enhancements. [#150](https://github.com/NathanGibbs3/BASE/issues/150)
+- Tests for DateTimeRows2sql() do not cover PostqreSQL. [#151](
 https://github.com/NathanGibbs3/BASE/issues/151)
-- [#152 PHP 7.2 - runaway build.](
+- PHP 7.2 - runaway build. [#152](
 https://github.com/NathanGibbs3/BASE/issues/152)
-- [#153 PHP 8.x - Use of each breaks builds](
+- PHP 8.x - Use of each breaks builds [#153](
 https://github.com/NathanGibbs3/BASE/issues/153)
-- [#154 PHP 7.2 - Downgrade PHPUnit on CI](
+- PHP 7.2 - Downgrade PHPUnit on CI [#154](
 https://github.com/NathanGibbs3/BASE/issues/154)
-- [#155 PHP 5.3 - SSL error blocks build.](
+- PHP 5.3 - SSL error blocks build. [#155](
 https://github.com/NathanGibbs3/BASE/issues/155)
-- [#157 PHP 7.1+ - CleanVariable() invalid data mask crash.](
+- PHP 7.1+ - CleanVariable() invalid data mask crash. [#157](
 https://github.com/NathanGibbs3/BASE/issues/157)
-- [#159 PHP 7.3 - PHPUnit Tests for Mysql throws warnings.](
+- PHP 7.3 - PHPUnit Tests for Mysql throws warnings. [#159](
 https://github.com/NathanGibbs3/BASE/issues/159)
-- [#160 PHP 8.x - ErrorMessage() & returnErrorMessage() output breaks.](
+- PHP 8.x - ErrorMessage() & returnErrorMessage() output breaks. [#160](
 https://github.com/NathanGibbs3/BASE/issues/160)
 - PHP 8x - Mysql errors in build. [#162](
 https://github.com/NathanGibbs3/BASE/issues/162)
@@ -268,6 +265,8 @@ https://github.com/NathanGibbs3/BASE/issues/185)
 https://github.com/NathanGibbs3/BASE/issues/98)
 - PHPUnit Tests for Postgresql flag as risky. [#158 ](
 https://github.com/NathanGibbs3/BASE/issues/158)
+- BASE RTL compatibility PHP < 5.6 [#198 ](
+https://github.com/NathanGibbs3/BASE/issues/198)
 
 Contributor(s): [Nathan Gibbs]
 
