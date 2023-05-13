@@ -22,6 +22,8 @@ This means code or documentation suitable for inclusion in BASE.
 - Ensure the PR description clearly describes the problem and solution.
 Include the relevant issue number if applicable.
 - Ensure that the patch has Unit tests when possible.
+- See the [BASE Wiki](https://github.com/NathanGibbs3/BASE/wiki) for
+additional contrubution infromation.
 
 ## Did you write BASE related code or documentation?
 This means code or documentation that may not be suitable for inclusion in

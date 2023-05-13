@@ -150,7 +150,7 @@ if ($SaM == 'yes'){
 }
 if ( $AdminAuth ){ // Issue #146 Fix
 	$imgc = NLI('', 6);
-	$imgc .= "<img border='0' src='" . $BASE_urlpath . '/images/';
+	$imgc .= "<img class='icon' src='$BASE_urlpath" . '/images/';
 	$PF_lst = array('Mail', 'GD', 'GMP');
 	foreach( $PF_lst as $val ){
 		$PF_St[$val] = $BCR->GetCap("PHP_$val");
@@ -223,11 +223,11 @@ print'         <B>'._MNTSERVER.'</B> '.XSSPrintSafe($SW_Svr).'<BR>
 		NLIO('<b>' . _MNTPHPMODS . ': </b>' . $PLM . '<br/>', 6);
 		NLIO('<b>PHP Capabilities: </b>', 6);
 		foreach( $PF_St as $key => $val ){
-			$FI = "greencheck.gif' alt='button_greencheck";
+			$FI = "base_icon_yes.png' alt='installed";
 			$tmp = "<b>$key: </b>";
 			if ( !$val ){
 				$tmp .= 'not ';
-				$FI = "redcheck.gif' alt='button_redcheck";
+				$FI = "base_icon_no.png' alt='not installed";
 			}
 			$FI .= "'/>";
 			if ( LoadedString($val) ){
@@ -259,10 +259,10 @@ if ( $AdminAuth ){ // Issue #146 Fix
 	$BDevI = $imgc;
 	if ( $BDev ){ // TD These.
 		$BDevStatus = 'Development';
-		$BDevI .= "button_exclamation.png' alt='button_exclamation";
+		$BDevI .= "base_icon_exclamation.png' alt='Developement Version.";
 	}else{
 		$BDevStatus = 'Official';
-		$BDevI .= "greencheck.gif' alt='button_greencheck";
+		$BDevI .=  "base_icon_yes.png' alt='Official Release";
 	}
 	$BDevI .= "'/>";
 	$BADB = $BCR->GetCap('BASE_ADB');
@@ -305,10 +305,10 @@ if ( $AdminAuth ){ // Issue #146 Fix
 		if ( $BADB ){
 			$ADBStatus .= _MNTDBARCHNAME
 			. ": </b>$archive_dbname";
-			$ADBI .= "greencheck.gif' alt='button_greencheck";
+			$ADBI .=  "base_icon_yes.png' alt='Enabled.";
 		}else{ // TD This.
 			$ADBStatus .= 'Archive DB: </b>not enabled.';
-			$ADBI .= "redcheck.gif' alt='button_redcheck";
+			$ADBI .=  "base_icon_no.png' alt='Not enabled.";
 		}
 		$ADBI .= "'/>";
 		PrintFramedBoxHeader('BASE Build:', '#669999', 1, 3, 'left');
@@ -327,11 +327,11 @@ if ( $AdminAuth ){ // Issue #146 Fix
 		);
 		NLIO('<b>Features: </b>', 6);
 		foreach( $BF_St as $key => $val ){
-			$FI = "greencheck.gif' alt='button_greencheck";
+			$FI = "base_icon_yes.png' alt='Installed";
 			$tmp = "<b>$key: </b>";
 			if ( !$val ){
 				$tmp .= 'not ';
-				$FI = "redcheck.gif' alt='button_redcheck";
+				$FI = "base_icon_no.png' alt='Not installed";
 			}
 			$FI .= "'/>";
 			$tmp .= 'installed.';

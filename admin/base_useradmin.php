@@ -198,32 +198,34 @@ if ( preg_match("/(create|add)/", $Action) || $Use_Auth_System == 1 ){
 			$thcw5 = "$thc width='5%'>";
 			$tdac = "<td align='center'>";
 			// Users Table Display
-			$tmpHTML = FramedBoxHeader('','black',0,2);
-			$tmpHTML .= NLI("$thcw5$AcEdit</td>",4);
-			$tmpHTML .= NLI("$thcw5$AcDelete</td>",4);
-			$tmpHTML .= NLI("$thcw5$uidesc</td>",4);
-			$tmpHTML .= NLI("$thc>$LoginDesc</td>",4);
-			$tmpHTML .= NLI("$thc>$ridesc</td>",4);
-			$tmpHTML .= NLI("$thc>$ufndesc</td>",4);
-			$tmpHTML .= NLI("$thc>$asdesc</td>",4);
+			$tmpHTML = FramedBoxHeader('', 'black', 0, 2);
+			$tmpHTML .= NLI("$thcw5$AcEdit</td>", 4);
+			$tmpHTML .= NLI("$thcw5$AcDelete</td>", 4);
+			$tmpHTML .= NLI("$thcw5$uidesc</td>", 4);
+			$tmpHTML .= NLI("$thc>$LoginDesc</td>", 4);
+			$tmpHTML .= NLI("$thc>$ridesc</td>", 4);
+			$tmpHTML .= NLI("$thc>$ufndesc</td>", 4);
+			$tmpHTML .= NLI("$thc>$asdesc</td>", 4);
 			$tmpHTML .= NLI('</tr>',3);
 			if ( $users <> '' ){ // Verify we have a user in the db --Kevin;
-				$imgc = NLI('',6);
-				$imgc .= "<img border='0' src='" . $BASE_urlpath  . "/images/";
-				$tduma = $tdac . NLI($Hrst,5);
+				$imgc = NLI(
+					"<img class='icon' src='$BASE_urlpath"
+					. '/images/base_icon_', 6
+				);
+				$tduma = $tdac . NLI($Hrst, 5);
 				foreach ( $users as $row ){ // Iterate users & build table.
 					$tmpRow = explode("|", $row);
 					// Setup User ID URL param.
 					$uuid = "user&amp;userid=" . urlencode($tmpRow[0]);
 					// Set up enable/disable action URL
 					if ( $tmpRow[4] == 1 ){
+						$Uef = true;
 						$enabled = $tduma . "disable$uuid'>";
-						$enabled .= $imgc
-						. "greencheck.png' alt='button_greencheck";
+						$enabled .= $imgc . "yes.png' alt='button_disable";
 					}else{
+						$Uef = false;
 						$enabled = $tduma . "enable$uuid'>";
-						$enabled .= $imgc
-						. "button_exclamation.png' alt='button_exclamation";
+						$enabled .= $imgc . "no.png' alt='button_enable";
 					}
 					$enabled .= "'/>";
 					$enabled .= NLI('</a>',5) . NLI('</td>',4);
@@ -233,12 +235,16 @@ if ( preg_match("/(create|add)/", $Action) || $Use_Auth_System == 1 ){
 					$usn = $tmpRow[1];
 					$rolename = XSSPrintSafe($user->roleName($tmpRow[2]));
 					$ufn = $tmpRow[3];
-					$tmpHTML .= NLI('<tr>',3);
+					$tmp = '';
+					if( !$Uef ){
+						$tmp = " bgcolor='#DDDDDD'"; // Light Gray;
+					}
+					$tmpHTML .= NLI("<tr$tmp>", 3);
 					$tmpHTML .= NLI($tduma."edit$uuid'>",4);
-					$tmpHTML .= $imgc."button_edit.png' alt='button_$AcEdit'/>";
+					$tmpHTML .= $imgc . "edit.png' alt='button_$AcEdit'/>";
 					$tmpHTML .= NLI('</a>',5).NLI('</td>',4);
 					$tmpHTML .= NLI($tduma."delete$uuid'>",4);
-					$tmpHTML .= $imgc."button_delete.png' alt='button_$AcDelete'/>";
+					$tmpHTML .= $imgc . "delete.png' alt='button_$AcDelete'/>";
 					$tmpHTML .= NLI('</a>',5).NLI('</td>',4);
 					$tmpHTML .= NLI("$tdac$uid</td>",4);
 					if ( $tmpRow[2] == 1 ){ // Display Admin Users in red.

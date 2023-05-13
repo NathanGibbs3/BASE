@@ -170,9 +170,9 @@ if ($Use_Auth_System == 1) {
 			$thcw5 = "$thc width='5%'>";
 			$tdac = "<td align='center'>";
 			$imgc = NLI(
-				"<img border='0' src='$BASE_urlpath" . "/images/", 5
+				"<img class='icon' src='$BASE_urlpath" . '/images/base_icon_',
+				5
 			);
-			$imgc .= 'button_';
 			$tduma = $tdac.$Hrst;
 			// Roles Table Display
 			$tmpHTML = FramedBoxHeader('','black',0,2);
@@ -188,10 +188,10 @@ if ($Use_Auth_System == 1) {
 				$urid = "role&amp;roleid=".urlencode($tmpRow[0]);
 				$tmpHTML .= NLI('<tr>',3);
 				$tmpHTML .= NLI($tduma."edit$urid'>",4);
-				$tmpHTML .= $imgc."edit.png' alt='button_edit'>";
+				$tmpHTML .= $imgc . "edit.png' alt='button_$AcEdit'/>";
 				$tmpHTML .= NLI('</a></td>',4);
 				$tmpHTML .= NLI($tduma."delete$urid'>",4);
-				$tmpHTML .= $imgc . "delete.png' alt='button_delete'>";
+				$tmpHTML .= $imgc . "delete.png' alt='button_$AcDelete'/>";
 				$tmpHTML .= NLI('</a></td>',4);
 				// Anti XSS Output Data
 				$tmpRow = XSSPrintSafe($tmpRow);
