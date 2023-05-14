@@ -69,6 +69,11 @@ function returnContents()
 
 $AllowedClients = \'\';
 
+// Domain or subdomain on which BASE is running.
+// Effects the domain flag in sent cookies.
+// This DOES NOT usually need to be set.
+$domain = \'\';
+
 // Set the base_urlpath to the url location that is the root of your BASE
 // install. This must be set for BASE to function! Do not include a trailing
 // slash! But also put the preceding slash.

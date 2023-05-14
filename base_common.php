@@ -1237,7 +1237,7 @@ function RegisterGlobalState(){
 }
 
 function BCS( $Name, $Value = '' ){
-	GLOBAL $BASE_urlpath, $BCR;
+	GLOBAL $BCR;
 	$EMPfx = __FUNCTION__ . ': ';
 	$Ret = false;
 	if( LoadedString($Name) ){
@@ -1261,16 +1261,26 @@ function BCS( $Name, $Value = '' ){
 					KML($EMPfx . "Sec: $Stat", 3);
 					$msg .= ' Secure';
 				}
-				$path = $BASE_urlpath;
-				if( !LoadedString($BASE_urlpath) ){
+				$path = $BCR->GetCap('BASE_SSUrlPath');
+				if( !LoadedString($path) ){
 					$path = '/';
+				}
+				$domain = $BCR->GetCap('BASE_SSDomain');
+				if( !LoadedString($domain) ){
+					$domain = '';
+				}else{
+					// Strip trialing dot if any.
+					$domain = preg_replace("/\.$/", '', $domain);
+					$tmp = substr_count($domain, '.');
+					if( $tmp == 1 ){ // Not a subdomain.
+						// Add leading dot for compatibility.
+						$domain .= ".$domain";
+					}
 				}
 				$BCO = array(
 					'expires' => $expire,
 					'path' => $path,
-					//leading dot for compatibility or use subdomain
-					// '.example.com',
-					'domain' => '',
+					'domain' => $domain,
 					'secure' => $SF,
 					'httponly' => true,
 					'samesite' => 'Strict' // None || Lax  || Strict
@@ -1288,9 +1298,11 @@ function BCS( $Name, $Value = '' ){
 						$BCO['secure'], $BCO['httponly']
 					);
 				}
+			}else{ // UI Mode not Web, fake successful cookie Op.
+				$Ret = true;
 			}
 			// @codeCoverageIgnoreEnd
-		}else{ // No or Con UI Mode (PHPUnit), fake successful setcookie() Op.
+		}else{ // Can't get UI Mode (PHPUnit)? fake successful cookie Op.
 			$Ret = true;
 		}
 		$msg .= " Cookie: $Name Exp: ". date('F-d-Y H:i:s', $expire);

@@ -48,7 +48,7 @@ global $colored_alerts, $debug_mode;
 		// Common SQL Strings
 		$OB = ' ORDER BY';
 		$qro = new QueryResultsOutput(
-			"$page".$qs->SaveStateGET().$tmp_page_get
+			$page . $qs->SaveStateGET() . $tmp_page_get
 		);
 		if ( !is_null($qro->JavaScript) ){ // Issue #109 Check
 			$qro->AddTitle(qroReturnSelectALLCheck());
@@ -207,11 +207,11 @@ global $colored_alerts, $debug_mode;
 		'#' . (( $qs->GetCurrentView() * $show_rows ) + $i ). '-(' .
 		$myrow[0] . '-' . $myrow[1] . ')'
 	);
-	$tmp = '_lst['.$i.']';
+	$tmp = "_lst[$i]";
 	qroPrintEntry(
-		"<input type='checkbox' name='action_chk$tmp' " .
-		"value='" . $tmp_rowid . "'>" .
-		returnExportHTTPVar ( "action$tmp", $tmp_rowid, 4 )
+		"<input type='checkbox' name='action_chk$tmp' "
+		. "value='" . $tmp_rowid . "'>"
+		. returnExportHTTPVar("action$tmp", $tmp_rowid, 4)
 	);
 	$tmp = '';
 	/** Fix for bug #1116034 -- Input by Tim Rupp, original solution and code by Alejandro Flores **/

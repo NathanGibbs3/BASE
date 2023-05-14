@@ -160,7 +160,7 @@ class QueryResultsOutput {
 function qroReturnSelectALLCheck(){
 	return "<input type=checkbox value='Select All' ".
 	"onClick='if (this.checked) SelectAll(); ".
-	"if (!this.checked) UnselectAll();'>";
+	"if (!this.checked) UnselectAll();'/>";
 }
 function qroPrintEntryHeader($prio=1, $color=0) {
 	GLOBAL $priority_colors;

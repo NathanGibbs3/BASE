@@ -175,8 +175,14 @@ $qs->PrintResultCnt(); // Print current view number and # of rows.
           '&amp;sort_order='.$sort_order;
 
         $tmp_rowid = $sip . "_" . $dip . "_" . $proto;
-        echo '    <TD><INPUT TYPE="checkbox" NAME="action_chk_lst['.$i.']" VALUE="'.$tmp_rowid.'"></TD>';
-        echo '        <INPUT TYPE="hidden" NAME="action_lst['.$i.']" VALUE="'.$tmp_rowid.'">';
+
+		$tmp = "_lst[$i]";
+		qroPrintEntry(
+			"<input type='checkbox' name='action_chk$tmp' "
+			. "value='" . $tmp_rowid . "'>"
+			. returnExportHTTPVar("action$tmp", $tmp_rowid, 4)
+		);
+		$tmp = '';
 		qroPrintEntry($sip_fqdn, 'right');
 		qroPrintEntry(
 			BuildAddressLink(baseLong2IP($sip), 32).baseLong2IP($sip).'</a>',

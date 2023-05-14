@@ -36,6 +36,10 @@ div.systemdebug {
 	padding: 3px;
 }
 
+form {
+	margin: 0px;
+}
+
 ul.stats {
 	padding-left: 20px;
 }

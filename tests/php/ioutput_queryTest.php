@@ -196,7 +196,7 @@ class output_queryTest extends TestCase {
 		$URV = self::$URV . 'qroReturnSelectALLCheck().';
 		$expected = "<input type=checkbox value='Select All' ".
 		"onClick='if (this.checked) SelectAll(); ".
-		"if (!this.checked) UnselectAll();'>";
+		"if (!this.checked) UnselectAll();'/>";
 		$this->assertEquals($expected, qroReturnSelectALLCheck(), $URV);
 	}
 	// Tests for Class QueryResultsOutput
