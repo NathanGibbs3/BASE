@@ -106,32 +106,26 @@ function GetRefSystemName($ref_system_id, $db)
 function GetSingleSignatureReference( $ref_system, $ref_tag, $style ){
 	GLOBAL $BASE_urlpath, $debug_mode;
 	$TRSName = strtolower($ref_system); // Temp Ref Sys Name.
+	$RRF = true; // Return Reference Flag.
 	if( is_key($TRSName, $GLOBALS['external_sig_link']) ){
 		if ($TRSName == 'local_rules_dir'){
+			// Custom handling of local rules ESR.
 			$dir = $GLOBALS['external_sig_link'][$TRSName][0];
 			$to_look_for = $ref_tag;
-
-				if (file_exists($dir))
-				{       	
-        	if ($style == 1)
-        	{
+			if( file_exists($dir) ){
+				if( $style == 1 ){
           	$result = "<FONT SIZE = -1>[" .
                 "<A HREF = \"$BASE_urlpath/base_local_rules.php?sid=" . $to_look_for . 
                         "\" TARGET = \"_ACID_ALERT_DESC\">" . 
                 "rule" . 
                 "</A>]</FONT> ";
 
-
-          	return $result;
-        	}
-        	else
-        	{
-          	return "[local rules dir: sid:" . $ref_tag . ";]"; 
-        	}
+					return $result;
+				}else{
+					return "[local rules dir: sid:" . $ref_tag . ";]";
 				}
-      }
-      elseif ( $style == 1 )
-      {
+			}
+		}elseif( $style == 1 ){ // All other ESRs.
          if ($TRSName == "snort")
          {
 			if (preg_match("/([0-9]+):([0-9]+)/", $ref_tag, $backref))
@@ -140,11 +134,9 @@ function GetSingleSignatureReference( $ref_system, $ref_tag, $style ){
              {
                $ref_tag_number = sprintf("%d", $backref[2]);
 							 /* print "ref_tag_numbr = $ref_tag_number<BR>\n"; */
-             }
-             else
-             {
+             }else{
                $ref_tag_number = 0;
-             }             
+             }
            }
            /* The following pattern tries to catch those bogus
               ref_tags, as can appear, when barnyard does not
@@ -156,9 +148,7 @@ function GetSingleSignatureReference( $ref_system, $ref_tag, $style ){
              if ($backref[1] != "")
              {
                $ref_tag_number = sprintf("%d", $backref[1]);
-             }
-             else
-             {
+             }else{
                $ref_tag_number = 0;
              }
            }
@@ -184,9 +174,7 @@ function GetSingleSignatureReference( $ref_system, $ref_tag, $style ){
                              "TARGET=\"_ACID_ALERT_DESC\">".$ref_system."</A>".
                     "]</FONT> ";
            }
-         }
-         else
-         {
+         }else{
            return "<FONT SIZE=-1>[".
                 "<A HREF=\"".$GLOBALS['external_sig_link'][$TRSName][0].
                              $ref_tag.
@@ -194,35 +182,34 @@ function GetSingleSignatureReference( $ref_system, $ref_tag, $style ){
                              "TARGET=\"_ACID_ALERT_DESC\">".$ref_system."</A>".
                  "]</FONT> ";
         }
-      }
-      else if ( $style == 2 )
-      {
-         return "[".$ref_system."/$ref_tag] ";
-      }
-	}else{
-      return $ref_system;
+		}elseif( $style == 2 ){ // All other ESRs.
+			return "[".$ref_system."/$ref_tag] ";
+		}
+	}else{ // Not in ESRs.
+		return $ref_system;
 	}
 }
 
 function GetSignatureReference( $sig_id, $db, $style ){
 	GLOBAL $BASE_display_sig_links, $debug_mode;
 	$ref = '';
-   if ( $BASE_display_sig_links == 1)
-   {
+	if( $BASE_display_sig_links == 1 ){
       $temp_sql = "SELECT ref_seq, ref_id FROM sig_reference WHERE sig_id='". addslashes($sig_id) ."'";
       $tmp_sig_ref = $db->baseExecute($temp_sql);
    
-      if ( $tmp_sig_ref )
+		if ( $tmp_sig_ref )
       {
          $num_references = $tmp_sig_ref->baseRecordCount();
          for ( $i = 0; $i < $num_references; $i++)
          {
             $mysig_ref = $tmp_sig_ref->baseFetchRow();
-		if( $db->DB_class == 1 ){ // Mysql & MariaDB.
-			$temp_sql = "SELECT `ref_system_id`, ref_tag FROM reference WHERE ref_id='".$mysig_ref[1]."'";
-		}else{ // Everyone else.
-			$temp_sql = "SELECT ref_system_id, ref_tag FROM reference WHERE ref_id='".$mysig_ref[1]."'";
-		}
+
+			if( $db->DB_class == 1 ){ // Mysql & MariaDB.
+				$temp_sql = "SELECT `ref_system_id`, ref_tag FROM reference WHERE ref_id='".$mysig_ref[1]."'";
+			}else{ // Everyone else.
+				$temp_sql = "SELECT ref_system_id, ref_tag FROM reference WHERE ref_id='".$mysig_ref[1]."'";
+			}
+
             $tmp_ref_tag = $db->baseExecute($temp_sql);
    
             if ( $tmp_ref_tag )
@@ -260,11 +247,11 @@ function GetSignatureReference( $sig_id, $db, $style ){
                $sig_gid = $myrow[1];
    
          }
-      }
-      else
-         $sig_sid = "";
-   
-   
+
+		}else{
+			$sig_sid = '';
+		}
+
 			if (is_numeric($sig_id) && (is_numeric($sig_sid )))
 			{
 				// 0 - 1,999,999: http://www.snort.org/
@@ -301,8 +288,7 @@ function GetSignatureReference( $sig_id, $db, $style ){
       	} // if ($sig_sid < 2000000 || $sig_sid >= 100000000)
 
 
-        if ($sig_sid >= 103)
-        {
+			if( $sig_sid >= 103 ){
 				  $local_rules_dir = $GLOBALS['external_sig_link']['local_rules_dir'][0];
           if (!empty($local_rules_dir)) {
             if (is_dir($local_rules_dir)) {
@@ -310,35 +296,32 @@ function GetSignatureReference( $sig_id, $db, $style ){
 		            $ref = $ref . GetSingleSignatureReference("local_rules_dir", $sig_sid, $style);
               }
             }
-				  }
-        } // if ($sig_sid >= 103)
-			} // if (is_numeric($sig_id) && (is_numeric($sig_sid )))
 
-
-
-      /* snort.org should be documenting all official signatures,
-       * so automatically add a link
-       */
-      if ( $sig_sid != "") 
-      {
-         if ( $db->baseGetDBversion() >= 107 )
-         {
-	          /* Hack to fix blank gid from barnyard -- Kevin Johnson */
-	          if ( $sig_gid != "") 
-            {
-            	$ref = $ref.GetSingleSignatureReference("snort", $sig_gid .'-'. $sig_sid, $style);
-	          } 
-            else 
-            {
-		          $ref = $ref.GetSingleSignatureReference("snort", $sig_sid, $style);
-	          }
-         }
-         else
-         {
-            $ref = $ref.GetSingleSignatureReference("snort", $sig_sid, $style);
-         }
-      }
-   }
+				}
+			} // if ($sig_sid >= 103)
+		} // if (is_numeric($sig_id) && (is_numeric($sig_sid )))
+		// snort.org should be documenting all official signatures, so
+		// automatically add a link.
+		if( $sig_sid != '' ){
+			if ( $db->baseGetDBversion() >= 107 ){
+				// Fix for barnyard < 2.1.13 lacks support for schema 107+.
+				// Blank gid issue. -- Kevin Johnson
+				if( $sig_gid != ''){ // Barnyard 2.1.13+
+					$ref .= GetSingleSignatureReference(
+						'snort', $sig_gid .'-'. $sig_sid, $style
+					);
+				}else{ // Barnyard < 2.1.13
+					$ref .= GetSingleSignatureReference(
+						'snort', $sig_sid, $style
+					);
+				}
+			}else{ // Schema < 107
+				$ref .= GetSingleSignatureReference(
+					'snort', $sig_sid, $style
+				);
+			}
+		}
+	}
 	return $ref;
 }
 

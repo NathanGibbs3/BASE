@@ -169,10 +169,6 @@ if ($Use_Auth_System == 1) {
 			$thc = "<td class='plfieldhdr'";
 			$thcw5 = "$thc width='5%'>";
 			$tdac = "<td align='center'>";
-			$imgc = NLI(
-				"<img class='icon' src='$BASE_urlpath" . '/images/base_icon_',
-				5
-			);
 			$tduma = $tdac.$Hrst;
 			// Roles Table Display
 			$tmpHTML = FramedBoxHeader('','black',0,2);
@@ -188,10 +184,10 @@ if ($Use_Auth_System == 1) {
 				$urid = "role&amp;roleid=".urlencode($tmpRow[0]);
 				$tmpHTML .= NLI('<tr>',3);
 				$tmpHTML .= NLI($tduma."edit$urid'>",4);
-				$tmpHTML .= $imgc . "edit.png' alt='button_$AcEdit'/>";
+				$tmpHTML .= Icon('edit', "button_$AcEdit", 6);
 				$tmpHTML .= NLI('</a></td>',4);
 				$tmpHTML .= NLI($tduma."delete$urid'>",4);
-				$tmpHTML .= $imgc . "delete.png' alt='button_$AcDelete'/>";
+				$tmpHTML .= Icon('delete', "button_$AcDelete", 6);
 				$tmpHTML .= NLI('</a></td>',4);
 				// Anti XSS Output Data
 				$tmpRow = XSSPrintSafe($tmpRow);

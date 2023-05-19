@@ -202,11 +202,7 @@ $qs->PrintResultCnt(); // Print current view number and # of rows.
 	qroPrintEntryHeader($tmp, $tmp2);
 	$tmp_rowid = rawurlencode($class_id);
 	$tmp = "_lst[$i]";
-	qroPrintEntry(
-		"<input type='checkbox' name='action_chk$tmp' "
-		. "value='" . $tmp_rowid . "'>"
-		. returnExportHTTPVar("action$tmp", $tmp_rowid, 4)
-	);
+	qroPrintCheckBox($tmp, $tmp_rowid);
 	$tmp = '';
 	qroPrintEntry(GetSigClassName($class_id, $db),'left');
 	qroPrintEntry('<A HREF="base_qry_main.php?new=1&amp;sig_class='.$class_id.

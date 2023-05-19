@@ -208,10 +208,6 @@ if ( preg_match("/(create|add)/", $Action) || $Use_Auth_System == 1 ){
 			$tmpHTML .= NLI("$thc>$asdesc</td>", 4);
 			$tmpHTML .= NLI('</tr>',3);
 			if ( $users <> '' ){ // Verify we have a user in the db --Kevin;
-				$imgc = NLI(
-					"<img class='icon' src='$BASE_urlpath"
-					. '/images/base_icon_', 6
-				);
 				$tduma = $tdac . NLI($Hrst, 5);
 				foreach ( $users as $row ){ // Iterate users & build table.
 					$tmpRow = explode("|", $row);
@@ -221,13 +217,15 @@ if ( preg_match("/(create|add)/", $Action) || $Use_Auth_System == 1 ){
 					if ( $tmpRow[4] == 1 ){
 						$Uef = true;
 						$enabled = $tduma . "disable$uuid'>";
-						$enabled .= $imgc . "yes.png' alt='button_disable";
+						$Icon = 'yes';
+						$IDesc = 'button_disable';
 					}else{
 						$Uef = false;
 						$enabled = $tduma . "enable$uuid'>";
-						$enabled .= $imgc . "no.png' alt='button_enable";
+						$Icon = 'no';
+						$IDesc = 'button_enable';
 					}
-					$enabled .= "'/>";
+					$enabled .= Icon($Icon, $IDesc, 6);
 					$enabled .= NLI('</a>',5) . NLI('</td>',4);
 					// Anti XSS Output Data
 					$tmpRow = XSSPrintSafe($tmpRow);
@@ -241,10 +239,10 @@ if ( preg_match("/(create|add)/", $Action) || $Use_Auth_System == 1 ){
 					}
 					$tmpHTML .= NLI("<tr$tmp>", 3);
 					$tmpHTML .= NLI($tduma."edit$uuid'>",4);
-					$tmpHTML .= $imgc . "edit.png' alt='button_$AcEdit'/>";
+					$tmpHTML .= Icon('edit', "button_$AcEdit", 6);
 					$tmpHTML .= NLI('</a>',5).NLI('</td>',4);
 					$tmpHTML .= NLI($tduma."delete$uuid'>",4);
-					$tmpHTML .= $imgc . "delete.png' alt='button_$AcDelete'/>";
+					$tmpHTML .= Icon('delete', "button_$AcDelete", 6);
 					$tmpHTML .= NLI('</a>',5).NLI('</td>',4);
 					$tmpHTML .= NLI("$tdac$uid</td>",4);
 					if ( $tmpRow[2] == 1 ){ // Display Admin Users in red.

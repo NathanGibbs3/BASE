@@ -9,16 +9,21 @@ use PHPUnit\Framework\TestCase;
   * @covers ::FramedBoxHeader
   * @covers ::HBarGraph
   * @covers ::HtmlPercent
+  * @covers ::Icon
   * @covers ::LINext
   * @covers ::PageEnd
   * @covers ::TblNewRow
   * @covers ::PrintFramedBoxFooter
   * @covers ::PrintFramedBoxHeader
+  * @covers ::PrintIcon
   * @covers ::PrintLINext
   * @covers ::PrintTblNewRow
   * @covers ::chk_check
   * @covers ::chk_select
   * @covers ::returnExportHTTPVar
+  * @uses ::CleanVariable
+  * @uses ::ChkAccess
+  * @uses ::GetPHPSV
   * @uses ::Htmlcolor
   * @uses ::LoadedString
   * @uses ::NLI
@@ -329,14 +334,116 @@ class output_htmlTest extends TestCase {
 		$this->assertEquals( $msg, LINext('string'), $URV );
 	}
 	public function testPrintLINextDefaultReturnsExpected() {
-		$URV = self::$URV.'PrintLINext().';
+		$UOV = self::$UOV.'PrintLINext().';
 		$msg = "\n\t\t\t</li><li>";
-		$this->expectOutputString( $msg, PrintLINext(), $URV );
+		$this->expectOutputString( $msg, PrintLINext(), $UOV );
 	}
 	public function testPrintLINextInvalidReturnsExpected() {
-		$URV = self::$URV.'PrintLINext().';
+		$UOV = self::$UOV.'PrintLINext().';
 		$msg = "\n\t\t\t</li><li>";
-		$this->expectOutputString( $msg, PrintLINext('string'), $URV );
+		$this->expectOutputString( $msg, PrintLINext('string'), $UOV );
+	}
+	public function testIconDefaultReturnsExpected() {
+		$URV = self::$URV.'Icon().';
+		$msg = '';
+		$this->assertEquals( $msg, Icon(), $URV );
+	}
+	public function testIconNonExistentReturnsExpected() {
+		$URV = self::$URV.'Icon().';
+		$Icon = 'notthere';
+		$msg = '';
+		$this->assertEquals( $msg, Icon($Icon), $URV );
+	}
+	public function testIconInvalidFileNameReturnsExpected() {
+		$URV = self::$URV.'Icon().';
+		$Icon = 'del-ete';
+		$msg = "\n\t\t\t<img class='icon' src='images/base_icon_0_delete.png' />";
+		$this->assertEquals( $msg, Icon($Icon), $URV );
+	}
+	public function testIconValidFileNameReturnsExpected() {
+		$URV = self::$URV.'Icon().';
+		$Icon = 'delete';
+		$msg = "\n\t\t\t<img class='icon' src='images/base_icon_0_delete.png' />";
+		$this->assertEquals( $msg, Icon($Icon), $URV );
+	}
+	public function testIconInvalidDescReturnsExpected() {
+		$URV = self::$URV.'Icon().';
+		$Icon = 'delete';
+		$Desc = 'button-delete';
+		$msg = "\n\t\t\t<img class='icon' src='images/base_icon_0_delete.png' "
+		. "alt='buttondelete' />";
+		$this->assertEquals( $msg, Icon($Icon, $Desc), $URV );
+	}
+	public function testIconValidDescReturnsExpected() {
+		$URV = self::$URV.'Icon().';
+		$Icon = 'delete';
+		$Desc = 'button_delete';
+		$msg = "\n\t\t\t<img class='icon' src='images/base_icon_0_delete.png' "
+		. "alt='button_delete' />";
+		$this->assertEquals( $msg, Icon($Icon, $Desc), $URV );
+	}
+	public function testIconInvalidTabReturnsExpected() {
+		$URV = self::$URV.'Icon().';
+		$Icon = 'delete';
+		$msg = "\n\t\t\t<img class='icon' src='images/base_icon_0_delete.png' />";
+		$this->assertEquals( $msg, Icon($Icon, '', 'InvalidTab'), $URV );
+	}
+	public function testIconValidTabReturnsExpected() {
+		$URV = self::$URV.'Icon().';
+		$Icon = 'delete';
+		$msg = "\n\t\t\t\t<img class='icon' src='images/base_icon_0_delete.png' />";
+		$this->assertEquals( $msg, Icon($Icon, '', 4), $URV );
+	}
+	public function testPrintIconDefaultReturnsExpected() {
+		$UOV = self::$UOV.'PrintIcon().';
+		$msg = '';
+		$this->expectOutputString( $msg, PrintIcon(), $UOV );
+	}
+	public function testPrintIconNonExistentReturnsExpected() {
+		$UOV = self::$UOV.'PrintIcon().';
+		$Icon = 'notthere';
+		$msg = '';
+		$this->expectOutputString( $msg, PrintIcon($Icon), $UOV );
+	}
+	public function testPrintIconInvalidFileNameReturnsExpected() {
+		$UOV = self::$UOV.'PrintIcon().';
+		$Icon = 'del-ete';
+		$msg = "\n\t\t\t<img class='icon' src='images/base_icon_0_delete.png' />";
+		$this->expectOutputString( $msg, PrintIcon($Icon), $UOV );
+	}
+	public function testPrintIconValidFileNameReturnsExpected() {
+		$UOV = self::$UOV.'PrintIcon().';
+		$Icon = 'delete';
+		$msg = "\n\t\t\t<img class='icon' src='images/base_icon_0_delete.png' />";
+		$this->expectOutputString( $msg, PrintIcon($Icon), $UOV );
+	}
+	public function testPrintIconInvalidDescReturnsExpected() {
+		$UOV = self::$UOV.'PrintIcon().';
+		$Icon = 'delete';
+		$Desc = 'button-delete';
+		$msg = "\n\t\t\t<img class='icon' src='images/base_icon_0_delete.png' "
+		. "alt='buttondelete' />";
+		$this->expectOutputString( $msg, PrintIcon($Icon, $Desc), $UOV );
+	}
+	public function testPrintIconValidDescReturnsExpected() {
+		$UOV = self::$UOV.'PrintIcon().';
+		$Icon = 'delete';
+		$Desc = 'button_delete';
+		$msg = "\n\t\t\t<img class='icon' src='images/base_icon_0_delete.png' "
+		. "alt='button_delete' />";
+		$this->expectOutputString( $msg, PrintIcon($Icon, $Desc), $UOV );
+	}
+	public function testPrintIconInvalidTabReturnsExpected() {
+		$UOV = self::$UOV.'PrintIcon().';
+		$Icon = 'delete';
+		$msg = "\n\t\t\t<img class='icon' src='images/base_icon_0_delete.png' />";
+		$this->expectOutputString( $msg, PrintIcon($Icon, '', 'InvalidTab'), $UOV );
+	}
+	public function testPrintIconValidTabReturnsExpected() {
+		$UOV = self::$UOV.'PrintIcon().';
+		$Icon = 'delete';
+		$msg = "\n\t\t\t\t<img class='icon' src='images/base_icon_0_delete.png' />";
+		$this->expectOutputString( $msg, PrintIcon($Icon, '', 4), $UOV );
 	}
 	public function testreturnExportHTTPVarDefaults() {
 		$URV = self::$URV.'returnExportHTTPVar().';

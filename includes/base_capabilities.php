@@ -43,7 +43,7 @@ class BaseCapsRegistry{ // Capabilities Registry class definition
 	function BaseCapsRegistry(){ // PHP 4x constructor.
 		GLOBAL $Use_Auth_System, $BASE_Language, $event_cache_auto_update,
 		$colored_alerts, $archive_exists, $BASE_VERSION, $BASE_installID,
-		$debug_time_mode, $debug_mode, $BASE_urlpath, $domain;
+		$debug_time_mode, $debug_mode, $BASE_urlpath, $domain, $BASE_IconSet;
 		if( $debug_mode > 1 ){
 			KML('Init: Caps Registry', 2);
 		}
@@ -114,17 +114,24 @@ class BaseCapsRegistry{ // Capabilities Registry class definition
 			$this->AddCap('BASE_SSECU');
 		}
 		// BASE UI Settings
-		if( LoadedString($BASE_Language) ){ // UI Lang.
-			$this->AddCap('BASE_UILang', $BASE_Language);
-		}
-		if( $colored_alerts != 0 ){ // Colored Alerts
+		if( intval($colored_alerts) != 0 ){ // Colored Alerts
 			$this->AddCap('BASE_UICA');
 		}
+		if(
+			!isset($BASE_IconSet) || !is_int($BASE_IconSet)
+			|| $BASE_IconSet < 0
+		){ // Icon Set #
+				$BASE_IconSet = 0; // Default to 0 if something is not right.
+		}
+		$this->AddCap('BASE_UIConSet', $BASE_IconSet); // Icon Set #
 		if( $debug_mode != 0 ){ // Debug Mode
 			$this->AddCap('BASE_UIDiag', $debug_mode);
 		}
 		if( $debug_time_mode != 0 ){ // Debug Time Mode
 			$this->AddCap('BASE_UIDiagTime', $debug_time_mode);
+		}
+		if( LoadedString($BASE_Language) ){ // UI Lang.
+			$this->AddCap('BASE_UILang', $BASE_Language);
 		}
 		$this->AddCap('UIMode', 'Knl');
 		// Libs

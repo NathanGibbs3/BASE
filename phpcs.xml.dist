@@ -26,6 +26,7 @@
 
 	<rule ref="PHPCompatibility">
 		<exclude name="PHPCompatibility.FunctionNameRestrictions.NewMagicMethods.__constructFound"/>
+		<exclude name="PHPCompatibility.IniDirectives.RemovedIniDirectives.safe_modeDeprecatedRemoved"/>
 	</rule>
 	<rule ref="Generic.Arrays.ArrayIndent">
 	</rule>
@@ -62,7 +63,6 @@
 	</rule>
 	<rule ref="Generic.WhiteSpace.ArbitraryParenthesesSpacing">
 		<properties>
-			<property name="spacing" value="1" />
 			<property name="ignoreNewlines" value="true" />
 		</properties>
 	</rule>

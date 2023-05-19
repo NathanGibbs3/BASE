@@ -220,11 +220,7 @@ $qs->PrintResultCnt(); // Print current view number and # of rows.
 	}
 	$tmp_rowid = $src_ip.'_'.$dst_ip;
 	$tmp = "_lst[$i]";
-	qroPrintEntry(
-		"<input type='checkbox' name='action_chk$tmp' "
-		. "value='" . $tmp_rowid . "'>"
-		. returnExportHTTPVar("action$tmp", $tmp_rowid, 4)
-	);
+	qroPrintCheckBox($tmp, $tmp_rowid);
 	$tmp = '';
 	// Check for a NULL IP indicating an event (e.g. portscan) which has no IP.
 	if ( $no_ip ){

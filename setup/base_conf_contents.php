@@ -87,11 +87,14 @@ $BASE_urlpath = \''. $uri .'\';
 
 // BASE UI Settings
 
-    /*
-     Set the below to the language you would like people to use while viewing
-     your install of BASE.
-    */
-    $BASE_Language = \''.$language.'\';
+// UI Icon Set to use.
+
+$BASE_IconSet = 0;
+
+// Set the below to the language you would like people to use while viewing
+// your install of BASE.
+
+$BASE_Language = \''.$language.'\';
 
     /*
      Set the below to 0 to remove the links from the display of alerts.

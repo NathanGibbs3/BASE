@@ -830,6 +830,7 @@ function NewBASEDBConnection($path, $type){
 	}
 	return new baseCon($type);
 }
+
 function MssqlKludgeValue( $text ){
 	$Ret = '';
 	for ( $i = 0; $i < strlen($text); $i++ ){

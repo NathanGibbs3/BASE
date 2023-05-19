@@ -58,10 +58,12 @@ $BASE_urlpath = '';
 
 // BASE UI Settings
 
-/*
- Set the below to the language you would like people to use while viewing
- your install of BASE.
-*/
+// UI Icon Set to use.
+
+$BASE_IconSet = 0;
+
+// Set the below to the language you would like people to use while viewing
+// your install of BASE.
 
 $BASE_Language = 'english';
 

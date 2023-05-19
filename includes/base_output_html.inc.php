@@ -22,6 +22,7 @@ function PageStart ( $refresh = 0, $page_title = '' ){
 	$html_no_cache, $refresh_stat_page, $stat_page_refresh_time, $UIL, $BCR,
 	$Use_Auth_System;
 	$AS = false;
+	// @codeCoverageIgnoreStart
 	if( isset($BCR) && is_object($BCR) ){
 		$BV = $BCR->GetCap('BASE_Ver');
 		$AS = $BCR->GetCap('BASE_Auth');
@@ -31,6 +32,7 @@ function PageStart ( $refresh = 0, $page_title = '' ){
 			$AS = true;
 		}
 	}
+	// @codeCoverageIgnoreEnd
 	$MHE = "<meta http-equiv='";
 	$MNM = "<meta name='";
 	$GT = 'BASE'; // Generator Meta Attribute.
@@ -348,9 +350,75 @@ function PrintLINext ( $tab = 3 ){
 	print LINext($tab);
 }
 
+function Icon ( $icon = '', $desc = '', $tab = 3 ){
+	GLOBAL $BCR;
+	$Ret = '';
+	if( LoadedString($icon) ){
+		$sc = DIRECTORY_SEPARATOR;
+		$IPfx = '';
+		$debug_mode = 0;
+		$IconSet = 0;
+		$rfile = '';
+		// @codeCoverageIgnoreStart
+		if( isset($BCR) && is_object($BCR) ){
+			$path = $BCR->GetCap('BASE_SSUrlPath');
+			if( LoadedString($path) ){
+				$IPfx = "$path/";
+			}
+			$debug_mode = $BCR->GetCap('BASE_UIDiag');
+			$IconSet = $BCR->GetCap('BASE_UIConSet');
+		}
+		if( !is_int($debug_mode) || $debug_mode < 0 ){
+			$debug_mode = 0;
+		}
+		if( !is_int($IconSet) || $IconSet < 0 ){
+			$IconSet = 0;
+		}
+		if( defined('BASE_Path') ){
+			$rfile = BASE_Path . $sc;
+		}
+		// @codeCoverageIgnoreEnd
+		$ICommon = "base_icon_$IconSet" . '_';
+		$IPfx .= "images/$ICommon";
+		$ISfx = '.png';
+		$icon = CleanVariable($icon, VAR_ALPHA);
+		$rfile .= "images$sc$ICommon" . $icon . $ISfx;
+		$file = $IPfx . $icon . $ISfx;
+		if( ChkAccess($rfile) == 1 ){
+			if( !is_int($tab) || $tab < 1 ){ // Input Validation
+				$tab = 3;
+			}
+			$tmp = "<img class='icon' src='$file'";
+			if( LoadedString($desc) ){
+				$desc = CleanVariable(
+					$desc, VAR_ALPHA | VAR_SPACE | VAR_USCORE | VAR_PERIOD
+				);
+				$tmp .= " alt='$desc'";
+			}
+			$tmp .= ' />';
+			$Ret = NLI($tmp, $tab);
+		}else{
+			// @codeCoverageIgnoreStart
+			if ( $debug_mode > 0 ){
+				KML("Icon access error: $icon File: $rfile");
+			}
+			// @codeCoverageIgnoreEnd
+		}
+	}
+	return $Ret;
+}
+
+function PrintIcon ( $icon = '', $desc = '', $tab = 3 ){
+	print Icon($icon, $desc, $tab);
+}
+
 function returnExportHTTPVar ( $var_name = '', $var_value = '', $tab = 3 ){
 	$Ret = '';
-	if( LoadedString( $var_name ) == true ){ // Input Validation
+	if( LoadedString( $var_name ) ){ // Input Validation
+		$var_name = CleanVariable(
+			$var_name, VAR_ALPHA
+			| VAR_SCORE | VAR_USCORE | VAR_PERIOD | VAR_COLON | VAR_BRACKETS
+		);
 		if( !is_int($tab) ){
 			$tab = 3;
 		}

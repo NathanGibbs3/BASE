@@ -251,16 +251,24 @@ NLIO('</div>',3);
 PrintTblNewRow(0);
 ?>
     <td align="center" valign="top">
-      <strong><a href="base_qry_main.php?new=1"><?php echo _SEARCH; ?></a></strong><br />
-
 <?php
+NLIO(
+	"<a href='base_qry_main.php?new=1'>" .  Icon('search', _SEARCH, 6)
+	. _SEARCH . '</a>', 5
+);
+NLIO('<br/>', 5);
 if ( PearInc('Graphing', 'Image', 'Graph') ){
-	NLIO("<a href='base_graph_main.php?new=1'>" . _GALERTD . '</a>');
-	NLIO('<br/>');
+	NLIO(
+		"<a href='base_graph_main.php?new=1'>" . Icon('graph', _GALERTD, 6)
+		. _GALERTD . '</a>', 5
+	);
+	NLIO('<br/>', 5);
 }
-?>
-      <a href="base_stat_time.php"><?php echo _GALERTDT; ?></a><br /><br />
-<?php
+NLIO(
+	"<a href='base_stat_time.php'>" . Icon('graph', _GALERTDT, 6) . _GALERTDT
+	. '</a>', 5
+);
+NLIO('<br/>', 5);
 DBLink();
 PrintFramedBoxFooter(1,2);
 NLIO('<hr/>',2);

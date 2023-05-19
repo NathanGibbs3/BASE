@@ -208,11 +208,7 @@ global $colored_alerts, $debug_mode;
 		$myrow[0] . '-' . $myrow[1] . ')'
 	);
 	$tmp = "_lst[$i]";
-	qroPrintEntry(
-		"<input type='checkbox' name='action_chk$tmp' "
-		. "value='" . $tmp_rowid . "'>"
-		. returnExportHTTPVar("action$tmp", $tmp_rowid, 4)
-	);
+	qroPrintCheckBox($tmp, $tmp_rowid);
 	$tmp = '';
 	/** Fix for bug #1116034 -- Input by Tim Rupp, original solution and code by Alejandro Flores **/
 	$temp = "<a href='base_qry_alert.php?submit=".rawurlencode($tmp_rowid)."&amp;sort_order=";

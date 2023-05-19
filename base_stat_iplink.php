@@ -177,11 +177,7 @@ $qs->PrintResultCnt(); // Print current view number and # of rows.
         $tmp_rowid = $sip . "_" . $dip . "_" . $proto;
 
 		$tmp = "_lst[$i]";
-		qroPrintEntry(
-			"<input type='checkbox' name='action_chk$tmp' "
-			. "value='" . $tmp_rowid . "'>"
-			. returnExportHTTPVar("action$tmp", $tmp_rowid, 4)
-		);
+		qroPrintCheckBox($tmp, $tmp_rowid);
 		$tmp = '';
 		qroPrintEntry($sip_fqdn, 'right');
 		qroPrintEntry(

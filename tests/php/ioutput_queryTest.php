@@ -6,6 +6,7 @@ use PHPUnit\Framework\TestCase;
 /**
   * Code Coverage Directives.
   * @covers QueryResultsOutput
+  * @covers ::qroPrintCheckBox
   * @covers ::qroPrintEntryFooter
   * @covers ::qroPrintEntryHeader
   * @covers ::qroPrintEntry
@@ -23,6 +24,7 @@ use PHPUnit\Framework\TestCase;
   * @uses ::XSSPrintSafe
   * @uses ::is_key
   * @uses ::returnErrorMessage
+  * @uses ::returnExportHTTPVar
   */
 
 class output_queryTest extends TestCase {
@@ -192,6 +194,45 @@ class output_queryTest extends TestCase {
 			$expected, qroPrintEntry('value','Invalid','Invalid'), $UOV
 		);
 	}
+	public function testoutput_qroPrintCheckboxDefault() {
+		$UOV = self::$UOV . 'qroPrintCheckBox().';
+		$expected = "\n\t\t\t"
+		. "<td style='text-align: center; vertical-align: top; "
+		. "padding-left: 15px; padding-right: 15px'>"
+		. "\n\t\t\t\t"
+		. '<!-- qroPrintCheckBox Output Placeholder -->'
+		. "\n\t\t\t</td>";
+		$this->expectOutputString($expected, qroPrintCheckBox(), $UOV);
+	}
+	public function testoutput_qroPrintCheckbox() {
+		$UOV = self::$UOV . 'qroPrintCheckBox().';
+		$expected = "\n\t\t\t"
+		. "<td style='text-align: center; vertical-align: top; "
+		. "padding-left: 15px; padding-right: 15px'>"
+		. "\n\t\t\t\t"
+		. "<input type='checkbox' name='action_chkName' value='Value'>"
+		. "\n\t\t\t\t"
+		. "<input type='hidden' name='actionName' value='Value'/>"
+		. "\n\t\t\t</td>";
+		$this->expectOutputString(
+			$expected, qroPrintCheckBox('Name', 'Value'), $UOV
+		);
+	}
+	public function testoutput_qroPrintCheckboxInvalidName() {
+		$UOV = self::$UOV . 'qroPrintCheckBox().';
+		$expected = "\n\t\t\t"
+		. "<td style='text-align: center; vertical-align: top; "
+		. "padding-left: 15px; padding-right: 15px'>"
+		. "\n\t\t\t\t"
+		. "<input type='checkbox' name='action_chkName' value='Value'>"
+		. "\n\t\t\t\t"
+		. "<input type='hidden' name='actionName' value='Value'/>"
+		. "\n\t\t\t</td>";
+		$this->expectOutputString(
+			$expected, qroPrintCheckBox('Name;', 'Value'), $UOV
+		);
+	}
+
 	public function testoutput_qroReturnSelectALLCheckTestDefault() {
 		$URV = self::$URV . 'qroReturnSelectALLCheck().';
 		$expected = "<input type=checkbox value='Select All' ".

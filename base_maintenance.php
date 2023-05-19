@@ -149,8 +149,6 @@ if ($SaM == 'yes'){
 	NLIO('<b>'._MNTCLIENT.'</b> '.XSSPrintSafe($SW_Cli).'<br/>',4);
 }
 if ( $AdminAuth ){ // Issue #146 Fix
-	$imgc = NLI('', 6);
-	$imgc .= "<img class='icon' src='$BASE_urlpath" . '/images/';
 	$PF_lst = array('Mail', 'GD', 'GMP');
 	foreach( $PF_lst as $val ){
 		$PF_St[$val] = $BCR->GetCap("PHP_$val");
@@ -223,18 +221,18 @@ print'         <B>'._MNTSERVER.'</B> '.XSSPrintSafe($SW_Svr).'<BR>
 		NLIO('<b>' . _MNTPHPMODS . ': </b>' . $PLM . '<br/>', 6);
 		NLIO('<b>PHP Capabilities: </b>', 6);
 		foreach( $PF_St as $key => $val ){
-			$FI = "base_icon_yes.png' alt='installed";
-			$tmp = "<b>$key: </b>";
+			$FI = 'yes';
+			$tmp = "$key: ";
 			if ( !$val ){
 				$tmp .= 'not ';
-				$FI = "base_icon_no.png' alt='not installed";
+				$FI = 'no';
 			}
-			$FI .= "'/>";
 			if ( LoadedString($val) ){
-				$tmp .= " $val ";
+				$tmp .= "$val ";
 			};
 			$tmp .= 'installed.';
-			NLIO("$tmp$imgc$FI", 6);
+			NLIO("<b>$tmp</b>", 6);
+			printIcon($FI, $tmp, 6);
 		}
 	}
 }
@@ -256,15 +254,14 @@ if ( $AdminAuth ){ // Issue #146 Fix
 	foreach( $BF_lst as $val ){
 		$BF_St[$val] = $BCR->GetCap($val);
 	}
-	$BDevI = $imgc;
 	if ( $BDev ){ // TD These.
 		$BDevStatus = 'Development';
-		$BDevI .= "base_icon_exclamation.png' alt='Developement Version.";
+		$Icon = 'exclamation';
 	}else{
 		$BDevStatus = 'Official';
-		$BDevI .=  "base_icon_yes.png' alt='Official Release";
+		$Icon = 'yes';
 	}
-	$BDevI .= "'/>";
+	$BDevI = Icon($Icon, "$BDevStatus Release.", 6);
 	$BADB = $BCR->GetCap('BASE_ADB');
 	if ($SaM == 'yes'){
 		if ($submit == 'status'){
@@ -300,17 +297,18 @@ if ( $AdminAuth ){ // Issue #146 Fix
 			NLIO();
 		}
 	}else{
-		$ADBI = $imgc;
 		$ADBStatus = '<b>';
 		if ( $BADB ){
+			$Icon = 'yes';
+			$Desc = _ENABLED;
 			$ADBStatus .= _MNTDBARCHNAME
 			. ": </b>$archive_dbname";
-			$ADBI .=  "base_icon_yes.png' alt='Enabled.";
 		}else{ // TD This.
-			$ADBStatus .= 'Archive DB: </b>not enabled.';
-			$ADBI .=  "base_icon_no.png' alt='Not enabled.";
+			$Icon = 'no';
+			$Desc = 'Not ' . _ENABLED;
+			$ADBStatus .= "Archive DB: </b>$Desc.";
 		}
-		$ADBI .= "'/>";
+		$ADBI = Icon($Icon, $Desc, 6);
 		PrintFramedBoxHeader('BASE Build:', '#669999', 1, 3, 'left');
 		NLIO('<b>Version: </b>' . XSSPrintSafe($BV) . $BDevI . '<br/>', 6);
 		if ( LoadedString($BInID) ){
@@ -327,15 +325,16 @@ if ( $AdminAuth ){ // Issue #146 Fix
 		);
 		NLIO('<b>Features: </b>', 6);
 		foreach( $BF_St as $key => $val ){
-			$FI = "base_icon_yes.png' alt='Installed";
+			$FI = 'yes';
 			$tmp = "<b>$key: </b>";
+			$tmp = "$key: ";
 			if ( !$val ){
 				$tmp .= 'not ';
-				$FI = "base_icon_no.png' alt='Not installed";
+				$FI = 'no';
 			}
-			$FI .= "'/>";
 			$tmp .= 'installed.';
-			NLIO("$tmp$imgc$FI", 6);
+			NLIO("<b>$tmp</b>", 6);
+			printIcon($FI, $tmp, 6);
 		}
 		PrintFramedBoxFooter(1,3);
 		NLIO ('<br/>',3);
@@ -346,11 +345,13 @@ if ( $AdminAuth ){ // Issue #146 Fix
 ";
 		NLIO("$ADBStatus$ADBI" . '<br/>', 6);
 		NLIO(
+			Icon('tool', 'Repair Tables', 6) .
 			"<input class='admin' type='submit' name='submit'"
 			. " value='Repair Tables'>",
 			6
 		);
 		NLIO(
+			Icon('delete', 'Clear Data Tables', 6) .
 			"<input class='admin' type='submit' name='submit'"
 			. " value='Clear Data Tables'>",
 			6

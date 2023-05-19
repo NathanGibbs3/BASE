@@ -61,11 +61,13 @@ SetConst("VAR_SPACE",      64);
 SetConst("VAR_FSLASH",    128);
 SetConst("VAR_PERIOD",    256);
 SetConst("VAR_OPERATOR",  512);
-SetConst("VAR_OPAREN",   1024);  /*  (   */
-SetConst("VAR_CPAREN",   2048);  /*  )   */
+SetConst("VAR_OPAREN",   1024); //Char: (
+SetConst("VAR_CPAREN",   2048); //Char: )
 SetConst("VAR_USCORE",   4096);
 SetConst("VAR_AT",       8192);
 SetConst("VAR_SCORE",   16384);
 SetConst("VAR_BOOLEAN", 32768);
+SetConst("VAR_COLON", 65536); // Char: :
+SetConst("VAR_BRACKETS", 131072); // Char(s): ][
 
 ?>

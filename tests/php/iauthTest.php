@@ -17,6 +17,7 @@ use PHPUnit\Framework\TestCase;
   * @uses ::ChkAccess
   * @uses ::ChkCookie
   * @uses ::ChkLib
+  * @uses ::GetPHPSV
   * @uses ::LoadedString
   * @uses ::NewBASEDBConnection
   * @uses ::NLI

@@ -25,7 +25,7 @@ $BK_Path = preg_replace('/'.$ReqRE.'/', '', $BASE_path);
 $BASE_path = $BK_Path;
 $file = "$BASE_path$sc" . 'base_conf.php'; // BASE Conf File.
 
-if ( ChkAccess($file) == 1 && filesize($file) > 10 ){
+if( ChkAccess($file) == 1 && filesize($file) > 10 ){
 	KML("BASE Conf Set: $file");
 	require_once($file);
 	SetConst('BASE_Conf', $file);

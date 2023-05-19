@@ -97,7 +97,7 @@ class state_commonTest extends TestCase {
 			$BCR = 'Temp';
 		}
 		self::$db = $db;
-		self::$CVT = '0Az ./()_@~!#$%^&*=<>+:;,?-|';
+		self::$CVT = '0Az ./()[]_@~!#$%^&*=<>+:;,?-|';
 		self::$UOV = 'Unexpected Output Value: ';
 		self::$URV = 'Unexpected Return Value: ';
 	}
@@ -374,6 +374,16 @@ class state_commonTest extends TestCase {
 		$URV = self::$URV.'CleanVariable().';
 		$Value = self::$CVT;
 		$this->assertEquals('-',CleanVariable($Value,VAR_SCORE),$URV);
+	}
+	public function testCleanVariableGetColon() {
+		$URV = self::$URV.'CleanVariable().';
+		$Value = self::$CVT;
+		$this->assertEquals(':',CleanVariable($Value,VAR_COLON),$URV);
+	}
+	public function testCleanVariableGetBrackets() {
+		$URV = self::$URV.'CleanVariable().';
+		$Value = self::$CVT;
+		$this->assertEquals('[]',CleanVariable($Value,VAR_BRACKETS),$URV);
 	}
 	public function testCleanVariableInvalidMask() {
 		GLOBAL $debug_mode;

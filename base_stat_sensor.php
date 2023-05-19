@@ -167,11 +167,7 @@ $qs->PrintResultCnt(); // Print current view number and # of rows.
 	qroPrintEntryHeader($i);
 	$tmp_rowid = $sensor_id;
 	$tmp = "_lst[$i]";
-	qroPrintEntry(
-		"<input type='checkbox' name='action_chk$tmp' "
-		. "value='" . $tmp_rowid . "'>"
-		. returnExportHTTPVar("action$tmp", $tmp_rowid, 4)
-	);
+	qroPrintCheckBox($tmp, $tmp_rowid);
 	$tmp = '';
 	qroPrintEntry($sensor_id);
 	qroPrintEntry(GetSensorName($sensor_id, $db),'left');

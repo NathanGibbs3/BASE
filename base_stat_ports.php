@@ -322,11 +322,7 @@ while ( ($myrow = $result->baseFetchRow()) && ($i < $qs->GetDisplayRowCnt()) ){
       $tmp_rowid .= "_" . $myrow[0];
 
 	$tmp = "_lst[$i]";
-	qroPrintEntry(
-		"<input type='checkbox' name='action_chk$tmp' "
-		. "value='" . $tmp_rowid . "'>"
-		. returnExportHTTPVar("action$tmp", $tmp_rowid, 4)
-	);
+	qroPrintCheckBox($tmp, $tmp_rowid);
 	$tmp = '';
 	qroPrintEntry($currentPort,'right');
       qroPrintEntry('<A HREF="base_stat_sensor.php?'.$url_param.'">'.$num_sensors.'</A>');
