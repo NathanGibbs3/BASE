@@ -737,7 +737,17 @@ function Action_archive_alert_pre($action_arg, $action_param, $db){
 	$db2->baseConnect(
 		$archive_dbname, $archive_host, $archive_port, $archive_user,
 		$archive_password
-	);
+	); // This call is the cause of #197 It bypasses baseDBConnect and
+	// hotwires this object to the Archive DB via the connect method
+	// regardless of configured method.
+	// baseDBConnect Compatibility shim, make this thing look like it went
+	// through baseDBConnect until we can fix the issues that made it necessary
+	// to avoid baseDBConnect in the first place.
+	$db2->Role = 'Archive'; // Set Object Role.
+	if( $db2->baseSetDBversion() > 105 ){ // FLoPS released after Schema v106
+		$db2->baseSetFLOP(); // Detect FLoP Extended DB.
+	}
+	// End Shim
 	return $db2;
 }
 function Action_archive_alert_op($sid, $cid, &$db, $action_arg, &$ctx){
@@ -775,8 +785,8 @@ function Action_archive_alert_op($sid, $cid, &$db, $action_arg, &$ctx){
 			}
 		}
 	}
-	// If we have FLoP's event `reference` column - archive it too.
-	if ( in_array("reference", $db->DB->MetaColumnNames('event')) ){
+	$FLOP = $db->baseGetFLOP(); // Detect FLoP extended DB.
+	if( $FLOP ){ // We are FLoP, archive event `reference` column too.
 		$sql = "SELECT signature, timestamp, reference FROM event WHERE sid=$sid AND cid=$cid";
 	}else{
 		$sql = "SELECT signature, timestamp FROM event WHERE sid=$sid AND cid=$cid";
@@ -787,11 +797,9 @@ function Action_archive_alert_op($sid, $cid, &$db, $action_arg, &$ctx){
 	if (isset($tmp_row) && !empty($tmp_row) && $tmp_row != NULL){
 		$sig = $tmp_row[0];
 		$timestamp = $tmp_row[1];
-		// Not everybody uses FLoP.
-		if( is_key(2, $tmp_row) ){
+		$reference = '';
+		if( $FLOP ){ // We are FLoP, resistance is futile.
 			$reference = $tmp_row[2]; // FLoP's event reference.
-		}else{
-			$reference = '';
 		}
 	}else{
 		$reference = '';
@@ -808,8 +816,7 @@ function Action_archive_alert_op($sid, $cid, &$db, $action_arg, &$ctx){
 	// in archive DB.
 	// xxx jl:
 	if ( $db->baseGetDBversion() < 100 && !$tmp_row_event_db2){
-		// If we have FLoP's event `reference` column - archive it too.
-		if ($reference != ''){
+		if( $FLOP ){ // We are FLoP, archive event `reference` column.
 			$sql = "INSERT INTO event (sid,cid,signature,timestamp,reference)".
 			" VALUES ($sid, $cid, '".$sig."', '".$timestamp."', '".$reference."')";
 		}else{
@@ -1061,8 +1068,7 @@ function Action_archive_alert_op($sid, $cid, &$db, $action_arg, &$ctx){
 		// xxx jl End
 		// Insert event data only if it's not already in archive DB.
 		if ( !$tmp_row_event_db2 ){
-			// If we have FLoP's event `reference` column - archive it too.
-			if ( $reference != '' ){
+			if( $FLOP ){ // We are FLoP, archive  event `reference` column.
 				$sql = "INSERT INTO event ".
 				"(sid,cid,signature,timestamp,reference) VALUES ";
 				$sql.= "($sid, $cid, '".$sig_id."', '".$timestamp."', '".$reference."')";
@@ -1141,7 +1147,7 @@ function Action_archive_alert_op($sid, $cid, &$db, $action_arg, &$ctx){
 		$tmp_result = $db->baseExecute($sql);
 		$tmp_row = $tmp_result->baseFetchRow();
 		$tmp_result->baseFreeRows();
-		// Run the same query on archive db, to check if udphdr data already in.
+		// Run same query on archive db, to check if udphdr data already in.
 		$tmp_result_db2 = $db2->baseExecute($sql);
 		$tmp_row_db2 = $tmp_result_db2->baseFetchRow();
 		$tmp_result_db2->baseFreeRows();
@@ -1160,7 +1166,7 @@ function Action_archive_alert_op($sid, $cid, &$db, $action_arg, &$ctx){
 		$tmp_result = $db->baseExecute($sql);
 		$tmp_row = $tmp_result->baseFetchRow();
 		$tmp_result->baseFreeRows();
-		// Run the same query on archive db, to check if icmphdr data already in.
+		// Run same query on archive db, to check if icmphdr data already in.
 		$tmp_result_db2 = $db2->baseExecute($sql);
 		$tmp_row_db2 = $tmp_result_db2->baseFetchRow();
 		$tmp_result_db2->baseFreeRows();
@@ -1176,10 +1182,9 @@ function Action_archive_alert_op($sid, $cid, &$db, $action_arg, &$ctx){
 	}
 	// xxx jl: </tcphdr, udphdr, icmphdr>
 	// xxx jl: <flop specific tables>
-	// If we have FLoP extended db, archive `pcap_header` and `data_header` too.
-	if ( in_array("pcap_header", $db->DB->MetaColumnNames('data')) &&
-		in_array("data_header", $db->DB->MetaColumnNames('data'))
-	){
+	$pcap_header = '';
+	$data_header = '';
+	if( $FLOP ){ // We are FLoP, archive `pcap_header` and `data_header` too.
 		$sql = "SELECT data_payload, pcap_header, data_header ".
 		"FROM data WHERE sid='$sid' AND cid='$cid'";
 		$tmp_result = $db->baseExecute($sql);
@@ -1188,9 +1193,6 @@ function Action_archive_alert_op($sid, $cid, &$db, $action_arg, &$ctx){
 		if ( isset($tmp_row) && !empty($tmp_row) ){
 			$pcap_header = $tmp_row[1];
 			$data_header = $tmp_row[2];
-		}else{
-			$pcap_header = '';
-			$data_header = '';
 		}
 	}else{
 		$sql = "SELECT data_payload FROM data WHERE sid='$sid' AND cid='$cid'";
@@ -1198,16 +1200,14 @@ function Action_archive_alert_op($sid, $cid, &$db, $action_arg, &$ctx){
 		$tmp_row = $tmp_result->baseFetchRow();
 		$tmp_result->baseFreeRows();
 	}
-	// Run the same query on archive db, to check if data already in.
+	// Run same query on archive db, to check if data already in.
 	$tmp_result_db2 = $db2->baseExecute($sql);
 	$tmp_row_db2 = $tmp_result_db2->baseFetchRow();
 	$tmp_result_db2->baseFreeRows();
 	// Insert data only if we got it from alerts db and it's not
 	// already in archive DB.
 	if ( isset($tmp_row) && !empty($tmp_row) && !$tmp_row_db2 ){
-		// If we have FLoP extended db `pcap_header` or `data_header` then
-		// archive it too.
-		if ( $pcap_header != '' || $data_header != '' ){
+		if( $FLOP ){ // We are FLoP, archive `pcap_header` & `data_header`.
 			$sql = "INSERT INTO data ".
 			"(sid,cid, data_payload, pcap_header, data_header) VALUES ";
 			$sql.= "($sid, $cid, '".$tmp_row[0]."', '".$pcap_header."', '".$data_header."')";
@@ -1248,7 +1248,7 @@ function Action_archive_alert_op($sid, $cid, &$db, $action_arg, &$ctx){
 			$select_sql = "SELECT optid, opt_proto, opt_code, opt_len, opt_data ".
 			"FROM opt WHERE sid='$sid' AND cid='$cid' AND opt_len='$tmp_row[3]' AND opt_data='$tmp_row[4]'";
 		}
-		// Run the select query on archive DB, to check if data already in.
+		// Run select query on archive DB, to check if data already in.
 		$tmp_result_db2 = $db2->baseExecute($select_sql);
 		$tmp_row_db2 = $tmp_result_db2->baseFetchRow();
 		$tmp_result_db2->baseFreeRows();

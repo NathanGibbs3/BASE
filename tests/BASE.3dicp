@@ -39,5 +39,6 @@ forward = next
 back = first
 next = last
 chart = graph
+locker = archive
 mail =
 tool =

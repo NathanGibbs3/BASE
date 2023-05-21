@@ -299,7 +299,7 @@ if ( $AdminAuth ){ // Issue #146 Fix
 	}else{
 		$ADBStatus = '<b>';
 		if ( $BADB ){
-			$Icon = 'yes';
+			$Icon = 'archive';
 			$Desc = _ENABLED;
 			$ADBStatus .= _MNTDBARCHNAME
 			. ": </b>$archive_dbname";

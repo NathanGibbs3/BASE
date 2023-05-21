@@ -10,16 +10,15 @@ use PHPUnit\Framework\TestCase;
 
 class capabilitiesTest extends TestCase {
 	// Pre Test Setup.
-	protected static $tc;
 	protected static $PHPUV;
 	protected static $UOV;
 	protected static $URV;
+	protected static $tc;
 
 	public static function setUpBeforeClass(){
 		self::$UOV = 'Unexpected Output Value: ';
 		self::$URV = 'Unexpected Return Value: ';
-		// PHPUnit Version
-		$PHPUV = GetPHPUV();
+		$PHPUV = GetPHPUV(); // PHPUnit Version
 		if (version_compare($PHPUV, '9.0', '<')){ // PHPUnit < 9x
 			self::$PHPUV = 1;
 		}else{ // PHPUnit 9+

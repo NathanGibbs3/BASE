@@ -6,15 +6,28 @@ use PHPUnit\Framework\TestCase;
 /**
   * @covers ::GetFieldLength
   * @covers ::MssqlKludgeValue
+  * @covers ::NewBASEDBConnection
+  * @covers baseCon::__construct
+  * @covers baseCon::baseClose
+  * @covers baseCon::baseCon
+  * @covers baseCon::baseConnect
   * @covers baseCon::baseErrorMessage
-  * @covers baseCon::baseFieldExists
-  * @covers baseCon::baseTableExists
-  * @covers baseCon::baseIndexExists
   * @covers baseCon::baseExecute
+  * @covers baseCon::baseFieldExists
+  * @covers baseCon::baseGetDBversion
+  * @covers baseCon::baseGetFLOP
+  * @covers baseCon::baseIndexExists
+  * @covers baseCon::basePConnect
+  * @covers baseCon::baseSetDBversion
+  * @covers baseCon::baseSetFLOP
+  * @covers baseCon::baseTableExists
   * @uses ::ChkAccess
+  * @uses ::ChkLib
   * @uses ::GetPHPSV
   * @uses ::HtmlColor
   * @uses ::LoadedString
+  * @uses ::SetConst
+  * @uses ::XSSPrintSafe
   * @uses ::is_key
   * @uses ::returnErrorMessage
   * @uses baseRS
@@ -25,7 +38,10 @@ class dbTest extends TestCase {
 	protected static $db;
 	protected static $DBlib_path;
 	protected static $dbt;
+	protected static $PHPUV;
+	protected static $UOV;
 	protected static $URV;
+	protected static $tc;
 
 	// Share class instance as common test fixture.
 	public static function setUpBeforeClass() {
@@ -89,16 +105,195 @@ class dbTest extends TestCase {
 			self::$db = $db;
 			self::$dbt = $db->DB->databaseType; // DB Type from ADODB Object.
 		}
+		self::$UOV = 'Unexpected Output Value: ';
 		self::$URV = 'Unexpected Return Value.';
+		$PHPUV = GetPHPUV(); // PHPUnit Version
+		if (version_compare($PHPUV, '9.0', '<')){ // PHPUnit < 9x
+			self::$PHPUV = 1;
+		}else{ // PHPUnit 9+
+			self::$PHPUV = 2;
+		}
 	}
 	public static function tearDownAfterClass() {
+		self::$PHPUV = null;
+		self::$UOV = null;
 		self::$URV = null;
 		self::$dbt = null;
 		self::$db = null;
 		self::$DBlib_path = null;
+		self::$tc = null;
 	}
 
 	// Tests go here.
+	// Tests for Class baseCon
+	public function testClassbaseConConstruct(){
+		GLOBAL $DBtype;
+		$URV = self::$URV . 'Construct().';
+		$DBlib_path = self::$DBlib_path;
+		$this->assertInstanceOf(
+			'baseCon',
+			$tc = NewBASEDBConnection($DBlib_path, $DBtype),
+			'DB Object Not Initialized.'
+		);
+		self::$tc = $tc;
+		$Ec = 0;
+		if( $DBtype = 'mysql' ){
+			$Ec = 1;
+		}
+		$this->assertEquals($DBtype, $tc->DB_type, $URV);
+		$this->assertNotNull($tc->DB_class, $URV);
+		$this->assertEquals($Ec, $tc->DB_class, $URV);
+		$this->assertEquals(0, $tc->version, $URV);
+		$this->assertEmpty($tc->lastSQL, $URV);
+		$this->assertNull($tc->DB_name, $URV);
+		$this->assertNull($tc->DB_host, $URV);
+		$this->assertNull($tc->DB_port, $URV);
+		$this->assertNull($tc->DB_username, $URV);
+		$this->assertNull($tc->Role, $URV);
+		$this->assertNull($tc->FLOP, $URV);
+	}
+	public function testClassbaseConbaseGetDBversion(){
+		$URV = self::$URV . 'baseGetDBversion().';
+		$tc = self::$tc;
+		$this->assertEquals(0, $tc->baseGetDBversion(), $URV);
+	}
+	public function testClassbaseConbaseGetFLOPDBNo(){
+		$URV = self::$URV . 'baseGetFLOP().';
+		$tc = self::$tc;
+		$this->assertNull($tc->FLOP, $URV);
+		$this->assertFalse($tc->baseGetFLOP(), $URV);
+		$this->assertNull($tc->FLOP, $URV);
+	}
+	public function testClassbaseConbaseSetFLOPDBNo(){
+		$URV = self::$URV . 'baseSetFLOP().';
+		$tc = self::$tc;
+		$this->assertNull($tc->FLOP, $URV);
+		$this->assertFalse($tc->baseSetFLOP(), $URV);
+		$this->assertNull($tc->FLOP, $URV);
+	}
+	public function testClassbaseConbaseSetDBversionDBNo(){
+		$PHPUV = self::$PHPUV;
+		$UOV = self::$UOV . 'baseSetDBversion().';
+		$URV = self::$URV . 'baseSetDBversion().';
+		$tc = self::$tc;
+		$EOM = 'baseSetDBversion: DB not connected.';
+		$cur_e_l = ini_get( 'error_log' ); // Shim error_log output On
+		$capture = tmpfile();
+		$tmp = stream_get_meta_data($capture);
+		ini_set('error_log', $tmp['uri']);
+		$this->assertEquals(0, $tc->baseSetDBversion(), $URV);
+		ini_set( 'error_log', $cur_e_l ); // Shim error_log output Off
+		$elOutput = stream_get_contents($capture);
+		if ( $PHPUV > 1 ){ // PHPUnit 9+
+			$this->assertMatchesRegularExpression(
+				'/'.$EOM.'$/', $elOutput, $UOV
+			);
+		}else{ // Legacy PHPUnit
+			$this->assertRegExp(
+				'/'.$EOM.'$/', $elOutput, $UOV
+			);
+		}
+		$this->assertEquals(0, $tc->baseSetDBversion(), $URV);
+	}
+	public function testClassbaseConbaseConnect(){
+		GLOBAL $alert_dbname, $alert_host, $alert_user, $alert_password,
+		$alert_port;
+		$URV = self::$URV . 'baseConnect().';
+		$tc = self::$tc;
+		$this->assertTrue(
+			$tc->baseConnect(
+				$alert_dbname, $alert_host, $alert_port, $alert_user,
+				$alert_password
+			), $URV
+		);
+		$this->assertEquals($alert_dbname, $tc->DB_name, $URV);
+		$this->assertEquals($alert_host, $tc->DB_host, $URV);
+		$this->assertEquals($alert_port, $tc->DB_port, $URV);
+		$this->assertEquals($alert_user, $tc->DB_username, $URV);
+		$this->assertEquals(107, $tc->version, $URV);
+		$this->assertNull($tc->Role, $URV);
+		$this->assertNull($tc->FLOP, $URV);
+	}
+	public function testClassbaseConbaseSetFLOPDBYes(){
+		$URV = self::$URV . 'baseSetFLOP().';
+		$tc = self::$tc;
+		$this->assertNull($tc->FLOP, $URV);
+		$this->assertFalse($tc->baseSetFLOP(), $URV);
+		$this->assertFalse($tc->FLOP, $URV);
+	}
+	public function testClassbaseConbaseGetFLOPDBYes(){
+		$URV = self::$URV . 'baseGetFLOP().';
+		$tc = self::$tc;
+		$this->assertFalse($tc->FLOP, $URV);
+		$this->assertFalse($tc->baseGetFLOP(), $URV);
+		$this->assertFalse($tc->FLOP, $URV);
+	}
+	public function testClassbaseConbaseSetDBversionDBYes(){
+		$PHPUV = self::$PHPUV;
+		$UOV = self::$UOV . 'baseSetDBversion().';
+		$URV = self::$URV . 'baseSetDBversion().';
+		$tc = self::$tc;
+		$EOM = 'baseSetDBversion:  DB Schema set to 107';
+		$cur_e_l = ini_get( 'error_log' ); // Shim error_log output On
+		$capture = tmpfile();
+		$tmp = stream_get_meta_data($capture);
+		ini_set('error_log', $tmp['uri']);
+		$this->assertEquals(107, $tc->baseSetDBversion(), $URV);
+		ini_set( 'error_log', $cur_e_l ); // Shim error_log output Off
+		$elOutput = stream_get_contents($capture);
+		if ( $PHPUV > 1 ){ // PHPUnit 9+
+			$this->assertMatchesRegularExpression(
+				'/'.$EOM.'$/', $elOutput, $UOV
+			);
+		}else{ // Legacy PHPUnit
+			$this->assertRegExp(
+				'/'.$EOM.'$/', $elOutput, $UOV
+			);
+		}
+	}
+	public function testClassbaseConbaseClose(){
+		GLOBAL $DBtype;
+		$URV = self::$URV . 'baseClose().';
+		$tc = self::$tc;
+		$Ec = 0;
+		if( $DBtype = 'mysql' ){
+			$Ec = 1;
+		}
+		$this->assertTrue($tc->DB->isConnected(), $URV);
+		$tc->baseClose();
+		$this->assertFalse($tc->DB->isConnected(), $URV);
+		$this->assertEquals($DBtype, $tc->DB_type, $URV);
+		$this->assertNotNull($tc->DB_class, $URV);
+		$this->assertEquals($Ec, $tc->DB_class, $URV);
+		$this->assertEquals(0, $tc->version, $URV);
+		$this->assertEmpty($tc->lastSQL, $URV);
+		$this->assertNull($tc->DB_name, $URV);
+		$this->assertNull($tc->DB_host, $URV);
+		$this->assertNull($tc->DB_port, $URV);
+		$this->assertNull($tc->DB_username, $URV);
+		$this->assertNull($tc->Role, $URV);
+		$this->assertNull($tc->FLOP, $URV);
+	}
+	public function testClassbaseConbasePConnect(){
+		GLOBAL $alert_dbname, $alert_host, $alert_user, $alert_password,
+		$alert_port;
+		$URV = self::$URV . 'basePConnect().';
+		$tc = self::$tc;
+		$this->assertTrue(
+			$tc->basePConnect(
+				$alert_dbname, $alert_host, $alert_port, $alert_user,
+				$alert_password
+			), $URV
+		);
+		$this->assertEquals($alert_dbname, $tc->DB_name, $URV);
+		$this->assertEquals($alert_host, $tc->DB_host, $URV);
+		$this->assertEquals($alert_port, $tc->DB_port, $URV);
+		$this->assertEquals($alert_user, $tc->DB_username, $URV);
+		$this->assertEquals(107, $tc->version, $URV);
+		$this->assertNull($tc->Role, $URV);
+		$this->assertNull($tc->FLOP, $URV);
+	}
+
 	/**
 	 * @backupGlobals disabled
 	 */

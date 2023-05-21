@@ -147,11 +147,11 @@ UpdateAlertCache($db);
   echo '<FORM ACTION="base_stat_time.php" METHOD="get">
         <TABLE WIDTH="100%" BORDER=0>
          <TR>
-          <TD WIDTH="40%" CLASS="metatitle"><B><FONT COLOR="#FFFFFF">'._BSTTIMECRIT.'</FONT></B></TD>
-          <TD></TD></TR>
-        </TABLE>
+          <TD WIDTH="40%" CLASS="metatitle"><B>'._BSTTIMECRIT.'</B></TD>
+          <TD>';
+PrintFramedBoxFooter(1,2);
 
-        <TABLE WIDTH="100%" BORDER=2 class="query">
+echo '        <TABLE WIDTH="100%" BORDER=2 class="query">
         <TR>
          <TD>';
 
@@ -193,11 +193,9 @@ UpdateAlertCache($db);
       if ( $i == 0 ) echo '&nbsp; -- &nbsp;&nbsp;';
   }
 
-  echo '<INPUT TYPE="submit" NAME="submit" VALUE="'._PROFILEALERT.'">
-        </TD></TR></TABLE>
-        </FORM>
-
-        <P><HR>';
+  echo '<INPUT TYPE="submit" NAME="submit" VALUE="'._PROFILEALERT.'">';
+PrintFramedBoxFooter(1,3);
+NLIO('</form>',2);
 
   if ( $submit != "" && @$time_sep[0] == "" )
      echo _BSTERRPROFILECRIT;     
@@ -253,9 +251,7 @@ UpdateAlertCache($db);
         $day_start = -1;
         $hour_start = -1; 
      }
-  }
-  else if ( $time_sep[1] == "on" )
-  {
+	}elseif( $time_sep[1] == 'on' ){
      if ($time_sep[0] == "hour")       
      { 
         $year_start = $time[0][2];  $year_end = $time[0][2];
@@ -297,18 +293,19 @@ UpdateAlertCache($db);
      }
   }
 
-  if ( $debug_mode == 1 )
-  {
-     echo '<TABLE BORDER=1>
-            <TR>
-              <TD>year_start<TD>year_end<TD>month_start<TD>month_end
-              <TD>day_start<TD>day_end<TD>hour_start<TD>hour_end
-            <TR>
-              <TD>'.$year_start.'<TD>'.$year_end.'<TD>'.$month_start.'<TD>'.$month_end.
-              '<TD>'.$day_start.'<TD>'.$day_end.'<TD>'.$hour_start.'<TD>'.$hour_end.
-           '</TABLE>';
-  }
-
+if( $debug_mode == 1 ){
+	$TK = array ( 'year', 'month', 'day', 'hour' );
+	$DI = array();
+	$DD = array();
+	foreach ( $TK as $val ){
+		foreach ( array( 'start', 'end' ) as $vsf ){
+			$tmp = $val . '_' . $vsf;
+			array_push($DD, $tmp);
+			array_push($DI, $$tmp);
+		}
+	}
+	DDT($DI,$DD,'Time Constraints',2);
+}
   $cnt = 0;
   $i_year = $i_month = $i_day = $i_hour = NULL;
 
