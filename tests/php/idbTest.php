@@ -137,7 +137,7 @@ class dbTest extends TestCase {
 		);
 		self::$tc = $tc;
 		$Ec = 0;
-		if( $DBtype = 'mysql' ){
+		if( $DBtype == 'mysql' ){
 			$Ec = 1;
 		}
 		$this->assertEquals($DBtype, $tc->DB_type, $URV);
@@ -256,7 +256,7 @@ class dbTest extends TestCase {
 		$URV = self::$URV . 'baseClose().';
 		$tc = self::$tc;
 		$Ec = 0;
-		if( $DBtype = 'mysql' ){
+		if( $DBtype == 'mysql' ){
 			$Ec = 1;
 		}
 		$this->assertTrue($tc->DB->isConnected(), $URV);
