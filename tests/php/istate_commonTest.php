@@ -1,21 +1,19 @@
 <?php
 use PHPUnit\Framework\TestCase;
 
-// Test fucntions in /includes/base_state_common.inc.php
+// Test fucntions in includes/base_state_common.inc.php
+
 /**
   * @covers ::CleanVariable
   * @covers ::ExportHTTPVar
   * @covers ::InitArray
   * @covers ::SetSessionVar
-  * @covers ::filterSql
   * @uses ::ChkAccess
-  * @uses ::ChkArchive
   * @uses ::ChkCookie
   * @uses ::ChkLib
   * @uses ::ErrorMessage
   * @uses ::HtmlColor
   * @uses ::LoadedString
-  * @uses ::NewBASEDBConnection
   * @uses ::NLI
   * @uses ::NLIO
   * @uses ::GetPHPSV
@@ -23,7 +21,6 @@ use PHPUnit\Framework\TestCase;
   * @uses ::XSSPrintSafe
   * @uses ::returnErrorMessage
   * @uses ::returnExportHTTPVar
-  * @uses baseCon
   */
 
 class state_commonTest extends TestCase {
@@ -399,117 +396,6 @@ class state_commonTest extends TestCase {
 		$this->assertNotNull( $Ret, $URV );
 		$this->assertEquals( $Value, $Ret, $URV);
 		$debug_mode = $odb;
-	}
-	public function testfilterSQLNullReturnsNull() {
-		$URV = self::$URV.'filterSQL().';
-		$this->assertNull(filterSQL(NULL),$URV);
-	}
-	/**
-	 * @backupGlobals disabled
-	 */
-	public function testfilterSQLValueReturnsNotNull() {
-		$URV = self::$URV.'filterSQL().';
-		$this->assertNotNull(filterSQL('Value'),$URV);
-	}
-	/**
-	 * @backupGlobals disabled
-	 */
-	public function testfilterSQLNoTransformValue() {
-		$URV = self::$URV.'filterSQL().';
-		$this->assertEquals('Value',filterSQL('Value'),$URV);
-	}
-	/**
-	 * @backupGlobals disabled
-	 */
-	public function testfilterSQLTransformValue() {
-		$URV = self::$URV.'filterSQL().';
-		$db = self::$db;
-		$dbt = $db->DB_type;
-		$Value = "O'Niell";
-		if ( $dbt == 'mysql' || $dbt == 'mysqlt' || $dbt == 'maxsql' ){
-			$Ret = "O\'Niell";
-		}
-		if ( $dbt == 'postgres' ){
-			$Ret = "O''Niell";
-		}
-		$this->assertEquals($Ret,filterSQL($Value),$URV);
-	}
-	public function testfilterSQLNoTransformNonKeyedArray() {
-		$URV = self::$URV.'filterSQL().';
-		$Value = array (1,2,3,4);
-		$this->assertEquals(array(1,2,3,4),filterSQL($Value),$URV);
-	}
-	/**
-	 * @backupGlobals disabled
-	 */
-	public function testfilterSQLTransformNonKeyedArray() {
-		$URV = self::$URV.'filterSQL().';
-		$db = self::$db;
-		$dbt = $db->DB_type;
-		$Value = array ("O'Niell",1,2,3,4);
-		if ( $dbt == 'mysql' || $dbt == 'mysqlt' || $dbt == 'maxsql' ){
-			$Ret = "O\'Niell";
-		}
-		if ( $dbt == 'postgres' ){
-			$Ret = "O''Niell";
-		}
-		$this->assertEquals(
-			array("$Ret",1,2,3,4),filterSQL($Value),$URV
-		);
-	}
-	/**
-	 * @backupGlobals disabled
-	 */
-	public function testfilterSQLNoTransformKeyedArray() {
-		$URV = self::$URV.'filterSQL().';
-		$Value = array (
-			'key1' => 0,
-			'key2' => 1,
-			'key3' => 2,
-			'key4' => 3,
-			'key5' => 4
-		);
-		$this->assertEquals(
-			array(
-				'key1' => '0',
-				'key2' => '1',
-				'key3' => '2',
-				'key4' => '3',
-				'key5' => '4'
-			),
-			filterSQL($Value),$URV
-		);
-	}
-	/**
-	 * @backupGlobals disabled
-	 */
-	public function testfilterSQLTransformKeyedArray() {
-		$URV = self::$URV.'filterSQL().';
-		$db = self::$db;
-		$dbt = $db->DB_type;
-		$Value = array (
-			'key1' => "O'Niell",
-			'key2' => 1,
-			'key3' => 2,
-			'key4' => 3,
-			'key5' => 4
-		);
-		if ( $dbt == 'mysql' || $dbt == 'mysqlt' || $dbt == 'maxsql' ){
-			$Ret = "O\'Niell";
-		}
-		if ( $dbt == 'postgres' ){
-			$Ret = "O''Niell";
-		}
-		$this->assertEquals(
-			array(
-				'key1' => $Ret,
-				'key2' => '1',
-				'key3' => '2',
-				'key4' => '3',
-				'key5' => '4'
-			),
-			filterSQL($Value),$URV
-		);
 	}
 	public function testExportHTTPVarDefaults() {
 		$URV = self::$URV.'ExportHTTPVar().';

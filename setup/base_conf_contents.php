@@ -251,11 +251,28 @@ $base_custom_footer = \'\';
 		$freq_num_uaddr = 15;
 		$freq_num_uports = 15;
 
-		/* Number of scroll buttons to use when displaying query results */
-		$max_scroll_buttons = 12;
+// Number of scroll buttons to use when displaying query results.
+$max_scroll_buttons = 12;
 
-		/* Debug mode     - how much debugging information should be shown
-		 * Timing mode    - display timing information
+// Debug mode - How much debugging information should be shown.
+// 0:  UI: No extra information.
+//    Log: Kernel & UI Page Start.
+// 1: Session management & request information.
+// 2:  UI: extended debugging information for admin users.
+//    Log: Kernel boot messages.
+//         Criteria State management.
+// 3: More than you ever wanted to know.
+
+$debug_mode = 0;
+
+// Timing mode - Display timing information
+// 0: No information.
+// 1: Page Load Time.
+// 2: Runtime Telemetry, detail level dependent on $debug_mode setting.
+
+$debug_time_mode = 1;
+
+		/*
 		 * SQL trace mode - log SQL statements
 		 *   0 : no extra information
 		 *   1 : debugging information

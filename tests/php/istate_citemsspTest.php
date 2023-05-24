@@ -12,6 +12,7 @@ use PHPUnit\Framework\TestCase;
   * @covers IPAddressCriteria
   * @covers DataCriteria
   */
+
 class state_citemsSPTest extends TestCase {
 	// Pre Test Setup.
 	protected static $files;
@@ -335,22 +336,18 @@ class state_citemsSPTest extends TestCase {
 			$tc = new DataCriteria($db, $cs, 'Test',1),
 			'Class Not Initialized.'
 		);
+		$EOM = "<font color='black'>SetSessionVar(): Importing SESSION var "
+		. "'$cs'</font><br/><font color='black'>SetSessionVar(): $cs: "
+		. "</font><br/><font color='black'>MultipleElementCriteria::Import: "
+		. "$cs Denied: Criteria Type: NULL</font><br/><font color='black'>"
+		. "DataCriteria::Import: $cs : Criteria Type: NULL</font><br/>"
+		. "<font color='black'>Property Type: string</font><br/>"
+		. "<font color='black'>Property Import: Denied.</font><br/>";
 		$odb = $debug_mode;
 		$osession = $_SESSION;
 		$debug_mode = 2;
 		$_SESSION[$cs] = '';
-		$this->expectOutputString(
-			"<font color='black'>SetSessionVar(): Importing SESSION var '$cs'"
-			. '</font><br/>'
-			. "<font color='black'>SetSessionVar(): $cs: </font><br/>"
-			. "Import: $cs<br/>\nCriteria Type: NULL<br/>\n"
-			. "Criteria Import: Denied.<br/>\n"
-			. "Import: Test<br/>\nCriteria Type: NULL<br/>\n"
-			. "Property Type: string<br/>\n"
-			. "Property Import: Denied.<br/>\n",
-			$UOV
-		);
-		$tc->Import();
+		$this->expectOutputString($EOM, $tc->Import(), $UOV);
 		$debug_mode = $odb;
 		$_SESSION = $osession;
 		$this->assertFalse(is_array($tc->criteria), $URV);
@@ -373,21 +370,18 @@ class state_citemsSPTest extends TestCase {
 			$tc = new DataCriteria($db, $cs, 'Test',1),
 			'Class Not Initialized.'
 		);
+		$EOM = "<font color='black'>SetSessionVar(): Importing SESSION var "
+		. "'$cs'</font><br/><font color='black'>MultipleElementCriteria::"
+		. "Import: $cs Allowed: Criteria Type: array</font><br/>"
+		. "<font color='black'>DataCriteria::Import: $cs : Criteria Type: "
+		. "array</font><br/>"
+		. "<font color='black'>Property Type: string</font><br/>"
+		. "<font color='black'>Property Import: Denied.</font><br/>";
 		$odb = $debug_mode;
 		$osession = $_SESSION;
 		$debug_mode = 2;
 		$_SESSION[$cs] = array(0 => '', 1 => '');
-		$this->expectOutputString(
-			"<font color='black'>SetSessionVar(): ".
-			"Importing SESSION var 'Test'</font><br/>".
-			"Import: Test<br/>\nCriteria Type: array<br/>\n".
-			"Criteria Import: Allowed.<br/>\n".
-			"Import: Test<br/>\nCriteria Type: array<br/>\n".
-			"Property Type: string<br/>\n".
-			"Property Import: Denied.<br/>\n",
-			$UOV
-		);
-		$tc->Import();
+		$this->expectOutputString($EOM, $tc->Import(), $UOV);
 		$debug_mode = $odb;
 		$this->assertTrue(is_array($tc->criteria), $URV);
 		$this->assertEquals(array(0 => '', 1 => ''),$tc->criteria, $URV);
@@ -411,24 +405,20 @@ class state_citemsSPTest extends TestCase {
 			$tc = new DataCriteria($db, $cs, 'Test',1),
 			'Class Not Initialized.'
 		);
+		$EOM = "<font color='black'>SetSessionVar(): Importing SESSION var "
+		. "'$cs'</font><br/><font color='black'>MultipleElementCriteria::"
+		. "Import: $cs Allowed: Criteria Type: array</font><br/>"
+		. "<font color='black'>SetSessionVar(): Importing SESSION var "
+		. "'data_encode'</font><br/><font color='black'>"
+		. "DataCriteria::Import: $cs : Criteria Type: array</font><br/>"
+		. "<font color='black'>Property Type: array</font><br/>"
+		. "<font color='black'>Property Import: Allowed.</font><br/>";
 		$odb = $debug_mode;
 		$osession = $_SESSION;
 		$debug_mode = 2;
 		$_SESSION[$cs] = array(0 => '', 1 => '');
 		$_SESSION['data_encode'] = array();
-		$this->expectOutputString(
-			"<font color='black'>SetSessionVar(): ".
-			"Importing SESSION var 'Test'</font><br/>".
-			"Import: Test<br/>\nCriteria Type: array<br/>\n".
-			"Criteria Import: Allowed.<br/>\n".
-			"<font color='black'>SetSessionVar(): ".
-			"Importing SESSION var 'data_encode'</font><br/>".
-			"Import: Test<br/>\nCriteria Type: array<br/>\n".
-			"Property Type: array<br/>\n".
-			"Property Import: Allowed.<br/>\n",
-			$UOV
-		);
-		$tc->Import();
+		$this->expectOutputString($EOM, $tc->Import(), $UOV);
 		$debug_mode = $odb;
 		$this->assertTrue(is_array($tc->criteria), $URV);
 		$this->assertEquals(array(0 => '', 1 => ''),$tc->criteria, $URV);

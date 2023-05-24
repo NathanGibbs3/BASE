@@ -229,7 +229,7 @@ function GetActionDesc($action_name){
 
 function ProcessSelectedAlerts(
 	$action, &$action_op, $action_arg, $action_param, $context, $action_lst,
-	&$num_alert, $action_sql, $db, $limit_start=-1, $limit_offset=-1
+	&$num_alert, $action_sql, $db, $limit_start = -1, $limit_offset = -1
 ){
 	GLOBAL $debug_mode, $BCR;
 	$Archive = $BCR->GetCap('BASE_ADB');
@@ -238,28 +238,34 @@ function ProcessSelectedAlerts(
 	$action_cnt = 0;
 	$dup_cnt = 0;
 	$action_desc = '';
-	if ( !LoadedString($action) ){
+	if( !LoadedString($action) ){
 		return;
 	}
 	$action_desc = GetActionDesc($action);
-	if ( $debug_mode > 0 ){
-     echo "<BR>==== $action_desc Alerts ========<BR>
-           num_alert = $num_alert<BR>
-           action_sql = $action_sql<BR>
-           action_op = $action_op<BR>
-           action_arg = $action_arg<BR>
-           action_param = $action_param<BR>
-           context = $context<BR>
-           limit_start = $limit_start<BR>
-           limit_offset = $limit_offset<BR>";
-		$TK = array ('Mail', 'Mime', 'Archive');
+	if( $debug_mode > 0 ){
+		$TK = array('Mail', 'Mime', 'Archive');
 		$DI = array();
 		$DD = array();
-		foreach ( $TK as $val ){
+		foreach( $TK as $val ){
+			array_push($DD, $val);
+			$tmp = 'no';
+			if( $$val ){
+				$tmp = 'yes';
+			}
+			array_push($DI, Icon($tmp, ucfirst($tmp)) . ' ' . ucfirst($tmp));
+		}
+		DDT($DI, $DD, 'Action Capabilities', '', 10, 1, 0);
+		$TK = array(
+			'num_alert', 'action_sql', 'action_op', 'action_arg',
+			'action_param', 'context', 'limit_start', 'limit_offset'
+		);
+		$DI = array();
+		$DD = array();
+		foreach( $TK as $val ){
 			array_push($DD, $val);
 			array_push($DI, $$val);
 		}
-		DDT($DI,$DD,'Action Capabilities','',25, 1);
+		DDT($DI, $DD, "$action_desc Alerts", '', '', 1);
 		ErrorMessage(
 			'Debug delay active BASE resmuing in 60 '._SECONDS.'.<br/>', 0, 1
 		);
@@ -295,8 +301,12 @@ function ProcessSelectedAlerts(
 	// ******* SOME PRE ACTION *********
 	$function_pre = "Action_".$action."_Pre";
 	$action_ctx = $function_pre($action_arg, $action_param, $db);
-	if ( $debug_mode > 0 ){
-		echo "<BR>Gathering elements from ".sizeof($action_lst)." alert blobs<BR>";
+	if( $debug_mode > 0 ){
+		$tmp = 1;
+		if( is_array($action_lst) ){
+			$tmp = count($action_lst);
+		}
+		NLIO("<br/>Gathering elements from $tmp alert blobs.<br/>");
 	}
 	// Loop through all the alert blobs.
 	for ( $j = 0; $j < $num_alert_blobs; $j++ ){
@@ -584,17 +594,27 @@ function Action_add_new_ag_Post($action_arg, &$action_ctx, $db, &$num_alert, $ac
 		);
 	}
 }
+
 // DELETE
-function Action_del_alert_pre($action_arg, $action_param, $db){
+
+function Action_del_alert_pre ( $action_arg, $action_param, $db ){
 	GLOBAL $num_alert_blobs;
 	return $num_alert_blobs;
 }
-function Action_del_alert_op($sid, $cid, $db, $action_arg, &$ctx){
+
+function Action_del_alert_op ( $sid, $cid, $db, $action_arg, &$ctx ){
 	return PurgeAlert($sid, $cid, $db);
 }
-function Action_del_alert_post($action_arg, &$action_ctx, $db, &$num_alert, $action_cnt, $context){
+
+function Action_del_alert_post (
+	$action_arg, &$action_ctx, $db, &$num_alert, $action_cnt, $context
+){
 	$sel_cnt = 0;
-	$action_lst_cnt = count(ImportHTTPVar("action_lst"));
+	$tmp = ImportHTTPVar('action_lst');
+	$action_lst_cnt = 1;
+	if( is_array($tmp) ){
+		$action_lst_cnt = count($tmp);
+	}
 	$action_chk_lst = ImportHTTPVar("action_chk_lst");
 	// Count the number of check boxes selected.
 	for ( $i = 0; $i < $action_lst_cnt ; $i++){
@@ -602,15 +622,16 @@ function Action_del_alert_post($action_arg, &$action_ctx, $db, &$num_alert, $act
 			$sel_cnt++;
 		}
 	}
-	if ($sel_cnt > 0){ // 1 or more check boxes selected?
+	if( $sel_cnt > 0 ){ // 1 or more check boxes selected?
 		$num_alert -= $sel_cnt;
-	}elseif  ($context == 1){ // Detail alert list?
+	}elseif( $context == 1 ){ // Detail alert list?
 		// No, must have been a Delete ALL on Screen or Delete Entire Query.
 		$num_alert -= $action_cnt;
 	}else{
 		$num_alert -= count(ImportHTTPVar("action_chk_lst"));
 	}
 }
+
 //* Email
 function Action_email_alert_pre($action_arg, $action_param, $db){
 	return '';

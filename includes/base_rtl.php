@@ -16,7 +16,7 @@
 //          Author(s): Nathan Gibbs
 //                     Kevin Johnson
 
-$BRTL_Ver = '0.0.7';
+$BRTL_Ver = '0.0.8';
 
 if( !function_exists('LoadedString') ){
 	// Returns true if var is a string containing data.
@@ -85,7 +85,9 @@ if( !function_exists('HTTP_header') ){
 		}
 		if ( !headers_sent() ){
 			header($_SERVER['SERVER_PROTOCOL'] . " $status");
-			header($url,true,$status);
+			if( LoadedString($url) ){
+				header($url,true,$status);
+			}
 			exit;
 		}
 	}
@@ -178,48 +180,6 @@ function is_key( $SKey, $SArray ){ // PHP Version Agnostic.
 		// @codeCoverageIgnoreEnd
 	}
 	return $Ret;
-}
-
-function ErrorMessage ($message, $color = '#ff0000', $br = 0 ){
-	GLOBAL $BCR, $debug_mode, $BASE_VERSION, $BASE_installID;
-	if (
-		!getenv('TRAVIS')
-		&& !(
-			$BASE_VERSION == '0.0.0 (Joette)'
-			&& $BASE_installID == 'Test Runner'
-		)
-	){
-		$UIM = 'Knl'; // Default UI Mode Under Boot.
-	}else{
-		$UIM = 'Web'; // Default UI Mode Under Test.
-	}
-	if ( isset($BCR) && is_object($BCR) ){
-		$UIM = $BCR->GetCap('UIMode'); // Running System Sets UI Mode.
-	}
-	switch( $UIM ){
-		case 'Gfx';
-		case 'Knl';
-			KML($message, $debug_mode);
-			break;
-		case 'Con';
-			NLI($message);
-			break;
-		case 'Web';
-		default;
-			print returnErrorMessage($message, $color, $br);
-	}
-}
-
-function returnErrorMessage ($message, $color = "#ff0000", $br = 0 ){
-	if ( HtmlColor($color) == false ){
-		// Default to Red if we are passed something odd.
-		$color = "#ff0000";
-	}
-	$error = "<font color='$color'>$message</font>";
-	if ( is_numeric($br) && $br == 1 ){ // Issue #160
-		$error .= '<br/>';
-	}
-	return $error;
 }
 
 // Function: XSSPrintSafe()
@@ -370,7 +330,7 @@ function ipdeconvert ( $ip = '' ){
 					$PHPVer[0] > 5
 					|| ($PHPVer[0] == 5 && $PHPVer[1] == 6 && $PHPVer[2] > 0)
 				)
-			){ // Fast way on PHP > 5.6.0
+			){ // Fast way on PHP 5.6.1+
 				$SF = true;
 				$tmp = str_pad(gmp_export($ip), 16, "\0", STR_PAD_LEFT);
 			}
@@ -473,7 +433,7 @@ function ipconvert ( $ip = '' ){
 			if(
 				$PHPVer[0] > 5
 				|| ($PHPVer[0] == 5 && $PHPVer[1] == 6 && $PHPVer[2] > 0)
-			){ // Fast way on PHP > 5.6.0
+			){ // Fast way on PHP 5.6.1+
 				if( $t6 && defined('GMP_VERSION') ){
 					$SF = true;
 					$Ret = gmp_strval(gmp_import($tmp));

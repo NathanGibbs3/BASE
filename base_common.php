@@ -1024,78 +1024,68 @@ function ChkLib ( $path = '', $LibLoc = '', $LibFile = '' ){
 	GLOBAL $debug_mode;
 	$EMPfx = __FUNCTION__ . ': ';
 	$Ret = '';
-	if ( LoadedString($LibFile) ){
+	if( LoadedString($LibFile) ){
 		$sc = DIRECTORY_SEPARATOR;
 		$tmp = $LibFile;
 		// Strip leading or trailing seperators from Lib file.
 		$ReqRE = "(^\\$sc|\\$sc\$)";
 		$LibFile = preg_replace("/".$ReqRE."/", '', $LibFile);
-		if ( $debug_mode > 1 && $tmp != $LibFile ){
-			ErrorMessage('Req Lib: ' . XSSPrintSafe($tmp), 0, 1);
-			ErrorMessage('Mod Lib: ' . XSSPrintSafe($LibFile), 0, 1);
+		if ( $tmp != $LibFile ){
+			KML($EMPfx . "Req Lib: $tmp", 3);
+			KML($EMPfx . "Mod Lib: $LibFile", 3);
 		}
-		if ( LoadedString($path) ){ // Path to Lib
+		if( LoadedString($path) ){ // Path to Lib
 			$tmp = $path; // Strip trailing seperator from path.
 			$ReqRE = "\\$sc\$";
 			$path = preg_replace("/".$ReqRE."/", '', $path);
-			if ( $debug_mode > 1 && $tmp != $path ){
-				ErrorMessage('Req Loc: ' . XSSPrintSafe($tmp), 0, 1);
-				ErrorMessage('Mod Loc: ' . XSSPrintSafe($path), 0, 1);
+			if( $tmp != $path ){
+				KML($EMPfx . "Req Loc: $tmp", 3);
+				KML($EMPfx . "Mod Loc: $path", 3);
 			}
 			$LibFile .= '.php';
 			$FinalLib = implode( $sc, array($path, $LibFile) );
-			if ( $debug_mode > 1 ){
-				ErrorMessage(
-					XSSPrintSafe($EMPfx . "Chk: $FinalLib"),'black',1
-				);
-			}
+			KML($EMPfx . "Chk: $FinalLib", 3);
 			$tmp = ChkAccess($FinalLib);
 			$Msg = $EMPfx . "Lib: $FinalLib ";
-			$clr = 'red';
-			if ( $tmp == 1 ){
+			if( $tmp == 1 ){
 				$Msg .= 'found';
-				$clr = 'black';
 				$Ret = $FinalLib;
 			}else{
 				$Msg .= 'not ';
 			}
-			if ( $tmp == -1 ){
+			if( $tmp == -1 ){
 				$Msg .= 'found';
-			}elseif ( $tmp == -2 ){
+			}elseif( $tmp == -2 ){
 				$Msg .= 'readable';
 			}
 			$Msg .= '.';
-			if ( $debug_mode > 1 ){
-				ErrorMessage($Msg, $clr, 1);
-			}
+			KML($Msg, 3);
 		}else{ // Relative path to Lib.
-			if ( LoadedString($LibLoc) ){
+			if( LoadedString($LibLoc) ){
 				$tmp = $LibLoc; // Strip leading seperators from Loc.
 				$ReqRE = "^\\$sc";
 				$LibLoc = preg_replace("/".$ReqRE."/", '', $LibLoc);
-				if ( $debug_mode > 1 && $tmp != $LibLoc ){
-					ErrorMessage('Req Loc: ' . XSSPrintSafe($tmp), 0, 1);
-					ErrorMessage('Mod Loc: ' . XSSPrintSafe($LibLoc), 0, 1);
+				if( $tmp != $LibLoc ){
+					KML($EMPfx . "Req Loc: $tmp", 3);
+					KML($EMPfx . "Mod Loc: $LibLoc", 3);
 				}
 			}
 			$PSPath = explode(PATH_SEPARATOR, ini_get('include_path'));
 			foreach( $PSPath as $single_path ){
-				if ( LoadedString($LibLoc) ){
+				if( LoadedString($LibLoc) ){
 					$FinalLoc = implode( $sc, array($single_path, $LibLoc) );
 				}else{
 					$FinalLoc = $single_path;
 				}
 				$tmp = ChkLib( $FinalLoc, '', $LibFile);
-				if ( LoadedString($tmp) ){
+				if( LoadedString($tmp) ){
 					$Ret = $tmp;
 					break;
 				}
 			}
 		}
 	}else{
-		if ( $debug_mode > 0 ){
-			ErrorMessage($EMPfx . 'No Lib specified.', 0, 1);
-		}
+		KML($EMPfx . 'No Lib specified.', 1);
 	}
 	return $Ret;
 }

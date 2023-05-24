@@ -103,28 +103,26 @@ class BaseCriteria {
 	function isEmpty(){
 		// Returns if the criteria is empty.
 	}
-	function CTIFD( $func = __FUNCTION__, $SF = '' ){
+	function CTIFD( $func = __CLASS__ . '::' . __FUNCTION__, $SF = '' ){
 		// Prints debuging info regarding Criteria Type Input/Import Functions.
 		GLOBAL $debug_mode;
-		if ( $debug_mode > 1 ){
-			print "$func: $this->export_name<br/>\n";
-			print "Criteria Type: ".gettype($this->criteria)."<br/>\n";
-			if ( is_bool($SF) ){
-				$msg = "Criteria $func: ";
-				if ($SF){
+		if( $debug_mode > 1 ){
+			$msg = "$func: $this->export_name ";
+			if( is_bool($SF) ){
+				if( $SF ){
 					$msg .= 'Allowed';
 				}else{
 					$msg .= 'Denied';
 				}
-				$msg .= ".<br/>\n";
-				print $msg;
 			}
+			$msg .= ": Criteria Type: " . gettype($this->criteria);
+			ErrorMessage($msg, 'black', 1);
 		}
 	}
 };
 
 class SingleElementCriteria extends BaseCriteria{
-	function Import(){
+	function Import(){ // Store ourselves in the session.
 		$this->criteria = SetSessionVar($this->export_name);
 		$_SESSION[$this->export_name] = &$this->criteria;
 	}
@@ -198,7 +196,7 @@ class MultipleElementCriteria extends BaseCriteria {
 		InitArray($this->criteria, $tmp, $this->element_cnt, '');
 		$this->criteria_cnt = 1;
 		$_SESSION[$this->export_name."_cnt"] = &$this->criteria_cnt;
-		$this->CTIFD(__FUNCTION__);
+		$this->CTIFD(__CLASS__ . '::' . __FUNCTION__);
 	}
 	function Import(){
 		$tmp = SetSessionVar($this->export_name);
@@ -211,7 +209,7 @@ class MultipleElementCriteria extends BaseCriteria {
 		$this->criteria_cnt = SetSessionVar($this->export_name."_cnt");
 		$_SESSION[$this->export_name] = &$this->criteria;
 		$_SESSION[$this->export_name."_cnt"] = &$this->criteria_cnt;
-		$this->CTIFD(__FUNCTION__,$SF);
+		$this->CTIFD(__CLASS__ . '::' . __FUNCTION__, $SF);
 	}
    function Sanitize()
    { 
@@ -245,7 +243,7 @@ class MultipleElementCriteria extends BaseCriteria {
 		}else{
 			$SF = false;
 		}
-		$this->CTIFD(__FUNCTION__,$SF);
+		$this->CTIFD(__CLASS__ . '::' . __FUNCTION__, $SF);
 	}
 	function Get(){
 		return $this->criteria;
@@ -261,7 +259,7 @@ class MultipleElementCriteria extends BaseCriteria {
 	function PrintForm($field_list, $blank_field_string, $add_button_string){
 		GLOBAL $debug_mode;
 		if ( $debug_mode > 0 ){
-			$this->CTIFD(__FUNCTION__);
+			$this->CTIFD(__CLASS__ . '::' . __FUNCTION__);
 			print "Criteria Count: $this->criteria_cnt<br/>\n";
 		}
 		for ( $i = 0; $i < $this->criteria_cnt; $i++ ){
@@ -315,8 +313,7 @@ class MultipleElementCriteria extends BaseCriteria {
 	}
 	// Not Used in Code. Why is it even here?
 	function Compact(){
-		if ( $this->isEmpty() ){
-			// Restore to newly constructed state.
+		if( $this->isEmpty() ){ // Restore to newly constructed state.
 			$this->criteria = NULL;
 			$_SESSION[$this->export_name] = &$this->criteria;
 		}
@@ -422,12 +419,12 @@ class SignatureCriteria extends SingleElementCriteria {
 	function Import(){
 		$tmp = SetSessionVar($this->export_name);
 		if ( is_array($tmp) ){ // Type Lock criteria import. Fixes Issue #10.
-			parent::Import();
+			parent::Import(); // Store ourselves in the session.
 			$SF = true;
 		}else{
 			$SF = false;
 		}
-		$this->CTIFD(__FUNCTION__,$SF);
+		$this->CTIFD(__CLASS__ . '::' . __FUNCTION__, $SF);
 		$this->sig_type = SetSessionVar("sig_type");
 		$_SESSION['sig_type'] = &$this->sig_type;
 	}
@@ -447,7 +444,7 @@ class SignatureCriteria extends SingleElementCriteria {
 		GLOBAL $debug_mode;
 		if ( !is_array($this->criteria) ){
 			if ( $debug_mode > 0 ){
-				$this->CTIFD(__FUNCTION__);
+				$this->CTIFD(__CLASS__ . '::' . __FUNCTION__);
 				print __FUNCTION__.": Criteria Data Error Detected<br/>\n";
 				print "Re Initializing<br/>\n";
 			}
@@ -612,12 +609,12 @@ class SignaturePriorityCriteria extends SingleElementCriteria {
 	function Import(){
 		$tmp = SetSessionVar($this->export_name);
 		if ( is_array($tmp) ){ // Type Lock criteria import. Fixes Issue #10.
-			parent::Import();
+			parent::Import(); // Store ourselves in the session.
 			$SF = true;
 		}else{
 			$SF = false;
 		}
-		$this->CTIFD(__FUNCTION__,$SF);
+		$this->CTIFD(__CLASS__ . '::' . __FUNCTION__, $SF);
 	}
 	function Clear(){
 		// Clears the criteria.
@@ -635,7 +632,7 @@ class SignaturePriorityCriteria extends SingleElementCriteria {
 		if ( $this->db->baseGetDBversion() >= 103 ){
 			if ( !is_array($this->criteria) ){
 				if ( $debug_mode > 0 ){
-					$this->CTIFD(__FUNCTION__);
+					$this->CTIFD(__CLASS__ . '::' . __FUNCTION__);
 					print __FUNCTION__.": Criteria Data Error Detected<br/>\n";
 					print "Re Initializing<br/>\n";
 				}
@@ -858,7 +855,7 @@ class TimeCriteria extends MultipleElementCriteria {
 		for ( $i = 0; $i < $this->criteria_cnt; $i++ ){
 			if (!is_array($this->criteria[$i])){
 				if ( $debug_mode > 0 ){
-					$this->CTIFD(__FUNCTION__);
+					$this->CTIFD(__CLASS__ . '::' . __FUNCTION__);
 					print __FUNCTION__.": Criteria Data Error Detected<br/>\n";
 					print "Re Initializing<br/>\n";
 				}
@@ -988,7 +985,7 @@ class IPAddressCriteria extends MultipleElementCriteria {
 		);
 	}
 	function Import(){
-		parent::Import();
+		parent::Import(); // Store ourselves in the session.
 		if ( is_array($this->criteria) ){
 			// Expand IP into octets.
 			for ( $i = 0; $i < $this->criteria_cnt; $i++ ){
@@ -1035,7 +1032,7 @@ class IPAddressCriteria extends MultipleElementCriteria {
 		for ( $i = 0; $i < $this->criteria_cnt; $i++ ){
 			if (!is_array($this->criteria[$i])){
 				if ( $debug_mode > 0 ){
-					$this->CTIFD(__FUNCTION__);
+					$this->CTIFD(__CLASS__ . '::' . __FUNCTION__);
 					print __FUNCTION__.": Criteria Data Error Detected<br/>\n";
 					print "Re Initializing<br/>\n";
 				}
@@ -1324,12 +1321,12 @@ class TCPFlagsCriteria extends SingleElementCriteria{
 	function Import(){
 		$tmp = SetSessionVar($this->export_name);
 		if ( is_array($tmp) ){ // Type Lock criteria import. Fixes Issue #10.
-			parent::Import();
+			parent::Import(); // Store ourselves in the session.
 			$SF = true;
 		}else{
 			$SF = false;
 		}
-		$this->CTIFD(__FUNCTION__,$SF);
+		$this->CTIFD(__CLASS__ . '::' . __FUNCTION__,$SF);
 	}
 	function Clear(){
 		// Clears the criteria.
@@ -1340,7 +1337,7 @@ class TCPFlagsCriteria extends SingleElementCriteria{
 	function PrintForm($value1, $value2, $value3) {
 		GLOBAL $debug_mode;
 		if (!is_array($this->criteria)){
-			$this->CTIFD(__FUNCTION__);
+			$this->CTIFD(__CLASS__ . '::' . __FUNCTION__);
 			print __FUNCTION__.": Criteria Data Error Detected<br/>\n";
 			print "Re Initializing<br/>\n";
 			$this->Init();
@@ -1666,7 +1663,7 @@ class DataCriteria extends MultipleElementCriteria {
 	}
 	function Import(){
 		GLOBAL $debug_mode;
-		parent::Import();
+		parent::Import(); // Store ourselves in the session.
 		$tmp = SetSessionVar("data_encode");
 		if ( is_array($tmp) ){ // Type Lock Property import. Fixes Issue #10.
 			$this->data_encode = $tmp;
@@ -1676,8 +1673,10 @@ class DataCriteria extends MultipleElementCriteria {
 		}
 		$_SESSION['data_encode'] = &$this->data_encode;
 		if ( $debug_mode > 1 ){
-			$this->CTIFD(__FUNCTION__);
-			print "Property Type: ".gettype($tmp)."<br/>\n";
+			$this->CTIFD(__CLASS__ . '::' . __FUNCTION__);
+			ErrorMessage(
+				"Property Type: " . gettype($tmp), 'black', 1
+			);
 			if ( is_bool($ISF) ){
 				$msg = 'Property '.__FUNCTION__.': ';
 				if ($ISF){
@@ -1685,8 +1684,8 @@ class DataCriteria extends MultipleElementCriteria {
 				}else{
 					$msg .= 'Denied';
 				}
-				$msg .= ".<br/>\n";
-				print $msg;
+				$msg .= '.';
+				ErrorMessage($msg, 'black', 1);
 			}
 		}
 	}
@@ -1712,7 +1711,7 @@ class DataCriteria extends MultipleElementCriteria {
 		GLOBAL $debug_mode;
 		if (!is_array($this->criteria[0])){
 			if ( $debug_mode > 0 ){
-				$this->CTIFD(__FUNCTION__);
+				$this->CTIFD(__CLASS__ . '::' . __FUNCTION__);
 				print __FUNCTION__.": Criteria Data Error Detected<br/>\n";
 				print "Re Initializing<br/>\n";
 			}

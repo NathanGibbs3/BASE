@@ -90,9 +90,8 @@ class baseCon {
 		if( $this->baseGetDBversion() > 105 ){ // FLoPS released after Schema v106
 			$this->baseSetFLOP(); // Detect FLoP Extended DB.
 		}
-		if( $debug_mode > 1 ){ // Need to TD these in Issue #11 branch.
-			ErrorMessage($EMPfx . "DB Connect: $DBDesc.", 'black', 1);
-		}
+		// Need to TD these in Issue #11 branch.
+		KML($EMPfx . "DB Connect: $DBDesc.", 3);
 		if( is_object($et) && $debug_mode > 1 ){
 			$et->Mark("DB Connect: $DBDesc.");
 		}
@@ -612,15 +611,15 @@ function baseInsertID (){
 					$Ret = intval($myrow[0]);
 					$rs->Close();
 				}else{
-					KML($EMPfx . 'Access error.', 1);
+					KML($EMPfx . 'Access error.', 3);
 				}
 			}else{
-				KML($EMPfx . 'undefined.', 1);
+				KML($EMPfx . 'undefined.', 3);
 			}
-			KML($EMPfx . "set to $Ret", 1);
+			KML($EMPfx . "set to $Ret", 3);
 			$this->version = $Ret;
 		}else{
-			KML($EMPfx . 'DB not connected.', 1);
+			KML($EMPfx . 'DB not connected.', 3);
 		}
 		return $Ret;
 	}
@@ -774,16 +773,14 @@ class baseRS {
     }
   }
 }
-function NewBASEDBConnection($path, $type){
+
+function NewBASEDBConnection( $path, $type ){
 	GLOBAL $debug_mode, $et;
 	$PHPVer = GetPHPSV();
 	$Wtype = NULL; // Working type.
 	$EMPfx = __FUNCTION__ . ': ';
-	$AXtype = XSSPrintSafe($type);
+	$AXtype = $type;
 	if ( LoadedString($type) ){ // Normalize DB type.
-		if ( $debug_mode > 1 ){
-			ErrorMessage($EMPfx . "Req DB type: $AXtype",'black',1);
-		}
 		$type = strtolower($type);
 		if ( preg_match("/^(postgres(s)?|(postgre(s)?|pg)sql)$/", $type) ){
 			$type = 'postgres';
@@ -792,7 +789,6 @@ function NewBASEDBConnection($path, $type){
 		}elseif ( preg_match("/^m(s|icrosoft)/", $type) ){
 			$type = 'mssql';
 		}
-		$AXtype = XSSPrintSafe($type);
 		// Set DB driver type.
 		$Wtype = $type;
 		if( $type == 'mysql' || $type == 'mysqlt' || $type == 'maxsql' ){
@@ -803,38 +799,25 @@ function NewBASEDBConnection($path, $type){
 				$Wtype = "mysqli";
 			}
 		}
-		if ( $debug_mode > 1 ){
-			ErrorMessage($EMPfx ."FIN DB type: $AXtype",0,1);
-			ErrorMessage($EMPfx ."DB Driver: $Wtype",0,1);
-		}
+		KML($EMPfx . "DB Type Req: $AXtype Type FIN: $type Driver: $Wtype", 3);
 	}
 	if (
 		!LoadedString($Wtype) ||
 		!preg_match("/^(m(y|s|ax)sql|mysqlt|postgres|oci8)$/", $type)
 	){
-		$msg = "<b>"._ERRSQLDBTYPE."</b>"."<p>:"._ERRSQLDBTYPEINFO1.
-		"<code>'$AXtype'</code>. "._ERRSQLDBTYPEINFO2;
+		$msg = "<b>" . _ERRSQLDBTYPE . "</b>" . "<p>:" . _ERRSQLDBTYPEINFO1
+		. "<code>'" .XSSPrintSafe($AXtype) . "'</code>. ". _ERRSQLDBTYPEINFO2;
 		FatalError ($msg);
 	}
 	$sc = DIRECTORY_SEPARATOR;
 	if ( !LoadedString($path) ){ // Setup default for PHP module include.
 		$path = 'adodb';
-		if ( $debug_mode > 1 ){
-			ErrorMessage($EMPfx ."Def DAL path = '$path'",0,1);
-		}
+		KML($EMPfx . "Def DAL path = '$path'", 3);
 	}else{ // We are given a path.
-		if ( $debug_mode > 1 ){
-			ErrorMessage (
-				$EMPfx ."Req DAL path = '".XSSPrintSafe($path)."'",'black',1
-			);
-		}
+		KML($EMPfx . "Req DAL path = '$path'", 3);
 		if ( $path != 'adodb' ){ // Export ADODB_DIR for use by ADODB.
 			SetConst('ADODB_DIR', $path);
 		}
-	}
-	$AXpath = XSSPrintSafe($path);
-	if ( $debug_mode > 1 ){
-		ErrorMessage($EMPfx ."DAL Load: '".$AXpath."adodb.inc.php'",0,1);
 	}
 	$GLOBALS['ADODB_DIR'] = ADODB_DIR;
 	SetConst('ADODB_ERROR_HANDLER_TYPE',E_USER_NOTICE);
@@ -845,6 +828,10 @@ function NewBASEDBConnection($path, $type){
 //	SetConst('ADODB_ERROR_LOG_TYPE',0);
 	// Load ADODB Error Handler.
 	$LibFile = 'adodb-errorhandler.inc';
+	$Lib = implode( $sc, array($path, $LibFile) ) . '.php';
+	if( $debug_mode > 1 ){ // Issue 11 avoidance Test shim.
+		KML($EMPfx . _DBALCHECK . " '$Lib'", 3);
+	}
 	if ( $path != 'adodb' ){
 		$tmp = ChkLib($path, '' , $LibFile);
 	}else{
@@ -853,14 +840,13 @@ function NewBASEDBConnection($path, $type){
 	$DEH = false;
 	if ( LoadedString($tmp) == true ){
 		$DEH = include_once($tmp);
+		KML($EMPfx . "DAL Load: '$path$sc$LibFile" . ".php'", 3);
 	}
 	// Load ADODB Library.
 	$LibFile = 'adodb.inc';
-	$Lib = implode( $sc, array($path, $LibFile) ).'.php';
-	if ( $debug_mode > 1 ){
-		ErrorMessage(
-			$EMPfx . _DBALCHECK." '".XSSPrintSafe($Lib)."'",'black',1
-		);
+	$Lib = implode( $sc, array($path, $LibFile) ) . '.php';
+	if( $debug_mode > 1 ){ // Issue 11 avoidance Test shim.
+		KML($EMPfx . _DBALCHECK . " '$Lib'", 3);
 	}
 	if ( $path != 'adodb' ){
 		$tmp = ChkLib($path, '' , $LibFile);
@@ -870,6 +856,7 @@ function NewBASEDBConnection($path, $type){
 	$DAL = false;
 	if ( LoadedString($tmp) == true ){
 		$DAL = include_once($tmp);
+		KML($EMPfx . "DAL Load: '$path$sc$LibFile" . ".php'", 3);
 	}
 	if( $DEH == false || $DAL == false ){
 		// @codeCoverageIgnoreStart
@@ -883,7 +870,7 @@ function NewBASEDBConnection($path, $type){
 		$msg = 'Check the DB abstraction library variable <code>$DBlib_path'
 		. '</code> in <code>base_conf.php</code>.';
 		// TD the first param when we get to _ERRSQLDBALLOAD1 on Issue#11
-		LibIncError('DB Abstraction', $AXpath, $Lib, $msg, 'ADOdb', $tmp, 1);
+		LibIncError('DB Abstraction', $path, $Lib, $msg, 'ADOdb', $tmp, 1);
 		// @codeCoverageIgnoreEnd
 	}
 	ADOLoadCode($Wtype);
@@ -948,4 +935,52 @@ function GetFieldLength($db,$table,$field){
 	}
 	return $Ret;
 }
+
+// Function: filterSql()
+// @doc Filters the input string so that it can be safely used in SQL queries.
+// @param $item            value of the variable to filter
+// @param $force_alert_db  (default 0 - use current db)
+// @return a sanitized version of the passed variable.
+function filterSql ( $item, $force_alert_db=0, $db = ''){
+	GLOBAL $DBlib_path, $DBtype, $db_connect_method, $alert_dbname,
+	$alert_host, $alert_port, $alert_user, $alert_password;
+	if ( !isset($item) ){ // Unset Value.
+		return $item;
+	}else{
+		if ( is_array($item) ){ // Array.
+			// Recursively convert array elements.
+			// Works with both Keyed & NonKeyed arrays.
+			foreach ($item as $key => $value) {
+				$item[$key] = filterSql( $value, $force_alert_db );
+			}
+			return $item;
+		}else{
+			$Dbcf = 0; // DB Object creation Flag.
+			if( is_object($db) && get_class($db) == 'baseCon' ){
+				$tdb = $db; // DB Onject passed.
+			}else{
+				$tdb = NewBASEDBConnection($DBlib_path, $DBtype);
+				$Dbcf = 1; // DB Onject created.
+				$tdb->baseDBConnect(
+					$db_connect_method, $alert_dbname, $alert_host, $alert_port,
+					$alert_user, $alert_password, $force_alert_db
+				);
+			}
+			$PHPVer = GetPHPSV();
+			if( $PHPVer[0] > 5 || ($PHPVer[0] == 5 && $PHPVer[1] > 3) ){
+				$Qh = 0;
+			}else{ // Figure out quote handling on PHP < 5.4.
+				$Qh = get_magic_quotes_runtime();
+			}
+			$item = $tdb->DB->qstr($item,$Qh);
+			if( $Dbcf == 1 ){ // Close it, only if we created it.
+				$tdb->baseClose();
+			}
+			// Cut off first and last character, (quotes added by qstr()).
+			$item = substr($item, 1, strlen($item)-2);
+			return $item;
+		}
+	}
+}
+
 ?>

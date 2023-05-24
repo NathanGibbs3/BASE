@@ -25,6 +25,7 @@ class state_citemsTest extends TestCase {
 	protected static $langs;
 	protected static $UIL;
 	protected static $db;
+	protected static $tc;
 
 	// We are using a Single TD file.
 	// Share class instance as common test fixture.
@@ -111,6 +112,7 @@ class state_citemsTest extends TestCase {
 		self::$langs = null;
 		self::$files = null;
 		self::$db = null;
+		self::$tc = null;
 	}
 
 	// Tests go here.
@@ -124,6 +126,7 @@ class state_citemsTest extends TestCase {
 			$tc = new BaseCriteria($db, $cs, 'Test'),
 			'Class Not Initialized.'
 		);
+		self::$tc = $tc;
 		$this->assertEquals('Test', $tc->cs, $URV);
 		$this->assertEquals('Test', $tc->export_name, $URV);
 		$this->assertNull($tc->criteria, $URV);
@@ -135,42 +138,32 @@ class state_citemsTest extends TestCase {
 	// Test CTIFD Function;
 	public function testClassBaseCriteriaCTIFDDefaults(){
 		GLOBAL $debug_mode;
-		$db = self::$db;
-		$cs = 'Test';
 		$URV = 'Unexpected Return Value.';
 		$UOV = 'Unexpected Output.';
-		$this->assertInstanceOf(
-			'BaseCriteria',
-			$tc = new BaseCriteria($db, $cs, 'Test'),
-			'Class Not Initialized.'
-		);
+		$db = self::$db;
+		$cs = 'Test';
+		$tc = self::$tc;
 		$odb = $debug_mode;
 		$debug_mode = 2;
 		$this->expectOutputString(
-			"CTIFD: Test<br/>\nCriteria Type: NULL<br/>\n", $UOV
+			"<font color='black'>BaseCriteria::CTIFD: Test : Criteria Type: "
+			. 'NULL</font><br/>', $tc->CTIFD(), $UOV
 		);
-		$tc->CTIFD();
 		$debug_mode = $odb;
 	}
 	public function testClassBaseCriteriaCTIFDAllowed(){
 		GLOBAL $debug_mode;
-		$db = self::$db;
-		$cs = 'Test';
 		$URV = 'Unexpected Return Value.';
 		$UOV = 'Unexpected Output.';
-		$this->assertInstanceOf(
-			'BaseCriteria',
-			$tc = new BaseCriteria($db, $cs, 'Test'),
-			'Class Not Initialized.'
-		);
+		$db = self::$db;
+		$cs = 'Test';
+		$tc = self::$tc;
+		$EOM = "<font color='black'>Test: Test Allowed: Criteria Type: "
+		. 'NULL</font><br/>';
 		$odb = $debug_mode;
 		$debug_mode = 2;
-		$this->expectOutputString(
-			"Test: Test<br/>\nCriteria Type: NULL<br/>\n".
-			"Criteria Test: Allowed.<br/>\n",
-			$UOV
+		$this->expectOutputString( $EOM, $tc->CTIFD($cs, true), $UOV
 		);
-		$tc->CTIFD($cs,true);
 		$debug_mode = $odb;
 	}
 	public function testClassBaseCriteriaCTIFDDenied(){
@@ -179,19 +172,14 @@ class state_citemsTest extends TestCase {
 		$cs = 'Test';
 		$URV = 'Unexpected Return Value.';
 		$UOV = 'Unexpected Output.';
-		$this->assertInstanceOf(
-			'BaseCriteria',
-			$tc = new BaseCriteria($db, $cs, 'Test'),
-			'Class Not Initialized.'
-		);
+		$tc = self::$tc;
+		$EOM = "<font color='black'>Test: Test Denied: Criteria Type: "
+		. 'NULL</font><br/>';
 		$odb = $debug_mode;
 		$debug_mode = 2;
 		$this->expectOutputString(
-			"Test: Test<br/>\nCriteria Type: NULL<br/>\n".
-			"Criteria Test: Denied.<br/>\n",
-			$UOV
+			$EOM, $tc->CTIFD($cs,false), $UOV
 		);
-		$tc->CTIFD($cs,false);
 		$debug_mode = $odb;
 	}
 	// These functions in the foundation class are NoOps.
@@ -199,11 +187,7 @@ class state_citemsTest extends TestCase {
 	public function testClassBaseCriteriaNoOpFuncs(){
 		$db = self::$db;
 		$cs = 'Test';
-		$this->assertInstanceOf(
-			'BaseCriteria',
-			$tc = new BaseCriteria($db, $cs, 'Test'),
-			'Class Not Initialized.'
-		);
+		$tc = self::$tc;
 		$tc->Init();
 		$tc->Import();
 		$tc->Clear();
@@ -222,13 +206,14 @@ class state_citemsTest extends TestCase {
 	// Tests for Class SingelElementCriteria
 	public function testClassSingleElementCriteriaConstruct(){
 		$db = self::$db;
-		$cs = 'Test';
 		$URV = 'Unexpected Return Value.';
+		$cs = 'Test';
 		$this->assertInstanceOf(
 			'SingleElementCriteria',
 			$tc = new SingleElementCriteria($db, $cs, 'Test'),
 			'Class Not Initialized.'
 		);
+		self::$tc = $tc;
 		$this->assertEquals('Test', $tc->cs, $URV);
 		$this->assertEquals('Test', $tc->export_name, $URV);
 		$this->assertNull($tc->criteria, $URV);
@@ -241,23 +226,14 @@ class state_citemsTest extends TestCase {
 	// Call it for Code Coverage purposes.
 	public function testClassSingleElementCriteriaNoOpFuncs(){
 		$db = self::$db;
-		$cs = 'Test';
-		$this->assertInstanceOf(
-			'SingleElementCriteria',
-			$tc = new SingleElementCriteria($db, $cs, 'Test'),
-			'Class Not Initialized.'
-		);
+		$tc = self::$tc;
 		$tc->Sanitize();
 	}
 	public function testClassSingleElementCriteriaFuncs(){
 		$db = self::$db;
-		$cs = 'Test';
 		$URV = 'Unexpected Return Value.';
-		$this->assertInstanceOf(
-			'SingleElementCriteria',
-			$tc = new SingleElementCriteria($db, $cs, 'Test'),
-			'Class Not Initialized.'
-		);
+		$tc = self::$tc;
+		$cs = 'Test';
 		$this->assertNull($tc->criteria, $URV);
 		$this->assertTrue($tc->isEmpty(),$URV); // isEmtpy True
 		$tc->Set('');
@@ -284,6 +260,7 @@ class state_citemsTest extends TestCase {
 			$tc = new MultipleElementCriteria($db, $cs, 'Test', 1),
 			'Class Not Initialized.'
 		);
+		self::$tc = $tc;
 		$this->assertEquals('Test', $tc->cs, $URV);
 		$this->assertEquals('Test', $tc->export_name, $URV);
 		$this->assertNull($tc->criteria, $URV);
@@ -299,45 +276,14 @@ class state_citemsTest extends TestCase {
 	// Call it for Code Coverage purposes.
 	public function testClassMultipleElementCriteriaNoOpFuncs(){
 		$db = self::$db;
-		$cs = 'Test';
-		$this->assertInstanceOf(
-			'MultipleElementCriteria',
-			$tc = new MultipleElementCriteria($db, $cs, 'Test', 1),
-			'Class Not Initialized.'
-		);
+		$tc = self::$tc;
 		$tc->SanitizeElement(1);
-	}
-	public function testClassMultipleElementCriteriaFuncsCritCount(){
-		$db = self::$db;
-		$cs = 'Test';
-		$URV = 'Unexpected Return Value.';
-		$this->assertInstanceOf(
-			'MultipleElementCriteria',
-			$tc = new MultipleElementCriteria($db, $cs, 'Test', 1),
-			'Class Not Initialized.'
-		);
-		$this->assertNull($tc->criteria, $URV);
-		$this->assertTrue($tc->isEmpty(),$URV); // isEmtpy True
-		$tc->Set(array());
-		$this->assertNotNull($tc->criteria, $URV);
-		$this->assertTrue($tc->isEmpty(),$URV); // isEmtpy True
-		$tc->SetFormItemCnt(1); // SetFormItemCnt
-		$this->assertEquals(1, $tc->criteria_cnt, $URV);
-		// Verify SetFormItemCnt
-		$this->assertEquals(1,$tc->GetFormItemCnt(),$URV);
-		// Verify SetFormItemCnt via GetFormItemCnt
-		$this->assertFalse($tc->isEmpty(),$URV); // isEmtpy False
 	}
 	public function testClassMultipleElementCriteriaFuncsCompact(){
 		GLOBAL $MAX_ROWS;
-		$db = self::$db;
-		$cs = 'Test';
 		$URV = 'Unexpected Return Value.';
-		$this->assertInstanceOf(
-			'MultipleElementCriteria',
-			$tc = new MultipleElementCriteria($db, $cs, 'Test', 1),
-			'Class Not Initialized.'
-		);
+		$db = self::$db;
+		$tc = self::$tc;
 		$this->assertNull($tc->criteria, $URV);
 		$this->assertTrue($tc->isEmpty(),$URV); // isEmtpy True
 		$osession = $_SESSION;
@@ -361,49 +307,19 @@ class state_citemsTest extends TestCase {
 	}
 	public function testClassMultipleElementCriteriaFuncSetDenied(){
 		GLOBAL $debug_mode;
-		$db = self::$db;
-		$cs = 'Test';
 		$URV = 'Unexpected Return Value.';
 		$UOV = 'Unexpected Output.';
-		$this->assertInstanceOf(
-			'MultipleElementCriteria',
-			$tc = new MultipleElementCriteria($db, $cs, 'Test', 1),
-			'Class Not Initialized.'
-		);
+		$db = self::$db;
+		$tc = self::$tc;
+		$EOM = "<font color='black'>MultipleElementCriteria::Set: Test "
+		. 'Denied: Criteria Type: NULL</font><br/>';
 		$odb = $debug_mode;
 		$debug_mode = 2;
 		$this->expectOutputString(
-			"Set: Test<br/>\nCriteria Type: NULL<br/>\n".
-			"Criteria Set: Denied.<br/>\n",
-			$UOV
+			$EOM, $tc->Set(''), $UOV
 		);
-		$tc->Set('');
 		$debug_mode = $odb;
 		$this->assertNull($tc->criteria, $URV);
-	}
-	public function testClassMultipleElementCriteriaFuncSetAllowed(){
-		GLOBAL $debug_mode;
-		$db = self::$db;
-		$cs = 'Test';
-		$ta = array();
-		$URV = 'Unexpected Return Value.';
-		$UOV = 'Unexpected Output.';
-		$this->assertInstanceOf(
-			'MultipleElementCriteria',
-			$tc = new MultipleElementCriteria($db, $cs, 'Test', 1),
-			'Class Not Initialized.'
-		);
-		$odb = $debug_mode;
-		$debug_mode = 2;
-		$this->expectOutputString(
-			"Set: Test<br/>\nCriteria Type: array<br/>\n".
-			"Criteria Set: Allowed.<br/>\n",
-			$UOV
-		);
-		$tc->Set($ta);
-		$debug_mode = $odb;
-		$this->assertTrue(is_array($tc->criteria), $URV); // Verfiy Set
-		$this->assertTrue(is_array($tc->Get()), $URV); // Verify Set via Get
 	}
 	public function testClassMultipleElementCriteriaFuncImportDenied(){
 		GLOBAL $debug_mode;
@@ -412,57 +328,77 @@ class state_citemsTest extends TestCase {
 		$cc = $cs.'_cnt';
 		$URV = 'Unexpected Return Value.';
 		$UOV = 'Unexpected Output.';
-		$this->assertInstanceOf(
-			'MultipleElementCriteria',
-			$tc = new MultipleElementCriteria($db, $cs, 'Test', 1),
-			'Class Not Initialized.'
-		);
+		$tc = self::$tc;
+		$EOM = "<font color='black'>SetSessionVar(): Importing SESSION var "
+		. "'Test'</font><br/><font color='black'>SetSessionVar(): Test: "
+		. "</font><br/><font color='black'>MultipleElementCriteria::Import: "
+		. "Test Denied: Criteria Type: NULL</font><br/>";
 		$odb = $debug_mode;
 		$osession = $_SESSION;
 		$debug_mode = 2;
 		$_SESSION[$cs] = '';
 		$this->expectOutputString(
-			"<font color='black'>SetSessionVar(): Importing SESSION var '$cs'"
-			. '</font><br/>'
-			. "<font color='black'>SetSessionVar(): $cs: </font><br/>"
-			. "Import: $cs<br/>\nCriteria Type: NULL<br/>\n"
-			. "Criteria Import: Denied.<br/>\n",
-			$UOV
+			$EOM, $tc->Import(), $UOV
 		);
-		$tc->Import();
 		$debug_mode = $odb;
 		$_SESSION = $osession;
 		$this->assertEquals('', $tc->criteria_cnt, $URV);
 		$this->assertFalse(is_array($tc->criteria), $URV);
 	}
+	public function testClassMultipleElementCriteriaFuncsCritCount(){
+		$URV = 'Unexpected Return Value.';
+		$db = self::$db;
+		$tc = self::$tc;
+		$this->assertNull($tc->criteria, $URV);
+		$this->assertTrue($tc->isEmpty(),$URV); // isEmtpy True
+		$tc->Set(array());
+		$this->assertNotNull($tc->criteria, $URV);
+		$this->assertTrue($tc->isEmpty(),$URV); // isEmtpy True
+		$tc->SetFormItemCnt(1); // SetFormItemCnt
+		$this->assertEquals(1, $tc->criteria_cnt, $URV);
+		// Verify SetFormItemCnt
+		$this->assertEquals(1,$tc->GetFormItemCnt(),$URV);
+		// Verify SetFormItemCnt via GetFormItemCnt
+		$this->assertFalse($tc->isEmpty(),$URV); // isEmtpy False
+	}
+	public function testClassMultipleElementCriteriaFuncSetAllowed(){
+		GLOBAL $debug_mode;
+		$db = self::$db;
+		$ta = array();
+		$URV = 'Unexpected Return Value.';
+		$UOV = 'Unexpected Output.';
+		$tc = self::$tc;
+		$EOM = "<font color='black'>MultipleElementCriteria::Set: Test "
+		. 'Allowed: Criteria Type: array</font><br/>';
+		$odb = $debug_mode;
+		$debug_mode = 2;
+		$this->expectOutputString(
+			$EOM, $tc->Set($ta), $UOV
+		);
+		$debug_mode = $odb;
+		$this->assertTrue(is_array($tc->criteria), $URV); // Verfiy Set
+		$this->assertTrue(is_array($tc->Get()), $URV); // Verify Set via Get
+	}
 	public function testClassMultipleElementCriteriaFuncImportAllowed(){
 		GLOBAL $debug_mode;
 		$db = self::$db;
 		$cs = 'Test';
-		$cc = $cs.'_cnt';
+		$cc = $cs . '_cnt';
 		$URV = 'Unexpected Return Value.';
 		$UOV = 'Unexpected Output.';
-		$this->assertInstanceOf(
-			'MultipleElementCriteria',
-			$tc = new MultipleElementCriteria($db, $cs, $cs, 1),
-			'Class Not Initialized.'
-		);
+		$tc = self::$tc;
 		$odb = $debug_mode;
 		$osession = $_SESSION;
 		$debug_mode = 2;
 		$_SESSION[$cs] = array(0 => '1', 1 => '2');
 		$_SESSION[$cc] = 1;
-		$this->expectOutputString(
-			"<font color='black'>SetSessionVar(): Importing SESSION var '$cs'"
-			. '</font><br/>'
-			. "<font color='black'>SetSessionVar(): Importing SESSION var '$cs"
-			. "_cnt'</font><br/>"
-			. "<font color='black'>SetSessionVar(): $cs"."_cnt: 1</font><br/>"
-			. "Import: $cs<br/>\nCriteria Type: array<br/>\n"
-			. "Criteria Import: Allowed.<br/>\n",
-			$UOV
-		);
-		$tc->Import();
+		$EOM = "<font color='black'>SetSessionVar(): Importing SESSION var "
+		. "'$cs'</font><br/><font color='black'>SetSessionVar(): Importing "
+		. "SESSION var '$cs"
+		. "_cnt'</font><br/><font color='black'>SetSessionVar(): $cs"
+		. "_cnt: 1</font><br/><font color='black'>MultipleElementCriteria::"
+		. "Import: $cs Allowed: Criteria Type: array</font><br/>";
+		$this->expectOutputString($EOM, $tc->Import(), $UOV);
 		$debug_mode = $odb;
 		$this->assertEquals(1, $tc->criteria_cnt, $URV);
 		$this->assertTrue(is_array($tc->criteria), $URV);
@@ -472,13 +408,8 @@ class state_citemsTest extends TestCase {
 	public function testClassMultipleElementCriteriaFuncInitDefault(){
 		GLOBAL $MAX_ROWS;
 		$db = self::$db;
-		$cs = 'Test';
 		$URV = 'Unexpected Return Value.';
-		$this->assertInstanceOf(
-			'MultipleElementCriteria',
-			$tc = new MultipleElementCriteria($db, $cs, 'Test', 1),
-			'Class Not Initialized.'
-		);
+		$tc = self::$tc;
 		$osession = $_SESSION;
 		if ( isset($MAX_ROWS) ){
 			$omr = $MAX_ROWS;
@@ -503,13 +434,8 @@ class state_citemsTest extends TestCase {
 	public function testClassMultipleElementCriteriaFuncInitMR20(){
 		GLOBAL $MAX_ROWS;
 		$db = self::$db;
-		$cs = 'Test';
 		$URV = 'Unexpected Return Value.';
-		$this->assertInstanceOf(
-			'MultipleElementCriteria',
-			$tc = new MultipleElementCriteria($db, $cs, 'Test', 1),
-			'Class Not Initialized.'
-		);
+		$tc = self::$tc;
 		$osession = $_SESSION;
 		if ( isset($MAX_ROWS) ){
 			$omr = $MAX_ROWS;
@@ -542,6 +468,7 @@ class state_citemsTest extends TestCase {
 			$tc = new ProtocolFieldCriteria($db, $cs, 'Test', 1),
 			'Class Not Initialized.'
 		);
+		self::$tc = $tc;
 		$this->assertEquals('Test', $tc->cs, $URV);
 		$this->assertEquals('Test', $tc->export_name, $URV);
 		$this->assertNull($tc->criteria, $URV);
@@ -563,6 +490,7 @@ class state_citemsTest extends TestCase {
 			$tc = new SignatureCriteria($db, $cs, 'Test'),
 			'Class Not Initialized.'
 		);
+		self::$tc = $tc;
 		$this->assertEquals('Test', $tc->cs, $URV);
 		$this->assertEquals('Test', $tc->export_name, $URV);
 		$this->assertNull($tc->criteria, $URV);
@@ -575,12 +503,7 @@ class state_citemsTest extends TestCase {
 	// Call them for Code Coverage purposes.
 	public function testClassSignatureCriteriaNoOpFuncs(){
 		$db = self::$db;
-		$cs = 'Test';
-		$this->assertInstanceOf(
-			'SignatureCriteria',
-			$tc = new SignatureCriteria($db, $cs, 'Test'),
-			'Class Not Initialized.'
-		);
+		$tc = self::$tc;
 		$tc->Clear();
 		$tc->ToSQL();
 	}
@@ -591,24 +514,16 @@ class state_citemsTest extends TestCase {
 		$cc = $cs.'_cnt';
 		$URV = 'Unexpected Return Value.';
 		$UOV = 'Unexpected Output.';
-		$this->assertInstanceOf(
-			'SignatureCriteria',
-			$tc = new SignatureCriteria($db, $cs, 'Test', 1),
-			'Class Not Initialized.'
-		);
+		$tc = self::$tc;
+		$EOM = "<font color='black'>SetSessionVar(): Importing SESSION var "
+		. "'$cs'</font><br/><font color='black'>SetSessionVar(): $cs: </font>"
+		. "<br/><font color='black'>SignatureCriteria::Import: $cs Denied: "
+		. "Criteria Type: NULL</font><br/>";
 		$odb = $debug_mode;
 		$osession = $_SESSION;
 		$debug_mode = 2;
 		$_SESSION[$cs] = '';
-		$this->expectOutputString(
-			"<font color='black'>SetSessionVar(): Importing SESSION var '$cs'"
-			. '</font><br/>'
-			. "<font color='black'>SetSessionVar(): $cs: </font><br/>"
-			. "Import: $cs<br/>\nCriteria Type: NULL<br/>\n"
-			. "Criteria Import: Denied.<br/>\n",
-			$UOV
-		);
-		$tc->Import();
+		$this->expectOutputString($EOM, $tc->Import(),$UOV );
 		$debug_mode = $odb;
 		$_SESSION = $osession;
 		$this->assertEquals('', $tc->sig_type, $URV);
@@ -620,25 +535,17 @@ class state_citemsTest extends TestCase {
 		$cs = 'Test';
 		$URV = 'Unexpected Return Value.';
 		$UOV = 'Unexpected Output.';
-		$this->assertInstanceOf(
-			'SignatureCriteria',
-			$tc = new SignatureCriteria($db, $cs, 'Test', 1),
-			'Class Not Initialized.'
-		);
+		$tc = self::$tc;
+		$EOM = "<font color='black'>SetSessionVar(): Importing SESSION var "
+		. "'$cs'</font><br/><font color='black'>SetSessionVar(): Importing "
+		. "SESSION var '$cs'</font><br/><font color='black'>"
+		. "SignatureCriteria::Import: $cs Allowed: Criteria Type: array"
+		. '</font><br/>';
 		$odb = $debug_mode;
 		$osession = $_SESSION;
 		$debug_mode = 2;
 		$_SESSION[$cs] = array(0 => '', 1 => '');
-		$this->expectOutputString(
-			"<font color='black'>SetSessionVar(): ".
-			"Importing SESSION var 'Test'</font><br/>".
-			"<font color='black'>SetSessionVar(): ".
-			"Importing SESSION var 'Test'</font><br/>".
-			"Import: Test<br/>\nCriteria Type: array<br/>\n".
-			"Criteria Import: Allowed.<br/>\n",
-			$UOV
-		);
-		$tc->Import();
+		$this->expectOutputString($EOM, $tc->Import(),$UOV );
 		$debug_mode = $odb;
 		$this->assertEquals('', $tc->sig_type, $URV);
 		$this->assertEquals('', $_SESSION['sig_type'], $URV);
@@ -650,11 +557,7 @@ class state_citemsTest extends TestCase {
 		$db = self::$db;
 		$cs = 'Test';
 		$URV = 'Unexpected Return Value.';
-		$this->assertInstanceOf(
-			'SignatureCriteria',
-			$tc = new SignatureCriteria($db, $cs, 'Test', 1),
-			'Class Not Initialized.'
-		);
+		$tc = self::$tc;
 		$tc->Init();
 		$this->assertTrue(is_array($tc->criteria), $URV);
 		$this->assertEquals('', $tc->sig_type, $URV);
@@ -673,6 +576,7 @@ class state_citemsTest extends TestCase {
 			$tc = new SignaturePriorityCriteria($db, $cs, 'Test'),
 			'Class Not Initialized.'
 		);
+		self::$tc = $tc;
 		$this->assertEquals('Test', $tc->cs, $URV);
 		$this->assertEquals('Test', $tc->export_name, $URV);
 		$this->assertNull($tc->criteria, $URV);
@@ -685,12 +589,7 @@ class state_citemsTest extends TestCase {
 	// Call them for Code Coverage purposes.
 	public function testClassSignaturePriorityCriteriaNoOpFuncs(){
 		$db = self::$db;
-		$cs = 'Test';
-		$this->assertInstanceOf(
-			'SignaturePriorityCriteria',
-			$tc = new SignaturePriorityCriteria($db, $cs, 'Test'),
-			'Class Not Initialized.'
-		);
+		$tc = self::$tc;
 		$tc->Clear();
 		$tc->ToSQL();
 	}
@@ -701,24 +600,16 @@ class state_citemsTest extends TestCase {
 		$cc = $cs.'_cnt';
 		$URV = 'Unexpected Return Value.';
 		$UOV = 'Unexpected Output.';
-		$this->assertInstanceOf(
-			'SignaturePriorityCriteria',
-			$tc = new SignaturePriorityCriteria($db, $cs, 'Test'),
-			'Class Not Initialized.'
-		);
+		$tc = self::$tc;
+		$EOM = "<font color='black'>SetSessionVar(): Importing SESSION var "
+		. "'$cs'</font><br/><font color='black'>SetSessionVar(): $cs: "
+		. "</font><br/><font color='black'>SignaturePriorityCriteria::"
+		. "Import: $cs Denied: Criteria Type: NULL</font><br/>";
 		$odb = $debug_mode;
 		$osession = $_SESSION;
 		$debug_mode = 2;
 		$_SESSION[$cs] = '';
-		$this->expectOutputString(
-			"<font color='black'>SetSessionVar(): Importing SESSION var '$cs'"
-			. '</font><br/>'
-			. "<font color='black'>SetSessionVar(): $cs: </font><br/>"
-			. "Import: $cs<br/>\nCriteria Type: NULL<br/>\n"
-			. "Criteria Import: Denied.<br/>\n",
-			$UOV
-		);
-		$tc->Import();
+		$this->expectOutputString($EOM, $tc->Import(), $UOV);
 		$debug_mode = $odb;
 		$_SESSION = $osession;
 		$this->assertFalse(is_array($tc->criteria), $URV);
@@ -729,25 +620,17 @@ class state_citemsTest extends TestCase {
 		$cs = 'Test';
 		$URV = 'Unexpected Return Value.';
 		$UOV = 'Unexpected Output.';
-		$this->assertInstanceOf(
-			'SignaturePriorityCriteria',
-			$tc = new SignaturePriorityCriteria($db, $cs, 'Test'),
-			'Class Not Initialized.'
-		);
+		$tc = self::$tc;
+		$EOM = "<font color='black'>SetSessionVar(): Importing SESSION var "
+		. "'$cs'</font><br/><font color='black'>SetSessionVar(): Importing "
+		. "SESSION var '$cs'</font><br/><font color='black'>"
+		. "SignaturePriorityCriteria::Import: $cs Allowed: Criteria Type: "
+		. 'array</font><br/>';
 		$odb = $debug_mode;
 		$osession = $_SESSION;
 		$debug_mode = 2;
 		$_SESSION[$cs] = array(0 => '', 1 => '');
-		$this->expectOutputString(
-			"<font color='black'>SetSessionVar(): ".
-			"Importing SESSION var 'Test'</font><br/>".
-			"<font color='black'>SetSessionVar(): ".
-			"Importing SESSION var 'Test'</font><br/>".
-			"Import: Test<br/>\nCriteria Type: array<br/>\n".
-			"Criteria Import: Allowed.<br/>\n",
-			$UOV
-		);
-		$tc->Import();
+		$this->expectOutputString($EOM, $tc->Import(), $UOV);
 		$debug_mode = $odb;
 		$this->assertTrue(is_array($tc->criteria), $URV);
 		$this->assertEquals(array(0 => '', 1 => ''),$tc->criteria, $URV);
@@ -755,13 +638,8 @@ class state_citemsTest extends TestCase {
 	}
 	public function testClassSignaturePriorityCriteriaFuncInitDefault(){
 		$db = self::$db;
-		$cs = 'Test';
 		$URV = 'Unexpected Return Value.';
-		$this->assertInstanceOf(
-			'SignaturePriorityCriteria',
-			$tc = new SignaturePriorityCriteria($db, $cs, 'Test'),
-			'Class Not Initialized.'
-		);
+		$tc = self::$tc;
 		$tc->Init();
 		$this->assertTrue(is_array($tc->criteria), $URV);
 		$this->assertEquals(2, count($tc->criteria), $URV);
@@ -779,6 +657,7 @@ class state_citemsTest extends TestCase {
 			$tc = new TimeCriteria($db, $cs, 'Test',1),
 			'Class Not Initialized.'
 		);
+		self::$tc = $tc;
 		$this->assertEquals('Test', $tc->cs, $URV);
 		$this->assertEquals('Test', $tc->export_name, $URV);
 		$this->assertNull($tc->criteria, $URV);
@@ -794,12 +673,7 @@ class state_citemsTest extends TestCase {
 	// Call them for Code Coverage purposes.
 	public function testClassTimeCriteriaNoOpFuncs(){
 		$db = self::$db;
-		$cs = 'Test';
-		$this->assertInstanceOf(
-			'TimeCriteria',
-			$tc = new TimeCriteria($db, $cs, 'Test',1),
-			'Class Not Initialized.'
-		);
+		$tc = self::$tc;
 		$tc->Clear();
 		$tc->ToSQL();
 	}
@@ -813,6 +687,7 @@ class state_citemsTest extends TestCase {
 			$tc = new TCPFlagsCriteria($db, $cs, 'Test'),
 			'Class Not Initialized.'
 		);
+		self::$tc = $tc;
 		$this->assertEquals('Test', $tc->cs, $URV);
 		$this->assertEquals('Test', $tc->export_name, $URV);
 		$this->assertNull($tc->criteria, $URV);
@@ -825,12 +700,7 @@ class state_citemsTest extends TestCase {
 	// Call them for Code Coverage purposes.
 	public function testClassTCPFlagsCriteriaNoOpFuncs(){
 		$db = self::$db;
-		$cs = 'Test';
-		$this->assertInstanceOf(
-			'TCPFlagsCriteria',
-			$tc = new TCPFlagsCriteria($db, $cs, 'Test'),
-			'Class Not Initialized.'
-		);
+		$tc = self::$tc;
 		$tc->Clear();
 		$tc->ToSQL();
 	}
@@ -841,24 +711,16 @@ class state_citemsTest extends TestCase {
 		$cc = $cs.'_cnt';
 		$URV = 'Unexpected Return Value.';
 		$UOV = 'Unexpected Output.';
-		$this->assertInstanceOf(
-			'TCPFlagsCriteria',
-			$tc = new TCPFlagsCriteria($db, $cs, 'Test'),
-			'Class Not Initialized.'
-		);
+		$tc = self::$tc;
+		$EOM = "<font color='black'>SetSessionVar(): Importing SESSION var "
+		. "'$cs'</font><br/><font color='black'>SetSessionVar(): $cs: "
+		. "</font><br/><font color='black'>TCPFlagsCriteria::"
+		. "Import: $cs Denied: Criteria Type: NULL</font><br/>";
 		$odb = $debug_mode;
 		$osession = $_SESSION;
 		$debug_mode = 2;
 		$_SESSION[$cs] = '';
-		$this->expectOutputString(
-			"<font color='black'>SetSessionVar(): Importing SESSION var '$cs'"
-			. '</font><br/>'
-			. "<font color='black'>SetSessionVar(): $cs: </font><br/>"
-			. "Import: $cs<br/>\nCriteria Type: NULL<br/>\n"
-			. "Criteria Import: Denied.<br/>\n",
-			$UOV
-		);
-		$tc->Import();
+		$this->expectOutputString($EOM, $tc->Import(), $UOV);
 		$debug_mode = $odb;
 		$_SESSION = $osession;
 		$this->assertFalse(is_array($tc->criteria), $URV);
@@ -869,25 +731,17 @@ class state_citemsTest extends TestCase {
 		$cs = 'Test';
 		$URV = 'Unexpected Return Value.';
 		$UOV = 'Unexpected Output.';
-		$this->assertInstanceOf(
-			'TCPFlagsCriteria',
-			$tc = new TCPFlagsCriteria($db, $cs, 'Test'),
-			'Class Not Initialized.'
-		);
+		$tc = self::$tc;
+		$EOM = "<font color='black'>SetSessionVar(): Importing SESSION var "
+		. "'$cs'</font><br/><font color='black'>SetSessionVar(): Importing "
+		. "SESSION var '$cs'</font><br/><font color='black'>"
+		. "TCPFlagsCriteria::Import: $cs Allowed: Criteria Type: "
+		. 'array</font><br/>';
 		$odb = $debug_mode;
 		$osession = $_SESSION;
 		$debug_mode = 2;
 		$_SESSION[$cs] = array(0 => '', 1 => '');
-		$this->expectOutputString(
-			"<font color='black'>SetSessionVar(): ".
-			"Importing SESSION var 'Test'</font><br/>".
-			"<font color='black'>SetSessionVar(): ".
-			"Importing SESSION var 'Test'</font><br/>".
-			"Import: Test<br/>\nCriteria Type: array<br/>\n".
-			"Criteria Import: Allowed.<br/>\n",
-			$UOV
-		);
-		$tc->Import();
+		$this->expectOutputString($EOM, $tc->Import(), $UOV);
 		$debug_mode = $odb;
 		$this->assertTrue(is_array($tc->criteria), $URV);
 		$this->assertEquals(array(0 => '', 1 => ''),$tc->criteria, $URV);
@@ -895,13 +749,8 @@ class state_citemsTest extends TestCase {
 	}
 	public function testClassTCPFlagsCriteriaFuncInitDefault(){
 		$db = self::$db;
-		$cs = 'Test';
 		$URV = 'Unexpected Return Value.';
-		$this->assertInstanceOf(
-			'TCPFlagsCriteria',
-			$tc = new TCPFlagsCriteria($db, $cs, 'Test'),
-			'Class Not Initialized.'
-		);
+		$tc = self::$tc;
 		$tc->Init();
 		$this->assertTrue(is_array($tc->criteria), $URV);
 		$this->assertEquals(9, count($tc->criteria), $URV);
@@ -909,51 +758,31 @@ class state_citemsTest extends TestCase {
 			$this->assertEquals('',$tc->criteria[$i],$URV);
 		}
 	}
+	public function testClassTCPFlagsCriteriaFunctionisEmptyDefaultTRUE(){
+		$db = self::$db;
+		$URV = 'Unexpected Return Value.';
+		$tc = self::$tc;
+		$this->assertTrue($tc->isEmpty(), $URV);
+	}
 	public function testClassTCPFlagsCriteriaFunctionisEmptyFalse(){
 		$db = self::$db;
-		$cs = 'Test';
 		$URV = 'Unexpected Return Value.';
-		$this->assertInstanceOf(
-			'TCPFlagsCriteria',
-			$tc = new TCPFlagsCriteria($db, $cs, 'Test'),
-			'Class Not Initialized.'
-		);
+		$tc = self::$tc;
 		$tc->Init();
 		$tc->criteria[0] = 'Test';
 		$this->assertFalse($tc->isEmpty(), $URV);
 	}
-	public function testClassTCPFlagsCriteriaFunctionisEmptyDefaultTRUE(){
-		$db = self::$db;
-		$cs = 'Test';
-		$URV = 'Unexpected Return Value.';
-		$this->assertInstanceOf(
-			'TCPFlagsCriteria',
-			$tc = new TCPFlagsCriteria($db, $cs, 'Test'),
-			'Class Not Initialized.'
-		);
-		$this->assertTrue($tc->isEmpty(), $URV);
-	}
 	public function testClassTCPFlagsCriteriaFunctionisEmptyInitTRUE(){
 		$db = self::$db;
-		$cs = 'Test';
 		$URV = 'Unexpected Return Value.';
-		$this->assertInstanceOf(
-			'TCPFlagsCriteria',
-			$tc = new TCPFlagsCriteria($db, $cs, 'Test'),
-			'Class Not Initialized.'
-		);
+		$tc = self::$tc;
 		$tc->Init();
 		$this->assertTrue($tc->isEmpty(), $URV);
 	}
 	public function testClassTCPFlagsCriteriaFunctionisEmptyValueTRUE(){
 		$db = self::$db;
-		$cs = 'Test';
 		$URV = 'Unexpected Return Value.';
-		$this->assertInstanceOf(
-			'TCPFlagsCriteria',
-			$tc = new TCPFlagsCriteria($db, $cs, 'Test'),
-			'Class Not Initialized.'
-		);
+		$tc = self::$tc;
 		$tc->Init();
 		$tc->criteria[0] = ' ';
 		$this->assertTrue($tc->isEmpty(), $URV);

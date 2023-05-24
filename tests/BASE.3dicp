@@ -40,5 +40,7 @@ back = first
 next = last
 chart = graph
 locker = archive
+can = cq
+computer = client
 mail =
 tool =

@@ -25,10 +25,10 @@ function PageStart ( $refresh = 0, $page_title = '' ){
 	// @codeCoverageIgnoreStart
 	if( isset($BCR) && is_object($BCR) ){
 		$BV = $BCR->GetCap('BASE_Ver');
-		$AS = $BCR->GetCap('BASE_Auth');
+		$AS = $BCR->GetCap('BASE_SSAuth');
 	}else{
 		$BV = $BASE_VERSION;
-		if( $Use_Auth_System == 1 ){
+		if( intval($Use_Auth_System) == 1 ){
 			$AS = true;
 		}
 	}
@@ -63,7 +63,7 @@ function PageStart ( $refresh = 0, $page_title = '' ){
 		}
 		// @codeCoverageIgnoreStart
 		if( $AS ){ // Auth System in use, attempt cookie refresh.
-			if( AuthorizedRole(10000) ){// Authenticated & enabled user.
+			if( ARC(10000) ){// Authenticated & enabled user.
 				$cookievalue = $_COOKIE['BASERole'];
 				BCS('BASERole', $cookievalue); // Refresh cookie expiration.
 			}
@@ -206,7 +206,7 @@ function PrintBASEMenu ( $type = '', $back_link = '' ){
 			if( $type == 'header' && $back_link != '' ){ // Header
 				NLIO($Sep . $back_link, 6);
 			}elseif( $type == 'footer' ){ // Footer
-				if( AuthorizedRole(1) ){ // Issue #144 fix
+				if( ARC(1) ){ // Issue #144 fix
 					if( $Use_Auth_System == 1 ){
 						$tmp = _ADMIN;
 					}else{
@@ -214,7 +214,7 @@ function PrintBASEMenu ( $type = '', $back_link = '' ){
 					}
 					NLIO("$Sep$Hrst" . "admin/index.php'>$tmp</a>", 6);
 				}
-				if( is_object($et) ){
+				if( is_object($et) && $et->verbose > 0 ){
 					print $Sep;
 					NLIO('</td><td>', 5);
 					$et->PrintTiming();

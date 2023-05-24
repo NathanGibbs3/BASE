@@ -162,9 +162,10 @@ function qroReturnSelectALLCheck(){
 	"onClick='if (this.checked) SelectAll(); ".
 	"if (!this.checked) UnselectAll();'/>";
 }
-function qroPrintEntryHeader($prio=1, $color=0) {
+
+function qroPrintEntryHeader( $prio = 1, $color = 0 ){
 	GLOBAL $priority_colors;
-	$msg = '<tr bgcolor="#';
+	$msg = "<tr class='qro' bgcolor='#";
 	if($color != 1) { // Row colors alternating.
 		if ( $prio % 2 == 0 ){
 			$tmp = 'DDDDDD'; // Light Gray
@@ -188,7 +189,7 @@ function qroPrintEntryHeader($prio=1, $color=0) {
 			$tmp = '999999';
 		}
 	}
-	$msg .= $tmp . '">';
+	$msg .= "$tmp'>";
 	print $msg;
 }
 

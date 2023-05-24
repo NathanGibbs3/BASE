@@ -55,8 +55,8 @@ class output_queryTest extends TestCase {
 	}
 
 	protected function setUp() {
-		$this->pfx = '<tr bgcolor="#';
-		$this->sfx = '">';
+		$this->pfx = "<tr class='qro' bgcolor='#";
+		$this->sfx = "'>";
 		$this->cf = 1;
 	}
 

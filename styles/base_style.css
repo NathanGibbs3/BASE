@@ -18,15 +18,12 @@
 **
 ********************************************************************************
 */
-BODY {
-    BACKGROUND-COLOR: #FFFFFF;
-    FONT-FAMILY: arial, helvetica;
-    font-size: 10pt;
-    margin: 10px;
+
+body {
+	margin: 10px;
 }
 
-P,B,A,BODY,FORM,TD,INPUT,SELECT,OPTION,TR,OL,UL,MENU,BLOCKQUOTE,FONT,DIV,H4,H5,H6
-    {
+P,B,A,FORM,TD,INPUT,SELECT,OPTION,TR,OL,UL,MENU,BLOCKQUOTE,FONT,DIV,H4,H5,H6 {
     FONT-FAMILY: arial, helvetica, sans-serif;
     font-size: 10pt;
 }
@@ -72,7 +69,6 @@ A.menuitem {
 }
 
 table {
-    
 }
 
 table.summarygraph {

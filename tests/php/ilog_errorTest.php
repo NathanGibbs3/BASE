@@ -7,8 +7,9 @@ use PHPUnit\Framework\TestCase;
   * Code Coverage Directives.
   * @covers ::DivErrorMessage
   * @covers ::DDT
+  * @covers ::ErrorMessage
   * @covers ::LibIncError
-  * @uses ::ErrorMessage
+  * @covers ::returnErrorMessage
   * @uses ::FramedBoxFooter
   * @uses ::FramedBoxHeader
   * @uses ::Htmlcolor
@@ -20,7 +21,6 @@ use PHPUnit\Framework\TestCase;
   * @uses ::PrintTblNewRow
   * @uses ::TblNewRow
   * @uses ::XSSPrintSafe
-  * @uses ::returnErrorMessage
   */
 
 class log_errorTest extends TestCase {
@@ -60,6 +60,76 @@ class log_errorTest extends TestCase {
 		$this->expectOutputString(
 			"\n\t\t<div class='errorMsg' align='center'>message</div>",
 			DivErrorMessage('message',2),$URV
+		);
+	}
+	public function testreturnErrorMessageDefault() {
+		$URV = self::$URV.'returnErrorMessage().';
+		$this->assertEquals(
+			"<font color='#ff0000'>message</font>",
+			returnErrorMessage('message'),$URV
+		);
+	}
+	public function testreturnErrorMessageInvalidColor() {
+		$URV = self::$URV.'returnErrorMessage().';
+		$this->assertEquals(
+			"<font color='#ff0000'>message</font>",
+			returnErrorMessage('message','Invalid'),$URV
+		);
+	}
+	public function testreturnErrorMessageValidColor() {
+		$URV = self::$URV.'returnErrorMessage().';
+		$this->assertEquals(
+			"<font color='#0000ff'>message</font>",
+			returnErrorMessage('message','#0000ff'),$URV
+		);
+	}
+	public function testreturnErrorMessageInvalidBr() {
+		$URV = self::$URV.'returnErrorMessage().';
+		$this->assertEquals(
+			"<font color='#0000ff'>message</font>",
+			returnErrorMessage('message','#0000ff','yes'),$URV
+		);
+	}
+	public function testreturnErrorMessageBr() {
+		$URV = self::$URV.'returnErrorMessage().';
+		$this->assertEquals(
+			"<font color='#0000ff'>message</font><br/>",
+			returnErrorMessage('message','#0000ff',1),$URV
+		);
+	}
+	public function testErrorMessageDefault() {
+		$URV = self::$URV.'ErrorMessage().';
+		$this->expectOutputString(
+			"<font color='#ff0000'>message</font>",
+			ErrorMessage('message'),$URV
+		);
+	}
+	public function testErrorMessageInvalidColor() {
+		$URV = self::$URV.'ErrorMessage().';
+		$this->expectOutputString(
+			"<font color='#ff0000'>message</font>",
+			ErrorMessage('message','Invalid'),$URV
+		);
+	}
+	public function testErrorMessageValidColor() {
+		$URV = self::$URV.'ErrorMessage().';
+		$this->expectOutputString(
+			"<font color='#0000ff'>message</font>",
+			ErrorMessage('message','#0000ff'),$URV
+		);
+	}
+	public function testErrorMessageInvalidBr() {
+		$URV = self::$URV.'ErrorMessage().';
+		$this->expectOutputString(
+			"<font color='#0000ff'>message</font>",
+			ErrorMessage('message','#0000ff','yes'),$URV
+		);
+	}
+	public function testErrorMessageBr() {
+		$URV = self::$URV.'ErrorMessage().';
+		$this->expectOutputString(
+			"<font color='#0000ff'>message</font><br/>",
+			ErrorMessage('message','#0000ff',1),$URV
 		);
 	}
 	public function testLibIncErrorDefault() {

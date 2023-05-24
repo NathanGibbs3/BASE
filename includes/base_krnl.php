@@ -17,7 +17,7 @@
 //
 //          Author(s): Nathan Gibbs
 
-$BK_Ver = '0.0.3';
+$BK_Ver = '0.0.4';
 $BASE_path = dirname(__FILE__);
 $sc = DIRECTORY_SEPARATOR;
 $ReqRE =  "\\".$sc.'includes.*';
@@ -33,8 +33,11 @@ if( ChkAccess($file) == 1 && filesize($file) > 10 ){
 	SetConst('_BASE_INC', 1); // Include Load Flag.
 	$BASE_path = $BK_Path; // Restore Kernel path in case of Legacy Conf.
 	SetConst('BASE_Path', $BK_Path);
-	KML("BASE PATH Set: $BK_Path", 2);
-	include_once("$BASE_path$sc" . "includes$sc" . 'base_auth.inc.php');
+	KML("BASE Path Set: $BK_Path", 2);
+	$BKI_Path = "$BASE_path$sc" . "includes$sc";
+	SetConst('BASE_IPath', $BKI_Path);
+	KML("BASE Include Path Set: $BKI_Path", 2);
+	include_once(BASE_IPath . 'base_auth.inc.php');
 	KML("Load: Auth System", 2);
 	$BK_SDL = "(base_(denied|logout|main)|index)";
 	// Start legacy base_conf.php support
@@ -46,7 +49,7 @@ if( ChkAccess($file) == 1 && filesize($file) > 10 ){
 	// End legacy base_conf.php
 	SetConst('BASE_KERNEL', $BK_Ver); // Basic kernel Initialized.
 	// BASE Runtime.
-	include_once("$BASE_path$sc" . "includes$sc" . "base_rtl.php");
+	include_once(BASE_IPath . 'base_rtl.php');
 	KML("Load: RTL", 2);
 	KML("BASE kernel $BK_Ver Runtime $BRTL_Ver");
 	if( !AuthorizedClient() ){ // Issue #175
@@ -67,10 +70,14 @@ if( ChkAccess($file) == 1 && filesize($file) > 10 ){
 		}
 		RegisterGlobalState(); // Start Session
 	}
-	include_once("$BASE_path$sc". "includes$sc" . "base_capabilities.php");
+	include_once(BASE_IPath . 'base_capabilities.php');
 	$BCR = new BaseCapsRegistry();
 	KML("Load: Caps Registry", 2);
-	include_once("$BASE_path$sc" . "includes$sc" . "base_log_timing.inc.php");
+	include_once(BASE_IPath . 'base_constants.inc.php');
+	KML("Load: Constants", 2);
+	include_once(BASE_IPath . 'base_db.inc.php');
+	KML("Load: DB System", 2);
+	include_once(BASE_IPath . 'base_log_timing.inc.php');
 	$et = new EventTiming($BCR->GetCap('BASE_UIDiagTime'));
 	$et->Mark('Starting BASE: ' . $BCR->GetCap('BASE_Ver'));
 	KML("Load: Telemetry", 2);
@@ -177,7 +184,9 @@ function HTTP_header( $url = '', $status = 200 ){
 	}
 	if ( !headers_sent() ){
 		header($_SERVER['SERVER_PROTOCOL'] . " $status");
-		header($url,true,$status);
+		if( LoadedString($url) ){
+			header($url,true,$status);
+		}
 		exit;
 	}
 }

@@ -85,14 +85,14 @@ class dbspTest extends TestCase {
 			self::$DBlib_path = $DBlib_path;
 			self::$db = $db;
 			self::$dbt = $db->DB->databaseType; // DB Type from ADODB Object.
-			self::$URV = 'Unexpected Return Value.';
-			// PHPUnit Version
-			$PHPUV = GetPHPUV();
-			if (version_compare($PHPUV, '9.0', '<')) { // PHPUnit < 9x
-				self::$PHPUV = 1;
-			}else{ // PHPUnit 9+
-				self::$PHPUV = 2;
-			}
+		}
+		self::$URV = 'Unexpected Return Value.';
+		// PHPUnit Version
+		$PHPUV = GetPHPUV();
+		if (version_compare($PHPUV, '9.0', '<')) { // PHPUnit < 9x
+			self::$PHPUV = 1;
+		}else{ // PHPUnit 9+
+			self::$PHPUV = 2;
 		}
 	}
 	public static function tearDownAfterClass() {

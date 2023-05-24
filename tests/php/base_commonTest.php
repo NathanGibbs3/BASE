@@ -459,55 +459,79 @@ class base_commonTest extends TestCase {
 	}
 
 	public function testreturnChkLibEmpty(){
-		GLOBAL $debug_mode;
-		$expected ="<font color='#ff0000'>ChkLib: No Lib specified.</font><br/>";
-		$this->assertEquals(
-			'',
-			ChkLib('','',''),
-			'Unexpected return ChkLib().'
-		);
-		$odb = $debug_mode;
-		$debug_mode = 1;
-		$this->expectOutputString(
-			$expected,
-			'Unexpected Output.'
-		);
-		ChkLib('','','');
-		$debug_mode = $odb;
+		$URV = self::$URV . 'ChkLib().';
+		$UOV = self::$UOV . 'ChkLib().';
+		$PHPUV = self::$PHPUV;
+		$EOM = 'ChkLib: No Lib specified.';
+		$cur_e_l = ini_get( 'error_log' ); // Shim error_log output On
+		$capture = tmpfile();
+		$tmp = stream_get_meta_data($capture);
+		ini_set('error_log', $tmp['uri']);
+		$this->assertEquals('', ChkLib('','',''), $URV);
+		unset ($_COOKIE['archive']);
+		ini_set( 'error_log', $cur_e_l ); // Shim error_log output Off
+		$elOutput = stream_get_contents($capture);
+		if ( $PHPUV > 1 ){ // PHPUnit 9+
+			$this->assertMatchesRegularExpression(
+				'/' . $EOM . '/', $elOutput, $UOV
+			);
+		}else{ // Legacy PHPUnit
+			$this->assertRegExp('/' . $EOM . '/', $elOutput, $UOV);
+		}
 	}
 	public function testreturnChkLibSepinFile(){
-		GLOBAL $debug_mode;
+		$URV = self::$URV . 'ChkLib().';
+		$UOV = self::$UOV . 'ChkLib().';
+		$PHPUV = self::$PHPUV;
 		$sc = DIRECTORY_SEPARATOR;
 		$Lib = $sc . 'Graph' . $sc;
-		$expected = "Req Lib: ". preg_quote($Lib,'/'). '.*';
-		$expected .= 'Mod Lib: Graph';
-		$odb = $debug_mode;
-		$debug_mode = 2;
-		$this->expectOutputRegex(
-			"/".$expected."/",
-			'Unexpected Output.'
-		);
-		ChkLib('','',$Lib);
-		$debug_mode = $odb;
+		$EOM = preg_quote("Req Lib: $Lib", '/') . '\n.*';
+		$EOM .= 'Mod Lib\: Graph';
+		$cur_e_l = ini_get( 'error_log' ); // Shim error_log output On
+		$capture = tmpfile();
+		$tmp = stream_get_meta_data($capture);
+		ini_set('error_log', $tmp['uri']);
+		$this->assertEquals('', ChkLib('','',$Lib), $URV);
+		unset ($_COOKIE['archive']);
+		ini_set( 'error_log', $cur_e_l ); // Shim error_log output Off
+		$elOutput = stream_get_contents($capture);
+		if ( $PHPUV > 1 ){ // PHPUnit 9+
+			$this->assertMatchesRegularExpression(
+				'/' . $EOM . '/', $elOutput, $UOV
+			);
+		}else{ // Legacy PHPUnit
+			$this->assertRegExp( '/' . $EOM . '/', $elOutput, $UOV );
+		}
 	}
 	public function testreturnChkLibSepinLoc(){
-		GLOBAL $debug_mode;
+		$URV = self::$URV . 'ChkLib().';
+		$UOV = self::$UOV . 'ChkLib().';
+		$PHPUV = self::$PHPUV;
 		$sc = DIRECTORY_SEPARATOR;
 		$Loc = $sc . 'Image' . $sc;
 		$Lib = 'Graph';
-		$expected = "Req Loc: ". preg_quote($Loc,'/'). '.*';
-		$expected .= "Mod Loc: Image\\$sc";
-		$odb = $debug_mode;
-		$debug_mode = 2;
-		$this->expectOutputRegex(
-			"/".$expected."/",
-			'Unexpected Output.'
-		);
+		$EOM = preg_quote("Req Loc: $Loc", '/'). '\n.*';
+		$EOM .= "Mod Loc\: Image\\$sc";
+		$cur_e_l = ini_get( 'error_log' ); // Shim error_log output On
+		$capture = tmpfile();
+		$tmp = stream_get_meta_data($capture);
+		ini_set('error_log', $tmp['uri']);
 		ChkLib('',$Loc,$Lib);
-		$debug_mode = $odb;
+		unset ($_COOKIE['archive']);
+		ini_set( 'error_log', $cur_e_l ); // Shim error_log output Off
+		$elOutput = stream_get_contents($capture);
+		if ( $PHPUV > 1 ){ // PHPUnit 9+
+			$this->assertMatchesRegularExpression(
+				'/' . $EOM . '/', $elOutput, $UOV
+			);
+		}else{ // Legacy PHPUnit
+			$this->assertRegExp('/' . $EOM . '/', $elOutput, $UOV);
+		}
 	}
 	public function testreturnChkLibSepinPath(){
-		GLOBAL $debug_mode;
+		$URV = self::$URV . 'ChkLib().';
+		$UOV = self::$UOV . 'ChkLib().';
+		$PHPUV = self::$PHPUV;
 		$sc = DIRECTORY_SEPARATOR;
 		// Setup DB Lib Path.
 		$TRAVIS = getenv('TRAVIS');
@@ -524,19 +548,28 @@ class base_commonTest extends TestCase {
 		}
 		$path =  $DBlib_path . $sc;
 		$Lib = 'adodb.inc';
-		$expected = "Req Loc: ". preg_quote($path,'/'). '.*';
-		$expected .= "Mod Loc: ". preg_quote($DBlib_path,'/');
-		$odb = $debug_mode;
-		$debug_mode = 2;
-		$this->expectOutputRegex(
-			"/".$expected."/",
-			'Unexpected Output.'
-		);
-		ChkLib($path,'',$Lib);
-		$debug_mode = $odb;
+		$EOM = preg_quote("Req Loc: $path", '/'). '\n.*';
+		$EOM .= preg_quote("Mod Loc: $DBlib_path", '/');
+		$cur_e_l = ini_get( 'error_log' ); // Shim error_log output On
+		$capture = tmpfile();
+		$tmp = stream_get_meta_data($capture);
+		ini_set('error_log', $tmp['uri']);
+		$this->assertEquals("$path$Lib" . '.php', ChkLib($path,'',$Lib), $URV);
+		unset ($_COOKIE['archive']);
+		ini_set( 'error_log', $cur_e_l ); // Shim error_log output Off
+		$elOutput = stream_get_contents($capture);
+		if ( $PHPUV > 1 ){ // PHPUnit 9+
+			$this->assertMatchesRegularExpression(
+				'/' . $EOM . '/', $elOutput, $UOV
+			);
+		}else{ // Legacy PHPUnit
+			$this->assertRegExp('/' . $EOM . '/', $elOutput, $UOV);
+		}
 	}
 	public function testreturnChkLibValid(){
-		GLOBAL $debug_mode;
+		$URV = self::$URV . 'ChkLib().';
+		$UOV = self::$UOV . 'ChkLib().';
+		$PHPUV = self::$PHPUV;
 		$sc = DIRECTORY_SEPARATOR;
 		// Setup DB Lib Path.
 		$TRAVIS = getenv('TRAVIS');
@@ -553,25 +586,30 @@ class base_commonTest extends TestCase {
 		}
 		$path =  $DBlib_path;
 		$Lib = 'adodb.inc';
-		$expected = "<font color='black'>ChkLib: Chk: $path$sc$Lib".'.php';
-		$expected .= "</font><br/><font color='black'>ChkLib: Lib: ";
-		$expected .= "$path$sc$Lib".'.php found.</font><br/>';
+		$EOM = preg_quote("ChkLib: Chk: $path$sc$Lib", '/') . '\.php\n.*';
+		$EOM .= preg_quote("ChkLib: Lib: $path$sc$Lib", '/') . '\.php found\.';
+		$cur_e_l = ini_get( 'error_log' ); // Shim error_log output On
+		$capture = tmpfile();
+		$tmp = stream_get_meta_data($capture);
+		ini_set('error_log', $tmp['uri']);
 		$this->assertEquals(
-			"$path$sc$Lib".'.php',
-			ChkLib($path,'',$Lib),
-			'Unexpected return ChkLib().'
+			"$path$sc$Lib" . '.php', ChkLib($path,'',$Lib), $URV
 		);
-		$odb = $debug_mode;
-		$debug_mode = 2;
-		$this->expectOutputString(
-			$expected,
-			'Unexpected Output.'
-		);
-		ChkLib($path,'',$Lib);
-		$debug_mode = $odb;
+		unset ($_COOKIE['archive']);
+		ini_set( 'error_log', $cur_e_l ); // Shim error_log output Off
+		$elOutput = stream_get_contents($capture);
+		if ( $PHPUV > 1 ){ // PHPUnit 9+
+			$this->assertMatchesRegularExpression(
+				'/' . $EOM . '/', $elOutput, $UOV
+			);
+		}else{ // Legacy PHPUnit
+			$this->assertRegExp('/' . $EOM . '/', $elOutput, $UOV);
+		}
 	}
 	public function testreturnChkLibNotFound(){
-		GLOBAL $debug_mode;
+		$URV = self::$URV . 'ChkLib().';
+		$UOV = self::$UOV . 'ChkLib().';
+		$PHPUV = self::$PHPUV;
 		$sc = DIRECTORY_SEPARATOR;
 		// Setup DB Lib Path.
 		$TRAVIS = getenv('TRAVIS');
@@ -588,22 +626,24 @@ class base_commonTest extends TestCase {
 		}
 		$path =  $DBlib_path;
 		$Lib = 'notthere';
-		$expected = "<font color='black'>ChkLib: Chk: $path$sc$Lib".'.php';
-		$expected .= "</font><br/><font color='red'>ChkLib: Lib: ";
-		$expected .= "$path$sc$Lib".'.php not found.</font><br/>';
-		$this->assertEquals(
-			'',
-			ChkLib($path,'',$Lib),
-			'Unexpected return ChkLib().'
-		);
-		$odb = $debug_mode;
-		$debug_mode = 2;
-		$this->expectOutputString(
-			$expected,
-			'Unexpected Output.'
-		);
-		ChkLib($path,'',$Lib);
-		$debug_mode = $odb;
+		$EOM = preg_quote("ChkLib: Chk: $path$sc$Lib", '/') . '\.php\n.*';
+		$EOM .= preg_quote("ChkLib: Lib: $path$sc$Lib", '/')
+		. '\.php not found\.';
+		$cur_e_l = ini_get( 'error_log' ); // Shim error_log output On
+		$capture = tmpfile();
+		$tmp = stream_get_meta_data($capture);
+		ini_set('error_log', $tmp['uri']);
+		$this->assertEquals( '', ChkLib($path,'',$Lib), $URV );
+		unset ($_COOKIE['archive']);
+		ini_set( 'error_log', $cur_e_l ); // Shim error_log output Off
+		$elOutput = stream_get_contents($capture);
+		if ( $PHPUV > 1 ){ // PHPUnit 9+
+			$this->assertMatchesRegularExpression(
+				'/' . $EOM . '/', $elOutput, $UOV
+			);
+		}else{ // Legacy PHPUnit
+			$this->assertRegExp('/' . $EOM . '/', $elOutput, $UOV);
+		}
 	}
 
 	public function testreturnPearincEmpty(){
@@ -757,12 +797,10 @@ class base_commonTest extends TestCase {
 		$elOutput = stream_get_contents($capture);
 		if ( $PHPUV > 1 ){ // PHPUnit 9+
 			$this->assertMatchesRegularExpression(
-				'/'.$EOM.'/', $elOutput, $UOV
+				'/' . $EOM . '/', $elOutput, $UOV
 			);
 		}else{ // Legacy PHPUnit
-			$this->assertRegExp(
-				'/'.$EOM.'/', $elOutput, $UOV
-			);
+			$this->assertRegExp('/' . $EOM . '/', $elOutput, $UOV);
 		}
 	}
 	public function testreturnChkArchiveDBOffNoCookie(){
@@ -786,12 +824,10 @@ class base_commonTest extends TestCase {
 		$elOutput = stream_get_contents($capture);
 		if ( $PHPUV > 1 ){ // PHPUnit 9+
 			$this->assertMatchesRegularExpression(
-				'/'.$EOM.'/', $elOutput, $UOV
+				'/' . $EOM . '/', $elOutput, $UOV
 			);
 		}else{ // Legacy PHPUnit
-			$this->assertRegExp(
-				'/'.$EOM.'/', $elOutput, $UOV
-			);
+			$this->assertRegExp('/' . $EOM . '/', $elOutput, $UOV);
 		}
 	}
 	public function testreturnChkArchiveADBOnNoParams(){
@@ -842,12 +878,10 @@ class base_commonTest extends TestCase {
 		$elOutput = stream_get_contents($capture);
 		if ( $PHPUV > 1 ){ // PHPUnit 9+
 			$this->assertMatchesRegularExpression(
-				'/'.$EOM.'/', $elOutput, $UOV
+				'/' . $EOM . '/', $elOutput, $UOV
 			);
 		}else{ // Legacy PHPUnit
-			$this->assertRegExp(
-				'/'.$EOM.'/', $elOutput, $UOV
-			);
+			$this->assertRegExp('/' . $EOM . '/', $elOutput, $UOV);
 		}
 	}
 	public function testBCSSet(){
@@ -864,12 +898,10 @@ class base_commonTest extends TestCase {
 		$elOutput = stream_get_contents($capture);
 		if ( $PHPUV > 1 ){ // PHPUnit 9+
 			$this->assertMatchesRegularExpression(
-				'/'.$EOM.'/', $elOutput, $UOV
+				'/' . $EOM . '/', $elOutput, $UOV
 			);
 		}else{ // Legacy PHPUnit
-			$this->assertRegExp(
-				'/'.$EOM.'/', $elOutput, $UOV
-			);
+			$this->assertRegExp('/' . $EOM . '/', $elOutput, $UOV);
 		}
 	}
 	public function testBCSClear(){
@@ -886,12 +918,10 @@ class base_commonTest extends TestCase {
 		$elOutput = stream_get_contents($capture);
 		if ( $PHPUV > 1 ){ // PHPUnit 9+
 			$this->assertMatchesRegularExpression(
-				'/'.$EOM.'/', $elOutput, $UOV
+				'/' . $EOM . '/', $elOutput, $UOV
 			);
 		}else{ // Legacy PHPUnit
-			$this->assertRegExp(
-				'/'.$EOM.'/', $elOutput, $UOV
-			);
+			$this->assertRegExp('/' . $EOM . '/', $elOutput, $UOV);
 		}
 	}
 

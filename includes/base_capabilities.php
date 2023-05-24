@@ -97,13 +97,13 @@ class BaseCapsRegistry{ // Capabilities Registry class definition
 		if( LoadedString($BASE_installID) ){ // BASE InstallID
 			$this->AddCap('BASE_InID', $BASE_installID);
 		}
-		if( intval($Use_Auth_System) != 0 ){ // Auth system On.
-			$this->AddCap('BASE_Auth');
-		}
 		if( intval($archive_exists) != 0 ){ // Archive DB On.
 			$this->AddCap('BASE_ADB');
 		}
 		// BASE Server side settings, loaded from config file.
+		if( intval($Use_Auth_System) != 0 ){ // Auth system On.
+			$this->AddCap('BASE_SSAuth');
+		}
 		if( LoadedString($BASE_urlpath) ){ // BASE Url Path
 			$this->AddCap('BASE_SSUrlPath', $BASE_urlpath);
 		}

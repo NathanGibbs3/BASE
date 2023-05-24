@@ -1,27 +1,16 @@
 <?php
 use PHPUnit\Framework\TestCase;
 
-// Test fucntions in /includes/base_db.inc.php
+// Test fucntions in includes/base_db.inc.php
 
 /**
+  * @covers baseCon
   * @covers ::GetFieldLength
   * @covers ::MssqlKludgeValue
   * @covers ::NewBASEDBConnection
-  * @covers baseCon::__construct
-  * @covers baseCon::baseClose
-  * @covers baseCon::baseCon
-  * @covers baseCon::baseConnect
-  * @covers baseCon::baseErrorMessage
-  * @covers baseCon::baseExecute
-  * @covers baseCon::baseFieldExists
-  * @covers baseCon::baseGetDBversion
-  * @covers baseCon::baseGetFLOP
-  * @covers baseCon::baseIndexExists
-  * @covers baseCon::basePConnect
-  * @covers baseCon::baseSetDBversion
-  * @covers baseCon::baseSetFLOP
-  * @covers baseCon::baseTableExists
+  * @covers ::filterSql
   * @uses ::ChkAccess
+  * @uses ::ChkArchive
   * @uses ::ChkLib
   * @uses ::GetPHPSV
   * @uses ::HtmlColor
@@ -195,6 +184,9 @@ class dbTest extends TestCase {
 		}
 		$this->assertEquals(0, $tc->baseSetDBversion(), $URV);
 	}
+	/**
+	 * @backupGlobals disabled
+	 */
 	public function testClassbaseConbaseConnect(){
 		GLOBAL $alert_dbname, $alert_host, $alert_user, $alert_password,
 		$alert_port;
@@ -274,6 +266,9 @@ class dbTest extends TestCase {
 		$this->assertNull($tc->Role, $URV);
 		$this->assertNull($tc->FLOP, $URV);
 	}
+	/**
+	 * @backupGlobals disabled
+	 */
 	public function testClassbaseConbasePConnect(){
 		GLOBAL $alert_dbname, $alert_host, $alert_user, $alert_password,
 		$alert_port;
@@ -293,7 +288,6 @@ class dbTest extends TestCase {
 		$this->assertNull($tc->Role, $URV);
 		$this->assertNull($tc->FLOP, $URV);
 	}
-
 	/**
 	 * @backupGlobals disabled
 	 */
@@ -646,6 +640,118 @@ class dbTest extends TestCase {
 			$this->assertFalse( $db->baseExecute($sql,1,$Top), $URV );
 		}
 	}
+	public function testfilterSQLNullReturnsNull() {
+		$URV = self::$URV.'filterSQL().';
+		$this->assertNull(filterSQL(NULL),$URV);
+	}
+	/**
+	 * @backupGlobals disabled
+	 */
+	public function testfilterSQLValueReturnsNotNull() {
+		$URV = self::$URV.'filterSQL().';
+		$this->assertNotNull(filterSQL('Value'),$URV);
+	}
+	/**
+	 * @backupGlobals disabled
+	 */
+	public function testfilterSQLNoTransformValue() {
+		$URV = self::$URV.'filterSQL().';
+		$this->assertEquals('Value',filterSQL('Value'),$URV);
+	}
+	/**
+	 * @backupGlobals disabled
+	 */
+	public function testfilterSQLTransformValue() {
+		$URV = self::$URV.'filterSQL().';
+		$db = self::$db;
+		$dbt = $db->DB_type;
+		$Value = "O'Niell";
+		if ( $dbt == 'mysql' || $dbt == 'mysqlt' || $dbt == 'maxsql' ){
+			$Ret = "O\'Niell";
+		}
+		if ( $dbt == 'postgres' ){
+			$Ret = "O''Niell";
+		}
+		$this->assertEquals($Ret,filterSQL($Value),$URV);
+	}
+	public function testfilterSQLNoTransformNonKeyedArray() {
+		$URV = self::$URV.'filterSQL().';
+		$Value = array (1,2,3,4);
+		$this->assertEquals(array(1,2,3,4),filterSQL($Value),$URV);
+	}
+	/**
+	 * @backupGlobals disabled
+	 */
+	public function testfilterSQLTransformNonKeyedArray() {
+		$URV = self::$URV.'filterSQL().';
+		$db = self::$db;
+		$dbt = $db->DB_type;
+		$Value = array ("O'Niell",1,2,3,4);
+		if ( $dbt == 'mysql' || $dbt == 'mysqlt' || $dbt == 'maxsql' ){
+			$Ret = "O\'Niell";
+		}
+		if ( $dbt == 'postgres' ){
+			$Ret = "O''Niell";
+		}
+		$this->assertEquals(
+			array("$Ret",1,2,3,4),filterSQL($Value),$URV
+		);
+	}
+	/**
+	 * @backupGlobals disabled
+	 */
+	public function testfilterSQLNoTransformKeyedArray() {
+		$URV = self::$URV.'filterSQL().';
+		$Value = array (
+			'key1' => 0,
+			'key2' => 1,
+			'key3' => 2,
+			'key4' => 3,
+			'key5' => 4
+		);
+		$this->assertEquals(
+			array(
+				'key1' => '0',
+				'key2' => '1',
+				'key3' => '2',
+				'key4' => '3',
+				'key5' => '4'
+			),
+			filterSQL($Value),$URV
+		);
+	}
+	/**
+	 * @backupGlobals disabled
+	 */
+	public function testfilterSQLTransformKeyedArray() {
+		$URV = self::$URV.'filterSQL().';
+		$db = self::$db;
+		$dbt = $db->DB_type;
+		$Value = array (
+			'key1' => "O'Niell",
+			'key2' => 1,
+			'key3' => 2,
+			'key4' => 3,
+			'key5' => 4
+		);
+		if ( $dbt == 'mysql' || $dbt == 'mysqlt' || $dbt == 'maxsql' ){
+			$Ret = "O\'Niell";
+		}
+		if ( $dbt == 'postgres' ){
+			$Ret = "O''Niell";
+		}
+		$this->assertEquals(
+			array(
+				'key1' => $Ret,
+				'key2' => '1',
+				'key3' => '2',
+				'key4' => '3',
+				'key5' => '4'
+			),
+			filterSQL($Value),$URV
+		);
+	}
+
 
 	// Add code to a function if needed.
 	// Stop here and mark test incomplete.
