@@ -33,6 +33,13 @@
 	<rule ref="Generic.CodeAnalysis.UnusedFunctionParameter">
 	</rule>
 	<rule ref="Generic.Debug.ClosureLinter">
+		<properties>
+			<property name="ignoreCodes" type="array">
+				<element value="0001"/>
+				<element value="0002"/>
+				<element value="0005"/>
+			</property>
+		</properties>
 	</rule>
 	<rule ref="Generic.Files.LineEndings">
 	</rule>

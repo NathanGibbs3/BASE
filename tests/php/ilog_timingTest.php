@@ -157,6 +157,9 @@ class log_timingTest extends TestCase {
 		}
 	}
 	// Test debug display lockout for unauthenticated users
+	/**
+	 * @backupGlobals disabled
+	 */
 	public function testClassEventTimingConstructUnAuth(){
 		$URV = self::$URV.'Construct().';
 		$this->assertInstanceOf(

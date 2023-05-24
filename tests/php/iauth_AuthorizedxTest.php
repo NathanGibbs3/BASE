@@ -129,10 +129,16 @@ class authTest2 extends TestCase {
 		$this->assertTrue(ARC(), $URV );
 		$Use_Auth_System = $BAStmp;
 	}
+	/**
+	 * @backupGlobals disabled
+	 */
 	public function testARCASOn(){
 		$URV = self::$URV . 'ARC().';
 		$this->assertFalse(ARC(), $URV );
 	}
+	/**
+	 * @backupGlobals disabled
+	 */
 	public function testAuthorizedRoleLogsAuthenticateError(){
 		$URV = self::$URV . 'AuthorizedRole().';
 		$UOV = self::$UOV . 'AuthorizedRole().';
@@ -157,6 +163,9 @@ class authTest2 extends TestCase {
 		}
 	}
 	// test against test users.
+	/**
+	 * @backupGlobals disabled
+	 */
 	public function testARCFail(){
 		$URV = self::$URV . 'ARC().';
 		$user = self::$user;
@@ -165,6 +174,9 @@ class authTest2 extends TestCase {
 		$this->assertFalse(ARC(1), $URV );
 		unset ($_COOKIE['BASERole']);
 	}
+	/**
+	 * @backupGlobals disabled
+	 */
 	public function testARCDisabledUserFail(){
 		$URV = self::$URV . 'ARC().';
 		$user = self::$user;
@@ -173,6 +185,9 @@ class authTest2 extends TestCase {
 		$this->assertFalse(ARC(1000), $URV );
 		unset ($_COOKIE['BASERole']);
 	}
+	/**
+	 * @backupGlobals disabled
+	 */
 	public function testARCPass(){
 		$URV = self::$URV . 'ARC().';
 		$user = self::$user;

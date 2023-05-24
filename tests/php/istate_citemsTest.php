@@ -15,10 +15,12 @@ use PHPUnit\Framework\TestCase;
   * @uses ::ErrorMessage
   * @uses ::HtmlColor
   * @uses ::InitArray
+  * @uses ::LoadedString
   * @uses ::SetSessionVar
   * @uses ::XSSPrintSafe
   * @uses ::returnErrorMessage
   */
+
 class state_citemsTest extends TestCase {
 	// Pre Test Setup.
 	protected static $files;
@@ -342,7 +344,7 @@ class state_citemsTest extends TestCase {
 		);
 		$debug_mode = $odb;
 		$_SESSION = $osession;
-		$this->assertEquals('', $tc->criteria_cnt, $URV);
+		$this->assertEquals(0, $tc->criteria_cnt, $URV);
 		$this->assertFalse(is_array($tc->criteria), $URV);
 	}
 	public function testClassMultipleElementCriteriaFuncsCritCount(){

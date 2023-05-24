@@ -7,6 +7,15 @@ $sc = DIRECTORY_SEPARATOR;
 $ReqRE =  "\\".$sc.'tests.*';
 $BASE_path = preg_replace('/'.$ReqRE.'/', '', $BASE_path);
 
+// Micro KML mocking shim for using code that calls the real KML.
+function KML ( $msg = '', $lvl = 0 ){
+	if( $msg != '' ){
+		if ( !is_int($lvl) || $lvl < 0 ){
+			$lvl = 0;
+		}
+	}
+}
+
 // BASE Runtime.
 include_once("$BASE_path$sc" . "includes$sc" . "base_rtl.php");
 SetConst('_BASE_INC', 1); // Include Load Flag.
