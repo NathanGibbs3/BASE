@@ -20,7 +20,10 @@
 */
 
 $sc = DIRECTORY_SEPARATOR;
-require_once("..$sc" . "includes$sc" . 'base_krnl.php');
+$tmp = dirname(__FILE__);
+$ReqRE = preg_quote($sc.'help', '/').'.*';
+$tmp = preg_replace('/'.$ReqRE.'/', '', $tmp);
+require_once("$tmp$sc" . "includes$sc" . 'base_krnl.php');
 
 echo '<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">' . "\n\n" .
      '<!-- Basic Analysis and Security Engine (BASE) ' . $BASE_VERSION . ' -->' . "\n" . 

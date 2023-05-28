@@ -23,7 +23,7 @@ body {
 	margin: 10px;
 }
 
-P,B,A,FORM,TD,INPUT,SELECT,OPTION,TR,OL,UL,MENU,BLOCKQUOTE,FONT,DIV,H4,H5,H6 {
+P,FORM,TD,INPUT,SELECT,OPTION,TR,OL,UL,MENU,BLOCKQUOTE,FONT,H4,H5,H6 {
     FONT-FAMILY: arial, helvetica, sans-serif;
     font-size: 10pt;
 }
@@ -199,17 +199,14 @@ div.mainheadermenu {
 }
 
 div.systemstats {
-    font-size: 11px;
     color: #F2F4EA;
     font-family: Arial;
     border: double;
-    width: 400px;
     background: #000000;
-    padding: 3px;
 }
 
 div.stats {
-    font-size: 11px;
+	font-size: 11pt;
     color: #F2F4EA;
     font-family: Arial;
     border: double;

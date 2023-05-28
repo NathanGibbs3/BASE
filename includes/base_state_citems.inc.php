@@ -1732,7 +1732,7 @@ class DataCriteria extends MultipleElementCriteria {
 		if ( $debug_mode > 1 ){
 			$this->CTIFD(__CLASS__ . '::' . __FUNCTION__);
 			ErrorMessage(
-				"Property Type: " . gettype($tmp), 'black', 1
+				'Property Type: ' . gettype($tmp), 'black', 1
 			);
 			if ( is_bool($ISF) ){
 				$msg = 'Property '.__FUNCTION__.': ';

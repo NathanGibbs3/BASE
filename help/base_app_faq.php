@@ -20,7 +20,10 @@
 */
 
 $sc = DIRECTORY_SEPARATOR;
-require_once("..$sc" . "includes$sc" . 'base_krnl.php');
+$tmp = dirname(__FILE__);
+$ReqRE = preg_quote($sc.'help', '/').'.*';
+$tmp = preg_replace('/'.$ReqRE.'/', '', $tmp);
+require_once("$tmp$sc" . "includes$sc" . 'base_krnl.php');
 include_once("$BASE_path$sc" . "includes$sc" . 'base_include.inc.php');
 
 AuthorizedRole(10000);

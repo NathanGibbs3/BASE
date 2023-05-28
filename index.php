@@ -25,52 +25,57 @@ require_once("includes$sc" . 'base_krnl.php');
 include_once("$BASE_path/includes/base_include.inc.php");
 include_once("$BASE_path/base_db_common.php");
 
-$errorMsg      = '';
-$displayError  = 0;
-
-// Redirect to base_main.php if auth system is off.
-if( $Use_Auth_System == 0 ){
+if( ARC(10000) ){ // Redirect to base_main.php if user is authenticated.
 	HTTP_header('Location: base_main.php');
-}
-$LoginDesc = _FRMLOGIN;
-$PWDesc = _FRMPWD;
-if( isset($_POST['submit']) ){
-    $BASEUSER   = new BaseUser();
-    $user       = filterSql($_POST['login']);
-    $pwd        = filterSql($_POST['password']);
-
-	if ( $BASEUSER->Authenticate($user, $pwd) == 0 ){
-		HTTP_header('Location: base_main.php');
-	}
-    $displayError = 1;
-    $errorMsg     = _LOGINERROR;
-}
-
-PrintBASESubHeader();
-$tmp_str = verify_php_build($DBtype); // Check that PHP was built correctly.
-if( $tmp_str != '' ){
-	BuildError($tmp_str);
 }else{
-	if( $displayError == 1 ){
-		DivErrorMessage($errorMsg, 2);
+	$errorMsg = '';
+	$Authfail = false;
+	if( isset($_POST['submit']) ){
+		$user = $_POST['login']; // Input sanitization happens at the
+		$pswd = $_POST['password']; // Authentication level.
+		$BASEUSER = new BaseUser();
+		if ( $BASEUSER->Authenticate($user, $pswd) == 0 ){
+			HTTP_header('Location: base_main.php');
+		}
+		$Authfail = true;
 	}
-	$ipt = "<input type='";
-	NLIO("<form action='index.php' method='post' name='loginform'>", 2);
-	NLIO("<table width='75%' style='border:0;padding:0;margin:auto;'>", 3);
-	NLIO('<tr>', 4);
-	NLIO("<td align='right' width='50%'>$LoginDesc:&nbsp;</td>", 5);
-	NLIO("<td align='left' width='50%'>", 5);
-	NLIO($ipt . "text' name='login' autofocus='autofocus' />", 6);
-	PrintTblNewRow(1, 'right', 5);
-	NLIO("$PWDesc:&nbsp;</td>", 5);
-	NLIO("<td align='left'>", 5);
-	NLIO($ipt . "password' name='password' />", 6);
-	PrintTblNewRow(0, '', 5);
-	NLIO("<td colspan='2' align='center'>", 5);
-	NLIO($ipt."submit' name='submit' value='Login' />", 6);
-	NLIO($ipt."reset' name='reset' />", 6);
-	PrintFramedBoxFooter(1, 3);
-	NLIO('</form>', 2);
+	PrintBASESubHeader();
+	$tmp_str = verify_php_build($DBtype); // Is PHP built correctly.
+	if( $tmp_str != '' ){
+		BuildError($tmp_str);
+	}else{
+		NLIO("<div style='height: 64px;'>", 3);
+		$LoginDesc = _FRMLOGIN;
+		$PWDesc = _FRMPWD;
+		$ipt = "<input type='";
+		NLIO(
+			"<form class='login' action='index.php' method='post' "
+			. "name='loginform'>", 4
+		);
+		NLIO('<div>', 5);
+		printIcon('user', $LoginDesc, 6);
+		NLIO("$LoginDesc:", 6);
+		NLIO($ipt . "text' name='login' autofocus='autofocus' />", 6);
+		NLIO('<br/>', 6);
+		printIcon('password', $PWDesc, 6);
+		NLIO("$PWDesc:", 6);
+		NLIO($ipt . "password' name='password' />", 6);
+		NLIO('</div>', 5);
+		NLIO('<div>', 5);
+		$ipt = "<input class='login' type='";
+		NLIO($ipt . "submit' name='submit' value='$LoginDesc' />", 6);
+		NLIO('<br/>', 6);
+		NLIO($ipt . "reset' name='reset' />", 6);
+		NLIO('</div>', 5);
+		NLIO('</form>', 4);
+		if( $Authfail ){
+			$eMsg = _LOGINERROR;
+			NLIO(
+				"<div class='errorMsg' style='padding: 10px;'>$eMsg</div>", 3)
+			;
+		}
+		NLIO('</div>', 3);
+	}
+	PrintBASESubFooter();
 }
-PrintBASESubFooter();
 ?>

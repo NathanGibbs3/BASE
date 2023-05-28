@@ -429,17 +429,19 @@ class output_htmlSPTest extends TestCase {
 		}
 	}
 	public function testPrintBASEMenuDefaults() {
+		$UOV = self::$UOV . 'PrintBASEMenuFooter().';
 		$EOM = '';
-		$this->expectOutputString($EOM);
-		PrintBASEMenu();
+		$this->expectOutputString($EOM, PrintBASEMenu(), $UOV);
 	}
 	public function testPrintBASEMenuInvalid() {
+		$UOV = self::$UOV . 'PrintBASEMenuFooter().';
 		$EOM = '';
-		$this->expectOutputString($EOM);
-		PrintBASEMenu('Invalid');
+		$this->expectOutputString($EOM, PrintBASEMenu('Invalid'), $UOV);
 	}
 	public function testPrintBASEMenuHeader() {
+		$UOV = self::$UOV . 'PrintBASEMenuFooter().';
 		GLOBAL $BASE_installID;
+		$user = self::$user;
 		if ( is_object(self::$UIL) ){
 			$UIL = self::$UIL;
 		}else{
@@ -461,11 +463,15 @@ class output_htmlSPTest extends TestCase {
 		$EOM .= "\n\t\t\t\t".'</tr>';
 		$EOM .= "\n\t\t\t".'</table>';
 		$EOM .= "\n\t\t".'</div>';
-		$this->expectOutputString($EOM);
-		PrintBASEMenu('Header');
+		$pw = $user->cryptpassword('password');
+		$_COOKIE['BASERole'] = "$pw|TestAdmin|";
+		$this->expectOutputString($EOM, PrintBASEMenu('Header'), $UOV);
+		unset($_COOKIE['BASERole']);
 	}
 	public function testPrintBASEMenuHeaderBackLink() {
+		$UOV = self::$UOV . 'PrintBASEMenuFooter().';
 		GLOBAL $BASE_installID;
+		$user = self::$user;
 		if ( is_object(self::$UIL) ){
 			$UIL = self::$UIL;
 		}else{
@@ -488,10 +494,13 @@ class output_htmlSPTest extends TestCase {
 		$EOM .= "\n\t\t\t\t".'</tr>';
 		$EOM .= "\n\t\t\t".'</table>';
 		$EOM .= "\n\t\t".'</div>';
-		$this->expectOutputString($EOM);
-		PrintBASEMenu('Header', 'Test');
+		$pw = $user->cryptpassword('password');
+		$_COOKIE['BASERole'] = "$pw|TestAdmin|";
+		$this->expectOutputString($EOM, PrintBASEMenu('Header', 'Test'), $UOV);
+		unset($_COOKIE['BASERole']);
 	}
 	public function testPrintBASEMenuFooter() {
+		$UOV = self::$UOV . 'PrintBASEMenuFooter().';
 		GLOBAL $BASE_installID;
 		$user = self::$user;
 		if ( is_object(self::$UIL) ){
@@ -520,11 +529,11 @@ class output_htmlSPTest extends TestCase {
 		$EOM .= "\n\t\t".'</div>';
 		$pw = $user->cryptpassword('password');
 		$_COOKIE['BASERole'] = "$pw|TestAdmin|";
-		$this->expectOutputString($EOM);
-		PrintBASEMenu('Footer');
+		$this->expectOutputString($EOM, PrintBASEMenu('Footer'), $UOV);
 		unset($_COOKIE['BASERole']);
 	}
 	public function testPrintBASEMenuFooterAuthOff() {
+		$UOV = self::$UOV . 'PrintBASEMenuFooter().';
 		GLOBAL $BASE_installID, $Use_Auth_System;
 		$BAStmp = $Use_Auth_System;
 		$Use_Auth_System = 0;
@@ -548,15 +557,13 @@ class output_htmlSPTest extends TestCase {
 		$EOM .= "\n\t\t\t\t".'</tr>';
 		$EOM .= "\n\t\t\t".'</table>';
 		$EOM .= "\n\t\t".'</div>';
-		$this->expectOutputString($EOM);
-		PrintBASEMenu('Footer');
+		$this->expectOutputString($EOM, PrintBASEMenu('Footer'), $UOV);
 		$Use_Auth_System = $BAStmp;
 	}
 	public function testPrintBASEMenuFooterDebugTimeModeOn() {
 		GLOBAL $BASE_installID, $et;
-		$UOV = self::$UOV.'PrintBASEMenuFooter().';
+		$UOV = self::$UOV . 'PrintBASEMenuFooter().';
 		$user = self::$user;
-		$et = new EventTiming(1);
 		if ( is_object(self::$UIL) ){
 			$UIL = self::$UIL;
 		}else{
@@ -589,6 +596,7 @@ class output_htmlSPTest extends TestCase {
 		$EOM .= '\n\t\t<\/div>';
 		$pw = $user->cryptpassword('password');
 		$_COOKIE['BASERole'] = "$pw|TestAdmin|";
+		$et = new EventTiming(1);
 		$this->expectOutputRegex(
 			'/^' . $EOM . '$/', PrintBASEMenu('Footer'), $UOV
 		);

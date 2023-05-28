@@ -366,6 +366,18 @@ class output_htmlTest extends TestCase {
 		$msg = "\n\t\t\t<img class='icon' src='images/base_icon_0_delete.png' />";
 		$this->assertEquals( $msg, Icon($Icon), $URV );
 	}
+	public function testIconInValidClassReturnsExpected() {
+		$URV = self::$URV.'Icon().';
+		$Icon = 'delete';
+		$msg = "\n\t\t\t<img class='icon' src='images/base_icon_0_delete.png' />";
+		$this->assertEquals( $msg, Icon($Icon, '', '', 'large'), $URV );
+	}
+	public function testIconValidClassReturnsExpected() {
+		$URV = self::$URV.'Icon().';
+		$Icon = 'delete';
+		$msg = "\n\t\t\t<img class='icon-lg' src='images/base_icon_0_delete.png' />";
+		$this->assertEquals( $msg, Icon($Icon, '', '', 'lg'), $URV );
+	}
 	public function testIconInvalidDescReturnsExpected() {
 		$URV = self::$URV.'Icon().';
 		$Icon = 'delete';
@@ -415,7 +427,21 @@ class output_htmlTest extends TestCase {
 		$UOV = self::$UOV.'PrintIcon().';
 		$Icon = 'delete';
 		$msg = "\n\t\t\t<img class='icon' src='images/base_icon_0_delete.png' />";
-		$this->expectOutputString( $msg, PrintIcon($Icon), $UOV );
+		$this->expectOutputString($msg, PrintIcon($Icon), $UOV);
+	}
+	public function testPrintIconInValidClassReturnsExpected() {
+		$UOV = self::$UOV.'PrintIcon().';
+		$Icon = 'delete';
+		$msg = "\n\t\t\t<img class='icon' src='images/base_icon_0_delete.png' />";
+		$this->expectOutputString(
+			$msg, PrintIcon($Icon, '', '', 'large'), $UOV
+		);
+	}
+	public function testPrintIconValidClassReturnsExpected() {
+		$UOV = self::$UOV.'PrintIcon().';
+		$Icon = 'delete';
+		$msg = "\n\t\t\t<img class='icon-lg' src='images/base_icon_0_delete.png' />";
+		$this->expectOutputString($msg, PrintIcon($Icon, '', '', 'lg'), $UOV);
 	}
 	public function testPrintIconInvalidDescReturnsExpected() {
 		$UOV = self::$UOV.'PrintIcon().';

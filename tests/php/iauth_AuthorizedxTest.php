@@ -33,10 +33,10 @@ use PHPUnit\Framework\TestCase;
 
 class authTest2 extends TestCase {
 	// Pre Test Setup.
-	protected static $user;
 	protected static $PHPUV;
 	protected static $UOV;
 	protected static $URV;
+	protected static $user;
 
 	// Share class instance as common test fixture.
 	public static function setUpBeforeClass() {
@@ -114,10 +114,10 @@ class authTest2 extends TestCase {
 		self::$URV = 'Unexpected Return Value: ';
 	}
 	public static function tearDownAfterClass() {
-		self::$user = null;
 		self::$PHPUV = null;
 		self::$URV = null;
 		self::$UOV = null;
+		self::$user = null;
 	}
 
 	// Tests go here.

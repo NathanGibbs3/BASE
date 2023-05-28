@@ -21,10 +21,6 @@
 // Ensure the conf file has been loaded. Prevent direct access to this file.
 defined('_BASE_INC') or die('Accessing this file directly is not allowed.');
 
-function DivErrorMessage( $message, $Count = 0 ){
-	NLIO ("<div class='errorMsg' align='center'>$message</div>",$Count);
-}
-
 function ErrorMessage( $message, $color = '#ff0000', $br = 0 ){
 	GLOBAL $BCR, $debug_mode, $BASE_VERSION, $BASE_installID;
 	if(
@@ -245,64 +241,62 @@ function PrintPageHeader(){
 	GLOBAL $DBtype, $ADODB_vers, $Use_Auth_System, $BCR;
 	if( !AuthorizedPage('(base_denied|index)') ){
 		// Additional app info allowed everywhere but landing pages.
-		$BV = $BCR->GetCap('BASE_Ver');
-		$AdminAuth = ARC(1); // Admin Flag
-		$UserAuth = ARC(50); // User Flag
-		if( $AdminAuth ){ // Issue #146 Fix
-			if( is_key('SERVER_SOFTWARE', $_SERVER) ){
-				$SW_Svr = $_SERVER['SERVER_SOFTWARE'];
-			}else{
+		if( ARC(10000) ){ // Auth check
+			$BV = $BCR->GetCap('BASE_Ver');
+			$AdminAuth = ARC(1); // Admin Flag
+			$UserAuth = ARC(50); // User Flag
+			if( $AdminAuth ){ // Issue #146 Fix
 				$SW_Svr = 'unknown';
+				if( is_key('SERVER_SOFTWARE', $_SERVER) ){
+					$SW_Svr = XSSPrintSafe($_SERVER['SERVER_SOFTWARE']);
+				}
 			}
-			$SW_Svr = XSSPrintSafe($SW_Svr);
-		}
-		if( $UserAuth ){
-			if( is_key('HTTP_REFERER', $_SERVER) ){
-				$http_referer = XSSPrintSafe($_SERVER['HTTP_REFERER']);
-			}else{
+			if( $UserAuth ){
 				$http_referer = '';
+				if( is_key('HTTP_REFERER', $_SERVER) ){
+					$http_referer = XSSPrintSafe($_SERVER['HTTP_REFERER']);
+				}
+				$tmp = session_encode();
 			}
-			$tmp = session_encode();
-		}
-		$request_uri = XSSPrintSafe($_SERVER['REQUEST_URI']);
-		if( is_key('HTTP_USER_AGENT', $_SERVER) ){
-			$SW_Cli = $_SERVER['HTTP_USER_AGENT'];
-		}else{
 			$SW_Cli = 'unknown';
-		}
-		$SW_Cli = XSSPrintSafe($SW_Cli);
-		$query_string = XSSPrintSafe($_SERVER['QUERY_STRING']);
-		// TD these labels from Issue #11 at some point.
-		$DD = array(
-			_MNTCLIENT, 'URL', 'Request Parameters',
-		);
-		$DI = array(
-			Icon('client', _MNTCLIENT) . XSSPrintSafe($SW_Cli), $request_uri,
-			$query_string,
-		);
-		if( $Use_Auth_System == 1 && $UserAuth ){
-			array_push($DD, 'Referer', 'SESSION ID', 'SESSION Contents');
-			array_push($DI, $http_referer);
-			array_push($DI, session_id() . ' ( ' . strlen($tmp) . '  bytes )');
-			array_push(
-				$DI,
-				"<div style='width:auto'>"
-				. 'Back List (Cnt = ' . $_SESSION['back_list_cnt'] . ')</div>'
-				. "<pre class='session'>"
-				. print_r($_SESSION['back_list'],true) . '</pre>'
+			if( is_key('HTTP_USER_AGENT', $_SERVER) ){
+				$SW_Cli = XSSPrintSafe($_SERVER['HTTP_USER_AGENT']);
+			}
+			$request_uri = XSSPrintSafe($_SERVER['REQUEST_URI']);
+			$query_string = XSSPrintSafe($_SERVER['QUERY_STRING']);
+			// TD these labels from Issue #11 at some point.
+			$DD = array(_MNTCLIENT, 'URL', 'Request Parameters',);
+			$DI = array(
+				Icon('client', _MNTCLIENT) . $SW_Cli,
+				$request_uri, $query_string,
 			);
+			if( $Use_Auth_System == 1 && $UserAuth ){
+				array_push($DD, 'Referer', 'SESSION ID', 'SESSION Contents');
+				array_push($DI, $http_referer);
+				array_push(
+					$DI, session_id() . ' ( ' . strlen($tmp) . '  bytes )'
+				);
+				array_push(
+					$DI,
+					"<div style='width:auto'>"
+					. 'Back List Count: ' . $_SESSION['back_list_cnt']
+					. ' Back List Type: ' . gettype($_SESSION['back_list'])
+					. "</div><pre class='session'>"
+					. print_r($_SESSION['back_list'], true) . '</pre>'
+				);
+			}
+			DDT($DI, $DD, 'Request Information', '', '', 1, 0);
+			$DD = array('BASE VERSION');
+			$DI = array($BV);
+			if( $Use_Auth_System == 1 && $AdminAuth ){
+				array_push($DD, 'OS', 'HTTP SW', 'HTTP PHP API', _MNTPHPVER);
+				array_push($DD, _MNTDBALV, _MNTDBTYPE, 'Executed Script');
+				array_push($DI, php_uname(), $SW_Svr, php_sapi_name());
+				array_push($DI, phpversion(), $ADODB_vers, $DBtype);
+				array_push($DI, XSSPrintSafe($_SERVER['SCRIPT_NAME']));
+			}
+			DDT($DI, $DD, 'Server Information', '', '', 1, 0);
 		}
-		DDT($DI, $DD, 'Request Information', '', '', 1, 0);
-		$DD = array('BASE VERSION');
-		$DI = array($BV);
-		if( $Use_Auth_System == 1 && $AdminAuth ){
-			array_push($DD, 'OS', 'HTTP SW', 'HTTP PHP API', _MNTPHPVER);
-			array_push($DD, _MNTDBALV, _MNTDBTYPE, 'Executed Script');
-			array_push($DI, php_uname(), $SW_Svr, php_sapi_name());
-			array_push($DI, phpversion(), $ADODB_vers, $DBtype);
-			array_push($DI, XSSPrintSafe($_SERVER['SCRIPT_NAME']));
-		}
-		DDT($DI, $DD, 'Server Information', '', '', 1, 0);
 	}
 }
 

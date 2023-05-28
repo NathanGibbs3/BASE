@@ -199,16 +199,14 @@ function DateTimeRows2sql( $field, $cnt, &$s_sql ){
 					break;
 				}
 				if ( $op != '' ){
-					if ( !is_numeric($year) && !is_numeric($hour)
-					){ // Not date or time.
-						ErrorMessage(
-							$EPfx._QCERROPER." '$op' "._QCERRDATEVALUE
-						);
-						break;
-					}
-					if ( !is_numeric($year) && is_numeric($hour)
-					){ // Invlaid Hour
-						ErrorMessage($EPfx._QCERRINVHOUR);
+					if( !is_numeric($year) ){
+						if( !is_numeric($hour) ){ // Not date or time.
+							ErrorMessage(
+								$EPfx._QCERROPER." '$op' "._QCERRDATEVALUE
+							);
+						}else{ // Invlaid Hour
+							ErrorMessage($EPfx._QCERRINVHOUR);
+						}
 						break;
 					}
 					$t = '';
@@ -286,15 +284,15 @@ function DateTimeRows2sql( $field, $cnt, &$s_sql ){
 									}
 								}
 								// Count all values in array $field[$i].
-								$array_count = count( $field[1] );
-								// If count of empty valuess > (impossible) or
-								// = (possible) count of all values, then all
-								// are empty.
-								if ( $empty_count >= $array_count ){
-									$allempty = true;
-								}
-								if ( $allempty ){ // Empty, dont process line.
-									continue;
+								$array_count = count( $field[$i] );
+								// If count of empty valuess = count of all
+								// values, then all are empty.
+								if ( $empty_count == $array_count ){
+									// @codeCoverageIgnoreStart
+									// Should never happen, but we will catch
+									// it, if it does.
+									continue; // Empty, dont process line.
+									// @codeCoverageIgnoreEnd
 								}else{ // Process line.
 									$tmp = " timestamp " . $op . "'$t'";
 								}
@@ -338,9 +336,12 @@ function DateTimeRows2sql( $field, $cnt, &$s_sql ){
 							);
 						}
 						if ( $tmp == '' ){ // Neither date or time.
+							// @codeCoverageIgnoreStart
+							// Should never run, but we will know if it does.
 							ErrorMessage(
 								$EPfx._QCERROPER." '$op' "._QCERRDATECRIT
 							);
+							// @codeCoverageIgnoreEnd
 						}else{
 							$tmp .= ')';
 						}

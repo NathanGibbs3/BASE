@@ -16,7 +16,10 @@
 //                     Kevin Johnson
 
 $sc = DIRECTORY_SEPARATOR;
-require_once("..$sc" . "includes$sc" . 'base_krnl.php');
+$tmp = dirname(__FILE__);
+$ReqRE = preg_quote($sc.'admin', '/').'.*';
+$tmp = preg_replace('/'.$ReqRE.'/', '', $tmp);
+require_once("$tmp$sc" . "includes$sc" . 'base_krnl.php');
 include("$BASE_path/includes/base_include.inc.php");
 include_once("$BASE_path/base_db_common.php");
 include_once("$BASE_path/base_stat_common.php");

@@ -1143,12 +1143,12 @@ function PearInc( $Desc = '', $Loc = '', $Lib = '', $Silent = 1, $Fatal = 0 ){
 			$EMsg = "$Desc Lib: $Lib not ";
 			if ( $LLF == '' ){
 				$EMsg .= 'accessable';
-			}elseif ( $LLI == false ){
-				// @codeCoverageIgnoreStart
+			// @codeCoverageIgnoreStart
+			}elseif( $LLI == false ){
 				// This code path should never run.
 				$EMsg .= 'loaded';
-				// @codeCoverageIgnoreEnd
 			}
+			// @codeCoverageIgnoreEnd
 			$EMsg .= '.';
 			if ( $Silent != 1 ){ // Display fancy error to user.
 				$URL = "https://pear.php.net/package/$LibName";

@@ -26,7 +26,6 @@ div {
 }
 
 div.errorMsg {
-	font-family: arial, helvetica;
 	font-size: 14pt;
 	font-weight: bold;
 	color: #ff0000;
@@ -44,8 +43,33 @@ div.systemdebug {
 	overflow: auto;
 }
 
+div.systemstats {
+	width: fit-content;
+	padding: 3px;
+	padding-left: 5%;
+}
+
 form {
 	margin: 0px;
+}
+
+form.login {
+	float: left;
+	padding: 6px;
+}
+
+form.login div {
+	text-align: right;
+	float: left;
+}
+
+form.login input {
+	padding: 2px;
+	margin: 1px;
+}
+
+input.login {
+	width: 45px; /* IE < 8x */
 }
 
 ul.stats {
@@ -56,10 +80,19 @@ input.admin {
 	color: red;
 }
 
-img.icon {
+img {
 	border: 0px;
+}
+
+img.icon {
 	height: 16px;
 	width: 16px;
+}
+
+img.icon-lg {
+	height: 64px;
+	width: 64px;
+	float: left;
 }
 
 tr.qro {

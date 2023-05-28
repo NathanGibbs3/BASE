@@ -941,22 +941,24 @@ function GetFieldLength($db,$table,$field){
 // @param $item            value of the variable to filter
 // @param $force_alert_db  (default 0 - use current db)
 // @return a sanitized version of the passed variable.
-function filterSql ( $item, $force_alert_db=0, $db = ''){
+function filterSql( $item, $force_alert_db=0, $db = '' ){
 	GLOBAL $DBlib_path, $DBtype, $db_connect_method, $alert_dbname,
 	$alert_host, $alert_port, $alert_user, $alert_password;
-	if ( !isset($item) ){ // Unset Value.
+	if( !isset($item) ){ // Unset Value.
 		return $item;
 	}else{
-		if ( is_array($item) ){ // Array.
+		if( is_array($item) ){ // Array.
 			// Recursively convert array elements.
 			// Works with both Keyed & NonKeyed arrays.
-			foreach ($item as $key => $value) {
+			foreach( $item as $key => $value ){
 				$item[$key] = filterSql( $value, $force_alert_db );
 			}
 			return $item;
 		}else{
 			$Dbcf = 0; // DB Object creation Flag.
 			if( is_object($db) && get_class($db) == 'baseCon' ){
+				// Need to Add check for baseCon Role, so we can follow the
+				// force flag on passed objects.
 				$tdb = $db; // DB Onject passed.
 			}else{
 				$tdb = NewBASEDBConnection($DBlib_path, $DBtype);

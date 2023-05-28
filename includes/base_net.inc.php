@@ -198,13 +198,17 @@ function baseGetHostByAddr($ipaddr, $db, $cache_lifetime){
 		}
 	}
 	if ( $ip_cache == "" ){ // Cache miss. Add to cache.
-     if( $db->DB_type == "oci8" )
+		if( $db->DB_type == "oci8" ){
+			// @codeCoverageIgnoreStart
+			// We have no way of testing Oracle functionality.
        $sql= "INSERT INTO acid_ip_cache (ipc_ip, ipc_fqdn, ipc_dns_timestamp) ".
              "VALUES ($ip32, '$tmp', to_date( '$current_time', 'YYYY-MM-DD HH24:MI:SS' ) )";
-     else
+			// @codeCoverageIgnoreEnd
+		}else{
        $sql = "INSERT INTO acid_ip_cache (ipc_ip, ipc_fqdn, ipc_dns_timestamp) ".
               "VALUES ('$ip32', '$tmp', '$current_time')";
-     $db->baseExecute($sql);
+		}
+		$db->baseExecute($sql);
 	}else{ // Cache hit.
      if ($ip_cache[2] != "" && 
          ( ( (strtotime($ip_cache[2]) / 60) + $cache_lifetime ) >= ($current_unixtime / 60) )

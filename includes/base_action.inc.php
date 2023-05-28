@@ -19,7 +19,6 @@
 defined('_BASE_INC') or die('Accessing this file directly is not allowed.');
 
 include_once("$BASE_path/base_ag_common.php");
-include_once("$BASE_path/includes/base_constants.inc.php");
 include_once("$BASE_path/includes/base_log_error.inc.php");
 
 if( isset($BCR) && is_object($BCR) ){

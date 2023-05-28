@@ -16,7 +16,7 @@
 //          Author(s): Nathan Gibbs
 //                     Kevin Johnson
 
-$BRTL_Ver = '0.0.8';
+$BRTL_Ver = '0.0.9';
 
 if( !function_exists('LoadedString') ){
 	// Returns true if var is a string containing data.
@@ -84,7 +84,9 @@ if( !function_exists('HTTP_header') ){
 			$status = 302;
 		}
 		if ( !headers_sent() ){
-			header($_SERVER['SERVER_PROTOCOL'] . " $status");
+			if( is_key('SERVER_PROTOCOL', $_SERVER) ){
+				header($_SERVER['SERVER_PROTOCOL'] . " $status");
+			}
 			if( LoadedString($url) ){
 				header($url,true,$status);
 			}
@@ -156,30 +158,32 @@ if( !function_exists('ChkAccess') ){
 	}
 }
 
-// Returns true when key is in array, false otherwise.
-function is_key( $SKey, $SArray ){ // PHP Version Agnostic.
-	$Ret = false;
-	if( is_array($SArray) && count($SArray) > 0 ){
-		$PHPVer = GetPHPSV();
-		// Use built in functions when we can.
-		if(
-			$PHPVer[0] > 4 || ($PHPVer[0] == 4 && $PHPVer[1] > 0)
-			|| ($PHPVer[0] == 4 && $PHPVer[1] == 0 && $PHPVer[2] > 6)
-		){ // PHP > 4.0.7
-			$Ret = array_key_exists( $SKey, $SArray );
-		// @codeCoverageIgnoreStart
-		// PHPUnit test only covers this code path on PHP < 4.0.7
-		// Unable to validate in CI.
-		}elseif(
-			$PHPVer[0] == 4 && $PHPVer[1] == 0 && $PHPVer[2] > 5
-		){ // PHP > 4.0.5
-			$Ret = key_exists($SKey, $SArray);
-		}else{ // No built in functions, PHP Version agnostic.
-			$Ret = in_array($SKey, array_keys($SArray) );
+if( !function_exists('is_key') ){
+	// Returns true when key is in array, false otherwise.
+	function is_key( $SKey, $SArray ){ // PHP Version Agnostic.
+		$Ret = false;
+		if( is_array($SArray) && count($SArray) > 0 ){
+			$PHPVer = GetPHPSV();
+			// Use built in functions when we can.
+			if(
+				$PHPVer[0] > 4 || ($PHPVer[0] == 4 && $PHPVer[1] > 0)
+				|| ($PHPVer[0] == 4 && $PHPVer[1] == 0 && $PHPVer[2] > 6)
+			){ // PHP > 4.0.7
+				$Ret = array_key_exists( $SKey, $SArray );
+			// @codeCoverageIgnoreStart
+			// PHPUnit tests woruld only covers this code path on PHP < 4.0.7
+			// Unable to validate in CI.
+			}elseif(
+				$PHPVer[0] == 4 && $PHPVer[1] == 0 && $PHPVer[2] > 5
+			){ // PHP > 4.0.5
+				$Ret = key_exists($SKey, $SArray);
+			}else{ // No built in functions, PHP Version agnostic.
+				$Ret = in_array($SKey, array_keys($SArray) );
+			}
+			// @codeCoverageIgnoreEnd
 		}
-		// @codeCoverageIgnoreEnd
+		return $Ret;
 	}
-	return $Ret;
 }
 
 // Function: XSSPrintSafe()

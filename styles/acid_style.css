@@ -9,7 +9,7 @@
  * Purpose: HTML style sheet
  */
 
-P,B,A,FORM,TD,INPUT,SELECT,OPTION,TR,OL,UL,MENU,BLOCKQUOTE,FONT,DIV,H4,H5,H6 {
+P,FORM,TD,INPUT,SELECT,OPTION,TR,OL,UL,MENU,BLOCKQUOTE,FONT,H4,H5,H6 {
     FONT-FAMILY: arial, helvetica, sans-serif;
     font-size: 10pt;
 }

@@ -40,6 +40,7 @@ class BaseUser {
 			// @codeCoverageIgnoreEnd
 		}
 	}
+
 	function BaseUser() { // PHP 4x constructor.
 		GLOBAL $DBlib_path, $DBtype, $db_connect_method, $alert_dbname,
 		$alert_host, $alert_port, $alert_user, $alert_password;
@@ -51,6 +52,7 @@ class BaseUser {
 		$db->DB->SetFetchMode(ADODB_FETCH_BOTH);
 		$this->db = $db;
 	}
+
 	// Core Authentication System.
 	// Accepts a username and password.
 	// Returns:

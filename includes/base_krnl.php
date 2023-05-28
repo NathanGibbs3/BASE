@@ -17,13 +17,18 @@
 //
 //          Author(s): Nathan Gibbs
 
-$BK_Ver = '0.0.4';
+$BK_Ver = '0.0.5';
 $BASE_path = dirname(__FILE__);
 $sc = DIRECTORY_SEPARATOR;
 $ReqRE =  "\\".$sc.'includes.*';
 $BK_Path = preg_replace('/'.$ReqRE.'/', '', $BASE_path);
 $BASE_path = $BK_Path;
 $file = "$BASE_path$sc" . 'base_conf.php'; // BASE Conf File.
+
+$debug_mode = 0;
+if( isset($argv[1]) ){ // Debug lvl
+	$debug_mode = intval($argv[1]);
+}
 
 if( ChkAccess($file) == 1 && filesize($file) > 10 ){
 	KML("BASE Conf Set: $file");
@@ -37,7 +42,7 @@ if( ChkAccess($file) == 1 && filesize($file) > 10 ){
 	$BKI_Path = "$BASE_path$sc" . "includes$sc";
 	SetConst('BASE_IPath', $BKI_Path);
 	KML("BASE Include Path Set: $BKI_Path", 2);
-	include_once(BASE_IPath . 'base_auth.inc.php');
+	include_once(BASE_IPath . 'base_auth.inc.php'); // BASE Auth System.
 	KML("Load: Auth System", 2);
 	$BK_SDL = "(base_(denied|logout|main)|index)";
 	// Start legacy base_conf.php support
@@ -48,8 +53,7 @@ if( ChkAccess($file) == 1 && filesize($file) > 10 ){
 	}
 	// End legacy base_conf.php
 	SetConst('BASE_KERNEL', $BK_Ver); // Basic kernel Initialized.
-	// BASE Runtime.
-	include_once(BASE_IPath . 'base_rtl.php');
+	include_once(BASE_IPath . 'base_rtl.php'); // BASE Runtime.
 	KML("Load: RTL", 2);
 	KML("BASE kernel $BK_Ver Runtime $BRTL_Ver");
 	if( !AuthorizedClient() ){ // Issue #175
@@ -58,7 +62,7 @@ if( ChkAccess($file) == 1 && filesize($file) > 10 ){
 		HTTP_header('', 403);
 		exit;
 	}
-	include_once("$BASE_path$sc" . "base_common.php");
+	include_once("$BASE_path$sc" . "base_common.php"); // BASE Common.
 	KML("Load: BASE Common", 2);
 	if ( !LoadedString(session_id()) ){ // Start new session.
 		if ( LoadedString($BASE_installID) ){
@@ -70,14 +74,14 @@ if( ChkAccess($file) == 1 && filesize($file) > 10 ){
 		}
 		RegisterGlobalState(); // Start Session
 	}
-	include_once(BASE_IPath . 'base_capabilities.php');
+	include_once(BASE_IPath . 'base_capabilities.php'); // BASE Caps System.
 	$BCR = new BaseCapsRegistry();
 	KML("Load: Caps Registry", 2);
-	include_once(BASE_IPath . 'base_constants.inc.php');
+	include_once(BASE_IPath . 'base_constants.inc.php'); // BASE Constants.
 	KML("Load: Constants", 2);
-	include_once(BASE_IPath . 'base_db.inc.php');
+	include_once(BASE_IPath . 'base_db.inc.php'); // BASE DB System.
 	KML("Load: DB System", 2);
-	include_once(BASE_IPath . 'base_log_timing.inc.php');
+	include_once(BASE_IPath . 'base_log_timing.inc.php'); // BASE Telemetry.
 	$et = new EventTiming($BCR->GetCap('BASE_UIDiagTime'));
 	$et->Mark('Starting BASE: ' . $BCR->GetCap('BASE_Ver'));
 	KML("Load: Telemetry", 2);
@@ -183,7 +187,9 @@ function HTTP_header( $url = '', $status = 200 ){
 		$status = 302;
 	}
 	if ( !headers_sent() ){
-		header($_SERVER['SERVER_PROTOCOL'] . " $status");
+		if( is_key('SERVER_PROTOCOL', $_SERVER) ){
+			header($_SERVER['SERVER_PROTOCOL'] . " $status");
+		}
 		if( LoadedString($url) ){
 			header($url,true,$status);
 		}
@@ -236,6 +242,32 @@ function ChkAccess( $path, $type='f' ){
 				// @codeCoverageIgnoreEnd
 			}
 		}
+	}
+	return $Ret;
+}
+
+// Returns true when key is in array, false otherwise.
+function is_key( $SKey, $SArray ){ // PHP Version Agnostic.
+	$Ret = false;
+	if( is_array($SArray) && count($SArray) > 0 ){
+		$PHPVer = GetPHPSV();
+		// Use built in functions when we can.
+		if(
+			$PHPVer[0] > 4 || ($PHPVer[0] == 4 && $PHPVer[1] > 0)
+			|| ($PHPVer[0] == 4 && $PHPVer[1] == 0 && $PHPVer[2] > 6)
+		){ // PHP > 4.0.7
+			$Ret = array_key_exists( $SKey, $SArray );
+		// @codeCoverageIgnoreStart
+		// PHPUnit tests woruld only covers this code path on PHP < 4.0.7
+		// Unable to validate in CI.
+		}elseif(
+			$PHPVer[0] == 4 && $PHPVer[1] == 0 && $PHPVer[2] > 5
+		){ // PHP > 4.0.5
+			$Ret = key_exists($SKey, $SArray);
+		}else{ // No built in functions, PHP Version agnostic.
+			$Ret = in_array($SKey, array_keys($SArray) );
+		}
+		// @codeCoverageIgnoreEnd
 	}
 	return $Ret;
 }

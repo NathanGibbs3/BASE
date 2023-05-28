@@ -45,7 +45,7 @@ function PageStart ( $refresh = 0, $page_title = '' ){
 	// End Backport Shim
 	$title .= " ($GT)";
 	$HT = $title; // Header Title
-	if ( !AuthorizedPage('(base_denied|index)') ){
+	if ( !AuthorizedPage('(base_denied|index)') && ARC(10000) ){
 		// Additional app info allowed everywhere but landing pages.
 		$GT .= " $BV";
 		if ( isset($BASE_installID) && $BASE_installID != ''){
@@ -137,7 +137,7 @@ function PrintBASESubFooter (){
 		,3
 	);
 	$tmp = '';
-	if( !AuthorizedPage('(base_denied|index)') ){
+	if( !AuthorizedPage('(base_denied|index)') && ARC(10000) ){ // Auth check
 		$tmp = "$BV ";
 	}
 	$tmp .= _FOOTER;
@@ -173,7 +173,7 @@ function PrintBASEMenu ( $type = '', $back_link = '' ){
 		}
 		// Header Menu allowed everywhere but main & landing pages.
 		// Footer Menu allowed everywhere but landing pages.
-		if( $ReqRE != '' && !AuthorizedPage($ReqRE) ){
+		if( $ReqRE != '' && !AuthorizedPage($ReqRE) && ARC(10000) ){
 			// Html Template
 			$Hrst = "<a class='menuitem' href='$BASE_urlpath/";
 			// Href tag start.
@@ -350,7 +350,7 @@ function PrintLINext ( $tab = 3 ){
 	print LINext($tab);
 }
 
-function Icon ( $icon = '', $desc = '', $tab = 3 ){
+function Icon ( $icon = '', $desc = '', $tab = 3, $sclass = '' ){
 	GLOBAL $BCR;
 	$Ret = '';
 	if( LoadedString($icon) ){
@@ -388,7 +388,11 @@ function Icon ( $icon = '', $desc = '', $tab = 3 ){
 			if( !is_int($tab) || $tab < 1 ){ // Input Validation
 				$tab = 3;
 			}
-			$tmp = "<img class='icon' src='$file'";
+			$tmp = 'icon';
+			if( LoadedString($sclass) && strtolower($sclass) == 'lg' ){
+				$tmp .= '-lg';
+			}
+			$tmp = "<img class='$tmp' src='$file'";
 			if( LoadedString($desc) ){
 				$desc = CleanVariable(
 					$desc, VAR_ALPHA | VAR_SPACE | VAR_USCORE | VAR_PERIOD
@@ -408,8 +412,8 @@ function Icon ( $icon = '', $desc = '', $tab = 3 ){
 	return $Ret;
 }
 
-function PrintIcon ( $icon = '', $desc = '', $tab = 3 ){
-	print Icon($icon, $desc, $tab);
+function PrintIcon ( $icon = '', $desc = '', $tab = 3, $sclass = '' ){
+	print Icon($icon, $desc, $tab, $sclass);
 }
 
 function returnExportHTTPVar ( $var_name = '', $var_value = '', $tab = 3 ){

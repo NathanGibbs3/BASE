@@ -5,7 +5,6 @@ use PHPUnit\Framework\TestCase;
 
 /**
   * Code Coverage Directives.
-  * @covers ::DivErrorMessage
   * @covers ::DDT
   * @covers ::ErrorMessage
   * @covers ::LibIncError
@@ -48,20 +47,6 @@ class log_errorTest extends TestCase {
 	}
 
 	// Tests go here.
-	public function testDivErrorMessageDefault() {
-		$URV = self::$URV.'DivErrorMessage().';
-		$this->expectOutputString(
-			"\n<div class='errorMsg' align='center'>message</div>",
-			DivErrorMessage('message'),$URV
-		);
-	}
-	public function testDivErrorMessageIndent() {
-		$URV = self::$URV.'DivErrorMessage().';
-		$this->expectOutputString(
-			"\n\t\t<div class='errorMsg' align='center'>message</div>",
-			DivErrorMessage('message',2),$URV
-		);
-	}
 	public function testreturnErrorMessageDefault() {
 		$URV = self::$URV.'returnErrorMessage().';
 		$this->assertEquals(
@@ -211,6 +196,41 @@ class log_errorTest extends TestCase {
 		"\n\t\t\t\t</tr>\n\t\t\t</table>";
 		$this->expectOutputString( $EOM, DDT($TA), $UOV );
 	}
+	public function testDDTInvalid() {
+		$UOV = self::$UOV.'DDT().';
+		$TA = array();
+		$EOM = "\n\t\t\t<table style = ".
+		"'border: 2px solid red; border-collapse: collapse; width:75%;' ".
+		"summary='Debug Data Table'>".
+		"\n\t\t\t\t<tr>".
+		"\n\t\t\t\t\t<td class='sectiontitle' style='text-align: center;' ".
+		"colspan='20'>\n\t\t\t\t\t\tDebug Data Table\n\t\t\t\t\t</td>".
+		"\n\t\t\t\t</tr><tr>".
+		"\n\t\t\t\t</tr>\n\t\t\t</table>";
+		$this->expectOutputString(
+			$EOM, DDT($TA, '', '', '', '', '', ''), $UOV
+		);
+	}
+	public function testDDTXSSOff() {
+		$UOV = self::$UOV.'DDT().';
+		$TA = array('<br/>');
+		$EOM = "\n\t\t\t<table style = ".
+		"'border: 2px solid red; border-collapse: collapse; width:75%;' ".
+		"summary='Debug Data Table'>".
+		"\n\t\t\t\t<tr>".
+		"\n\t\t\t\t\t<td class='sectiontitle' style='text-align: center;' ".
+		"colspan='20'>\n\t\t\t\t\t\tDebug Data Table\n\t\t\t\t\t</td>".
+		"\n\t\t\t\t</tr><tr>".
+		"\n\t\t\t\t\t<td>".
+		"\n\t\t\t\t\t\t"."\n\t\t\t\t\t</td>".
+		"\n\t\t\t\t</tr><tr>".
+		"\n\t\t\t\t\t<td>"."\n\t\t\t\t\t\t<br/>".
+		"\n\t\t\t\t\t</td>".
+		"\n\t\t\t\t</tr>\n\t\t\t</table>";
+		$this->expectOutputString(
+			$EOM, DDT($TA, '', '', '', '', '', 0), $UOV
+		);
+	}
 	public function testDDTTitle() {
 		$UOV = self::$UOV.'DDT().';
 		$TA = array();
@@ -307,7 +327,7 @@ class log_errorTest extends TestCase {
 		"\n\t\t\t\t\t</td>\n\t\t\t\t</tr>\n\t\t\t</table>";
 		$this->expectOutputString( $EOM, DDT($TA, $TD), $UOV );
 	}
-	public function testDDTIemsDesV() {
+	public function testDDTIemsDescV() {
 		$UOV = self::$UOV.'DDT().';
 		$TA = array( 'a', 'b', 'c' );
 		$TD = array( 'd', 'e', 'f' );

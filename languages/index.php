@@ -16,6 +16,9 @@
 //                     Kevin Johnson
 
 $sc = DIRECTORY_SEPARATOR;
-require_once("..$sc" . "includes$sc" . 'base_krnl.php');
+$tmp = dirname(__FILE__);
+$ReqRE = preg_quote($sc.'languages', '/').'.*';
+$tmp = preg_replace('/'.$ReqRE.'/', '', $tmp);
+require_once("$tmp$sc" . "includes$sc" . 'base_krnl.php');
 HTTP_header("Location: $BASE_urlpath/base_main.php");
 ?>

@@ -236,8 +236,8 @@ if ( LoadedString($tdp) ){
 }
 $tmp = $db->DB_name . '@' . $DSN;
 printf(
-	"<b>" . _DATABASE . "</b> %s &nbsp;&nbsp;&nbsp;(<b>" .
-	_SCHEMAV . "</b> %d)<br/>", $tmp, $db->baseGetDBversion()
+	"<b>" . _DATABASE . "</b> %s (<b>" . _SCHEMAV . "</b> %d)<br/>",
+	$tmp, $db->baseGetDBversion()
 );
 StartStopTime($start_time, $end_time, $db);
 $tmp = '<b>' . _TIMEWIN . '</b> ';
