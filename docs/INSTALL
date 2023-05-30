@@ -62,13 +62,35 @@ These requirements are on the BASE system
 **Instructions for these webservers is contained lower in this INSTALL guide
 ***BASE 1.x may work with other webservers that support PHP but have not been tested so no authoritative help can be provided for either the install or problems
 
-
+---
 4. PHP
     Version:      4.0.4+ (5.0+ recommended)
     Description:  Web scripting language
     Reason:       Implementation language of BASE
     Homepage:     http://www.php.net/
 
+DB Drivers mysql driver transition.
+
+Although BASE supports the seamless transition from the older mysql PHP DB
+driver to the newer mysqli driver, this transition isn't seamless if the
+underlying PHP DB drivers are not available.
+
+On Unix like systems, the required DB driver extensions would:
+- If building from source, need to be compiled into PHP.
+- If using vendor supplied PHP, be built into PHP or made available in vendor
+  provided distribution specific packages.
+
+On Windows installations of PHP, the DB driver extensions are activated in
+the php.ini file.
+ - For instance, to use the mysqli DB driver, one would have to enable the
+   extension in the php.ini configuration file.
+
+On PHP 5.5+, but less than 7x. It is possible enable both mysql and mysqli DB
+drivers and run legacy versions of BASE alongside newer versions. This works
+as long the PHP DB drivers are available to BASE, more specifically, available
+for use by the underlying ADOdb library.
+
+---
 5. pear
     Version:      1.5.3(Should install with PHP server)
     Description:  PEAR is short for "PHP Extension and Application Repository" and provides a structured library of open-source code for PHP users
