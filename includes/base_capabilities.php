@@ -78,7 +78,7 @@ class BaseCapsRegistry{ // Capabilities Registry class definition
 		$Ver = '1.4.5'; // Official Release
 		$Lady = 'lilias'; // Official Release Name
 		// Last Dev Merge to master branch, change on new merge.
-		$LPM = '2023-05-12';
+		$LPM = '2023-05-30';
 		// Switch this off and update the official release Unit Test when
 		// pushing a new release to master.
 		$Dev = true; // Is this a Development build?
