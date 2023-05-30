@@ -163,13 +163,12 @@ $qs->PrintResultCnt(); // Print current view number and # of rows.
     $start_time = $myrow[5];
     $stop_time = $myrow[6];
 
-    /* Print out */ 
-    qroPrintEntryHeader($i);    
-
-    $tmp_rowid = $sensor_id;
-    echo '    <TD><INPUT TYPE="checkbox" NAME="action_chk_lst['.$i.']" VALUE="'.$tmp_rowid.'">';
-    echo '        <INPUT TYPE="hidden" NAME="action_lst['.$i.']" VALUE="'.$tmp_rowid.'"></TD>';
-
+	// Print out.
+	qroPrintEntryHeader($i);
+	$tmp_rowid = $sensor_id;
+	$tmp = "_lst[$i]";
+	qroPrintCheckBox($tmp, $tmp_rowid);
+	$tmp = '';
 	qroPrintEntry($sensor_id);
 	qroPrintEntry(GetSensorName($sensor_id, $db),'left');
 	qroPrintEntry(

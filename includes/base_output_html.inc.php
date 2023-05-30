@@ -22,15 +22,17 @@ function PageStart ( $refresh = 0, $page_title = '' ){
 	$html_no_cache, $refresh_stat_page, $stat_page_refresh_time, $UIL, $BCR,
 	$Use_Auth_System;
 	$AS = false;
+	// @codeCoverageIgnoreStart
 	if( isset($BCR) && is_object($BCR) ){
 		$BV = $BCR->GetCap('BASE_Ver');
-		$AS = $BCR->GetCap('BASE_Auth');
+		$AS = $BCR->GetCap('BASE_SSAuth');
 	}else{
 		$BV = $BASE_VERSION;
-		if( $Use_Auth_System == 1 ){
+		if( intval($Use_Auth_System) == 1 ){
 			$AS = true;
 		}
 	}
+	// @codeCoverageIgnoreEnd
 	$MHE = "<meta http-equiv='";
 	$MNM = "<meta name='";
 	$GT = 'BASE'; // Generator Meta Attribute.
@@ -43,7 +45,7 @@ function PageStart ( $refresh = 0, $page_title = '' ){
 	// End Backport Shim
 	$title .= " ($GT)";
 	$HT = $title; // Header Title
-	if ( !AuthorizedPage('(base_denied|index)') ){
+	if ( !AuthorizedPage('(base_denied|index)') && ARC(10000) ){
 		// Additional app info allowed everywhere but landing pages.
 		$GT .= " $BV";
 		if ( isset($BASE_installID) && $BASE_installID != ''){
@@ -61,7 +63,7 @@ function PageStart ( $refresh = 0, $page_title = '' ){
 		}
 		// @codeCoverageIgnoreStart
 		if( $AS ){ // Auth System in use, attempt cookie refresh.
-			if( AuthorizedRole(10000) ){// Authenticated & enabled user.
+			if( ARC(10000) ){// Authenticated & enabled user.
 				$cookievalue = $_COOKIE['BASERole'];
 				BCS('BASERole', $cookievalue); // Refresh cookie expiration.
 			}
@@ -135,7 +137,7 @@ function PrintBASESubFooter (){
 		,3
 	);
 	$tmp = '';
-	if( !AuthorizedPage('(base_denied|index)') ){
+	if( !AuthorizedPage('(base_denied|index)') && ARC(10000) ){ // Auth check
 		$tmp = "$BV ";
 	}
 	$tmp .= _FOOTER;
@@ -171,7 +173,7 @@ function PrintBASEMenu ( $type = '', $back_link = '' ){
 		}
 		// Header Menu allowed everywhere but main & landing pages.
 		// Footer Menu allowed everywhere but landing pages.
-		if( $ReqRE != '' && !AuthorizedPage($ReqRE) ){
+		if( $ReqRE != '' && !AuthorizedPage($ReqRE) && ARC(10000) ){
 			// Html Template
 			$Hrst = "<a class='menuitem' href='$BASE_urlpath/";
 			// Href tag start.
@@ -204,7 +206,7 @@ function PrintBASEMenu ( $type = '', $back_link = '' ){
 			if( $type == 'header' && $back_link != '' ){ // Header
 				NLIO($Sep . $back_link, 6);
 			}elseif( $type == 'footer' ){ // Footer
-				if( AuthorizedRole(1) ){ // Issue #144 fix
+				if( ARC(1) ){ // Issue #144 fix
 					if( $Use_Auth_System == 1 ){
 						$tmp = _ADMIN;
 					}else{
@@ -212,7 +214,7 @@ function PrintBASEMenu ( $type = '', $back_link = '' ){
 					}
 					NLIO("$Sep$Hrst" . "admin/index.php'>$tmp</a>", 6);
 				}
-				if( is_object($et) ){
+				if( is_object($et) && $et->verbose > 0 ){
 					print $Sep;
 					NLIO('</td><td>', 5);
 					$et->PrintTiming();
@@ -348,9 +350,79 @@ function PrintLINext ( $tab = 3 ){
 	print LINext($tab);
 }
 
+function Icon ( $icon = '', $desc = '', $tab = 3, $sclass = '' ){
+	GLOBAL $BCR;
+	$Ret = '';
+	if( LoadedString($icon) ){
+		$sc = DIRECTORY_SEPARATOR;
+		$IPfx = '';
+		$debug_mode = 0;
+		$IconSet = 0;
+		$rfile = '';
+		// @codeCoverageIgnoreStart
+		if( isset($BCR) && is_object($BCR) ){
+			$path = $BCR->GetCap('BASE_SSUrlPath');
+			if( LoadedString($path) ){
+				$IPfx = "$path/";
+			}
+			$debug_mode = $BCR->GetCap('BASE_UIDiag');
+			$IconSet = $BCR->GetCap('BASE_UIConSet');
+		}
+		if( !is_int($debug_mode) || $debug_mode < 0 ){
+			$debug_mode = 0;
+		}
+		if( !is_int($IconSet) || $IconSet < 0 ){
+			$IconSet = 0;
+		}
+		if( defined('BASE_Path') ){
+			$rfile = BASE_Path . $sc;
+		}
+		// @codeCoverageIgnoreEnd
+		$ICommon = "base_icon_$IconSet" . '_';
+		$IPfx .= "images/$ICommon";
+		$ISfx = '.png';
+		$icon = CleanVariable($icon, VAR_ALPHA);
+		$rfile .= "images$sc$ICommon" . $icon . $ISfx;
+		$file = $IPfx . $icon . $ISfx;
+		if( ChkAccess($rfile) == 1 ){
+			if( !is_int($tab) || $tab < 1 ){ // Input Validation
+				$tab = 3;
+			}
+			$tmp = 'icon';
+			if( LoadedString($sclass) && strtolower($sclass) == 'lg' ){
+				$tmp .= '-lg';
+			}
+			$tmp = "<img class='$tmp' src='$file'";
+			if( LoadedString($desc) ){
+				$desc = CleanVariable(
+					$desc, VAR_ALPHA | VAR_SPACE | VAR_USCORE | VAR_PERIOD
+				);
+				$tmp .= " alt='$desc'";
+			}
+			$tmp .= ' />';
+			$Ret = NLI($tmp, $tab);
+		}else{
+			// @codeCoverageIgnoreStart
+			if ( $debug_mode > 0 ){
+				KML("Icon access error: $icon File: $rfile");
+			}
+			// @codeCoverageIgnoreEnd
+		}
+	}
+	return $Ret;
+}
+
+function PrintIcon ( $icon = '', $desc = '', $tab = 3, $sclass = '' ){
+	print Icon($icon, $desc, $tab, $sclass);
+}
+
 function returnExportHTTPVar ( $var_name = '', $var_value = '', $tab = 3 ){
 	$Ret = '';
-	if( LoadedString( $var_name ) == true ){ // Input Validation
+	if( LoadedString( $var_name ) ){ // Input Validation
+		$var_name = CleanVariable(
+			$var_name, VAR_ALPHA
+			| VAR_SCORE | VAR_USCORE | VAR_PERIOD | VAR_COLON | VAR_BRACKETS
+		);
 		if( !is_int($tab) ){
 			$tab = 3;
 		}
@@ -462,11 +534,27 @@ function HBarGraph (
 }
 
 function HtmlPercent ( $Value = 1, $Count = 1 ){
-	$ent_pct = Percent($Value, $Count);
-	if( $ent_pct == 0 ){
-		$tmp = "&lt; 1";
+	if( !is_numeric($Value) ){ // Input Validation
+		$Value = 1;
+	}
+	if( !is_numeric($Count) ){
+		$Count = 1;
+	}
+	if( $Value > $Count ){
+		$Count = $Value;
+	}
+	if( $Count <= 0 ){
+		$Count = 1;
+	}
+	if( $Value <= 0 ){ // Set %
+		$tmp = 0;
 	}else{
-		$tmp = $ent_pct;
+		$ent_pct = Percent($Value, $Count);
+		if( $ent_pct == 0 ){
+			$tmp = "&lt; 1";
+		}else{
+			$tmp = $ent_pct;
+		}
 	}
 	$Ret = $tmp . '%';
 	return $Ret;

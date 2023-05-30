@@ -305,12 +305,10 @@ $qs->PrintResultCnt(); // Print current view number and # of rows.
 			$tmp2 = 0;
 		}
 		qroPrintEntryHeader($tmp, $tmp2);
-     $tmp_rowid = rawurlencode($sig_id);
-     echo '  <TD>&nbsp;&nbsp;
-                 <INPUT TYPE="checkbox" NAME="action_chk_lst['.$i.']" VALUE="'.$tmp_rowid.'">
-                 &nbsp;&nbsp;
-             </TD>';
-     echo '      <INPUT TYPE="hidden" NAME="action_lst['.$i.']" VALUE="'.$tmp_rowid.'">';
+		$tmp_rowid = rawurlencode($sig_id);
+		$tmp = "_lst[$i]";
+		qroPrintCheckBox($tmp, $tmp_rowid);
+		$tmp = '';
 		qroPrintEntry(BuildSigByID($sig_id, $db), 'left');
 		if ( $db->baseGetDBversion() >= 103 ){
 			qroPrintEntry(

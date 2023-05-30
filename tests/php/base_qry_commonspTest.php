@@ -15,14 +15,15 @@ use PHPUnit\Framework\TestCase;
 
 class base_qry_commonspTest extends TestCase {
 	// Pre Test Setup.
-	protected static $files;
-	protected static $langs;
-	protected static $UIL;
 	protected static $EOP;
 	protected static $EOS;
 	protected static $DTR2SQL;
+	protected static $UIL;
+	protected static $UOV;
 	protected static $URV;
 	protected static $db;
+	protected static $files;
+	protected static $langs;
 
 	// We are using a single TD file.
 	// Share class instance as common test fixture.
@@ -123,14 +124,16 @@ class base_qry_commonspTest extends TestCase {
 		self::$EOS =
 		"\n\t\t\t\t</td>\n\t\t\t</tr>\n\t\t</table>";
 		InitArray(self::$DTR2SQL,2,10,''); //Setup Test Array
+		self::$UOV = 'Unexpected Output Value: ';
 		self::$URV = 'Unexpected Return Value.';
 	}
 	public static function tearDownAfterClass() {
-		self::$URV = null;
 		self::$DTR2SQL = null;
 		self::$EOS = null;
 		self::$EOP = null;
 		self::$UIL = null;
+		self::$URV = null;
+		self::$UOV = null;
 		self::$db = null;
 		self::$langs = null;
 		self::$files = null;
@@ -209,14 +212,14 @@ class base_qry_commonspTest extends TestCase {
 		}else{
 			include_once(self::$files);
 		}
-		$this->assertEquals( 0, DateTimeRows2sql($TA,2,$SQL), $URV );
+		$this->assertEquals(0, DateTimeRows2sql($TA,2,$SQL), $URV);
 	}
 	public function testDateTimeRows2sqlSpaces() {
 		GLOBAL $BASE_installID;
 		$db = self::$db;
 		$TA = self::$DTR2SQL;
 		$URV = self::$URV;
-		if ( is_object(self::$UIL) ){
+		if( is_object(self::$UIL) ){
 			$UIL = self::$UIL;
 		}else{
 			include_once(self::$files);
@@ -255,15 +258,13 @@ class base_qry_commonspTest extends TestCase {
 		GLOBAL $BASE_installID;
 		$db = self::$db;
 		$TA = self::$DTR2SQL;
-		$URV = self::$URV;
+		$URV = self::$URV . 'DateTimeRows2sql()';
+		$UOV = self::$UOV . 'DateTimeRows2sql()';
 		if ( is_object(self::$UIL) ){
 			$UIL = self::$UIL;
 		}else{
 			include_once(self::$files);
 		}
-		$EOM = "<font color='#ff0000'><b>Criteria warning:</b> ".
-		"An operator of '<' was selected indicating that some date/time ".
-		'criteria should be matched, but no value was specified.</font>';
 		$start = 0;
 		$end = 1;
 		$op = 1;
@@ -275,10 +276,22 @@ class base_qry_commonspTest extends TestCase {
 		$second = 7;
 		$stop = 8;
 		$SQLOP = 9;
+		$TestOps = array ( '<', '>', '<=', '>=', '!=', '=' );
 		InitArray($TA,2,10,' '); //Setup Test Array
-		$TA[$start][$op] = '<';
-		$this->expectOutputString($EOM);
-		$this->assertEquals( 0, DateTimeRows2sql($TA,1,$SQL), $URV );
+		$EPfx = "<font color='#ff0000'><b>Criteria warning:</b> An operator "
+		. "of '";
+		$ESfx = "' was selected indicating that some date/time criteria "
+		. 'should be matched, but no value was specified.</font>';
+		$EOM = '';
+		foreach($TestOps as $Top ){
+			$TA[$start][$op] = $Top;
+			$EOM .= "$EPfx$Top$ESfx";
+			$this->expectOutputString(
+				$EOM, $this->assertEquals(
+					0, DateTimeRows2sql($TA, 1, $SQL), $URV
+				), $UOV
+			);
+		}
 	}
 	public function testDateTimeRows2sqlErrorMessageInvalidHour() {
 		GLOBAL $BASE_installID;

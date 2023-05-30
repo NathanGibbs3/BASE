@@ -160,11 +160,12 @@ class QueryResultsOutput {
 function qroReturnSelectALLCheck(){
 	return "<input type=checkbox value='Select All' ".
 	"onClick='if (this.checked) SelectAll(); ".
-	"if (!this.checked) UnselectAll();'>";
+	"if (!this.checked) UnselectAll();'/>";
 }
-function qroPrintEntryHeader($prio=1, $color=0) {
+
+function qroPrintEntryHeader( $prio = 1, $color = 0 ){
 	GLOBAL $priority_colors;
-	$msg = '<tr bgcolor="#';
+	$msg = "<tr class='qro' bgcolor='#";
 	if($color != 1) { // Row colors alternating.
 		if ( $prio % 2 == 0 ){
 			$tmp = 'DDDDDD'; // Light Gray
@@ -188,28 +189,44 @@ function qroPrintEntryHeader($prio=1, $color=0) {
 			$tmp = '999999';
 		}
 	}
-	$msg .= $tmp . '">';
+	$msg .= "$tmp'>";
 	print $msg;
 }
-function qroPrintEntry( $value, $halign = 'center', $valign = 'top' ){
+
+function qroPrintEntry ( $value, $halign = 'center', $valign = 'top' ){
 	$halign = strtolower($halign);
 	$valign = strtolower($valign);
 	$hal = array( 'left', 'center', 'right' );
 	$val = array( 'top', 'bottom' );
-	if ( !in_array($halign, $hal) ){
+	if( !in_array($halign, $hal) ){
 		$halign = 'center';
 	}
-	if ( !in_array($valign, $val) ){
+	if( !in_array($valign, $val) ){
 		$valign = 'top';
 	}
-	NLIO (
+	NLIO(
 		"<td style='text-align: $halign; vertical-align: $valign; ".
 		"padding-left: 15px; padding-right: 15px'>",3
 	);
-	NLIO ($value,4);
-	NLIO ('</td>',3);
+	NLIO($value, 4);
+	NLIO('</td>', 3);
 }
+
+function qroPrintCheckBox ( $Name = '', $Value = '' ){
+	$tmp = '<!-- ' . __FUNCTION__ . ' Output Placeholder -->';
+	if( LoadedString( $Name ) ){ // Input Validation
+		$Name = CleanVariable(
+			$Name, VAR_ALPHA
+			| VAR_SCORE | VAR_USCORE | VAR_PERIOD | VAR_COLON | VAR_BRACKETS
+		);
+		$tmp = "<input type='checkbox' name='action_chk$Name' value='"
+		. $Value . "'>" . returnExportHTTPVar("action$Name", $Value, 4);
+	}
+	qroPrintEntry($tmp);
+}
+
 function qroPrintEntryFooter(){
-	NLIO ('</tr>',2);
+	NLIO('</tr>', 2);
 }
+
 ?>

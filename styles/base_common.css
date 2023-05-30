@@ -9,18 +9,23 @@
 // Built upon work by: Kevin Johnson & the BASE Project Team
 //                     Roman Danyliw <rdd@cert.org>, <roman@danyliw.com>
 //
-//            Purpose: Common CSS Elemnts
+//            Purpose: Common CSS Elements
 //
 //          Author(s): Nathan Gibbs
 //                     Kevin Johnson
+//                     Roman Danyliw
 */
+
+body {
+	font-family: arial, helvetica, sans-serif;
+	font-size: 10pt;
+}
 
 div {
 	overflow: hidden;
 }
 
 div.errorMsg {
-	font-family: arial, helvetica;
 	font-size: 14pt;
 	font-weight: bold;
 	color: #ff0000;
@@ -31,9 +36,40 @@ div.systemdebug {
 	color: #666666;
 	font-family: Arial;
 	border: double;
+	max-height: 10rem;
 	width: 100%;
 	background: #bbbbbb;
 	padding: 3px;
+	overflow: auto;
+}
+
+div.systemstats {
+	width: fit-content;
+	padding: 3px;
+	padding-left: 5%;
+}
+
+form {
+	margin: 0px;
+}
+
+form.login {
+	float: left;
+	padding: 6px;
+}
+
+form.login div {
+	text-align: right;
+	float: left;
+}
+
+form.login input {
+	padding: 2px;
+	margin: 1px;
+}
+
+input.login {
+	width: 45px; /* IE < 8x */
 }
 
 ul.stats {
@@ -42,4 +78,38 @@ ul.stats {
 
 input.admin {
 	color: red;
+}
+
+img {
+	border: 0px;
+}
+
+img.icon {
+	height: 16px;
+	width: 16px;
+}
+
+img.icon-lg {
+	height: 64px;
+	width: 64px;
+	float: left;
+}
+
+tr.qro {
+	color: #000000;
+}
+
+pre.session {
+	max-height: 25rem;
+	border: 1px solid gray;
+	margin: 0px;
+	overflow: auto;
+	background: black;
+	color: #80ff80;
+	word-wrap: break-word;
+	word-break: break-all;
+	white-space: pre-wrap;
+	font-family: Courier New;
+	font-weight: bold;
+	scrollbar-color: white green;
 }

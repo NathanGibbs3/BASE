@@ -7,6 +7,7 @@ use PHPUnit\Framework\TestCase;
 /**
   * Code Coverage Directives.
   * @Covers ::PageStart()
+  * @Covers ::PrintBASEMenu
   * @uses ::NLI
   * @uses ::NLIO
   * @backupGlobals disabled
@@ -333,6 +334,46 @@ class output_htmlSPTest extends TestCase {
 		PageStart(1);
 		$Use_Auth_System = $BAStmp;
 	}
+	public function testPageStartRefreshURI() {
+		GLOBAL $BASE_installID, $BASE_VERSION, $UIL, $base_style,
+		$stat_page_refresh_time, $BCR, $Use_Auth_System;
+		$BAStmp = $Use_Auth_System;
+		$UOV = self::$UOV.'PageStart().';
+		$Use_Auth_System = 0;
+		$_SERVER['REQUEST_URI'] = '/base';
+		$MHE = "<meta http-equiv='";
+		$MNM = "<meta name='";
+		if ( is_object(self::$UIL) ){
+			$UIL = self::$UIL;
+			$HTitle = "$UIL->Title (BASE) $BASE_installID";
+			$ECS = $UIL->Charset;
+		}else{
+			include_once(self::$files);
+			$HTitle = _TITLE;
+			$ECS = _CHARSET;
+		}
+		$ETitle = $HTitle . " $BASE_VERSION";
+		$EOM =
+		"<!DOCTYPE html PUBLIC '-//W3C//DTD HTML 4.01 Transitional//EN' "
+		."'http://www.w3.org/TR/html4/loose.dtd'>"
+		. "\n<!-- $ETitle -->\n<html>\n\t<head>"
+		."\n\t\t$MHE"."Content-Type' content='text/html; charset=$ECS'>"
+		."\n\t\t$MHE"."refresh' content='180; URL=/base'>"
+		."\n\t\t$MNM"."Author' content='Nathan Gibbs'>"
+		."\n\t\t$MNM"."Generator' content='BASE 0.0.0 (Joette)'>"
+		."\n\t\t$MNM"."viewport' content='width=device-width, initial-scale=1'>"
+		."\n\t\t<title>$ETitle</title>"
+//		."\n\t\t$MNM"."color-scheme\" content=\"dark light\"/>"
+		."\n\t\t<link rel=\"stylesheet\" type=\"text/css\""
+		." HREF=\"/styles/base_common.css\">"
+		."\n\t\t<link rel=\"stylesheet\" type=\"text/css\""
+		." HREF=\"/styles/$base_style\">\n\t</head>\n\t<body>"
+		."\n\t\t<div class=\"mainheadertitle\">$HTitle</div>"
+		;
+		$this->expectOutputString($EOM, PageStart(1), $UOV);
+		$Use_Auth_System = $BAStmp;
+		unset($_SERVER['REQUEST_URI']);
+	}
 	public function testdispMonthOptionsReturnDefaults() {
 		GLOBAL $UIL;
 		if ( function_exists('dispMonthOptions') ){
@@ -388,17 +429,19 @@ class output_htmlSPTest extends TestCase {
 		}
 	}
 	public function testPrintBASEMenuDefaults() {
+		$UOV = self::$UOV . 'PrintBASEMenuFooter().';
 		$EOM = '';
-		$this->expectOutputString($EOM);
-		PrintBASEMenu();
+		$this->expectOutputString($EOM, PrintBASEMenu(), $UOV);
 	}
 	public function testPrintBASEMenuInvalid() {
+		$UOV = self::$UOV . 'PrintBASEMenuFooter().';
 		$EOM = '';
-		$this->expectOutputString($EOM);
-		PrintBASEMenu('Invalid');
+		$this->expectOutputString($EOM, PrintBASEMenu('Invalid'), $UOV);
 	}
 	public function testPrintBASEMenuHeader() {
+		$UOV = self::$UOV . 'PrintBASEMenuFooter().';
 		GLOBAL $BASE_installID;
+		$user = self::$user;
 		if ( is_object(self::$UIL) ){
 			$UIL = self::$UIL;
 		}else{
@@ -420,11 +463,15 @@ class output_htmlSPTest extends TestCase {
 		$EOM .= "\n\t\t\t\t".'</tr>';
 		$EOM .= "\n\t\t\t".'</table>';
 		$EOM .= "\n\t\t".'</div>';
-		$this->expectOutputString($EOM);
-		PrintBASEMenu('Header');
+		$pw = $user->cryptpassword('password');
+		$_COOKIE['BASERole'] = "$pw|TestAdmin|";
+		$this->expectOutputString($EOM, PrintBASEMenu('Header'), $UOV);
+		unset($_COOKIE['BASERole']);
 	}
 	public function testPrintBASEMenuHeaderBackLink() {
+		$UOV = self::$UOV . 'PrintBASEMenuFooter().';
 		GLOBAL $BASE_installID;
+		$user = self::$user;
 		if ( is_object(self::$UIL) ){
 			$UIL = self::$UIL;
 		}else{
@@ -447,10 +494,13 @@ class output_htmlSPTest extends TestCase {
 		$EOM .= "\n\t\t\t\t".'</tr>';
 		$EOM .= "\n\t\t\t".'</table>';
 		$EOM .= "\n\t\t".'</div>';
-		$this->expectOutputString($EOM);
-		PrintBASEMenu('Header', 'Test');
+		$pw = $user->cryptpassword('password');
+		$_COOKIE['BASERole'] = "$pw|TestAdmin|";
+		$this->expectOutputString($EOM, PrintBASEMenu('Header', 'Test'), $UOV);
+		unset($_COOKIE['BASERole']);
 	}
 	public function testPrintBASEMenuFooter() {
+		$UOV = self::$UOV . 'PrintBASEMenuFooter().';
 		GLOBAL $BASE_installID;
 		$user = self::$user;
 		if ( is_object(self::$UIL) ){
@@ -479,15 +529,41 @@ class output_htmlSPTest extends TestCase {
 		$EOM .= "\n\t\t".'</div>';
 		$pw = $user->cryptpassword('password');
 		$_COOKIE['BASERole'] = "$pw|TestAdmin|";
-		$this->expectOutputString($EOM);
-		PrintBASEMenu('Footer');
-		unset ($_COOKIE['BASERole']);
+		$this->expectOutputString($EOM, PrintBASEMenu('Footer'), $UOV);
+		unset($_COOKIE['BASERole']);
+	}
+	public function testPrintBASEMenuFooterAuthOff() {
+		$UOV = self::$UOV . 'PrintBASEMenuFooter().';
+		GLOBAL $BASE_installID, $Use_Auth_System;
+		$BAStmp = $Use_Auth_System;
+		$Use_Auth_System = 0;
+		if ( is_object(self::$UIL) ){
+			$UIL = self::$UIL;
+		}else{
+			include_once(self::$files);
+		}
+		$EOM = "\n\t\t".'<div class=\'mainheadermenu\'>';
+		$EOM .= "\n\t\t\t".'<table border=\'0\'>';
+		$EOM .= "\n\t\t\t\t".'<tr>';
+		$EOM .= "\n\t\t\t\t\t".'<td class=\'menuitem\'>';
+		$EOM .= "\n\t\t\t\t\t\t".'<a class=\'menuitem\' ';
+		$EOM .= 'href=\'/base_ag_main.php?ag_action=list\'>';
+		$EOM .= 'Alert Group Maintenance</a>';
+		$EOM .= "\n\t\t\t\t\t\t".' | <a class=\'menuitem\' ';
+		$EOM .= 'href=\'/base_maintenance.php\'>Cache & Status</a>';
+		$EOM .= "\n\t\t\t\t\t\t".' | <a class=\'menuitem\' ';
+		$EOM .= 'href=\'/admin/index.php\'>Create a user</a>';
+		$EOM .= "\n\t\t\t\t\t".'</td>';
+		$EOM .= "\n\t\t\t\t".'</tr>';
+		$EOM .= "\n\t\t\t".'</table>';
+		$EOM .= "\n\t\t".'</div>';
+		$this->expectOutputString($EOM, PrintBASEMenu('Footer'), $UOV);
+		$Use_Auth_System = $BAStmp;
 	}
 	public function testPrintBASEMenuFooterDebugTimeModeOn() {
 		GLOBAL $BASE_installID, $et;
-		$UOV = self::$UOV.'PrintBASEMenuFooter().';
+		$UOV = self::$UOV . 'PrintBASEMenuFooter().';
 		$user = self::$user;
-		$et = new EventTiming(1);
 		if ( is_object(self::$UIL) ){
 			$UIL = self::$UIL;
 		}else{
@@ -520,6 +596,7 @@ class output_htmlSPTest extends TestCase {
 		$EOM .= '\n\t\t<\/div>';
 		$pw = $user->cryptpassword('password');
 		$_COOKIE['BASERole'] = "$pw|TestAdmin|";
+		$et = new EventTiming(1);
 		$this->expectOutputRegex(
 			'/^' . $EOM . '$/', PrintBASEMenu('Footer'), $UOV
 		);

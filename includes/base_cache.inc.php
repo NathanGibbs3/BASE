@@ -667,10 +667,10 @@ function UpdateAlertCache($db, $force = 0 ){
       $ccid_lst->baseFreeRows();
     }
  
-    /* BEGIN LOCAL FIX */
- 
-    /* If there's an archive database, and this isn't it, get the MAX(cid) from there */
-	if ( $archive_exists == 1 && !ChkCookie ('archive', 1) ){
+	// BEGIN LOCAL FIX.
+	// If there's an archive database, and this isn't it, get the MAX(cid)
+	// from there.
+	if( $archive_exists == 1 && $db->Role != 'Archive' ){
       $db2 = NewBASEDBConnection($DBlib_path, $DBtype);
       $db2->baseConnect($archive_dbname, $archive_host, $archive_port,
                         $archive_user, $archive_password);
@@ -679,25 +679,21 @@ function UpdateAlertCache($db, $force = 0 ){
       $archive_ccid = $archive_ccid_row[0];
       $archive_ccid_lst->baseFreeRows();
       $db2->baseClose();
-      if ( $archive_ccid == NULL ) $archive_ccid = 0;
-    } else {
-      $archive_ccid = 0; 
-    }
- 
-    if ( $archive_ccid > $ccid ) {
-      $max_ccid = $archive_ccid;
-    } else {
-      $max_ccid = $ccid;
-    }
- 
-    /* Fix the last_cid value for the sensor */
-    $db->baseExecute("UPDATE sensor SET last_cid=$max_ccid WHERE sid=$sid"); 
-
-    /* END LOCAL FIX */
-
-
-    ####### Has every alert in the event table found its way into
-    ####### acid_event?
+		if( $archive_ccid == NULL ){
+			$archive_ccid = 0;
+		}
+	}else{
+		$archive_ccid = 0;
+	}
+	if( $archive_ccid > $ccid ){
+		$max_ccid = $archive_ccid;
+	}else{
+		$max_ccid = $ccid;
+	}
+	// Fix the last_cid value for the sensor.
+	$db->baseExecute("UPDATE sensor SET last_cid=$max_ccid WHERE sid=$sid");
+	// END LOCAL FIX.
+	// Has every alert in the event table found its way into acid_event?
     if (isset($ccid)) {
 
       if ($debug_mode > 1){
@@ -711,13 +707,10 @@ function UpdateAlertCache($db, $force = 0 ){
       if (isset($debug_new_ccid_row[0])) 
       {
         $new_ccid = (integer) $debug_new_ccid_row[0];
-      }
-      else
-      {
+      }else{
         $new_ccid = 0;
       }
 
-      
       $real_addition = (integer)($new_ccid - (integer)$ccid);
 
       if ($debug_mode > 1){
@@ -731,7 +724,6 @@ function UpdateAlertCache($db, $force = 0 ){
 
       if ($real_addition >= 0) 
       {
-
 
         if (!isset($expected_addition)) 
         {
@@ -756,9 +748,7 @@ function UpdateAlertCache($db, $force = 0 ){
             dump_missing_events($db, $sid, $ccid, $new_ccid);
           }
         }
-      }
-      else
-      {
+      }else{
         if ($debug_mode > 1)
         {
           echo "$real_addition is negative. \$new_ccid could not be retrieved. This is apparently not a situation where this sanity check would be applicable.\n";

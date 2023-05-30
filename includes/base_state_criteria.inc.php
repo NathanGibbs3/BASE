@@ -152,8 +152,7 @@ class CriteriaState {
  ************************************************************************/
 function PopHistory(){
 	GLOBAL $debug_mode;
-	if ( session_id() != '' ){
-		// We have a session, so proceed.
+	if( session_id() != '' ){ // We have a session, so proceed.
    if ( $_SESSION['back_list_cnt'] >= 0 )
    {
       /* Remove the state of the page from which the back button was
@@ -201,19 +200,17 @@ function PopHistory(){
 function PushHistory(){
 	GLOBAL $debug_mode;
 	if ( session_id() != '' ){ // We have a session,so proceed.
-		if ( $debug_mode > 1 ){
-			ErrorMessage("Saving state (into ".$_SESSION['back_list_cnt'].")");
-		}
-   /* save the current session without the $back_list into the history 
-    *   - make a temporary copy of the $back_list
-    *   - NULL-out the $back_list in $_SESSION (so that 
-    *       the current session is serialized without these variables)
-    *   - serialize the current session
-    *   - fix-up the QUERY_STRING
-    *       - make a new QUERY_STRING that includes the temporary QueryState variables
-    *       - remove &back=1 from any QUERY_STRING
-    *   - add the current session into the $back_list (history)
-    */
+		kml("Saving state into slot #" . $_SESSION['back_list_cnt'], 1);
+		// Save the current session without the $back_list into the history.
+		// - make a temporary copy of the $back_list.
+		// - NULL-out the $back_list in $_SESSION ( so that the current
+		//   session is serialized without these variables ).
+		// - serialize the current session.
+		// - fix-up the QUERY_STRING.
+		//   - make a new QUERY_STRING that includes the temporary
+		//     QueryState variables.
+		//   - remove &back=1 from any QUERY_STRING
+		// - add the current session into the $back_list (history)
    if (isset($_SESSION['back_list'])) {
        $tmp_back_list = $_SESSION['back_list'];
    } else {
@@ -251,12 +248,7 @@ function PushHistory(){
                  "QUERY_STRING" => $query_string, 
                  "session"      => $full_session );
 
-		if ( $debug_mode > 1 ){
-			ErrorMessage("Insert session into slot #".$_SESSION['back_list_cnt']);
-			echo "Back List (Cnt = ".$_SESSION['back_list_cnt'].") <PRE>";
-			print_r($_SESSION['back_list']);
-			echo "</PRE>";
-		}
+		kml("Insert session into slot #" . $_SESSION['back_list_cnt'], 1);
 	}
 }
 

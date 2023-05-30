@@ -12,6 +12,7 @@ use PHPUnit\Framework\TestCase;
 
 class base_commonSPTest extends TestCase {
 	// Pre Test Setup.
+	protected static $PHPUV;
 
 	// Share class instance as common test fixture.
 	public static function setUpBeforeClass() {
@@ -22,13 +23,20 @@ class base_commonSPTest extends TestCase {
 		if (version_compare($PHPV, '5.4', '<') && $PSM == 1){
 			self::markTestSkipped();
 		}
+		$PHPUV = GetPHPUV(); // PHPUnit Version
+		if (version_compare($PHPUV, '9.0', '<')){ // PHPUnit < 9x
+			self::$PHPUV = 1;
+		}else{ // PHPUnit 9+
+			self::$PHPUV = 2;
+		}
 	}
 	public static function tearDownAfterClass() {
+		self::$PHPUV = null;
 	}
 
 	// Tests go here.
 	public function testreturnChkLibNotReadable() {
-		GLOBAL $debug_mode;
+		$PHPUV = self::$PHPUV;
 		$sc = DIRECTORY_SEPARATOR;
 		// Setup DB Lib Path.
 		$TRAVIS = getenv('TRAVIS');
@@ -45,25 +53,31 @@ class base_commonSPTest extends TestCase {
 		}
 		$path =  $DBlib_path;
 		$Lib = 'readTestFail';
-		$expected = "<font color='black'>ChkLib: Chk: $path$sc$Lib".'.php';
-		$expected .= "</font><br/><font color='red'>ChkLib: Lib: ";
-		$expected .= "$path$sc$Lib".'.php not readable.</font><br/>';
+		$EOM = preg_quote("ChkLib: Chk: $path$sc$Lib" , '/') . '\.php\n.*';
+		$EOM .= preg_quote("ChkLib: Lib: $path$sc$Lib", '/')
+		. '\.php not readable\.\n';
 		if ( posix_getuid() != 1000 ){ // Swith UID to test Read Failure.
 			posix_setuid(1000);
 		}
+		$cur_e_l = ini_get( 'error_log' ); // Shim error_log output On
+		$capture = tmpfile();
+		$tmp = stream_get_meta_data($capture);
+		ini_set('error_log', $tmp['uri']);
 		$this->assertEquals(
-			'',
-			ChkLib($path,'',$Lib),
-			'Unexpected return ChkLib().'
+			'', ChkLib($path,'',$Lib), 'Unexpected return ChkLib().'
 		);
-		$odb = $debug_mode;
-		$debug_mode = 2;
-		$this->expectOutputString(
-			$expected,
-			'Unexpected Output.'
-		);
-		ChkLib($path,'',$Lib);
-		$debug_mode = $odb;
+		unset ($_COOKIE['archive']);
+		ini_set( 'error_log', $cur_e_l ); // Shim error_log output Off
+		$elOutput = stream_get_contents($capture);
+		if ( $PHPUV > 1 ){ // PHPUnit 9+
+			$this->assertMatchesRegularExpression(
+				'/'.$EOM.'/', $elOutput, 'Unexpected Output ChkLib().'
+			);
+		}else{ // Legacy PHPUnit
+			$this->assertRegExp(
+				'/'.$EOM.'/', $elOutput, 'Unexpected Output ChkLib().'
+			);
+		}
 	}
 
 	// Add code to a function if needed.

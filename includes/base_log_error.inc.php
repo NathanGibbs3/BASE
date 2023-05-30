@@ -21,15 +21,53 @@
 // Ensure the conf file has been loaded. Prevent direct access to this file.
 defined('_BASE_INC') or die('Accessing this file directly is not allowed.');
 
-function DivErrorMessage ($message, $Count = 0 ){
-	NLIO ("<div class='errorMsg' align='center'>$message</div>",$Count);
+function ErrorMessage( $message, $color = '#ff0000', $br = 0 ){
+	GLOBAL $BCR, $debug_mode, $BASE_VERSION, $BASE_installID;
+	if(
+		!getenv('TRAVIS')
+		&& !(
+			$BASE_VERSION == '0.0.0 (Joette)'
+			&& $BASE_installID == 'Test Runner'
+		)
+	){
+		$UIM = 'Knl'; // Default UI Mode Under Boot.
+	}else{
+		$UIM = 'Web'; // Default UI Mode Under Test.
+	}
+	if( isset($BCR) && is_object($BCR) ){
+		$UIM = $BCR->GetCap('UIMode'); // Running System Sets UI Mode.
+	}
+	switch( $UIM ){
+		case 'Gfx';
+		case 'Knl';
+			KML($message, $debug_mode);
+			break;
+		case 'Con';
+			NLI($message);
+			break;
+		case 'Web';
+		default;
+			print returnErrorMessage($message, $color, $br);
+	}
+}
+
+function returnErrorMessage( $message, $color = "#ff0000", $br = 0 ){
+	if( HtmlColor($color) == false ){
+		// Default to Red if we are passed something odd.
+		$color = "#ff0000";
+	}
+	$error = "<font color='$color'>$message</font>";
+	if( is_int($br) && $br == 1 ){ // Issue #160
+		$error .= '<br/>';
+	}
+	return $error;
 }
 
 function returnBuildError( $Desc, $Opt ){ // Standardiazed PHP build error.
-	if ( LoadedString($Desc) && LoadedString($Opt) ){
+	if( LoadedString($Desc) && LoadedString($Opt) ){
 		$Desc = XSSPrintSafe($Desc);
 		$Opt = XSSPrintSafe($Opt);
-		$Ret = returnErrorMessage(_ERRPHPERROR.':',0,1);
+		$Ret = returnErrorMessage(_ERRPHPERROR . ':', 0, 1);
 		// TD this.
 		$Ret .=
 		NLI("<b>PHP build incomplete</b>: $Desc support required.<br/>")
@@ -38,43 +76,43 @@ function returnBuildError( $Desc, $Opt ){ // Standardiazed PHP build error.
 	}
 }
 
-function BuildError ($message = '', $fmessage = '' ){
-	if ( LoadedString($message) == true ){
+function BuildError( $message = '', $fmessage = '' ){
+	if( LoadedString($message) ){
 		ErrorMessage(_ERRPHPERROR.':',0,1);
 		ErrorMessage($message, 'black', 1);
 		print '<br/>';
 	}
 	// @codeCoverageIgnoreStart
-	if ( LoadedString($fmessage) == true ){
+	if( LoadedString($fmessage) ){
 		FatalError($fmessage);
 	}
 	// @codeCoverageIgnoreEnd
 }
 
-function LibIncError (
+function LibIncError(
 		$Desc, $Loc, $Lib, $message = '', $LibName = '', $URL = '', $Fatal = 0,
 		$Pear = 0
 	){
 	// Translation data this msg when we get to _ERRSQLDBALLOAD1 on Issue#11
 	$msg = "<b>Error loading the $Desc library:</b> ".
-	XSSPrintSafe('from "'.$Loc.'".');
-	if ( LoadedString($LibName) == true ){
+	XSSPrintSafe('from "' . $Loc . '".');
+	if( LoadedString($LibName) ){
 		$msg .= '<br/>';
 		// Translation data this msg when we get to _ERRSQLDBALLOAD2 on Issue#11
 		$msg .= "The underlying $Desc library currently used is $LibName";
-		if ( LoadedString($URL) == true ){
+		if( LoadedString($URL) ){
 			$URL = XSSPrintSafe($URL);
 			$msg .= ', that can be downloaded at ';
 			$msg .= "<a href='$URL'>$URL</a>";
 		}
 		$msg .= '.';
 	}
-	ErrorMessage($msg,'black',1);
-	if ( LoadedString($message) == true ){
-		ErrorMessage($message,'black',1);
+	ErrorMessage($msg, 'black', 1);
+	if( LoadedString($message) ){
+		ErrorMessage($message, 'black', 1);
 	}
 	$FLib = $Lib;
-	if ($Pear == 1){
+	if( $Pear == 1 ){
 		$EMsg = "Check your Pear::$LibName installation!<br/>";
 		$EMsg .= 'Make sure PEAR libraries can be found by PHP.';
 		$EMsg .= '<pre>';
@@ -88,7 +126,7 @@ function LibIncError (
 			'include_path => .:/usr/share/pear:/usr/share/php => .:/usr/share/pear:/usr/share/php'
 		);
 		$EMsg .= '</pre>';
-		if ( ini_get('safe_mode') ){
+		if( ini_get('safe_mode') ){
 			$EMsg .= XSSPrintSafe(
 				'In "safe_mode" it must also be part of safe_mode_include_dir in /etc/php.ini'
 			);
@@ -97,8 +135,8 @@ function LibIncError (
 		$FLib = $LibName;
 	}
 	$tmp = "PHP setup incomplete: $FLib required.";
-	if ($Fatal == 0){
-		ErrorMessage($tmp, 0,1);
+	if( $Fatal == 0 ){
+		ErrorMessage($tmp, 0, 1);
 	}else{
 		// @codeCoverageIgnoreStart
 		FatalError($tmp);
@@ -107,66 +145,72 @@ function LibIncError (
 }
 
 // Debug Data Table
-function DDT (
-	$Items, $Desc = array(), $title = NULL, $tab = 3, $wd = 75, $vf = 0
+function DDT(
+	$Items, $Desc = array(), $title = NULL, $tab = 3, $wd = 75, $vf = 0,
+	$XSS = 1
 ){
-	if ( is_array($Items) ){ // Input Validation
-		if ( !is_array($Desc) ){
+	if( is_array($Items) ){ // Input Validation
+		if( !is_array($Desc) ){
 			$Desc = array($Desc);
 		}
-		if ( !is_int($tab) ){
+		if( !is_int($tab) ){
 			$tab = 3;
 		}
-		if ( !is_int($wd) ){
+		if( !is_int($wd) ){
 			$wd = 75;
 		}
-		if ( !is_int($vf) ){
+		if( !is_int($vf) ){
 			$vf = 0;
 		}
-		if ( !LoadedString($title) ){
+		if( !is_int($XSS) ){
+			$XSS = 1;
+		}
+		if( !LoadedString($title) ){
 			$title = 'Debug Data Table';
 		}
 		$title = XSSPrintSafe($title);
 		$Desc = XSSPrintSafe($Desc);
-		$Items = XSSPrintSafe($Items);
+		if( $XSS > 0 ){ // Anti XSS Output Data
+			$Items = XSSPrintSafe($Items);
+		}
 		PrintFramedBoxHeader($title, 'red', 0, $tab, '', $wd);
 		$icnt = count($Items);
 		$DF = false;
-		if ( $icnt <= count($Desc) ){ // Do we have Descriptions?
+		if( $icnt <= count($Desc) ){ // Do we have Descriptions?
 			$DF = true;
 		}
-		if ( $icnt > 0 ){
+		if( $icnt > 0 ){
 			$style = '';
 			if ( $vf == 1 && $DF ){ // Vertical Dsiplay
 				$style = " class='sectiontitle' style='text-align: right;".
 				" padding-right: 10px; width: 10%'";
 			}
 			NLIO("<td$style>", $tab + 2);
-			if ( $vf == 0 ){
-				if ( $DF ){
-					for ( $i = 0; $i < $icnt; $i++){
+			if( $vf == 0 ){
+				if( $DF ){
+					for( $i = 0; $i < $icnt; $i++){
 						NLIO($Desc[$i], $tab + 3);
-						if ( $i != $icnt - 1 ){
+						if( $i != $icnt - 1 ){
 							NLIO('</td><td>', $tab + 2);
 						}
 					}
-					PrintTblNewRow( 1, '', $tab + 2 );
+					PrintTblNewRow(1, '', $tab + 2 );
 				}
 			}
-			for ( $i = 0; $i < $icnt; $i++){
-				if ( $vf == 0 ){
+			for( $i = 0; $i < $icnt; $i++){
+				if( $vf == 0 ){
 					NLIO($Items[$i], $tab + 3);
-					if ( $i != $icnt - 1 ){
+					if( $i != $icnt - 1 ){
 						NLIO('</td><td>', $tab + 2);
 					}
 				}else{
-					if ( $DF ){
+					if( $DF ){
 						NLIO($Desc[$i].': ', $tab + 3);
 						NLIO("</td><td style='padding-left:10px;'>", $tab + 2);
 					}
 					NLIO($Items[$i], $tab + 3);
-					if ( $i != $icnt -1 ){
-						PrintTblNewRow( 0, '', $tab + 2 );
+					if( $i != $icnt -1 ){
+						PrintTblNewRow(0, '', $tab + 2 );
 						NLIO("<td$style>", $tab + 2);
 					}
 				}
@@ -178,7 +222,7 @@ function DDT (
 }
 
 // @codeCoverageIgnoreStart
-function FatalError ($message){
+function FatalError( $message ){
 	print returnErrorMessage('<b>'._ERRBASEFATAL.'</b>',0,1)."\n".$message;
 	$message = preg_replace("/\//", '', $message);
 	$message = preg_replace("/<br>/i", ' ', $message);
@@ -196,49 +240,63 @@ function PrintServerInformation()
 function PrintPageHeader(){
 	GLOBAL $DBtype, $ADODB_vers, $Use_Auth_System, $BCR;
 	if( !AuthorizedPage('(base_denied|index)') ){
-		$BV = $BCR->GetCap('BASE_Ver');
 		// Additional app info allowed everywhere but landing pages.
-		$AdminAuth = AuthorizedRole(1); // Issue #146 Fix
-		if( $AdminAuth ){ // Issue #146 Fix
-			if( is_key('SERVER_SOFTWARE', $_SERVER) ){
-				$SW_Svr = $_SERVER['SERVER_SOFTWARE'];
-			}else{
+		if( ARC(10000) ){ // Auth check
+			$BV = $BCR->GetCap('BASE_Ver');
+			$AdminAuth = ARC(1); // Admin Flag
+			$UserAuth = ARC(50); // User Flag
+			if( $AdminAuth ){ // Issue #146 Fix
 				$SW_Svr = 'unknown';
+				if( is_key('SERVER_SOFTWARE', $_SERVER) ){
+					$SW_Svr = XSSPrintSafe($_SERVER['SERVER_SOFTWARE']);
+				}
 			}
-			$tmp = session_encode();
-			$SW_Svr = XSSPrintSafe($SW_Svr);
-		}
-		$request_uri = XSSPrintSafe($_SERVER['REQUEST_URI']);
-		if( is_key('HTTP_USER_AGENT', $_SERVER) ){
-			$SW_Cli = $_SERVER['HTTP_USER_AGENT'];
-		}else{
+			if( $UserAuth ){
+				$http_referer = '';
+				if( is_key('HTTP_REFERER', $_SERVER) ){
+					$http_referer = XSSPrintSafe($_SERVER['HTTP_REFERER']);
+				}
+				$tmp = session_encode();
+			}
 			$SW_Cli = 'unknown';
+			if( is_key('HTTP_USER_AGENT', $_SERVER) ){
+				$SW_Cli = XSSPrintSafe($_SERVER['HTTP_USER_AGENT']);
+			}
+			$request_uri = XSSPrintSafe($_SERVER['REQUEST_URI']);
+			$query_string = XSSPrintSafe($_SERVER['QUERY_STRING']);
+			// TD these labels from Issue #11 at some point.
+			$DD = array(_MNTCLIENT, 'URL', 'Request Parameters',);
+			$DI = array(
+				Icon('client', _MNTCLIENT) . $SW_Cli,
+				$request_uri, $query_string,
+			);
+			if( $Use_Auth_System == 1 && $UserAuth ){
+				array_push($DD, 'Referer', 'SESSION ID', 'SESSION Contents');
+				array_push($DI, $http_referer);
+				array_push(
+					$DI, session_id() . ' ( ' . strlen($tmp) . '  bytes )'
+				);
+				array_push(
+					$DI,
+					"<div style='width:auto'>"
+					. 'Back List Count: ' . $_SESSION['back_list_cnt']
+					. ' Back List Type: ' . gettype($_SESSION['back_list'])
+					. "</div><pre class='session'>"
+					. print_r($_SESSION['back_list'], true) . '</pre>'
+				);
+			}
+			DDT($DI, $DD, 'Request Information', '', '', 1, 0);
+			$DD = array('BASE VERSION');
+			$DI = array($BV);
+			if( $Use_Auth_System == 1 && $AdminAuth ){
+				array_push($DD, 'OS', 'HTTP SW', 'HTTP PHP API', _MNTPHPVER);
+				array_push($DD, _MNTDBALV, _MNTDBTYPE, 'Executed Script');
+				array_push($DI, php_uname(), $SW_Svr, php_sapi_name());
+				array_push($DI, phpversion(), $ADODB_vers, $DBtype);
+				array_push($DI, XSSPrintSafe($_SERVER['SCRIPT_NAME']));
+			}
+			DDT($DI, $DD, 'Server Information', '', '', 1, 0);
 		}
-		if( is_key('HTTP_REFERER', $_SERVER) ){
-			$http_referer = XSSPrintSafe($_SERVER['HTTP_REFERER']);
-		}else{
-			$http_referer = '';
-		}
-		$SW_Cli = XSSPrintSafe($SW_Cli);
-		$query_string = XSSPrintSafe($_SERVER['QUERY_STRING']);
-		// TD these labels from Issue #11 at some point.
-   echo "<PRE>
-         <B>URL:</B> '".$request_uri."'
-         (<B>referred by:</B> '".$http_referer."')
-         <B>PARAMETERS:</B> '".$query_string."'
-         <B>CLIENT:</B> ".$SW_Cli;
-if ( $Use_Auth_System == 1 && AuthorizedRole(1) ){ // Issue #146 Fix
-print "\n         <B>SERVER:</B> ".$SW_Svr."
-         <B>SERVER HW:</B> ".php_uname();
-print "\n         <B>PHP VERSION:</B> ".phpversion();
-print "\n         <B>PHP API:</B> ".php_sapi_name();
-print "\n         <B>DB TYPE:</B> ".$DBtype;
-print "\n         <B>DB ABSTRACTION VERSION:</B> ".$ADODB_vers;
-}
-print "\n         <B>BASE VERSION:</B> $BV
-         <B>SESSION ID:</B> ".session_id()."( ".strlen($tmp)." bytes )
-         <B>SCRIPT :</B> ".XSSPrintSafe($_SERVER['SCRIPT_NAME'])."
-         </PRE>"; 
 	}
 }
 

@@ -10,20 +10,25 @@
 // Built upon work by: Kevin Johnson & the BASE Project Team
 //                     Roman Danyliw <rdd@cert.org>, <roman@danyliw.com>
 //
-//            Purpose: Page to send people to if they are not logged in
+//            Purpose: Landing page for unauthenticated users.
 //
 //          Author(s): Nathan Gibbs
 //                     Kevin Johnson
 
 $sc = DIRECTORY_SEPARATOR;
 require_once("includes$sc" . 'base_krnl.php');
-include_once("$BASE_path/includes/base_log_error.inc.php");
-include_once("$BASE_path/includes/base_output_html.inc.php");
+include_once(BASE_IPath . 'base_log_error.inc.php');
+include_once(BASE_IPath . 'base_output_html.inc.php');
+include_once(BASE_IPath . 'base_state_common.inc.php');
 
+$tmp = 'Authentication required: '; // Need to TD this.
 PrintBASESubHeader();
-NLIO('<p>',2);
-NLIO('Authentication required.',3); // Needs to be added to TD Files.
-NLIO("<a href='index.php'>Login</a>",3);
-NLIO('</p>',2);
+NLIO("<div class='errorMsg'>", 3);
+printIcon('auth', $tmp, 4, 'lg');
+NLIO("<div style='line-height: 64px;'>", 4);
+NLIO($tmp, 5);
+NLIO("<a href='index.php'>Login</a>", 5);
+NLIO("</div>", 4);
+NLIO('</div>', 3);
 PrintBASESubFooter();
 ?>

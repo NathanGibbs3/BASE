@@ -127,6 +127,12 @@ function CleanVariable( $item, $valid_data = '', $exception = '' ){
 					if ( ($valid_data & VAR_AT) > 0 ){
 						$regex_mask .= "\@";
 					}
+					if ( ($valid_data & VAR_COLON) > 0 ){
+						$regex_mask .= "\:";
+					}
+					if ( ($valid_data & VAR_BRACKETS) > 0 ){
+						$regex_mask .= "\[\]";
+					}
 					// Score (\-) always must be at the end of the RE mask.
 					if ( ($valid_data & VAR_PUNC) > 0 ){
 						$regex_mask .= "\~\!\#\$\%\^\&\*\_\=\+\:\;\,\.\?\ \(\))\-";
@@ -167,9 +173,11 @@ function CleanVariable( $item, $valid_data = '', $exception = '' ){
 function SetSessionVar($var_name){
 	GLOBAL $BCR, $debug_mode;
 	$UIM = 'Web'; // Default UI Mode.
+	// @codeCoverageIgnoreStart
 	if ( isset($BCR) && is_object($BCR) ){
 		$UIM = $BCR->GetCap('UIMode');
 	}
+	// @codeCoverageIgnoreEnd
 	if ( isset($_POST[$var_name]) ){
 		$msg = 'POST';
 		$Ret = $_POST[$var_name];
@@ -242,7 +250,7 @@ function ImportHTTPVar( $var_name, $valid_data = '', $exception = '' ){
 		$Ret = $_GET[$var_name];
 	}
 	if ( $debug_mode > 0 && $UIM == 'Web' && $msg != '' ){
-		$EMPfx = __FUNCTION__ . "(): ";
+		$EMPfx = __FUNCTION__ . ': ';
 		ErrorMessage(
 			$EMPfx . "Importing $msg var '$var_name'", 'black', 1
 		);
@@ -280,53 +288,6 @@ function ExportHTTPVar ( $var_name = '', $var_value = '', $tab = 3 ){
 		$Ret = true;
 	}
 	return $Ret;
-}
-
-// Function: filterSql()
-// @doc Filters the input string so that it can be safely used in SQL queries.
-// @param $item            value of the variable to filter
-// @param $force_alert_db  (default 0 - use current db)
-// @return a sanitized version of the passed variable.
-function filterSql ( $item, $force_alert_db=0, $db = ''){
-	GLOBAL $DBlib_path, $DBtype, $db_connect_method, $alert_dbname,
-	$alert_host, $alert_port, $alert_user, $alert_password;
-	if ( !isset($item) ){ // Unset Value.
-		return $item;
-	}else{
-		if ( is_array($item) ){ // Array.
-			// Recursively convert array elements.
-			// Works with both Keyed & NonKeyed arrays.
-			foreach ($item as $key => $value) {
-				$item[$key] = filterSql( $value, $force_alert_db );
-			}
-			return $item;
-		}else{
-			$Dbcf = 0; // DB Object creation Flag.
-			if ( is_object($db) && get_class($db) == 'baseCon' ){
-				$tdb = $db; // DB Onject passed.
-			}else{
-				$tdb = NewBASEDBConnection($DBlib_path, $DBtype);
-				$Dbcf = 1; // DB Onject created.
-				$tdb->baseDBConnect(
-					$db_connect_method, $alert_dbname, $alert_host, $alert_port,
-					$alert_user, $alert_password, $force_alert_db
-				);
-			}
-			$version = explode('.', phpversion());
-			if ( $version[0] > 5 || ($version[0] == 5 && $version[1] > 3) ){
-				$Qh = 0;
-			}else{ // Figure out quote handling on PHP < 5.4.
-				$Qh = get_magic_quotes_runtime();
-			}
-			$item = $tdb->DB->qstr($item,$Qh);
-			if ($Dbcf == 1 ){ // Close it, only if we created it.
-				$tdb->baseClose();
-			}
-			// Cut off first and last character, (quotes added by qstr()).
-			$item = substr($item, 1, strlen($item)-2);
-			return $item;
-		}
-	}
 }
 
 ?>

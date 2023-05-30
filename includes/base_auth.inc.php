@@ -40,6 +40,7 @@ class BaseUser {
 			// @codeCoverageIgnoreEnd
 		}
 	}
+
 	function BaseUser() { // PHP 4x constructor.
 		GLOBAL $DBlib_path, $DBtype, $db_connect_method, $alert_dbname,
 		$alert_host, $alert_port, $alert_user, $alert_password;
@@ -51,6 +52,7 @@ class BaseUser {
 		$db->DB->SetFetchMode(ADODB_FETCH_BOTH);
 		$this->db = $db;
 	}
+
 	// Core Authentication System.
 	// Accepts a username and password.
 	// Returns:
@@ -89,9 +91,12 @@ class BaseUser {
 				$Ret = 3;
 			}
 		}
-		if ( isset($et) && is_object($et) ){ // Need to TD this in Issue #11 branch.
+		// @codeCoverageIgnoreStart
+		if ( isset($et) && is_object($et) ){
+			// Need to TD this in Issue #11 branch.
 			$et->Mark('Authentication Check.');
 		}
+		// @codeCoverageIgnoreEnd
 		return $Ret;
 	}
 	// Same inputs/returns as AuthenticateCore.
@@ -99,16 +104,20 @@ class BaseUser {
 	function Authenticate( $user = '', $pwd = '' ){
 		$EMPfx = __FUNCTION__ . ': ';
 		$Ret = $this->AuthenticateCore( $user, $pwd );
+		$tmp = 'Fail';
 		if ( $Ret == 0 ){
-			KML($EMPfx . 'Pass', 2);
+			$tmp = 'Pass';
 			$this->setRoleCookie($this->cryptpassword($pwd), $user);
 		}
+		KML("$EMPfx$tmp.", 2);
 		return $Ret;
 	}
 	// Same inputs as AuthenticateCore.
 	// returns "Failed" on failure or role_id on success.
 	function AuthenticateNoCookie( $user = '', $pwd = '' ) {
+		$EMPfx = __FUNCTION__ . ': ';
 		$Ret = $this->AuthenticateCore( $user, $pwd );
+		$tmp = 'Fail';
 		if ( $Ret == 0 ){ // Get RoleID
 			$db = $this->db;
 			$user = filterSql($user,1,$db); // Input sanitazation.
@@ -124,6 +133,7 @@ class BaseUser {
 				$Ret = $rs->baseFetchRow();
 				$rs->baseFreeRows();
 				if ( isset($Ret[0]) ){
+					$tmp = 'Pass';
 					$Ret = intval($Ret[0]);
 				}
 			}else{
@@ -132,6 +142,7 @@ class BaseUser {
 		}else{
 			$Ret = 'Failed';
 		}
+		KML("$EMPfx$tmp.", 2);
 		return $Ret;
 	}
 	// Accepts a username.
@@ -331,7 +342,7 @@ class BaseUser {
 		$Ret = false;
 		$userid = intval($userid); // Input Validation
 		if ( $userid > 0 ){
-			if ( !is_numeric($XSS) ){
+			if ( !is_int($XSS) ){
 				$XSS = 1;
 			}
 			$db = $this->db;
@@ -563,46 +574,73 @@ class BaseRole {
     }
 }
 
-// Returns true if the role of current user is authorized.
-// Redirect if valid header is given.
-function AuthorizedRole ( $roleneeded = 1, $header = '' ){
-	GLOBAL $BASE_urlpath, $Use_Auth_System, $et;
-	$EMPfx = 'BASE Security Alert ' . __FUNCTION__ . ': ';
+// Returns true if the role of current user is authorized, false otherwise.
+function ARC( $roleneeded = 1 ){ // AuthorizedRole Core
+	GLOBAL $BCR, $Use_Auth_System, $et;
+	$EMPfx = __FUNCTION__ . ': ';
 	$Ret = false;
-	if ( $Use_Auth_System != 1 ){ // Auth system off, always pass.
+	$AS = false;
+	// @codeCoverageIgnoreStart
+	if( isset($BCR) && is_object($BCR) ){
+		$AS = $BCR->GetCap('BASE_SSAuth'); // Auth System
+		$DBL = $BCR->GetCap('BASE_UIDiag'); // Debug Lvl
+	}else{
+		$DBL = 0;
+		if( intval($Use_Auth_System) == 1 ){
+			$AS = true;
+		}
+	}
+	// @codeCoverageIgnoreEnd
+	if( !$AS ){ // Auth system off, always pass.
 		$Ret = true;
-	}else{ // Check role and possibly redirect.
+	}else{ // Check account role and enabled flag.
 		$BUser = new BaseUser();
 		$user = $BUser->returnUser(); // User
 		$UAE = $BUser->isActive($user); // User Account Enabled.
 		$URN = $BUser->hasRole($roleneeded); // User role needed.
-		if ( $URN == 0 || $UAE == false ){ // Not Authorized
-			$msg = ' user access';
-			if ( $user == '' ){
-				$msg = "Unauthenticated$msg";
-			}else{
-				$msg = "Unauthorized$msg: $user";
-			}
-			error_log($EMPfx . $msg);
-			if ( $roleneeded >= 10000 ){ // Lock redirect :-)
-				error_log('Redirect Lock Engaged');
-				$header = 'base_denied';
-			}
-			if ( $header != '' ){
-				$ReqRE = "(base_(denied|main)|index)";
-				if ( preg_match("/^" . $ReqRE ."$/", $header) ){
-					// Redirect to allowed locations only.
-					error_log('Attempt Redirect');
-					HTTP_header("Location: $BASE_urlpath/$header.php");
-					error_log('Redirect failed');
-				}
-			}
-		}else{
+		if ( $URN == 1 && $UAE == true ){ // Authorized
 			$Ret = true;
 		}
 	}
-	if ( is_object($et) ){ // Need to TD this in Issue #11 branch.
-		$et->Mark('Authorization Check.');
+	$tmp = 'Authorization Check'; // Need to TD this in Issue #11 branch.
+	kml("$EMPfx$tmp: " . var_export($Ret, true), 3);
+	// @codeCoverageIgnoreStart
+	if( $DBL > 2 && isset($et) && is_object($et) ){
+		$et->Mark("$tmp.");
+	}
+	// @codeCoverageIgnoreEnd
+	return $Ret;
+}
+
+// Returns true if the role of current user is authorized.
+// Redirect if valid header is given.
+function AuthorizedRole( $roleneeded = 1, $header = '' ){
+	GLOBAL $BASE_urlpath, $BCR;
+	$Ret = ARC($roleneeded);
+	if( !$Ret ){ // ARC failed.
+		$EMPfx = 'BASE Security Alert ' . __FUNCTION__ . ': ';
+		$BUser = new BaseUser();
+		$user = $BUser->returnUser(); // User
+		$msg = ' user access';
+		if ( $user == '' ){
+			$msg = "Unauthenticated$msg";
+		}else{
+			$msg = "Unauthorized$msg: $user";
+		}
+		kml($EMPfx . $msg);
+		if ( $roleneeded >= 10000 ){ // Lock redirect :-)
+			kml('Redirect Lock Engaged');
+			$header = 'base_denied';
+		}
+		if ( $header != '' ){
+			$ReqRE = "(base_(denied|main)|index)";
+			if ( preg_match("/^" . $ReqRE ."$/", $header) ){
+				// Redirect to allowed locations only.
+				kml('Attempt Redirect');
+				HTTP_header("Location: $BASE_urlpath/$header.php");
+				kml('Redirect failed');
+			}
+		}
 	}
 	return $Ret;
 }

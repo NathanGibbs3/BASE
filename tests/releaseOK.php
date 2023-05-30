@@ -19,20 +19,13 @@
 //
 //          Author(s): Nathan Gibbs
 
-$BASE_installID = 'GH API Check';
-$BASE_path = dirname(__FILE__);
 $sc = DIRECTORY_SEPARATOR;
-$ReqRE =  "\\".$sc.'tests.*';
-$BASE_path = preg_replace('/'.$ReqRE.'/', '', $BASE_path);
+$tmp = dirname(__FILE__);
+$ReqRE = preg_quote($sc.'phpcommon', '/').'.*';
+$tmp = preg_replace('/'.$ReqRE.'/', '', $tmp);
+require_once("$tmp$sc" . "phpcommon$sc" . 'base_TEkrnl.php');
 
-// BASE Runtime.
-include_once("$BASE_path$sc" . "includes$sc" . "base_rtl.php");
-SetConst('_BASE_INC', 1); // Include Load Flag.
-include_once("$BASE_path$sc" . "base_common.php");
-include_once("$BASE_path$sc". "includes$sc" . "base_capabilities.php");
-
-//include("$BASE_path/includes/base_include.inc.php");
-
+$BASE_installID = 'GH API Check';
 $tcc = new BaseCapsRegistry();
 $Lv = $tcc->GetCap('PHP_Ver');
 $Av = $tcc->GetCap('BASE_Ver');
@@ -45,7 +38,11 @@ $tmp = '';
 print " PHP $Lv\n";
 print "BASE $Av\n";
 
-$api = 'https://api.github.com/search/commits?q='; // GH API Search Endpoint.
+if ( $debug_mode == 0 ){ // GH API Search Endpoints.
+	$api = 'https://api.github.com/search/commits?q=';
+}elseif( $debug_mode == 1 ){
+	$api = 'https://api.github.com/repos/NathanGibbs3/BASE/branches/devel?q=';
+}
 // From GitHub docs:
 // "When you search for commits, only the default branch of a repository is
 // searched."
@@ -74,17 +71,25 @@ if ( getenv('TRAVIS') && version_compare($Lv, '5.3.0', '<') ){
 		if ( $lc !== false ){
 			$branch = json_decode($lc, true);
 			$tmp = $tcc->GetCap('BASE_LPM');
-			$cmsg = $branch['items'][0]['commit']['message'];
-			$cdate = substr(
-				$branch['items'][0]['commit']['committer']['date'], 0, 10
-			);
-			if ( $tmp  == $cdate ){
-				$ExitCode = 0; // Success
-				print "Date match: $tmp\n";
-			}else{ // Merged to master without changing the LPN date in src. :-0
-				print "Date Error\n";
-				print "Master Branch: $cdate LM Msg: $cmsg\n";
+			if ( $debug_mode == 0 ){
+				$cmsg = $branch['items'][0]['commit']['message'];
+				$cdate = substr(
+					$branch['items'][0]['commit']['committer']['date'], 0, 10
+				);
+				if ( $tmp  == $cdate ){
+					$ExitCode = 0; // Success
+					print "Date match: $tmp\n";
+				}else{ // Merged to master without changing LPN date. :-0
+					print "Date Error\n";
+					print "Master Branch: $cdate LM Msg: $cmsg\n";
+					print "BASE LPM: $tmp\n";
+				}
+			}elseif( $debug_mode == 1 ){
+				$cmsg = $branch['commit']['commit']['message'];
+				$cdate = $branch['commit']['commit']['committer']['date'];
+				print "Deval Branch: $cdate LM Msg: $cmsg\n";
 				print "BASE LPM: $tmp\n";
+				$ExitCode = 0; // Success
 			}
 		}else{
 			print "API stream Error\n";

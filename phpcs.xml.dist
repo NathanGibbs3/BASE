@@ -26,12 +26,20 @@
 
 	<rule ref="PHPCompatibility">
 		<exclude name="PHPCompatibility.FunctionNameRestrictions.NewMagicMethods.__constructFound"/>
+		<exclude name="PHPCompatibility.IniDirectives.RemovedIniDirectives.safe_modeDeprecatedRemoved"/>
 	</rule>
 	<rule ref="Generic.Arrays.ArrayIndent">
 	</rule>
 	<rule ref="Generic.CodeAnalysis.UnusedFunctionParameter">
 	</rule>
 	<rule ref="Generic.Debug.ClosureLinter">
+		<properties>
+			<property name="ignoreCodes" type="array">
+				<element value="0001"/>
+				<element value="0002"/>
+				<element value="0005"/>
+			</property>
+		</properties>
 	</rule>
 	<rule ref="Generic.Files.LineEndings">
 	</rule>
@@ -62,7 +70,6 @@
 	</rule>
 	<rule ref="Generic.WhiteSpace.ArbitraryParenthesesSpacing">
 		<properties>
-			<property name="spacing" value="1" />
 			<property name="ignoreNewlines" value="true" />
 		</properties>
 	</rule>

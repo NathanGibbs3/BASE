@@ -954,18 +954,24 @@ function base_microtime(){
 }
 
 function Percent ( $Value = 1, $Count = 1 ){
-	if ( $Value > $Count ){
-		$Count = $Value;
+	if( !is_numeric($Value) ){ // Input Validation
+		$Value = 1;
 	}
-	if ( $Count <= 0 ){
+	if( !is_numeric($Count) ){
 		$Count = 1;
 	}
-	if ( $Value <= 0 ){ // Set %
+	if( $Value > $Count ){
+		$Count = $Value;
+	}
+	if( $Count <= 0 ){
+		$Count = 1;
+	}
+	if( $Value <= 0 ){ // Set %
 		$Ret = 0;
 	}else{
 		$Ret = round($Value/$Count*100);
 	}
-	return ($Ret);
+	return $Ret;
 }
 
 // Returns true if file passes include safety checks.
@@ -1024,78 +1030,68 @@ function ChkLib ( $path = '', $LibLoc = '', $LibFile = '' ){
 	GLOBAL $debug_mode;
 	$EMPfx = __FUNCTION__ . ': ';
 	$Ret = '';
-	if ( LoadedString($LibFile) ){
+	if( LoadedString($LibFile) ){
 		$sc = DIRECTORY_SEPARATOR;
 		$tmp = $LibFile;
 		// Strip leading or trailing seperators from Lib file.
 		$ReqRE = "(^\\$sc|\\$sc\$)";
 		$LibFile = preg_replace("/".$ReqRE."/", '', $LibFile);
-		if ( $debug_mode > 1 && $tmp != $LibFile ){
-			ErrorMessage('Req Lib: ' . XSSPrintSafe($tmp), 0, 1);
-			ErrorMessage('Mod Lib: ' . XSSPrintSafe($LibFile), 0, 1);
+		if ( $tmp != $LibFile ){
+			KML($EMPfx . "Req Lib: $tmp", 3);
+			KML($EMPfx . "Mod Lib: $LibFile", 3);
 		}
-		if ( LoadedString($path) ){ // Path to Lib
+		if( LoadedString($path) ){ // Path to Lib
 			$tmp = $path; // Strip trailing seperator from path.
 			$ReqRE = "\\$sc\$";
 			$path = preg_replace("/".$ReqRE."/", '', $path);
-			if ( $debug_mode > 1 && $tmp != $path ){
-				ErrorMessage('Req Loc: ' . XSSPrintSafe($tmp), 0, 1);
-				ErrorMessage('Mod Loc: ' . XSSPrintSafe($path), 0, 1);
+			if( $tmp != $path ){
+				KML($EMPfx . "Req Loc: $tmp", 3);
+				KML($EMPfx . "Mod Loc: $path", 3);
 			}
 			$LibFile .= '.php';
 			$FinalLib = implode( $sc, array($path, $LibFile) );
-			if ( $debug_mode > 1 ){
-				ErrorMessage(
-					XSSPrintSafe($EMPfx . "Chk: $FinalLib"),'black',1
-				);
-			}
+			KML($EMPfx . "Chk: $FinalLib", 3);
 			$tmp = ChkAccess($FinalLib);
 			$Msg = $EMPfx . "Lib: $FinalLib ";
-			$clr = 'red';
-			if ( $tmp == 1 ){
+			if( $tmp == 1 ){
 				$Msg .= 'found';
-				$clr = 'black';
 				$Ret = $FinalLib;
 			}else{
 				$Msg .= 'not ';
 			}
-			if ( $tmp == -1 ){
+			if( $tmp == -1 ){
 				$Msg .= 'found';
-			}elseif ( $tmp == -2 ){
+			}elseif( $tmp == -2 ){
 				$Msg .= 'readable';
 			}
 			$Msg .= '.';
-			if ( $debug_mode > 1 ){
-				ErrorMessage($Msg, $clr, 1);
-			}
+			KML($Msg, 3);
 		}else{ // Relative path to Lib.
-			if ( LoadedString($LibLoc) ){
+			if( LoadedString($LibLoc) ){
 				$tmp = $LibLoc; // Strip leading seperators from Loc.
 				$ReqRE = "^\\$sc";
 				$LibLoc = preg_replace("/".$ReqRE."/", '', $LibLoc);
-				if ( $debug_mode > 1 && $tmp != $LibLoc ){
-					ErrorMessage('Req Loc: ' . XSSPrintSafe($tmp), 0, 1);
-					ErrorMessage('Mod Loc: ' . XSSPrintSafe($LibLoc), 0, 1);
+				if( $tmp != $LibLoc ){
+					KML($EMPfx . "Req Loc: $tmp", 3);
+					KML($EMPfx . "Mod Loc: $LibLoc", 3);
 				}
 			}
 			$PSPath = explode(PATH_SEPARATOR, ini_get('include_path'));
 			foreach( $PSPath as $single_path ){
-				if ( LoadedString($LibLoc) ){
+				if( LoadedString($LibLoc) ){
 					$FinalLoc = implode( $sc, array($single_path, $LibLoc) );
 				}else{
 					$FinalLoc = $single_path;
 				}
 				$tmp = ChkLib( $FinalLoc, '', $LibFile);
-				if ( LoadedString($tmp) ){
+				if( LoadedString($tmp) ){
 					$Ret = $tmp;
 					break;
 				}
 			}
 		}
 	}else{
-		if ( $debug_mode > 0 ){
-			ErrorMessage($EMPfx . 'No Lib specified.', 0, 1);
-		}
+		KML($EMPfx . 'No Lib specified.', 1);
 	}
 	return $Ret;
 }
@@ -1153,12 +1149,12 @@ function PearInc( $Desc = '', $Loc = '', $Lib = '', $Silent = 1, $Fatal = 0 ){
 			$EMsg = "$Desc Lib: $Lib not ";
 			if ( $LLF == '' ){
 				$EMsg .= 'accessable';
-			}elseif ( $LLI == false ){
-				// @codeCoverageIgnoreStart
+			// @codeCoverageIgnoreStart
+			}elseif( $LLI == false ){
 				// This code path should never run.
 				$EMsg .= 'loaded';
-				// @codeCoverageIgnoreEnd
 			}
+			// @codeCoverageIgnoreEnd
 			$EMsg .= '.';
 			if ( $Silent != 1 ){ // Display fancy error to user.
 				$URL = "https://pear.php.net/package/$LibName";
@@ -1237,7 +1233,7 @@ function RegisterGlobalState(){
 }
 
 function BCS( $Name, $Value = '' ){
-	GLOBAL $BASE_urlpath, $BCR;
+	GLOBAL $BCR;
 	$EMPfx = __FUNCTION__ . ': ';
 	$Ret = false;
 	if( LoadedString($Name) ){
@@ -1261,16 +1257,26 @@ function BCS( $Name, $Value = '' ){
 					KML($EMPfx . "Sec: $Stat", 3);
 					$msg .= ' Secure';
 				}
-				$path = $BASE_urlpath;
-				if( !LoadedString($BASE_urlpath) ){
+				$path = $BCR->GetCap('BASE_SSUrlPath');
+				if( !LoadedString($path) ){
 					$path = '/';
+				}
+				$domain = $BCR->GetCap('BASE_SSDomain');
+				if( !LoadedString($domain) ){
+					$domain = '';
+				}else{
+					// Strip trialing dot if any.
+					$domain = preg_replace("/\.$/", '', $domain);
+					$tmp = substr_count($domain, '.');
+					if( $tmp == 1 ){ // Not a subdomain.
+						// Add leading dot for compatibility.
+						$domain .= ".$domain";
+					}
 				}
 				$BCO = array(
 					'expires' => $expire,
 					'path' => $path,
-					//leading dot for compatibility or use subdomain
-					// '.example.com',
-					'domain' => '',
+					'domain' => $domain,
 					'secure' => $SF,
 					'httponly' => true,
 					'samesite' => 'Strict' // None || Lax  || Strict
@@ -1288,9 +1294,11 @@ function BCS( $Name, $Value = '' ){
 						$BCO['secure'], $BCO['httponly']
 					);
 				}
+			}else{ // UI Mode not Web, fake successful cookie Op.
+				$Ret = true;
 			}
 			// @codeCoverageIgnoreEnd
-		}else{ // No or Con UI Mode (PHPUnit), fake successful setcookie() Op.
+		}else{ // Can't get UI Mode (PHPUnit)? fake successful cookie Op.
 			$Ret = true;
 		}
 		$msg .= " Cookie: $Name Exp: ". date('F-d-Y H:i:s', $expire);

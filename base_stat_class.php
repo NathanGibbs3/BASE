@@ -200,13 +200,10 @@ $qs->PrintResultCnt(); // Print current view number and # of rows.
 		$tmp2 = 0;
 	}
 	qroPrintEntryHeader($tmp, $tmp2);
-
-     $tmp_rowid = rawurlencode($class_id);
-     echo '  <TD>&nbsp;&nbsp;
-                 <INPUT TYPE="checkbox" NAME="action_chk_lst['.$i.']" VALUE="'.$tmp_rowid.'">
-                 &nbsp;&nbsp;
-             </TD>';
-     echo '      <INPUT TYPE="hidden" NAME="action_lst['.$i.']" VALUE="'.$tmp_rowid.'">';
+	$tmp_rowid = rawurlencode($class_id);
+	$tmp = "_lst[$i]";
+	qroPrintCheckBox($tmp, $tmp_rowid);
+	$tmp = '';
 	qroPrintEntry(GetSigClassName($class_id, $db),'left');
 	qroPrintEntry('<A HREF="base_qry_main.php?new=1&amp;sig_class='.$class_id.
                    '&amp;submit='._QUERYDBP.'&amp;num_result_rows=-1">'.$total_occurances.'</A> 

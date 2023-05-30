@@ -5,10 +5,10 @@ use PHPUnit\Framework\TestCase;
 
 /**
   * Code Coverage Directives.
-  * @covers ::DivErrorMessage
   * @covers ::DDT
+  * @covers ::ErrorMessage
   * @covers ::LibIncError
-  * @uses ::ErrorMessage
+  * @covers ::returnErrorMessage
   * @uses ::FramedBoxFooter
   * @uses ::FramedBoxHeader
   * @uses ::Htmlcolor
@@ -20,7 +20,6 @@ use PHPUnit\Framework\TestCase;
   * @uses ::PrintTblNewRow
   * @uses ::TblNewRow
   * @uses ::XSSPrintSafe
-  * @uses ::returnErrorMessage
   */
 
 class log_errorTest extends TestCase {
@@ -48,18 +47,74 @@ class log_errorTest extends TestCase {
 	}
 
 	// Tests go here.
-	public function testDivErrorMessageDefault() {
-		$URV = self::$URV.'DivErrorMessage().';
-		$this->expectOutputString(
-			"\n<div class='errorMsg' align='center'>message</div>",
-			DivErrorMessage('message'),$URV
+	public function testreturnErrorMessageDefault() {
+		$URV = self::$URV.'returnErrorMessage().';
+		$this->assertEquals(
+			"<font color='#ff0000'>message</font>",
+			returnErrorMessage('message'),$URV
 		);
 	}
-	public function testDivErrorMessageIndent() {
-		$URV = self::$URV.'DivErrorMessage().';
+	public function testreturnErrorMessageInvalidColor() {
+		$URV = self::$URV.'returnErrorMessage().';
+		$this->assertEquals(
+			"<font color='#ff0000'>message</font>",
+			returnErrorMessage('message','Invalid'),$URV
+		);
+	}
+	public function testreturnErrorMessageValidColor() {
+		$URV = self::$URV.'returnErrorMessage().';
+		$this->assertEquals(
+			"<font color='#0000ff'>message</font>",
+			returnErrorMessage('message','#0000ff'),$URV
+		);
+	}
+	public function testreturnErrorMessageInvalidBr() {
+		$URV = self::$URV.'returnErrorMessage().';
+		$this->assertEquals(
+			"<font color='#0000ff'>message</font>",
+			returnErrorMessage('message','#0000ff','yes'),$URV
+		);
+	}
+	public function testreturnErrorMessageBr() {
+		$URV = self::$URV.'returnErrorMessage().';
+		$this->assertEquals(
+			"<font color='#0000ff'>message</font><br/>",
+			returnErrorMessage('message','#0000ff',1),$URV
+		);
+	}
+	public function testErrorMessageDefault() {
+		$URV = self::$URV.'ErrorMessage().';
 		$this->expectOutputString(
-			"\n\t\t<div class='errorMsg' align='center'>message</div>",
-			DivErrorMessage('message',2),$URV
+			"<font color='#ff0000'>message</font>",
+			ErrorMessage('message'),$URV
+		);
+	}
+	public function testErrorMessageInvalidColor() {
+		$URV = self::$URV.'ErrorMessage().';
+		$this->expectOutputString(
+			"<font color='#ff0000'>message</font>",
+			ErrorMessage('message','Invalid'),$URV
+		);
+	}
+	public function testErrorMessageValidColor() {
+		$URV = self::$URV.'ErrorMessage().';
+		$this->expectOutputString(
+			"<font color='#0000ff'>message</font>",
+			ErrorMessage('message','#0000ff'),$URV
+		);
+	}
+	public function testErrorMessageInvalidBr() {
+		$URV = self::$URV.'ErrorMessage().';
+		$this->expectOutputString(
+			"<font color='#0000ff'>message</font>",
+			ErrorMessage('message','#0000ff','yes'),$URV
+		);
+	}
+	public function testErrorMessageBr() {
+		$URV = self::$URV.'ErrorMessage().';
+		$this->expectOutputString(
+			"<font color='#0000ff'>message</font><br/>",
+			ErrorMessage('message','#0000ff',1),$URV
 		);
 	}
 	public function testLibIncErrorDefault() {
@@ -140,6 +195,41 @@ class log_errorTest extends TestCase {
 		"\n\t\t\t\t</tr><tr>".
 		"\n\t\t\t\t</tr>\n\t\t\t</table>";
 		$this->expectOutputString( $EOM, DDT($TA), $UOV );
+	}
+	public function testDDTInvalid() {
+		$UOV = self::$UOV.'DDT().';
+		$TA = array();
+		$EOM = "\n\t\t\t<table style = ".
+		"'border: 2px solid red; border-collapse: collapse; width:75%;' ".
+		"summary='Debug Data Table'>".
+		"\n\t\t\t\t<tr>".
+		"\n\t\t\t\t\t<td class='sectiontitle' style='text-align: center;' ".
+		"colspan='20'>\n\t\t\t\t\t\tDebug Data Table\n\t\t\t\t\t</td>".
+		"\n\t\t\t\t</tr><tr>".
+		"\n\t\t\t\t</tr>\n\t\t\t</table>";
+		$this->expectOutputString(
+			$EOM, DDT($TA, '', '', '', '', '', ''), $UOV
+		);
+	}
+	public function testDDTXSSOff() {
+		$UOV = self::$UOV.'DDT().';
+		$TA = array('<br/>');
+		$EOM = "\n\t\t\t<table style = ".
+		"'border: 2px solid red; border-collapse: collapse; width:75%;' ".
+		"summary='Debug Data Table'>".
+		"\n\t\t\t\t<tr>".
+		"\n\t\t\t\t\t<td class='sectiontitle' style='text-align: center;' ".
+		"colspan='20'>\n\t\t\t\t\t\tDebug Data Table\n\t\t\t\t\t</td>".
+		"\n\t\t\t\t</tr><tr>".
+		"\n\t\t\t\t\t<td>".
+		"\n\t\t\t\t\t\t"."\n\t\t\t\t\t</td>".
+		"\n\t\t\t\t</tr><tr>".
+		"\n\t\t\t\t\t<td>"."\n\t\t\t\t\t\t<br/>".
+		"\n\t\t\t\t\t</td>".
+		"\n\t\t\t\t</tr>\n\t\t\t</table>";
+		$this->expectOutputString(
+			$EOM, DDT($TA, '', '', '', '', '', 0), $UOV
+		);
 	}
 	public function testDDTTitle() {
 		$UOV = self::$UOV.'DDT().';
@@ -237,7 +327,7 @@ class log_errorTest extends TestCase {
 		"\n\t\t\t\t\t</td>\n\t\t\t\t</tr>\n\t\t\t</table>";
 		$this->expectOutputString( $EOM, DDT($TA, $TD), $UOV );
 	}
-	public function testDDTIemsDesV() {
+	public function testDDTIemsDescV() {
 		$UOV = self::$UOV.'DDT().';
 		$TA = array( 'a', 'b', 'c' );
 		$TD = array( 'd', 'e', 'f' );

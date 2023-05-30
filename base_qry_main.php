@@ -136,10 +136,7 @@ $cs = new CriteriaState("base_qry_main.php", "&amp;new=1&amp;submit="._QUERYDBP)
     $submit = _QUERYDB;
 
   /* End 'interesting' browser code fixes */
-	if ( ($new == 1) && ($submit == "") ){ // Totally new Search
-		if ( $debug_mode > 0 ){
-			print "Initializing Criteria State.\n";
-		}
+	if( $new == 1 && $submit == '' ){ // New Search
 		$cs->InitState();
 	}
 	// Is this a new query, invoked from the SEARCH screen ?

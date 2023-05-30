@@ -25,36 +25,45 @@ include_once("$BASE_path/setup/setup_db.inc.php");
 $roleneeded = 10000;
 $BUser = new BaseUser();
 $AdminAuth = false; // Admin Actions Not Authorized by default.
-if( $Use_Auth_System == 1 ){
-	if( is_key('standalone', $_POST) ){
+
+$SW_Cli = 'unknown';
+if( is_key('HTTP_USER_AGENT', $_SERVER) ){
+	$SW_Cli = $_SERVER['HTTP_USER_AGENT'];
+}
+$SaM = 'no';
+if( is_key('standalone', $_POST) ){ // Detect BASEcli
+	if( preg_match('/^BASE CLI\/[0-9.]+( libwww-perl\/[0-9.]+)?$/', $SW_Cli) ){
 		$SaM = $_POST['standalone'];
 	}else{
-		$SaM = 'no';
+		HTTP_header('', 400);
 	}
+}
+if( $Use_Auth_System == 1 ){
 	if( $SaM == 'yes' ){
 		$usrrole = $BUser->AuthenticateNoCookie(
 			filterSql($_POST['user']), filterSql($_POST['pwd'])
 		);
 		if( $usrrole == 'Failed' ){
-			HTTP_header('HTTP/1.0 401');
+			HTTP_header('', 401);
 		}elseif( $usrrole > $roleneeded ){
-			HTTP_header('HTTP/1.0 403');
+			HTTP_header('', 403);
 		}elseif( $usrrole == 1 ){
 			$AdminAuth = true;
 		}
 		$BCR->AddCap('UIMode', 'Con');
 	}else{
 		AuthorizedRole($roleneeded);
-		$AdminAuth = AuthorizedRole(1);
+		$AdminAuth = ARC(1);
 	}
 }
-$cs = new CriteriaState("base_maintenance.php");
-$cs->ReadState();
+
 $db = NewBASEDBConnection($DBlib_path, $DBtype); // Connect to the Alert DB.
 $db->baseDBConnect(
 	$db_connect_method, $alert_dbname, $alert_host, $alert_port, $alert_user,
 	$alert_password
 );
+$cs = new CriteriaState('base_maintenance.php');
+$cs->ReadState();
 
 // UI Presentation(s) Web & CLI.
 $page_title = _MAINTTITLE;
@@ -63,12 +72,12 @@ if ($SaM == 'yes'){
 	if ( ini_get('safe_mode') != true ){
 		set_time_limit($max_script_runtime);
 	}
-	NLIO("BASE $page_title - Logged in as: ".XSSPrintSafe($_POST['user']));
+	NLIO("BASE $page_title - Logged in as: " . XSSPrintSafe($_POST['user']));
+	NLIO();
 }else{
 	PrintBASESubHeader(
 		$page_title, $page_title, $cs->GetBackLink(), $refresh_all_pages
 	);
-	print '<br/>';
 }
 
 $submit = ImportHTTPVar("submit", VAR_ALPHA | VAR_SPACE);
@@ -123,18 +132,13 @@ if ( $AdminAuth ){ // Issue #146 Fix
 		}
 	}
 }
-NLIO();
 
-$SW_Cli = 'unknown';
-if( is_key('HTTP_USER_AGENT', $_SERVER) ){
-	$SW_Cli = $_SERVER['HTTP_USER_AGENT'];
-}
 $title = _MNTCLIENT;
 if( $AdminAuth ){ // Issue #146 Fix
 	$title = _MNTPHP;
 	$SW_Svr = 'unknown';
 	if( is_key('SERVER_SOFTWARE', $_SERVER) ){
-		$SW_Svr = $_SERVER['SERVER_SOFTWARE'];
+		$SW_Svr = XSSPrintSafe($_SERVER['SERVER_SOFTWARE']);
 	}
 }
 if ($SaM == 'yes'){
@@ -146,11 +150,12 @@ if ($SaM == 'yes'){
 	}
 }else{
 	PrintFramedBoxHeader($title, '#669999', 1,3,'left');
-	NLIO('<b>'._MNTCLIENT.'</b> '.XSSPrintSafe($SW_Cli).'<br/>',4);
+	NLIO(
+		'<b>' . _MNTCLIENT . ': </b>' . Icon('client', _MNTCLIENT)
+		. XSSPrintSafe($SW_Cli) . '<br/>', 4
+	);
 }
 if ( $AdminAuth ){ // Issue #146 Fix
-	$imgc = NLI('', 6);
-	$imgc .= "<img border='0' src='" . $BASE_urlpath . '/images/';
 	$PF_lst = array('Mail', 'GD', 'GMP');
 	foreach( $PF_lst as $val ){
 		$PF_St[$val] = $BCR->GetCap("PHP_$val");
@@ -191,8 +196,8 @@ if ( $AdminAuth ){ // Issue #146 Fix
 	$PLM = ' ' . implode(', ', $module_lst);
 	if ($SaM == 'yes'){
 		if ($submit == 'status'){
-			NLIO(_MNTSERVER . ' ' . XSSPrintSafe($SW_Svr));
 			NLIO(_MNTSERVERHW .' ' . php_uname());
+			NLIO(_MNTSERVER . ' ' . $SW_Svr);
 			NLIO(_MNTPHPVER . ' ' . phpversion());
 			NLIO('PHP API: ' . php_sapi_name());
 			NLIO(
@@ -211,30 +216,41 @@ if ( $AdminAuth ){ // Issue #146 Fix
 			NLIO();
 		}
 	}else{
-print'         <B>'._MNTSERVER.'</B> '.XSSPrintSafe($SW_Svr).'<BR>
-         <B>'._MNTSERVERHW.'</B> '.php_uname().'<BR>
-         <B>'._MNTPHPVER.'</B> '.phpversion().'<BR>
-         <B>PHP API:</B> '.php_sapi_name().'<BR>';
-
 		NLIO(
-			'<b>' ._MNTPHPLOGLVL . ': </b> (' . $IER . ')' . $PERL . '<br/>', 
+			'<b>' . _MNTSERVERHW . ': </b>' . php_uname() . '<br/>',
 			6
 		);
-		NLIO('<b>' . _MNTPHPMODS . ': </b>' . $PLM . '<br/>', 6);
+		NLIO(
+			'<b>' . _MNTSERVER . ": </b>$SW_Svr<br/>",
+			6
+		);
+		NLIO(
+			'<b>HTTP PHP API: </b>' . php_sapi_name() . '<br/>',
+			6
+		);
+		NLIO(
+			'<b>' . _MNTPHPVER . ': </b>' . phpversion() . '<br/>',
+			6
+		);
+		NLIO(
+			'<b>' . _MNTPHPLOGLVL . ': </b> (' . $IER . ')' . $PERL . '<br/>',
+			6
+		);
+		NLIO('<b>' . _MNTPHPMODS . ": </b>$PLM<br/>", 6);
 		NLIO('<b>PHP Capabilities: </b>', 6);
 		foreach( $PF_St as $key => $val ){
-			$FI = "greencheck.gif' alt='button_greencheck";
-			$tmp = "<b>$key: </b>";
+			$FI = 'yes';
+			$tmp = "$key: ";
 			if ( !$val ){
 				$tmp .= 'not ';
-				$FI = "redcheck.gif' alt='button_redcheck";
+				$FI = 'no';
 			}
-			$FI .= "'/>";
 			if ( LoadedString($val) ){
-				$tmp .= " $val ";
+				$tmp .= "$val ";
 			};
 			$tmp .= 'installed.';
-			NLIO("$tmp$imgc$FI", 6);
+			NLIO("<b>$tmp</b>", 6);
+			printIcon($FI, $tmp, 6);
 		}
 	}
 }
@@ -246,38 +262,49 @@ if ($SaM == 'yes'){
 	PrintFramedBoxFooter(1,3);
 	NLIO ('<br/>',3);
 }
-if ( $AdminAuth ){ // Issue #146 Fix
-	$BV = $BCR->GetCap('BASE_Ver');
-	$BInID = $BCR->GetCap('BASE_InID');
+
+$BV = $BCR->GetCap('BASE_Ver');
+$BInID = $BCR->GetCap('BASE_InID');
+$BDev = $BCR->GetCap('BASE_Dev');
+if( $BDev ){ // TD These.
+	$BDevStatus = 'Development';
+	$Icon = 'exclamation';
+}else{
+	$BDevStatus = 'Official';
+	$Icon = 'yes';
+}
+if( $SaM == 'yes' ){
+	if( $submit == 'status' ){
+		NLIO("BASE Version: $BV");
+		if( LoadedString($BInID) ){
+			NLIO("Install ID: $BInID");
+		}
+	}
+}else{
+	$BDevI = Icon($Icon, "$BDevStatus Release.", 6);
+	PrintFramedBoxHeader('BASE Build:', '#669999', 1, 3, 'left');
+	NLIO('<b>Version: </b>' . XSSPrintSafe($BV) . $BDevI . '<br/>', 6);
+	if( LoadedString($BInID) ){
+		NLIO('<b>Install ID: </b>' . XSSPrintSafe($BInID) . '<br/>', 6);
+	}
+}
+
+if( $AdminAuth ){ // Issue #146 Fix
 	$BK = $BCR->GetCap('BASE_Kernel');
 	$BR = $BCR->GetCap('BASE_RTL');
-	$BDev = $BCR->GetCap('BASE_Dev');
 	$BF_lst = array('Mail', 'Mime', 'Graph');
 	foreach( $BF_lst as $val ){
 		$BF_St[$val] = $BCR->GetCap($val);
 	}
-	$BDevI = $imgc;
-	if ( $BDev ){ // TD These.
-		$BDevStatus = 'Development';
-		$BDevI .= "button_exclamation.png' alt='button_exclamation";
-	}else{
-		$BDevStatus = 'Official';
-		$BDevI .= "greencheck.gif' alt='button_greencheck";
-	}
-	$BDevI .= "'/>";
 	$BADB = $BCR->GetCap('BASE_ADB');
-	if ($SaM == 'yes'){
-		if ($submit == 'status'){
-			NLIO("BASE Version: $BV");
-			if ( LoadedString($BInID) ){
-				NLIO("Install ID: $BInID");
-			}
+	if( $SaM == 'yes' ){
+		if( $submit == 'status' ){
 			NLIO("Kernel: $BK Runtime: $BR");
 			NLIO("Release: $BDevStatus");
 			NLIO("Features:");
 			foreach( $BF_St as $key => $val ){
 				$tmp = "$key ";
-				if ( !$val ){
+				if( !$val ){
 					$tmp .= 'not ';
 				}
 				$tmp .= 'installed.';
@@ -288,34 +315,30 @@ if ( $AdminAuth ){ // Issue #146 Fix
 			NLIO(_MNTDBALV." $ADODB_vers");
 			NLIO(_MNTDBTYPE." $DBtype");
 			NLIO(_MNTDBALERTNAME." $alert_dbname");
-			if ( $BADB ){
+			if( $BADB ){
 				$ADBStatus = _MNTDBARCHNAME." $archive_dbname";
 			}else{
 				$ADBStatus = 'Archive DB: not enabled.'; // TD This.
 			}
 			NLIO($ADBStatus);
-			if ( $repair_output != '' ){
+			if( $repair_output != '' ){
 				NLIO($repair_output);
 			}
 			NLIO();
 		}
 	}else{
-		$ADBI = $imgc;
 		$ADBStatus = '<b>';
-		if ( $BADB ){
+		if( $BADB ){
+			$Icon = 'archive';
+			$Desc = _ENABLED;
 			$ADBStatus .= _MNTDBARCHNAME
 			. ": </b>$archive_dbname";
-			$ADBI .= "greencheck.gif' alt='button_greencheck";
 		}else{ // TD This.
-			$ADBStatus .= 'Archive DB: </b>not enabled.';
-			$ADBI .= "redcheck.gif' alt='button_redcheck";
+			$Icon = 'no';
+			$Desc = 'Not ' . _ENABLED;
+			$ADBStatus .= "Archive DB: </b>$Desc.";
 		}
-		$ADBI .= "'/>";
-		PrintFramedBoxHeader('BASE Build:', '#669999', 1, 3, 'left');
-		NLIO('<b>Version: </b>' . XSSPrintSafe($BV) . $BDevI . '<br/>', 6);
-		if ( LoadedString($BInID) ){
-			NLIO('<b>Install ID: </b>' . XSSPrintSafe($BInID) . '<br/>', 6);
-		}
+		$ADBI = Icon($Icon, $Desc, 6);
 		NLIO(
 			'<b>Kernel: </b>' . XSSPrintSafe($BK)
 			. ' <b>Runtime: </b>' . XSSPrintSafe($BR) . '<br/>',
@@ -327,39 +350,45 @@ if ( $AdminAuth ){ // Issue #146 Fix
 		);
 		NLIO('<b>Features: </b>', 6);
 		foreach( $BF_St as $key => $val ){
-			$FI = "greencheck.gif' alt='button_greencheck";
+			$FI = 'yes';
 			$tmp = "<b>$key: </b>";
-			if ( !$val ){
+			$tmp = "$key: ";
+			if( !$val ){
 				$tmp .= 'not ';
-				$FI = "redcheck.gif' alt='button_redcheck";
+				$FI = 'no';
 			}
-			$FI .= "'/>";
 			$tmp .= 'installed.';
-			NLIO("$tmp$imgc$FI", 6);
+			NLIO("<b>$tmp</b>", 6);
+			printIcon($FI, $tmp, 6);
 		}
-		PrintFramedBoxFooter(1,3);
-		NLIO ('<br/>',3);
-		PrintFramedBoxHeader(_DATABASE, '#669999', 1,3,'left');
+		PrintFramedBoxFooter(1, 3);
+		NLIO('<br/>', 3);
+		PrintFramedBoxHeader(_DATABASE, '#669999', 1, 3, 'left');
 		NLIO( '<b>' . _MNTDBALV . ": </b>$ADODB_vers" . '<br/>', 6);
   echo "<B>"._MNTDBTYPE."</B> $DBtype <BR>  
         <B>"._MNTDBALERTNAME."</B> $alert_dbname <BR>
 ";
 		NLIO("$ADBStatus$ADBI" . '<br/>', 6);
 		NLIO(
-			"<input class='admin' type='submit' name='submit'"
+			Icon('tool', 'Repair Tables', 6)
+			. "<input class='admin' type='submit' name='submit'"
 			. " value='Repair Tables'>",
 			6
 		);
 		NLIO(
-			"<input class='admin' type='submit' name='submit'"
+			Icon('delete', 'Clear Data Tables', 6)
+			. "<input class='admin' type='submit' name='submit'"
 			. " value='Clear Data Tables'>",
 			6
 		);
   echo $repair_output;
-		PrintFramedBoxFooter(1,3);
-		NLIO ('<br/>',3);
 	}
 }
+if( $SaM != 'yes' ){
+	PrintFramedBoxFooter(1, 3);
+	NLIO('<br/>', 3);
+}
+
   $event_cnt_lst = $db->baseExecute("SELECT COUNT(*) FROM event");
   $event_cnt_row = $event_cnt_lst->baseFetchRow();
   $event_cnt = $event_cnt_row[0];
@@ -401,8 +430,8 @@ if ( $AdminAuth ){ // Issue #146 Fix
   $ip_result->baseFreeRows();
   $cached_dwhois_cnt = $row[0];
 
-if ($SaM == 'yes'){
-	if ($submit == 'status'){
+if( $SaM == 'yes' ){
+	if( $submit == 'status' ){
 		NLIO(_MNTAIC);
 		NLIO(_MNTAICTE.' '.$event_cnt);
 		NLIO(_MNTAICCE.' '.$cache_event_cnt);
@@ -420,13 +449,13 @@ if ($SaM == 'yes'){
 		NLIO();
 	}
 }else{
-	PrintFramedBoxHeader(_MNTAIC, '#669999', 0,3,'left');
+	PrintFramedBoxHeader(_MNTAIC, '#669999', 0, 3, 'left');
 	NLIO("<td style='text-align: left; width: 25%;'>",5);
 
   echo '<B>'._MNTAICTE.'</B> '.$event_cnt.'&nbsp&nbsp
         <B>'._MNTAICCE.'</B> '.$cache_event_cnt;
 
-	if ( $AdminAuth ){ // Issue #146 Fix
+	if( $AdminAuth ){ // Issue #146 Fix
 		NLIO(
 			"<input type='submit' name='submit' value='Update Alert Cache'>",
 			6
@@ -437,9 +466,9 @@ if ($SaM == 'yes'){
 			6
 		);
 	}
-	PrintFramedBoxFooter(1,3);
-	NLIO ('<br/>',3);
-	PrintFramedBoxHeader(_MNTIPAC, '#669999', 1,3,'left');
+	PrintFramedBoxFooter(1, 3);
+	NLIO ('<br/>', 3);
+	PrintFramedBoxHeader(_MNTIPAC, '#669999', 1, 3, 'left');
 
   echo '<B>'._MNTIPACUSIP.'</B> '.$uncached_sip_cnt.'&nbsp;&nbsp&nbsp;'.
        '<B>'._MNTIPACDNSC.'</B> '.$cached_sip_cnt.'&nbsp;&nbsp;&nbsp;'.
@@ -447,7 +476,7 @@ if ($SaM == 'yes'){
        '<B>'._MNTIPACUDIP.'</B> '.$uncached_dip_cnt.'&nbsp;&nbsp&nbsp;'.
        '<B>'._MNTIPACDNSC.'</B> '.$cached_dip_cnt.'&nbsp;&nbsp;&nbsp;'.
        '<B>'._MNTIPACWC.':</B> '.$cached_dwhois_cnt.'<BR>';
-	if ( $AdminAuth ){ // Issue #146 Fix
+	if( $AdminAuth ){ // Issue #146 Fix
 		NLIO(
 			"<input type='submit' name='submit' value='Update IP Cache'>",
 			6
@@ -467,10 +496,10 @@ if ($SaM == 'yes'){
 			6
 		);
 	}
-	PrintFramedBoxFooter(1,3);
-	NLIO ('<br/>',3);
+	PrintFramedBoxFooter(1, 3);
+	NLIO ('<br/>', 3);
 	if ( $AdminAuth ){ // Issue #146 Fix
-		NLIO('</form>',2);
+		NLIO('</form>', 2);
 	}
 	PrintBASESubFooter();
 }

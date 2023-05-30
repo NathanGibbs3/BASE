@@ -43,7 +43,7 @@ my $ME; # Var Setup
 my $line1 = '=' x 80 . "\n";
 my $line2 = '-' x 80 . "\n";
 my %opt;
-my $Ver = '1.2.1';
+my $Ver = '1.2.2';
 my $SCM = 0; # Single command mode off.
 my $cmd; # Local cmd.
 my $rcmd = ''; # Remote cmd.
@@ -93,8 +93,14 @@ sub cmd_proc(){ # Cli
 				&cmd_login();
 			}elsif( $cmd eq 'logout' ){
 				&cmd_logout();
+			}elsif( $cmd eq 'debug' || $cmd eq 'dbg' ){ # Debug toggle.
+				if( $DEBUG == 0 ){
+					$DEBUG = 1;
+				}else{
+					$DEBUG = 0;
+				}
 			}elsif( $cmd eq 'ssl' ){ # SSL toggle.
-				if ( $SSL == 0 ){
+				if( $SSL == 0 ){
 					$SSL = 1;
 				}else{
 					$SSL = 0;
@@ -161,10 +167,11 @@ sub set_url(){ # Setup URL
 sub cmd_env(){
 	print "$ME $Ver - Environment\n";
 	print $line1;
-	print " URL: $url\n";
-	print " SSL: $SSL\n";
-	print "Host: $HOST\n";
-	print "Path: $PATH\n";
+	print " BASE URL: $url\n";
+	print "  Use SSL: $SSL\n";
+	print " URI Host: $HOST\n";
+	print " URI Path: $PATH\n";
+	print "Con Debug: $DEBUG\n";
 	print $line2;
 	print "Credentials:\n";
 	print "       User: $USER\n";
@@ -196,6 +203,7 @@ sub cmd_logout(){
 sub cmd_help_local(){
 	print "Valid cli commands are:\n";
 	print $line2;
+	print "  debug or dbg - Toggle connection debugging.\n";
 	print "           env - Print cli envionemnt.\n";
 	print "     help or ? - Print this help text.\n";
 	print "          host - Set host portion of URI.\n";
@@ -250,17 +258,22 @@ sub cmd_remote(){ # Remoote cmd Interface.
 				'pwd' => $pwd
 			}
 		);
-		if ($resp->code != 200 ){
+		if( $resp->code != 200 ){
 			print "URI: ". $resp->base ."\n";
 			cliError ('Post Failed');
 			print "The error is: " . $resp->status_line . "\n\n";
-			if ( $DEBUG ){
+			if( $DEBUG ){
 				print "Full response:\n";
 				print $resp->as_string;
 			}
 			$Ret = 0;
 		}else{
-			print $resp->content;
+			if( $DEBUG ){
+				print "Full response:\n";
+				print $resp->as_string;
+			}else{
+				print $resp->content;
+			}
 			$Ret = 1;
 		}
 	}else{

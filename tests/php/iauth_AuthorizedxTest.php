@@ -9,6 +9,7 @@ use PHPUnit\Framework\TestCase;
   * @covers ::AuthorizedRole
   * @covers ::AuthorizedPage
   * @covers ::AuthorizedURI
+  * @covers ::ARC
   * @uses ::BCS
   * @uses ::HTTP_header
   * @uses ::filterSql
@@ -32,10 +33,10 @@ use PHPUnit\Framework\TestCase;
 
 class authTest2 extends TestCase {
 	// Pre Test Setup.
-	protected static $user;
 	protected static $PHPUV;
 	protected static $UOV;
 	protected static $URV;
+	protected static $user;
 
 	// Share class instance as common test fixture.
 	public static function setUpBeforeClass() {
@@ -113,20 +114,27 @@ class authTest2 extends TestCase {
 		self::$URV = 'Unexpected Return Value: ';
 	}
 	public static function tearDownAfterClass() {
-		self::$user = null;
 		self::$PHPUV = null;
 		self::$URV = null;
 		self::$UOV = null;
+		self::$user = null;
 	}
 
 	// Tests go here.
-	public function testAuthorizedRoleASOff(){
+	public function testARCASOff(){
 		GLOBAL $Use_Auth_System;
 		$BAStmp = $Use_Auth_System;
 		$Use_Auth_System = 0;
-		$URV = self::$URV . 'AuthorizedRole().';
-		$this->assertTrue( AuthorizedRole(), $URV );
+		$URV = self::$URV . 'ARC().';
+		$this->assertTrue(ARC(), $URV );
 		$Use_Auth_System = $BAStmp;
+	}
+	/**
+	 * @backupGlobals disabled
+	 */
+	public function testARCASOn(){
+		$URV = self::$URV . 'ARC().';
+		$this->assertFalse(ARC(), $URV );
 	}
 	/**
 	 * @backupGlobals disabled
@@ -154,14 +162,40 @@ class authTest2 extends TestCase {
 			);
 		}
 	}
+	// test against test users.
 	/**
 	 * @backupGlobals disabled
 	 */
-	public function testAuthorizedRole(){
-		$URV = self::$URV . 'AuthorizedRole().';
-		$this->assertFalse( @AuthorizedRole(), $URV );
+	public function testARCFail(){
+		$URV = self::$URV . 'ARC().';
+		$user = self::$user;
+		$pw = $user->cryptpassword('password');
+		$_COOKIE['BASERole'] = "$pw|TestUser|";
+		$this->assertFalse(ARC(1), $URV );
+		unset ($_COOKIE['BASERole']);
 	}
-	// test against test users.
+	/**
+	 * @backupGlobals disabled
+	 */
+	public function testARCDisabledUserFail(){
+		$URV = self::$URV . 'ARC().';
+		$user = self::$user;
+		$pw = $user->cryptpassword('password');
+		$_COOKIE['BASERole'] = "$pw|TestDisabledUser|";
+		$this->assertFalse(ARC(1000), $URV );
+		unset ($_COOKIE['BASERole']);
+	}
+	/**
+	 * @backupGlobals disabled
+	 */
+	public function testARCPass(){
+		$URV = self::$URV . 'ARC().';
+		$user = self::$user;
+		$pw = $user->cryptpassword('password');
+		$_COOKIE['BASERole'] = "$pw|TestOver|";
+		$this->assertTrue( ARC(20000), $URV );
+		unset ($_COOKIE['BASERole']);
+	}
 	/**
 	 * @backupGlobals disabled
 	 */
@@ -201,36 +235,6 @@ class authTest2 extends TestCase {
 		$pw = $user->cryptpassword('password');
 		$_COOKIE['BASERole'] = "$pw|TestOver|";
 		$this->assertFalse( @AuthorizedRole(10000), $URV );
-		unset ($_COOKIE['BASERole']);
-	}
-	/**
-	 * @backupGlobals disabled
-	 */
-	public function testAuthorizedRoleFail(){
-		$URV = self::$URV . 'AuthorizedRole().';
-		$user = self::$user;
-		$pw = $user->cryptpassword('password');
-		$_COOKIE['BASERole'] = "$pw|TestUser|";
-		$this->assertFalse( @AuthorizedRole(1), $URV );
-		unset ($_COOKIE['BASERole']);
-	}
-	/**
-	 * @backupGlobals disabled
-	 */
-	public function testAuthorizedRoleDisabledUserFail(){
-		$URV = self::$URV . 'AuthorizedRole().';
-		$user = self::$user;
-		$pw = $user->cryptpassword('password');
-		$_COOKIE['BASERole'] = "$pw|TestDisabledUser|";
-		$this->assertFalse( @AuthorizedRole(1000), $URV );
-		unset ($_COOKIE['BASERole']);
-	}
-	public function testAuthorizedRolePass(){
-		$URV = self::$URV . 'AuthorizedRole().';
-		$user = self::$user;
-		$pw = $user->cryptpassword('password');
-		$_COOKIE['BASERole'] = "$pw|TestOver|";
-		$this->assertTrue( AuthorizedRole(20000), $URV );
 		unset ($_COOKIE['BASERole']);
 	}
 	public function testAuthorizedPageFail(){

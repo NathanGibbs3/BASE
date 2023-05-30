@@ -64,9 +64,6 @@ $caller = ImportHTTPVar('caller', VAR_LETTER | VAR_USCORE);
 $action = ImportHTTPVar("action", VAR_ALPHA);
 $cs = new CriteriaState("base_stat_ports.php");
 $cs->ReadState();
-if ( $debug_mode > 0 ){ // Dump debugging info on the shared state.
-	PrintCriteriaState();
-}
 if ( $caller == 'most_frequent' && $sort_order = 'occur_d' ){
 	// Interim Issue #124 Fix
 	$sort_order = _OCCURRENCES.'_occur_d';
@@ -111,6 +108,9 @@ if ($action != '' ){
 	$tr = $refresh_all_pages;
 }
 PrintBASESubHeader( $page_title, $page_title, $cs->GetBackLink(), $tr );
+if ( $debug_mode > 0 ){ // Dump debugging info on the shared state.
+	PrintCriteriaState();
+}
 $criteria_clauses = ProcessCriteria();
 PrintCriteria('');
 
@@ -321,9 +321,9 @@ while ( ($myrow = $result->baseFetchRow()) && ($i < $qs->GetDisplayRowCnt()) ){
       ($port_type == SOURCE_PORT) ? ($tmp_rowid .= SOURCE_PORT) : ($tmp_rowid .= DEST_PORT);
       $tmp_rowid .= "_" . $myrow[0];
 
-      echo '    <TD><INPUT TYPE="checkbox" NAME="action_chk_lst['.$i.']" VALUE="'.$tmp_rowid.'"></TD>';
-      echo '        <INPUT TYPE="hidden" NAME="action_lst['.$i.']" VALUE="'.$tmp_rowid.'">';
-
+	$tmp = "_lst[$i]";
+	qroPrintCheckBox($tmp, $tmp_rowid);
+	$tmp = '';
 	qroPrintEntry($currentPort,'right');
       qroPrintEntry('<A HREF="base_stat_sensor.php?'.$url_param.'">'.$num_sensors.'</A>');
 	qroPrintEntry('<A HREF="base_qry_main.php?'.$url_param.'&amp;new=1&amp;submit='._QUERYDBP.

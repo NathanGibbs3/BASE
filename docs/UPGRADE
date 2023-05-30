@@ -1,13 +1,11 @@
-Basic Analysis and Security Engine (BASE) v1.4.3 (gabi)
+Basic Analysis and Security Engine (BASE) v1.4.5 (lilias)
    
 By Kevin Johnson <kjohnson@secureideas.net , http://www.secureideas.net>
     and the BASE Development Team
 Portions by Roman Danyliw <rdd@cert.org>, <roman@danyliw.com>
 
-Project Website: http://base.secureideas.net
-Sourceforge Site: http://sourceforge.net/projects/secureideas
-
-CVS     :  cvs.sourceforge.net
+Project Website: https://github.com/NathanGibbs3/BASE
+GitHub : https://github.com/NathanGibbs3/BASE
 
 -------------------------------------------------------------------------------
 ** Copyright (C) 2004 Kevin Johnson
@@ -28,20 +26,10 @@ CVS     :  cvs.sourceforge.net
 ** Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 -------------------------------------------------------------------------------
 
-I. Upgrade
+Upgrade Instructions
 _____________________________________
 
-    A. Upgrade from ACID
-    _________________________________
-    
-    To upgrade from an install of ACID, all that you need to do is copy the
-    relevant settings into base_conf.php.  These would be the location of
-    ADODB, along with all of the database configuration information.
-    
-    You can also run the setup program by accessing {URL to base}/setup/
-    e.g. http://127.0.0.1/base/setup/
-    
-    B. Upgrade from 1.x version of BASE
+	Upgrade from BASE 1.x.
     _________________________________
 
     To upgrade from a previous version of BASE, you will need to copy the
@@ -49,7 +37,7 @@ _____________________________________
     as base_conf.php.dist.  This is because of various changes needed for bug
     fixes.
     
-    C. Upgrade from a previous version of BASE prior to 1.0
+	Upgrade from BASE < 1.x.
     _________________________________
     
     To upgrade from a previous version of BASE, you will need to copy the
@@ -60,3 +48,13 @@ _____________________________________
     If you are running MYSQL, you will also need to execute the
     upgrade_0.9.x_to_1.0-mysql.sql file to fix an issue with the field size
     of the usr_passwd field.
+
+	Upgrade from ACID.
+    _________________________________
+    
+    To upgrade from an install of ACID, all that you need to do is copy the
+    relevant settings into base_conf.php.  These would be the location of
+    ADODB, along with all of the database configuration information.
+    
+    You can also run the setup program by accessing {URL to base}/setup/
+    e.g. http://127.0.0.1/base/setup/

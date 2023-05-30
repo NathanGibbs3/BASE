@@ -10,16 +10,15 @@ use PHPUnit\Framework\TestCase;
 
 class capabilitiesTest extends TestCase {
 	// Pre Test Setup.
-	protected static $tc;
 	protected static $PHPUV;
 	protected static $UOV;
 	protected static $URV;
+	protected static $tc;
 
 	public static function setUpBeforeClass(){
 		self::$UOV = 'Unexpected Output Value: ';
 		self::$URV = 'Unexpected Return Value: ';
-		// PHPUnit Version
-		$PHPUV = GetPHPUV();
+		$PHPUV = GetPHPUV(); // PHPUnit Version
 		if (version_compare($PHPUV, '9.0', '<')){ // PHPUnit < 9x
 			self::$PHPUV = 1;
 		}else{ // PHPUnit 9+
@@ -53,7 +52,7 @@ class capabilitiesTest extends TestCase {
 		$URV = self::$URV.'Release Info.';
 		$this->assertEquals('lilias', $tc->GetCap('BASE_Lady'), $URV);
 		if ( $tc->GetCap('BASE_Dev') ){
-			$EOM = '^1\.4\.5-0\.0\.1 \(Jayme\)\+2023-05-12';
+			$EOM = '^1\.4\.5-0\.0\.1 \(Jayme\)\+2023-05-30';
 			if ( $PHPUV > 1 ){ // PHPUnit 9+
 				$this->assertMatchesRegularExpression(
 					'/'.$EOM.'/', $tc->GetCap('BASE_Ver'), $URV

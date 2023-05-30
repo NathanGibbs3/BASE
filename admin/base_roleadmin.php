@@ -16,7 +16,10 @@
 //                     Kevin Johnson
 
 $sc = DIRECTORY_SEPARATOR;
-require_once("..$sc" . "includes$sc" . 'base_krnl.php');
+$tmp = dirname(__FILE__);
+$ReqRE = preg_quote($sc.'admin', '/').'.*';
+$tmp = preg_replace('/'.$ReqRE.'/', '', $tmp);
+require_once("$tmp$sc" . "includes$sc" . 'base_krnl.php');
 include("$BASE_path/includes/base_include.inc.php");
 include_once("$BASE_path/base_db_common.php");
 include_once("$BASE_path/base_stat_common.php");
@@ -169,10 +172,6 @@ if ($Use_Auth_System == 1) {
 			$thc = "<td class='plfieldhdr'";
 			$thcw5 = "$thc width='5%'>";
 			$tdac = "<td align='center'>";
-			$imgc = NLI(
-				"<img border='0' src='$BASE_urlpath" . "/images/", 5
-			);
-			$imgc .= 'button_';
 			$tduma = $tdac.$Hrst;
 			// Roles Table Display
 			$tmpHTML = FramedBoxHeader('','black',0,2);
@@ -188,10 +187,10 @@ if ($Use_Auth_System == 1) {
 				$urid = "role&amp;roleid=".urlencode($tmpRow[0]);
 				$tmpHTML .= NLI('<tr>',3);
 				$tmpHTML .= NLI($tduma."edit$urid'>",4);
-				$tmpHTML .= $imgc."edit.png' alt='button_edit'>";
+				$tmpHTML .= Icon('edit', "button_$AcEdit", 6);
 				$tmpHTML .= NLI('</a></td>',4);
 				$tmpHTML .= NLI($tduma."delete$urid'>",4);
-				$tmpHTML .= $imgc . "delete.png' alt='button_delete'>";
+				$tmpHTML .= Icon('delete', "button_$AcDelete", 6);
 				$tmpHTML .= NLI('</a></td>',4);
 				// Anti XSS Output Data
 				$tmpRow = XSSPrintSafe($tmpRow);

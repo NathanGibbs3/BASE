@@ -22,16 +22,18 @@
 defined('_BASE_INC') or die('Accessing this file directly is not allowed.');
 
 class baseCon {
-	var $DB;
-	var $DB_type;
-	var $DB_name;
-	var $DB_host;
-	var $DB_port;
-	var $DB_username;
-	var $lastSQL;
-	var $version;
-	var $sql_trace;
-	var $DB_class;
+	var $DB = NULL; // ADOdb DB dirver specific object when set.
+	var $DB_type = NULL; // ADOdb DB Driver.
+	var $DB_name = NULL; // DB.
+	var $DB_host = NULL; // DB Server.
+	var $DB_port = NULL; // DB Server Port.
+	var $DB_username = NULL; // DB User.
+	var $lastSQL = ''; // Last SQL statement execution request.
+	var $version = 0; // Default to Schema v0 on Init.
+	var $sql_trace = NULL; // SQL Trace file handle.
+	var $DB_class = NULL; // DB Class.
+	var $Role = NULL; // Object Role Flag.
+	var $FLOP = NULL; // FLoP Extended DB Flag.
 
 	function __construct($type) { // PHP 5+ constructor Shim.
 		// Class/Method agnostic shim code.
@@ -52,7 +54,7 @@ class baseCon {
 	function baseCon($type) { // PHP 4x constructor.
 		$this->DB_type = $type;
 		// Are we a Mysql type? Note it in Class structure.
-		if ( $type == "mysql" || $type == "mysqlt" || $type == "maxsql" ) {
+		if( $type == 'mysql' || $type == 'mysqlt' || $type == 'maxsql' ){
 			$this->DB_class = 1;
 		}else{
 			$this->DB_class = 0;
@@ -63,11 +65,12 @@ class baseCon {
 	){
 		GLOBAL $archive_dbname, $archive_host, $archive_port, $archive_user,
 		$archive_password, $debug_mode, $et;
-		$EMPfx = __FUNCTION__ . '(): ';
+		$EMPfx = __FUNCTION__ . ': ';
 		// Check archive cookie to see if we need to use the archive tables.
 		// Only honnor cookie if not forced to use specified database.
 		if ( $force != 1 && ChkArchive() ){ // Connect to archive DB.
 			$DBDesc = 'Archive'; // Need to TD this in Issue #11 branch.
+			$this->Role = $DBDesc; // Set Object Role.
 
       if ( $method == DB_CONNECT )
         $this->baseConnect($archive_dbname, $archive_host, $archive_port, $archive_user, $archive_password);
@@ -76,29 +79,31 @@ class baseCon {
 
 		}else{ // Connect to the main alert tables
 			$DBDesc = 'Alert'; // Need to TD this in Issue #11 branch.
+			$this->Role = $DBDesc; // Set Object Role.
 
       if ( $method == DB_CONNECT )
         $this->baseConnect($database, $host, $port, $username, $password);
       else
         $this->basePConnect($database, $host, $port, $username, $password);
+
+		}
+		if( $this->baseGetDBversion() > 105 ){ // FLoPS released after Schema v106
+			$this->baseSetFLOP(); // Detect FLoP Extended DB.
+		}
+		// Need to TD these in Issue #11 branch.
+		KML($EMPfx . "DB Connect: $DBDesc.", 3);
+		if( is_object($et) && $debug_mode > 1 ){
+			$et->Mark("DB Connect: $DBDesc.");
+		}
 	}
-	// Need to TD these in Issue #11 branch.
-	if ($debug_mode > 1){
-		ErrorMessage($EMPfx ."DB Connect to $DBDesc.",'black',1);
-	}
-	if ( is_object($et) && $debug_mode > 1 ){
-		$et->Mark("DB Connect: $DBDesc.");
-	}
-}
-  function baseConnect($database, $host, $port, $username, $password)
-  {
-     GLOBAL $sql_trace_mode, $sql_trace_file;
- 
-     $this->DB = NewADOConnection();
-     $this->DB_name = $database;
-     $this->DB_host = $host;
-     $this->DB_port = $port;
-     $this->DB_username = $username;
+
+	function baseConnect ( $database, $host, $port, $username, $password ){
+		GLOBAL $sql_trace_mode, $sql_trace_file;
+		$this->DB = NewADOConnection();
+		$this->DB_name = $database;
+		$this->DB_host = $host;
+		$this->DB_port = $port;
+		$this->DB_username = $username;
 
      if ( $sql_trace_mode > 0 )
      {
@@ -123,21 +128,7 @@ class baseCon {
         die();
      } 
 
-     /* Set the database schema version number */
-     $sql = "SELECT vseq FROM schema";
-	if ( $this->DB_class == 1 ) $sql = "SELECT vseq FROM `schema`";
-     if ($this->DB_type == "mssql") $sql = "SELECT vseq FROM [schema]";
-
-     $result = $this->DB->Execute($sql);
-     if ( $this->baseErrorMessage() != "" )
-        $this->version = 0;
-     else
-     {
-        $myrow = $result->fields;
-        $this->version = $myrow[0];
-        $result->Close();
-     }
-     
+		$this->baseSetDBversion(); // Set Object DB schema version number.
      if ( $sql_trace_mode > 0 )
      {
         fwrite($this->sql_trace, 
@@ -149,18 +140,16 @@ class baseCon {
         fflush($this->sql_trace);
      }     
 
-     return $db;
-  }
+		return $db;
+	}
 
-  function basePConnect($database, $host, $port, $username, $password)
-  {
-     GLOBAL $sql_trace_mode, $sql_trace_file; 
-
-     $this->DB = NewADOConnection();
-     $this->DB_name = $database;
-     $this->DB_host = $host;
-     $this->DB_port = $port;
-     $this->DB_username = $username;
+	function basePConnect ( $database, $host, $port, $username, $password ){
+		GLOBAL $sql_trace_mode, $sql_trace_file;
+		$this->DB = NewADOConnection();
+		$this->DB_name = $database;
+		$this->DB_host = $host;
+		$this->DB_port = $port;
+		$this->DB_username = $username;
 
      if ( $sql_trace_mode > 0 )
      {
@@ -185,21 +174,7 @@ class baseCon {
         die();
      } 
 
-     /* Set the database schema version number */
-     $sql = "SELECT vseq FROM schema"; 
-     if ($this->DB_type == "mssql") $sql = "SELECT vseq FROM [schema]";
-	if ( $this->DB_class == 1 ) $sql = "SELECT vseq FROM `schema`";
-
-     $result = $this->DB->Execute($sql);
-     if ( $this->baseErrorMessage() != "" )
-        $this->version = 0;
-     else
-     {
-        $myrow = $result->fields;
-        $this->version = $myrow[0];
-        $result->Close();
-     }
-
+		$this->baseSetDBversion(); // Set Object DB schema version number.
      if ( $sql_trace_mode > 0 )
      {
         fwrite($this->sql_trace, 
@@ -211,13 +186,21 @@ class baseCon {
         fflush($this->sql_trace);
      } 
 
-     return $db;
-  }
+		return $db;
+	}
 
-  function baseClose()
-  {
-     $this->DB->Close();
-  }
+	function baseClose (){
+		$this->DB->Close();
+		$this->DB_host = NULL; // Issue #204
+		$this->DB_name = NULL;
+		$this->DB_port = NULL;
+		$this->DB_username = NULL;
+		$this->FLOP = NULL;
+		$this->Role = NULL;
+		$this->version = 0;
+		$this->lastSQL = '';
+	}
+
 	function baseExecute(
 		$sql, $start_row = 0, $num_rows = -1, $hard_error = true
 	){
@@ -244,7 +227,7 @@ class baseCon {
 		}
 		// Begin DB specific SQL fix-up.
 		// @codeCoverageIgnoreStart
-		// We have no way of testing Oracle or Ms-SQL functionality.
+		// We have no way of testing Oracle or MsSQL functionality.
 		if ( $this->DB_type == 'mssql' ){
 			$sql = preg_replace("/''/i", "NULL", $sql);
 		}elseif ( $this->DB_type == 'oci8' ){
@@ -255,7 +238,7 @@ class baseCon {
 			}
 		}
 		// @codeCoverageIgnoreEnd
-		if ( !$this->DB->isConnected() ){
+		if( !$this->DB->isConnected() ){
 			// Check for connection before executing query.
 			// Try to reconnect of DB connection is down.
 			// Found via CI. Might be related to PHP 5.2x not supporting
@@ -267,7 +250,7 @@ class baseCon {
 			}else{
 				$db = $this->DB->PConnect( $DSN, $tdu, $tdpw, $tdn);
 			}
-			if ( !$this->DB->isConnected() ){
+			if( !$this->DB->isConnected() ){
 				FatalError("$EPfx Reconnect Failed");
 			}else{
 				error_log("$EPfx Reconnected");
@@ -307,7 +290,7 @@ class baseCon {
 		// Legacy code assumed $this->DB->Execute() returns a valid recordset.
 		// It returns false on error. Catch it here.
 		$result = $this->DB->Execute($qry);
-		if ( $result ){
+		if( $result ){
 			$rs = new baseRS($result, $this->DB_type);
 		}
 		// @codeCoverageIgnoreStart
@@ -352,7 +335,7 @@ class baseCon {
 				$msg .= "<p>DB Engine: $tdt DB: $tdn @ $DSN</p>";
 				$msg .= '<p>SQL QUERY: <code>'.$qry.'</code></p>';
 			}
-			FatalError ($msg);
+			FatalError($msg);
 		}else{
 			return $rs;
 		}
@@ -368,8 +351,8 @@ class baseCon {
 				$msg .= '<p><code>'.$this->lastSQL.'</code></p>';
 			}
 			// @codeCoverageIgnoreStart
-			// We have no way of testing Ms-SQL functionality.
-			// MS-SQL Error messages that are not issues.
+			// We have no way of testing MsSQL functionality.
+			// MsSQL Error messages that are not issues.
 			if ( $this->DB_type == 'mssql' && preg_match(
 				"/Changed (databas|languag)e (context|setting) to/", $tmp
 			)){
@@ -379,43 +362,79 @@ class baseCon {
 		}
 		return $msg;
 	}
-	function baseFieldExists($table,$field){
-		$Ret = 0;
-		if ( $this->baseTableExists($table) ){
-			if ( in_array($field, $this->DB->metacolumnNames($table)) ){
-				$Ret = 1;
+
+	function baseSetFLOP ( ){ // Detect FLoP Extended DB.
+		$EMPfx = __FUNCTION__ . ': ';
+		$Ret = false;
+		if( !is_null($this->DB) && $this->DB->isConnected() ){
+			if(
+				$this->baseFieldExists('schema', 'full_payload')
+				&& $this->baseFieldExists('schema', 'reference')
+				&& $this->baseFieldExists('event', 'reference')
+				&& $this->baseFieldExists('data', 'pcap_header')
+				&& $this->baseFieldExists('data', 'data_header')
+			){
+				KML($EMPfx . 'FLoP DB detected', 1);
+				$Ret = true;
+			}
+			$this->FLOP = $Ret;
+		}
+		return $Ret;
+	}
+
+	function baseGetFLOP ( ){
+		$Ret = false;
+		if( !is_null($this->FLOP) ){
+			$Ret = $this->FLOP;
+		}
+		return $Ret;
+	}
+
+	function baseFieldExists ( $table, $field ){
+		$Ret = false;
+		if( !is_null($this->DB) && $this->DB->isConnected() ){
+			if( $this->baseTableExists($table) ){
+				if( in_array($field, $this->DB->metacolumnNames($table)) ){
+					$Ret = true;
+				}
 			}
 		}
 		return $Ret;
 	}
-	function baseTableExists($table){
-		$Ret = 0;
-		// @codeCoverageIgnoreStart
-		// We have no way of testing Oracle functionality.
-		if ( $this->DB_type == 'oci8' ){
-			$table=strtoupper($table);
-		}
-		// @codeCoverageIgnoreEnd
-		if ( in_array($table, $this->DB->MetaTables()) ){
-			$Ret = 1;
+
+	function baseTableExists ( $table ){
+		$Ret = false;
+		if( !is_null($this->DB) && $this->DB->isConnected() ){
+			// @codeCoverageIgnoreStart
+			// We have no way of testing Oracle functionality.
+			if( $this->DB_type == 'oci8' ){
+				$table=strtoupper($table);
+			}
+			// @codeCoverageIgnoreEnd
+			if( in_array($table, $this->DB->MetaTables()) ){
+				$Ret = true;
+			}
 		}
 		return $Ret;
 	}
+
 	// This function is not used anywhere.
-	function baseIndexExists($table, $index_name){
-		$Ret = 0;
-		if ( $this->baseTableExists($table) ){
-			$tmp = $this->DB->MetaIndexes($table);
-			if ( $tmp != false ){
-				foreach ($tmp as $key => $value) { // Iterate Index List
-					if( is_key('columns', $value) ){
-						if(
-							in_array(
-								$index_name,
-								array_values($value['columns'])
-							)
-						){
-							$Ret = 1;
+	function baseIndexExists ( $table, $index_name ){
+		$Ret = false;
+		if( !is_null($this->DB) && $this->DB->isConnected() ){
+			if( $this->baseTableExists($table) ){
+				$tmp = $this->DB->MetaIndexes($table);
+				if( $tmp != false ){
+					foreach ($tmp as $key => $value) { // Iterate Index List
+						if( is_key('columns', $value) ){
+							if(
+								in_array(
+									$index_name,
+									array_values($value['columns'])
+								)
+							){
+								$Ret = true;
+							}
 						}
 					}
 				}
@@ -423,19 +442,21 @@ class baseCon {
 		}
 		return $Ret;
 	}
-  function baseInsertID()
-  {
-  /* Getting the insert ID fails on certain databases (e.g. postgres), but we may use it on the once it works
-   * on.  This function returns -1 if the dbtype is postgres, then we can run a kludge query to get the insert 
-   * ID.  That query may vary depending upon which table you are looking at and what variables you have set at
-   * the current point, so it can't be here and needs to be in the actual script after calling this function
-   *  -- srh (02/01/2001)
-   */
+
+function baseInsertID (){
+	// Getting the insert ID fails on certain databases (e.g. postgres), but
+	// we may use it on the once it works on. This function returns -1 if the
+	// dbtype is postgres, then we can run a kludge query to get the insert
+	// ID. That query may vary depending upon which table you are looking at
+	// and what variables you have set at the current point, so it can't be
+	// here and needs to be in the actual script after calling this function.
+	// srh (02/01/2001)
 	if ( $this->DB_class == 1 || $this->DB_type == "mssql" )
         return $this->DB->Insert_ID();
      else if ($this->DB_type == "postgres" ||($this->DB_type == "oci8"))
         return -1;   
-  }
+
+	}
 
   function baseTimestampFmt($timestamp)
   {
@@ -561,10 +582,51 @@ class baseCon {
      
   }
 
-  function baseGetDBversion()
-  {
-     return $this->version;
-  }
+	function baseSetDBversion(){
+		$EMPfx = __FUNCTION__ . ': ';
+		$Ret = 0;
+		if( !is_null($this->DB) && $this->DB->isConnected() ){
+			$EMPfx .= $this->Role . ' DB Schema ';
+			if( $this->baseFieldExists('schema', 'vseq') ){
+				// Get the database schema version number.
+				$tmp = 'schema';
+				if( $this->DB_class == 1 ){ // Mysql drivers.
+					$tmp = "`$tmp`";
+				}else{
+					// @codeCoverageIgnoreStart
+					// We have no way of testing MsSQL functionality.
+					if( $this->DB_type == 'mssql'){ // MsSQL driver.
+						$tmp = "[$tmp]";
+					}
+					// @codeCoverageIgnoreEnd
+				}
+				$sql = "SELECT vseq FROM $tmp";
+				$rs = $this->DB->Execute($sql);
+				if (
+					$rs != false
+					&& $this->baseErrorMessage() == ''
+					&& $rs->RecordCount() > 0
+				){ // Error Check
+					$myrow = $rs->fields;
+					$Ret = intval($myrow[0]);
+					$rs->Close();
+				}else{
+					KML($EMPfx . 'Access error.', 3);
+				}
+			}else{
+				KML($EMPfx . 'undefined.', 3);
+			}
+			KML($EMPfx . "set to $Ret", 3);
+			$this->version = $Ret;
+		}else{
+			KML($EMPfx . 'DB not connected.', 3);
+		}
+		return $Ret;
+	}
+
+	function baseGetDBversion(){
+		return $this->version;
+	}
 
 	function getSafeSQLString($str){
    $t = str_replace("\\", "\\\\", $str);
@@ -603,7 +665,7 @@ class baseRS {
 		$this->row = $id;
 		$this->DB_type = $type;
 		// Are we a Mysql type? Note it in Class structure.
-		if ( $type == "mysql" || $type == "mysqlt" || $type == "maxsql" ) {
+		if( $type == 'mysql' || $type == 'mysqlt' || $type == 'maxsql' ){
 			$this->DB_class = 1;
 		}else{
 			$this->DB_class = 0;
@@ -711,16 +773,14 @@ class baseRS {
     }
   }
 }
-function NewBASEDBConnection($path, $type){
+
+function NewBASEDBConnection( $path, $type ){
 	GLOBAL $debug_mode, $et;
-	$version = explode( '.', phpversion() );
+	$PHPVer = GetPHPSV();
 	$Wtype = NULL; // Working type.
 	$EMPfx = __FUNCTION__ . ': ';
-	$AXtype = XSSPrintSafe($type);
+	$AXtype = $type;
 	if ( LoadedString($type) ){ // Normalize DB type.
-		if ( $debug_mode > 1 ){
-			ErrorMessage($EMPfx . "Req DB type: $AXtype",'black',1);
-		}
 		$type = strtolower($type);
 		if ( preg_match("/^(postgres(s)?|(postgre(s)?|pg)sql)$/", $type) ){
 			$type = 'postgres';
@@ -729,49 +789,35 @@ function NewBASEDBConnection($path, $type){
 		}elseif ( preg_match("/^m(s|icrosoft)/", $type) ){
 			$type = 'mssql';
 		}
-		$AXtype = XSSPrintSafe($type);
 		// Set DB driver type.
 		$Wtype = $type;
-		if ( $type == "mysql" || $type == "mysqlt" || $type == "maxsql" ){
+		if( $type == 'mysql' || $type == 'mysqlt' || $type == 'maxsql' ){
 			// On PHP 5.5+, use mysqli ADODB driver & gracefully deprecate
 			// the mysql, mysqlt & maxsql drivers.
-			if ( $version[0] > 5 || ( $version[0] == 5 && $version[1] > 4) ){
+			if ( $PHPVer[0] > 5 || ( $PHPVer[0] == 5 && $PHPVer[1] > 4) ){
 				mysqli_report(MYSQLI_REPORT_OFF); // Issue #162 temp fix.
 				$Wtype = "mysqli";
 			}
 		}
-		if ( $debug_mode > 1 ){
-			ErrorMessage($EMPfx ."FIN DB type: $AXtype",0,1);
-			ErrorMessage($EMPfx ."DB Driver: $Wtype",0,1);
-		}
+		KML($EMPfx . "DB Type Req: $AXtype Type FIN: $type Driver: $Wtype", 3);
 	}
 	if (
 		!LoadedString($Wtype) ||
 		!preg_match("/^(m(y|s|ax)sql|mysqlt|postgres|oci8)$/", $type)
 	){
-		$msg = "<b>"._ERRSQLDBTYPE."</b>"."<p>:"._ERRSQLDBTYPEINFO1.
-		"<code>'$AXtype'</code>. "._ERRSQLDBTYPEINFO2;
+		$msg = "<b>" . _ERRSQLDBTYPE . "</b>" . "<p>:" . _ERRSQLDBTYPEINFO1
+		. "<code>'" .XSSPrintSafe($AXtype) . "'</code>. ". _ERRSQLDBTYPEINFO2;
 		FatalError ($msg);
 	}
 	$sc = DIRECTORY_SEPARATOR;
 	if ( !LoadedString($path) ){ // Setup default for PHP module include.
 		$path = 'adodb';
-		if ( $debug_mode > 1 ){
-			ErrorMessage($EMPfx ."Def DAL path = '$path'",0,1);
-		}
+		KML($EMPfx . "Def DAL path = '$path'", 3);
 	}else{ // We are given a path.
-		if ( $debug_mode > 1 ){
-			ErrorMessage (
-				$EMPfx ."Req DAL path = '".XSSPrintSafe($path)."'",'black',1
-			);
-		}
+		KML($EMPfx . "Req DAL path = '$path'", 3);
 		if ( $path != 'adodb' ){ // Export ADODB_DIR for use by ADODB.
 			SetConst('ADODB_DIR', $path);
 		}
-	}
-	$AXpath = XSSPrintSafe($path);
-	if ( $debug_mode > 1 ){
-		ErrorMessage($EMPfx ."DAL Load: '".$AXpath."adodb.inc.php'",0,1);
 	}
 	$GLOBALS['ADODB_DIR'] = ADODB_DIR;
 	SetConst('ADODB_ERROR_HANDLER_TYPE',E_USER_NOTICE);
@@ -782,6 +828,10 @@ function NewBASEDBConnection($path, $type){
 //	SetConst('ADODB_ERROR_LOG_TYPE',0);
 	// Load ADODB Error Handler.
 	$LibFile = 'adodb-errorhandler.inc';
+	$Lib = implode( $sc, array($path, $LibFile) ) . '.php';
+	if( $debug_mode > 1 ){ // Issue 11 avoidance Test shim.
+		KML($EMPfx . _DBALCHECK . " '$Lib'", 3);
+	}
 	if ( $path != 'adodb' ){
 		$tmp = ChkLib($path, '' , $LibFile);
 	}else{
@@ -790,14 +840,13 @@ function NewBASEDBConnection($path, $type){
 	$DEH = false;
 	if ( LoadedString($tmp) == true ){
 		$DEH = include_once($tmp);
+		KML($EMPfx . "DAL Load: '$path$sc$LibFile" . ".php'", 3);
 	}
 	// Load ADODB Library.
 	$LibFile = 'adodb.inc';
-	$Lib = implode( $sc, array($path, $LibFile) ).'.php';
-	if ( $debug_mode > 1 ){
-		ErrorMessage(
-			$EMPfx . _DBALCHECK." '".XSSPrintSafe($Lib)."'",'black',1
-		);
+	$Lib = implode( $sc, array($path, $LibFile) ) . '.php';
+	if( $debug_mode > 1 ){ // Issue 11 avoidance Test shim.
+		KML($EMPfx . _DBALCHECK . " '$Lib'", 3);
 	}
 	if ( $path != 'adodb' ){
 		$tmp = ChkLib($path, '' , $LibFile);
@@ -807,29 +856,30 @@ function NewBASEDBConnection($path, $type){
 	$DAL = false;
 	if ( LoadedString($tmp) == true ){
 		$DAL = include_once($tmp);
+		KML($EMPfx . "DAL Load: '$path$sc$LibFile" . ".php'", 3);
 	}
-	if ( $DEH == false || $DAL == false ){
+	if( $DEH == false || $DAL == false ){
 		// @codeCoverageIgnoreStart
 		$tmp = 'https://';
-		if ( $version[0] > 5 || ( $version[0] == 5 && $version[1] > 1) ){
+		if( $PHPVer[0] > 5 || ($PHPVer[0] == 5 && $PHPVer[1] > 1) ){
 			$tmp .= 'github.com/ADOdb/ADOdb';
 		}else{
 			$tmp .= 'sourceforge.net/projects/adodb';
 		}
-		// Translation data this msg when we get to _ERRSQLDBALLOAD2 on Issue#11
-		$msg = 'Check the DB abstraction library variable <code>$DBlib_path</code> in <code>base_conf.php</code>.';
-		// Translation data the first param when we get to _ERRSQLDBALLOAD1
-		// on Issue#11
-		LibIncError ('DB Abstraction', $AXpath, $Lib, $msg, 'ADOdb', $tmp, 1 );
+		// TD this msg when we get to _ERRSQLDBALLOAD2 on Issue#11
+		$msg = 'Check the DB abstraction library variable <code>$DBlib_path'
+		. '</code> in <code>base_conf.php</code>.';
+		// TD the first param when we get to _ERRSQLDBALLOAD1 on Issue#11
+		LibIncError('DB Abstraction', $path, $Lib, $msg, 'ADOdb', $tmp, 1);
 		// @codeCoverageIgnoreEnd
 	}
 	ADOLoadCode($Wtype);
-	if ( is_object($et) && $debug_mode > 2 ){
-		// Need to TD this in Issue #11 branch.
-		$et->Mark('DB Object Created.');
+	if( is_object($et) && $debug_mode > 2 ){
+		$et->Mark('DB Object Created.'); // TD this in Issue #11 branch.
 	}
 	return new baseCon($type);
 }
+
 function MssqlKludgeValue( $text ){
 	$Ret = '';
 	for ( $i = 0; $i < strlen($text); $i++ ){
@@ -885,4 +935,54 @@ function GetFieldLength($db,$table,$field){
 	}
 	return $Ret;
 }
+
+// Function: filterSql()
+// @doc Filters the input string so that it can be safely used in SQL queries.
+// @param $item            value of the variable to filter
+// @param $force_alert_db  (default 0 - use current db)
+// @return a sanitized version of the passed variable.
+function filterSql( $item, $force_alert_db=0, $db = '' ){
+	GLOBAL $DBlib_path, $DBtype, $db_connect_method, $alert_dbname,
+	$alert_host, $alert_port, $alert_user, $alert_password;
+	if( !isset($item) ){ // Unset Value.
+		return $item;
+	}else{
+		if( is_array($item) ){ // Array.
+			// Recursively convert array elements.
+			// Works with both Keyed & NonKeyed arrays.
+			foreach( $item as $key => $value ){
+				$item[$key] = filterSql( $value, $force_alert_db );
+			}
+			return $item;
+		}else{
+			$Dbcf = 0; // DB Object creation Flag.
+			if( is_object($db) && get_class($db) == 'baseCon' ){
+				// Need to Add check for baseCon Role, so we can follow the
+				// force flag on passed objects.
+				$tdb = $db; // DB Onject passed.
+			}else{
+				$tdb = NewBASEDBConnection($DBlib_path, $DBtype);
+				$Dbcf = 1; // DB Onject created.
+				$tdb->baseDBConnect(
+					$db_connect_method, $alert_dbname, $alert_host, $alert_port,
+					$alert_user, $alert_password, $force_alert_db
+				);
+			}
+			$PHPVer = GetPHPSV();
+			if( $PHPVer[0] > 5 || ($PHPVer[0] == 5 && $PHPVer[1] > 3) ){
+				$Qh = 0;
+			}else{ // Figure out quote handling on PHP < 5.4.
+				$Qh = get_magic_quotes_runtime();
+			}
+			$item = $tdb->DB->qstr($item,$Qh);
+			if( $Dbcf == 1 ){ // Close it, only if we created it.
+				$tdb->baseClose();
+			}
+			// Cut off first and last character, (quotes added by qstr()).
+			$item = substr($item, 1, strlen($item)-2);
+			return $item;
+		}
+	}
+}
+
 ?>

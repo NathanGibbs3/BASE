@@ -5,18 +5,13 @@ use PHPUnit\Framework\TestCase;
 // in the BaseUser class.
 
 /**
-  * @covers BaseUser::AuthenticateCore
-  * @covers BaseUser::isActive
-  * @covers BaseUser::returnEditUser
-  * @covers BaseRole::returnEditRole
-  * @covers BaseUser::returnRoleNamesDropDown
-  * @covers BaseUser::returnUser
-  * @covers BaseUser::returnUserID
-  * @covers BaseUser::readRoleCookie
-  * @covers BaseUser::roleName
+  * @covers BaseUser
+  * @covers BaseRole
+  * @uses ::BCS
   * @uses ::ChkAccess
   * @uses ::ChkCookie
   * @uses ::ChkLib
+  * @uses ::GetPHPSV
   * @uses ::LoadedString
   * @uses ::NewBASEDBConnection
   * @uses ::NLI
@@ -36,6 +31,7 @@ class authTest extends TestCase {
 	protected static $role;
 	protected static $PHPUV;
 	protected static $URV;
+	protected static $UOV;
 
 	// Share class instance as common test fixture.
 	public static function setUpBeforeClass(){
@@ -122,14 +118,16 @@ class authTest extends TestCase {
 			$et = 'Temp';
 		}
 		self::$URV = 'Unexpected Return Value: ';
+		self::$UOV = 'Unexpected Output Value: ';
 	}
 	public static function tearDownAfterClass(){
 		GLOBAL $et;
 		if ( $et == 'Temp' ){ // EventTiming Shim clean up.
 			unset($et);
 		}
-		self::$URV = null;
 		self::$PHPUV = null;
+		self::$URV = null;
+		self::$UOV = null;
 		self::$db = null;
 		self::$user = null;
 		self::$role = null;
@@ -485,7 +483,103 @@ class authTest extends TestCase {
 		$URV = self::$URV . 'AuthenticateCore().';
 		$user = self::$user;
 		$UN = 'TestUser';
-		$this->assertEquals( 0, $user->AuthenticateCore( $UN, 'password' ), $URV );
+		$this->assertEquals(0, $user->AuthenticateCore($UN,'password'), $URV);
+	}
+	public function testAuthenticateFail(){
+		$URV = self::$URV . 'Authenticate().';
+		$UOV = self::$UOV . 'Authenticate().';
+		$PHPUV = self::$PHPUV;
+		$user = self::$user;
+		$UN = 'TestUser';
+		$EOM = 'Authenticate: Fail';
+		$cur_e_l = ini_get( 'error_log' ); // Shim error_log output On
+		$capture = tmpfile();
+		$tmp = stream_get_meta_data($capture);
+		ini_set('error_log', $tmp['uri']);
+		$this->assertEquals(1, $user->Authenticate($UN,'passwor'), $URV );
+		ini_set( 'error_log', $cur_e_l ); // Shim error_log output Off
+		$elOutput = stream_get_contents($capture);
+		if ( $PHPUV > 1 ){ // PHPUnit 9+
+			$this->assertMatchesRegularExpression(
+				'/'.$EOM.'/', $elOutput, $UOV
+			);
+		}else{ // Legacy PHPUnit
+			$this->assertRegExp(
+				'/'.$EOM.'/', $elOutput, $UOV
+			);
+		}
+	}
+	public function testAuthenticatePass(){
+		$URV = self::$URV . 'Authenticate().';
+		$UOV = self::$UOV . 'Authenticate().';
+		$PHPUV = self::$PHPUV;
+		$user = self::$user;
+		$UN = 'TestUser';
+		$EOM = 'Authenticate: Pass';
+		$cur_e_l = ini_get( 'error_log' ); // Shim error_log output On
+		$capture = tmpfile();
+		$tmp = stream_get_meta_data($capture);
+		ini_set('error_log', $tmp['uri']);
+		$this->assertEquals(0, $user->Authenticate($UN,'password'), $URV);
+		ini_set( 'error_log', $cur_e_l ); // Shim error_log output Off
+		$elOutput = stream_get_contents($capture);
+		if ( $PHPUV > 1 ){ // PHPUnit 9+
+			$this->assertMatchesRegularExpression(
+				'/'.$EOM.'/', $elOutput, $UOV
+			);
+		}else{ // Legacy PHPUnit
+			$this->assertRegExp(
+				'/'.$EOM.'/', $elOutput, $UOV
+			);
+		}
+	}
+	public function testAuthenticateNoCookieFail(){
+		$URV = self::$URV . 'AuthenticateNoCookie().';
+		$UOV = self::$UOV . 'AuthenticateNoCookie().';
+		$PHPUV = self::$PHPUV;
+		$user = self::$user;
+		$UN = 'TestUser';
+		$EOM = 'AuthenticateNoCookie: Fail';
+		$cur_e_l = ini_get( 'error_log' ); // Shim error_log output On
+		$capture = tmpfile();
+		$tmp = stream_get_meta_data($capture);
+		ini_set('error_log', $tmp['uri']);
+		$this->assertEquals('Failed', $user->AuthenticateNoCookie($UN,'passwor'), $URV );
+		ini_set( 'error_log', $cur_e_l ); // Shim error_log output Off
+		$elOutput = stream_get_contents($capture);
+		if ( $PHPUV > 1 ){ // PHPUnit 9+
+			$this->assertMatchesRegularExpression(
+				'/'.$EOM.'/', $elOutput, $UOV
+			);
+		}else{ // Legacy PHPUnit
+			$this->assertRegExp(
+				'/'.$EOM.'/', $elOutput, $UOV
+			);
+		}
+	}
+	public function testAuthenticateNoCookiePass(){
+		$URV = self::$URV . 'AuthenticateNoCookie().';
+		$UOV = self::$UOV . 'AuthenticateNoCookie().';
+		$PHPUV = self::$PHPUV;
+		$user = self::$user;
+		$UN = 'TestUser';
+		$EOM = 'AuthenticateNoCookie: Pass';
+		$cur_e_l = ini_get( 'error_log' ); // Shim error_log output On
+		$capture = tmpfile();
+		$tmp = stream_get_meta_data($capture);
+		ini_set('error_log', $tmp['uri']);
+		$this->assertEquals(10, $user->AuthenticateNoCookie($UN,'password'), $URV);
+		ini_set( 'error_log', $cur_e_l ); // Shim error_log output Off
+		$elOutput = stream_get_contents($capture);
+		if ( $PHPUV > 1 ){ // PHPUnit 9+
+			$this->assertMatchesRegularExpression(
+				'/'.$EOM.'/', $elOutput, $UOV
+			);
+		}else{ // Legacy PHPUnit
+			$this->assertRegExp(
+				'/'.$EOM.'/', $elOutput, $UOV
+			);
+		}
 	}
 	public function testisActiveDefaults(){
 		$URV = self::$URV . 'isActive().';

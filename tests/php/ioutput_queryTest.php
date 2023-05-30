@@ -6,6 +6,7 @@ use PHPUnit\Framework\TestCase;
 /**
   * Code Coverage Directives.
   * @covers QueryResultsOutput
+  * @covers ::qroPrintCheckBox
   * @covers ::qroPrintEntryFooter
   * @covers ::qroPrintEntryHeader
   * @covers ::qroPrintEntry
@@ -23,12 +24,14 @@ use PHPUnit\Framework\TestCase;
   * @uses ::XSSPrintSafe
   * @uses ::is_key
   * @uses ::returnErrorMessage
+  * @uses ::returnExportHTTPVar
   */
 
 class output_queryTest extends TestCase {
 	// Pre Test Setup.
 	protected static $UOV;
 	protected static $URV;
+	protected static $tc;
 	var $pfx;
 	var $sfx;
 	var $cf;
@@ -50,11 +53,12 @@ class output_queryTest extends TestCase {
 		}
 		self::$UOV = null;
 		self::$URV = null;
+		self::$tc = null;
 	}
 
 	protected function setUp() {
-		$this->pfx = '<tr bgcolor="#';
-		$this->sfx = '">';
+		$this->pfx = "<tr class='qro' bgcolor='#";
+		$this->sfx = "'>";
 		$this->cf = 1;
 	}
 
@@ -192,11 +196,49 @@ class output_queryTest extends TestCase {
 			$expected, qroPrintEntry('value','Invalid','Invalid'), $UOV
 		);
 	}
+	public function testoutput_qroPrintCheckboxDefault() {
+		$UOV = self::$UOV . 'qroPrintCheckBox().';
+		$expected = "\n\t\t\t"
+		. "<td style='text-align: center; vertical-align: top; "
+		. "padding-left: 15px; padding-right: 15px'>"
+		. "\n\t\t\t\t"
+		. '<!-- qroPrintCheckBox Output Placeholder -->'
+		. "\n\t\t\t</td>";
+		$this->expectOutputString($expected, qroPrintCheckBox(), $UOV);
+	}
+	public function testoutput_qroPrintCheckbox() {
+		$UOV = self::$UOV . 'qroPrintCheckBox().';
+		$expected = "\n\t\t\t"
+		. "<td style='text-align: center; vertical-align: top; "
+		. "padding-left: 15px; padding-right: 15px'>"
+		. "\n\t\t\t\t"
+		. "<input type='checkbox' name='action_chkName' value='Value'>"
+		. "\n\t\t\t\t"
+		. "<input type='hidden' name='actionName' value='Value'/>"
+		. "\n\t\t\t</td>";
+		$this->expectOutputString(
+			$expected, qroPrintCheckBox('Name', 'Value'), $UOV
+		);
+	}
+	public function testoutput_qroPrintCheckboxInvalidName() {
+		$UOV = self::$UOV . 'qroPrintCheckBox().';
+		$expected = "\n\t\t\t"
+		. "<td style='text-align: center; vertical-align: top; "
+		. "padding-left: 15px; padding-right: 15px'>"
+		. "\n\t\t\t\t"
+		. "<input type='checkbox' name='action_chkName' value='Value'>"
+		. "\n\t\t\t\t"
+		. "<input type='hidden' name='actionName' value='Value'/>"
+		. "\n\t\t\t</td>";
+		$this->expectOutputString(
+			$expected, qroPrintCheckBox('Name;', 'Value'), $UOV
+		);
+	}
 	public function testoutput_qroReturnSelectALLCheckTestDefault() {
 		$URV = self::$URV . 'qroReturnSelectALLCheck().';
 		$expected = "<input type=checkbox value='Select All' ".
 		"onClick='if (this.checked) SelectAll(); ".
-		"if (!this.checked) UnselectAll();'>";
+		"if (!this.checked) UnselectAll();'/>";
 		$this->assertEquals($expected, qroReturnSelectALLCheck(), $URV);
 	}
 	// Tests for Class QueryResultsOutput
@@ -207,6 +249,7 @@ class output_queryTest extends TestCase {
 			$tc = new QueryResultsOutput('uri'),
 			'Class Not Initialized.'
 		);
+		self::$tc = $tc;
 		$this->assertEquals('uri', $tc->url, $URV);
 		$this->assertNull($tc->qroHeader, $URV);
 		$this->assertEquals(
@@ -245,11 +288,7 @@ class output_queryTest extends TestCase {
 	}
 	public function testClassQueryResultsOutputAddTitleDefault(){
 		$URV = self::$URV . 'AddTitle().';
-		$this->assertInstanceOf(
-			'QueryResultsOutput',
-			$tc = new QueryResultsOutput('uri'),
-			'Class Not Initialized.'
-		);
+		$tc = self::$tc;
 		$tmp = 'title';
 		$te = $tmp."_ ";
 		$tc->AddTitle($tmp);
@@ -258,6 +297,28 @@ class output_queryTest extends TestCase {
 		$this->assertTrue(is_array($tc->qroHeader[$tmp][$te]), $URV); // Asc Sort
 		$this->assertEmpty($tc->qroHeader[$tmp][$te][0], $URV);
 		$this->assertEmpty($tc->qroHeader[$tmp][$te][1], $URV);
+		$this->assertEquals(
+			'center', $tc->qroHeader[$tmp]["$tmp-InternalProperty-align"], $URV
+		);
+	}
+	public function testClassQueryResultsOutputAddTitleInvalidAlign(){
+		$URV = self::$URV . 'AddTitle().';
+		$this->assertInstanceOf(
+			'QueryResultsOutput',
+			$tc = new QueryResultsOutput('uri'),
+			'Class Not Initialized.'
+		);
+		$tmp = 'title';
+		$te = $tmp."_";
+		$tc->AddTitle($tmp, '', '', '', '', '', '', 'none');
+		$this->assertTrue(is_array($tc->qroHeader), $URV);
+		$this->assertTrue(is_array($tc->qroHeader[$tmp]), $URV);
+		$this->assertTrue(is_array($tc->qroHeader[$tmp][$te]), $URV); // Asc Sort
+		$this->assertEmpty($tc->qroHeader[$tmp][$te][0], $URV);
+		$this->assertEmpty($tc->qroHeader[$tmp][$te][1], $URV);
+		$this->assertEquals(
+			'center', $tc->qroHeader[$tmp]["$tmp-InternalProperty-align"], $URV
+		);
 	}
 	public function testClassQueryResultsOutputAddTitleFullEmpty(){
 		$URV = self::$URV . 'AddTitle().';
@@ -379,7 +440,27 @@ class output_queryTest extends TestCase {
 			$tc = new QueryResultsOutput('uri'),
 			'Class Not Initialized.'
 		);
-		$tc->AddTitle('title');
+		$tc->AddTitle('title', '', '', '', '', '', '', 'left');
+		$expected = "\n\t\t\t<script type='text/javascript'".
+		" src='/js/base_output_query.inc.js'></script>".
+		"\n\t\t\t<!-- Query Results Title Bar -->".
+		"\n\t\t\t<table style = 'border: 2px solid black;".
+		" border-collapse: collapse; width:100%;'>\n\t\t\t\t<tr>".
+		"\n\t\t\t\t\t<td class='plfieldhdr' style='text-align:left;'>".
+		"\n\t\t\t\t\t\ttitle".
+		"\n\t\t\t\t\t</td>\n\t\t\t\t</tr>".
+		"\n\t\t\t\t<!-- Query Results Table -->";
+		$this->expectOutputString($expected, $tc->PrintHeader(), $UOV);
+	}
+	public function testClassQueryResultsOutputPrintHeaderAlignInvalid(){
+		$UOV = self::$UOV . 'PrintHeader().';
+		$this->assertInstanceOf(
+			'QueryResultsOutput',
+			$tc = new QueryResultsOutput('uri'),
+			'Class Not Initialized.'
+		);
+		$tc->AddTitle('title', '', '', '', '', '', '', 'none');
+		$tc->qroHeader['title']["title-InternalProperty-align"] = 'none';
 		$expected = "\n\t\t\t<script type='text/javascript'".
 		" src='/js/base_output_query.inc.js'></script>".
 		"\n\t\t\t<!-- Query Results Title Bar -->".
@@ -389,7 +470,7 @@ class output_queryTest extends TestCase {
 		"\n\t\t\t\t\t\ttitle".
 		"\n\t\t\t\t\t</td>\n\t\t\t\t</tr>".
 		"\n\t\t\t\t<!-- Query Results Table -->";
-		$this->expectOutputString($expected, $tc->PrintHeader('left'), $UOV);
+		$this->expectOutputString($expected, $tc->PrintHeader(), $UOV);
 	}
 	public function testClassQueryResultsOutputPrintHeaderNull(){
 		$UOV = self::$UOV . 'PrintHeader().';

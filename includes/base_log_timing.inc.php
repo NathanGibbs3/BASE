@@ -43,8 +43,15 @@ class EventTiming {
 	function EventTiming( $verbose ){ // PHP 4x constructor.
 		GLOBAL $BCR;
 		$this->num_events = 0;
-		$this->verbose = $verbose;
+		$this->verbose = 0; // Secure Default.
+		if( ARC(50) ){ // AG-Editor
+			if( !is_int($verbose) ){
+				$verbose = 0;
+			}
+			$this->verbose = $verbose;
+		}
 		$this->start_time = time();
+		// @codeCoverageIgnoreStart
 		// Tie in to capabilities Registry.
 		if ( isset($BCR) && is_object($BCR) ){
 			$tmp = 'BASE Kernel: ' . $BCR->GetCap('BASE_Kernel')
@@ -52,6 +59,7 @@ class EventTiming {
 		}else{
 			$tmp = 'Page Load';
 		}
+		// @codeCoverageIgnoreEnd
 		$this->Mark("$tmp.");
 	}
 	function Mark( $desc = '' ){
