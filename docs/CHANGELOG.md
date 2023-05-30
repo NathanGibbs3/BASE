@@ -17,8 +17,13 @@ https://github.com/NathanGibbs3/BASE/issues/149)
 https://github.com/NathanGibbs3/BASE/issues/176)
  - BASE Kernel, standardized startup routines.
  - BASE RTL (Runtime Library), standardized runtime routines.
- - New Configuration file variable `$AllowedClients` Add client host access
-configuration options. [#175 ](https://github.com/NathanGibbs3/BASE/issues/175)
+ - BASE Iconography.
+ - Configuration File Variables.
+   - `$AllowedClients` Add client host access configuration options. [#175](
+https://github.com/NathanGibbs3/BASE/issues/175)
+   - `$domain` Cookie security improvements. [#42](
+https://github.com/NathanGibbs3/BASE/issues/42)
+   - `$BASE_IconSet` UI Icon Set to use.
 
 Contributor(s): [Nathan Gibbs]
 
@@ -130,27 +135,27 @@ https://github.com/NathanGibbs3/BASE/issues/77)
 - `CriteriaState::ReadState()` does not check for unset conf variable
 `$maintain_history` before access. [#26](
 https://github.com/NathanGibbs3/BASE/issues/26)
-- [#81 BASE does not check for unset conf variable `$maintain_history` before
-access.](
+- BASE does not check for unset conf variable `$maintain_history` before
+access.[#81](
 https://github.com/NathanGibbs3/BASE/issues/81)
-- [#43 BASE does not check for unset conf variable $resolve_IP before access.](
+- BASE does not check for unset conf variable `$resolve_IP` before access.[#43](
 https://github.com/NathanGibbs3/BASE/issues/43)
-- [#61 BASE does not check for unset session variable $_SESSION['sig'] before
-access.](
+- BASE does not check for unset session variable `$_SESSION['sig']` before
+access.[#61](
 https://github.com/NathanGibbs3/BASE/issues/61)
-- [#85 BASE does not check for unset conf variable $debug_mode before access.](
+- BASE does not check for unset conf variable `$debug_mode` before access.[#85](
 https://github.com/NathanGibbs3/BASE/issues/85)
-- [#88 Standardize code to check file information before inclusion.](
+- Standardize code to check file information before inclusion.[#88](
 https://github.com/NathanGibbs3/BASE/issues/88)
-- [#91 Standardize code to check library before inclusion.](
+- Standardize code to check library before inclusion.[#91](
 https://github.com/NathanGibbs3/BASE/issues/91)
-- [#93 Standardize code to handle PHP build errors.](
+- Standardize code to handle PHP build errors.[#93](
 https://github.com/NathanGibbs3/BASE/issues/93)
-- [#99 Missing call to verify_php_build() in index.php.](
+- Missing call to `verify_php_build()` in index.php.[#99](
 https://github.com/NathanGibbs3/BASE/issues/99)
-- [#100 Failure to display debugging info for a meaningful amount of time.](
+- Failure to display debugging info for a meaningful amount of time.[#100](
 https://github.com/NathanGibbs3/BASE/issues/100)
-- [#19 User/Role Admin HTML styling hack, Re-implement via CSS.](
+- User/Role Admin HTML styling hack, Re-implement via CSS.[#19](
 https://github.com/NathanGibbs3/BASE/issues/19)
 - [#25 Search Criteria HTML styling hack, Re-implement via CSS.](
 https://github.com/NathanGibbs3/BASE/issues/25)
@@ -210,7 +215,7 @@ https://github.com/NathanGibbs3/BASE/issues/132)
 https://github.com/NathanGibbs3/BASE/issues/133)
 - [#135 Remove call to `qmagic()` for compatibility with ADOdb 5.21+ and PHP 
 7.4+](https://github.com/NathanGibbs3/BASE/issues/135)
-- [#140 Form element `<input>` outside of table data `<td>` tag set.](
+- Form element `<input>` outside of table data `<td>` tag set.[#140](
 https://github.com/NathanGibbs3/BASE/issues/140)
 - [#147 Incomplete `DOCTYPE`](https://github.com/NathanGibbs3/BASE/issues/147)
 - [#141 Usage of `key_exists()` & `array_key_exists()` breaks support for older PHP's](
@@ -263,17 +268,22 @@ https://github.com/NathanGibbs3/BASE/issues/181)
 https://github.com/NathanGibbs3/BASE/issues/185)
 - Test flagged as Risky in some CI PostgreSQL builds. [#98](
 https://github.com/NathanGibbs3/BASE/issues/98)
-- PHPUnit Tests for Postgresql flag as risky. [#158 ](
+- PHPUnit Tests for Postgresql flag as risky. [#158](
 https://github.com/NathanGibbs3/BASE/issues/158)
-- BASE RTL compatibility PHP < 5.6 [#198 ](
+- BASE RTL compatibility PHP < 5.6 [#198](
 https://github.com/NathanGibbs3/BASE/issues/198)
+- Implement Legacy BASE FR 74. [#201](
+https://github.com/NathanGibbs3/BASE/issues/201)  
+Feature [Requested](
+https://sourceforge.net/p/secureideas/feature-requests/74)
+on sourceforge.net.
 
 Contributor(s): [Nathan Gibbs]
 
 - `tr bgcolor="#"` if `$prio` not in `$priority_colors`
 (unknown event class) [#57](https://github.com/NathanGibbs3/BASE/issues/57)  
 Contributor(s):
-  - [FalcoGer]  
+  - [FalcoGer]
   - [Nathan Gibbs]  
 - Reaching Admin page appears to be programming problem with Index.php [#94](
 https://github.com/NathanGibbs3/BASE/issues/94)  
@@ -296,6 +306,18 @@ https://github.com/NathanGibbs3/BASE/issues/189)
 https://github.com/NathanGibbs3/BASE/issues/194)
 - Unable to Delete events or Move/Copy events to the Archive database. [#195](
 https://github.com/NathanGibbs3/BASE/issues/195)
+- IE 7x display issue vertical multicolored lines. [#199](
+https://github.com/NathanGibbs3/BASE/issues/199)
+- PostgreSQL Archive DB transfer issues. [#197](
+https://github.com/NathanGibbs3/BASE/issues/197)
+- Graph Alert Detection Time header ghosted [#202](
+https://github.com/NathanGibbs3/BASE/issues/202)
+- Deleting events when there are none gets a blank page [#205](
+https://github.com/NathanGibbs3/BASE/issues/205)
+- Deleting events will cause a time out issue [#196](
+https://github.com/NathanGibbs3/BASE/issues/196)
+- Events are empty but showing `<1%`. [#208](
+https://github.com/NathanGibbs3/BASE/issues/208)
 
 Contributor(s):
   - [mesteele]
@@ -308,27 +330,27 @@ https://github.com/NathanGibbs3/BASE/issues/32)
 https://github.com/NathanGibbs3/BASE/issues/13)
 - [#74 Local/Remote File Include Vulnerability in BASE custom footer code.](
 https://github.com/NathanGibbs3/BASE/issues/74)
-- [#78 Standardize code to authorize page access via role, Page, & URI.](
+- Standardize code to authorize page access via role, Page, & URI.[#78](
 https://github.com/NathanGibbs3/BASE/issues/78)
-- [#33 Add Anti XSS code to `returnEditUser()`.](
+- Add Anti XSS code to `returnEditUser()`.[#33](
 https://github.com/NathanGibbs3/BASE/issues/33)
-- [#80 Add Anti XSS code to `returnEditRole()`.](
+- Add Anti XSS code to `returnEditRole()`.[#80](
 https://github.com/NathanGibbs3/BASE/issues/80)
-- [#82 Add Input Validation code to `returnEditRole()`.](
+- Add Input Validation code to `returnEditRole()`.[#82](
 https://github.com/NathanGibbs3/BASE/issues/82)
-- [#83 Add Input Validation code to `returnEditUser()`.](
+- Add Input Validation code to `returnEditUser()`.[#83](
 https://github.com/NathanGibbs3/BASE/issues/83)
-- [#89 Debug Mode Information disclosure to unauthenticated users.](
+- Debug Mode Information disclosure to unauthenticated users.[#89](
 https://github.com/NathanGibbs3/BASE/issues/89)
-- [#90 Add Input Validation code to `returnUserID()`.](
+- Add Input Validation code to `returnUserID()`.[#90](
 https://github.com/NathanGibbs3/BASE/issues/90)
-- [#104 Local/Remote Code Injection Vulnerability in BASE function
-`qroPrintEntry()`.](
+- Local/Remote Code Injection Vulnerability in BASE function
+`qroPrintEntry()`.[#104](
 https://github.com/NathanGibbs3/BASE/issues/104)
-- [#107 Local/Remote Code Injection Vulnerability in BASE function
-`PrintEntry()`.](
+- Local/Remote Code Injection Vulnerability in BASE function
+`PrintEntry()`.[#107](
 https://github.com/NathanGibbs3/BASE/issues/107)
-- [#119 `DateTimeRows2sql()` does not do input validation on passed params](
+- `DateTimeRows2sql()` does not do input validation on passed params[#119](
 https://github.com/NathanGibbs3/BASE/issues/119)
 - `DateTimeRows2sql()` assumes anything in year and month parts of data 
 structure are valid. [#128 ](https://github.com/NathanGibbs3/BASE/issues/128)
@@ -349,6 +371,8 @@ https://github.com/NathanGibbs3/BASE/issues/164)
 https://github.com/NathanGibbs3/BASE/issues/183)
 - BASE RTL GetPHPSV() wrong return type. [#193](
 https://github.com/NathanGibbs3/BASE/issues/193)
+- DB Info left in object on connection close. [#204](
+https://github.com/NathanGibbs3/BASE/issues/204)
 
 Contributor(s): [Nathan Gibbs]
 - `session_name()` called after `session_start()`. [#143](
