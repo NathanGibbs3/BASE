@@ -316,6 +316,8 @@ https://github.com/NathanGibbs3/BASE/issues/202)
 https://github.com/NathanGibbs3/BASE/issues/205)
 - Deleting events will cause a time out issue [#196](
 https://github.com/NathanGibbs3/BASE/issues/196)
+- Events are empty but showing `<1%`. [#208](
+https://github.com/NathanGibbs3/BASE/issues/208)
 
 Contributor(s):
   - [mesteele]
