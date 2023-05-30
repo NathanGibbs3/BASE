@@ -954,18 +954,24 @@ function base_microtime(){
 }
 
 function Percent ( $Value = 1, $Count = 1 ){
-	if ( $Value > $Count ){
-		$Count = $Value;
+	if( !is_numeric($Value) ){ // Input Validation
+		$Value = 1;
 	}
-	if ( $Count <= 0 ){
+	if( !is_numeric($Count) ){
 		$Count = 1;
 	}
-	if ( $Value <= 0 ){ // Set %
+	if( $Value > $Count ){
+		$Count = $Value;
+	}
+	if( $Count <= 0 ){
+		$Count = 1;
+	}
+	if( $Value <= 0 ){ // Set %
 		$Ret = 0;
 	}else{
 		$Ret = round($Value/$Count*100);
 	}
-	return ($Ret);
+	return $Ret;
 }
 
 // Returns true if file passes include safety checks.

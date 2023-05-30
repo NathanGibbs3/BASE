@@ -103,7 +103,11 @@ class base_commonTest extends TestCase {
 	}
 	public function testPercentDefaultReturnsExpected(){
 		$URV = self::$URV.'Percent().';
-		$this->assertEquals( '100', Percent(), $URV );
+		$this->assertEquals('100', Percent(), $URV);
+	}
+	public function testPercentInvalidReturnsExpected(){
+		$URV = self::$URV.'Percent().';
+		$this->assertEquals('100', Percent('string', 'string'), $URV);
 	}
 	public function testPercentPercentReturnsExpected(){
 		$URV = self::$URV.'Percent().';

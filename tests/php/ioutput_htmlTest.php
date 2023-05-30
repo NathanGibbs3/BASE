@@ -115,7 +115,13 @@ class output_htmlTest extends TestCase {
 		$URV = self::$URV.'HtmlPercent().';
 		$sfx = '%';
 		$msg = '100' . $sfx;
-		$this->assertEquals( $msg, HtmlPercent(), $URV );
+		$this->assertEquals($msg, HtmlPercent(), $URV);
+	}
+	public function testHtmlPercentInvalidReturnsExpected() {
+		$URV = self::$URV.'HtmlPercent().';
+		$sfx = '%';
+		$msg = '100' . $sfx;
+		$this->assertEquals($msg, HtmlPercent('string', 'string'), $URV);
 	}
 	public function testHtmlPercentPercentReturnsExpected() {
 		$URV = self::$URV.'HtmlPercent().';
@@ -129,7 +135,7 @@ class output_htmlTest extends TestCase {
 		$URV = self::$URV.'HtmlPercent().';
 		$sfx ='%';
 		$i = 0;
-		$msg = '&lt; 1' . $sfx;
+		$msg = '0' . $sfx;
 		$this->assertEquals( $msg, HtmlPercent($i,100), $URV );
 	}
 	public function testHtmlPercentOverPercentReturnsExpected() {
@@ -138,6 +144,18 @@ class output_htmlTest extends TestCase {
 		$i = 101;
 		$msg = '100' . $sfx;
 		$this->assertEquals( $msg, HtmlPercent($i,100), $URV );
+	}
+	public function testHtmlPercentNegativePercentReturnsExpected() {
+		$URV = self::$URV.'HtmlPercent().';
+		$sfx ='%';
+		$msg = '0' . $sfx;
+		$this->assertEquals($msg, HtmlPercent(-2, -1), $URV);
+	}
+	public function testHtmlPercenttl1PercentReturnsExpected() {
+		$URV = self::$URV.'HtmlPercent().';
+		$sfx ='%';
+		$msg = '&lt; 1' . $sfx;
+		$this->assertEquals($msg, HtmlPercent(1, 210), $URV);
 	}
 	public function testFramedBoxHeaderBlankReturnsExpected() {
 		$URV = self::$URV.'FramedBoxHeader().';

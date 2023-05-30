@@ -534,11 +534,27 @@ function HBarGraph (
 }
 
 function HtmlPercent ( $Value = 1, $Count = 1 ){
-	$ent_pct = Percent($Value, $Count);
-	if( $ent_pct == 0 ){
-		$tmp = "&lt; 1";
+	if( !is_numeric($Value) ){ // Input Validation
+		$Value = 1;
+	}
+	if( !is_numeric($Count) ){
+		$Count = 1;
+	}
+	if( $Value > $Count ){
+		$Count = $Value;
+	}
+	if( $Count <= 0 ){
+		$Count = 1;
+	}
+	if( $Value <= 0 ){ // Set %
+		$tmp = 0;
 	}else{
-		$tmp = $ent_pct;
+		$ent_pct = Percent($Value, $Count);
+		if( $ent_pct == 0 ){
+			$tmp = "&lt; 1";
+		}else{
+			$tmp = $ent_pct;
+		}
 	}
 	$Ret = $tmp . '%';
 	return $Ret;
