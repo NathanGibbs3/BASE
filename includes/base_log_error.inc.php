@@ -281,8 +281,7 @@ function PrintPageHeader(){
 					"<div style='width:auto'>"
 					. 'Back List Count: ' . $_SESSION['back_list_cnt']
 					. ' Back List Type: ' . gettype($_SESSION['back_list'])
-					. "</div><pre class='session'>"
-					. print_r($_SESSION['back_list'], true) . '</pre>'
+					. '</div>' . printHistory()
 				);
 			}
 			DDT($DI, $DD, 'Request Information', '', '', 1, 0);
@@ -298,6 +297,55 @@ function PrintPageHeader(){
 			DDT($DI, $DD, 'Server Information', '', '', 1, 0);
 		}
 	}
+}
+
+function PrintHistory(){
+	GLOBAL $maintain_history;
+	$Ret = '';
+	if( $maintain_history == 1 && is_array($_SESSION) && session_id() != '' ){
+		// We have a session, so proceed.
+		if( isset($_SESSION['back_list']) ){
+			$SHA = $_SESSION['back_list'];
+			if(is_array($_SESSION['back_list']) ){
+				$Ret = "<pre class='session'>";
+				foreach( $SHA as $key => $val ){
+					$Ret .= "$key: ";
+					if( $key == 0 ){
+						$Ret .= "History Start";
+						foreach( $val as $HEval ){
+							if( LoadedString($HEval) ){
+								$Ret .= " corrupted";
+								break;
+							}
+						}
+						$Ret .= ".\n";
+					}else{
+						if(
+							isset($val['SCRIPT_NAME'])
+							&& isset($val['QUERY_STRING'])
+							&& isset($val['session'])
+						){
+							$Ret .= "\tURL: " . $val['SCRIPT_NAME'];
+							if( LoadedString($val['QUERY_STRING']) ){
+								$Ret .= "?" . $val['QUERY_STRING'];
+							}
+							$Ret .= "\n";
+							$Ret .= "\tSession: " . $val['session'] . "\n\n";
+						}else{
+							$Ret .= "History Entry corrupted.\n";
+						}
+					}
+				}
+				$Ret .= '</pre>';
+			}else{
+				$Ret = returnErrorMessage('History corrupted!', '', 1);
+				$Ret .= returnErrorMessage(
+					XSSPrintSafe(print_r($_SESSION['back_list'], true)), '', 1
+				);
+			}
+		}
+	}
+	return $Ret;
 }
 
 function PrintHTTPPost()

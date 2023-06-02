@@ -10,6 +10,7 @@ use PHPUnit\Framework\TestCase;
   * @preserveGlobalState disabled
   * @runTestsInSeparateProcesses
   */
+
 class dbspTest extends TestCase {
 	// Pre Test Setup.
 	protected static $db;

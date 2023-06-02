@@ -31,10 +31,10 @@ class CriteriaState {
 	var $clear_url_params;
 	var $criteria;
 
-	function __construct($url, $params = "") { // PHP 5+ constructor Shim.
+	function __construct( $url, $params = '' ){ // PHP 5+ constructor Shim.
 		// Class/Method agnostic shim code.
 		$SCname = get_class();
-		if ( method_exists($this, $SCname) ) {
+		if( method_exists($this, $SCname) ){
 			$SCargs = func_get_args();
 			call_user_func_array(array($this, $SCname), $SCargs);
 		}else{
@@ -47,7 +47,7 @@ class CriteriaState {
 			// @codeCoverageIgnoreEnd
 		}
 	}
-	function CriteriaState($url, $params = "") { // PHP 4x constructor.
+	function CriteriaState( $url, $params = '' ){ // PHP 4x constructor.
 		$this->clear_url = $url;
 		$this->clear_url_params = $params;
 		/* XXX-SEC */
@@ -151,39 +151,25 @@ class CriteriaState {
  *
  ************************************************************************/
 function PopHistory(){
-	GLOBAL $debug_mode;
-	if( session_id() != '' ){ // We have a session, so proceed.
-   if ( $_SESSION['back_list_cnt'] >= 0 )
-   {
-      /* Remove the state of the page from which the back button was
-       * just hit
-       */
-      unset($_SESSION['back_list'][$_SESSION['back_list_cnt']]);
-
-      /* 
-       * save a copy of the $back_list because session_destroy()/session_decode() will 
-       * overwrite it. 
-       */
-      $save_back_list = $_SESSION['back_list'];
-      $save_back_list_cnt = $_SESSION['back_list_cnt']-1;
-
-      /* Restore the session 
-       *   - destroy all variables in the current session
-       *   - restore proper back_list history entry into the current variables (session)
-       *       - but, first delete the currently restored entry and 
-       *              decremement the history stack
-       *   - push saved back_list back into session
-       */
-      session_unset();
-			if ( $debug_mode > 2 ){
-				ErrorMessage("Popping a History Entry from #".$save_back_list_cnt);
-			}
-      session_decode($save_back_list[$save_back_list_cnt]["session"]);
-      unset($save_back_list[$save_back_list_cnt]);
-      --$save_back_list_cnt;
-
-      $_SESSION['back_list'] = $save_back_list;
-      $_SESSION['back_list_cnt'] = $save_back_list_cnt;
+	GLOBAL $maintain_history;
+	if( $maintain_history == 1 && is_array($_SESSION) && session_id() != '' ){
+		// We have a session, so proceed.
+		if( $_SESSION['back_list_cnt'] >= 0 ){
+			// Remove previous page from history.
+			unset($_SESSION['back_list'][$_SESSION['back_list_cnt']]);
+			// Backup history from session.
+			$save_back_list = $_SESSION['back_list'];
+			$save_back_list_cnt = $_SESSION['back_list_cnt'] - 1;
+			session_unset(); // Destroy current session.
+			kml('Hist: Pop Entry slot #' . $save_back_list_cnt, 1);
+			// Restore session from history.
+			session_decode($save_back_list[$save_back_list_cnt]["session"]);
+			// Remove current page from history & decremement sistory stack.
+			unset($save_back_list[$save_back_list_cnt]);
+			--$save_back_list_cnt;
+			// Restore history to session.
+			$_SESSION['back_list'] = $save_back_list;
+			$_SESSION['back_list_cnt'] = $save_back_list_cnt;
 		}
 	}
 }
@@ -198,57 +184,76 @@ function PopHistory(){
  *
  ************************************************************************/
 function PushHistory(){
-	GLOBAL $debug_mode;
-	if ( session_id() != '' ){ // We have a session,so proceed.
-		kml("Saving state into slot #" . $_SESSION['back_list_cnt'], 1);
+	GLOBAL $maintain_history;
+	if( $maintain_history == 1 && is_array($_SESSION) && session_id() != '' ){
+		// We have a session, so proceed.
+		kml('Hist: Get Session slot #' . $_SESSION['back_list_cnt'], 1);
 		// Save the current session without the $back_list into the history.
-		// - make a temporary copy of the $back_list.
-		// - NULL-out the $back_list in $_SESSION ( so that the current
-		//   session is serialized without these variables ).
-		// - serialize the current session.
+		// - Backup history from session. $back_list & $back_list_cnt.
+		// - Remove history from session.
+		// - Serialize current session is serialized without history.
 		// - fix-up the QUERY_STRING.
-		//   - make a new QUERY_STRING that includes the temporary
-		//     QueryState variables.
-		//   - remove &back=1 from any QUERY_STRING
-		// - add the current session into the $back_list (history)
-   if (isset($_SESSION['back_list'])) {
-       $tmp_back_list = $_SESSION['back_list'];
-   } else {
-       $tmp_back_list = '';
-   }
-   
-   if (isset($_SESSION['back_list_cnt'])) {
-       $tmp_back_list_cnt = $_SESSION['back_list_cnt'];
-   } else {
-       $tmp_back_list_cnt = '';
-   }
-
-   $_SESSION['back_list'] = NULL;
-   $_SESSION['back_list_cnt'] = -1;
-
-   $full_session = session_encode();
-   $_SESSION['back_list'] = $tmp_back_list;
-   $_SESSION['back_list_cnt'] = $tmp_back_list_cnt;
-
-	if ( isset($_SERVER["QUERY_STRING"]) ){
-		$query_string = CleanVariable($_SERVER["QUERY_STRING"], VAR_PERIOD | VAR_DIGIT | VAR_PUNC | VAR_LETTER);
-		if ( isset($_POST['caller']) ) $query_string .= "&amp;caller=".$_POST['caller'];
-		if ( isset($_POST['num_result_rows']) ) $query_string .= "&amp;num_result_rows=".$_POST['num_result_rows'];
-		if ( isset($_POST['sort_order']) ) $query_string .= "&amp;sort_order=".$_POST['sort_order'];
-		if ( isset($_POST['current_view']) ) $query_string .= "&amp;current_view=".$_POST['current_view'];
-		if ( isset($_POST['submit']) ) $query_string .= "&amp;submit=".$_POST['submit'];
-		$query_string = preg_replace("/back=1&/", "", CleanVariable($query_string, VAR_PERIOD | VAR_DIGIT | VAR_PUNC | VAR_LETTER));
-	}else{
+		//   - make a new QUERY_STRING that includes QueryState variables.
+		//   - remove &back=1 from QUERY_STRING
+		// - Add current session into history.
+		$tmp_back_list = '';
+		$tmp_back_list_cnt = '';
 		$query_string = '';
-	}
-
-   ++$_SESSION['back_list_cnt'];
-   $_SESSION['back_list'][$_SESSION['back_list_cnt']] =  
-          array ("SCRIPT_NAME"     => $_SERVER["SCRIPT_NAME"],
-                 "QUERY_STRING" => $query_string, 
-                 "session"      => $full_session );
-
-		kml("Insert session into slot #" . $_SESSION['back_list_cnt'], 1);
+		if( isset($_SESSION['back_list']) ){ // Backup history from session.
+			$tmp_back_list = $_SESSION['back_list'];
+		}
+		if( isset($_SESSION['back_list_cnt']) ){
+			$tmp_back_list_cnt = $_SESSION['back_list_cnt'];
+		}
+		unset($_SESSION['back_list']); // Clear history from session
+		unset($_SESSION['back_list_cnt']);
+		$full_session = session_encode(); // Serialize session without history.
+		$_SESSION['back_list'] = $tmp_back_list; // Restore history to session.
+		$_SESSION['back_list_cnt'] = $tmp_back_list_cnt;
+		if( isset($_SERVER['QUERY_STRING']) ){ // Query String fix ups.
+			$query_string = CleanVariable(
+				$_SERVER['QUERY_STRING'], VAR_ALPHA | VAR_PUNC
+			);
+			$QSV = array(
+				'caller', 'num_result_rows', 'sort_order', 'current_view',
+				'submit'
+			);
+			foreach( $QSV as $val ){ // Process QueryState variables.
+				if( isset($_POST[$val]) ){
+					$query_string .= "&amp;$val=" . $_POST[$val];
+				}
+			}
+			$query_string = preg_replace( // remove &back=1 from QUERY_STRING.
+				"/back=1&/", '', CleanVariable(
+					$query_string, VAR_ALPHA | VAR_PUNC
+				)
+			);
+		}
+		$CTP = true;
+		$rsn = $_SERVER['SCRIPT_NAME'];
+		if( $_SESSION['back_list_cnt'] > 0 ){ // Issue #206
+			$tsn = $tmp_back_list[$tmp_back_list_cnt]['SCRIPT_NAME'];
+			$tqs = $tmp_back_list[$tmp_back_list_cnt]['QUERY_STRING'];
+			$tsc = $tmp_back_list[$tmp_back_list_cnt]['session'];
+			if(
+				$tsn == $rsn && $tqs == $query_string && $tsc == $full_session
+			){
+				$CTP = false;
+				kml(
+					'Hist: Dup Entry Put Denied slot #'
+					. $_SESSION['back_list_cnt'], 1
+				);
+			}
+		}
+		if( $CTP ){ // New history Entry. Add current session into history.
+			++$_SESSION['back_list_cnt'];
+			$_SESSION['back_list'][$_SESSION['back_list_cnt']] = array (
+				'SCRIPT_NAME' => $rsn,
+				'QUERY_STRING' => $query_string,
+				'session' => $full_session
+			);
+			kml('Hist: Put Entry slot #' . $_SESSION['back_list_cnt'], 1);
+		}
 	}
 }
 

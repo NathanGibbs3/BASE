@@ -8,13 +8,17 @@ use PHPUnit\Framework\TestCase;
   * @covers ::DDT
   * @covers ::ErrorMessage
   * @covers ::LibIncError
+  * @covers ::PrintHistory
   * @covers ::returnErrorMessage
+  * @uses ::CleanVariable
   * @uses ::FramedBoxFooter
   * @uses ::FramedBoxHeader
   * @uses ::Htmlcolor
+  * @uses ::InitArray
   * @uses ::LoadedString
   * @uses ::NLI
   * @uses ::NLIO
+  * @uses ::PushHistory
   * @uses ::PrintFramedBoxFooter
   * @uses ::PrintFramedBoxHeader
   * @uses ::PrintTblNewRow
@@ -26,9 +30,10 @@ class log_errorTest extends TestCase {
 	// Pre Test Setup.
 	protected static $UOV;
 	protected static $URV;
+	protected static $omh;
 
 	public static function setUpBeforeClass() {
-		GLOBAL $BCR;
+		GLOBAL $BCR, $maintain_history;
 		// Shim for testing functions that access the BaseCapsRegestry Class
 		// via the global $BCR var, which is not defined under test conditions.
 		if ( !isset($BCR) ){
@@ -36,14 +41,21 @@ class log_errorTest extends TestCase {
 		}
 		self::$UOV = 'Unexpected Output Value: ';
 		self::$URV = 'Unexpected Return Value: ';
+		self::$omh = $maintain_history;
+		$maintain_history = 1;
+		$_SESSION = NULL; // Initialize the history.
+		InitArray($_SESSION['back_list'], 1, 3, '');
+		$_SESSION['back_list_cnt'] = 0;
 	}
 	public static function tearDownAfterClass() {
-		GLOBAL $BCR;
+		GLOBAL $BCR, $maintain_history;
 		if ( $BCR == 'Temp' ){ // EventTiming Shim clean up.
 			unset($BCR);
 		}
+		$maintain_history = self::$omh;
 		self::$UOV = null;
 		self::$URV = null;
+		self::$omh = null;
 	}
 
 	// Tests go here.
@@ -357,6 +369,81 @@ class log_errorTest extends TestCase {
 		"\n\t\t\t\t\t\tc"."\n\t\t\t\t\t</td>".
 		"\n\t\t\t\t</tr>\n\t\t\t</table>";
 		$this->expectOutputString( $EOM, DDT($TA, $TD, '', '', '', 1), $UOV );
+	}
+	public function testPrintHistoryNullSession() {
+		$URV = self::$URV.'PrintHistory().';
+		$_SESSION = NULL;
+		$this->assertEquals('', PrintHistory(), $URV);
+	}
+	public function testPrintHistoryMaintHistOff() {
+		GLOBAL $maintain_history;
+		$URV = self::$URV.'PrintHistory().';
+		$omh = $maintain_history;
+		$maintain_history = 0;
+		$this->assertEquals('', PrintHistory(), $URV);
+		$maintain_history = $omh;
+	}
+	public function testPrintHistoryInvalidStack() {
+		$URV = self::$URV.'PrintHistory().';
+		$osession = $_SESSION;
+		InitArray($_SESSION['back_list'], 1, 3, '');
+		$_SESSION['back_list'] = 'string';
+		$EOM = "<font color='#ff0000'>History corrupted!</font><br/>"
+		. "<font color='#ff0000'>string</font><br/>";
+		$this->assertEquals($EOM, PrintHistory(), $URV);
+		$_SESSION = $osession;
+	}
+	public function testPrintHistoryInValidStackInit() {
+		$URV = self::$URV.'PrintHistory().';
+		$osession = $_SESSION;
+		InitArray($_SESSION['back_list'], 1, 3, 's');
+		$EOM = "<pre class='session'>0: History Start corrupted.\n</pre>";
+		$this->assertEquals($EOM, PrintHistory(), $URV);
+		$_SESSION = $osession;
+	}
+	public function testPrintHistoryValidStackInit() {
+		$URV = self::$URV.'PrintHistory().';
+		$osession = $_SESSION;
+		InitArray($_SESSION['back_list'], 1, 3, '');
+		$EOM = "<pre class='session'>0: History Start.\n</pre>";
+		$this->assertEquals($EOM, PrintHistory(), $URV);
+		$_SESSION = $osession;
+	}
+	public function testPrintHistoryInValidStackEntry() {
+		$URV = self::$URV.'PrintHistory().';
+		$osession = $_SESSION;
+		InitArray($_SESSION['back_list'], 1, 3, '');
+		$_SESSION['back_list_cnt'] = 0;
+		PushHistory(); // Load History
+		unset($_SESSION['back_list'][1]['session']);
+		$EOM = "<pre class='session'>0: History Start.\n"
+		. "1: History Entry corrupted.\n</pre>";
+		$this->assertEquals($EOM, PrintHistory(), $URV);
+		$_SESSION = $osession;
+	}
+	public function testPrintHistoryValidStackEntry() {
+		$URV = self::$URV.'PrintHistory().';
+		$osession = $_SESSION;
+		InitArray($_SESSION['back_list'], 1, 3, '');
+		$_SESSION['back_list_cnt'] = 0;
+		PushHistory(); // Load History
+		$EOM = "<pre class='session'>0: History Start.\n"
+		. "1: \tURL: /usr/bin/phpunit\n\tSession: \n\n</pre>";
+		$this->assertEquals($EOM, PrintHistory(), $URV);
+		$_SESSION = $osession;
+	}
+	public function testPrintHistoryValidStackEntryQS() {
+		$URV = self::$URV.'PrintHistory().';
+		$osession = $_SESSION;
+		InitArray($_SESSION['back_list'], 1, 3, '');
+		$_SESSION['back_list_cnt'] = 0;
+		$_SERVER['QUERY_STRING'] = '&amp;front=1';
+		PushHistory(); // Load History
+		$EOM = "<pre class='session'>0: History Start.\n"
+		. "1: \tURL: /usr/bin/phpunit?&amp;front=1\n\tSession: \n\n</pre>";
+		$this->assertEquals($EOM, PrintHistory(), $URV);
+		$_SESSION = $osession;
+		unset($_SERVER['QUERY_STRING']);
 	}
 
 	// Add code to a function if needed.

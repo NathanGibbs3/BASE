@@ -49,7 +49,7 @@ include_once("$BASE_path/base_db_common.php");
 AuthorizedRole(10000);
 // Initialize the history
 $_SESSION = NULL;
-InitArray($_SESSION['back_list'], 1, 3, "");
+InitArray($_SESSION['back_list'], 1, 3, '');
 $_SESSION['back_list_cnt'] = 0;
 PushHistory();
 if ( isset($_GET['archive']) ){ // Set cookie to use the correct db.
