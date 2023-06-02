@@ -26,6 +26,7 @@ class state_criteriaTest extends TestCase {
 		self::$opv = $_POST;
 		self::$osv = $_SERVER;
 		$maintain_history = 1;
+		unset($_SERVER['QUERY_STRING']);
 		$_SESSION = NULL; // Initialize the history.
 		InitArray($_SESSION['back_list'], 1, 3, '');
 		$_SESSION['back_list_cnt'] = 0;

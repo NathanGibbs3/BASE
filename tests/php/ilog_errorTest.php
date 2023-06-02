@@ -427,8 +427,24 @@ class log_errorTest extends TestCase {
 		InitArray($_SESSION['back_list'], 1, 3, '');
 		$_SESSION['back_list_cnt'] = 0;
 		PushHistory(); // Load History
+		$TRAVIS = getenv('TRAVIS');
+		if (!$TRAVIS){ // Running on Local Test System.
+			$tmp = '/usr';
+		}else{ // Running in Travis CI
+			$version = explode('.', phpversion());
+			if (
+				( $version[0] == 5 && $version[1] == 3 )
+				|| ( $version[0] == 7 && $version[1] == 2 )
+				|| ( $version[0] == 7 && $version[1] == 3 )
+			){ // Composer Installed PHPUnit
+				$tmp = 'vendor';
+			}else{ // System PHPUnit
+				$tmp = "/home/travis/.phpenv/versions/$version[0].$version[1]";
+			}
+		}
+		$tmp .= '/bin/phpunit';
 		$EOM = "<pre class='session'>0: History Start.\n"
-		. "1: \tURL: /usr/bin/phpunit\n\tSession: \n\n</pre>";
+		. "1: \tURL: $tmp\n\tSession: \n\n</pre>";
 		$this->assertEquals($EOM, PrintHistory(), $URV);
 		$_SESSION = $osession;
 	}
@@ -439,8 +455,24 @@ class log_errorTest extends TestCase {
 		$_SESSION['back_list_cnt'] = 0;
 		$_SERVER['QUERY_STRING'] = '&amp;front=1';
 		PushHistory(); // Load History
+		$TRAVIS = getenv('TRAVIS');
+		if (!$TRAVIS){ // Running on Local Test System.
+			$tmp = '/usr';
+		}else{ // Running in Travis CI
+			$version = explode('.', phpversion());
+			if (
+				( $version[0] == 5 && $version[1] == 3 )
+				|| ( $version[0] == 7 && $version[1] == 2 )
+				|| ( $version[0] == 7 && $version[1] == 3 )
+			){ // Composer Installed PHPUnit
+				$tmp = 'vendor';
+			}else{ // System PHPUnit
+				$tmp = "/home/travis/.phpenv/versions/$version[0].$version[1]";
+			}
+		}
+		$tmp .= '/bin/phpunit';
 		$EOM = "<pre class='session'>0: History Start.\n"
-		. "1: \tURL: /usr/bin/phpunit?&amp;front=1\n\tSession: \n\n</pre>";
+		. "1: \tURL: $tmp?&amp;front=1\n\tSession: \n\n</pre>";
 		$this->assertEquals($EOM, PrintHistory(), $URV);
 		$_SESSION = $osession;
 		unset($_SERVER['QUERY_STRING']);
