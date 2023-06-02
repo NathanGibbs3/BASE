@@ -50,6 +50,7 @@ class state_criteriaTest extends TestCase {
 	// Tests go here.
 	public function testPushHistory(){
 		$URV = self::$URV.'PushHistory().';
+		$osession = $_SESSION;
 		$SCN = $_SERVER['SCRIPT_NAME'];
 		InitArray($HTP['back_list'], 1, 3, '');
 		$HTP['back_list'][1]['SCRIPT_NAME'] = $SCN;
@@ -81,9 +82,17 @@ class state_criteriaTest extends TestCase {
 		PushHistory(); // Test Push QSV.
 		$this->assertEquals(4, $_SESSION['back_list_cnt'], $URV);
 		$this->assertEquals($HTP, $_SESSION, $URV);
+		unset($_SERVER['QUERY_STRING']);
+		unset($_POST['caller']);
+		$_SESSION = $osession;
 	}
 	public function testPopHistory(){
 		$URV = self::$URV.'PopHistory().';
+		$osession = $_SESSION;
+		$_SERVER['QUERY_STRING'] = '&amp;middle=earth';
+		PushHistory(); // Test Push.
+		$_POST['caller'] = 'Vault-Tec';
+		PushHistory(); // Test Push QSV.
 		$SCN = $_SERVER['SCRIPT_NAME'];
 		InitArray($HTP['back_list'], 1, 3, '');
 		$HTP['back_list'][1]['SCRIPT_NAME'] = $SCN;
@@ -108,10 +117,14 @@ class state_criteriaTest extends TestCase {
 		$HTP['back_list_cnt'] = 2;
 		$this->assertEquals(2, $_SESSION['back_list_cnt'], $URV);
 		$this->assertEquals($HTP, $_SESSION, $URV);
+		unset($_SERVER['QUERY_STRING']);
+		unset($_POST['caller']);
+		$_SESSION = $osession;
 	}
 	public function testPushHistoryMaintHistOff() {
 		GLOBAL $maintain_history;
 		$URV = self::$URV.'PushHistory().';
+		$omh = $maintain_history;
 		$maintain_history = 0;
 		$SCN = $_SERVER['SCRIPT_NAME'];
 		InitArray($HTP['back_list'], 1, 3, '');
@@ -128,10 +141,12 @@ class state_criteriaTest extends TestCase {
 		PushHistory(); // Test Push.
 		$this->assertEquals(2, $_SESSION['back_list_cnt'], $URV);
 		$this->assertEquals($HTP, $_SESSION, $URV);
+		$maintain_history = $omh;
 	}
 	public function testPopHistoryMaintHistOff() {
 		GLOBAL $maintain_history;
 		$URV = self::$URV.'PopHistory().';
+		$omh = $maintain_history;
 		$maintain_history = 0;
 		$SCN = $_SERVER['SCRIPT_NAME'];
 		InitArray($HTP['back_list'], 1, 3, '');
@@ -148,29 +163,38 @@ class state_criteriaTest extends TestCase {
 		PopHistory(); // Test Pop.
 		$this->assertEquals(2, $_SESSION['back_list_cnt'], $URV);
 		$this->assertEquals($HTP, $_SESSION, $URV);
+		$maintain_history = $omh;
 	}
 	public function testPrintBackButtonMaintHistOff() {
 		GLOBAL $maintain_history;
 		$URV = self::$URV.'PrintBackButton().';
+		$omh = $maintain_history;
 		$maintain_history = 0;
 		$this->assertEquals('', PrintBackButton(), $URV);
+		$maintain_history = $omh;
 	}
 	public function testPushHistoryNullSession() {
 		$URV = self::$URV.'PushHistory().';
+		$osession = $_SESSION;
 		$_SESSION = NULL;
 		PushHistory(); // Test Push.
 		$this->assertNull($_SESSION , $URV);
+		$_SESSION = $osession;
 	}
 	public function testPopHistoryNullSession() {
 		$URV = self::$URV.'PopHistory().';
+		$osession = $_SESSION;
 		$_SESSION = NULL;
 		PopHistory(); // Test Pop.
 		$this->assertNull($_SESSION , $URV);
+		$_SESSION = $osession;
 	}
 	public function testPrintBackButtonNullSession() {
 		$URV = self::$URV.'PrintBackButton().';
+		$osession = $_SESSION;
 		$_SESSION = NULL;
 		$this->assertEquals('', PrintBackButton(), $URV);
+		$_SESSION = $osession;
 	}
 
 	// Add code to a function if needed.

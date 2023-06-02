@@ -372,8 +372,10 @@ class log_errorTest extends TestCase {
 	}
 	public function testPrintHistoryNullSession() {
 		$URV = self::$URV.'PrintHistory().';
+		$osession = $_SESSION;
 		$_SESSION = NULL;
 		$this->assertEquals('', PrintHistory(), $URV);
+		$_SESSION = $osession;
 	}
 	public function testPrintHistoryMaintHistOff() {
 		GLOBAL $maintain_history;
