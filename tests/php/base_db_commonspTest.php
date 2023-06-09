@@ -1,7 +1,8 @@
 <?php
 use PHPUnit\Framework\TestCase;
 
-// Test fucntions in: /base_DB_common.php
+// Test fucntions in: base_DB_common.php
+
 /**
   * Code Coverage Directives.
   * @covers ::verify_php_build

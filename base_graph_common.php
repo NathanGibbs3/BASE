@@ -854,7 +854,7 @@ function GetCountryDataSet( &$xdata, $chart_type, $min_threshold, $criteria ){
 				. ' must also be part of safe_mode_exec_dir in /etc/php.ini.'
 				. '<pre>';
 				. XSSPrintSafe( 'safe_mode_exec_dir = "')
-				. dirname($IP2CC) . XSSPrintSafe('"');
+				. dirname($IP2CC) . XSSPrintSafe('"')
 				. '</pre>'
 				. 'It seems that <b>not more than ONE SINGLE directory</b>'
 				. ' may be assigned to safe_mode_exec_dir.'

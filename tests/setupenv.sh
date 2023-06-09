@@ -185,21 +185,29 @@ fi
 # Setup ADODB
 # Sourceforge Source Setup
 #ADOSrc=sourceforge.net/projects/adodb
-#ADODl=files/adodb-php-4-and-5
 #ADOFileSfx=.tgz
 #GHMode=sourceforge
 # GitHub Source Setup
 ADOSrc=github.com/ADOdb/ADOdb
-ADODl=archive
 ADOFilePfx=v
 ADOFileSfx=.tar.gz
 GHMode=release
+# GitHub Source Branch
+#ADOSrc=github.com/NathanGibbs3/ADOdb
+#GHMode=branch
+#GHBranch="NathanGibbs3-Issue#978"
 if [ "$pvM" \> "7" ]; then # PHP 8x
 	ADODBVer=5.22.5
+	ADOSrc=github.com/NathanGibbs3/ADOdb
+	GHMode=branch
+	GHBranch="NathanGibbs3-Issue#978"
 	if [ "$1" == "" ] && [ "$TRAVIS" == "true" ]; then
 		ADODBPATH="ADOdb-$ADODBVer"
 	fi
 elif [ "$pvM" \> "5" ]; then # PHP 7x
+	ADOSrc=github.com/NathanGibbs3/ADOdb
+	GHMode=branch
+	GHBranch="NathanGibbs3-Issue#978"
 	if [ "$pvm" \> "1" ]; then # PHP 7.2+
 		ADODBVer=5.20.12
 	else

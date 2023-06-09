@@ -454,7 +454,7 @@ class baseCon {
 			$field = '';
 		}
 		// Getting the insert ID fails on certain databases (e.g. postgres),
-		// but we may use it on the once it works on. This function returns
+		// but we may use it on the DB's it works on. This function returns
 		// -1 if the dbtype is postgres, then we can run a kludge query to get
 		// the insert ID. That query may vary depending upon which table you
 		// are looking at and what variables you have set at the current
