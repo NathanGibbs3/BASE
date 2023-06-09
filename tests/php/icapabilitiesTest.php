@@ -1,11 +1,19 @@
 <?php
 use PHPUnit\Framework\TestCase;
 
-// Test fucntions in /includes/base_capabilities.php
+// Test fucntions in includes/base_capabilities.php
+
 /**
   * Code Coverage Directives.
   * @backupGlobals disabled
+  * @covers BaseCapsRegistry
+  * @uses ::ChkAccess
+  * @uses ::ChkLib
+  * @uses ::GetPHPSV
   * @uses ::LoadedString
+  * @uses ::PearInc
+  * @uses ::SetConst
+  * @uses ::is_key
   */
 
 class capabilitiesTest extends TestCase {
@@ -33,7 +41,7 @@ class capabilitiesTest extends TestCase {
 	}
 
 	// Tests go here.
-	// Tests for Class QueryState
+	// Tests for Class BaseCapsRegistry
 	public function testClassBaseCapsRegistryConstruct(){
 		$URV = self::$URV.'Construct().';
 		$this->assertInstanceOf(

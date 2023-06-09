@@ -44,11 +44,11 @@ function GetVendor( $mac ){
 	$mac = substr($mac, 0, 6);
 	$vendor = 'unknown';
 	$file = 'base_mac_prefixes.map';
-	if ( ChkAccess($file) == 1 ){
+	if( ChkAccess($file) > 0 ){
 		$fp = fopen($file, 'r');
-		while ( !feof($fp) ){
+		while( !feof($fp) ){
 			$line = fgets($fp);
-			if ( strcmp($mac, substr($line, 0, 6)) == 0 ){
+			if( strcmp($mac, substr($line, 0, 6)) == 0 ){
 				$vendor = substr($line, 8, strlen($line)-9);
 			}
 		}
@@ -988,7 +988,7 @@ function base_include ( $file = '' ){
 		$Loc = realpath($tfile); // Final file must
 		if ( $Loc != false // exist and resolve to an absolute path.
 			&& fileowner($Loc) != false // not be owned by UID 0 (root).
-			&& ChkAccess($Loc) == 1 // be a real file & be readable.
+			&& ChkAccess($Loc) > 0 // be a real file & be readable.
 		){
 			if ( preg_match("/^" . $ReqRE ."$/i", $Loc) ){
 				// be in specific location with specific extension.
@@ -1053,13 +1053,15 @@ function ChkLib ( $path = '', $LibLoc = '', $LibFile = '' ){
 			KML($EMPfx . "Chk: $FinalLib", 3);
 			$tmp = ChkAccess($FinalLib);
 			$Msg = $EMPfx . "Lib: $FinalLib ";
-			if( $tmp == 1 ){
+			if( $tmp > 0 ){
 				$Msg .= 'found';
 				$Ret = $FinalLib;
 			}else{
 				$Msg .= 'not ';
 			}
-			if( $tmp == -1 ){
+			if( $tmp == 0 ){
+				$Msg .= 'file';
+			}elseif( $tmp == -1 ){
 				$Msg .= 'found';
 			}elseif( $tmp == -2 ){
 				$Msg .= 'readable';

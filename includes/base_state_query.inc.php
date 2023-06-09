@@ -243,14 +243,17 @@ class QueryState {
 	}
 	function PrintResultCnt(){
 		GLOBAL $show_rows;
-		$Pfx = NLI("<div style='text-align:center;margin:auto;'>",2);
+		$Pfx = NLI(
+			"<div style='text-align:center; margin:auto; width: 100%;'>", 2
+		);
 		$Sfx = "</div>";
 		if ( $this->num_result_rows != 0 ){
 			if ( $this->isCannedQuery() ){
 				print $Pfx . _DISPLAYING . ' ' .
 				$this->GetCurrentCannedQueryDesc() . $Sfx;
 			}else{
-				printf( $Pfx . _DISPLAYINGTOTAL . $Sfx,
+				print $Pfx . sprintf(
+					_DISPLAYINGTOTAL . $Sfx,
                   ($this->current_view * $show_rows)+1,
                   (($this->current_view * $show_rows) + $show_rows-1) < $this->num_result_rows ? 
                   (($this->current_view * $show_rows) + $show_rows) : $this->num_result_rows, 
@@ -260,16 +263,19 @@ class QueryState {
 			print $Pfx . '<b>' . _NOALERTS . '</b>' . $Sfx;
 		}
 	}
+
 	function PrintBrowseButtons(){
 		GLOBAL $show_rows, $max_scroll_buttons;
-    /* Don't print browsing buttons for canned query */
-    if ( $this->isCannedQuery() )
-       return;
-
-    if ( ($this->num_result_rows > 0) && ($this->num_result_rows > $show_rows) )
-    {
-       echo "<!-- Query Result Browsing Buttons -->\n".
-            "<P><CENTER>\n".
+		// Don't print browsing buttons for canned query.
+		if( $this->isCannedQuery() ){
+			return;
+		}
+		if(
+			$this->num_result_rows > 0 && $this->num_result_rows > $show_rows
+		){
+			NLIO("<!-- Query Result Browsing Buttons -->", 3);
+			NLIO("<br/>", 3);
+       echo "<CENTER>\n".
             "<TABLE BORDER=1>\n".
             "   <TR><TD ALIGN=CENTER>"._QUERYRESULTS."<BR>&nbsp\n";
 
@@ -307,9 +313,11 @@ class QueryState {
      if ( ($tmp_top) < $tmp_num_views )
         echo ' >> ';
 
-     echo "  </TD></TR>\n</TABLE>\n</CENTER>\n\n";
-   }
+		PrintFramedBoxFooter(1,2);
+     echo "</CENTER>\n\n";
+		}
 	}
+
 	function PrintAlertActionButtons(){
 		if ( count($this->valid_action_list) == 0 ){
 			return;

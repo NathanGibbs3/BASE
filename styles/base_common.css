@@ -36,7 +36,7 @@ div.systemdebug {
 	color: #666666;
 	font-family: Arial;
 	border: double;
-	max-height: 10rem;
+	max-height: 10em;
 	width: 100%;
 	background: #bbbbbb;
 	padding: 3px;
@@ -44,9 +44,8 @@ div.systemdebug {
 }
 
 div.systemstats {
-	width: fit-content;
+	width: 55%;
 	padding: 3px;
-	padding-left: 5%;
 }
 
 form {
@@ -100,7 +99,7 @@ tr.qro {
 }
 
 pre.session {
-	max-height: 25rem;
+	max-height: 25em;
 	border: 1px solid gray;
 	margin: 0px;
 	overflow: auto;
@@ -112,4 +111,8 @@ pre.session {
 	font-family: Courier New;
 	font-weight: bold;
 	scrollbar-color: white green;
+}
+
+table {
+	border-collapse: collapse;
 }

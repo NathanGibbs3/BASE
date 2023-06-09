@@ -10,7 +10,8 @@
 **                Sean Muller <samwise_diver@users.sourceforge.net>
 ** Built upon work by Roman Danyliw <rdd@cert.org>, <roman@danyliw.com>
 **
-** Purpose: Input GET/POST variables
+** Purpose: Time statistics
+// Input GET/POST variables
 **   - submit:
 **   - time:
 **   - time_sep:
@@ -24,10 +25,15 @@
 
 $sc = DIRECTORY_SEPARATOR;
 require_once("includes$sc" . 'base_krnl.php');
+include_once(BASE_IPath . 'base_include.inc.php');
+include_once("$BASE_path/base_db_common.php");
+include_once("$BASE_path/base_stat_common.php");
+include_once("$BASE_path/base_qry_common.php");
 
-function StoreAlertNum($sql, $label, $time_sep, $i_year, $i_month, $i_day, $i_hour)
-{  
-  GLOBAL $db, $cnt, $label_lst, $value_lst, $value_POST_lst, $debug_mode;
+function StoreAlertNum(
+	$sql, $label, $time_sep, $i_year, $i_month, $i_day, $i_hour
+){
+	GLOBAL $db, $cnt, $label_lst, $value_lst, $value_POST_lst, $debug_mode;
 
   $label_lst [ $cnt ] = $label;
 
@@ -115,11 +121,6 @@ function PrintTimeProfile(){
 	NLIO('</table>',2);
 }
 
-include_once("$BASE_path/includes/base_include.inc.php");
-include_once("$BASE_path/base_db_common.php");
-include_once("$BASE_path/base_stat_common.php");
-include_once("$BASE_path/base_qry_common.php");
-
 AuthorizedRole(10000);
 $db = NewBASEDBConnection($DBlib_path, $DBtype); // Connect to DB.
 $db->baseDBConnect(
@@ -138,7 +139,6 @@ $criteria_clauses = ProcessCriteria();
 PrintCriteria('');
 $from = " FROM acid_event ".$criteria_clauses[0];
 $where = " WHERE ".$criteria_clauses[1];
-UpdateAlertCache($db);
   if ( $submit == "" )
   {
    InitArray($time, $MAX_ROWS, TIME_CFCNT, "");

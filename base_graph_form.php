@@ -20,9 +20,9 @@
 */
 
 // Issue #5
-if (
+if(
 	!isset($BASE_path)
-	|| ( getenv('TRAVIS') && version_compare(PHP_VERSION, '5.3.0', '<') )
+	|| (getenv('TRAVIS') && version_compare(PHP_VERSION, '5.3.0', '<'))
 ){
 	if ( !isset($BASE_path) ){
 		// Testing via php -f CLI on local system.

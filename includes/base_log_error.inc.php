@@ -63,7 +63,23 @@ function returnErrorMessage( $message, $color = "#ff0000", $br = 0 ){
 	return $error;
 }
 
-function returnBuildError( $Desc, $Opt ){ // Standardiazed PHP build error.
+function returnSMFN( $msg = '' ){
+	// Standardiazed PHP Safe Mode File Owner Notice.
+	$PHPVer = GetPHPSV();
+	$Ret = '';
+	if(
+		($PHPVer[0] < 5 || ($PHPVer[0] == 5 && $PHPVer[1] < 4))
+		&& ini_get('safe_mode') == true && LoadedString($msg)
+	){
+		$EMsg = 'In PHP safe_mode ' . XSSPrintSafe($msg) . ' must be owned by '
+		. 'the user under which the web server is running.';
+		$Ret = returnErrorMessage($EMsg, 'black', 1);
+	}
+	return $Ret;
+}
+
+function returnBuildError( $Desc = '', $Opt = ''){
+	// Standardiazed PHP build error.
 	if( LoadedString($Desc) && LoadedString($Opt) ){
 		$Desc = XSSPrintSafe($Desc);
 		$Opt = XSSPrintSafe($Opt);

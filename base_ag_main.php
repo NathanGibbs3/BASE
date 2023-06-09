@@ -48,17 +48,24 @@ if ( class_exists('UILang') ){ // Issue 11 backport shim.
 }
 
 $AdminAuth = AuthorizedRole(50); // AG-Editor
-  $cs = new CriteriaState("base_ag_main.php");
-  $cs->ReadState();
-  $qs = new QueryState();
-  $submit = ImportHTTPVar("submit", VAR_ALPHA | VAR_SPACE, array(_SELECTED, _ALLONSCREEN, _ENTIREQUERY));
-  $ag_action = ImportHTTPVar("ag_action", VAR_ALPHA | VAR_USCORE);
-  $ag_id = filterSql(ImportHTTPVar("ag_id", VAR_DIGIT));
-  $ag_name = filterSql(ImportHTTPVar("ag_name"));
-  $ag_desc = filterSql(ImportHTTPVar("ag_desc"));
-  $page_title = _AGMAINTTITLE;
-  PrintBASESubHeader($page_title, $page_title, $cs->GetBackLink(), $refresh_all_pages);
-
+$cs = new CriteriaState("base_ag_main.php");
+$cs->ReadState();
+$qs = new QueryState();
+$submit = ImportHTTPVar(
+	'submit', VAR_ALPHA | VAR_SPACE,
+	array(_SELECTED, _ALLONSCREEN, _ENTIREQUERY)
+);
+$ag_action = ImportHTTPVar("ag_action", VAR_ALPHA | VAR_USCORE);
+$ag_id = filterSql(ImportHTTPVar("ag_id", VAR_DIGIT));
+$ag_name = filterSql(ImportHTTPVar("ag_name"));
+$ag_desc = filterSql(ImportHTTPVar("ag_desc"));
+$page_title = _AGMAINTTITLE;
+PrintBASESubHeader(
+	$page_title, $page_title, $cs->GetBackLink(), $refresh_all_pages
+);
+if( $debug_mode > 0 ){ // Dump debugging info on the shared state.
+	PrintCriteriaState();
+}
 if ( is_numeric($submit) ){ // A browsing button was clicked.
 	if ( $debug_mode > 0 ){
 		ErrorMessage("Browsing Clicked ($submit)");
@@ -81,7 +88,6 @@ if ( $AdminAuth ){
 NLIO($Sep.$Hrst."clear'>"._CLEAR.'</a>',4);
 NLIO('</div>');
 NLIO('<hr/>');
-NLIO("<form name='PacketForm' action='base_ag_main.php' method='post'>");
 if ( $debug_mode > 0 ){
 	$TK = array ( 'ag_action', 'submit', 'ag_id' );
 	$DI = array();
@@ -105,34 +111,26 @@ $qs->SetActionSQL("SELECT ag_sid, ag_cid FROM acid_ag_alert WHERE ag_id='".$ag_i
 $et->Mark("Initialization");
 $qs->RunAction($submit, PAGE_QRY_AG, $db);
 $et->Mark("Alert Action");
-switch ($ag_action) {
-    case "create" :
-        echo '<h3>'._CREATEGROUPS.'</h3>';
-        break;
-    
-    case "view" :
-        echo '<h3>'._VIEWGROUPS.'</h3>';
-        break;
-    
-    case ("edit" || "save") :
-        echo '<h3>'._EDITGROUPS.'</h3>';
-        break;
-        
-    case ("delete" || "delete_confirm") :
-        echo '<h3>'._DELETEGROUPS.'</h3>';
-        break;
-        
-    case ("clear" || "clear_confirm") :
-        echo '<h3>'._CLEARGROUPS.'</h3>';
-        break;
-    
-    case "list" :
-        echo '<h3>'._LISTGROUPS.'</h3>';
-        break;
-        
-    default :
-        $ag_action = "list";
+
+$AgaDesc = array(
+	'create' => _CREATEGROUPS,
+	'view' => _VIEWGROUPS,
+	'edit' => _EDITGROUPS,
+	'save' => _EDITGROUPS,
+	'delete' => _DELETEGROUPS,
+	'delete_confirm' => _DELETEGROUPS,
+	'clear' => _CLEARGROUPS,
+	'clear_confirm' => _CLEARGROUPS,
+	'list' => _LISTGROUPS,
+);
+if( is_key($ag_action, $AgaDesc) ){
+	$AcDesc = $AgaDesc[$ag_action];
+}else{
+	$AcDesc = $AgaDesc['list']; // Something strange is going on, lock it down.
+	$ag_action = "list";
 }
+NLIO("<h3>$AcDesc</h3>", 2);
+NLIO("<form name='PacketForm' action='base_ag_main.php' method='post'>", 2);
 
 if ($submit != "") {
     if ($ag_action == "create") {

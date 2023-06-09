@@ -384,7 +384,7 @@ function Icon ( $icon = '', $desc = '', $tab = 3, $sclass = '' ){
 		$icon = CleanVariable($icon, VAR_ALPHA);
 		$rfile .= "images$sc$ICommon" . $icon . $ISfx;
 		$file = $IPfx . $icon . $ISfx;
-		if( ChkAccess($rfile) == 1 ){
+		if( ChkAccess($rfile) > 0 ){
 			if( !is_int($tab) || $tab < 1 ){ // Input Validation
 				$tab = 3;
 			}

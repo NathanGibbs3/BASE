@@ -18,6 +18,8 @@
 ********************************************************************************
 */
 
+NLIO("<form name='PacketForm' action='base_qry_main.php' method='get'>", 2);
+ExportHTTPVar('search', 1); // Set Search Form Flag.
 if ( isset($sort_order) ){ // Issue #5
 if ( $submit == "TCP" )        {  $cs->criteria['layer4']->Set("TCP");   }
 if ( $submit == "UDP" )        {  $cs->criteria['layer4']->Set("UDP");   }
@@ -225,7 +227,10 @@ echo '
 
 	ExportHTTPVar('new',1,3);
 	$SOFIPfx = "<input type='radio' name='sort_order' value='";
-	NLIO("<div style='margin-left: 25%; margin-right: 25%;'>",3);
+	NLIO(
+		"<div style='float: left; margin-left: 25%; margin-right: 25%; "
+		. "width: 50%;'>"
+	);
 	PrintFramedBoxHeader(_QFRMSORTORDER,'',1,4);
 	NLIO(
 		$SOFIPfx . "none'"

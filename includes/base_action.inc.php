@@ -922,23 +922,28 @@ function Action_archive_alert_op($sid, $cid, &$db, $action_arg, &$ctx){
 					$tmp_result = $db2->baseExecute($tmp_sql);
 					$tmp_row = $tmp_result->baseFetchRow();
 					$tmp_result->baseFreeRows();
-					if ( $tmp_row == '' ){
+					if ( $tmp_row == '' ){ // Not in sig_class table, add it.
 						$sql = "INSERT INTO sig_class (sig_class_name) ".
 						" VALUES ('".$sig_class_name."')";
 						$db2->baseExecute($sql);
-						$sig_class_id = $db2->baseInsertID();
-						// Kludge query. Getting insert ID fails on postgres.
-						if ($db->DB_type == 'postgres' ){
-							$sql = "SELECT last_value FROM ".
-							"sig_class_sig_class_id_seq";
-							$tmp_result = $db2->baseExecute($sql);
-							$tmp_row = $tmp_result->baseFetchRow();
-							$tmp_result->baseFreeRows();
-							if ( isset($tmp_row) && !empty($tmp_row) ){
-								$sig_class_id = $tmp_row[0];
-							}else{
-								$sig_class_id = -1;
-								// There's "NOT NULL" in the mysql schema.
+						$sig_class_id = $db2->baseInsertID(
+							'sig_class', 'sig_class_id'
+						);
+						if( $sig_class_id == -1 ){
+							// Kludge query. Getting insert ID fails on
+							// postgres.
+							if ($db->DB_type == 'postgres' ){
+								$sql = "SELECT last_value FROM ".
+								"sig_class_sig_class_id_seq";
+								$tmp_result = $db2->baseExecute($sql);
+								$tmp_row = $tmp_result->baseFetchRow();
+								$tmp_result->baseFreeRows();
+								if ( isset($tmp_row) && !empty($tmp_row) ){
+									$sig_class_id = $tmp_row[0];
+								}else{
+									$sig_class_id = -1;
+									// There's "NOT NULL" in the mysql schema.
+								}
 							}
 						}
 					}else{
@@ -974,14 +979,16 @@ function Action_archive_alert_op($sid, $cid, &$db, $action_arg, &$ctx){
 				"(sig_name) VALUES ('".$sig_name."')";
 			}
 			$db2->baseExecute($sql);
-			$sig_id = $db2->baseInsertID();
-			// Kludge query. Getting insert ID fails on postgres.
-			if ( $db->DB_type == 'postgres' ){
-				$sql = "SELECT last_value FROM signature_sig_id_seq";
-				$tmp_result = $db2->baseExecute($sql);
-				$tmp_row = $tmp_result->baseFetchRow();
-				$tmp_result->baseFreeRows();
-				$sig_id = $tmp_row[0];
+			$sig_id = $db2->baseInsertID('signature', 'sig_id');
+			if( $sig_id == -1 ){
+				// Kludge query. Getting insert ID fails on postgres.
+				if ( $db->DB_type == 'postgres' ){
+					$sql = "SELECT last_value FROM signature_sig_id_seq";
+					$tmp_result = $db2->baseExecute($sql);
+					$tmp_row = $tmp_result->baseFetchRow();
+					$tmp_result->baseFreeRows();
+					$sig_id = $tmp_row[0];
+				}
 			}
 			// xxx jl: </signature>
 		}
@@ -1006,15 +1013,19 @@ function Action_archive_alert_op($sid, $cid, &$db, $action_arg, &$ctx){
 				$sql = "INSERT INTO reference_system (ref_system_name) ".
 				" VALUES ('".$sig_reference[$j][2]."')";
 				$db2->baseExecute($sql);
-				$ref_system_id = $db2->baseInsertID();
-				// Kludge query. Getting insert ID fails on postgres.
-				if ($db->DB_type == 'postgres' ){
-					$sql = "SELECT last_value FROM ".
-					"reference_system_ref_system_id_seq";
-					$tmp_result = $db2->baseExecute($sql);
-					$tmp_row = $tmp_result->baseFetchRow();
-					$tmp_result->baseFreeRows();
-					$ref_system_id = $tmp_row[0];
+				$ref_system_id = $db2->baseInsertID(
+					'reference_system', 'ref_system_id'
+				);
+				if( $ref_system_id == -1 ){
+					// Kludge query. Getting insert ID fails on postgres.
+					if ($db->DB_type == 'postgres' ){
+						$sql = "SELECT last_value FROM ".
+						"reference_system_ref_system_id_seq";
+						$tmp_result = $db2->baseExecute($sql);
+						$tmp_row = $tmp_result->baseFetchRow();
+						$tmp_result->baseFreeRows();
+						$ref_system_id = $tmp_row[0];
+					}
 				}
 			}else{
 				$ref_system_id = -1;
@@ -1051,14 +1062,16 @@ function Action_archive_alert_op($sid, $cid, &$db, $action_arg, &$ctx){
 					"VALUES (".$sig_reference[$j][0].",'".$sig_reference[$j][1]."')";
 				}
 				$db2->baseExecute($sql);
-				$ref_id = $db2->baseInsertID();
-				// Kludge query. Getting insert ID fails on postgres.
-				if ($db->DB_type == 'postgres' ){
-					$sql = "SELECT last_value FROM reference_ref_id_seq";
-					$tmp_result = $db2->baseExecute($sql);
-					$tmp_row = $tmp_result->baseFetchRow();
-					$tmp_result->baseFreeRows();
-					$ref_id = $tmp_row[0];
+				$ref_id = $db2->baseInsertID('reference', 'ref_id');
+				if( $ref_id == -1 ){
+					// Kludge query. Getting insert ID fails on postgres.
+					if ($db->DB_type == 'postgres' ){
+						$sql = "SELECT last_value FROM reference_ref_id_seq";
+						$tmp_result = $db2->baseExecute($sql);
+						$tmp_row = $tmp_result->baseFetchRow();
+						$tmp_result->baseFreeRows();
+						$ref_id = $tmp_row[0];
+					}
 				}
 			}
 			if ( !isset($ref_id) ){

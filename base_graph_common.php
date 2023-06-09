@@ -1,33 +1,40 @@
 <?php
-/*******************************************************************************
-** Basic Analysis and Security Engine (BASE)
-** Copyright (C) 2004 BASE Project Team
-** Copyright (C) 2000 Carnegie Mellon University
-**
-** (see the file 'base_main.php' for license details)
-**
-** Project Leads: Kevin Johnson <kjohnson@secureideas.net>
-**                Sean Muller <samwise_diver@users.sourceforge.net>
-** Built upon work by Roman Danyliw <rdd@cert.org>, <roman@danyliw.com>
-**
-** Purpose: extracts and calculates the data to plot
-********************************************************************************
-** Authors:
-********************************************************************************
-** Kevin Johnson <kjohnson@secureideas.net
-**
-********************************************************************************
-*/
+// Basic Analysis and Security Engine (BASE)
+// Copyright (C) 2019-2023 Nathan Gibbs
+// Copyright (C) 2004 BASE Project Team
+// Copyright (C) 2000 Carnegie Mellon University
+//
+//   For license info: See the file 'base_main.php'
+//
+//       Project Lead: Nathan Gibbs
+// Built upon work by: Kevin Johnson & the BASE Project Team
+//                     Roman Danyliw <rdd@cert.org>, <roman@danyliw.com>
+//
+//            Purpose: Graphing System support functions.
+//                   : Graph data extraction and calculations.
+//
+//          Author(s): Nathan Gibbs
+//                     Kevin Johnson
 
 $sc = DIRECTORY_SEPARATOR;
 require_once("includes$sc" . 'base_krnl.php');
-include_once("$BASE_path/base_qry_common.php");
-include_once("$BASE_path/includes/base_log_error.inc.php");
-include_once("$BASE_path/includes/base_signature.inc.php");
-include_once("$BASE_path/includes/base_iso3166.inc.php");
+include_once("$BASE_path$sc". 'base_qry_common.php');
+include_once(BASE_IPath . 'base_log_error.inc.php');
+include_once(BASE_IPath . 'base_signature.inc.php');
+include_once(BASE_IPath . 'base_iso3166.inc.php');
 
-// Some colors to be used in graphs.
-$named_colors = array('aliceblue','antiquewhite','aqua','aquamarine','azure','beige','bisque','black','blanchedalmond','blue','blueviolet','brown','burlywood','cadetblue','chartreuse','chocolate','coral','cornflowerblue','cornsilk','crimson','cyan','darkblue','darkcyan','darkgoldenrod','darkdray','darkgreen','darkhaki','darkorange','darkolivegreen','darkmagenta','darkorchid','darkred','darksalmon','darkseagreen','darkviolet','deeppink','deepskyblue','dimgray','dodgerblue','firebrick','floralwhite','forestgreen','fuchsia','gainsboro','ghostwhite','gold','goldenrod','gray','green','greenyellow','indianred','indigo','ivory');
+$named_colors = array( // Some colors to be used in graphs.
+	'aliceblue', 'antiquewhite', 'aqua', 'aquamarine', 'azure', 'beige',
+	'bisque', 'black', 'blanchedalmond', 'blue', 'blueviolet', 'brown',
+	'burlywood', 'cadetblue', 'chartreuse', 'chocolate', 'coral',
+	'cornflowerblue', 'cornsilk', 'crimson', 'cyan', 'darkblue', 'darkcyan',
+	'darkgoldenrod', 'darkdray', 'darkgreen', 'darkhaki', 'darkorange',
+	'darkolivegreen', 'darkmagenta', 'darkorchid', 'darkred', 'darksalmon',
+	'darkseagreen', 'darkviolet', 'deeppink', 'deepskyblue', 'dimgray',
+	'dodgerblue', 'firebrick', 'floralwhite', 'forestgreen', 'fuchsia',
+	'gainsboro', 'ghostwhite', 'gold', 'goldenrod', 'gray', 'green',
+	'greenyellow', 'indianred', 'indigo', 'ivory'
+);
 
 // Chart type constants:
 // Not prefixed with '_' so we don't interfere with PHP define's.
@@ -52,21 +59,100 @@ SetConst('CHARTTYPE_DST_COUNTRY_ON_MAP', 17);
 SetConst('CHARTTYPE_UNIQUE_SIGNATURE', 18);
 
 // @codeCoverageIgnoreStart
-// These code paths are installation dependent.
-// Testing would be problematic.
+// Installation dependent code paths. Testing would be problematic.
 function VerifyGraphingLib(){
-	$Ret = false; // Lib Error
-	if( !function_exists('imagecreate') ){// Is GD compiled into PHP.
+	GLOBAL $BCR;
+	$Ret = false; // Lib Error Flag.
+	$GD = false; // PHP GD Flag.
+	$IG = false; // Graphing Lib Flag.
+	if( isset($BCR) && is_object($BCR) ){
+		$GD = $BCR->GetCap('PHP_GD');
+		$IG = $BCR->GetCap('Graph');
+	}else{
+		$GD = function_exists('imagecreate');
+		$IG = PearInc('Graphing', 'Image', 'Graph');
+	}
+	if( !$GD ){
 		print returnBuildError('GD', '--with-gd');
 	}else{
-		$Ret = PearInc('Graphing', 'Image', 'Graph');
+		$Ret = $IG;
 	}
-	if ( $Ret == false ){ // Keep Issue #100 from happening here.
+	if( $Ret == false ){ // Keep Issue #100 from happening here.
 		sleep(60);
 	}
 	return $Ret;
 }
 // @codeCoverageIgnoreEnd
+
+function check_worldmap(){
+	GLOBAL $debug_mode;
+	$EMPfx = __FUNCTION__ . ': ';
+	$Ret = 0;
+	$php_path_array = explode(PATH_SEPARATOR, ini_get('include_path'));
+	if( $debug_mode > 0 ){
+		ErrorMessage( $EMPfx . 'Find the worldmap?','black',1);
+	}
+	$EMPfx .= 'ERROR: ';
+	$sc = DIRECTORY_SEPARATOR;
+	$MapLoc = implode( $sc, array('Image','Graph','Images','Maps') );
+	$WMif = 'world_map6.png';
+	$WMcf = 'world_map6.txt';
+	foreach( $php_path_array as $single_path ){
+		$WMapImg = implode( $sc, array($single_path, $MapLoc, $WMif) );
+		if( $debug_mode > 0 ){
+			ErrorMessage( "&quot;" . $WMapImg . "&quot;",'black',1);
+		}
+		$tmp = ChkAccess($WMapImg);
+		$EMsg = '';
+		if( $tmp > 0 ){
+			// We ASSUME, that this is the correct worldmap file.
+			// Not necessarily true, though. A simplification, therefore.
+			$WMapCsf = implode($sc, array($single_path, $MapLoc, $WMcf));
+			$tmp = ChkAccess($WMapCsf);
+			if( $tmp > 0 ){
+					$Ret = 1;
+					break;
+			}else{
+				$EMsg = "$EMPfx Coordinates: $WMapCsf not ";
+				if( $tmp == 0 ){
+					$EMsg .= 'file';
+				}elseif( $tmp == -1 ){
+					$EMsg .= 'found';
+				}elseif( $tmp == -2 ){
+					$EMsg .= 'readable';
+				}
+				$$EMsg .= '.';
+				ErrorMessage($EMsg, 0, 1);
+			}
+		}else{
+			$EMsg = "$EMPfx Image: $WMapImg not ";
+			if( $tmp == 0 ){
+				$EMsg .= 'file';
+			}elseif( $tmp == -1 ){
+				$EMsg .= 'found';
+			}elseif( $tmp == -2 ){
+				$EMsg .= 'readable';
+			}
+			$$EMsg .= '.';
+			ErrorMessage($EMsg, 0, 1);
+		}
+		if( $EMsg != '' ){ // Safe Mode File Owner Notice if necessary.
+			print returnSMFN("both $WMif and $WMcf");
+		}
+	}
+	if( $Ret != 1 ){
+		ErrorMessage(
+			$EMPfx . 'Worldmap functions not available. Go into the "PEAR '
+			. 'directory", as can be found by "pear config-show", and then '
+			. "into the subdirectory $MapLoc$sc. This is the location where "
+			. "$WMif and $WMcf must be installed.",
+			0, 1
+		);
+		// Safe Mode File Owner Notice if necessary.
+		print returnSMFN("both $WMif and $WMcf");
+	}
+	return $Ret;
+}
 
 function ProcessChartTimeConstraint(
 	$start_hour, $start_day, $start_month, $start_year,
@@ -133,6 +219,7 @@ function ProcessChartTimeConstraint(
 	}
 	return $tmp_sql;
 }
+
 function StoreAlertNum( $sql, $label, &$xdata, &$cnt, $min_threshold ){
 	GLOBAL $db, $debug_mode;
 	if ( $debug_mode > 0 ){
@@ -150,16 +237,10 @@ function StoreAlertNum( $sql, $label, &$xdata, &$cnt, $min_threshold ){
 	}
 }
 
-function GetTimeDataSet(
-	&$xdata, $chart_type, $data_source, $min_threshold, $criteria
-){
+function GetTimeDataSet( &$xdata, $chart_type, $min_threshold, $criteria ){
 	GLOBAL $db, $debug_mode, $chart_begin_year, $chart_begin_month,
 	$chart_begin_day, $chart_begin_hour, $chart_end_year, $chart_end_month,
 	$chart_end_day, $chart_end_hour;
-	if ( $debug_mode > 0 ){
-		ErrorMessage( "chart_type = $chart_type",'black',1 );
-		ErrorMessage( "data_source = $data_source",'black',1 );
-	}
 	// Get time range for whole DB.
 	$sql = "SELECT min(timestamp), max(timestamp) FROM acid_event " .
 	$criteria[0] . " WHERE ".$criteria[1];
@@ -368,9 +449,8 @@ function GetTimeDataSet(
 	return $cnt;
 }
 
-function GetIPDataSet(&$xdata, $chart_type, $data_source, $min_threshold, $criteria)
-{
-   GLOBAL $db, $debug_mode;
+function GetIPDataSet( &$xdata, $chart_type, $min_threshold, $criteria ){
+	GLOBAL $db, $debug_mode;
 
    if ( $chart_type == 6 ) 
       $sql = "SELECT DISTINCT ip_src, COUNT(acid_event.cid) ".
@@ -383,8 +463,7 @@ function GetIPDataSet(&$xdata, $chart_type, $data_source, $min_threshold, $crite
              "WHERE ".$criteria[1]." AND ip_dst is NOT NULL ".
              "GROUP BY ip_dst ORDER BY ip_dst";
 
-   if ( $debug_mode > 0)  echo $sql."<BR>";
-   
+	DumpSQL($sql, 1);
    $result = $db->baseExecute($sql);
 
    $cnt = 0;
@@ -402,9 +481,8 @@ function GetIPDataSet(&$xdata, $chart_type, $data_source, $min_threshold, $crite
    return $cnt;
 }
 
-function GetPortDataSet(&$xdata, $chart_type, $data_source, $min_threshold, $criteria)
-{
-   GLOBAL $db, $debug_mode;
+function GetPortDataSet( &$xdata, $chart_type, $min_threshold, $criteria ){
+	GLOBAL $db, $debug_mode;
 
    if ( ($chart_type == 8) || ($chart_type == 9) ) 
       $sql = "SELECT DISTINCT layer4_dport, COUNT(acid_event.cid) ".
@@ -417,8 +495,7 @@ function GetPortDataSet(&$xdata, $chart_type, $data_source, $min_threshold, $cri
              "WHERE ".$criteria[1]." AND layer4_sport is NOT NULL ".
              "GROUP BY layer4_sport ORDER BY layer4_sport";
 
-   if ( $debug_mode > 0)  echo $sql."<BR>";
-   
+	DumpSQL($sql, 1);
    $result = $db->baseExecute($sql);
 
    $cnt = 0;
@@ -436,17 +513,17 @@ function GetPortDataSet(&$xdata, $chart_type, $data_source, $min_threshold, $cri
    return $cnt;
 }
 
-function GetClassificationDataSet(&$xdata, $chart_type, $data_source, $min_threshold, $criteria)
-{
-   GLOBAL $db, $debug_mode;
+function GetClassificationDataSet(
+	&$xdata, $chart_type, $min_threshold, $criteria
+){
+	GLOBAL $db, $debug_mode;
   
    $sql = "SELECT DISTINCT sig_class_id, COUNT(acid_event.cid) ".
           "FROM acid_event ".$criteria[0].
           "WHERE ".$criteria[1].
           " GROUP BY sig_class_id ORDER BY sig_class_id";
 
-   if ( $debug_mode > 0)  echo $sql."<BR>";
-   
+	DumpSQL($sql, 1);
    $result = $db->baseExecute($sql);
 
    $cnt = 0;
@@ -484,12 +561,8 @@ function GetClassificationDataSet(&$xdata, $chart_type, $data_source, $min_thres
    return $cnt;
 }
 
-
-
-function GetUniqueDataSet(&$xdata, $chart_type, $data_source, $min_threshold, $criteria)
-{
-  GLOBAL $db, $debug_mode;
-
+function GetUniqueDataSet( &$xdata, $chart_type, $min_threshold, $criteria ){
+	GLOBAL $db, $debug_mode;
 
   $cnt = 0;
   $sql = "SELECT signature, " .
@@ -500,11 +573,7 @@ function GetUniqueDataSet(&$xdata, $chart_type, $data_source, $min_threshold, $c
          "GROUP BY signature, sig_name " . 
          "ORDER BY sig_name";
 
-  if ($debug_mode > 0)
-  {
-    echo "<BR>\n\$sql = \"" . $sql . "\"<BR><BR>\n\n";
-  }
-
+	DumpSQL($sql, 1);
   $result = $db->baseExecute($sql);
   
   while($myrow = $result->baseFetchRow())
@@ -534,9 +603,7 @@ function GetUniqueDataSet(&$xdata, $chart_type, $data_source, $min_threshold, $c
   return $cnt;
 }
 
-function GetSensorDataSet(
-	&$xdata, $chart_type, $data_source, $min_threshold, $criteria
-){
+function GetSensorDataSet( &$xdata, $chart_type, $min_threshold, $criteria ){
 	GLOBAL $db, $debug_mode;
 
    $sql = "SELECT DISTINCT acid_event.sid, COUNT(acid_event.cid) ".
@@ -544,8 +611,7 @@ function GetSensorDataSet(
           "WHERE ".$criteria[1].
           " GROUP BY acid_event.sid ORDER BY acid_event.sid";
 
-   if ( $debug_mode > 0)  echo $sql."<BR>";
-   
+	DumpSQL($sql, 1);
    $result = $db->baseExecute($sql);
 
    $cnt = 0;
@@ -568,159 +634,141 @@ function GetSensorDataSet(
 }
 
 // xxx jl
-function ReadGeoIPfreeFileAscii(&$Geo_IPfree_array){
-	GLOBAL $Geo_IPfree_file_ascii, $db, $debug_mode, $iso_3166;
-	if (
-		empty($Geo_IPfree_file_ascii)
-		|| !ChkAccess($Geo_IPfree_file_ascii)
-	){
-		return 0;
-	}
-	ini_set("memory_limit", "256M");
-  $lines = file($Geo_IPfree_file_ascii);
-  if ($lines == FALSE)
-  {
-    print "WARNING: " . $Geo_IPfree_file_ascii . " could not be opened.<BR>\n";
-    return 0;
-  }
- 
-  foreach ($lines as $line_num => $line) 
-  {
-    $line_array[$line_num] = split(' ', rtrim($line));
+function ReadGeoIPfreeFileAscii( &$Geo_IPfree_array ){
+	GLOBAL $Geo_IPfree_file_ascii, $debug_mode, $iso_3166;
+	$EMPfx = __FUNCTION__ . ': ';
+	$Ret = 0;
+	if( !isset($iso_3166) ){
+		ErrorMessage($EMPfx . 'ERROR: $iso_3166 has not been defined.');
+	}else{
+		ini_set("memory_limit", "256M");
+		$lines = file($Geo_IPfree_file_ascii);
+		if( $lines === false ){
+			ErrorMessage(
+				$EMPfx . "WARNING: Can't open $Geo_IPfree_file_ascii.", 0, 1
+			);
+		}else{
+			$Ret = 1;
+			foreach( $lines as $line_num => $line ){
+				$line_array[$line_num] = explode(' ', rtrim($line));
     $index = rtrim($line_array[$line_num][0], ':');
     $begin = sprintf("%u", ip2long($line_array[$line_num][1]));
     $end = sprintf("%u", ip2long($line_array[$line_num][2]));
 
-    if (!isset($iso_3166))
-    {
-      ErrorMessage("<BR>ERROR: \$iso_3166 has not been defined.<BR>\n");
-      return 0;
-		}else{
-			if( !is_key($index, $iso_3166) ){
+				if( !is_key($index, $iso_3166) ){
         $estr = "ERROR: index \"" . $index . "\" = ascii codes ";
         $estr .= ord($index[0]) . ", " . ord($index[1]) . " ";
         $estr .= "does not exist. Ignoring.<BR>\n";
         ErrorMessage($estr);
-			}else{
-				if ($debug_mode > 1){
+				}else{
+					if( $debug_mode > 1 ){
           print "Full name of " . $index . " = \"" . $iso_3166[$index]. "\"<BR>\n";
-				}
+					}
         $index .= " (" . $iso_3166[$index] . ")";
-			}
-			if (
-				!isset($Geo_IPfree_array) || !is_key($index, $Geo_IPfree_array)
-			){
+				}
+				if(
+					!isset($Geo_IPfree_array)
+					|| !is_key($index, $Geo_IPfree_array)
+				){
         $Geo_IPfree_array[$index][0] = array($begin, $end);
-			}else{
-        {
-          array_push($Geo_IPfree_array[$index], array($begin, $end));
-        }
-      }
-    }    
-  }
+				}else{
+					array_push($Geo_IPfree_array[$index], array($begin, $end));
+				}
+			}
+		}
+	}
+	return $Ret;
 }
 
-// First method how to look up the country corresponding to an ip address:
+// GEO IP lookup First method: CPAN Geo-IPfree.
 // http://search.cpan.org/CPAN/authors/id/G/GM/GMPASSOS/Geo-IPfree-0.2.tar.gz
 // Requires the transformation of the included database into human readable
 // ASCII format, similarly to:
 //          cd /usr/lib/perl5/site_perl/5.8.8/Geo/
 //          perl ipct2txt.pl ./ipscountry.dat /tmp/ips-ascii.txt
-// $Geo_IPfree_file_ascii must contain the absolute path to
-// ips-ascii.txt. The Web server needs read access to this file.
+// The web server needs permission to read ips-ascii.txt..
+//
+// $Geo_IPfree_file_ascii must contain the absolute path to ips-ascii.txt.
+
 function GeoIPfree_IP2Country(
 	$Geo_IPfree_array, $address_with_dots, &$country
 ){
-	GLOBAL $db, $debug_mode;
-	if ( empty($Geo_IPfree_array) || empty($address_with_dots) ){
-		return 0;
-	}
-	$address = sprintf("%u", ip2long($address_with_dots));
-	foreach ( $Geo_IPfree_array as $key => $val ){ // Issue #153
-		$nelements = count($val);
-		if ( count($val) > 0 ){
-			foreach ( $val as $key2 => $val2 ){ // Issue #153
-				if ( $debug_mode > 1 ){
-					if ( $val2[0] > $val2[1] ){
-						print "WARNING: Inconsistency with $key array element no. " . $key2 . ": " . long2ip($val2[0]) . " - " . long2ip($val2[1]) . "<BR>\n";
+	GLOBAL $debug_mode;
+	$EMPfx = __FUNCTION__ . ': ';
+	$Ret = 0;
+	if ( !empty($Geo_IPfree_array) && !empty($address_with_dots) ){
+		$address = sprintf("%u", ip2long($address_with_dots));
+		foreach ( $Geo_IPfree_array as $key => $val ){ // Issue #153
+			$nelements = count($val);
+			if ( count($val) > 0 ){
+				foreach ( $val as $key2 => $val2 ){ // Issue #153
+					if ( $debug_mode > 1 ){
+						if ( $val2[0] > $val2[1] ){
+							ErrorMessage(
+								$EMPfx . "WARNING: Inconsistency with $key "
+								. "array element no. $key2: "
+								. long2ip($val2[0]) . ' - '
+								. long2ip($val2[1])
+							);
+						}
 					}
-				}
-				if ( $address >= $val2[0] && $address <= $val2[1] ){
-					if ( $debug_mode > 0 ){
-						print "Found: " . $address_with_dots . " belongs to " . $key;
-						print ": " . long2ip($val2[0]) . " - " . long2ip($val2[1]);
-						print "<BR>\n";
+					if ( $address >= $val2[0] && $address <= $val2[1] ){
+						$country = $key;
+						if ( $debug_mode > 0 ){
+							$tmp = $EMPfx . "Found: $address_with_dots "
+							. "belongs to $country ";
+							$tmp .= ': ' . long2ip($val2[0]) . ' - '
+							. long2ip($val2[1]) . ' ';
+							ErrorMessage($tmp, 'black');
+						}
+						$Ret = 1;
 					}
-					$country = $key;
-					return 1;
 				}
 			}
 		}
 	}
+	return $Ret;
 }
 
-/**
- * Second method how to lookup the country corresponding to an ip address:
- * Makes use of the perl module IP::Country
- * http://search.cpan.org/dist/IP-Country/
- * The web server needs permission to execute "ip2cc".
- * Quoting from the php manual: 
- * "Note: When safe mode is enabled, you can only execute executables within the safe_mode_exec_dir. For practical reasons it is currently not allowed to have .. components in the path to the executable."
- *
- * $IP2CC must contain the absolute path to this executable.
- *
- *
- */
-function run_ip2cc($address_with_dots, &$country)
-{
-  GLOBAL $db, $debug_mode, $IP2CC, $iso_3166;
+// GEO IP lookup Second method: CPAN IP::Country.
+// http://search.cpan.org/dist/IP-Country/
+// The web server needs permission to execute "ip2cc".
+// Quoting from the php manual: "Note: When safe mode is enabled, you can only
+// execute executables within the safe_mode_exec_dir. For practical reasons it
+// is currently not allowed to have .. components in the path to the
+// executable."
+//
+// $IP2CC must contain the absolute path to this executable.
 
-
-  if (empty($address_with_dots))
-  {
-    ErrorMessage("ERROR: \$address_with_dots is empty<BR>\n");
-    return 0;
-  }
-
-  if ((!is_file($IP2CC)) || (!is_executable($IP2CC)))
-  {
-    ErrorMessage("ERROR: with \$IP2CC = \"" . $IP2CC . "\"<BR>\n");
-    return 0;
-  }
-
-  $cmd = $IP2CC . " " . $address_with_dots;
-  unset($lastline);
-  unset($output);
-  unset($rv);
-
-  $lastline = exec($cmd, $output, $rv);
-
-  if ($rv != 0)
-  {
-    ErrorMessage("ERROR with " . $cmd . "<BR>\n");
-    print "\$rv = " . $rv . "<BR>\n";
-    print_r($output);
-    return 0;
-  }
-
-  $result = explode(" ", $output[6]);
-  $max = count($result);
-  $country = "";
-  for ($i = 3; $i < $max; $i++)
-  {
-    $country .= $result[$i] . " ";
-  }
-
-  if ($debug_mode > 0)
-  {
-    print "Found: " . $address_with_dots . " belongs to " . $country . "<BR>\n" ;
-  }
-
-  return 1;
+function run_ip2cc( $address_with_dots, &$country ){
+	GLOBAL $debug_mode, $IP2CC;
+	$EMPfx = __FUNCTION__ . ': ';
+	$Ret = 0;
+	if( empty($address_with_dots) ){
+		ErrorMessage($EMPfx . 'ERROR: $address_with_dots is empty.', 0, 1);
+	}else{
+		$cmd = $IP2CC . ' ' . $address_with_dots;
+		unset($output);
+		unset($rv);
+		if( exec($cmd, $output, $rv) !== false && $rv == 0 ){
+			$country = preg_replace('/^  Country\: /', '', $output[6]);
+			$Ret = 1;
+			if( $debug_mode > 0 ){
+				ErrorMessage(
+					$EMPfx . "Found: $address_with_dots belongs to $country ",
+					'black'
+				);
+			}
+		}else{
+			ErrorMessage($EMPfx . "ERROR with $cmd Return: $rv", 0, 1);
+			print_r($output);
+		}
+	}
+	return $Ret;
 }
 
 function IncreaseCountryValue( &$countries, $to_search, $number_of_alerts ){
-	GLOBAL $db, $debug_mode;
+	GLOBAL $debug_mode;
 	if( count($countries) == 0 ){
 		$countries[$to_search] = $number_of_alerts;
 		return;
@@ -737,98 +785,101 @@ function IncreaseCountryValue( &$countries, $to_search, $number_of_alerts ){
 	}
 }
 
-function GetCountryDataSet(
-	&$xdata, $chart_type, $data_source, $min_threshold, $criteria
-){
+function GetCountryDataSet( &$xdata, $chart_type, $min_threshold, $criteria ){
 	GLOBAL $db, $debug_mode, $Geo_IPfree_file_ascii, $IP2CC;
 	$country_method = 0;
 	$EMPfx = __FUNCTION__ . ': ';
-  if (($chart_type == 14) || ($chart_type == 15))
-  // 14 =  Src Countries vs. Num Alerts
-  // 15 = dto., but on worldmap
-  {
-      $sql = "SELECT DISTINCT ip_src, COUNT(acid_event.cid) ".
-             "FROM acid_event ".$criteria[0].
-             "WHERE ".$criteria[1]." AND ip_src is NOT NULL ".
-	     "GROUP BY ip_src ORDER BY ip_src";
-  }
-  else if (($chart_type == 16) || ($chart_type == 17))
-  // 16 = Dst Countries vs. Num Alerts
-  // 17 = dto., but on worldmap
-  {
-      $sql = "SELECT DISTINCT ip_dst, COUNT(acid_event.cid) ".
-             "FROM acid_event ".$criteria[0].
-             "WHERE ".$criteria[1]." AND ip_dst is NOT NULL ".
-	     "GROUP BY ip_dst ORDER BY ip_dst";
-  }
-
-  if ($debug_mode > 0)  echo $sql."<BR>";
-   
-  $result = $db->baseExecute($sql);
-
-	if ( LoadedString($Geo_IPfree_file_ascii) ){
+	if( $chart_type > 13 && $chart_type < 16 ){
+		// 14 = Src Countries vs. Num Alerts. 15 = Same, on worldmap.
+		$tmp = 'src';
+	}elseif( $chart_type > 15 && $chart_type < 18 ){
+		// 16 = Dst Countries vs. Num Alerts. 17 = Same, on worldmap.
+		$tmp = 'dst';
+	}
+	$sql = "SELECT DISTINCT ip_$tmp, COUNT(acid_event.cid) "
+	. 'FROM acid_event ' . $criteria[0] . 'WHERE ' . $criteria[1]
+	. " AND ip_$tmp is NOT NULL GROUP BY ip_$tmp ORDER BY ip_$tmp";
+	DumpSQL($sql, 1);
+	$result = $db->baseExecute($sql);
+	if( LoadedString($Geo_IPfree_file_ascii) ){ // Try Geo::IP
 		$tmp = ChkAccess($Geo_IPfree_file_ascii);
-		if ( $tmp != 1 ){
+		if( $tmp < 1 ){
 			$EMsg = $EMPfx . "ERROR: $Geo_IPfree_file_ascii not ";
-			if ( $tmp == -1 ){
+			if( $tmp == 0 ){
+				$EMsg .= 'file';
+			}elseif( $tmp == -1 ){
 				$EMsg .= 'found';
-			}elseif ( $tmp == -2 ){
+			}elseif( $tmp == -2 ){
 				$EMsg .= 'readable';
 			}
 			$$EMsg .= '.';
 			ErrorMessage($EMsg, 0, 1);
-			return 0;
-		}else{
+		}else{ // Read in DB with country data for ip addresses.
 			$country_method = 1;
 			if ( $debug_mode > 0 ){
 				ErrorMessage(
-					$EMPfx . 'Country method 1: We use the database of Geo::IPfree.',
+					$EMPfx . 'Country method 1: Using Geo::IP.',
 					0, 1
 				);
 			}
-			// Read in database with country data for ip addresses
 			ReadGeoIPfreeFileAscii($Geo_IPfree_array);
 		}
-	}elseif( LoadedString($IP2CC) ){
-		$rv = ini_get("safe_mode");
-		if ( !is_file($IP2CC) ){
-          ErrorMessage("ERROR: " . $IP2CC . " could not be found. Wrong path, perhaps?<BR>\n");
-			if ($rv == 1){
-            print "In &quot;safe_mode&quot; &quot; the file " . $Geo_IPfree_file_ascii . "&quot; must be owned by the user under which the web server is running. Adding it to both safe_mode_exec_dir and to include_path in /etc/php.ini does NOT seem to be sufficient.<BR>\n";
+	}elseif( LoadedString($IP2CC) ){ // Try IP::Country
+		$rv = ini_get('safe_mode');
+		$tmp = ChkAccess($IP2CC);
+		if( $tmp < 1 ){
+			$EMsg = $EMPfx . "ERROR: $IP2CC not ";
+			if( $tmp == 0 ){
+				$EMsg .= 'file';
+			}elseif( $tmp == -1 ){
+				$EMsg .= 'found';
+			}elseif( $tmp == -2 ){
+				$EMsg .= 'readable';
 			}
-			return 0;
+			$$EMsg .= '.';
+			ErrorMessage($EMsg, 0, 1);
+			if( $rv == 1 ){
+				print returnSMFN('the file "' . $IP2CC . '"');
+				$EMsg = 'Adding it to both safe_mode_exec_dir and to '
+				. 'include_path in /etc/php.ini does NOT seem to be '
+				. 'sufficient.';
+				ErrorMessage($EMsg, 'black', 1);
+			}
+		}elseif( $tmp < 2 ){ // Not Executable
+			$EMsg = $EMPfx . "ERROR: $IP2CC not executable.";
+			ErrorMessage($EMsg, 0, 1);
+			if( $rv == 1 ){
+				$EMsg = XSSPrintSafe('In "safe_mode" the path "')
+				. dirname($IP2CC) . XSSPrintSafe('"')
+				. ' must also be part of safe_mode_exec_dir in /etc/php.ini.'
+				. '<pre>';
+				. XSSPrintSafe( 'safe_mode_exec_dir = "')
+				. dirname($IP2CC) . XSSPrintSafe('"');
+				. '</pre>'
+				. 'It seems that <b>not more than ONE SINGLE directory</b>'
+				. ' may be assigned to safe_mode_exec_dir.'
+				ErrorMessage($EMsg, 'black', 1);
+			}
 		}else{
-			if (!is_executable($IP2CC)){
-            ErrorMessage("ERROR: " . $IP2CC . " does exist, but is not executable. Wrong permissions, perhaps?<BR>\n");
-				if ($rv == 1){
-              ErrorMessage("In &quot;safe_mode&quot; the path &quot;" . 
-              dirname($IP2CC) . 
-              "&quot; must also be part of safe_mode_exec_dir in /etc/php.ini:<BR><BR>\n" .
-              "safe_mode_exec_dir = &quot;" . dirname($IP2CC) . 
-              "&quot;<BR><BR>" .
-              "It seems that not more than ONE SINGLE directory may be assigned to safe_mode_exec_dir.<BR>\n");
-				}
-				return 0;
-			}else{
-				$country_method = 2;
-				if ( $debug_mode > 0 ){
-					ErrorMessage(
-						$EMPfx . 'Country method 2: We use ip2cc.', 0, 1
-					);
-				}
+			$country_method = 2;
+			if ( $debug_mode > 0 ){
+				ErrorMessage(
+					$EMPfx . 'Country method 2: Using IP::Country.', 0, 1
+				);
 			}
 		}
 	}else{
 		ErrorMessage(
-			$EMPfx . "ERROR: Conf Var \$Geo_IPfree_file_ascii or \$IP2CC not configured.",
-			0, 1
+			$EMPfx . 'ERROR: Conf Var $Geo_IPfree_file_ascii or $IP2CC not '
+			. 'configured.', 0, 1
+		);
+	}
+	if( $country_method == 0 ){ // should not be reached
+		ErrorMessage(
+			$EMPfx . 'ERROR: No GEO IP lookup method available.', 0, 1
 		);
 		return 0;
 	}
-	if ( $country_method == 0 ){ // should not be reached
-    ErrorMessage("ERROR: No \$country_method available.<BR>\n");
-    return 0;
-  }
   // Loop through all the ip addresses returned by the sql query
   $cnt = 0;
   $not_an_array = 0;
@@ -873,12 +924,12 @@ function GetCountryDataSet(
 	      return 0;
       }
 
-
-      if ($debug_mode > 0)
-      {
-	      print "\"" . $mycountry . "\": " . $addresses[$cnt][1] . " alerts<BR>\n";
-      }
-
+		if( $debug_mode > 0 ){
+			ErrorMessage(
+				"$EMPfx$mycountry: ". $addresses[$cnt][1] . ' alerts.',
+				'black', 1
+			);
+		}
 
       // Either GeoIPfree_IP2Country() or run_ip2cc() should have set
       // this variable:
@@ -938,4 +989,5 @@ function GetCountryDataSet(
 	// return number of countries rather than number of addresses!
 	return $cnt2;
 }
+
 ?>

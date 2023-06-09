@@ -189,8 +189,8 @@ if ( $debug_mode > 0 ){
 	}
 	print "Canned Query: $CCF <br/>";
 	$qs->DumpState();
-	print "SQL Executed: $sql <br/>";
 }
+DumpSQL($sql, 1);
 $qs->PrintResultCnt(); // Print current view number and # of rows.
 
   echo '<FORM METHOD="post" NAME="PacketForm" ACTION="base_stat_uaddr.php">';

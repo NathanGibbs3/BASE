@@ -10,9 +10,11 @@ use PHPUnit\Framework\TestCase;
   * @covers ::LibIncError
   * @covers ::PrintHistory
   * @covers ::returnErrorMessage
+  * @covers ::returnSMFN
   * @uses ::CleanVariable
   * @uses ::FramedBoxFooter
   * @uses ::FramedBoxHeader
+  * @uses ::GetPHPSV
   * @uses ::Htmlcolor
   * @uses ::InitArray
   * @uses ::LoadedString
@@ -151,7 +153,7 @@ class log_errorTest extends TestCase {
 		'grep &quot;include_path&quot;include_path =&gt; '.
 		'.:/usr/share/pear:/usr/share/php =&gt; '.
 		'.:/usr/share/pear:/usr/share/php</pre>';
-		if ( ini_get('safe_mode') ){
+		if( ini_get('safe_mode') ){
 			$EOM .= 'In &quot;safe_mode&quot; it must also be part of '.
 			'safe_mode_include_dir in /etc/php.ini';
 		};
@@ -478,6 +480,35 @@ class log_errorTest extends TestCase {
 		$this->assertEquals($EOM, PrintHistory(), $URV);
 		$_SESSION = $osession;
 		unset($_SERVER['QUERY_STRING']);
+	}
+	public function testreturnSMFNDefault() {
+		$URV = self::$URV.'returnSMFN().';
+		$EOM = '';
+		$this->assertEquals($EOM, returnSMFN(), $URV);
+	}
+	public function testreturnSMFNSafeModeOff() {
+		$URV = self::$URV.'returnSMFN().';
+		$PHPV = GetPHPV();
+		$PSM = getenv('SafeMode');
+		if (version_compare($PHPV, '5.3', '>') || $PSM == true ){
+			$this->assertTrue(true,'Passing Test.');
+		}else{
+			$this->assertFalse(ini_get('safe_mode'),'PHP SafeMode: On');
+			$this->assertEquals('', returnSMFN('Test'), $URV);
+		}
+	}
+	public function testreturnSMFNSafeModeOn() {
+		$URV = self::$URV.'returnSMFN().';
+		$PHPV = GetPHPV();
+		$PSM = getenv('SafeMode');
+		$EOM = "<font color='black'>" . 'In PHP safe_mode Test must be owned '
+		. ' by the user under which the web server is running.</font><br/>';
+		if (version_compare($PHPV, '5.3', '>') || $PSM == false ){
+			$this->assertTrue(true,'Passing Test.');
+		}else{
+			$this->assertTrue(ini_get('safe_mode'),'PHP SafeMode: Off');
+			$this->assertEquals($EOM, returnSMFN('Test'), $URV);
+		}
 	}
 
 	// Add code to a function if needed.

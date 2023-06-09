@@ -45,7 +45,7 @@ $cs->ReadState();
 $ip = ImportHTTPVar("ip", VAR_DIGIT | VAR_PERIOD);
 $netmask = ImportHTTPVar("netmask", VAR_DIGIT);
 $action = ImportHTTPVar("action", VAR_ALPHA);
-$submit = ImportHTTPVar("submit", VAR_ALPHA | VAR_SPACE);  
+$submit = ImportHTTPVar("submit", VAR_ALPHA | VAR_SPACE);
 if ( !isset($ip) || empty($ip) ){
 	$Epfx = __FILE__ . ":";
 	$page_title = 'ERROR';

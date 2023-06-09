@@ -9,7 +9,8 @@
 ** Project Leads: Kevin Johnson <kjohnson@secureideas.net>
 ** Built upon work by Roman Danyliw <rdd@cert.org>, <roman@danyliw.com>
 **
-** Purpose: Input GET/POST variables
+** Purpose: Query Form & Results Dsiplay System.
+// Input GET/POST variables
 **   - caller: specifies the canned snapshot to run
 **   - submit:
 ********************************************************************************
@@ -68,12 +69,11 @@
 
 $sc = DIRECTORY_SEPARATOR;
 require_once("includes$sc" . 'base_krnl.php');
-include_once("$BASE_path/includes/base_include.inc.php");
-
-  include_once("$BASE_path/includes/base_action.inc.php");
-  include_once("$BASE_path/base_db_common.php");
-  include_once("$BASE_path/base_ag_common.php");
-  include_once("$BASE_path/base_qry_common.php");
+include_once(BASE_IPath . 'base_include.inc.php');
+include_once(BASE_IPath . 'base_action.inc.php');
+include_once("$BASE_path/base_db_common.php");
+include_once("$BASE_path/base_ag_common.php");
+include_once("$BASE_path/base_qry_common.php");
 
 AuthorizedRole(10000);
 $db = NewBASEDBConnection($DBlib_path, $DBtype); // Connect to Alert DB.
@@ -101,7 +101,7 @@ if ( getenv('TRAVIS') && version_compare(PHP_VERSION, "5.3.0", "<") ){
 	$new = ImportHTTPVar("new", VAR_DIGIT);
 	// This call can include many values.
 	$submit = ImportHTTPVar(
-		"submit", VAR_DIGIT | VAR_PUNC | VAR_LETTER,
+		'submit', VAR_ALPHA | VAR_PUNC,
 		array(
 			_SELECTED, _ALLONSCREEN, _ENTIREQUERY, _QUERYDB, _ADDTIME,
 			_ADDADDRESS, _ADDIPFIELD, _ADDTCPPORT, _ADDTCPFIELD, _ADDUDPPORT,
@@ -145,12 +145,19 @@ $cs = new CriteriaState("base_qry_main.php", "&amp;new=1&amp;submit="._QUERYDBP)
 if ( isset($maintain_history) && $maintain_history == 1 ){
 	$back = ImportHTTPVar("back", VAR_DIGIT);
 	if ( $back != 1 && $submit == _QUERYDB && ChkGet ('search', 1) ){
-    !empty($_SESSION['back_list_cnt']) ? $_SESSION['back_list_cnt']-- : $_SESSION['back_list_cnt'] = 0;    /* save on top of initial blank query screen   */
-    $submit = "";          /*  save entered search criteria as if one hit Enter */
-    $_POST['submit'] = $submit;
-    $cs->ReadState();      /* save the search criteria       */
-    $submit = _QUERYDB;    /* restore the real submit value  */
-    $_POST['submit'] = $submit;
+		// Rewrite previous history stack item to reflect entries submitted
+		// on the search form.
+		if( !empty($_SESSION['back_list_cnt']) ){
+			$_SESSION['back_list_cnt']--;
+		}else{
+			$_SESSION['back_list_cnt'] = 0;
+		}
+		// Save on top of history stack item for initial blank search form.
+		$submit = ''; // Fake manual search form submit.
+		$_POST['submit'] = $submit;
+		$cs->ReadState(); // Save the search criteria.
+		$submit = _QUERYDB; // Restore the real submit value.
+		$_POST['submit'] = $submit;
 	}
 }
 $cs->ReadState();
@@ -170,24 +177,16 @@ if ( $qs->isCannedQuery() ){
 PrintBASESubHeader(
 	$page_title, $page_title, $cs->GetBackLink(), $refresh_all_pages
 );
-
-$printing_ag = false;
-?>
-
-<FORM METHOD="GET" NAME="PacketForm" ACTION="base_qry_main.php">
-<input type='hidden' name="search" value="1" />
-<?php
-/* Dump some debugging information on the shared state */
-if ( $debug_mode > 0 ){
+if ( $debug_mode > 0 ){ // Dump debugging info on the shared state.
 	PrintCriteriaState();
 }
-
-/* a browsing button was clicked -> increment view */
-if ( is_numeric($submit) )
-{
-    if ( $debug_mode > 0 ) ErrorMessage("Browsing Clicked ($submit)");
-    $qs->MoveView($submit);
-    $submit = _QUERYDB;
+$printing_ag = false;
+if ( is_numeric($submit) ){ // A browsing button was clicked.
+	if ( $debug_mode > 0 ){
+		ErrorMessage("Browsing Clicked ($submit)");
+	}
+	$qs->MoveView($submit);
+	$submit = _QUERYDB;
 }
 
 /* Return the input form to get more criteria from user */
@@ -206,7 +205,7 @@ if (
    )
 {
   include("$BASE_path/base_qry_form.php");
-}elseif (
+}elseif(
 	$qs->isCannedQuery() || $new != 1 ||
 	$submit == _QUERYDB || $submit == _QUERYDBP || $submit == _SELECTED ||
 	$submit == _ALLONSCREEN || $submit == _ENTIREQUERY

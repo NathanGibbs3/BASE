@@ -23,7 +23,7 @@
 
 $sc = DIRECTORY_SEPARATOR;
 require_once("includes$sc" . 'base_krnl.php');
-include_once("$BASE_path/includes/base_include.inc.php");
+include_once(BASE_IPath . 'base_include.inc.php');
 include_once("$BASE_path/base_db_common.php");
 include_once("$BASE_path/base_qry_common.php");
 include_once("$BASE_path/base_stat_common.php");
@@ -52,7 +52,11 @@ if ( class_exists('UILang') ){ // Issue 11 backport shim.
 	$CPFirst = _FIRST;
 	$CPTotal = _TOTAL;
 }
-$submit = ImportHTTPVar('submit', VAR_ALPHA | VAR_SPACE, array(_SELECTED, _ALLONSCREEN, _ENTIREQUERY));
+$submit = ImportHTTPVar(
+	'submit', VAR_ALPHA | VAR_SPACE, array(
+		_SELECTED, _ALLONSCREEN, _ENTIREQUERY
+	)
+);
 $sort_order = ImportHTTPVar('sort_order', VAR_LETTER | VAR_USCORE);
 $caller = ImportHTTPVar('caller', VAR_LETTER | VAR_USCORE);
 $cs = new CriteriaState('base_stat_alerts.php');
@@ -87,7 +91,7 @@ if( $debug_mode > 0 ){ // Dump debugging info on the shared state.
 }
 $criteria_clauses = ProcessCriteria();
 // Issue #114 fix
-NLIO("<div style='overflow:hidden'>", 2);
+NLIO("<div style='float: left; width: 100%;'>", 2);
 NLIO("<div style='float: left; width: 60%;'>", 3);
 PrintCriteria('');
 NLIO('</div>', 3);
@@ -216,8 +220,8 @@ if ( $debug_mode > 0 ){
 	}
 	print "Canned Query: $CCF <br/>";
 	$qs->DumpState();
-	print "SQL Executed: $sql <br/>";
 }
+DumpSQL($sql, 1);
 $qs->PrintResultCnt(); // Print current view number and # of rows.
 
   echo '<FORM METHOD="post" NAME="PacketForm" ACTION="base_stat_alerts.php">';

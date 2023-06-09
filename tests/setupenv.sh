@@ -183,6 +183,11 @@ else
 fi
 
 # Setup ADODB
+# Sourceforge Source Setup
+#ADOSrc=sourceforge.net/projects/adodb
+#ADODl=files/adodb-php-4-and-5
+#ADOFileSfx=.tgz
+#GHMode=sourceforge
 # GitHub Source Setup
 ADOSrc=github.com/ADOdb/ADOdb
 ADODl=archive
@@ -210,23 +215,33 @@ elif [ "$pvM" \> "4" ]; then # PHP 5x
 		ADODBVer=5.01beta
 	fi
 	if [ "$1" == "" ] && [ "$TRAVIS" == "true" ]; then
-		ADOvM=`echo $ADODBVer|sed -r -e "s/\.[0-9]+.*$//"`
-		ADOvm=`echo $ADODBVer|sed -r -e "s/^[0-9]\.//" -e "s/[a-z]+$//"`
-		ADOtmp=`echo $ADOvm|sed -r -e "s/\.?[0-9]+$//"`
-		if [ "$ADOtmp" != "" ]; then
-			ADOvm=$ADOtmp
-		fi
-		if [ "$ADOvM" == "5" ] && [ $ADOvm \> "18" ]; then
-			ADODBPATH="ADOdb-$ADODBVer"
+		if [ "$GHMode" == "sourceforge" ]; then
+			if [ "$ADODBVer" == "494" ]; then
+				# V 494 weirdness :-)
+				ADOFilePfx="adodb-$ADODBVer-for-php4-and-5/adodb"
+			else
+				# Sourceforge standard
+				ADOFilePfx="adodb-$ADODBVer-for-php/adodb"
+			fi
+			ADODBPATH="adodb"
 		else
-			ADODBPATH="ADOdb-$ADODBVer/phplens/adodb5"
+			ADOvM=`echo $ADODBVer|sed -r -e "s/\.[0-9]+.*$//"`
+			ADOvm=`echo $ADODBVer|sed -r -e "s/^[0-9]\.//" -e "s/[a-z]+$//"`
+			ADOtmp=`echo $ADOvm|sed -r -e "s/\.?[0-9]+$//"`
+			if [ "$ADOtmp" != "" ]; then
+				ADOvm=$ADOtmp
+			fi
+			if [ "$ADOvM" == "5" ] && [ $ADOvm \> "18" ]; then
+				ADODBPATH="ADOdb-$ADODBVer"
+			else
+				ADODBPATH="ADOdb-$ADODBVer/phplens/adodb5"
+			fi
 		fi
 	fi
 else # PHP 4x
 #	Legacy ADODB
 #	If we get the chance, verify Legacy PHP / ADODB version interoperability
-#	and update:
-#	https://github.com/NathanGibbs3/BASE/wiki/ADOdb-version-requirements-by-PHP-Version
+#	and update the wiki page ADOdb-version-requirements-by-PHP-Version
 #	ADODBVer=494
 #	Sourceforge Source Setup
 #	ADOSrc=sourceforge.net/projects/adodb
@@ -252,6 +267,10 @@ if [ "$GHMode" == "release" ]; then
 	echo -n $ADODBVer
 	ADOFile=$ADOFilePfx$ADODBVer$ADOFileSfx
 	ADODl=archive
+elif [ "$GHMode" == "sourceforge" ]; then
+	echo -n $ADODBVer
+	ADOFile=$ADOFilePfx$ADODBVer$ADOFileSfx
+	ADODl=files/adodb-php-4-and-5
 else # Branch Mode
 	echo -n "branch $GHBranch"
 	ADOFile=$GHBranch
@@ -283,12 +302,20 @@ if [ "$1" == "" ]; then
 	mkdir -p $pfx/build/logs
 	echo "Creating custom footer Directory: `pwd`/$pfx/custom"
 	mkdir -p $pfx/custom/testdir.htm
+	mkdir -p $pfx/custom/testdir.isexec
+	mkdir -p $pfx/custom/testdir.notexec
+	mkdir -p $pfx/custom/testdir.notread
+	sudo chmod 555 $pfx/custom/testdir.isexec
+	sudo chmod 444 $pfx/custom/testdir.notexec
+	sudo chmod 000 $pfx/custom/testdir.notread
+	touch $pfx/custom/testexec
 	touch $pfx/custom/testext.php
 	touch $pfx/custom/testhtm.htm
 	touch $pfx/custom/testhtml.html
 	touch $pfx/custom/testCASE.HTML
 	touch $pfx/custom/readTestOK.txt
 	touch $pfx/custom/readTestFail.txt
+	sudo chmod 555 $pfx/custom/testexec
 	sudo chown -h nobody:nogroup $pfx/custom/*
 	sudo touch /etc/BASEtestsym.htm
 	sudo chown 1000:nogroup /etc/BASEtestsym.htm
@@ -297,6 +324,9 @@ if [ "$1" == "" ]; then
 	touch $pfx/custom/testuser.htm
 	sudo chown root:root $pfx/custom/testuser.htm
 	sudo chown root:root $pfx/custom/readTestFail.txt
+	sudo chown root:root $pfx/custom/testdir.isexec
+	sudo chown root:root $pfx/custom/testdir.notexec
+	sudo chown root:root $pfx/custom/testdir.notread
 	sudo chmod 000 $pfx/custom/readTestFail.txt
 	sudo touch $RFADODBPATH/readTestFail.php
 	sudo chown root:root $RFADODBPATH/readTestFail.php

@@ -19,14 +19,14 @@ naming = base_icon_0_
 // in BASE.
 // The long 3dIcons icon name
 // "build/3dIcons/3dicons-png-front-1.0.0/png/pencil/pencil-front-color.png"
-// becomes "images/base_icon_edit.png"
+// becomes "images/base_icon_0_edit.png"
 //
 // Requested 3dIcon names without translation data will come through unchanged.
 // For example, the requested mail icon from 3dIcons will be the mail icon in
 // BASE.
 // The long 3dIcons icon name
 // "build/3dIcons/3dicons-png-front-1.0.0/png/mail/mail-front-color.png"
-// becomes "images/base_icon_mail.png"
+// becomes "images/base_icon_0_mail.png"
 
 bulb = exclamation
 pencil = edit
@@ -45,5 +45,6 @@ computer = client
 lock = auth
 boy = user
 key = password
+bell = alert
 mail =
 tool =

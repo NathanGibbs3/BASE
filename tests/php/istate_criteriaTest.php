@@ -33,6 +33,7 @@ class state_criteriaTest extends TestCase {
 		PushHistory(); // Load History
 		$_SERVER['QUERY_STRING'] = '&amp;front=1';
 		PushHistory();
+		unset($_SERVER['QUERY_STRING']);
 		self::$URV = 'Unexpected Return Value: ';
 	}
 	public static function tearDownAfterClass() {

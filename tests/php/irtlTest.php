@@ -303,24 +303,16 @@ class base_rtlTest extends TestCase {
 		$URV = self::$URV.'ChkAccess().';
 		$sc = DIRECTORY_SEPARATOR;
 		$Testfile = "$BASE_path$sc" . 'custom';
-		$this->assertEquals(
-			-1,
-			ChkAccess($Testfile),
-			'Unexpected return ChkAccess().'
-		);
+		$this->assertEquals(-1, ChkAccess($Testfile), $URV);
 	}
-	public function testreturnChkAccessDirectoryTypeValid(){
+	public function testreturnChkAccessDirectoryNotExist(){
 		GLOBAL $BASE_path;
 		$URV = self::$URV.'ChkAccess().';
 		$sc = DIRECTORY_SEPARATOR;
-		$Testfile = "$BASE_path$sc" . 'custom';
-		$this->assertEquals(
-			1,
-			ChkAccess($Testfile,'d'),
-			'Unexpected return ChkAccess().'
-		);
+		$Testfile = "$BASE_path$sc" . "custom$sc" . 'notthere';
+		$this->assertEquals(-1, ChkAccess($Testfile,'d'), $URV);
 	}
-	public function testreturnChkAccessInValid(){
+	public function testreturnChkAccessFileNotExist(){
 		GLOBAL $BASE_path;
 		$URV = self::$URV.'ChkAccess().';
 		$sc = DIRECTORY_SEPARATOR;
@@ -328,7 +320,7 @@ class base_rtlTest extends TestCase {
 		$Testfile = "$BASE_path$sc" . "custom$sc$file";
 		$this->assertEquals( -1, ChkAccess($Testfile), $URV );
 	}
-	public function testreturnChkAccessValid(){
+	public function testreturnChkAccessFileExists(){
 		GLOBAL $BASE_path;
 		$URV = self::$URV.'ChkAccess().';
 		$sc = DIRECTORY_SEPARATOR;
@@ -336,11 +328,12 @@ class base_rtlTest extends TestCase {
 		$Testfile = "$BASE_path$sc" . "custom$sc$file";
 		$this->assertEquals( 1, ChkAccess($Testfile), $URV );
 	}
-	public function testreturnChkAccessSafeModeCutoutDirectory(){
+	public function testreturnChkAccessSafeModeCutoutDirectoryExists(){
 		GLOBAL $BASE_path;
 		$URV = self::$URV.'ChkAccess().';
 		$sc = DIRECTORY_SEPARATOR;
-		$Testfile = "$BASE_path$sc" . 'custom';
+		$file = 'testdir.notexec';
+		$Testfile = "$BASE_path$sc" . "custom$sc$file";
 		$PHPV = GetPHPV();
 		if (version_compare($PHPV, '5.1.4', '>')){
 			$this->assertTrue(true,'Passing Test.');
@@ -349,7 +342,7 @@ class base_rtlTest extends TestCase {
 			$this->assertEquals( 1, ChkAccess($Testfile,'d'), $URV );
 		}
 	}
-	public function testreturnChkAccessSafeModeCutoutValid(){
+	public function testreturnChkAccessSafeModeCutoutFileExists(){
 		GLOBAL $BASE_path;
 		$URV = self::$URV.'ChkAccess().';
 		$sc = DIRECTORY_SEPARATOR;
@@ -361,6 +354,34 @@ class base_rtlTest extends TestCase {
 		}else{
 			$this->assertTrue(ini_get("safe_mode"),'PHP SafeMode: Off');
 			$this->assertEquals( 1, ChkAccess($Testfile), $URV );
+		}
+	}
+	public function testreturnChkAccessSafeModeCutoutDirectoryExec(){
+		GLOBAL $BASE_path;
+		$URV = self::$URV.'ChkAccess().';
+		$sc = DIRECTORY_SEPARATOR;
+		$file = 'testdir.isexec';
+		$Testfile = "$BASE_path$sc" . "custom$sc$file";
+		$PHPV = GetPHPV();
+		if (version_compare($PHPV, '5.2.0', '>')){
+			$this->assertTrue(true,'Passing Test.');
+		}else{
+			$this->assertTrue(ini_get("safe_mode"),'PHP SafeMode: Off');
+			$this->assertEquals( 2, ChkAccess($Testfile,'d'), $URV );
+		}
+	}
+	public function testreturnChkAccessSafeModeCutoutFileExec(){
+		GLOBAL $BASE_path;
+		$URV = self::$URV.'ChkAccess().';
+		$sc = DIRECTORY_SEPARATOR;
+		$file = 'testexec';
+		$Testfile = "$BASE_path$sc" . "custom$sc$file";
+		$PHPV = GetPHPV();
+		if (version_compare($PHPV, '5.2.0', '>')){
+			$this->assertTrue(true,'Passing Test.');
+		}else{
+			$this->assertTrue(ini_get("safe_mode"),'PHP SafeMode: Off');
+			$this->assertEquals( 2, ChkAccess($Testfile), $URV );
 		}
 	}
 	public function testLoadedStringNotSet(){
