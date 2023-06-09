@@ -13,9 +13,11 @@ use PHPUnit\Framework\TestCase;
 class base_rtlSPTest extends TestCase {
 	// Pre Test Setup.
 	protected static $URV;
+	protected static $Td;
 
 	// Share class instance as common test fixture.
 	public static function setUpBeforeClass() {
+		GLOBAL $BASE_path;
 		// Issue #36 Cutout.
 		// See: https://github.com/NathanGibbs3/BASE/issues/36
 		$PHPV = GetPHPV();
@@ -24,9 +26,17 @@ class base_rtlSPTest extends TestCase {
 			self::markTestSkipped();
 		}
 		self::$URV = 'Unexpected Return Value: ';
+		$sc = DIRECTORY_SEPARATOR;
+		$TF = "$BASE_path$sc" . "custom$sc" . 'testdir.notread';
+		self::$Td = $TF;
+		// Because PHPUnit needs this to be readable at init.
+		chmod($TF, 0000); // We need it to be unreadable for testing.
 	}
 	public static function tearDownAfterClass() {
+		$TF = self::$Td;
+//		chmod($TF, 0400); // Put it back.
 		self::$URV = null;
+		self::$Td = null;
 	}
 
 	// Tests go here.
@@ -34,7 +44,7 @@ class base_rtlSPTest extends TestCase {
 		GLOBAL $BASE_path;
 		$URV = self::$URV.'ChkAccess().';
 		$sc = DIRECTORY_SEPARATOR;
-		$Testfile = "$BASE_path$sc" . "custom$sc" . 'testdir.notread';
+		$Testfile = self::$Td;
 		$PHPV = GetPHPV();
 		if ( posix_getuid() != 1000 ){ // Swith UID to test Read Failure.
 			posix_setuid(1000);

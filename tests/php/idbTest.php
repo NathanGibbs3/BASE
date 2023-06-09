@@ -344,6 +344,9 @@ class dbTest extends TestCase {
 			1, $db->baseIndexExists( 'acid_ag_alert','ag_id'), $URV
 		);
 	}
+	/**
+	 * @backupGlobals disabled
+	 */
 	public function testbaseInsertIDReturnsExpected(){
 		$db = self::$db;
 		$URV = self::$URV.'baseInsertID().';

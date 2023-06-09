@@ -506,7 +506,7 @@ class log_errorTest extends TestCase {
 		if (version_compare($PHPV, '5.3', '>') || $PSM == false ){
 			$this->assertTrue(true,'Passing Test.');
 		}else{
-			$this->assertTrue(ini_get('safe_mode'),'PHP SafeMode: Off');
+			$this->assertEquals(1, ini_get('safe_mode'),'PHP SafeMode: Off');
 			$this->assertEquals($EOM, returnSMFN('Test'), $URV);
 		}
 	}
