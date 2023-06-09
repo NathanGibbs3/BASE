@@ -307,7 +307,7 @@ if [ "$1" == "" ]; then
 	mkdir -p $pfx/custom/testdir.notread
 	sudo chmod 555 $pfx/custom/testdir.isexec
 	sudo chmod 444 $pfx/custom/testdir.notexec
-	sudo chmod 000 $pfx/custom/testdir.notread
+	sudo chmod 400 $pfx/custom/testdir.notread
 	touch $pfx/custom/testexec
 	touch $pfx/custom/testext.php
 	touch $pfx/custom/testhtm.htm
@@ -326,7 +326,6 @@ if [ "$1" == "" ]; then
 	sudo chown root:root $pfx/custom/readTestFail.txt
 	sudo chown root:root $pfx/custom/testdir.isexec
 	sudo chown root:root $pfx/custom/testdir.notexec
-	sudo chown root:root $pfx/custom/testdir.notread
 	sudo chmod 000 $pfx/custom/readTestFail.txt
 	sudo touch $RFADODBPATH/readTestFail.php
 	sudo chown root:root $RFADODBPATH/readTestFail.php
