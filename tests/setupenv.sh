@@ -304,10 +304,6 @@ if [ "$1" == "" ]; then
 	mkdir -p $pfx/custom/testdir.htm
 	mkdir -p $pfx/custom/testdir.isexec
 	mkdir -p $pfx/custom/testdir.notexec
-	mkdir -p $pfx/custom/testdir.notread
-	sudo chmod 555 $pfx/custom/testdir.isexec
-	sudo chmod 444 $pfx/custom/testdir.notexec
-	sudo chmod 400 $pfx/custom/testdir.notread
 	touch $pfx/custom/testexec
 	touch $pfx/custom/testext.php
 	touch $pfx/custom/testhtm.htm
@@ -315,21 +311,26 @@ if [ "$1" == "" ]; then
 	touch $pfx/custom/testCASE.HTML
 	touch $pfx/custom/readTestOK.txt
 	touch $pfx/custom/readTestFail.txt
+	sudo chmod 555 $pfx/custom/testdir.isexec
+	sudo chmod 444 $pfx/custom/testdir.notexec
 	sudo chmod 555 $pfx/custom/testexec
 	sudo chown -h nobody:nogroup $pfx/custom/*
 	sudo touch /etc/BASEtestsym.htm
 	sudo chown 1000:nogroup /etc/BASEtestsym.htm
 	ln -s /etc/BASEtestsym.htm $pfx/custom/testsym.htm
 	ln -s testhtm.htm $pfx/custom/testsymok.htm
+	mkdir -p $pfx/custom/testdir.notread
 	touch $pfx/custom/testuser.htm
 	sudo chown root:root $pfx/custom/testuser.htm
 	sudo chown root:root $pfx/custom/readTestFail.txt
 	sudo chown root:root $pfx/custom/testdir.isexec
 	sudo chown root:root $pfx/custom/testdir.notexec
+	sudo chmod 400 $pfx/custom/testdir.notread
 	sudo chmod 000 $pfx/custom/readTestFail.txt
 	sudo touch $RFADODBPATH/readTestFail.php
 	sudo chown root:root $RFADODBPATH/readTestFail.php
 	sudo chmod 000 $RFADODBPATH/readTestFail.php
+	ls -ln custom
 	if [ "$TRAVIS" != "true" ]; then
 		if [ "$td" == "tests" ]; then
 			php ./setuptestdb.php
