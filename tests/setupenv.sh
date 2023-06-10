@@ -98,7 +98,8 @@ if [ "$pvM" == "5" ] && (
 		# Enable safe_mode on PHP 5.1.5 to 5.3x
 		# Load Custom safe_mode.ini from repo
 		echo "Enabling Safe Mode."
-		phpenv config-add tests/phpcommon/safe_mode.ini
+#		phpenv config-add tests/phpcommon/safe_mode.ini
+		cp ./tests/phpcommon/safe_mode.ini ${HOME}/.phpenv/versions/$(phpenv version-name)/etc/conf.d/safe_mode.ini
 		export SafeMode=1
 	fi
 else
@@ -200,14 +201,14 @@ if [ "$pvM" \> "7" ]; then # PHP 8x
 	ADODBVer=5.22.5
 	ADOSrc=github.com/NathanGibbs3/ADOdb
 	GHMode=branch
-	GHBranch="NathanGibbs3-Issue#978"
+	GHBranch="NathanGibbs3-Issue%23978"
 	if [ "$1" == "" ] && [ "$TRAVIS" == "true" ]; then
 		ADODBPATH="ADOdb-$ADODBVer"
 	fi
 elif [ "$pvM" \> "5" ]; then # PHP 7x
 	ADOSrc=github.com/NathanGibbs3/ADOdb
 	GHMode=branch
-	GHBranch="NathanGibbs3-Issue#978"
+	GHBranch="NathanGibbs3-Issue%23978"
 	if [ "$pvm" \> "1" ]; then # PHP 7.2+
 		ADODBVer=5.20.12
 	else
