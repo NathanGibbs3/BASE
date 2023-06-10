@@ -98,8 +98,7 @@ if [ "$pvM" == "5" ] && (
 		# Enable safe_mode on PHP 5.1.5 to 5.3x
 		# Load Custom safe_mode.ini from repo
 		echo "Enabling Safe Mode."
-#		phpenv config-add tests/phpcommon/safe_mode.ini
-		cp ./tests/phpcommon/safe_mode.ini ${HOME}/.phpenv/versions/$(phpenv version-name)/etc/conf.d/safe_mode.ini
+		phpenv config-add tests/phpcommon/safe_mode.ini
 		export SafeMode=1
 	fi
 else
