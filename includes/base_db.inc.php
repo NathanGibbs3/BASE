@@ -938,21 +938,22 @@ function ClearDataTables( $db ){
 // @codeCoverageIgnoreEnd
 // Get Max Length of field in table.
 function GetFieldLength($db,$table,$field){
-	$Epfx = 'BASE ' . __FUNCTION__ . '() ';
+	$EMPfx = __FUNCTION__ . ': Invalid ';
 	$Emsg = '';
 	$Ret = 0;
 	if ( !(is_object($db)) ){
-		$Emsg = $Epfx."Invalid DB Object.";
+		$Emsg = 'DB Object';
 	}else{
 		if ( !(LoadedString($table) && $db->baseTableExists($table)) ){
-			$Emsg = $Epfx."Invalid Table.";
+			$Emsg = 'Table';
 		}elseif (
 			!(LoadedString($field) && $db->baseFieldExists($table,$field))
 		){
-			$Emsg = $Epfx."Invalid Field.";
+			$Emsg = 'Field';
 		}
 	}
-	if ( $Emsg != ''){
+	if( LoadedString($Emsg) ){
+		$Emsg .= "$EMPfx$Emsg.";
 		trigger_error($Emsg);
 	}else{
 		$wresult = $db->DB->metacolumns($table);

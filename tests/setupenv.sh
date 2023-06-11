@@ -198,16 +198,14 @@ GHMode=release
 #GHBranch="NathanGibbs3-Issue#978"
 if [ "$pvM" \> "7" ]; then # PHP 8x
 	ADODBVer=5.22.5
-	ADOSrc=github.com/NathanGibbs3/ADOdb
 	GHMode=branch
-	GHBranch="NathanGibbs3-Issue%23978"
+	GHBranch="hotfix/5.22"
 	if [ "$1" == "" ] && [ "$TRAVIS" == "true" ]; then
 		ADODBPATH="ADOdb-$ADODBVer"
 	fi
 elif [ "$pvM" \> "5" ]; then # PHP 7x
-	ADOSrc=github.com/NathanGibbs3/ADOdb
 	GHMode=branch
-	GHBranch="NathanGibbs3-Issue%23978"
+	GHBranch="hotfix/5.22"
 	if [ "$pvm" \> "1" ]; then # PHP 7.2+
 		ADODBVer=5.20.12
 	else
@@ -338,7 +336,7 @@ if [ "$1" == "" ]; then
 	sudo touch $RFADODBPATH/readTestFail.php
 	sudo chown root:root $RFADODBPATH/readTestFail.php
 	sudo chmod 000 $RFADODBPATH/readTestFail.php
-	ls -ln custom
+	# ls -ln custom
 	if [ "$TRAVIS" != "true" ]; then
 		if [ "$td" == "tests" ]; then
 			php ./setuptestdb.php

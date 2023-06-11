@@ -486,25 +486,17 @@ class log_errorTest extends TestCase {
 		$EOM = '';
 		$this->assertEquals($EOM, returnSMFN(), $URV);
 	}
-	public function testreturnSMFNSafeModeOff() {
+	public function testreturnSMFNMsg() {
 		$URV = self::$URV.'returnSMFN().';
 		$PHPV = GetPHPV();
 		$PSM = getenv('SafeMode');
-		if (version_compare($PHPV, '5.4', '<') && $PSM == false ){
-			$this->assertEquals(0, ini_get('safe_mode'),'PHP SafeMode: On');
-			$this->assertEquals('', returnSMFN('Test'), $URV);
-		}else{
-			$this->assertTrue(true,'Passing Test.');
-		}
-	}
-	public function testreturnSMFNSafeModeOn() {
-		$URV = self::$URV.'returnSMFN().';
-		$PHPV = GetPHPV();
-		$PSM = getenv('SafeMode');
-		$EOM = "<font color='black'>" . 'In PHP safe_mode Test must be owned '
-		. 'by the user under which the web server is running.</font><br/>';
-		if (version_compare($PHPV, '5.4', '<') && $PSM == true ){
-			$this->assertEquals(1, ini_get('safe_mode'),'PHP SafeMode: Off');
+		if (version_compare($PHPV, '5.4', '<') ){
+			$EOM = '';
+			if( ini_get('safe_mode') ){
+				$EOM = "<font color='black'>" . 'In PHP safe_mode Test must '
+				.'be owned by the user under which the web server is '
+				. 'running.</font><br/>';
+			}
 			$this->assertEquals($EOM, returnSMFN('Test'), $URV);
 		}else{
 			$this->assertTrue(true,'Passing Test.');
