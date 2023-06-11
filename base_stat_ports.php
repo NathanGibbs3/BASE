@@ -56,7 +56,11 @@ if ( class_exists('UILang') ){ // Issue 11 backport shim.
 	$CPFirst = _FIRST;
 }
 $port_proto = 'TCP';
-$submit = ImportHTTPVar("submit", VAR_ALPHA | VAR_SPACE, array(_SELECTED, _ALLONSCREEN, _ENTIREQUERY));
+$submit = ImportHTTPVar(
+	'submit', VAR_ALPHA | VAR_SPACE, array(
+		_SELECTED, _ALLONSCREEN, _ENTIREQUERY
+	)
+);
 $port_type = ImportHTTPVar("port_type", VAR_DIGIT);
 $proto = ImportHTTPVar("proto", VAR_DIGIT);
 $sort_order=ImportHTTPVar("sort_order", VAR_LETTER | VAR_USCORE);
@@ -240,7 +244,6 @@ if ( $debug_mode > 0 ){
 	}
 	print "Canned Query: $CCF <br/>";
 	$qs->DumpState();
-	print "SQL Executed: $sql <br/>";
 	$TK = array ( 'port_type', 'proto' );
 	$DI = array();
 	$DD = array();
@@ -251,6 +254,7 @@ if ( $debug_mode > 0 ){
 	NLIO('<hr/>');
 	DDT($DI,$DD,'Port / Protocol Constraints', '', 12);
 }
+DumpSQL($sql, 1);
 $qs->PrintResultCnt(); // Print current view number and # of rows.
 
   echo '<FORM METHOD="post" NAME="PacketForm" ACTION="base_stat_ports.php">'."\n";

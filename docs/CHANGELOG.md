@@ -136,40 +136,40 @@ https://github.com/NathanGibbs3/BASE/issues/77)
 `$maintain_history` before access. [#26](
 https://github.com/NathanGibbs3/BASE/issues/26)
 - BASE does not check for unset conf variable `$maintain_history` before
-access.[#81](
+access. [#81](
 https://github.com/NathanGibbs3/BASE/issues/81)
-- BASE does not check for unset conf variable `$resolve_IP` before access.[#43](
+- BASE does not check for unset conf variable `$resolve_IP` before access. [#43](
 https://github.com/NathanGibbs3/BASE/issues/43)
 - BASE does not check for unset session variable `$_SESSION['sig']` before
-access.[#61](
+access. [#61](
 https://github.com/NathanGibbs3/BASE/issues/61)
-- BASE does not check for unset conf variable `$debug_mode` before access.[#85](
+- BASE does not check for unset conf variable `$debug_mode` before access. [#85](
 https://github.com/NathanGibbs3/BASE/issues/85)
-- Standardize code to check file information before inclusion.[#88](
+- Standardize code to check file information before inclusion. [#88](
 https://github.com/NathanGibbs3/BASE/issues/88)
-- Standardize code to check library before inclusion.[#91](
+- Standardize code to check library before inclusion. [#91](
 https://github.com/NathanGibbs3/BASE/issues/91)
-- Standardize code to handle PHP build errors.[#93](
+- Standardize code to handle PHP build errors. [#93](
 https://github.com/NathanGibbs3/BASE/issues/93)
-- Missing call to `verify_php_build()` in index.php.[#99](
+- Missing call to `verify_php_build()` in index.php. [#99](
 https://github.com/NathanGibbs3/BASE/issues/99)
-- Failure to display debugging info for a meaningful amount of time.[#100](
+- Failure to display debugging info for a meaningful amount of time. [#100](
 https://github.com/NathanGibbs3/BASE/issues/100)
-- User/Role Admin HTML styling hack, Re-implement via CSS.[#19](
+- User/Role Admin HTML styling hack, Re-implement via CSS. [#19](
 https://github.com/NathanGibbs3/BASE/issues/19)
-- [#25 Search Criteria HTML styling hack, Re-implement via CSS.](
+- Search Criteria HTML styling hack, Re-implement via CSS. [#25](
 https://github.com/NathanGibbs3/BASE/issues/25)
-- [#64 Number alignment in the "Total #" column of status pages.](
+- Number alignment in the "Total #" column of status pages. [#64](
 https://github.com/NathanGibbs3/BASE/issues/64)
-- [#105 Results HTML styling hack, Re-implement via CSS.](
+- Results HTML styling hack, Re-implement via CSS. [#105](
 https://github.com/NathanGibbs3/BASE/issues/105)
-- [#106 Move PHP generated JavaScript to external file.](
+- Move PHP generated JavaScript to external file. [#106](
 https://github.com/NathanGibbs3/BASE/issues/106)
-- [#108 BASE does not check for unset class property qroHeeader before access.](
+- BASE does not check for unset class property qroHeeader before access. [#108](
 https://github.com/NathanGibbs3/BASE/issues/108)
-- [#109 Add JavaScript property to QueryResultsOutput() Class.](
+- Add JavaScript property to QueryResultsOutput() Class. [#109](
 https://github.com/NathanGibbs3/BASE/issues/109)
-- [#110 HTML generation styling hack, Re-implement via CSS.](
+- HTML generation styling hack, Re-implement via CSS. [#110](
 https://github.com/NathanGibbs3/BASE/issues/110)
 - [#111 Non Unique sort keys in qroHeader() title elements.](
 https://github.com/NathanGibbs3/BASE/issues/111)
@@ -215,7 +215,7 @@ https://github.com/NathanGibbs3/BASE/issues/132)
 https://github.com/NathanGibbs3/BASE/issues/133)
 - [#135 Remove call to `qmagic()` for compatibility with ADOdb 5.21+ and PHP 
 7.4+](https://github.com/NathanGibbs3/BASE/issues/135)
-- Form element `<input>` outside of table data `<td>` tag set.[#140](
+- Form element `<input>` outside of table data `<td>` tag set. [#140](
 https://github.com/NathanGibbs3/BASE/issues/140)
 - [#147 Incomplete `DOCTYPE`](https://github.com/NathanGibbs3/BASE/issues/147)
 - [#141 Usage of `key_exists()` & `array_key_exists()` breaks support for older PHP's](
@@ -277,6 +277,10 @@ https://github.com/NathanGibbs3/BASE/issues/201)
 Feature [Requested](
 https://sourceforge.net/p/secureideas/feature-requests/74)
 on sourceforge.net.
+- Duplicate information being pushed onto session stack. [#206](
+https://github.com/NathanGibbs3/BASE/issues/206)
+- Use ADOdb Insert_ID on PostgreSQL [#203](
+https://github.com/NathanGibbs3/BASE/issues/203)
 
 Contributor(s): [Nathan Gibbs]
 
@@ -310,45 +314,49 @@ https://github.com/NathanGibbs3/BASE/issues/195)
 https://github.com/NathanGibbs3/BASE/issues/199)
 - PostgreSQL Archive DB transfer issues. [#197](
 https://github.com/NathanGibbs3/BASE/issues/197)
-- Graph Alert Detection Time header ghosted [#202](
+- Graph Alert Detection Time header ghosted. [#202](
 https://github.com/NathanGibbs3/BASE/issues/202)
-- Deleting events when there are none gets a blank page [#205](
+- Deleting events when there are none gets a blank page. [#205](
 https://github.com/NathanGibbs3/BASE/issues/205)
-- Deleting events will cause a time out issue [#196](
+- Deleting events will cause a time out issue. [#196](
 https://github.com/NathanGibbs3/BASE/issues/196)
 - Events are empty but showing `<1%`. [#208](
 https://github.com/NathanGibbs3/BASE/issues/208)
+- PHP 5.5+ Transparent switch to mysqli DB driver fails on Windows. [#192](
+https://github.com/NathanGibbs3/BASE/issues/192)
+- GEO IP ip2cc file executable check fails on Windows. [#210](
+https://github.com/NathanGibbs3/BASE/issues/210)
 
 Contributor(s):
   - [mesteele]
   - [Nathan Gibbs]
 
 ### Security
-- [#32 Add Anti XSS code to CGI Action "display" in base_user.php.](
+- Add Anti XSS code to CGI Action "display" in base_user.php. [#32](
 https://github.com/NathanGibbs3/BASE/issues/32)
-- [#13 Add Anti XSS code to `returnRoleNamesDropDown()`.](
+- Add Anti XSS code to `returnRoleNamesDropDown()`. [#13](
 https://github.com/NathanGibbs3/BASE/issues/13)
-- [#74 Local/Remote File Include Vulnerability in BASE custom footer code.](
+- Local/Remote File Include Vulnerability in BASE custom footer code. [#74](
 https://github.com/NathanGibbs3/BASE/issues/74)
-- Standardize code to authorize page access via role, Page, & URI.[#78](
+- Standardize code to authorize page access via role, Page, & URI. [#78](
 https://github.com/NathanGibbs3/BASE/issues/78)
-- Add Anti XSS code to `returnEditUser()`.[#33](
+- Add Anti XSS code to `returnEditUser()`. [#33](
 https://github.com/NathanGibbs3/BASE/issues/33)
-- Add Anti XSS code to `returnEditRole()`.[#80](
+- Add Anti XSS code to `returnEditRole()`. [#80](
 https://github.com/NathanGibbs3/BASE/issues/80)
-- Add Input Validation code to `returnEditRole()`.[#82](
+- Add Input Validation code to `returnEditRole()`. [#82](
 https://github.com/NathanGibbs3/BASE/issues/82)
-- Add Input Validation code to `returnEditUser()`.[#83](
+- Add Input Validation code to `returnEditUser()`. [#83](
 https://github.com/NathanGibbs3/BASE/issues/83)
-- Debug Mode Information disclosure to unauthenticated users.[#89](
+- Debug Mode Information disclosure to unauthenticated users. [#89](
 https://github.com/NathanGibbs3/BASE/issues/89)
-- Add Input Validation code to `returnUserID()`.[#90](
+- Add Input Validation code to `returnUserID()`. [#90](
 https://github.com/NathanGibbs3/BASE/issues/90)
 - Local/Remote Code Injection Vulnerability in BASE function
-`qroPrintEntry()`.[#104](
+`qroPrintEntry()`. [#104](
 https://github.com/NathanGibbs3/BASE/issues/104)
 - Local/Remote Code Injection Vulnerability in BASE function
-`PrintEntry()`.[#107](
+`PrintEntry()`. [#107](
 https://github.com/NathanGibbs3/BASE/issues/107)
 - `DateTimeRows2sql()` does not do input validation on passed params[#119](
 https://github.com/NathanGibbs3/BASE/issues/119)

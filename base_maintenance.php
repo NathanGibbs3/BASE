@@ -155,7 +155,7 @@ if ($SaM == 'yes'){
 		. XSSPrintSafe($SW_Cli) . '<br/>', 4
 	);
 }
-if ( $AdminAuth ){ // Issue #146 Fix
+if( $AdminAuth ){ // Issue #146 Fix
 	$PF_lst = array('Mail', 'GD', 'GMP');
 	foreach( $PF_lst as $val ){
 		$PF_St[$val] = $BCR->GetCap("PHP_$val");
@@ -500,6 +500,9 @@ if( $SaM == 'yes' ){
 	NLIO ('<br/>', 3);
 	if ( $AdminAuth ){ // Issue #146 Fix
 		NLIO('</form>', 2);
+		if( $BCR->GetCap('BASE_UIDiag') > 0 ){
+			$BCR->DumpCaps();
+		}
 	}
 	PrintBASESubFooter();
 }

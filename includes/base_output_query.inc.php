@@ -49,7 +49,7 @@ class QueryResultsOutput {
 		$file = $sc . "js$sc$file" . '.js';
 		$tf = "$BASE_path$file";
 		$file = "$BASE_urlpath$file";
-		if ( ChkAccess($tf) == 1 ){
+		if ( ChkAccess($tf) > 0 ){
 			$this->JavaScript = $file;
 		}
 		if( $debug_mode > 1 ){

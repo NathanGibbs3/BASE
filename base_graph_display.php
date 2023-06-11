@@ -38,7 +38,7 @@ include_once("$BASE_path/includes/base_state_common.inc.php");
 include_once("$BASE_path/base_graph_common.php");
 
 $EMPfx = __FILE__ . ': '; // Error Message Prefix.
-if ( VerifyGraphingLib() ){ // Graphics Libs Check
+if( VerifyGraphingLib() ){ // Graphics Libs Check
 	require_once('Image/Graph.php');
 	$OUIM = $BCR->GetCap('UIMode');
 	$BCR->AddCap('UIMode', 'Gfx');

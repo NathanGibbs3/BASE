@@ -16,7 +16,7 @@
 //          Author(s): Nathan Gibbs
 //                     Kevin Johnson
 
-$BRTL_Ver = '0.0.9';
+$BRTL_Ver = '0.0.10';
 
 if( !function_exists('LoadedString') ){
 	// Returns true if var is a string containing data.
@@ -109,7 +109,7 @@ if( !function_exists('KML') ){
 // @codeCoverageIgnoreEnd
 
 if( !function_exists('ChkAccess') ){
-	// Returns 1 if file or directory passes access checks.
+	// Returns > 0 if file or directory passes access checks.
 	// Returns < 1 error code otherwise.
 	function ChkAccess( $path, $type='f' ){
 		$Ret = 0; // Path Error
@@ -129,14 +129,12 @@ if( !function_exists('ChkAccess') ){
 			if( $rcf == 1 ){
 				$Ret = -2; // Readable Error
 				$PHPVer = GetPHPSV();
-				// PHP Safe Mode cutout.
-				//    Added: 2005-03-25 for compatabibility with PHP 4x & 5.0x
-				//      See: https://sourceforge.net/p/secureideas/bugs/47
+				// Is_Readable Check.
 				// PHP Safe Mode w/o cutout successful.
 				// Verified: 2019-05-31 PHP 5.3.29 via CI & Unit Tests.
 				//      See: https://github.com/NathanGibbs3/BASE/issues/34
 				// May work: PHP > 5.1.4.
-				//      See: https://www.php.net/manual/en/function.is-readable.php
+				//      See: https://bugs.php.net/bug.php?id=38724
 				if(
 					$PHPVer[0] > 5 || ($PHPVer[0] == 5 && $PHPVer[1] > 1)
 					|| ($PHPVer[0] == 5 && $PHPVer[1] == 1 && $PHPVer[2] > 4)
@@ -145,12 +143,46 @@ if( !function_exists('ChkAccess') ){
 					if( is_readable($path) ){
 						$Ret = 1;
 					}
-				}else{
+				}else{ // PHP Safe Mode cutout.
 					// @codeCoverageIgnoreStart
+					// Added: 2005-03-25 for compatabibility with PHP 4x & 5.0x
+					//   See: https://sourceforge.net/p/secureideas/bugs/47
 					// PHPUnit test only covers this code path on PHP < 5.1.5
 					// Unable to validate in CI.
 					$Ret = 1;
 					// @codeCoverageIgnoreEnd
+				}
+				if( $Ret == 1 ){ // Is_Executable Check.
+					if(strtoupper(substr(PHP_OS, 0, 3)) === 'WIN'){
+						// @codeCoverageIgnoreStart
+						// Windows returns are unreliable for directories &
+						// most file types, shim it.
+						$Ret = 2;
+						// @codeCoverageIgnoreEnd
+					}else{
+						// PHP Safe Mode w/o cutout.
+						// May work: PHP > 5.2.0
+						//      See: https://bugs.php.net/bug.php?id=29840
+						if(
+							$PHPVer[0] > 5
+							|| ($PHPVer[0] == 5 && $PHPVer[1] > 2)
+							|| (
+								$PHPVer[0] == 5 && $PHPVer[1] == 2
+								&& $PHPVer[2] > 0
+							)
+							|| ini_get("safe_mode") != true
+						){
+							if( is_executable($path) ){
+								$Ret = 2;
+							}
+						}else{ // PHP Safe Mode cutout.
+							// @codeCoverageIgnoreStart
+							// PHPUnit test only covers this code path on
+							// PHP < 5.2.1 Unable to validate in CI.
+							$Ret = 2;
+							// @codeCoverageIgnoreEnd
+						}
+					}
 				}
 			}
 		}

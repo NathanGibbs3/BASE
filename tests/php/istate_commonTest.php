@@ -25,10 +25,10 @@ use PHPUnit\Framework\TestCase;
 
 class state_commonTest extends TestCase {
 	// Pre Test Setup.
-	protected static $db;
 	protected static $CVT;
 	protected static $UOV;
 	protected static $URV;
+	protected static $db;
 
 	public static function setUpBeforeClass() {
 		GLOBAL $BASE_path, $DBlib_path, $DBtype, $debug_mode, $alert_dbname,
@@ -103,10 +103,10 @@ class state_commonTest extends TestCase {
 		if ( $BCR == 'Temp' ){ // EventTiming Shim clean up.
 			unset($BCR);
 		}
-		self::$db = null;
 		self::$CVT = null;
 		self::$UOV = null;
 		self::$URV = null;
+		self::$db = null;
 	}
 
 	// Tests go here.

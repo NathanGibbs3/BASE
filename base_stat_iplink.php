@@ -37,15 +37,19 @@ $db->baseDBConnect(
 	$alert_password
 );
 UpdateAlertCache($db);
-$submit = ImportHTTPVar("submit", VAR_ALPHA | VAR_SPACE, array(_SELECTED, _ALLONSCREEN, _ENTIREQUERY));
+$submit = ImportHTTPVar(
+	'submit', VAR_ALPHA | VAR_SPACE, array(
+		_SELECTED, _ALLONSCREEN, _ENTIREQUERY
+	)
+);
 $sort_order=ImportHTTPVar("sort_order", VAR_LETTER | VAR_USCORE);
-$action = ImportHTTPVar("action", VAR_ALPHA);	
+$action = ImportHTTPVar("action", VAR_ALPHA);
 $cs = new CriteriaState("base_stat_iplink.php");
 $cs->ReadState();
 $qs = new QueryState();
 $qs->AddCannedQuery("most_frequent", $freq_num_alerts, _MOSTFREQALERTS, "occur_d"); 
 $qs->AddCannedQuery("last_alerts", $last_num_ualerts, _LASTALERTS, "last_d");
-$qs->MoveView($submit);             /* increment the view if necessary */
+$qs->MoveView($submit); // Increment the view if necessary.
 $page_title = _SIPLTITLE;
 if ( $qs->isCannedQuery() ){
 	$page_title . ': ' . $qs->GetCurrentCannedQueryDesc();
@@ -128,8 +132,8 @@ if ( $debug_mode > 0 ){
 	}
 	print "Canned Query: $CCF <br/>";
 	$qs->DumpState();
-	print "SQL Executed: $sql <br/>";
 }
+DumpSQL($sql, 1);
 $qs->PrintResultCnt(); // Print current view number and # of rows.
 
   echo '<FORM METHOD="post" NAME="PacketForm" ACTION="base_stat_iplink.php">';

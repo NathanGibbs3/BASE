@@ -15,10 +15,10 @@ use PHPUnit\Framework\TestCase;
 
 class state_citemsSPTest extends TestCase {
 	// Pre Test Setup.
-	protected static $files;
-	protected static $langs;
 	protected static $UIL;
 	protected static $db;
+	protected static $files;
+	protected static $langs;
 
 	// We are using a single TD file.
 	// Share class instance as common test fixture.
@@ -100,18 +100,16 @@ class state_citemsSPTest extends TestCase {
 				);
 			}
 			self::assertInstanceOf(
-				'baseCon',
-				$db,
-				'DB Object Not Initialized.'
+				'baseCon', $db, 'DB Object Not Initialized.'
 			);
 			self::$db = $db;
 		}
 	}
 	public static function tearDownAfterClass() {
 		self::$UIL = null;
-		self::$langs = null;
-		self::$files = null;
 		self::$db = null;
+		self::$files = null;
+		self::$langs = null;
 	}
 
 	// Tests go here.

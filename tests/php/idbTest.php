@@ -5,6 +5,8 @@ use PHPUnit\Framework\TestCase;
 
 /**
   * @covers baseCon
+  * @covers ::DumpSQL
+  * @covers ::GetDALSV
   * @covers ::GetFieldLength
   * @covers ::MssqlKludgeValue
   * @covers ::NewBASEDBConnection
@@ -12,6 +14,7 @@ use PHPUnit\Framework\TestCase;
   * @uses ::ChkAccess
   * @uses ::ChkArchive
   * @uses ::ChkLib
+  * @uses ::ErrorMessage
   * @uses ::GetPHPSV
   * @uses ::HtmlColor
   * @uses ::LoadedString
@@ -341,9 +344,16 @@ class dbTest extends TestCase {
 			1, $db->baseIndexExists( 'acid_ag_alert','ag_id'), $URV
 		);
 	}
-
+	/**
+	 * @backupGlobals disabled
+	 */
+	public function testbaseInsertIDReturnsExpected(){
+		$db = self::$db;
+		$URV = self::$URV.'baseInsertID().';
+		$this->assertEquals(-1, $db->baseInsertID(), $URV);
+	}
 	public function testGetFieldLengthInvalidObjectThrowsError(){
-		$EEM = "BASE GetFieldLength() Invalid DB Object.";
+		$EEM = "GetFieldLength: Invalid DB Object.";
 		$PHPUV = GetPHPUV();
 		if (version_compare($PHPUV, '3.0', '<')) {
 			$this->markTestSkipped('Requires Phpunit 3+ to run.');
@@ -371,7 +381,7 @@ class dbTest extends TestCase {
 	}
 	public function testGetFieldLengthInvalidTableThrowsError(){
 		$db = self::$db;
-		$EEM = "BASE GetFieldLength() Invalid Table.";
+		$EEM = "GetFieldLength: Invalid Table.";
 		$PHPUV = GetPHPUV();
 		if (version_compare($PHPUV, '3.0', '<')) {
 			$this->markTestSkipped('Requires Phpunit 3+ to run.');
@@ -400,7 +410,7 @@ class dbTest extends TestCase {
 	}
 	public function testGetFieldLengthInvalidFieldThrowsError(){
 		$db = self::$db;
-		$EEM = "BASE GetFieldLength() Invalid Field.";
+		$EEM = "GetFieldLength: Invalid Field.";
 		$PHPUV = GetPHPUV();
 		if (version_compare($PHPUV, '3.0', '<')) {
 			$this->markTestSkipped('Requires Phpunit 3+ to run.');
@@ -431,7 +441,7 @@ class dbTest extends TestCase {
 	}
 	public function testGetFieldLengthEmptyTableThrowsError(){
 		$db = self::$db;
-		$EEM = "BASE GetFieldLength() Invalid Table.";
+		$EEM = "GetFieldLength: Invalid Table.";
 		$PHPUV = GetPHPUV();
 		if (version_compare($PHPUV, '3.0', '<')) {
 			$this->markTestSkipped('Requires Phpunit 3+ to run.');
@@ -460,7 +470,7 @@ class dbTest extends TestCase {
 	}
 	public function testGetFieldLengthEmptyFieldThrowsError(){
 		$db = self::$db;
-		$EEM = "BASE GetFieldLength() Invalid Field.";
+		$EEM = "GetFieldLength: Invalid Field.";
 		$PHPUV = GetPHPUV();
 		if (version_compare($PHPUV, '3.0', '<')) {
 			$this->markTestSkipped('Requires Phpunit 3+ to run.');
@@ -491,7 +501,7 @@ class dbTest extends TestCase {
 	}
 	public function testGetFieldLengthNonExistantTableThrowsError(){
 		$db = self::$db;
-		$EEM = "BASE GetFieldLength() Invalid Table.";
+		$EEM = "GetFieldLength: Invalid Table.";
 		$PHPUV = GetPHPUV();
 		if (version_compare($PHPUV, '3.0', '<')) {
 			$this->markTestSkipped('Requires Phpunit 3+ to run.');
@@ -522,7 +532,7 @@ class dbTest extends TestCase {
 	}
 	public function testGetFieldLengthNonExistantFieldThrowsError(){
 		$db = self::$db;
-		$EEM = "BASE GetFieldLength() Invalid Field.";
+		$EEM = "GetFieldLength: Invalid Field.";
 		$PHPUV = GetPHPUV();
 		if (version_compare($PHPUV, '3.0', '<')) {
 			$this->markTestSkipped('Requires Phpunit 3+ to run.');
@@ -751,7 +761,48 @@ class dbTest extends TestCase {
 			filterSQL($Value),$URV
 		);
 	}
-
+	public function testGetDALSVreturnsexpected() {
+		$URV = self::$URV.'GetDALSV().';
+		$tmp = GetDALSV();
+		foreach( $tmp as $val ){
+			$this->assertTrue(is_numeric($val), $URV);
+		}
+	}
+	public function testDumpSQLDefaults() {
+		$UOV = self::$UOV . 'DumpSQL().';
+		$EOM = '';
+		$this->expectOutputString($EOM, DumpSQL(), $UOV);
+	}
+	public function testDumpSQLInvalidType() {
+		$UOV = self::$UOV . 'DumpSQL().';
+		$Msg = 'Test';
+		$EOM = "<font color='black'>SQL Executed: Test</font><br/>";
+		$this->expectOutputString($EOM, DumpSQL($Msg, 'string'), $UOV);
+	}
+	public function testDumpSQLInvalidValue() {
+		$UOV = self::$UOV . 'DumpSQL().';
+		$Msg = 'Test';
+		$EOM = "<font color='black'>SQL Executed: Test</font><br/>";
+		$this->expectOutputString($EOM, DumpSQL($Msg, -1), $UOV);
+	}
+	public function testDumpSQLMsg() {
+		$UOV = self::$UOV . 'DumpSQL().';
+		$Msg = 'Test';
+		$EOM = "<font color='black'>SQL Executed: Test</font><br/>";
+		$this->expectOutputString($EOM, DumpSQL($Msg), $UOV);
+	}
+	public function testDumpSQLMsgLvlHit() {
+		$UOV = self::$UOV . 'DumpSQL().';
+		$Msg = 'Test';
+		$EOM = "<font color='black'>SQL Executed: Test</font><br/>";
+		$this->expectOutputString($EOM, DumpSQL($Msg, 0), $UOV);
+	}
+	public function testDumpSQLMsgLvlMiss() {
+		$UOV = self::$UOV . 'DumpSQL().';
+		$Msg = 'Test';
+		$EOM = '';
+		$this->expectOutputString($EOM, DumpSQL($Msg, 1), $UOV);
+	}
 
 	// Add code to a function if needed.
 	// Stop here and mark test incomplete.

@@ -51,15 +51,17 @@ class baseCon {
 			// @codeCoverageIgnoreEnd
 		}
 	}
+
 	function baseCon($type) { // PHP 4x constructor.
 		$this->DB_type = $type;
-		// Are we a Mysql type? Note it in Class structure.
+		// Mysql DB type? Note it in Class structure.
 		if( $type == 'mysql' || $type == 'mysqlt' || $type == 'maxsql' ){
 			$this->DB_class = 1;
 		}else{
 			$this->DB_class = 0;
 		}
 	}
+
 	function baseDBConnect(
 		$method, $database, $host, $port, $username, $password, $force = 0
 	){
@@ -443,19 +445,44 @@ class baseCon {
 		return $Ret;
 	}
 
-function baseInsertID (){
-	// Getting the insert ID fails on certain databases (e.g. postgres), but
-	// we may use it on the once it works on. This function returns -1 if the
-	// dbtype is postgres, then we can run a kludge query to get the insert
-	// ID. That query may vary depending upon which table you are looking at
-	// and what variables you have set at the current point, so it can't be
-	// here and needs to be in the actual script after calling this function.
-	// srh (02/01/2001)
-	if ( $this->DB_class == 1 || $this->DB_type == "mssql" )
-        return $this->DB->Insert_ID();
-     else if ($this->DB_type == "postgres" ||($this->DB_type == "oci8"))
-        return -1;   
-
+	function baseInsertID( $table = '', $field = '' ){
+		$Ret = -1;
+		if( !LoadedString($table) ){
+			$table = '';
+		}
+		if( !LoadedString($field) ){
+			$field = '';
+		}
+		// Getting the insert ID fails on certain databases (e.g. postgres),
+		// but we may use it on the DB's it works on. This function returns
+		// -1 if the dbtype is postgres, then we can run a kludge query to get
+		// the insert ID. That query may vary depending upon which table you
+		// are looking at and what variables you have set at the current
+		// point, so it can't be here and needs to be in the actual script
+		// after calling this function.
+		// srh (02/01/2001)
+		$DALV = GetDALSV(); // ADOdb Version
+		if( $DALV[0] > 5 || ($DALV[0] == 5 && $DALV[1] > 20) ){
+			// Use Insert_ID everywhere on ADOdb 5.21+
+			$Ret = $this->DB->Insert_ID($table, $field);
+		}else{ // ADOdb < 5.21x
+			if( $DALV[0] > 3 || ($DALV[0] == 3 && $DALV[1] > 93) ){
+				if ($this->DB_type != 'oci8' ){
+					// Everywhere but Oracle on ADOdb 3.94+
+					$Ret = $this->DB->Insert_ID($table, $field);
+				}
+			}else{ // Only MySQL && MsSQL on ADOdb < 3.94x
+				// @codeCoverageIgnoreStart
+				if( $this->DB_class == 1 || $this->DB_type == 'mssql' ){
+					$Ret = $this->DB->Insert_ID($table, $field);
+				}
+				// @codeCoverageIgnoreEnd
+			}
+		}
+		if( $Ret == false ){ // No Insert or DB does not support InsertID.
+			$Ret = -1;
+		}
+		return $Ret;
 	}
 
   function baseTimestampFmt($timestamp)
@@ -911,21 +938,22 @@ function ClearDataTables( $db ){
 // @codeCoverageIgnoreEnd
 // Get Max Length of field in table.
 function GetFieldLength($db,$table,$field){
-	$Epfx = 'BASE ' . __FUNCTION__ . '() ';
+	$EMPfx = __FUNCTION__ . ': Invalid ';
 	$Emsg = '';
 	$Ret = 0;
 	if ( !(is_object($db)) ){
-		$Emsg = $Epfx."Invalid DB Object.";
+		$Emsg = 'DB Object';
 	}else{
 		if ( !(LoadedString($table) && $db->baseTableExists($table)) ){
-			$Emsg = $Epfx."Invalid Table.";
+			$Emsg = 'Table';
 		}elseif (
 			!(LoadedString($field) && $db->baseFieldExists($table,$field))
 		){
-			$Emsg = $Epfx."Invalid Field.";
+			$Emsg = 'Field';
 		}
 	}
-	if ( $Emsg != ''){
+	if( LoadedString($Emsg) ){
+		$Emsg .= "$EMPfx$Emsg.";
 		trigger_error($Emsg);
 	}else{
 		$wresult = $db->DB->metacolumns($table);
@@ -981,6 +1009,36 @@ function filterSql( $item, $force_alert_db=0, $db = '' ){
 			// Cut off first and last character, (quotes added by qstr()).
 			$item = substr($item, 1, strlen($item)-2);
 			return $item;
+		}
+	}
+}
+
+function GetDALSV (){ // Returns ADOdb Semantic Version Array
+	$DALV = explode('.', ADOConnection::version(), 3);
+	for( $i = 0; $i < 3; $i++ ){
+		if( isset($DALV[$i]) ){
+			if( preg_match('/^\d+/', $DALV[$i], $tmp) ){ // Normalize Data.
+				$DALV[$i] = $tmp[0];
+			}
+		}else{
+			$DALV[$i] = '0';
+		}
+		if( !is_numeric($DALV[$i]) ){ // Legacy ADOdb Versions
+			$DALV[$i] = '0';
+		}
+	}
+	return $DALV; // Array of ( Major, Minor, Revision ).
+}
+
+function DumpSQL( $sql = '', $lvl = 0 ){
+	// Modeled on the BASE KML, Dump SQL Exec item to appropriate destination.
+	GLOBAL $debug_mode;
+	if ( LoadedString($sql) ){
+		if ( !is_int($lvl) || $lvl < 0 ){
+			$lvl = 0;
+		}
+		if ( $debug_mode >= $lvl ){
+			ErrorMessage("SQL Executed: $sql", 'black', 1);
 		}
 	}
 }

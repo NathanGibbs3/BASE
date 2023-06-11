@@ -27,6 +27,7 @@ function print_element($item, $key)
 }
 
 function pcre_grep_file( $file, $sid ){
+	$EMPfx = __FUNCTION__ . ': ERROR: ';
 	if ( !LoadedString($file) ){
 		ErrorMessage($EMPfx ."file is empty.", 0, 1);
 		return FALSE;
@@ -63,11 +64,13 @@ function pcre_grep_file_poor($file, $key, $sid){
 	}
 	$OFile = XSSPrintSafe($file);
 	$tmp = ChkAccess($file);
-	if ( $tmp != 1 ){
-		$EMsg = $EMPfx . '"' . $OFile . '" not ';
-		if ( $tmp == -1 ){
+	if ( $tmp < 1 ){
+		$EMsg = $EMPfx . XSSPrintSafe('"' . $OFile . '"') . ' not ';
+		if( $tmp == 0 ){
+			$EMsg .= 'file';
+		}elseif( $tmp == -1 ){
 			$EMsg .= 'found';
-		}elseif ( $tmp == -2 ){
+		}elseif( $tmp == -2 ){
 			$EMsg .= 'readable';
 		}
 		$$EMsg .= '. Ignoring this file.';
@@ -111,31 +114,35 @@ function search_dir($dir, $sid){
 		ErrorMessage($EMPfx . 'sid is empty.', 0, 1);
 		return FALSE;
 	}
-	if ( $debug_mode > 1 ){
-		echo "In front of glob, with \$dir = " . XSSPrintSafe($dir) . "\n<BR>";
+	if( $debug_mode > 1 ){
+		ErrorMessage(
+			'In front of glob, with $dir = ' . XSSPrintSafe($dir), 'black', 1
+		);
 	}
 	$OF = XSSPrintSafe($filename);
 	foreach ( glob($dir . $sc . "*") as $filename ){
 		if ( $debug_mode > 1 ){
 			echo "Filename: $OF ";
 		}
-		if ( ChkAccess($filename,'d') == 1 ){
+		if( ChkAccess($filename,'d') > 0 ){
 			search_dir($filename, $sid);
 		}else{
 			$tmp = ChkAccess($filename);
-			if ( $tmp == 1 ){
-				if ( pcre_grep_file_poor($filename, '', $sid) ){
+			if( $tmp > 0 ){
+				if( pcre_grep_file_poor($filename, '', $sid) ){
 					$rv = true;
-					if ( $debug_mode > 0 ){
-						echo "Found\n<BR>";
+					if( $debug_mode > 0 ){
+						print 'Found.<br/>';
 					}
 					break;
 				}
 			}else{
 				$EMsg = $EMPfx . '"' . $OF . '" not ';
-				if ( $tmp == -1 ){
+				if( $tmp == 0 ){
+					$EMsg .= 'file';
+				}elseif( $tmp == -1 ){
 					$EMsg .= 'found';
-				}elseif ( $tmp == -2 ){
+				}elseif( $tmp == -2 ){
 					$EMsg .= 'readable';
 				}
 				$$EMsg .= '. Ignoring this file.';
@@ -149,34 +156,44 @@ function search_dir($dir, $sid){
 ############# main() ##############
 AuthorizedRole(10000);
 PrintBASESubHeader('Local Rule Lookup');
-if (file_exists($dir))
-{
-	if (is_executable($dir))
-	{
-		if ( is_readable($dir) ){
-			echo "<H1>sid: $OSid</H1>\n";
-			if ( $debug_mode > 0 ){
-				ErrorMessage('Calling search_dir()...',0,1);
-			}
-			echo "<TABLE>\n";
-			$rv = search_dir($dir, $sid);
-			echo "</TABLE>\n";
-			if ( $rv ){
-				if ( $debug_mode ){
-					echo "Ok. Found.\n<BR>";
-				}
-			}else{
-				ErrorMessage("Sig Not found: \"sig: $OSid\" in directory \"$ODir\"."
-				, 0, 1);
-			}
-		}else{
-			echo "ERROR: Directory $ODir can not be searched. It must also be readable for the user the web server is running as. However, this is not required by the web server per se, but by the glob() command of php.\n<BR>";
+$tmp = ChkAccess($dir, 'd') > 0
+if ( $tmp > 1 ){
+	echo "<H1>sid: $OSid</H1>\n";
+	if( $debug_mode > 0 ){
+		ErrorMessage('Calling search_dir()...',0,1);
+	}
+	echo "<TABLE>\n";
+	$rv = search_dir($dir, $sid);
+	echo "</TABLE>\n";
+	if( $rv ){
+		if( $debug_mode ){
+			echo "Ok. Found.\n<BR>";
 		}
 	}else{
-		echo "ERROR: Directory \"$ODir\" can not be searched. It must be executable (required by the web server).\n<BR>";
+		ErrorMessage("Sig Not found: \"sig: $OSid\" in directory \"$ODir\"."
+		, 0, 1);
 	}
+}elseif( $tmp > 0 ){
+	$EMsg = XSSPrintSafe('ERROR: Directory "' . $ODir . '" not ').
+	'searchable. It must be executable. (required by the web server).';
+	ErrorMessage($EMsg, 0, 1);
 }else{
-	echo "ERROR: Directory \"$ODir\" does not exist.\n<BR>";
+	$EMsg = XSSPrintSafe('ERROR: Directory "' . $ODir . '" not ');
+	if( $tmp == 0 ){
+		$EMsg .= 'dir';
+	}elseif( $tmp == -1 ){
+		$EMsg .= 'found';
+	}elseif( $tmp == -2 ){
+		$EMsg .= 'readable';
+	}
+	$$EMsg .= '.';
+	ErrorMessage($EMsg, 0, 1);
+	if( $tmp == -2 ){
+		$EMsg = 'It must also be readable for the user the web server is '
+		. 'running as. However, this is not required by the web server per '
+		. 'se, but by the PHP glob() command.';
+		ErrorMessage($EMsg, black, 1);
+	}
 }
 PrintBASESubFooter();
 ?>

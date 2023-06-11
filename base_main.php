@@ -49,7 +49,7 @@ include_once("$BASE_path/base_db_common.php");
 AuthorizedRole(10000);
 // Initialize the history
 $_SESSION = NULL;
-InitArray($_SESSION['back_list'], 1, 3, "");
+InitArray($_SESSION['back_list'], 1, 3, '');
 $_SESSION['back_list_cnt'] = 0;
 PushHistory();
 if ( isset($_GET['archive']) ){ // Set cookie to use the correct db.
@@ -61,9 +61,14 @@ if ( isset($_GET['archive']) ){ // Set cookie to use the correct db.
 function DBLink(){ // Generate link to select other DB.
 	GLOBAL $archive_exists;
 	if ( ChkArchive() ){
-		NLIO('<a href="base_main.php?archive=no">' . _USEALERTDB . '</a>');
+		NLIO('<a href="base_main.php?archive=no">'
+			. Icon('alert', _USEALERTDB, 6) . _USEALERTDB . '</a>', 5
+		);
 	}elseif( $archive_exists != 0 ){
-		NLIO('<a href="base_main.php?archive=1">' . _USEARCHIDB . '</a>');
+		NLIO(
+			'<a href="base_main.php?archive=1">'
+			. Icon('archive', _USEARCHIDB, 6) . _USEARCHIDB . '</a>', 5
+		);
 	}
 }
 

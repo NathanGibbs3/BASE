@@ -27,6 +27,7 @@
 	<rule ref="PHPCompatibility">
 		<exclude name="PHPCompatibility.FunctionNameRestrictions.NewMagicMethods.__constructFound"/>
 		<exclude name="PHPCompatibility.IniDirectives.RemovedIniDirectives.safe_modeDeprecatedRemoved"/>
+		<exclude name="PHPCompatibility.FunctionUse.RemovedFunctions.get_magic_quotes_runtimeDeprecated"/>
 	</rule>
 	<rule ref="Generic.Arrays.ArrayIndent">
 	</rule>

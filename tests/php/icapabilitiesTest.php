@@ -1,11 +1,19 @@
 <?php
 use PHPUnit\Framework\TestCase;
 
-// Test fucntions in /includes/base_capabilities.php
+// Test fucntions in includes/base_capabilities.php
+
 /**
   * Code Coverage Directives.
   * @backupGlobals disabled
+  * @covers BaseCapsRegistry
+  * @uses ::ChkAccess
+  * @uses ::ChkLib
+  * @uses ::GetPHPSV
   * @uses ::LoadedString
+  * @uses ::PearInc
+  * @uses ::SetConst
+  * @uses ::is_key
   */
 
 class capabilitiesTest extends TestCase {
@@ -33,7 +41,7 @@ class capabilitiesTest extends TestCase {
 	}
 
 	// Tests go here.
-	// Tests for Class QueryState
+	// Tests for Class BaseCapsRegistry
 	public function testClassBaseCapsRegistryConstruct(){
 		$URV = self::$URV.'Construct().';
 		$this->assertInstanceOf(
@@ -52,7 +60,7 @@ class capabilitiesTest extends TestCase {
 		$URV = self::$URV.'Release Info.';
 		$this->assertEquals('lilias', $tc->GetCap('BASE_Lady'), $URV);
 		if ( $tc->GetCap('BASE_Dev') ){
-			$EOM = '^1\.4\.5-0\.0\.1 \(Jayme\)\+2023-05-30';
+			$EOM = '^1\.4\.5-0\.0\.1 \(Jayme\)\+2023-06-11';
 			if ( $PHPUV > 1 ){ // PHPUnit 9+
 				$this->assertMatchesRegularExpression(
 					'/'.$EOM.'/', $tc->GetCap('BASE_Ver'), $URV

@@ -91,7 +91,9 @@ global $colored_alerts, $debug_mode;
 	}
 	$sql .= $sort_sql;
 	if ( $debug_mode > 0 ){
-		$TK = array ( 'SUBMIT', 'sort_order', 'SQL (save_sql)', 'SQL (sort_sql)' );
+		$TK = array (
+			'SUBMIT', 'sort_order', 'SQL (save_sql)', 'SQL (sort_sql)'
+		);
 		$DI = array($submit, $sort_order, $sql, $sort_sql );
 		$DD = array();
 		foreach ( $TK as $val ){
@@ -116,18 +118,18 @@ global $colored_alerts, $debug_mode;
 		}
 		print "Canned Query: $CCF <br/>";
 		$qs->DumpState();
-		print "SQL Executed: $sql <br/>";
 	}
+	DumpSQL($sql, 1);
 	if ( !$printing_ag ){
 		// Generate and print the criteria in human readable form.
 		// Issue #114 fix
-		NLIO ("<div style='overflow:hidden'>",2);
-		NLIO ("<div style='float: left; width: 60%;'>",3);
+		NLIO("<div style='float: left; width: 100%;'>", 2);
+		NLIO("<div style='float: left; width: 60%;'>", 3);
 		PrintCriteria($caller);
-		NLIO ('</div>',3);
-		NLIO ("<div style='float: right; width: 40%;'>",3);
+		NLIO('</div>', 3);
+		NLIO("<div style='float: right; width: 40%;'>", 3);
 		PrintFramedBoxHeader(_QSCSUMM, '#669999', 0, 4);
-		NLIO ('<td>',6);
+		NLIO('<td>', 6);
 		PrintGeneralStats(
 			$db, 1, $show_summary_stats, "$join_sql ",
 			"$where_sql $criteria_sql"
@@ -142,16 +144,14 @@ global $colored_alerts, $debug_mode;
 		NLIO ('</div>',3);
 		NLIO ('</div>',2);
 	}
-    /* Clear the old checked positions */
-    for ( $i = 0; $i < $show_rows; $i++)  
-    { 
-        $action_lst[$i] = "";  
-        $action_chk_lst[$i] = ""; 
-    }
-
-  /* Print the current view number and # of rows */
-  $qs->PrintResultCnt();
-  $qro->PrintHeader();
+	$qs->PrintResultCnt(); // Print the current view number and # of rows.
+	if( !$printing_ag ){ // Called from Query System.
+		NLIO(
+			"<form name='PacketForm' action='base_qry_main.php' method='get'>",
+			2
+		);
+	}
+	$qro->PrintHeader();
 
     $i = 0;
     while ( ($myrow = $result->baseFetchRow()) && ($i < $qs->GetDisplayRowCnt() ) )
@@ -287,9 +287,8 @@ global $colored_alerts, $debug_mode;
     }
     $result->baseFreeRows();
 
-  $qro->PrintFooter();
-
-  $qs->PrintBrowseButtons();
-  $qs->PrintAlertActionButtons();
+	$qro->PrintFooter();
+	$qs->PrintBrowseButtons();
+	$qs->PrintAlertActionButtons();
 }
 ?>

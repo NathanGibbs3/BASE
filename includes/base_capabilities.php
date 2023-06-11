@@ -52,6 +52,7 @@ class BaseCapsRegistry{ // Capabilities Registry class definition
 		$this->BCReg['BASE'] = array(); // BASE Capabilities.
 		// PHP
 		$this->AddCap('PHP_Ver', implode('.', GetPHPSV())); // PHP Version
+		$this->AddCap('PHP_SM', ini_get('safe_mode'));// PHP Safe Mode
 		if( function_exists('mail') ){ // PHP Mail
 			$this->AddCap('PHP_Mail');
 		}
@@ -78,7 +79,7 @@ class BaseCapsRegistry{ // Capabilities Registry class definition
 		$Ver = '1.4.5'; // Official Release
 		$Lady = 'lilias'; // Official Release Name
 		// Last Dev Merge to master branch, change on new merge.
-		$LPM = '2023-05-30';
+		$LPM = '2023-06-11';
 		// Switch this off and update the official release Unit Test when
 		// pushing a new release to master.
 		$Dev = true; // Is this a Development build?
@@ -124,10 +125,10 @@ class BaseCapsRegistry{ // Capabilities Registry class definition
 				$BASE_IconSet = 0; // Default to 0 if something is not right.
 		}
 		$this->AddCap('BASE_UIConSet', $BASE_IconSet); // Icon Set #
-		if( $debug_mode != 0 ){ // Debug Mode
+		if( intval($debug_mode) != 0 ){ // Debug Mode
 			$this->AddCap('BASE_UIDiag', $debug_mode);
 		}
-		if( $debug_time_mode != 0 ){ // Debug Time Mode
+		if( intval($debug_time_mode) != 0 ){ // Debug Time Mode
 			$this->AddCap('BASE_UIDiagTime', $debug_time_mode);
 		}
 		if( LoadedString($BASE_Language) ){ // UI Lang.
@@ -160,7 +161,7 @@ class BaseCapsRegistry{ // Capabilities Registry class definition
 		){ // God awful hack to keep this code from running under test. As
 			// Image_Graph is not currently maintained and throws
 			//deprecation errors because of PHP 4x constructors.
-			if ( PearInc('Graphing', 'Image', 'Graph') ){ // PEAR::Image_Graph
+			if( PearInc('Graphing', 'Image', 'Graph') ){ // PEAR::Image_Graph
 				$this->AddCap('Graph');
 			}
 		}

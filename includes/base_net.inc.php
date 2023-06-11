@@ -160,7 +160,7 @@ function baseGetHostByAddr($ipaddr, $db, $cache_lifetime){
 	}elseif (!preg_match($Validipv4, $ipaddr)){
 		$Emsg = $Epfx.'Invalid Parameter(s) $ipaddr.';
 		// Not sure why we are not returning the error message like above.
-		// The lagecy code returns the $ipaddr param in this isntance, so
+		// The lagecy code returns the $ipaddr param in this instance, so
 		// we left it here until we can verify that changing it won't break
 		// soemthing else.
 		$Ret = $ipaddr;

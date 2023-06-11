@@ -40,10 +40,14 @@ UpdateAlertCache($db);
 $cs = new CriteriaState("base_stat_class.php");
 $cs->ReadState();
 $qs = new QueryState();
-$submit = ImportHTTPVar("submit", VAR_ALPHA | VAR_SPACE, array(_SELECTED, _ALLONSCREEN, _ENTIREQUERY));
+$submit = ImportHTTPVar(
+	'submit', VAR_ALPHA | VAR_SPACE, array(
+		_SELECTED, _ALLONSCREEN, _ENTIREQUERY
+	)
+);
 $sort_order=ImportHTTPVar("sort_order", VAR_LETTER | VAR_USCORE);
 $action = ImportHTTPVar("action", VAR_ALPHA); 
-$qs->MoveView($submit);             /* increment the view if necessary */
+$qs->MoveView($submit); // Increment the view if necessary.
 $page_title = _CHRTCLASS;
 if ( $qs->isCannedQuery() ){
 	$page_title . ': ' . $qs->GetCurrentCannedQueryDesc();
@@ -157,8 +161,8 @@ if ( $debug_mode > 0 ){
 	}
 	print "Canned Query: $CCF <br/>";
 	$qs->DumpState();
-	print "SQL Executed: $sql <br/>";
 }
+DumpSQL($sql, 1);
 $qs->PrintResultCnt(); // Print current view number and # of rows.
 
   echo '<FORM METHOD="post" NAME="PacketForm" ACTION="base_stat_class.php">';

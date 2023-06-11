@@ -17,7 +17,7 @@
 //
 //          Author(s): Nathan Gibbs
 
-$BK_Ver = '0.0.5';
+$BK_Ver = '0.0.6';
 $BASE_path = dirname(__FILE__);
 $sc = DIRECTORY_SEPARATOR;
 $ReqRE =  "\\".$sc.'includes.*';
@@ -30,7 +30,8 @@ if( isset($argv[1]) ){ // Debug lvl
 	$debug_mode = intval($argv[1]);
 }
 
-if( ChkAccess($file) == 1 && filesize($file) > 10 ){
+$tmp = ChkAccess($file);
+if( $tmp > 0 && filesize($file) > 10 ){
 	KML("BASE Conf Set: $file");
 	require_once($file);
 	SetConst('BASE_Conf', $file);
@@ -94,16 +95,25 @@ if( ChkAccess($file) == 1 && filesize($file) > 10 ){
 	}
 	KML("BASE Lang $Act: $Lang", 2);
 	$LA = '';
-	if( ChkAccess("$BASE_path$sc" . "languages$sc$Lang" . '.lang.php') != 1 ){
+	$tmp = ChkAccess("$BASE_path$sc" . "languages$sc$Lang" . '.lang.php');
+	if( $tmp < 1 ){
 		$LA = 'not ';
+		if( $tmp == 0 ){
+			$LA .= 'file';
+		}elseif( $tmp == -1 ){
+			$LA .= 'found';
+		}elseif( $tmp == -2 ){
+			$LA .= 'readable';
+		}
+		$LA .= '.';
 	}
-	$tmp = $LA . 'accessible';
-	KML("BASE Lang File: $tmp", 2);
 	if( LoadedString($LA) ){ // Display error to user.
+		KML("BASE Lang File: $LA", 2);
 		$BCR->AddCap('UIMode', 'Web');
-		ErrorMessage("BASE Lang File: $tmp");
+		ErrorMessage("BASE Lang File: $LA");
 		exit;
 	}
+	KML('BASE Lang File: accessible.', 2);
 	$tmp = $BASE_urlpath; // Issue #190
 	if( LoadedString($tmp) ){
 		$ReqRE = 'http(s)?' . preg_quote('://','/')
@@ -123,7 +133,16 @@ if( ChkAccess($file) == 1 && filesize($file) > 10 ){
 		KML("Start: $tmp");
 	}
 }else{
-	KML("BASE Conf access error: $file.");
+	$EMsg = "BASE Conf access error: $file not ";
+	if( $tmp == 0 ){
+		$EMsg .= 'file';
+	}elseif( $tmp == -1 ){
+		$EMsg .= 'found';
+	}elseif( $tmp == -2 ){
+		$EMsg .= 'readable';
+	}
+	$EMsg .= '.';
+	KML($EMsg);
 	HTTP_header('Location: setup/index.php');
 }
 
@@ -198,7 +217,7 @@ function HTTP_header( $url = '', $status = 200 ){
 }
 // @codeCoverageIgnoreEnd
 
-// Returns 1 if file or directory passes access checks.
+// Returns > 0 if file or directory passes access checks.
 // Returns < 1 error code otherwise.
 function ChkAccess( $path, $type='f' ){
 	$Ret = 0; // Path Error
@@ -218,28 +237,56 @@ function ChkAccess( $path, $type='f' ){
 		if ( $rcf == 1 ){
 			$Ret = -2; // Readable Error
 			$PHPVer = GetPHPSV();
-			// PHP Safe Mode cutout.
-			//    Added: 2005-03-25 for compatabibility with PHP 4x & 5.0x
-			//      See: https://sourceforge.net/p/secureideas/bugs/47
+			// Is_Readable Check.
 			// PHP Safe Mode w/o cutout successful.
 			// Verified: 2019-05-31 PHP 5.3.29 via CI & Unit Tests.
 			//      See: https://github.com/NathanGibbs3/BASE/issues/34
 			// May work: PHP > 5.1.4.
-			//      See: https://www.php.net/manual/en/function.is-readable.php
-			if (
+			//      See: https://bugs.php.net/bug.php?id=38724
+			if(
 				$PHPVer[0] > 5 || ($PHPVer[0] == 5 && $PHPVer[1] > 1)
-				|| ($PHPVer[0] == 5 && $PHPVer[1] == 1 && $PHPVer[2] > 4 )
+				|| ($PHPVer[0] == 5 && $PHPVer[1] == 1 && $PHPVer[2] > 4)
 				|| ini_get("safe_mode") != true
 			){
-				if ( is_readable($path) ){
+				if( is_readable($path) ){
 					$Ret = 1;
 				}
-			}else{
+			}else{ // PHP Safe Mode cutout.
 				// @codeCoverageIgnoreStart
+				// Added: 2005-03-25 for compatabibility with PHP 4x & 5.0x
+				//   See: https://sourceforge.net/p/secureideas/bugs/47
 				// PHPUnit test only covers this code path on PHP < 5.1.5
 				// Unable to validate in CI.
 				$Ret = 1;
 				// @codeCoverageIgnoreEnd
+			}
+			if( $Ret == 1 ){ // Is_Executable Check.
+				if(strtoupper(substr(PHP_OS, 0, 3)) === 'WIN'){
+					// Windows returns are unreliable for directories & most
+					// file types, shim it.
+					$Ret = 2;
+				}else{
+					// PHP Safe Mode w/o cutout.
+					// May work: PHP > 5.2.0
+					//      See: https://bugs.php.net/bug.php?id=29840
+					if(
+						$PHPVer[0] > 5 || ($PHPVer[0] == 5 && $PHPVer[1] > 2)
+						|| (
+							$PHPVer[0] == 5 && $PHPVer[1] == 2 && $PHPVer[2] > 0
+						)
+						|| ini_get("safe_mode") != true
+					){
+						if( is_executable($path) ){
+							$Ret = 2;
+						}
+					}else{ // PHP Safe Mode cutout.
+						// @codeCoverageIgnoreStart
+						// PHPUnit test only covers this code path on
+						// PHP < 5.2.1 Unable to validate in CI.
+						$Ret = 2;
+						// @codeCoverageIgnoreEnd
+					}
+				}
 			}
 		}
 	}

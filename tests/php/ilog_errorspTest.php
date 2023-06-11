@@ -77,7 +77,17 @@ class log_errorspTest extends TestCase {
 			$EOM, BuildError('message'), $UOV
 		);
 	}
-	public function testreturnBuildError(){
+	public function testreturnBuildErrorDefault(){
+		GLOBAL $BASE_installID;
+		$URV = self::$URV.'returnBuildError().';
+		if ( is_object(self::$UIL) ){
+			$UIL = self::$UIL;
+		}else{
+			include_once(self::$files);
+		}
+		$this->assertEquals('', returnBuildError(), $URV);
+	}
+	public function testreturnBuildErrorMessage(){
 		GLOBAL $BASE_installID;
 		$URV = self::$URV.'returnBuildError().';
 		if ( is_object(self::$UIL) ){
