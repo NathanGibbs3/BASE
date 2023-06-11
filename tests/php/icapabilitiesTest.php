@@ -60,7 +60,7 @@ class capabilitiesTest extends TestCase {
 		$URV = self::$URV.'Release Info.';
 		$this->assertEquals('lilias', $tc->GetCap('BASE_Lady'), $URV);
 		if ( $tc->GetCap('BASE_Dev') ){
-			$EOM = '^1\.4\.5-0\.0\.1 \(Jayme\)\+2023-05-30';
+			$EOM = '^1\.4\.5-0\.0\.1 \(Jayme\)\+2023-06-11';
 			if ( $PHPUV > 1 ){ // PHPUnit 9+
 				$this->assertMatchesRegularExpression(
 					'/'.$EOM.'/', $tc->GetCap('BASE_Ver'), $URV
