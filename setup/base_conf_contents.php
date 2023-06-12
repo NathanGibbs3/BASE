@@ -72,6 +72,7 @@ $AllowedClients = \'\';
 // Domain or subdomain on which BASE is running.
 // Effects the domain flag in sent cookies.
 // This DOES NOT usually need to be set.
+
 $domain = \'\';
 
 // Set the base_urlpath to the url location that is the root of your BASE
@@ -167,20 +168,18 @@ $base_custom_footer = \'\';
      */
     $db_connect_method = 1;
     
-    /* Use referential integrity
-     *   1  : use
-     *   0  : ignore (not installed)
-     *
-     * Note: Only PostgreSQL and MS-SQL Server databases support
-     *       referential integrity.  Use the associated
-     *       create_acid_tbls_?_extra.sql script to add this
-     *       functionality to the database.
-     *
-     *       Referential integrity will greatly improve the
-     *       speed of record deletion, but also slow record
-     *       insertion.
-     */
-		$use_referential_integrity = 0;
+// Use referential integrity
+// 1: use
+// 0: ignore (not installed)
+//
+// Note: Only PostgreSQL and MS-SQL Server DB\'s support referential integrity.
+//       Use the associated enable_RI.sql script to add this functionality to
+//       the DB.
+//
+//       Referential integrity will greatly improve the speed of record
+//       deletion, but also slow record insertion.
+
+$use_referential_integrity = 0;
 
 		/* SMTP Email Alert action
      *

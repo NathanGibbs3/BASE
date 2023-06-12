@@ -207,7 +207,6 @@ elif [ "$pvM" \> "5" ]; then # PHP 7x
 	else
 		ADODBVer=5.20.0
 	fi
-	ADODBVer=5.22.6 # Test this.
 	if [ "$1" == "" ] && [ "$TRAVIS" == "true" ]; then
 		ADODBPATH="ADOdb-$ADODBVer"
 	fi

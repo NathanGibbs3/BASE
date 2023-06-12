@@ -20,7 +20,7 @@ if [ "$TRAVIS" == "true" ] && [ "$CI" == "true" ] && [ "$HAS_JOSH_K_SEAL_OF_APPR
 			echo "Creating BASE Tables."
 			psql -d snort -f sql/create_base_tbls_pgsql.sql
 			echo "Adding referential integrity to the database schema."
-			psql -d snort -f sql/create_base_tbls_pgsql_extra.sql
+			psql -d snort -f sql/enable_RI.sql
 		fi
 	elif [ "$DB" = "mysql" ]; then
 		if [ "$TRAVIS" == "true" ]; then

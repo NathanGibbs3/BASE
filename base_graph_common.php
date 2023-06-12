@@ -852,7 +852,7 @@ function GetCountryDataSet( &$xdata, $chart_type, $min_threshold, $criteria ){
 				$EMsg = XSSPrintSafe('In "safe_mode" the path "')
 				. dirname($IP2CC) . XSSPrintSafe('"')
 				. ' must also be part of safe_mode_exec_dir in /etc/php.ini.'
-				. '<pre>';
+				. '<pre>'
 				. XSSPrintSafe( 'safe_mode_exec_dir = "')
 				. dirname($IP2CC) . XSSPrintSafe('"')
 				. '</pre>'
