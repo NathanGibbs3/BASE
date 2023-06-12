@@ -254,7 +254,7 @@ function PrintServerInformation()
 }
 
 function PrintPageHeader(){
-	GLOBAL $DBtype, $ADODB_vers, $Use_Auth_System, $BCR;
+	GLOBAL $DBtype, $Use_Auth_System, $BCR;
 	if( !AuthorizedPage('(base_denied|index)') ){
 		// Additional app info allowed everywhere but landing pages.
 		if( ARC(10000) ){ // Auth check
@@ -304,11 +304,15 @@ function PrintPageHeader(){
 			$DD = array('BASE VERSION');
 			$DI = array($BV);
 			if( $Use_Auth_System == 1 && $AdminAuth ){
-				array_push($DD, 'OS', 'HTTP SW', 'HTTP PHP API', _MNTPHPVER);
-				array_push($DD, _MNTDBALV, _MNTDBTYPE, 'Executed Script');
-				array_push($DI, php_uname(), $SW_Svr, php_sapi_name());
-				array_push($DI, phpversion(), $ADODB_vers, $DBtype);
-				array_push($DI, XSSPrintSafe($_SERVER['SCRIPT_NAME']));
+				array_push(
+					$DD, 'OS', 'HTTP SW', 'HTTP PHP API', _MNTPHPVER,
+					_MNTDBALV, _MNTDBTYPE, 'Executed Script'
+				);
+				array_push(
+					$DI, php_uname(), $SW_Svr, php_sapi_name(), phpversion(),
+					implode('.', GetDALSV()) , $DBtype,
+					XSSPrintSafe($_SERVER['SCRIPT_NAME'])
+				);
 			}
 			DDT($DI, $DD, 'Server Information', '', '', 1, 0);
 		}

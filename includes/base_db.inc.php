@@ -22,16 +22,18 @@
 defined('_BASE_INC') or die('Accessing this file directly is not allowed.');
 
 class baseCon {
-	var $DB = NULL; // ADOdb DB dirver specific object when set.
+	var $DB = NULL; // ADOdb DB driver specific object when set.
+	var $DB_class = NULL; // DB Class.
 	var $DB_type = NULL; // ADOdb DB Driver.
 	var $DB_name = NULL; // DB.
 	var $DB_host = NULL; // DB Server.
 	var $DB_port = NULL; // DB Server Port.
 	var $DB_username = NULL; // DB User.
+	var $DBF_RI = false; // DB Feature Flag - Referential Integrity.
+	var $DBF_TS = false; // DB Feature Flag - Transaction Support.
 	var $lastSQL = ''; // Last SQL statement execution request.
 	var $version = 0; // Default to Schema v0 on Init.
 	var $sql_trace = NULL; // SQL Trace file handle.
-	var $DB_class = NULL; // DB Class.
 	var $Role = NULL; // Object Role Flag.
 	var $FLOP = NULL; // FLoP Extended DB Flag.
 
@@ -65,8 +67,8 @@ class baseCon {
 	function baseDBConnect(
 		$method, $database, $host, $port, $username, $password, $force = 0
 	){
-		GLOBAL $archive_dbname, $archive_host, $archive_port, $archive_user,
-		$archive_password, $debug_mode, $et;
+		GLOBAL $use_referential_integrity, $debug_mode, $et, $archive_dbname,
+		$archive_host, $archive_port, $archive_user, $archive_password;
 		$EMPfx = __FUNCTION__ . ': ';
 		// Check archive cookie to see if we need to use the archive tables.
 		// Only honnor cookie if not forced to use specified database.
@@ -89,7 +91,8 @@ class baseCon {
         $this->basePConnect($database, $host, $port, $username, $password);
 
 		}
-		if( $this->baseGetDBversion() > 105 ){ // FLoPS released after Schema v106
+		if( $this->baseGetDBversion() > 105 ){
+			// FLoPS released after Schema v106
 			$this->baseSetFLOP(); // Detect FLoP Extended DB.
 		}
 		// Need to TD these in Issue #11 branch.
@@ -193,14 +196,17 @@ class baseCon {
 
 	function baseClose (){
 		$this->DB->Close();
-		$this->DB_host = NULL; // Issue #204
-		$this->DB_name = NULL;
-		$this->DB_port = NULL;
-		$this->DB_username = NULL;
-		$this->FLOP = NULL;
-		$this->Role = NULL;
-		$this->version = 0;
-		$this->lastSQL = '';
+		// Issue #204
+		$this->DB_name = NULL; // DB.
+		$this->DB_host = NULL; // DB Server.
+		$this->DB_port = NULL; // DB Server Port.
+		$this->DB_username = NULL; // DB User.
+		$this->DBF_RI = false; // DB Feature Flag - Referential Integrity.
+		$this->DBF_TS = false; // DB Feature Flag - Transaction Support.
+		$this->lastSQL = ''; // Last SQL statement execution request.
+		$this->version = 0; // Default to Schema v0 on Init.
+		$this->Role = NULL; // Object Role Flag.
+		$this->FLOP = NULL; // FLoP Extended DB Flag.
 	}
 
 	function baseExecute(
@@ -464,12 +470,32 @@ class baseCon {
 		$DALV = GetDALSV(); // ADOdb Version
 		if( $DALV[0] > 5 || ($DALV[0] == 5 && $DALV[1] > 20) ){
 			// Use Insert_ID everywhere on ADOdb 5.21+
-			$Ret = $this->DB->Insert_ID($table, $field);
+			if(
+				$this->DB_type == 'postgres'
+				&& (
+					($DALV[0] == 5 && $DALV[1] == 22 && $DALV[2] < 6)
+					|| ($DALV[0] == 5 && $DALV[1] == 21 && $DALV[2] < 5)
+				)
+			){ // Catch ADOdb #978 - ADOdb 5.21x < 5.21.5 & 5.22x < 5.22.6
+				$Ret = @$this->DB->Insert_ID($table, $field);
+			}else{
+				$Ret = $this->DB->Insert_ID($table, $field);
+			}
 		}else{ // ADOdb < 5.21x
 			if( $DALV[0] > 3 || ($DALV[0] == 3 && $DALV[1] > 93) ){
 				if ($this->DB_type != 'oci8' ){
 					// Everywhere but Oracle on ADOdb 3.94+
-					$Ret = $this->DB->Insert_ID($table, $field);
+					if(
+						$this->DB_type == 'postgres'
+						&& (
+							($DALV[0] == 5 && $DALV[1] == 20 && $DALV[2] < 22)
+							|| ($DALV[0] == 5 && $DALV[1] > 17)
+						)
+					){ // Catch ADOdb #978 - ADOdb 5.18 - 5.20.21
+						$Ret = @$this->DB->Insert_ID($table, $field);
+					}else{
+						$Ret = $this->DB->Insert_ID($table, $field);
+					}
 				}
 			}else{ // Only MySQL && MsSQL on ADOdb < 3.94x
 				// @codeCoverageIgnoreStart
@@ -937,14 +963,14 @@ function ClearDataTables( $db ){
 }
 // @codeCoverageIgnoreEnd
 // Get Max Length of field in table.
-function GetFieldLength($db,$table,$field){
+function GetFieldLength( $db, $table, $field ){
 	$EMPfx = __FUNCTION__ . ': Invalid ';
 	$Emsg = '';
 	$Ret = 0;
-	if ( !(is_object($db)) ){
+	if( !(is_object($db)) ){
 		$Emsg = 'DB Object';
 	}else{
-		if ( !(LoadedString($table) && $db->baseTableExists($table)) ){
+		if( !(LoadedString($table) && $db->baseTableExists($table)) ){
 			$Emsg = 'Table';
 		}elseif (
 			!(LoadedString($field) && $db->baseFieldExists($table,$field))

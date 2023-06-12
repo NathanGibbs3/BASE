@@ -312,7 +312,7 @@ if( $AdminAuth ){ // Issue #146 Fix
 			}
 			NLIO();
 			NLIO(_DATABASE);
-			NLIO(_MNTDBALV." $ADODB_vers");
+			NLIO(_MNTDBALV . ' ' . implode('.', GetDALSV());
 			NLIO(_MNTDBTYPE." $DBtype");
 			NLIO(_MNTDBALERTNAME." $alert_dbname");
 			if( $BADB ){
@@ -364,7 +364,10 @@ if( $AdminAuth ){ // Issue #146 Fix
 		PrintFramedBoxFooter(1, 3);
 		NLIO('<br/>', 3);
 		PrintFramedBoxHeader(_DATABASE, '#669999', 1, 3, 'left');
-		NLIO( '<b>' . _MNTDBALV . ": </b>$ADODB_vers" . '<br/>', 6);
+		NLIO(
+			'<b>' . _MNTDBALV . ': </b>' . implode('.', GetDALSV()) . '<br/>',
+			6
+		);
   echo "<B>"._MNTDBTYPE."</B> $DBtype <BR>  
         <B>"._MNTDBALERTNAME."</B> $alert_dbname <BR>
 ";

@@ -137,6 +137,8 @@ class dbTest extends TestCase {
 		$this->assertEquals($Ec, $tc->DB_class, $URV);
 		$this->assertEquals(0, $tc->version, $URV);
 		$this->assertEmpty($tc->lastSQL, $URV);
+		$this->assertFalse($tc->DBF_RI, $URV);
+		$this->assertFalse($tc->DBF_TS, $URV);
 		$this->assertNull($tc->DB_name, $URV);
 		$this->assertNull($tc->DB_host, $URV);
 		$this->assertNull($tc->DB_port, $URV);

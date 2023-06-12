@@ -197,20 +197,17 @@ GHMode=release
 #GHMode=branch
 #GHBranch="NathanGibbs3-Issue#978"
 if [ "$pvM" \> "7" ]; then # PHP 8x
-	ADODBVer=5.22.5
-	GHMode=branch
-	GHBranch="hotfix/5.22"
+	ADODBVer=5.22.6
 	if [ "$1" == "" ] && [ "$TRAVIS" == "true" ]; then
 		ADODBPATH="ADOdb-$ADODBVer"
 	fi
 elif [ "$pvM" \> "5" ]; then # PHP 7x
-	GHMode=branch
-	GHBranch="hotfix/5.22"
 	if [ "$pvm" \> "1" ]; then # PHP 7.2+
 		ADODBVer=5.20.12
 	else
 		ADODBVer=5.20.0
 	fi
+	ADODBVer=5.22.6 # Test this.
 	if [ "$1" == "" ] && [ "$TRAVIS" == "true" ]; then
 		ADODBPATH="ADOdb-$ADODBVer"
 	fi

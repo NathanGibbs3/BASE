@@ -1396,39 +1396,60 @@ function Action_archive_alert2_post(
 	// deletion.
 	$num_alert -= $action_cnt;
 }
+
 // This function accepts a (sid,cid) and purges it from the DB.
 // - (sid,cid) : sensor, event id pair to delete
 // - db        : database handle
 //  RETURNS: 0 or 1 depending on whether the alert was deleted
-function PurgeAlert( $sid, $cid, $db ){
-	$del_table_list = array(
-		"event", "iphdr", "tcphdr", "udphdr", "icmphdr", "opt", "data",
-		"acid_ag_alert", "acid_event"
-	);
-	$del_cnt = 0;
-	// Opened Issue #103 on this if block.
-	// https://github.com/NathanGibbs3/BASE/issues/103
-	// As this assumes that Oracle DB supports referentail Integrity.
-	if ( ($GLOBALS['use_referential_integrity'] == 1) &&
-		($GLOBALS['DBtype'] != "mysql") ){
-		$del_table_list = array ("event");
-	}
-	for ( $k = 0; $k < count($del_table_list); $k++ ){
-		// If trying to add to an BASE table append ag_ to the fields.
-		if ( strstr($del_table_list[$k], "acid_ag") == '' ){
-			$sql2 = "DELETE FROM ".$del_table_list[$k]." WHERE sid='".$sid."' AND cid='".$cid."'";
-		}else{
-			$sql2 = "DELETE FROM ".$del_table_list[$k]." WHERE ag_sid='".$sid."' AND ag_cid='".$cid."'";
-		}
-		$db->baseExecute($sql2);
-		if ( $db->baseErrorMessage() != '' ){
-			ErrorMessage(_ERRDELALERT." ".$del_table_list[$k]);
-		}elseif ( $k == 0 ){
-			$del_cnt = 1;
+function PurgeAlert( $sid, $cid, $db = NULL ){
+	GLOBAL $use_referential_integrity, $BCR;
+	$Ret = 0;
+	$RIF = false; // Referential Integrity Flag.
+	// @codeCoverageIgnoreStart
+	if( isset($BCR) && is_object($BCR) ){
+		$RIF = $BCR->GetCap('BASE_SSRI');
+	}else{
+		if( intval($use_referential_integrity) == 1 ){
+			$RIF = true;
 		}
 	}
-	return $del_cnt;
+	// @codeCoverageIgnoreEnd
+	if ( is_object($db) ){
+		$EF = false; // Error Flag
+		$del_table_list = array ('event');
+		// Opened Issue #103 on this if block.
+		// https://github.com/NathanGibbs3/BASE/issues/103
+		// As this assumes that Oracle DB supports RI.
+		if( !$RIF || $db->DB_class == 0 ){
+			// No RI or DB does not support RI, add other tables.
+			array_push(
+				$del_table_list,
+				'iphdr', 'tcphdr', 'udphdr', 'icmphdr', 'opt', 'data',
+				'acid_ag_alert', 'acid_event'
+			);
+		}
+		$Pfx = 'DELETE FROM ';
+		foreach( $del_table_list as $val ){
+			$tmp = '';
+			if( $val  == 'acid_ag_alert' ){
+				$tmp = 'ag_';
+			}
+			$sql = "$Pfx$val WHERE " . $tmp . "sid='" . $sid
+			. "' AND " . $tmp . "cid='" . $cid . "'";
+			DumpSQL($sql, 1);
+			$db->baseExecute($sql);
+			if( $db->baseErrorMessage() != '' ){
+				$EF = true;
+				ErrorMessage(_ERRDELALERT . " $val");
+			}
+		}
+		if( !$EF ){
+			$Ret = 1;
+		}
+	}
+	return $Ret;
 }
+
 // Returns true on success of sending message, false on failure.
 function send_email (
 	$smtp_host, $smtp_auth, $smtp_user, $smtp_pw, $to, $hdrs, $body,

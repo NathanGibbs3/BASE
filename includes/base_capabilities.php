@@ -43,7 +43,8 @@ class BaseCapsRegistry{ // Capabilities Registry class definition
 	function BaseCapsRegistry(){ // PHP 4x constructor.
 		GLOBAL $Use_Auth_System, $BASE_Language, $event_cache_auto_update,
 		$colored_alerts, $archive_exists, $BASE_VERSION, $BASE_installID,
-		$debug_time_mode, $debug_mode, $BASE_urlpath, $domain, $BASE_IconSet;
+		$debug_time_mode, $debug_mode, $BASE_urlpath, $domain, $BASE_IconSet,
+		$use_referential_integrity;
 		if( $debug_mode > 1 ){
 			KML('Init: Caps Registry', 2);
 		}
@@ -111,8 +112,11 @@ class BaseCapsRegistry{ // Capabilities Registry class definition
 		if( LoadedString($domain) ){ // BASE Cookie Domain
 			$this->AddCap('BASE_SSDomain', $domain);
 		}
-		if( $event_cache_auto_update != 0 ){ // Event Cache Update.
+		if( intval($event_cache_auto_update) != 0 ){ // Event Cache Update.
 			$this->AddCap('BASE_SSECU');
+		}
+		if( intval($use_referential_integrity) != 0 ){
+			$this->AddCap('BASE_SSRI'); // DB Referential Integrity.
 		}
 		// BASE UI Settings
 		if( intval($colored_alerts) != 0 ){ // Colored Alerts
