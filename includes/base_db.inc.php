@@ -460,7 +460,9 @@ class baseCon {
 				}
 			}
 			if( $SE ){ // Ready to take RI Action.
-				$DBSV = VS2SV($this->DB->serverInfo()['version']);
+				$tmp = $this->DB->serverInfo();
+				$tmp = $tmp['version'];
+				$DBSV = VS2SV($tmp);
 				if( $DS ){ // Set RI if possible.
 					$QF = false; // Query Flag.
 					$RIE = false; // RI Enable Flag.
@@ -1352,7 +1354,7 @@ function filterSql( $item, $force_alert_db=0, $db = '' ){
 }
 
 function GetDALSV (){ // Returns ADOdb Semantic Version Array
-	return VS2SV(ADOConnection::version());
+	return VS2SV(strval(ADOConnection::version()));
 }
 
 function DumpSQL( $sql = '', $lvl = 0 ){

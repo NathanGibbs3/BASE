@@ -34,7 +34,7 @@ if [ "$TRAVIS" == "true" ]; then
 		pear install mail Mail_Mime Image_Graph-alpha Image_Canvas-alpha Image_Color
 	else
 		# Manual install
-		dc="wget -nv http://download.pear.php.net/package"
+		dc="wget -nv https://download.pear.php.net/package"
 		ic="pear install "
 		dl=build
 		de=.tgz
