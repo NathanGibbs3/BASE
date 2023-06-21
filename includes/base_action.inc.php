@@ -1414,13 +1414,12 @@ function PurgeAlert( $sid, $cid, $db = NULL ){
 		}
 	}
 	// @codeCoverageIgnoreEnd
-	if ( is_object($db) ){
+	if(
+		is_object($db) && get_class($db) == 'baseCon' && $db->baseisDBUp(true)
+	){
 		$EF = false; // Error Flag
 		$del_table_list = array ('event');
-		// Opened Issue #103 on this if block.
-		// https://github.com/NathanGibbs3/BASE/issues/103
-		// As this assumes that Oracle DB supports RI.
-		if( !$RIF || $db->DB_class == 0 ){
+		if( !$RIF || !$db->baseGetRI() ){
 			// No RI or DB does not support RI, add other tables.
 			array_push(
 				$del_table_list,

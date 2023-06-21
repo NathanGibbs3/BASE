@@ -20,6 +20,7 @@ use PHPUnit\Framework\TestCase;
   * @uses ::LoadedString
   * @uses ::SetConst
   * @uses ::XSSPrintSafe
+  * @uses ::VS2SV
   * @uses ::is_key
   * @uses ::returnErrorMessage
   * @uses baseRS
@@ -44,33 +45,31 @@ class dbTest extends TestCase {
 		$tf = __FUNCTION__;
 		// Setup DB System.
 		$TRAVIS = getenv('TRAVIS');
-		if (!$TRAVIS){ // Running on Local Test System.
+		if( !$TRAVIS ){ // Running on Local Test System.
 			// Default Debian/Ubuntu location.
 			$DBlib_path = '/usr/share/php/adodb';
-			require('../database.php');
+			$DB = 'mysql';
 		}else{
 			$ADO = getenv('ADODBPATH');
-			if (!$ADO) {
+			if( !$ADO ){
 				self::markTestIncomplete('Unable to setup ADODB');
 			}else{
 				$DBlib_path = "build/adodb/$ADO";
 			}
 			$DB = getenv('DB');
-			if (!$DB){
-				self::markTestIncomplete('Unable to get DB Engine.');
-			}elseif ($DB == 'mysql' ){
-				require('./tests/phpcommon/DB.mysql.php');
-			}elseif ($DB == 'postgres' ){
-				require('./tests/phpcommon/DB.pgsql.php');
-			}else{
-				self::markTestSkipped("CI Support unavialable for DB: $DB.");
-			}
+		}
+		if( !$DB ){
+			self::markTestIncomplete('Unable to get DB Engine.');
+		}elseif( $DB == 'mysql' ){
+			require('./tests/phpcommon/DB.mysql.RI.php');
+		}elseif( $DB == 'postgres' ){
+			require('./tests/phpcommon/DB.pgsql.php');
+		}else{
+			self::markTestSkipped("CI Support unavialable for DB: $DB.");
 		}
 		if (!isset($DBtype)){
 			self::markTestIncomplete("Unable to Set DB: $DB.");
-		}else{
-			$alert_dbname='snort';
-			// Setup DB Connection
+		}else{ // Setup DB Connection
 			$db = NewBASEDBConnection($DBlib_path, $DBtype);
 			// Check ADODB Sanity.
 			// See: https://github.com/NathanGibbs3/BASE/issues/35
@@ -146,11 +145,40 @@ class dbTest extends TestCase {
 		$this->assertNull($tc->Role, $URV);
 		$this->assertNull($tc->FLOP, $URV);
 	}
+
+	public function testClassbaseConbaseGetRI(){
+		$URV = self::$URV . 'baseGetRI().';
+		$tc = self::$tc;
+		$this->assertFalse($tc->DBF_RI, $URV);
+		$this->assertFalse($tc->baseGetRI(), $URV);
+	}
+
+	// Move this down and alter once we have verified SetRI functions.
+	public function testClassbaseConbaseGetRION(){
+		$URV = self::$URV . 'baseGetRI().';
+		$tc = self::$tc;
+		$ORI = $tc->baseGetRI();
+		$tc->DBF_RI = true;
+		$this->assertTrue($tc->DBF_RI, $URV);
+		$this->assertTrue($tc->baseGetRI(), $URV);
+		$tc->DBF_RI = $ORI;
+	}
+
+	public function testClassbaseConbaseGetRIInvalid(){
+		$URV = self::$URV . 'baseGetRI().';
+		$tc = self::$tc;
+		$ORI = $tc->baseGetRI();
+		$tc->DBF_RI = 'string';
+		$this->assertFalse($tc->baseGetRI(), $URV);
+		$tc->DBF_RI = $ORI;
+	}
+
 	public function testClassbaseConbaseGetDBversion(){
 		$URV = self::$URV . 'baseGetDBversion().';
 		$tc = self::$tc;
 		$this->assertEquals(0, $tc->baseGetDBversion(), $URV);
 	}
+
 	public function testClassbaseConbaseGetFLOPDBNo(){
 		$URV = self::$URV . 'baseGetFLOP().';
 		$tc = self::$tc;
@@ -158,6 +186,7 @@ class dbTest extends TestCase {
 		$this->assertFalse($tc->baseGetFLOP(), $URV);
 		$this->assertNull($tc->FLOP, $URV);
 	}
+
 	public function testClassbaseConbaseSetFLOPDBNo(){
 		$URV = self::$URV . 'baseSetFLOP().';
 		$tc = self::$tc;
@@ -165,17 +194,30 @@ class dbTest extends TestCase {
 		$this->assertFalse($tc->baseSetFLOP(), $URV);
 		$this->assertNull($tc->FLOP, $URV);
 	}
-	public function testClassbaseConbaseSetDBversionDBNo(){
-		$PHPUV = self::$PHPUV;
-		$UOV = self::$UOV . 'baseSetDBversion().';
-		$URV = self::$URV . 'baseSetDBversion().';
+
+	public function testClassbaseConbaseisDBUpNo(){
+		$URV = self::$URV . 'baseisDBUp().';
 		$tc = self::$tc;
-		$EOM = 'baseSetDBversion: DB not connected.';
+		$this->assertFalse($tc->baseisDBUp(), $URV);
+	}
+
+	public function testClassbaseConbaseisDBUpInvalidNo(){
+		$URV = self::$URV . 'baseisDBUp().';
+		$tc = self::$tc;
+		$this->assertFalse($tc->baseisDBUp('string'), $URV);
+	}
+
+	public function testClassbaseConbaseisDBUpNoLog(){
+		$PHPUV = self::$PHPUV;
+		$UOV = self::$UOV . 'baseisDBUp().';
+		$URV = self::$URV . 'baseisDBUp().';
+		$tc = self::$tc;
+		$EOM = __FUNCTION__ . ': DB not connected.';
 		$cur_e_l = ini_get( 'error_log' ); // Shim error_log output On
 		$capture = tmpfile();
 		$tmp = stream_get_meta_data($capture);
 		ini_set('error_log', $tmp['uri']);
-		$this->assertEquals(0, $tc->baseSetDBversion(), $URV);
+		$this->assertFalse($tc->baseisDBUp(true), $URV);
 		ini_set( 'error_log', $cur_e_l ); // Shim error_log output Off
 		$elOutput = stream_get_contents($capture);
 		if ( $PHPUV > 1 ){ // PHPUnit 9+
@@ -187,8 +229,18 @@ class dbTest extends TestCase {
 				'/'.$EOM.'$/', $elOutput, $UOV
 			);
 		}
-		$this->assertEquals(0, $tc->baseSetDBversion(), $URV);
 	}
+
+	public function testClassbaseConbaseSetRICYDBNCReturnsExpected(){
+		$UOV = self::$UOV . 'baseSetRI().';
+		$URV = self::$URV . 'baseSetRI().';
+		$tc = self::$tc;
+		$this->assertFalse($tc->DBF_RI, $URV);
+		$this->assertFalse($tc->baseSetRI(), $URV);
+		$this->assertFalse($tc->DBF_RI, $URV);
+	}
+
+
 	/**
 	 * @backupGlobals disabled
 	 */
@@ -211,6 +263,13 @@ class dbTest extends TestCase {
 		$this->assertNull($tc->Role, $URV);
 		$this->assertNull($tc->FLOP, $URV);
 	}
+
+	public function testClassbaseConbaseisDBUpYes(){
+		$URV = self::$URV . 'baseisDBUp().';
+		$tc = self::$tc;
+		$this->assertTrue($tc->baseisDBUp(), $URV);
+	}
+
 	public function testClassbaseConbaseSetFLOPDBYes(){
 		$URV = self::$URV . 'baseSetFLOP().';
 		$tc = self::$tc;
@@ -218,6 +277,7 @@ class dbTest extends TestCase {
 		$this->assertFalse($tc->baseSetFLOP(), $URV);
 		$this->assertFalse($tc->FLOP, $URV);
 	}
+
 	public function testClassbaseConbaseGetFLOPDBYes(){
 		$URV = self::$URV . 'baseGetFLOP().';
 		$tc = self::$tc;
@@ -225,6 +285,7 @@ class dbTest extends TestCase {
 		$this->assertFalse($tc->baseGetFLOP(), $URV);
 		$this->assertFalse($tc->FLOP, $URV);
 	}
+
 	public function testClassbaseConbaseSetDBversionDBYes(){
 		$PHPUV = self::$PHPUV;
 		$UOV = self::$UOV . 'baseSetDBversion().';
@@ -248,6 +309,275 @@ class dbTest extends TestCase {
 			);
 		}
 	}
+
+	public function testClassbaseConbaseTSEInvalidReturnsExpected(){
+		$PHPUV = self::$PHPUV;
+		$UOV = self::$UOV . 'baseTSE().';
+		$URV = self::$URV . 'baseTSE().';
+		$tc = self::$tc;
+		if( $tc->DB_class == 0 ){ // Not Mysql / MariaDB.
+			$this->assertTrue(true, 'Passing Test.');
+		}else{
+			$EOM = 'baseTSE():  does not exist.';
+			$cur_e_l = ini_get( 'error_log' ); // Shim error_log output On
+			$capture = tmpfile();
+			$tmp = stream_get_meta_data($capture);
+			ini_set('error_log', $tmp['uri']);
+			$this->assertEquals('', $tc->baseTSE(0), $URV);
+			ini_set( 'error_log', $cur_e_l ); // Shim error_log output Off
+			$elOutput = stream_get_contents($capture);
+			if ( $PHPUV > 1 ){ // PHPUnit 9+
+				$this->assertMatchesRegularExpression(
+					'/'.$EOM.'$/', $elOutput, $UOV
+				);
+			}else{ // Legacy PHPUnit
+				$this->assertRegExp(
+					'/'.$EOM.'$/', $elOutput, $UOV
+				);
+			}
+		}
+	}
+
+	public function testClassbaseConbaseTSENonExistantTableReturnsExpected(){
+		$PHPUV = self::$PHPUV;
+		$UOV = self::$UOV . 'baseTSE().';
+		$URV = self::$URV . 'baseTSE().';
+		$tc = self::$tc;
+		if( $tc->DB_class == 0 ){ // Not Mysql / MariaDB.
+			$this->assertTrue(true, 'Passing Test.');
+		}else{
+			$EOM = 'baseTSE(): what does not exist.';
+			$cur_e_l = ini_get( 'error_log' ); // Shim error_log output On
+			$capture = tmpfile();
+			$tmp = stream_get_meta_data($capture);
+			ini_set('error_log', $tmp['uri']);
+			$this->assertEquals('', $tc->baseTSE('what'), $URV);
+			ini_set( 'error_log', $cur_e_l ); // Shim error_log output Off
+			$elOutput = stream_get_contents($capture);
+			if ( $PHPUV > 1 ){ // PHPUnit 9+
+				$this->assertMatchesRegularExpression(
+					'/'.$EOM.'$/', $elOutput, $UOV
+				);
+			}else{ // Legacy PHPUnit
+				$this->assertRegExp(
+					'/'.$EOM.'$/', $elOutput, $UOV
+				);
+			}
+		}
+	}
+
+	public function testClassbaseConbaseTSEValidReturnsExpected(){
+		$UOV = self::$UOV . 'baseTSE().';
+		$URV = self::$URV . 'baseTSE().';
+		$tc = self::$tc;
+		if( $tc->DB_class == 0 ){ // Not Mysql / MariaDB.
+			$this->assertTrue(true, 'Passing Test.');
+		}else{
+			$this->assertEquals('InnoDB', $tc->baseTSE('event'), $URV);
+			$TDB = $tc->DB_name;
+			$tc->DB_name = 'testpig2';
+			$this->assertEquals('MyISAM', $tc->baseTSE('event'), $URV);
+			$tc->DB_name = $TDB;
+		}
+	}
+
+	public function testClassbaseConbaseSetRICNDBYReturnsExpected(){
+		GLOBAL $use_referential_integrity;
+		$UOV = self::$UOV . 'baseSetRI().';
+		$URV = self::$URV . 'baseSetRI().';
+		$tc = self::$tc;
+		$ORI = $use_referential_integrity;
+		$use_referential_integrity = 0;
+		$this->assertFalse($tc->DBF_RI, $URV);
+		$this->assertFalse($tc->baseSetRI(), $URV);
+		$this->assertFalse($tc->DBF_RI, $URV);
+		$use_referential_integrity = $ORI;
+	}
+
+	public function testClassbaseConbaseSetRICNDBNReturnsExpected(){
+		GLOBAL $use_referential_integrity;
+		$UOV = self::$UOV . 'baseSetRI().';
+		$URV = self::$URV . 'baseSetRI().';
+		$tc = self::$tc;
+		$ORI = $use_referential_integrity;
+		$use_referential_integrity = 0;
+		$this->assertFalse($tc->DBF_RI, $URV);
+		$TDB = $tc->DB_name;
+		$tc->DB_name = 'testpig2';
+		$this->assertFalse($tc->baseSetRI(), $URV);
+		$this->assertFalse($tc->DBF_RI, $URV);
+		$tc->DB_name = $TDB;
+		$use_referential_integrity = $ORI;
+	}
+
+	public function testClassbaseConbaseSetRICYDBNReturnsExpected(){
+		$PHPUV = self::$PHPUV;
+		$UOV = self::$UOV . 'baseSetRI().';
+		$URV = self::$URV . 'baseSetRI().';
+		$tc = self::$tc;
+		$this->assertFalse($tc->DBF_RI, $URV);
+		$TDB = $tc->DB_name;
+		$tc->DB_name = 'testpig2';
+		$EOM = 'baseSetRI: DB RI set to false.';
+		$cur_e_l = ini_get( 'error_log' ); // Shim error_log output On
+		$capture = tmpfile();
+		$tmp = stream_get_meta_data($capture);
+		ini_set('error_log', $tmp['uri']);
+		$this->assertFalse($tc->baseSetRI(), $URV);
+		ini_set( 'error_log', $cur_e_l ); // Shim error_log output Off
+		$elOutput = stream_get_contents($capture);
+		if ( $PHPUV > 1 ){ // PHPUnit 9+
+			$this->assertMatchesRegularExpression(
+				'/'.$EOM.'$/', $elOutput, $UOV
+			);
+		}else{ // Legacy PHPUnit
+			$this->assertRegExp(
+				'/'.$EOM.'$/', $elOutput, $UOV
+			);
+		}
+		$this->assertFalse($tc->DBF_RI, $URV);
+		$tc->DB_name = $TDB;
+	}
+
+	public function testClassbaseConbaseSetRICYDBYReturnsExpected(){
+		$PHPUV = self::$PHPUV;
+		$UOV = self::$UOV . 'baseSetRI().';
+		$URV = self::$URV . 'baseSetRI().';
+		$tc = self::$tc;
+		$this->assertFalse($tc->DBF_RI, $URV);
+		$EOM = 'baseSetRI: DB RI set to true.';
+		$cur_e_l = ini_get( 'error_log' ); // Shim error_log output On
+		$capture = tmpfile();
+		$tmp = stream_get_meta_data($capture);
+		ini_set('error_log', $tmp['uri']);
+		$this->assertTrue($tc->baseSetRI(), $URV);
+		ini_set( 'error_log', $cur_e_l ); // Shim error_log output Off
+		$elOutput = stream_get_contents($capture);
+		if ( $PHPUV > 1 ){ // PHPUnit 9+
+			$this->assertMatchesRegularExpression(
+				'/'.$EOM.'$/', $elOutput, $UOV
+			);
+		}else{ // Legacy PHPUnit
+			$this->assertRegExp(
+				'/'.$EOM.'$/', $elOutput, $UOV
+			);
+		}
+		$this->assertTrue($tc->DBF_RI, $URV);
+	}
+
+	public function testClassbaseConbaseSetRICYDBYInvalidReturnsExpected(){
+		$UOV = self::$UOV . 'baseSetRI().';
+		$URV = self::$URV . 'baseSetRI().';
+		$tc = self::$tc;
+		$this->assertTrue($tc->DBF_RI, $URV);
+		$this->assertTrue($tc->baseSetRI('string', 'string'), $URV);
+		$this->assertTrue($tc->DBF_RI, $URV);
+	}
+
+	public function testClassbaseConbaseSetRICYDBYSetRIDisableReturnsExpected(){
+		$PHPUV = self::$PHPUV;
+		$UOV = self::$UOV . 'baseSetRI().';
+		$URV = self::$URV . 'baseSetRI().';
+		$tc = self::$tc;
+		$this->assertTrue($tc->DBF_RI, $URV);
+		$EOM = 'baseSetRI: DB RI set to false.';
+		$cur_e_l = ini_get( 'error_log' ); // Shim error_log output On
+		$capture = tmpfile();
+		$tmp = stream_get_meta_data($capture);
+		ini_set('error_log', $tmp['uri']);
+		$this->assertFalse($tc->baseSetRI(false), $URV);
+		ini_set( 'error_log', $cur_e_l ); // Shim error_log output Off
+		$elOutput = stream_get_contents($capture);
+		if ( $PHPUV > 1 ){ // PHPUnit 9+
+			$this->assertMatchesRegularExpression(
+				'/'.$EOM.'$/', $elOutput, $UOV
+			);
+		}else{ // Legacy PHPUnit
+			$this->assertRegExp(
+				'/'.$EOM.'$/', $elOutput, $UOV
+			);
+		}
+		$this->assertFalse($tc->DBF_RI, $URV);
+	}
+
+	public function testClassbaseConbaseSetRICYDBYSetRIEnableReturnsExpected(){
+		$PHPUV = self::$PHPUV;
+		$UOV = self::$UOV . 'baseSetRI().';
+		$URV = self::$URV . 'baseSetRI().';
+		$tc = self::$tc;
+		$this->assertFalse($tc->DBF_RI, $URV);
+		$EOM = 'baseSetRI: DB RI set to true.';
+		$cur_e_l = ini_get( 'error_log' ); // Shim error_log output On
+		$capture = tmpfile();
+		$tmp = stream_get_meta_data($capture);
+		ini_set('error_log', $tmp['uri']);
+		$this->assertTrue($tc->baseSetRI(), $URV);
+		ini_set( 'error_log', $cur_e_l ); // Shim error_log output Off
+		$elOutput = stream_get_contents($capture);
+		if ( $PHPUV > 1 ){ // PHPUnit 9+
+			$this->assertMatchesRegularExpression(
+				'/'.$EOM.'$/', $elOutput, $UOV
+			);
+		}else{ // Legacy PHPUnit
+			$this->assertRegExp(
+				'/'.$EOM.'$/', $elOutput, $UOV
+			);
+		}
+		$this->assertTrue($tc->DBF_RI, $URV);
+	}
+
+	public function testClassbaseConbaseSetRICYDBYSetRIEnableCorruptRIReturnsExpected(){
+		$PHPUV = self::$PHPUV;
+		$UOV = self::$UOV . 'baseSetRI().';
+		$URV = self::$URV . 'baseSetRI().';
+		$tc = self::$tc;
+		$DBSV = VS2SV($tc->DB->serverInfo()['version']);
+		$this->assertTrue($tc->DBF_RI, $URV);
+		// Start Corrupt the RI Structure.
+		$tc->DBF_RI = false; // Disable RI Flag.
+		$tmp = 'CONSTRAINT';
+		// As of MySQL 8.0.19, ALTER TABLE permits more general
+		// (and SQL standard) syntax for dropping and altering existing
+		// constraints of any type,
+		// https://dev.mysql.com/doc/refman/8.0/en/alter-table.html
+		if(
+			$tc->DB_class == 1
+			&& (
+				$DBSV[0] < 8
+				|| ($DBSV[0] == 8 && $DBSV[1] == 0 && $DBSV[2] < 19)
+			)
+		){ // Mysql / MariaDB < 8.0.19
+			$tmp = 'FOREIGN KEY';
+		}
+		$sql = "ALTER TABLE opt DROP $tmp IF EXISTS opt_fkey_sid_cid";
+		$rs = $tc->DB->Execute($sql); // Corrupt RI Structure.
+		if( $rs != false && $tc->baseErrorMessage() == '' ){ // Error Check
+			$rs->Close();
+		}else{ // Transient DB Error.
+			$this->markTestIncomplete('Transient DB Error.');
+		}
+		// End Corrupt the RI Structure.
+		$this->assertFalse($tc->DBF_RI, $URV);
+		$EOM = 'baseSetRI: DB RI set to true.';
+		$cur_e_l = ini_get( 'error_log' ); // Shim error_log output On
+		$capture = tmpfile();
+		$tmp = stream_get_meta_data($capture);
+		ini_set('error_log', $tmp['uri']);
+		$this->assertTrue($tc->baseSetRI(), $URV);
+		ini_set( 'error_log', $cur_e_l ); // Shim error_log output Off
+		$elOutput = stream_get_contents($capture);
+		if ( $PHPUV > 1 ){ // PHPUnit 9+
+			$this->assertMatchesRegularExpression(
+				'/'.$EOM.'$/', $elOutput, $UOV
+			);
+		}else{ // Legacy PHPUnit
+			$this->assertRegExp(
+				'/'.$EOM.'$/', $elOutput, $UOV
+			);
+		}
+		$this->assertTrue($tc->DBF_RI, $URV);
+	}
+
 	public function testClassbaseConbaseClose(){
 		GLOBAL $DBtype;
 		$URV = self::$URV . 'baseClose().';
@@ -264,6 +594,8 @@ class dbTest extends TestCase {
 		$this->assertEquals($Ec, $tc->DB_class, $URV);
 		$this->assertEquals(0, $tc->version, $URV);
 		$this->assertEmpty($tc->lastSQL, $URV);
+		$this->assertFalse($tc->DBF_RI, $URV);
+		$this->assertFalse($tc->DBF_TS, $URV);
 		$this->assertNull($tc->DB_name, $URV);
 		$this->assertNull($tc->DB_host, $URV);
 		$this->assertNull($tc->DB_port, $URV);
@@ -271,6 +603,7 @@ class dbTest extends TestCase {
 		$this->assertNull($tc->Role, $URV);
 		$this->assertNull($tc->FLOP, $URV);
 	}
+
 	/**
 	 * @backupGlobals disabled
 	 */
@@ -293,6 +626,13 @@ class dbTest extends TestCase {
 		$this->assertNull($tc->Role, $URV);
 		$this->assertNull($tc->FLOP, $URV);
 	}
+
+	public function testbaseFieldExistsInvalidReturnsExpected(){
+		$db = self::$db;
+		$URV = self::$URV.'baseFieldExists().';
+		$this->assertEquals(0, $db->baseFieldExists(0, 0), $URV);
+	}
+
 	/**
 	 * @backupGlobals disabled
 	 */
@@ -307,7 +647,7 @@ class dbTest extends TestCase {
 		$db = self::$db;
 		$URV = self::$URV.'baseFieldExists().';
 		$this->assertEquals(
-			0, $db->baseFieldExists( 'acid_ip_cache','How'), $URV
+			0, $db->baseFieldExists( 'acid_ip_cache'), $URV
 		);
 	}
 	public function testbaseFieldExistsValidDataReturnsExpected(){
@@ -317,21 +657,37 @@ class dbTest extends TestCase {
 			1, $db->baseFieldExists( 'acid_ip_cache','ipc_fqdn'), $URV
 		);
 	}
+
+	public function testbaseTableExistsInvalidReturnsExpected(){
+		$db = self::$db;
+		$URV = self::$URV.'baseTableExists().';
+		$this->assertEquals( 0, $db->baseTableExists(0), $URV );
+	}
+
 	public function testbaseTableExistsNonExistantTableReturnsExpected(){
 		$db = self::$db;
 		$URV = self::$URV.'baseTableExists().';
 		$this->assertEquals( 0, $db->baseTableExists( 'what'), $URV );
 	}
+
 	public function testbaseTableExistsValidDataReturnsExpected(){
 		$db = self::$db;
 		$URV = self::$URV.'baseTableExists().';
 		$this->assertEquals( 1, $db->baseTableExists( 'acid_ip_cache'), $URV );
 	}
+
+	public function testbaseIndexExistsInvalidReturnsExpected(){
+		$db = self::$db;
+		$URV = self::$URV.'baseIndexExists().';
+		$this->assertEquals( 0, $db->baseIndexExists(0, 0), $URV);
+	}
+
 	public function testbaseIndexExistsNonExistantTableReturnsExpected(){
 		$db = self::$db;
 		$URV = self::$URV.'baseIndexExists().';
 		$this->assertEquals( 0, $db->baseIndexExists( 'what','ipc_ip'), $URV );
 	}
+
 	public function testbaseIndexExistsNonExistantFieldReturnsExpected(){
 		$db = self::$db;
 		$URV = self::$URV.'baseIndexExists().';
@@ -346,6 +702,7 @@ class dbTest extends TestCase {
 			1, $db->baseIndexExists( 'acid_ag_alert','ag_id'), $URV
 		);
 	}
+
 	/**
 	 * @backupGlobals disabled
 	 */
@@ -354,215 +711,153 @@ class dbTest extends TestCase {
 		$URV = self::$URV.'baseInsertID().';
 		$this->assertEquals(-1, $db->baseInsertID(), $URV);
 	}
-	public function testGetFieldLengthInvalidObjectThrowsError(){
-		$EEM = "GetFieldLength: Invalid DB Object.";
-		$PHPUV = GetPHPUV();
-		if (version_compare($PHPUV, '3.0', '<')) {
-			$this->markTestSkipped('Requires Phpunit 3+ to run.');
-		}elseif (version_compare($PHPUV, '5.0', '<')) { // PHPUnit 3x - 4x
-			$this->setExpectedException(
-				"PHPUnit_Framework_Error_Notice", $EEM
-			);
-		}elseif (version_compare($PHPUV, '6.0', '<')) { // PHPUnit 5x
-			$this->expectException("PHPUnit_Framework_Error_Notice");
-			$this->expectExceptionMessage($EEM);
-		}elseif (version_compare($PHPUV, '9.0', '<')) { // PHPUnit 6x - 8x
-			$this->expectException("PHPUnit\Framework\Error\Notice");
-			$this->expectExceptionMessage($EEM);
-		}else{ // PHPUnit 9+
-			$this->expectNotice();
-			$this->expectNoticeMessage($EEM);
-		}
-		GetFieldLength('db','What','How');
-	}
-	public function testGetFieldLengthInvalidObjectReturnsExpected(){
-		$URV = self::$URV.'GetFieldLength().';
-		// Test conditions will throw error.
-		// Use error suppression @ symbol.
-		$this->assertEquals( 0, @GetFieldLength('db','What','How'), $URV );
-	}
-	public function testGetFieldLengthInvalidTableThrowsError(){
-		$db = self::$db;
-		$EEM = "GetFieldLength: Invalid Table.";
-		$PHPUV = GetPHPUV();
-		if (version_compare($PHPUV, '3.0', '<')) {
-			$this->markTestSkipped('Requires Phpunit 3+ to run.');
-		}elseif (version_compare($PHPUV, '5.0', '<')) { // PHPUnit 3x - 4x
-			$this->setExpectedException(
-				"PHPUnit_Framework_Error_Notice", $EEM
-			);
-		}elseif (version_compare($PHPUV, '6.0', '<')) { // PHPUnit 5x
-			$this->expectException("PHPUnit_Framework_Error_Notice");
-			$this->expectExceptionMessage($EEM);
-		}elseif (version_compare($PHPUV, '9.0', '<')) { // PHPUnit 6x - 8x
-			$this->expectException("PHPUnit\Framework\Error\Notice");
-			$this->expectExceptionMessage($EEM);
-		}else{ // PHPUnit 9+
-			$this->expectNotice();
-			$this->expectNoticeMessage($EEM);
-		}
-		GetFieldLength($db, 1,2);
-	}
+
 	public function testGetFieldLengthInvalidTableReturnsExpected(){
-		$db = self::$db;
-		$URV = self::$URV.'GetFieldLength().';
-		// Test conditions will throw error.
-		// Use error suppression @ symbol.
-		$this->assertEquals( 0, @GetFieldLength($db, 1,2), $URV );
-	}
-	public function testGetFieldLengthInvalidFieldThrowsError(){
-		$db = self::$db;
-		$EEM = "GetFieldLength: Invalid Field.";
-		$PHPUV = GetPHPUV();
-		if (version_compare($PHPUV, '3.0', '<')) {
-			$this->markTestSkipped('Requires Phpunit 3+ to run.');
-		}elseif (version_compare($PHPUV, '5.0', '<')) { // PHPUnit 3x - 4x
-			$this->setExpectedException(
-				"PHPUnit_Framework_Error_Notice", $EEM
+		$PHPUV = self::$PHPUV;
+		$UOV = self::$UOV . 'GetFieldLength().';
+		$URV = self::$URV . 'GetFieldLength().';
+		$tc = self::$tc;
+		$EOM = 'GetFieldLength: Invalid Table.';
+		$cur_e_l = ini_get( 'error_log' ); // Shim error_log output On
+		$capture = tmpfile();
+		$tmp = stream_get_meta_data($capture);
+		ini_set('error_log', $tmp['uri']);
+		$this->assertEquals(0, GetFieldLength($tc, 1,2), $URV);
+		ini_set( 'error_log', $cur_e_l ); // Shim error_log output Off
+		$elOutput = stream_get_contents($capture);
+		if( $PHPUV > 1 ){ // PHPUnit 9+
+			$this->assertMatchesRegularExpression(
+				'/'.$EOM.'$/', $elOutput, $UOV
 			);
-		}elseif (version_compare($PHPUV, '6.0', '<')) { // PHPUnit 5x
-			$this->expectException("PHPUnit_Framework_Error_Notice");
-			$this->expectExceptionMessage($EEM);
-		}elseif (version_compare($PHPUV, '9.0', '<')) { // PHPUnit 6x - 8x
-			$this->expectException("PHPUnit\Framework\Error\Notice");
-			$this->expectExceptionMessage($EEM);
-		}else{ // PHPUnit 9+
-			$this->expectNotice();
-			$this->expectNoticeMessage($EEM);
+		}else{ // Legacy PHPUnit
+			$this->assertRegExp(
+				'/'.$EOM.'$/', $elOutput, $UOV
+			);
 		}
-		GetFieldLength($db, 'acid_ip_cache',2);
 	}
+
 	public function testGetFieldLengthInvalidFieldReturnsExpected(){
-		$db = self::$db;
-		$URV = self::$URV.'GetFieldLength().';
-		// Test conditions will throw error.
-		// Use error suppression @ symbol.
-		$this->assertEquals(
-			0, @GetFieldLength($db, 'acid_ip_cache',2), $URV
-		);
-	}
-	public function testGetFieldLengthEmptyTableThrowsError(){
-		$db = self::$db;
-		$EEM = "GetFieldLength: Invalid Table.";
-		$PHPUV = GetPHPUV();
-		if (version_compare($PHPUV, '3.0', '<')) {
-			$this->markTestSkipped('Requires Phpunit 3+ to run.');
-		}elseif (version_compare($PHPUV, '5.0', '<')) { // PHPUnit 3x - 4x
-			$this->setExpectedException(
-				"PHPUnit_Framework_Error_Notice", $EEM
+		$PHPUV = self::$PHPUV;
+		$UOV = self::$UOV . 'GetFieldLength().';
+		$URV = self::$URV . 'GetFieldLength().';
+		$tc = self::$tc;
+		$EOM = 'GetFieldLength: Invalid Field.';
+		$cur_e_l = ini_get( 'error_log' ); // Shim error_log output On
+		$capture = tmpfile();
+		$tmp = stream_get_meta_data($capture);
+		ini_set('error_log', $tmp['uri']);
+		$this->assertEquals(0, GetFieldLength($tc, 'acid_ip_cache', 2), $URV);
+		ini_set( 'error_log', $cur_e_l ); // Shim error_log output Off
+		$elOutput = stream_get_contents($capture);
+		if( $PHPUV > 1 ){ // PHPUnit 9+
+			$this->assertMatchesRegularExpression(
+				'/'.$EOM.'$/', $elOutput, $UOV
 			);
-		}elseif (version_compare($PHPUV, '6.0', '<')) { // PHPUnit 5x
-			$this->expectException("PHPUnit_Framework_Error_Notice");
-			$this->expectExceptionMessage($EEM);
-		}elseif (version_compare($PHPUV, '9.0', '<')) { // PHPUnit 6x - 8x
-			$this->expectException("PHPUnit\Framework\Error\Notice");
-			$this->expectExceptionMessage($EEM);
-		}else{ // PHPUnit 9+
-			$this->expectNotice();
-			$this->expectNoticeMessage($EEM);
+		}else{ // Legacy PHPUnit
+			$this->assertRegExp(
+				'/'.$EOM.'$/', $elOutput, $UOV
+			);
 		}
-		GetFieldLength($db, '',2);
 	}
+
 	public function testGetFieldLengthEmptyTableReturnsExpected(){
-		$db = self::$db;
-		$URV = self::$URV.'GetFieldLength().';
-		// Test conditions will throw error.
-		// Use error suppression @ symbol.
-		$this->assertEquals( 0, @GetFieldLength($db, '',2), $URV );
-	}
-	public function testGetFieldLengthEmptyFieldThrowsError(){
-		$db = self::$db;
-		$EEM = "GetFieldLength: Invalid Field.";
-		$PHPUV = GetPHPUV();
-		if (version_compare($PHPUV, '3.0', '<')) {
-			$this->markTestSkipped('Requires Phpunit 3+ to run.');
-		}elseif (version_compare($PHPUV, '5.0', '<')) { // PHPUnit 3x - 4x
-			$this->setExpectedException(
-				"PHPUnit_Framework_Error_Notice", $EEM
+		$PHPUV = self::$PHPUV;
+		$UOV = self::$UOV . 'GetFieldLength().';
+		$URV = self::$URV . 'GetFieldLength().';
+		$tc = self::$tc;
+		$EOM = 'GetFieldLength: Invalid Table.';
+		$cur_e_l = ini_get( 'error_log' ); // Shim error_log output On
+		$capture = tmpfile();
+		$tmp = stream_get_meta_data($capture);
+		ini_set('error_log', $tmp['uri']);
+		$this->assertEquals( 0, GetFieldLength($tc, '', 2), $URV);
+		ini_set( 'error_log', $cur_e_l ); // Shim error_log output Off
+		$elOutput = stream_get_contents($capture);
+		if( $PHPUV > 1 ){ // PHPUnit 9+
+			$this->assertMatchesRegularExpression(
+				'/'.$EOM.'$/', $elOutput, $UOV
 			);
-		}elseif (version_compare($PHPUV, '6.0', '<')) { // PHPUnit 5x
-			$this->expectException("PHPUnit_Framework_Error_Notice");
-			$this->expectExceptionMessage($EEM);
-		}elseif (version_compare($PHPUV, '9.0', '<')) { // PHPUnit 6x - 8x
-			$this->expectException("PHPUnit\Framework\Error\Notice");
-			$this->expectExceptionMessage($EEM);
-		}else{ // PHPUnit 9+
-			$this->expectNotice();
-			$this->expectNoticeMessage($EEM);
+		}else{ // Legacy PHPUnit
+			$this->assertRegExp(
+				'/'.$EOM.'$/', $elOutput, $UOV
+			);
 		}
-		GetFieldLength($db, 'acid_ip_cache','');
 	}
+
 	public function testGetFieldLengthEmptyFieldReturnsExpected(){
-		$db = self::$db;
-		$URV = self::$URV.'GetFieldLength().';
-		// Test conditions will throw error.
-		// Use error suppression @ symbol.
-		$this->assertEquals(
-			0, @GetFieldLength($db, 'acid_ip_cache',''), $URV
-		);
-	}
-	public function testGetFieldLengthNonExistantTableThrowsError(){
-		$db = self::$db;
-		$EEM = "GetFieldLength: Invalid Table.";
-		$PHPUV = GetPHPUV();
-		if (version_compare($PHPUV, '3.0', '<')) {
-			$this->markTestSkipped('Requires Phpunit 3+ to run.');
-		}elseif (version_compare($PHPUV, '5.0', '<')) { // PHPUnit 3x - 4x
-			$this->setExpectedException(
-				"PHPUnit_Framework_Error_Notice", $EEM
+		$PHPUV = self::$PHPUV;
+		$UOV = self::$UOV . 'GetFieldLength().';
+		$URV = self::$URV . 'GetFieldLength().';
+		$tc = self::$tc;
+		$EOM = 'GetFieldLength: Invalid Field.';
+		$cur_e_l = ini_get( 'error_log' ); // Shim error_log output On
+		$capture = tmpfile();
+		$tmp = stream_get_meta_data($capture);
+		ini_set('error_log', $tmp['uri']);
+		$this->assertEquals(0, GetFieldLength($tc, 'acid_ip_cache', ''), $URV);
+		ini_set( 'error_log', $cur_e_l ); // Shim error_log output Off
+		$elOutput = stream_get_contents($capture);
+		if( $PHPUV > 1 ){ // PHPUnit 9+
+			$this->assertMatchesRegularExpression(
+				'/'.$EOM.'$/', $elOutput, $UOV
 			);
-		}elseif (version_compare($PHPUV, '6.0', '<')) { // PHPUnit 5x
-			$this->expectException("PHPUnit_Framework_Error_Notice");
-			$this->expectExceptionMessage($EEM);
-		}elseif (version_compare($PHPUV, '9.0', '<')) { // PHPUnit 6x - 8x
-			$this->expectException("PHPUnit\Framework\Error\Notice");
-			$this->expectExceptionMessage($EEM);
-		}else{ // PHPUnit 9+
-			$this->expectNotice();
-			$this->expectNoticeMessage($EEM);
+		}else{ // Legacy PHPUnit
+			$this->assertRegExp(
+				'/'.$EOM.'$/', $elOutput, $UOV
+			);
 		}
-		GetFieldLength($db, 'what','ipc_fqdn');
 	}
+
 	public function testGetFieldLengthNonExistantTableReturnsExpected(){
-		$db = self::$db;
-		$URV = self::$URV.'GetFieldLength().';
-		// Test conditions will throw error.
-		// Use error suppression @ symbol.
-		$this->assertEquals(
-			0, @GetFieldLength($db, 'what','ipc_fqdn'), $URV
-		);
-	}
-	public function testGetFieldLengthNonExistantFieldThrowsError(){
-		$db = self::$db;
-		$EEM = "GetFieldLength: Invalid Field.";
-		$PHPUV = GetPHPUV();
-		if (version_compare($PHPUV, '3.0', '<')) {
-			$this->markTestSkipped('Requires Phpunit 3+ to run.');
-		}elseif (version_compare($PHPUV, '5.0', '<')) { // PHPUnit 3x - 4x
-			$this->setExpectedException(
-				"PHPUnit_Framework_Error_Notice", $EEM
+		$PHPUV = self::$PHPUV;
+		$UOV = self::$UOV . 'GetFieldLength().';
+		$URV = self::$URV . 'GetFieldLength().';
+		$tc = self::$tc;
+		$EOM = 'GetFieldLength: Invalid Table.';
+		$cur_e_l = ini_get( 'error_log' ); // Shim error_log output On
+		$capture = tmpfile();
+		$tmp = stream_get_meta_data($capture);
+		ini_set('error_log', $tmp['uri']);
+		$this->assertEquals(0, GetFieldLength($tc, 'what', 'ipc_fqdn'), $URV);
+		ini_set( 'error_log', $cur_e_l ); // Shim error_log output Off
+		$elOutput = stream_get_contents($capture);
+		if( $PHPUV > 1 ){ // PHPUnit 9+
+			$this->assertMatchesRegularExpression(
+				'/'.$EOM.'$/', $elOutput, $UOV
 			);
-		}elseif (version_compare($PHPUV, '6.0', '<')) { // PHPUnit 5x
-			$this->expectException("PHPUnit_Framework_Error_Notice");
-			$this->expectExceptionMessage($EEM);
-		}elseif (version_compare($PHPUV, '9.0', '<')) { // PHPUnit 6x - 8x
-			$this->expectException("PHPUnit\Framework\Error\Notice");
-			$this->expectExceptionMessage($EEM);
-		}else{ // PHPUnit 9+
-			$this->expectNotice();
-			$this->expectNoticeMessage($EEM);
+		}else{ // Legacy PHPUnit
+			$this->assertRegExp(
+				'/'.$EOM.'$/', $elOutput, $UOV
+			);
 		}
-		GetFieldLength($db, 'acid_ip_cache','How');
 	}
+
 	public function testGetFieldLengthNonExistantFieldReturnsExpected(){
-		$db = self::$db;
-		$URV = self::$URV.'GetFieldLength().';
-		// Test conditions will throw error.
-		// Use error suppression @ symbol.
+		$PHPUV = self::$PHPUV;
+		$UOV = self::$UOV . 'GetFieldLength().';
+		$URV = self::$URV . 'GetFieldLength().';
+		$tc = self::$tc;
+		$EOM = 'GetFieldLength: Invalid Field.';
+		$cur_e_l = ini_get( 'error_log' ); // Shim error_log output On
+		$capture = tmpfile();
+		$tmp = stream_get_meta_data($capture);
+		ini_set('error_log', $tmp['uri']);
 		$this->assertEquals(
-			0, @GetFieldLength($db, 'acid_ip_cache','How'), $URV
+			0, GetFieldLength($tc, 'acid_ip_cache', 'How'), $URV
 		);
+		ini_set( 'error_log', $cur_e_l ); // Shim error_log output Off
+		$elOutput = stream_get_contents($capture);
+		if( $PHPUV > 1 ){ // PHPUnit 9+
+			$this->assertMatchesRegularExpression(
+				'/'.$EOM.'$/', $elOutput, $UOV
+			);
+		}else{ // Legacy PHPUnit
+			$this->assertRegExp(
+				'/'.$EOM.'$/', $elOutput, $UOV
+			);
+		}
 	}
+
 	public function testGetFieldLengthFullSchemaSweep(){
 		$db = self::$db;
 		$URV = self::$URV.'GetFieldLength().';

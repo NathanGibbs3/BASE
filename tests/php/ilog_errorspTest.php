@@ -1,7 +1,7 @@
 <?php
 use PHPUnit\Framework\TestCase;
 
-// Test fucntions in /includes/base_log_error.inc.php
+// Test fucntions in includes/base_log_error.inc.php
 
 /**
   * Code Coverage Directives.

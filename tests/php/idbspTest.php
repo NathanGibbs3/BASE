@@ -34,33 +34,31 @@ class dbspTest extends TestCase {
 		$tf = __FUNCTION__;
 		// Setup DB System.
 		$TRAVIS = getenv('TRAVIS');
-		if (!$TRAVIS){ // Running on Local Test System.
+		if( !$TRAVIS ){ // Running on Local Test System.
 			// Default Debian/Ubuntu location.
 			$DBlib_path = '/usr/share/php/adodb';
-			require('../database.php');
+			$DB = 'mysql';
 		}else{
 			$ADO = getenv('ADODBPATH');
-			if (!$ADO) {
+			if( !$ADO ){
 				self::markTestIncomplete('Unable to setup ADODB');
 			}else{
 				$DBlib_path = "build/adodb/$ADO";
 			}
 			$DB = getenv('DB');
-			if (!$DB){
-				self::markTestIncomplete('Unable to get DB Engine.');
-			}elseif ($DB == 'mysql' ){
-				require('./tests/phpcommon/DB.mysql.php');
-			}elseif ($DB == 'postgres' ){
-				require('./tests/phpcommon/DB.pgsql.php');
-			}else{
-				self::markTestSkipped("CI Support unavialable for DB: $DB.");
-			}
+		}
+		if( !$DB ){
+			self::markTestIncomplete('Unable to get DB Engine.');
+		}elseif( $DB == 'mysql' ){
+			require('./tests/phpcommon/DB.mysql.RI.php');
+		}elseif( $DB == 'postgres' ){
+			require('./tests/phpcommon/DB.pgsql.php');
+		}else{
+			self::markTestSkipped("CI Support unavialable for DB: $DB.");
 		}
 		if (!isset($DBtype)){
 			self::markTestIncomplete("Unable to Set DB: $DB.");
-		}else{
-			$alert_dbname='snort';
-			// Setup DB Connection
+		}else{ // Setup DB Connection
 			$db = NewBASEDBConnection($DBlib_path, $DBtype);
 			// Check ADODB Sanity.
 			// See: https://github.com/NathanGibbs3/BASE/issues/35

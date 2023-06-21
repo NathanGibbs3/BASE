@@ -8,6 +8,7 @@ use PHPUnit\Framework\TestCase;
   * @covers ::check_string
   * @uses ::GetPHPSV
   * @uses ::LoadedString
+  * @uses ::VS2SV
   * @uses ::is_key
   */
 

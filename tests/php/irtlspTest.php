@@ -10,6 +10,7 @@ use PHPUnit\Framework\TestCase;
   * @preserveGlobalState disabled
   * @runTestsInSeparateProcesses
   */
+
 class base_rtlSPTest extends TestCase {
 	// Pre Test Setup.
 	protected static $URV;

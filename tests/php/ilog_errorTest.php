@@ -26,6 +26,7 @@ use PHPUnit\Framework\TestCase;
   * @uses ::PrintTblNewRow
   * @uses ::TblNewRow
   * @uses ::XSSPrintSafe
+  * @uses ::VS2SV
   */
 
 class log_errorTest extends TestCase {

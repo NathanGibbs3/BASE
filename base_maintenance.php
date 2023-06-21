@@ -89,13 +89,10 @@ if ( $AdminAuth ){ // Issue #146 Fix
 	if ( $debug_mode > 0 ){
 		NLIO("submit = '$submit'");
 	}
-  $repair_output = NULL;
-  if ( $submit == "Update Alert Cache" )
-  {
-     UpdateAlertCache($db);
-  }
-  else if ( $submit == "Rebuild Alert Cache" )
-  {
+	$repair_output = NULL;
+	if( $submit == 'Update Alert Cache' ){
+		UpdateAlertCache($db);
+	}elseif( $submit == 'Rebuild Alert Cache' ){
      DropAlertCache($db);
      UpdateAlertCache($db);
   }
@@ -297,6 +294,9 @@ if( $AdminAuth ){ // Issue #146 Fix
 		$BF_St[$val] = $BCR->GetCap($val);
 	}
 	$BADB = $BCR->GetCap('BASE_ADB');
+	$BARI = $BCR->GetCap('BASE_SSRI');
+	$DBRI = $db->baseGetRI();
+	$DBSE = $db->baseTSE('event');
 	if( $SaM == 'yes' ){
 		if( $submit == 'status' ){
 			NLIO("Kernel: $BK Runtime: $BR");
@@ -312,27 +312,57 @@ if( $AdminAuth ){ // Issue #146 Fix
 			}
 			NLIO();
 			NLIO(_DATABASE);
-			NLIO(_MNTDBALV . ' ' . implode('.', GetDALSV());
-			NLIO(_MNTDBTYPE." $DBtype");
-			NLIO(_MNTDBALERTNAME." $alert_dbname");
+			NLIO(_MNTDBALV . ' ' . implode('.', GetDALSV()));
+			NLIO(_MNTDBTYPE . " $DBtype");
+			NLIO(
+				_MNTDBALERTNAME
+				. " $alert_dbname Storage Engine: $DBSE"
+			);
 			if( $BADB ){
 				$ADBStatus = _MNTDBARCHNAME." $archive_dbname";
 			}else{
 				$ADBStatus = 'Archive DB: not enabled.'; // TD This.
 			}
 			NLIO($ADBStatus);
+			$RIStatus = 'Referential Integrity Conf: ';
+			if( !$BARI ){
+				$RIStatus .= 'Not ';
+			}
+			$RIStatus .= 'Enabled. DB: ';
+			if( !$DBRI ){
+				$RIStatus .= 'Not ';
+			}
+			$RIStatus .= _ENABLED . '.';
+			NLIO($RIStatus);
 			if( $repair_output != '' ){
 				NLIO($repair_output);
 			}
 			NLIO();
 		}
 	}else{
+		$RIStatus = '<b>Referential Integrity Conf: </b>';
+		$Icon = 'yes';
+		$Desc = _ENABLED;
+		if( !$BARI ){
+			$RIStatus .= 'Not ';
+			$Icon = 'no';
+			$Desc = 'Not ' . _ENABLED;
+		}
+		$RIStatus .= _ENABLED . '.'. Icon($Icon, $Desc, 6) . '<b> DB: </b>';
+		$Icon = 'yes';
+		$Desc = _ENABLED;
+		if( !$DBRI ){
+			$RIStatus .= 'Not ';
+			$Icon = 'no';
+			$Desc = 'Not ' . _ENABLED;
+		}
+		$RIStatus .= _ENABLED . '. ' . Icon($Icon, $Desc, 6);
 		$ADBStatus = '<b>';
 		if( $BADB ){
 			$Icon = 'archive';
 			$Desc = _ENABLED;
-			$ADBStatus .= _MNTDBARCHNAME
-			. ": </b>$archive_dbname";
+			$ADBStatus .= _MNTDBARCHNAME . ': </b>'
+			. XSSPrintSafe($archive_dbname);
 		}else{ // TD This.
 			$Icon = 'no';
 			$Desc = 'Not ' . _ENABLED;
@@ -368,19 +398,27 @@ if( $AdminAuth ){ // Issue #146 Fix
 			'<b>' . _MNTDBALV . ': </b>' . implode('.', GetDALSV()) . '<br/>',
 			6
 		);
-  echo "<B>"._MNTDBTYPE."</B> $DBtype <BR>  
-        <B>"._MNTDBALERTNAME."</B> $alert_dbname <BR>
-";
-		NLIO("$ADBStatus$ADBI" . '<br/>', 6);
 		NLIO(
-			Icon('tool', 'Repair Tables', 6)
-			. "<input class='admin' type='submit' name='submit'"
-			. " value='Repair Tables'>",
+			'<b>' . _MNTDBTYPE . ': </b>' . XSSPrintSafe($DBtype) . '<br/>',
 			6
 		);
 		NLIO(
-			Icon('delete', 'Clear Data Tables', 6)
-			. "<input class='admin' type='submit' name='submit'"
+			'<b>' . _MNTDBALERTNAME . ': </b>' . XSSPrintSafe($alert_dbname)
+			. '&nbsp;&nbsp;&nbsp;<b>Storage Engine: </b>'
+			. XSSPrintSafe($DBSE) . '<br/>',
+			6
+		);
+		NLIO($RIStatus . '<br/>', 6);
+		NLIO("$ADBStatus$ADBI" . '<br/>', 6);
+		printIcon('tool', 'Repair Tables', 6);
+		NLIO(
+			"<input class='admin' type='submit' name='submit'"
+			. " value='Repair Tables'>",
+			6
+		);
+		printIcon('delete', 'Clear Data Tables', 6);
+		NLIO(
+			"<input class='admin' type='submit' name='submit'"
 			. " value='Clear Data Tables'>",
 			6
 		);
@@ -453,7 +491,7 @@ if( $SaM == 'yes' ){
 	}
 }else{
 	PrintFramedBoxHeader(_MNTAIC, '#669999', 0, 3, 'left');
-	NLIO("<td style='text-align: left; width: 25%;'>",5);
+	NLIO("<td style='text-align: left; width: 25%;'>", 5);
 
   echo '<B>'._MNTAICTE.'</B> '.$event_cnt.'&nbsp&nbsp
         <B>'._MNTAICCE.'</B> '.$cache_event_cnt;

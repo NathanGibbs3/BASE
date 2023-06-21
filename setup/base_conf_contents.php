@@ -167,17 +167,29 @@ $base_custom_footer = \'\';
      *   2  : use a normal connection (connect)
      */
     $db_connect_method = 1;
-    
-// Use referential integrity
-// 1: use
-// 0: ignore (not installed)
+
+// Referential Integrity (RI) support.
+// 1: Enabled, automatically enable and use RI on supported DB platforms.
+// 0: Disabled, do not use RI, even if the DB platform can support it.
 //
-// Note: Only PostgreSQL and MS-SQL Server DB\'s support referential integrity.
-//       Use the associated enable_RI.sql script to add this functionality to
-//       the DB.
+// Note(s): RI is supported the following DB Server versions.
+//          PostgreSQL 7.0+
+//          MsSQL Server 2000 (8.0.194+)
+//          MySQL 3.23+ (Using the following Storage Engines).
+//              InnoDB
+//              NDB 7.3+
 //
-//       Referential integrity will greatly improve the speed of record
-//       deletion, but also slow record insertion.
+//          RI can be enabled in two ways.
+//          1. Set this variable to 1, BASE will automatically add RI support
+//             to the DB when possible.
+//          2. Use the sql/enable_RI.sql script to manually add RI support to
+//             the DB.
+//
+//          This variable will need to be set to 1 in order for BASE to use RI
+//          on manually configured DB\'s
+//
+//          Referential integrity will greatly improve the speed of record
+//          deletion, but also slow record insertion.
 
 $use_referential_integrity = 0;
 

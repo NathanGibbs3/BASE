@@ -27,6 +27,7 @@ $colored_alerts = 0;
 $priority_colors = array ('FF0000','FFFF00','FF9900','999999','FFFFFF','006600');
 $archive_exists = 0;
 $AllowedClients = '';
+$use_referential_integrity = 1;
 
 session_start();
 print "   Testing with: (BASE) $BASE_installID $BASE_VERSION\n";

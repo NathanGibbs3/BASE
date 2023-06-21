@@ -384,31 +384,41 @@ class BaseUser {
 		}
 		return $Ret;
 	}
-	function returnRoleNamesDropDown($roleid){
+
+	function returnRoleNamesDropDown( $roleid ){
 		// Returns an HTML drop down list with all of the role names.
 		// The passed $roleid will be selected if it exists.
+		$Ret = '';
 		$db = $this->db;
 		$sql = "SELECT role_id, role_name FROM base_roles;";
-		$result = $db->baseExecute($sql);
-		$tmpHTML = NLI("<select name='roleID'>",7);
-		$i = 0;
-		while (
-			($myrow = $result->baseFetchRow())
-			&& ($i < $result->baseRecordCount())
-		){
-			$tmp = "<option value='".$myrow[0]."'";
-			$tmp .= chk_select($roleid,$myrow[0]);
-			$tmp .= '>'.XSSPrintSafe($myrow[1]).'</option>';
-			$tmpHTML .= NLI($tmp,8);
-			++$i;
+		$rs = $db->baseExecute($sql);
+		if(
+			$rs != false
+			&& $db->baseErrorMessage() == ''
+			&& $rs->baseRecordCount() > 0
+		){ // Error Check
+			$Ret = NLI("<select name='roleID'>", 7);
+			$RC = $rs->baseRecordCount();
+			for( $i = 0; $i < $RC; $i++ ){
+				$myrow = $rs->baseFetchRow();
+				if( is_array($myrow) ){
+					$myrow = XSSPrintSafe($myrow);
+					$tmp = "<option value='" . $myrow[0] . "'"
+					. chk_select($roleid, $myrow[0]) . '>' . $myrow[1]
+					. '</option>';
+					$Ret .= NLI($tmp, 8);
+				}else{
+					break;
+				}
+			}
+			$rs->baseFreeRows();
+			$Ret .= NLI('</select>', 7);
 		}
-		$result->baseFreeRows();
-		$tmpHTML .= NLI('</select>',7);
-		return $tmpHTML;
+		return $Ret;
 	}
 
 	function setRoleCookie( $passwd, $user ){
-		//Sets cookie with the md5 summed passwd embedded.
+		// Sets cookie with the md5 summed passwd embedded.
         $hash = md5($passwd . $user . "BASEUserRole");
         $cookievalue = $passwd . "|" . $user . "|";
 		BCS('BASERole', $cookievalue);

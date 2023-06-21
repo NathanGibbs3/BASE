@@ -1,7 +1,7 @@
 <?php
 use PHPUnit\Framework\TestCase;
 
-// Test fucntions in /includes/base_output_html.inc.php
+// Test fucntions in includes/base_output_html.inc.php
 
 /**
   * Code Coverage Directives.
@@ -30,6 +30,7 @@ use PHPUnit\Framework\TestCase;
   * @uses ::NLIO
   * @uses ::Percent
   * @uses ::XSSPrintSafe
+  * @uses ::VS2SV
   */
 
 class output_htmlTest extends TestCase {

@@ -1,9 +1,9 @@
 <?php
-$alert_user='postgres';
+$alert_user='travis';
 $alert_password='';
 $alert_dbname='testpig';
-$alert_port='5432';
-$DBtype='postgres';
+$alert_port='3306';
+$DBtype='mysql';
 $archive_exists   = 0;
 $archive_dbname   = '';
 $archive_host     = '';

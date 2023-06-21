@@ -15,6 +15,7 @@ use PHPUnit\Framework\TestCase;
   * @covers ::NMHC
   * @covers ::SetConst
   * @covers ::XSSPrintSafe
+  * @covers ::VS2SV
   * @covers ::ipconvert
   * @covers ::ipdeconvert
   * @covers ::is_ip
@@ -818,6 +819,76 @@ class base_rtlTest extends TestCase {
 		}else{
 			self::markTestSkipped();
 		}
+	}
+
+	public function testVS2SV_VSH(){ // Version String Hell.
+		$URV = self::$URV.'VS2SV().';
+		$Chars = array(' ', '.', ',', ':', ';', '-', '_');
+		$Prods = array('Prod', 'Prod2');
+		$Vers = array('v', 'ver', 'version');
+		$tmp = $Vers;
+		foreach($Vers as $Val){ // Version transforms
+			array_push($tmp, strtoupper($Val)); // Upper
+			array_push($tmp, ucfirst($Val)); // Upper First
+		}
+		$Vers = $tmp;
+		$tmp = $Vers;
+		foreach($Vers as $Val){ // Version transforms
+			foreach($Chars as $CVal){
+				array_push($tmp, "$Val$CVal"); // Terminations
+			}
+		}
+		$Vers = $tmp;
+		$tmp = array();
+		foreach($Prods as $Val){ // Product transforms
+			foreach($Chars as $CVal){
+				array_push($tmp, "$Val$CVal"); // Terminations
+			}
+		}
+		$Prods = array_merge($tmp, $Vers);
+		$x = strval(mt_rand(0, 10000)); // Major
+		$y = strval(mt_rand(0, 10000)); // Minor
+		$z = strval(mt_rand(0, 10000)); // Rev
+		$PV = "$x.$y"; // Partial Minor
+		$SV = "$x.$y.$z"; // Semantic Version
+		$this->assertEQuals("$x.0.0", implode('.', VS2SV($x)), "$URV $x");
+		$this->assertEQuals("$PV.0", implode('.', VS2SV($PV)), "$URV $PV");
+		$this->assertEQuals($SV, implode('.', VS2SV($SV)), "$URV $SV");
+		foreach($Prods as $Val){ // Products
+			$TV1 = "$Val$x";
+			$TV2 = "$Val$PV";
+			$TV3 = "$Val$SV";
+			$this->assertEQuals(
+				"$x.0.0", implode('.', VS2SV($TV1)), "$URV ($TV1)->($Val)($x)"
+			);
+			$this->assertEQuals(
+				"$PV.0", implode('.', VS2SV($TV2)), "$URV ($TV2)->($Val)($PV)"
+			);
+			$this->assertEQuals(
+				$SV, implode('.', VS2SV($TV3)), "$URV ($TV3)->($Val)($SV)"
+			);
+			foreach($Vers as $VVal){ // Version Strings
+				$TV1 = "$Val$VVal$x";
+				$TV2 = "$Val$VVal$PV";
+				$TV3 = "$Val$VVal$SV";
+				$this->assertEQuals(
+					"$x.0.0", implode('.', VS2SV($TV1)),
+					"$URV ($TV1)->($Val)($VVal)($x)"
+				);
+				$this->assertEQuals(
+					"$PV.0", implode('.', VS2SV($TV2)),
+					"$URV ($TV2)->($Val)($VVal)($PV)"
+				);
+				$this->assertEQuals(
+					$SV, implode('.', VS2SV($TV3)),
+					"$URV ($TV3)->($Val)($VVal)($SV)"
+				);
+			}
+		}
+	}
+	public function testVS2SVEdgeCase(){
+		$URV = self::$URV.'VS2SV().';
+		$this->assertEQuals('1.2.0', implode('.', VS2SV('1.2.aa')), $URV);
 	}
 
 	// Add code to a function if needed.

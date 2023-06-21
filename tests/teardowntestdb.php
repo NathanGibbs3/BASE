@@ -15,58 +15,64 @@ include_once("$BASE_path/languages/english.lang.php");
 
 // Setup DB System.
 $TRAVIS = getenv('TRAVIS');
-if (!$TRAVIS){ // Running on Local Test System.
+if( !$TRAVIS ){ // Running on Local Test System.
 	// Default Debian/Ubuntu location.
 	$DBlib_path = '/usr/share/php/adodb';
-	require("$BASE_path/../database.php");
+	$DB = 'mysql';
 }else{
 	$ADO = getenv('ADODBPATH');
-	if (!$ADO) {
+	if( !$ADO ){
 		print "Unable to setup ADODB\n";
 	}else{
 		$DBlib_path = "build/adodb/$ADO";
 	}
 	$DB = getenv('DB');
-	if (!$DB){
-		print "Unable to get DB Engine.\n";
-	}elseif ($DB == 'mysql' ){
-		require('./tests/phpcommon/DB.mysql.php');
-	}elseif ($DB == 'postgres' ){
-		require('./tests/phpcommon/DB.pgsql.php');
-	}else{
-		print "CI Support unavialable for DB: $DB.\n";
-	}
+}
+if( !$DB ){
+	print "Unable to get DB Engine.\n";
+}elseif( $DB == 'mysql' ){
+	$DBT = array('testpig', 'testpig2');
+	require('./tests/phpcommon/DB.mysql.RI.php');
+}elseif( $DB == 'postgres' ){
+	$DBT = array('testpig');
+	require('./tests/phpcommon/DB.pgsql.php');
+}else{
+	self::markTestSkipped("CI Support unavialable for DB: $DB.");
 }
 if (!isset($DBtype)){
 	print "Unable to Set DB: $DB.\n";
 }else{
-	$alert_dbname='snort';
-	// Create Test User Set
-	$user = new BaseUser();
-	$role = new BaseRole();
-	$uid = $user->returnUserID('TestAdmin');
-	$stat = $user->deleteUser($uid);
-	print "$stat\n";
-	$uid = $user->returnUserID('TestUser');
-	$stat = $user->deleteUser($uid);
-	print "$stat\n";
-	$uid = $user->returnUserID('TestAGEditor');
-	$stat = $user->deleteUser($uid);
-	print "$stat\n";
-	$uid = $user->returnUserID('TestAnonUser');
-	$stat = $user->deleteUser($uid);
-	print "$stat\n";
-	$uid = $user->returnUserID('TestDisabledUser');
-	$stat = $user->deleteUser($uid);
-	print "$stat\n";
-	$uid = $user->returnUserID('TestOver');
-	$stat = $user->deleteUser($uid);
-	print "$stat\n";
-	$uid = $user->returnUserID('Test<br/>XSS');
-	$stat = $user->deleteUser($uid);
-	print "$stat\n";
-	$stat = $role->deleteRole('30000');
-	print "$stat\n";
+	$OADB = $alert_dbname;
+	foreach( $DBT as $val ){
+		$alert_dbname = $val;
+		// Create Test User Set
+		$user = new BaseUser();
+		$role = new BaseRole();
+		$uid = $user->returnUserID('TestAdmin');
+		$stat = $user->deleteUser($uid);
+		print "$val $stat\n";
+		$uid = $user->returnUserID('TestUser');
+		$stat = $user->deleteUser($uid);
+		print "$val $stat\n";
+		$uid = $user->returnUserID('TestAGEditor');
+		$stat = $user->deleteUser($uid);
+		print "$val $stat\n";
+		$uid = $user->returnUserID('TestAnonUser');
+		$stat = $user->deleteUser($uid);
+		print "$val $stat\n";
+		$uid = $user->returnUserID('TestDisabledUser');
+		$stat = $user->deleteUser($uid);
+		print "$val $stat\n";
+		$uid = $user->returnUserID('TestOver');
+		$stat = $user->deleteUser($uid);
+		print "$val $stat\n";
+		$uid = $user->returnUserID('Test<br/>XSS');
+		$stat = $user->deleteUser($uid);
+		print "$val $stat\n";
+		$stat = $role->deleteRole('30000');
+		print "$val $stat\n";
+	}
+	$alert_dbname = $OADB;
 }
 
 ?>

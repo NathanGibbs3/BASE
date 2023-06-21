@@ -24,6 +24,7 @@ use PHPUnit\Framework\TestCase;
   * @uses ::LibIncError
   * @uses ::LoadedString
   * @uses ::XSSPrintSafe
+  * @uses ::VS2SV
   * @uses ::returnErrorMessage
   */
 

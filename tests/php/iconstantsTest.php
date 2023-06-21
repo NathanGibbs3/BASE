@@ -1,12 +1,13 @@
 <?php
 use PHPUnit\Framework\TestCase;
 
-// Test fucntions in /includes/base_constants.inc.php
+// Test fucntions in includes/base_constants.inc.php
 
 /**
   * @uses ::SetConst
   * @uses ::LoadedString
   */
+
 class constantsTest extends TestCase {
 
 	// Tests go here.

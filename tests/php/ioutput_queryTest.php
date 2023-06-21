@@ -1,7 +1,7 @@
 <?php
 use PHPUnit\Framework\TestCase;
 
-// Test fucntions in /includes/base_output_query.inc.php
+// Test fucntions in includes/base_output_query.inc.php
 
 /**
   * Code Coverage Directives.
@@ -22,6 +22,7 @@ use PHPUnit\Framework\TestCase;
   * @uses ::NLIO
   * @uses ::PrintFramedBoxHeader
   * @uses ::XSSPrintSafe
+  * @uses ::VS2SV
   * @uses ::is_key
   * @uses ::returnErrorMessage
   * @uses ::returnExportHTTPVar

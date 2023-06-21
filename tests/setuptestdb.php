@@ -15,53 +15,59 @@ include_once("$BASE_path/languages/english.lang.php");
 
 // Setup DB System.
 $TRAVIS = getenv('TRAVIS');
-if (!$TRAVIS){ // Running on Local Test System.
+if( !$TRAVIS ){ // Running on Local Test System.
 	// Default Debian/Ubuntu location.
 	$DBlib_path = '/usr/share/php/adodb';
-	require("$BASE_path/../database.php");
+	$DB = 'mysql';
 }else{
 	$ADO = getenv('ADODBPATH');
-	if (!$ADO) {
+	if( !$ADO ){
 		print "Unable to setup ADODB\n";
 	}else{
 		$DBlib_path = "build/adodb/$ADO";
 	}
 	$DB = getenv('DB');
-	if (!$DB){
-		print "Unable to get DB Engine.\n";
-	}elseif ($DB == 'mysql' ){
-		require('./tests/phpcommon/DB.mysql.php');
-	}elseif ($DB == 'postgres' ){
-		require('./tests/phpcommon/DB.pgsql.php');
-	}else{
-		print "CI Support unavialable for DB: $DB.\n";
-	}
+}
+if( !$DB ){
+	print "Unable to get DB Engine.\n";
+}elseif( $DB == 'mysql' ){
+	$DBT = array('testpig', 'testpig2');
+	require('./tests/phpcommon/DB.mysql.RI.php');
+}elseif( $DB == 'postgres' ){
+	$DBT = array('testpig');
+	require('./tests/phpcommon/DB.pgsql.php');
+}else{
+	self::markTestSkipped("CI Support unavialable for DB: $DB.");
 }
 if (!isset($DBtype)){
 	print "Unable to Set DB: $DB.\n";
 }else{
-	$alert_dbname='snort';
-	// Create Test User Set
-	$user = new BaseUser();
-	$role = new BaseRole();
-	$stat = $user->addUser('TestAdmin', '1', 'password', 'TestAdmin');
-	print "$stat\n";
-	$stat = $user->addUser('TestUser', '10', 'password', 'TestUser');
-	print "$stat\n";
-	$stat = $user->addUser('TestAGEditor', '50', 'password', 'TestAGEditor');
-	print "$stat\n";
-	$stat = $user->addUser('TestAnonUser', '10000', 'password', 'TestAnonUser');
-	print "$stat\n";
-	$stat = $user->addUser('TestDisabledUser', '10000', 'password', 'TestDisabledUser');
-	print "$stat\n";
-	$uid = $user->returnUserID('TestDisabledUser');
-	$user->disableUser($uid);
-	$stat = $user->addUser('TestOver', '20000', 'password', 'TestOverUser');
-	print "$stat\n";
-	$stat = $user->addUser('Test<br/>XSS', '10', 'password', 'Test<br/>XXS in Username');
-	print "$stat\n";
-	$stat = $role->addRole('30000', 'Test<br/>XSS', 'Test<br/>XXS in Rolename');
-	print "$stat\n";
+	$OADB = $alert_dbname;
+	foreach( $DBT as $val ){
+		$alert_dbname = $val;
+		// Create Test User Set
+		$user = new BaseUser();
+		$role = new BaseRole();
+		$stat = $user->addUser('TestAdmin', '1', 'password', 'TestAdmin');
+		print "$val $stat\n";
+		$stat = $user->addUser('TestUser', '10', 'password', 'TestUser');
+		print "$val $stat\n";
+		$stat = $user->addUser('TestAGEditor', '50', 'password', 'TestAGEditor');
+		print "$val $stat\n";
+		$stat = $user->addUser('TestAnonUser', '10000', 'password', 'TestAnonUser');
+		print "$val $stat\n";
+		$stat = $user->addUser('TestDisabledUser', '10000', 'password', 'TestDisabledUser');
+		print "$val $stat\n";
+		$uid = $user->returnUserID('TestDisabledUser');
+		$user->disableUser($uid);
+		$stat = $user->addUser('TestOver', '20000', 'password', 'TestOverUser');
+		print "$val $stat\n";
+		$stat = $user->addUser('Test<br/>XSS', '10', 'password', 'Test<br/>XXS in Username');
+		print "$val $stat\n";
+		$stat = $role->addRole('30000', 'Test<br/>XSS', 'Test<br/>XXS in Rolename');
+		print "$val $stat\n";
+	}
+	$alert_dbname = $OADB;
 }
 
 ?>

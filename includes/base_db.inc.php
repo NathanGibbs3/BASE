@@ -95,10 +95,12 @@ class baseCon {
 			// FLoPS released after Schema v106
 			$this->baseSetFLOP(); // Detect FLoP Extended DB.
 		}
+		$this->baseSetRI(); // Detect Referential Integrity.
 		// Need to TD these in Issue #11 branch.
 		KML($EMPfx . "DB Connect: $DBDesc.", 3);
 		if( is_object($et) && $debug_mode > 1 ){
 			$et->Mark("DB Connect: $DBDesc.");
+			$et->Mark('DB RI set to ' . var_export($this->DBF_RI, true) . '.');
 		}
 	}
 
@@ -109,6 +111,12 @@ class baseCon {
 		$this->DB_host = $host;
 		$this->DB_port = $port;
 		$this->DB_username = $username;
+		$DSN = $this->DB_host;
+		$tdp = $this->DB_port;
+		if ( LoadedString($tdp) ){
+			$DSN = "$DSN:$tdp";
+		}
+		$tmp = $this->DB_name . '@' . $DSN;
 
      if ( $sql_trace_mode > 0 )
      {
@@ -120,14 +128,10 @@ class baseCon {
         }
      }
 
-     $db = $this->DB->Connect( ( ( $port == "") ? $host : ($host.":".$port) ),
-                               $username, $password, $database); 
-
-     if ( !$db )
-     {
-        $tmp_host = ( $port == "") ? $host : ($host.":".$port);
+		$db = $this->DB->Connect($DSN, $username, $password, $database);
+		if( !$db ){
         echo '<P><B>'._ERRSQLCONNECT.' </B>'.
-             $database.'@'. $tmp_host ._ERRSQLCONNECTINFO;
+             $tmp ._ERRSQLCONNECTINFO;
 
         echo $this->baseErrorMessage();
         die();
@@ -155,6 +159,12 @@ class baseCon {
 		$this->DB_host = $host;
 		$this->DB_port = $port;
 		$this->DB_username = $username;
+		$DSN = $this->DB_host;
+		$tdp = $this->DB_port;
+		if ( LoadedString($tdp) ){
+			$DSN = "$DSN:$tdp";
+		}
+		$tmp = $this->DB_name . '@' . $DSN;
 
      if ( $sql_trace_mode > 0 )
      {
@@ -166,14 +176,10 @@ class baseCon {
         }
      }
 
-     $db = $this->DB->PConnect( ( ( $port == "") ? $host : ($host.":".$port) ),
-                               $username, $password, $database); 
-
-     if ( !$db )
-     {
-        $tmp_host = ( $port == "") ? $host : ($host.":".$port);
+		$db = $this->DB->PConnect($DSN, $username, $password, $database);
+		if( !$db ){
         echo '<P><B>'._ERRSQLPCONNECT.' </B>'.
-             $database.'@'. $tmp_host ._ERRSQLCONNECTINFO;
+             $tmp ._ERRSQLCONNECTINFO;
 
         echo $this->baseErrorMessage();
         die();
@@ -209,6 +215,23 @@ class baseCon {
 		$this->FLOP = NULL; // FLoP Extended DB Flag.
 	}
 
+	function baseisDBUp( $LogError = false ){
+		$tmp = debug_backtrace(0,2);
+		$EMPfx = $tmp[1]['function'] . ': ';
+		$Ret = false;
+		if( !is_bool($LogError) ){ // Input Validation
+			$DS = false;
+		}
+		if( !is_null($this->DB) && $this->DB->isConnected() ){
+			$Ret = true;
+		}else{
+			if( $LogError ){
+				KML($EMPfx . 'DB not connected.', 3);
+			}
+		}
+		return $Ret;
+	}
+
 	function baseExecute(
 		$sql, $start_row = 0, $num_rows = -1, $hard_error = true
 	){
@@ -230,9 +253,10 @@ class baseCon {
 		}else{
 			$tdpw = $alert_password;
 		}
-		if ( $tdp != '' ){
+		if ( LoadedString($tdp) ){
 			$DSN = "$DSN:$tdp";
 		}
+		$TDSN = $this->DB_name . '@' . $DSN;
 		// Begin DB specific SQL fix-up.
 		// @codeCoverageIgnoreStart
 		// We have no way of testing Oracle or MsSQL functionality.
@@ -251,8 +275,8 @@ class baseCon {
 			// Try to reconnect of DB connection is down.
 			// Found via CI. Might be related to PHP 5.2x not supporting
 			// persistant DB connections.
-			error_log($EPfx."Disconnected: $tdt $tdn @ $DSN");
-			error_log($EPfx."Reconnecting: $tdt $tdn @ $DSN");
+			error_log($EPfx."Disconnected: $tdt $TDSN");
+			error_log($EPfx."Reconnecting: $tdt $TDSN");
 			if ( $db_connect_method == DB_CONNECT ){
 				$db = $this->DB->Connect( $DSN, $tdu, $tdpw, $tdn);
 			}else{
@@ -323,7 +347,7 @@ class baseCon {
      }
 		$tmp = $this->baseErrorMessage();
 		if ( (!$rs || $tmp != '') && $hard_error ){
-			$msg = $EPfx.'Query Fail: ';
+			$msg = $EPfx . 'Query Fail: ';
 			if ( !$rs ){
 				$msg .= 'NULL Recordset ';
 			}
@@ -340,7 +364,7 @@ class baseCon {
 					&& version_compare(PHP_VERSION, "5.3.0", "<")
 				)
 			){
-				$msg .= "<p>DB Engine: $tdt DB: $tdn @ $DSN</p>";
+				$msg .= "<p>DB Engine: $tdt DB: $TDSN</p>";
 				$msg .= '<p>SQL QUERY: <code>'.$qry.'</code></p>';
 			}
 			FatalError($msg);
@@ -348,6 +372,7 @@ class baseCon {
 			return $rs;
 		}
 	}
+
 	function baseErrorMessage(){
 		GLOBAL $debug_mode;
 		$msg = '';
@@ -374,7 +399,7 @@ class baseCon {
 	function baseSetFLOP ( ){ // Detect FLoP Extended DB.
 		$EMPfx = __FUNCTION__ . ': ';
 		$Ret = false;
-		if( !is_null($this->DB) && $this->DB->isConnected() ){
+		if( $this->baseisDBUp() ){
 			if(
 				$this->baseFieldExists('schema', 'full_payload')
 				&& $this->baseFieldExists('schema', 'reference')
@@ -398,9 +423,278 @@ class baseCon {
 		return $Ret;
 	}
 
-	function baseFieldExists ( $table, $field ){
+	function baseSetRI( $DS = true ){ // DB Referential Integrity Control.
+		GLOBAL $use_referential_integrity, $BCR;
+		$EMPfx = __FUNCTION__ . ': ';
+		$Ret = false; // Return Value
+		$RIF = false; // Referential Integrity Flag.
+		// @codeCoverageIgnoreStart
+		if( isset($BCR) && is_object($BCR) ){
+			$RIF = $BCR->GetCap('BASE_SSRI');
+		}else{
+			if( intval($use_referential_integrity) == 1 ){
+				$RIF = true;
+			}
+		}
+		// @codeCoverageIgnoreEnd
+		if( $RIF && $this->baseisDBUp(true) ){
+			if( !is_bool($DS) ){ // Lock Invalid Desired State Flag.
+				$DS = true;
+			}
+			$RItbls = array(
+				'iphdr', 'tcphdr', 'udphdr', 'icmphdr', 'opt', 'data',
+				'acid_ag_alert', 'acid_event'
+			);
+			$SE = true; // Step Execution Flag Assume Success
+			foreach( $RItbls as $val ){ // Build Constraint list.
+				$EPfx = "$EMPfx$val ";
+				if( $this->baseTableExists($val) ){ // Table Exists?
+					$RIcl[$val] = $val . '_fkey_sid_cid';
+				}else{
+					// @codeCoverageIgnoreStart
+					KML($EPfx . 'does not exist.', 3);
+					KML($EMPfx . 'DB damaged.', 3);
+					$SE = false;
+					break;
+					// @codeCoverageIgnoreEnd
+				}
+			}
+			if( $SE ){ // Ready to take RI Action.
+				$DBSV = VS2SV($this->DB->serverInfo()['version']);
+				if( $DS ){ // Set RI if possible.
+					$QF = false; // Query Flag.
+					$RIE = false; // RI Enable Flag.
+					$RSC = false; // RI Structure Corrupt Flag.
+					// Check DB Server Version.
+					if( $this->DB_class == 1 ){
+						if(
+							$DBSV[0] > 3 || ($DBSV[0] == 3 && $DBSV[1] > 22)
+						){ // Mysql / MariaDB 3.23+
+							foreach( $RItbls as $val ){
+								// Check Tables for InnoDB or NDB SE.
+								if(
+									!preg_match (
+										"/^(Inno|N)DB/", $this->baseTSE($val)
+									)
+								){ // Table failed SE check.
+									$SE = false;
+									break;
+								}
+							}
+							$QF = $SE; // Step Execute to QF.
+						}
+					}else{
+						switch( $this->DB_type ){
+							case 'postgres';
+								if( $DBSV[0] > 6 ){ // PostgreSQL 7+
+									$QF = true;
+								}
+								break;
+								// @codeCoverageIgnoreStart
+								// We have no way of testing Oracle or MsSQL
+								// functionality.
+							case 'mssql';
+								if(
+									$DBSV[0] > 8
+									|| (
+										$DBSV[0] == 8 && $DBSV[1] == 0
+										&& $DBSV[2] > 193
+									)
+								){ // MsSQL Server 2000+ (8.0.194)+
+									$QF = true;
+								}
+								break;
+							case 'oci8'; // Have no idea.
+								// Until we can get some definitive data on
+								// Issue #103 RI support for Oracle will be
+								// disabled.
+							default:
+								// @codeCoverageIgnoreEnd
+						}
+					}
+					if( $QF ){ // Query Info Schema for RI Information.
+						$sqlPfx = 'SELECT COLUMN_NAME, REFERENCED_COLUMN_NAME '
+						. 'FROM information_schema.key_column_usage WHERE '
+						. "referenced_table_name = 'event' AND TABLE_SCHEMA = "
+						. "'" . $this->DB_name . "' AND TABLE_NAME = '";
+						foreach( $RItbls as $val ){
+							$EPfx = "$EMPfx$val ";
+							$Cval = $RIcl[$val];
+							$sql = "$sqlPfx$val" . "' AND CONSTRAINT_NAME = '"
+							. $Cval . "'";
+							DumpSQL($sql, 3);
+							$rs = $this->DB->Execute($sql);
+							if(
+								$rs != false && $this->baseErrorMessage() == ''
+							){ // Error Check
+								if( $rs->RecordCount() > 0 ){
+									$tmp = '';
+									if( $val  == 'acid_ag_alert' ){
+										$tmp = 'ag_';
+									}
+									// RI setup in DB table, Verify Structure.
+									while( !$rs->EOF ){
+										$myrow = $rs->fields;
+										$myrow[0] = preg_replace(
+											'/^' . $tmp . '/', '', $myrow[0]
+										);
+										if( $myrow[0] != $myrow[1] ){
+											// @codeCoverageIgnoreStart
+											$rs->Close(); // Corrupt Structure.
+											$RSC = true; // Restructure
+											break 2;
+											// @codeCoverageIgnoreEnd
+										}
+										$rs->MoveNext();
+									}
+									$rs->Close();
+								}else{ // RI Not setup in DB table.
+									$RSC = true; // Restructure
+									break;
+								}
+							}else{ // Transient DB Error.
+								// @codeCoverageIgnoreStart
+								KML($EPfx . 'access error.', 3);
+								$SE = false; // Failure
+								break;
+								// @codeCoverageIgnoreEnd
+							}
+						}
+						if( $RSC ){ // Clear DB RI Structure
+							KML($EPfx . 'RI Structure Corrupt', 3);
+							$this->baseSetRI(false);
+							$RIE = true;
+						}
+					}
+					if( $RIE ){ // Enable RI in DB.
+						$SE = true; // Assume Success
+						foreach( $RItbls as $val ){
+							$EPfx = "$EMPfx$val ";
+							$Cval = $RIcl[$val];
+							$tmp = '';
+							if( $val  == 'acid_ag_alert' ){
+								$tmp = 'ag_';
+							}
+							$sql = "ALTER TABLE $val ADD CONSTRAINT $Cval "
+							. "FOREIGN KEY ($tmp" . "sid, $tmp"
+							. 'cid) REFERENCES event (sid, cid) ON DELETE '
+							. 'CASCADE ON UPDATE CASCADE';
+							DumpSQL($sql, 3);
+							$rs = $this->DB->Execute($sql);
+							if (
+								$rs != false && $this->baseErrorMessage() == ''
+							){ // Error Check
+								$rs->Close();
+								KML($EPfx . 'RI enabled.', 3);
+							}else{ // Transient DB Error.
+								// @codeCoverageIgnoreStart
+								KML($EPfx . 'RI enable error.', 3);
+								$SE = false;
+								break;
+								// @codeCoverageIgnoreEnd
+							}
+						}
+					}
+				}else{ // Clear RI.
+					$SE = false; // Return Value.
+					$tmp = 'CONSTRAINT';
+					// As of MySQL 8.0.19, ALTER TABLE permits more general
+					// (and SQL standard) syntax for dropping and altering
+					// existing constraints of any type,
+					// https://dev.mysql.com/doc/refman/8.0/en/alter-table.html
+					// @codeCoverageIgnoreStart
+					if(
+						$this->DB_class == 1
+						&& (
+							$DBSV[0] < 8
+							|| (
+								$DBSV[0] == 8 && $DBSV[1] == 0 && $DBSV[2] < 19
+							)
+						)
+					){ // Mysql / MariaDB < 8.0.19
+						$tmp = 'FOREIGN KEY';
+					}
+					// @codeCoverageIgnoreEnd
+					foreach( $RItbls as $val ){
+						$EPfx = "$EMPfx$val ";
+						$Cval = $RIcl[$val];
+						$sql = "ALTER TABLE $val DROP $tmp IF EXISTS $Cval";
+						DumpSQL($sql, 3);
+						$rs = $this->DB->Execute($sql);
+						if(
+							$rs != false && $this->baseErrorMessage() == ''
+						){ // Error Check
+							$rs->Close();
+							KML($EPfx . 'RI disabled.', 3);
+						}else{ // Transient DB Error.
+							// @codeCoverageIgnoreStart
+							KML($EPfx . 'access error.', 3);
+							break;
+							// @codeCoverageIgnoreEnd
+						}
+					}
+				}
+				KML($EMPfx . 'DB RI set to ' . var_export($SE, true) . '.', 3);
+				$this->DBF_RI = $SE;
+			}
+			$Ret = $SE;
+		}
+		return $Ret;
+	}
+
+	function baseGetRI ( ){
 		$Ret = false;
-		if( !is_null($this->DB) && $this->DB->isConnected() ){
+		if( is_bool($this->DBF_RI) ){
+			$Ret = $this->DBF_RI;
+		}
+		return $Ret;
+	}
+
+	function baseTSE( $table = '' ){ // Get Table Storage Engine.
+		$EMPfx = __FUNCTION__ . ': ';
+		$Ret = '';
+		if( $this->baseisDBUp(true) ){
+			if( $this->DB_class == 1 ){ // Mysql / MariaDB.
+				if( !LoadedString($table) ){
+					$table = '';
+				}
+				$EMPfx .= "$table ";
+				if( $this->baseTableExists($table) ){ // Get Table SE.
+					$sql = 'SELECT ENGINE FROM information_schema.TABLES '
+					. "WHERE TABLE_SCHEMA = '" . $this->DB_name
+					. "' AND TABLE_NAME = '" . $table . "'";
+					DumpSQL($sql, 3);
+					$rs = $this->DB->Execute($sql);
+					if (
+						$rs != false && $this->baseErrorMessage() == ''
+						&& $rs->RecordCount() > 0
+					){ // Error Check
+						$myrow = $rs->fields;
+						$Ret = $myrow[0];
+						$rs->Close();
+					}else{ // Transient DB Error.
+						// @codeCoverageIgnoreStart
+						KML($EMPfx . 'access error.', 3);
+						// @codeCoverageIgnoreEnd
+					}
+				}else{
+					KML($EMPfx . 'does not exist.', 3);
+				}
+			}
+		}
+		return $Ret;
+	}
+
+	function baseFieldExists( $table = '', $field = '' ){
+		$EMPfx = __FUNCTION__ . ': ';
+		$Ret = false;
+		if( $this->baseisDBUp(true) ){
+			if( !LoadedString($table) ){
+				$table = '';
+			}
+			if( !LoadedString($field) ){
+				$field = '';
+			}
 			if( $this->baseTableExists($table) ){
 				if( in_array($field, $this->DB->metacolumnNames($table)) ){
 					$Ret = true;
@@ -410,9 +704,13 @@ class baseCon {
 		return $Ret;
 	}
 
-	function baseTableExists ( $table ){
+	function baseTableExists( $table = '' ){
+		$EMPfx = __FUNCTION__ . ': ';
 		$Ret = false;
-		if( !is_null($this->DB) && $this->DB->isConnected() ){
+		if( $this->baseisDBUp(true) ){
+			if( !LoadedString($table) ){
+				$table = '';
+			}
 			// @codeCoverageIgnoreStart
 			// We have no way of testing Oracle functionality.
 			if( $this->DB_type == 'oci8' ){
@@ -427,9 +725,16 @@ class baseCon {
 	}
 
 	// This function is not used anywhere.
-	function baseIndexExists ( $table, $index_name ){
+	function baseIndexExists( $table = '', $index_name = '' ){
+		$EMPfx = __FUNCTION__ . ': ';
 		$Ret = false;
-		if( !is_null($this->DB) && $this->DB->isConnected() ){
+		if( $this->baseisDBUp(true) ){
+			if( !LoadedString($table) ){
+				$table = '';
+			}
+			if( !LoadedString($index_name) ){
+				$index_name = '';
+			}
 			if( $this->baseTableExists($table) ){
 				$tmp = $this->DB->MetaIndexes($table);
 				if( $tmp != false ){
@@ -453,60 +758,65 @@ class baseCon {
 
 	function baseInsertID( $table = '', $field = '' ){
 		$Ret = -1;
-		if( !LoadedString($table) ){
-			$table = '';
-		}
-		if( !LoadedString($field) ){
-			$field = '';
-		}
-		// Getting the insert ID fails on certain databases (e.g. postgres),
-		// but we may use it on the DB's it works on. This function returns
-		// -1 if the dbtype is postgres, then we can run a kludge query to get
-		// the insert ID. That query may vary depending upon which table you
-		// are looking at and what variables you have set at the current
-		// point, so it can't be here and needs to be in the actual script
-		// after calling this function.
-		// srh (02/01/2001)
-		$DALV = GetDALSV(); // ADOdb Version
-		if( $DALV[0] > 5 || ($DALV[0] == 5 && $DALV[1] > 20) ){
-			// Use Insert_ID everywhere on ADOdb 5.21+
-			if(
-				$this->DB_type == 'postgres'
-				&& (
-					($DALV[0] == 5 && $DALV[1] == 22 && $DALV[2] < 6)
-					|| ($DALV[0] == 5 && $DALV[1] == 21 && $DALV[2] < 5)
-				)
-			){ // Catch ADOdb #978 - ADOdb 5.21x < 5.21.5 & 5.22x < 5.22.6
-				$Ret = @$this->DB->Insert_ID($table, $field);
-			}else{
-				$Ret = $this->DB->Insert_ID($table, $field);
+		if( $this->baseisDBUp(true) ){
+			if( !LoadedString($table) ){
+				$table = '';
 			}
-		}else{ // ADOdb < 5.21x
-			if( $DALV[0] > 3 || ($DALV[0] == 3 && $DALV[1] > 93) ){
-				if ($this->DB_type != 'oci8' ){
-					// Everywhere but Oracle on ADOdb 3.94+
-					if(
-						$this->DB_type == 'postgres'
-						&& (
-							($DALV[0] == 5 && $DALV[1] == 20 && $DALV[2] < 22)
-							|| ($DALV[0] == 5 && $DALV[1] > 17)
-						)
-					){ // Catch ADOdb #978 - ADOdb 5.18 - 5.20.21
-						$Ret = @$this->DB->Insert_ID($table, $field);
-					}else{
-						$Ret = $this->DB->Insert_ID($table, $field);
-					}
-				}
-			}else{ // Only MySQL && MsSQL on ADOdb < 3.94x
-				// @codeCoverageIgnoreStart
-				if( $this->DB_class == 1 || $this->DB_type == 'mssql' ){
+			if( !LoadedString($field) ){
+				$field = '';
+			}
+			// Getting the insert ID fails on certain databases
+			// (e.g. postgres), but we may use it on the DB's it works on.
+			// This function returns -1 if the dbtype is postgres, then we can
+			// run a kludge query to get  the insert ID. That query may vary
+			// depending upon which table you  are looking at and what
+			// variables you have set at the current  point, so it can't be
+			// here. It needs to be in the actual script after calling this
+			// function.  srh (02/01/2001)
+			$DALV = GetDALSV(); // ADOdb Version
+			if( $DALV[0] > 5 || ($DALV[0] == 5 && $DALV[1] > 20) ){
+				// Use Insert_ID everywhere on ADOdb 5.21+
+				if(
+					$this->DB_type == 'postgres'
+					&& (
+						($DALV[0] == 5 && $DALV[1] == 22 && $DALV[2] < 6)
+						|| ($DALV[0] == 5 && $DALV[1] == 21 && $DALV[2] < 5)
+					)
+				){ // Catch ADOdb #978 - ADOdb 5.21x < 5.21.5 & 5.22x < 5.22.6
+					$Ret = @$this->DB->Insert_ID($table, $field);
+				}else{
 					$Ret = $this->DB->Insert_ID($table, $field);
 				}
-				// @codeCoverageIgnoreEnd
+			}else{ // ADOdb < 5.21x
+				if( $DALV[0] > 3 || ($DALV[0] == 3 && $DALV[1] > 93) ){
+					if ($this->DB_type != 'oci8' ){
+						// Everywhere but Oracle on ADOdb 3.94+
+						if(
+							$this->DB_type == 'postgres'
+							&& (
+								(
+									$DALV[0] == 5 && $DALV[1] == 20
+									&& $DALV[2] < 22
+								)
+								|| ($DALV[0] == 5 && $DALV[1] > 17)
+							)
+						){ // Catch ADOdb #978 - ADOdb 5.18 - 5.20.21
+							$Ret = @$this->DB->Insert_ID($table, $field);
+						}else{
+							$Ret = $this->DB->Insert_ID($table, $field);
+						}
+					}
+				}else{ // Only MySQL && MsSQL on ADOdb < 3.94x
+					// @codeCoverageIgnoreStart
+					if( $this->DB_class == 1 || $this->DB_type == 'mssql' ){
+						$Ret = $this->DB->Insert_ID($table, $field);
+					}
+					// @codeCoverageIgnoreEnd
+				}
 			}
-		}
-		if( $Ret == false ){ // No Insert or DB does not support InsertID.
-			$Ret = -1;
+			if( $Ret == false ){ // No Insert or DB does not support InsertID.
+				$Ret = -1;
+			}
 		}
 		return $Ret;
 	}
@@ -638,7 +948,7 @@ class baseCon {
 	function baseSetDBversion(){
 		$EMPfx = __FUNCTION__ . ': ';
 		$Ret = 0;
-		if( !is_null($this->DB) && $this->DB->isConnected() ){
+		if( $this->baseisDBUp(true) ){
 			$EMPfx .= $this->Role . ' DB Schema ';
 			if( $this->baseFieldExists('schema', 'vseq') ){
 				// Get the database schema version number.
@@ -664,15 +974,16 @@ class baseCon {
 					$Ret = intval($myrow[0]);
 					$rs->Close();
 				}else{
-					KML($EMPfx . 'Access error.', 3);
+					// @codeCoverageIgnoreStart
+					// Transient DB Error.
+					KML($EMPfx . 'access error.', 3);
+					// @codeCoverageIgnoreEnd
 				}
 			}else{
 				KML($EMPfx . 'undefined.', 3);
 			}
 			KML($EMPfx . "set to $Ret", 3);
 			$this->version = $Ret;
-		}else{
-			KML($EMPfx . 'DB not connected.', 3);
 		}
 		return $Ret;
 	}
@@ -833,17 +1144,16 @@ function NewBASEDBConnection( $path, $type ){
 	$Wtype = NULL; // Working type.
 	$EMPfx = __FUNCTION__ . ': ';
 	$AXtype = $type;
-	if ( LoadedString($type) ){ // Normalize DB type.
+	if( LoadedString($type) ){ // Normalize DB type.
 		$type = strtolower($type);
-		if ( preg_match("/^(postgres(s)?|(postgre(s)?|pg)sql)$/", $type) ){
+		if( preg_match("/^p(ostgres(s)?|(g|ostgre)sql)$/", $type) ){
 			$type = 'postgres';
-		}elseif ( preg_match("/^oracle/", $type) ){
+		}elseif( preg_match("/^oracle/", $type) ){
 			$type = 'oci8';
-		}elseif ( preg_match("/^m(s|icrosoft)/", $type) ){
+		}elseif( preg_match("/^m(s|icrosoft)/", $type) ){
 			$type = 'mssql';
 		}
-		// Set DB driver type.
-		$Wtype = $type;
+		$Wtype = $type; // Set DB driver type.
 		if( $type == 'mysql' || $type == 'mysqlt' || $type == 'maxsql' ){
 			// On PHP 5.5+, use mysqli ADODB driver & gracefully deprecate
 			// the mysql, mysqlt & maxsql drivers.
@@ -945,6 +1255,7 @@ function RepairDBTables($db)
   /* This function was completely commented in original....
     I will be searching to see where it was called from if at all */
 }
+
 // @codeCoverageIgnoreStart
 // Don't Unit Test this.
 function ClearDataTables( $db ){
@@ -962,30 +1273,31 @@ function ClearDataTables( $db ){
   $db->baseExecute("DELETE FROM udphdr");
 }
 // @codeCoverageIgnoreEnd
+
 // Get Max Length of field in table.
 function GetFieldLength( $db, $table, $field ){
-	$EMPfx = __FUNCTION__ . ': Invalid ';
+	$EMPfx = __FUNCTION__ . ': ';
 	$Emsg = '';
 	$Ret = 0;
-	if( !(is_object($db)) ){
-		$Emsg = 'DB Object';
-	}else{
+	if(
+		is_object($db) && get_class($db) == 'baseCon' && $db->baseisDBUp(true)
+	){
+		$EMPfx .= 'Invalid ';
 		if( !(LoadedString($table) && $db->baseTableExists($table)) ){
 			$Emsg = 'Table';
-		}elseif (
-			!(LoadedString($field) && $db->baseFieldExists($table,$field))
+		}elseif(
+			!(LoadedString($field) && $db->baseFieldExists($table, $field))
 		){
 			$Emsg = 'Field';
 		}
-	}
-	if( LoadedString($Emsg) ){
-		$Emsg .= "$EMPfx$Emsg.";
-		trigger_error($Emsg);
-	}else{
-		$wresult = $db->DB->metacolumns($table);
-		$wf = strtoupper($field);
-		$tmp = $wresult[$wf];
-		$Ret = $tmp->max_length;
+		if( LoadedString($Emsg) ){
+			KML("$EMPfx$Emsg.", 3);
+		}else{
+			$wresult = $db->DB->metacolumns($table);
+			$wf = strtoupper($field);
+			$tmp = $wresult[$wf];
+			$Ret = $tmp->max_length;
+		}
 	}
 	return $Ret;
 }
@@ -1028,7 +1340,7 @@ function filterSql( $item, $force_alert_db=0, $db = '' ){
 			}else{ // Figure out quote handling on PHP < 5.4.
 				$Qh = get_magic_quotes_runtime();
 			}
-			$item = $tdb->DB->qstr($item,$Qh);
+			$item = $tdb->DB->qstr($item, $Qh);
 			if( $Dbcf == 1 ){ // Close it, only if we created it.
 				$tdb->baseClose();
 			}
@@ -1040,20 +1352,7 @@ function filterSql( $item, $force_alert_db=0, $db = '' ){
 }
 
 function GetDALSV (){ // Returns ADOdb Semantic Version Array
-	$DALV = explode('.', ADOConnection::version(), 3);
-	for( $i = 0; $i < 3; $i++ ){
-		if( isset($DALV[$i]) ){
-			if( preg_match('/^\d+/', $DALV[$i], $tmp) ){ // Normalize Data.
-				$DALV[$i] = $tmp[0];
-			}
-		}else{
-			$DALV[$i] = '0';
-		}
-		if( !is_numeric($DALV[$i]) ){ // Legacy ADOdb Versions
-			$DALV[$i] = '0';
-		}
-	}
-	return $DALV; // Array of ( Major, Minor, Revision ).
+	return VS2SV(ADOConnection::version());
 }
 
 function DumpSQL( $sql = '', $lvl = 0 ){

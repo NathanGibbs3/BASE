@@ -13,6 +13,7 @@ use PHPUnit\Framework\TestCase;
   * @uses ::LoadedString
   * @uses ::PearInc
   * @uses ::SetConst
+  * @uses ::VS2SV
   * @uses ::is_key
   */
 

@@ -16,7 +16,7 @@
 //          Author(s): Nathan Gibbs
 //                     Kevin Johnson
 
-$BRTL_Ver = '0.0.10';
+$BRTL_Ver = '0.0.11';
 
 if( !function_exists('LoadedString') ){
 	// Returns true if var is a string containing data.
@@ -45,31 +45,58 @@ if( !function_exists('SetConst') ){
 SetConst('BASE_RTL', $BRTL_Ver);
 
 // Returns Newline, requested # of tabs, & $Item as a string.
-function NLI ( $Item = '', $Count = 0 ){
-	if ( !is_int($Count) ){
+function NLI( $Item = '', $Count = 0 ){
+	if( !is_int($Count) ){
 		$Count = 0;
 	}
-	return "\n".str_repeat ("\t", $Count).$Item;
+	return "\n" . str_repeat("\t", $Count) . $Item;
 }
 
 // Prints Newline, requested # of tabs, & $Item to STDOUT
-function NLIO ( $Item = '', $Count = 0 ){
-	print NLI ($Item, $Count);
+function NLIO( $Item = '', $Count = 0 ){
+	print NLI($Item, $Count);
+}
+
+if( !function_exists('VS2SV') ){
+	function VS2SV( $VS = '' ){ // Returns false or Semantic Version Array.
+		// Convert Version String to Semantic Version Array.
+		$Ret = false;
+		if( LoadedString($VS) ){
+			$VS = trim($VS);
+			$VSP = '[ \.\,\:\;\_\-]?';
+			$REProd ="[[:alnum:]]+$VSP"; // Product RE
+			$REVer = "V(ER)?(SION)?$VSP"; // Version RE
+			$VS = preg_replace('/^' . "($REVer){1,2}" . '/i', '', $VS);
+			if( !preg_match('/^\d+(\.(\d+)?){0,2}/', $VS) ){
+				$VS = preg_replace('/^' . "$REProd($REVer)?" . '/i', '', $VS);
+			}
+			if( preg_match('/\./', $VS) ){
+				$DALV = explode('.', $VS, 3);
+			}else{
+				preg_match('/\d+/', $VS, $DALV);
+			}
+			for( $i = 0; $i < 3; $i++ ){
+				if( isset($DALV[$i]) ){
+					if( preg_match('/\d+/', $DALV[$i], $tmp) ){
+						// Normalize Data.
+						$DALV[$i] = $tmp[0];
+					}
+				}else{
+					$DALV[$i] = '0';
+				}
+				if( !is_numeric($DALV[$i]) ){ // Strange Edge Case.
+					$DALV[$i] = '0';
+				}
+			}
+			$Ret = $DALV; // Array of ( Major, Minor, Revision ).
+		}
+		return $Ret;
+	}
 }
 
 if( !function_exists('GetPHPSV') ){
-	function GetPHPSV (){ // Returns Semantic PHP Version
-		$phpv = phpversion();
-		$phpv = explode('.', $phpv);
-		// @codeCoverageIgnoreStart
-		// Account for x.x.xXX subversions possibly having text like 4.0.4pl1
-		if( is_numeric(substr($phpv[2], 1, 1)) ){ // No Text
-			$phpv[2] = substr($phpv[2], 0, 2);
-		}else{
-			$phpv[2] = substr($phpv[2], 0, 1);
-		}
-		// @codeCoverageIgnoreEnd
-		return $phpv;
+	function GetPHPSV (){ // Returns Semantic PHP Version Array.
+		return VS2SV(phpversion());
 	}
 }
 
@@ -98,7 +125,7 @@ if( !function_exists('HTTP_header') ){
 if( !function_exists('KML') ){
 	// Mini KML mocking shim for testing code that calls the real KML.
 	function KML ( $msg = '', $lvl = 0 ){
-		if ( LoadedString($msg) ){
+		if( LoadedString($msg) ){
 			if ( !is_int($lvl) || $lvl < 0 ){
 				$lvl = 0;
 			}
@@ -132,9 +159,9 @@ if( !function_exists('ChkAccess') ){
 				// Is_Readable Check.
 				// PHP Safe Mode w/o cutout successful.
 				// Verified: 2019-05-31 PHP 5.3.29 via CI & Unit Tests.
-				//      See: https://github.com/NathanGibbs3/BASE/issues/34
+				// See: https://github.com/NathanGibbs3/BASE/issues/34
 				// May work: PHP > 5.1.4.
-				//      See: https://bugs.php.net/bug.php?id=38724
+				// See: https://bugs.php.net/bug.php?id=38724
 				if(
 					$PHPVer[0] > 5 || ($PHPVer[0] == 5 && $PHPVer[1] > 1)
 					|| ($PHPVer[0] == 5 && $PHPVer[1] == 1 && $PHPVer[2] > 4)
@@ -146,7 +173,7 @@ if( !function_exists('ChkAccess') ){
 				}else{ // PHP Safe Mode cutout.
 					// @codeCoverageIgnoreStart
 					// Added: 2005-03-25 for compatabibility with PHP 4x & 5.0x
-					//   See: https://sourceforge.net/p/secureideas/bugs/47
+					// See: https://sourceforge.net/p/secureideas/bugs/47
 					// PHPUnit test only covers this code path on PHP < 5.1.5
 					// Unable to validate in CI.
 					$Ret = 1;
@@ -155,14 +182,17 @@ if( !function_exists('ChkAccess') ){
 				if( $Ret == 1 ){ // Is_Executable Check.
 					if(strtoupper(substr(PHP_OS, 0, 3)) === 'WIN'){
 						// @codeCoverageIgnoreStart
-						// Windows returns are unreliable for directories &
-						// most file types, shim it.
+						// Windows cutout.
+						// Returns unreliable data for directories & most
+						// file types. Unable to validate in CI.
 						$Ret = 2;
 						// @codeCoverageIgnoreEnd
 					}else{
-						// PHP Safe Mode w/o cutout.
+						// PHP Safe Mode w/o cutout successful.
+						// Verified: 2023-06-09 PHP 5.2.17 via CI & Unit Tests.
+						// See: https://github.com/NathanGibbs3/BASE/issues/210
 						// May work: PHP > 5.2.0
-						//      See: https://bugs.php.net/bug.php?id=29840
+						// See: https://bugs.php.net/bug.php?id=29840
 						if(
 							$PHPVer[0] > 5
 							|| ($PHPVer[0] == 5 && $PHPVer[1] > 2)
