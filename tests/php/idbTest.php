@@ -240,7 +240,6 @@ class dbTest extends TestCase {
 		$this->assertFalse($tc->DBF_RI, $URV);
 	}
 
-
 	/**
 	 * @backupGlobals disabled
 	 */
@@ -410,6 +409,9 @@ class dbTest extends TestCase {
 		$use_referential_integrity = $ORI;
 	}
 
+	/**
+	 * @backupGlobals disabled
+	 */
 	public function testClassbaseConbaseSetRICYDBNReturnsExpected(){
 		$PHPUV = self::$PHPUV;
 		$UOV = self::$UOV . 'baseSetRI().';
@@ -439,6 +441,9 @@ class dbTest extends TestCase {
 		$tc->DB_name = $TDB;
 	}
 
+	/**
+	 * @backupGlobals disabled
+	 */
 	public function testClassbaseConbaseSetRICYDBYReturnsExpected(){
 		$PHPUV = self::$PHPUV;
 		$UOV = self::$UOV . 'baseSetRI().';
@@ -465,6 +470,9 @@ class dbTest extends TestCase {
 		$this->assertTrue($tc->DBF_RI, $URV);
 	}
 
+	/**
+	 * @backupGlobals disabled
+	 */
 	public function testClassbaseConbaseSetRICYDBYInvalidReturnsExpected(){
 		$UOV = self::$UOV . 'baseSetRI().';
 		$URV = self::$URV . 'baseSetRI().';
@@ -474,7 +482,10 @@ class dbTest extends TestCase {
 		$this->assertTrue($tc->DBF_RI, $URV);
 	}
 
-	public function testClassbaseConbaseSetRICYDBYSetRIDisableReturnsExpected(){
+	/**
+	 * @backupGlobals disabled
+	 */
+	public function testClassbaseConbaseSetRICYDBYRIOffReturnsExpected(){
 		$PHPUV = self::$PHPUV;
 		$UOV = self::$UOV . 'baseSetRI().';
 		$URV = self::$URV . 'baseSetRI().';
@@ -500,7 +511,7 @@ class dbTest extends TestCase {
 		$this->assertFalse($tc->DBF_RI, $URV);
 	}
 
-	public function testClassbaseConbaseSetRICYDBYSetRIEnableReturnsExpected(){
+	public function testClassbaseConbaseSetRICYDBYRIONReturnsExpected(){
 		$PHPUV = self::$PHPUV;
 		$UOV = self::$UOV . 'baseSetRI().';
 		$URV = self::$URV . 'baseSetRI().';
@@ -526,7 +537,10 @@ class dbTest extends TestCase {
 		$this->assertTrue($tc->DBF_RI, $URV);
 	}
 
-	public function testClassbaseConbaseSetRICYDBYSetRIEnableCorruptRIReturnsExpected(){
+	/**
+	 * @backupGlobals disabled
+	 */
+	public function testClassbaseConbaseSetRICYDBYRIONCorruptReturnsExpected(){
 		$PHPUV = self::$PHPUV;
 		$UOV = self::$UOV . 'baseSetRI().';
 		$URV = self::$URV . 'baseSetRI().';

@@ -522,14 +522,33 @@ class baseCon {
 						}
 					}
 					if( $QF ){ // Query Info Schema for RI Information.
-						$sqlPfx = 'SELECT COLUMN_NAME, REFERENCED_COLUMN_NAME '
-						. 'FROM information_schema.key_column_usage WHERE '
-						. "referenced_table_name = 'event' AND TABLE_SCHEMA = "
-						. "'" . $this->DB_name . "' AND TABLE_NAME = '";
+						$sqlPfx = 'SELECT ';
+						$LPfx = '';
+						$RPfx = 'referenced_';
+						if( $this->DB_type == 'postgres' ){
+							$LPfx = 'kcu.';
+							$RPfx = 'ccu.';
+							$sqlPfx .= $LPfx . 'COLUMN_NAME, ' . $RPfx
+							. 'COLUMN_NAME AS REFERENCED_COLUMN_NAME FROM '
+							. "information_schema.key_column_usage AS $LPfx "
+							. ' JOIN '
+							. 'information_schema.constraint_column_usage'
+							. " AS $RPfx"
+							. "ON $RPfx" . 'constraint_name = '
+							. $LPfx . 'constraint_name';
+						}else{
+							$sqlPfx .= $LPfx . 'COLUMN_NAME, ' . $RPfx
+							.'COLUMN_NAME FROM '
+							. 'information_schema.key_column_usage';
+						}
+						$sqlPfx .= " WHERE $RPfx" . "table_name = 'event'"
+						. " AND $LPfx" . "TABLE_SCHEMA = '" . $this->DB_name
+						. "' AND $LPfx" . "TABLE_NAME = '";
 						foreach( $RItbls as $val ){
 							$EPfx = "$EMPfx$val ";
 							$Cval = $RIcl[$val];
-							$sql = "$sqlPfx$val" . "' AND CONSTRAINT_NAME = '"
+							$sql = "$sqlPfx$val' AND $LPfx"
+							. "CONSTRAINT_NAME = '"
 							. $Cval . "'";
 							DumpSQL($sql, 3);
 							$rs = $this->DB->Execute($sql);
@@ -622,6 +641,16 @@ class baseCon {
 						)
 					){ // Mysql / MariaDB < 8.0.19
 						$tmp = 'FOREIGN KEY';
+					}
+					if ( getenv('TRAVIS') ){
+						$tmp2 = $this->DB->serverInfo();
+						var_dump($tmp2);
+						$tmp2 = $tmp2['version'];
+						print "$tmp2\n";
+						$tmp3 = VS2SV($tmp2);
+						var_dump($DBSV);
+						var_dump($tmp3);
+						print "$tmp\n";
 					}
 					// @codeCoverageIgnoreEnd
 					foreach( $RItbls as $val ){
