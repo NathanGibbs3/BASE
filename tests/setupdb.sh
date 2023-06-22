@@ -27,7 +27,8 @@ DBNNRI=testpig2
 
 if [ "$DB" = "postgres" ]; then
 	echo "Creating $DB Database $DBN."
-	psql -h $DBS -c "CREATE DATABASE IF NOT EXISTS $DBN;" -U postgres
+	psql -h $DBS -U postgres -c "DROP DATABASE IF EXISTS $DBN;"
+	psql -h $DBS -U postgres -c "CREATE DATABASE $DBN;"
 	echo "Creating SNORT Tables."
 	psql -h $DBS -d $DBN -f sql/create_snort_tbls_pgsql.sql
 	echo "Creating BASE Tables."

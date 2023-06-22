@@ -531,7 +531,9 @@ class dbTest extends TestCase {
 		$UOV = self::$UOV . 'baseSetRI().';
 		$URV = self::$URV . 'baseSetRI().';
 		$tc = self::$tc;
-		$DBSV = VS2SV($tc->DB->serverInfo()['version']);
+		$tmp = $tc->DB->serverInfo();
+		$tmp = $tmp['version'];
+		$DBSV = VS2SV($tmp);
 		$this->assertTrue($tc->DBF_RI, $URV);
 		// Start Corrupt the RI Structure.
 		$tc->DBF_RI = false; // Disable RI Flag.

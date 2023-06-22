@@ -26,15 +26,25 @@ echo "PEAR install path: $peip"
 echo " PHP include path: $phip"
 
 if [ "$TRAVIS" == "true" ]; then
+	inst=auto
+	# Pear 1.10.5 doesn't work on travis-ci PHP 7.0x & 7.1x
+	# Not gracefully switching over to https
+	# Tries ssl://pear.php.net:443
+	if ( [ "$pvM" == "7" ] && [ "$pvm" \< "2" ]); then
+		inst=manual
+	fi
 	# Pear doesn't work on travis-ci PHP 5.2x
 	# Due to openssl not being built into PHP.
-	if [ "$pvM" \> "5" ] || ( [ "$pvM" == "5" ] && [ "$pvm" \> "2" ]); then
+	if ( [ "$pvM" == "5" ] && [ "$pvm" == "2" ]); then
+		inst=manual
+	fi
+	if [ "$inst" == "auto" ]; then
 		# Pear Install
 		pear channel-update pear.php.net
 		pear install mail Mail_Mime Image_Graph-alpha Image_Canvas-alpha Image_Color
 	else
 		# Manual install
-		dc="wget -nv https://download.pear.php.net/package"
+		dc="wget -nv http://download.pear.php.net/package"
 		ic="pear install "
 		dl=build
 		de=.tgz

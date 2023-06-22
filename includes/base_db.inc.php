@@ -216,7 +216,14 @@ class baseCon {
 	}
 
 	function baseisDBUp( $LogError = false ){
-		$tmp = debug_backtrace(0,2);
+		$PHPVer = GetPHPSV();
+		// @codeCoverageIgnoreStart
+		if( $PHPVer[0] > 5 || ($PHPVer[0] == 5 && $PHPVer[1] > 3) ){
+			$tmp = debug_backtrace(0, 2); // PHP 5.4+ Limit backtrace.
+		}else{
+			$tmp = debug_backtrace(0);
+		}
+		// @codeCoverageIgnoreEnd
 		$EMPfx = $tmp[1]['function'] . ': ';
 		$Ret = false;
 		if( !is_bool($LogError) ){ // Input Validation
