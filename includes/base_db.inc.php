@@ -467,7 +467,14 @@ class baseCon {
 				}
 			}
 			if( $SE ){ // Ready to take RI Action.
+				$MariaDB = false; // MariaDB Flag.
 				$tmp = $this->DB->serverInfo();
+				if(
+					$this->DB_class == 1
+					&& preg_match( "/MariaDB/", $tmp['description'])
+				){ // MariaDB Check
+					$MariaDB = true;
+				}
 				$tmp = $tmp['version'];
 				$DBSV = VS2SV($tmp);
 				if( $DS ){ // Set RI if possible.
@@ -530,15 +537,13 @@ class baseCon {
 							$RPfx = 'ccu.';
 							$sqlPfx .= $LPfx . 'COLUMN_NAME, ' . $RPfx
 							. 'COLUMN_NAME AS REFERENCED_COLUMN_NAME FROM '
-							. "information_schema.key_column_usage AS $LPfx "
-							. ' JOIN '
-							. 'information_schema.constraint_column_usage'
-							. " AS $RPfx"
-							. "ON $RPfx" . 'constraint_name = '
+							. 'information_schema.key_column_usage AS kcu JION'
+							. ' information_schema.constraint_column_usage'
+							. " AS ccu ON $RPfx" . 'constraint_name = '
 							. $LPfx . 'constraint_name';
 						}else{
 							$sqlPfx .= $LPfx . 'COLUMN_NAME, ' . $RPfx
-							.'COLUMN_NAME FROM '
+							. 'COLUMN_NAME FROM '
 							. 'information_schema.key_column_usage';
 						}
 						$sqlPfx .= " WHERE $RPfx" . "table_name = 'event'"
@@ -626,37 +631,31 @@ class baseCon {
 				}else{ // Clear RI.
 					$SE = false; // Return Value.
 					$tmp = 'CONSTRAINT';
-					// As of MySQL 8.0.19, ALTER TABLE permits more general
-					// (and SQL standard) syntax for dropping and altering
-					// existing constraints of any type,
-					// https://dev.mysql.com/doc/refman/8.0/en/alter-table.html
+					$tmp2 = 'IF EXISTS ';
 					// @codeCoverageIgnoreStart
-					if(
-						$this->DB_class == 1
-						&& (
+					if( $this->DB_class == 1 ){
+						// As of MySQL 8.0.19, ALTER TABLE permits more general
+						// (and SQL standard) syntax for dropping and altering
+						// existing constraints of any type,
+						// https://dev.mysql.com/doc/refman/8.0/en/alter-table.html
+						if(
 							$DBSV[0] < 8
 							|| (
 								$DBSV[0] == 8 && $DBSV[1] == 0 && $DBSV[2] < 19
 							)
-						)
-					){ // Mysql / MariaDB < 8.0.19
-						$tmp = 'FOREIGN KEY';
-					}
-					if ( getenv('TRAVIS') ){
-						$tmp2 = $this->DB->serverInfo();
-						var_dump($tmp2);
-						$tmp2 = $tmp2['version'];
-						print "$tmp2\n";
-						$tmp3 = VS2SV($tmp2);
-						var_dump($DBSV);
-						var_dump($tmp3);
-						print "$tmp\n";
+						){ // Mysql / MariaDB < 8.0.19
+							$tmp = 'FOREIGN KEY';
+						}
+						// No IF EXISTS for ALTER TABLE on MySQL
+						if( !$MariaDB ){ // MySQL
+							$tmp2 = '';
+						}
 					}
 					// @codeCoverageIgnoreEnd
 					foreach( $RItbls as $val ){
 						$EPfx = "$EMPfx$val ";
 						$Cval = $RIcl[$val];
-						$sql = "ALTER TABLE $val DROP $tmp IF EXISTS $Cval";
+						$sql = "ALTER TABLE $val DROP $tmp $tmp2$Cval";
 						DumpSQL($sql, 3);
 						$rs = $this->DB->Execute($sql);
 						if(
