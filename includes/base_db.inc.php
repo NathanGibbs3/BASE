@@ -806,7 +806,6 @@ class baseCon {
 			$rs = $this->DB->Execute($sql);
 			if(
 				$rs != false && $this->baseErrorMessage() == ''
-				&& $rs->RecordCount() == DB_RICC
 			){ // Error Check
 				while( !$rs->EOF ){
 					$myrow = $rs->fields;
@@ -819,7 +818,7 @@ class baseCon {
 				$rs->Close();
 			}else{ // Transient DB Error.
 				// @codeCoverageIgnoreStart
-				KML($EPfx . 'access error.', 3);
+				KML($EMPfx . 'access error.', 3);
 				$SE = false; // Failure
 				// @codeCoverageIgnoreEnd
 			}
