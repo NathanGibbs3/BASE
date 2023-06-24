@@ -240,6 +240,13 @@ class dbTest extends TestCase {
 		$this->assertFalse($tc->DBF_RI, $URV);
 	}
 
+	public function testClassbaseConbaseFKeyExistsNCReturnsExpected(){
+		$UOV = self::$UOV . 'baseFKeyExists().';
+		$URV = self::$URV . 'baseFKeyExists().';
+		$tc = self::$tc;
+		$this->assertFalse($tc->baseFKeyExists(), $URV);
+	}
+
 	/**
 	 * @backupGlobals disabled
 	 */
@@ -267,6 +274,34 @@ class dbTest extends TestCase {
 		$URV = self::$URV . 'baseisDBUp().';
 		$tc = self::$tc;
 		$this->assertTrue($tc->baseisDBUp(), $URV);
+	}
+
+	public function testClassbaseConbaseFKeyExistsNoKeyReturnsExpected(){
+		$UOV = self::$UOV . 'baseFKeyExists().';
+		$URV = self::$URV . 'baseFKeyExists().';
+		$tc = self::$tc;
+		$this->assertFalse($tc->baseFKeyExists(), $URV);
+	}
+
+	public function testClassbaseConbaseFKeyExistsInvalidReturnsExpected(){
+		$UOV = self::$UOV . 'baseFKeyExists().';
+		$URV = self::$URV . 'baseFKeyExists().';
+		$tc = self::$tc;
+		$this->assertFalse($tc->baseFKeyExists(0), $URV);
+	}
+
+	public function testClassbaseConbaseFKeyExistsNonexistantReturnsExpected(){
+		$UOV = self::$UOV . 'baseFKeyExists().';
+		$URV = self::$URV . 'baseFKeyExists().';
+		$tc = self::$tc;
+		$this->assertFalse($tc->baseFKeyExists('Notthere'), $URV);
+	}
+
+	public function testClassbaseConbaseFKeyExistsReturnsExpected(){
+		$UOV = self::$UOV . 'baseFKeyExists().';
+		$URV = self::$URV . 'baseFKeyExists().';
+		$tc = self::$tc;
+		$this->assertTrue($tc->baseFKeyExists('opt_fkey_sid_cid'), $URV);
 	}
 
 	public function testClassbaseConbaseSetFLOPDBYes(){
@@ -418,27 +453,31 @@ class dbTest extends TestCase {
 		$URV = self::$URV . 'baseSetRI().';
 		$tc = self::$tc;
 		$this->assertFalse($tc->DBF_RI, $URV);
-		$TDB = $tc->DB_name;
-		$tc->DB_name = 'testpig2';
-		$EOM = 'baseSetRI: DB RI set to false.';
-		$cur_e_l = ini_get( 'error_log' ); // Shim error_log output On
-		$capture = tmpfile();
-		$tmp = stream_get_meta_data($capture);
-		ini_set('error_log', $tmp['uri']);
-		$this->assertFalse($tc->baseSetRI(), $URV);
-		ini_set( 'error_log', $cur_e_l ); // Shim error_log output Off
-		$elOutput = stream_get_contents($capture);
-		if ( $PHPUV > 1 ){ // PHPUnit 9+
-			$this->assertMatchesRegularExpression(
-				'/'.$EOM.'$/', $elOutput, $UOV
+		if( $tc->DB_class == 0 ){ // Not Mysql / MariaDB.
+			$this->assertTrue(true, 'Passing Test.');
+		}else{
+			$TDB = $tc->DB_name;
+			$tc->DB_name = 'testpig2';
+			$EOM = 'baseSetRI: DB RI set to false.';
+			$cur_e_l = ini_get( 'error_log' ); // Shim error_log output On
+			$capture = tmpfile();
+			$tmp = stream_get_meta_data($capture);
+			ini_set('error_log', $tmp['uri']);
+			$this->assertFalse($tc->baseSetRI(), $URV);
+			ini_set( 'error_log', $cur_e_l ); // Shim error_log output Off
+			$elOutput = stream_get_contents($capture);
+			if ( $PHPUV > 1 ){ // PHPUnit 9+
+				$this->assertMatchesRegularExpression(
+					'/'.$EOM.'$/', $elOutput, $UOV
 			);
-		}else{ // Legacy PHPUnit
-			$this->assertRegExp(
-				'/'.$EOM.'$/', $elOutput, $UOV
-			);
+			}else{ // Legacy PHPUnit
+				$this->assertRegExp(
+					'/'.$EOM.'$/', $elOutput, $UOV
+				);
+			}
+			$this->assertFalse($tc->DBF_RI, $URV);
+			$tc->DB_name = $TDB;
 		}
-		$this->assertFalse($tc->DBF_RI, $URV);
-		$tc->DB_name = $TDB;
 	}
 
 	/**
@@ -545,27 +584,36 @@ class dbTest extends TestCase {
 		$UOV = self::$UOV . 'baseSetRI().';
 		$URV = self::$URV . 'baseSetRI().';
 		$tc = self::$tc;
+		$MariaDB = false; // MariaDB Flag.
 		$tmp = $tc->DB->serverInfo();
-		$tmp = $tmp['version'];
-		$DBSV = VS2SV($tmp);
+		if(
+			$tc->DB_class == 1 && preg_match( "/MariaDB/", $tmp['description'])
+		){ // MariaDB Check
+			$MariaDB = true;
+		}
+		$DBSV = VS2SV($tmp['version']);
 		$this->assertTrue($tc->DBF_RI, $URV);
 		// Start Corrupt the RI Structure.
 		$tc->DBF_RI = false; // Disable RI Flag.
 		$tmp = 'CONSTRAINT';
-		// As of MySQL 8.0.19, ALTER TABLE permits more general
-		// (and SQL standard) syntax for dropping and altering existing
-		// constraints of any type,
-		// https://dev.mysql.com/doc/refman/8.0/en/alter-table.html
-		if(
-			$tc->DB_class == 1
-			&& (
+		$tmp2 = 'IF EXISTS ';
+		if( $tc->DB_class == 1 ){
+			// As of MySQL 8.0.19, ALTER TABLE permits more general
+			// (and SQL standard) syntax for dropping and altering existing
+			// constraints of any type,
+			// https://dev.mysql.com/doc/refman/8.0/en/alter-table.html
+			if(
 				$DBSV[0] < 8
 				|| ($DBSV[0] == 8 && $DBSV[1] == 0 && $DBSV[2] < 19)
-			)
-		){ // Mysql / MariaDB < 8.0.19
-			$tmp = 'FOREIGN KEY';
+			){ // Mysql / MariaDB < 8.0.19
+				$tmp = 'FOREIGN KEY';
+			}
+			// No IF EXISTS for ALTER TABLE on MySQL
+			if( !$MariaDB ){ // MySQL
+				$tmp2 = '';
+			}
 		}
-		$sql = "ALTER TABLE opt DROP $tmp IF EXISTS opt_fkey_sid_cid";
+		$sql = "ALTER TABLE opt DROP $tmp $tmp2 opt_fkey_sid_cid";
 		$rs = $tc->DB->Execute($sql); // Corrupt RI Structure.
 		if( $rs != false && $tc->baseErrorMessage() == '' ){ // Error Check
 			$rs->Close();

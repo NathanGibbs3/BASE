@@ -49,6 +49,7 @@ SetConst("PAYLOAD_CFCNT", 5);
 // DB connection method
 SetConst("DB_CONNECT", 2);
 SetConst("DB_PCONNECT", 1);
+SetConst("DB_RICC", 8); // Referential Integrity Constraint Count.
 
 // CleanVariable Mask
 SetConst("VAR_DIGIT",       1);

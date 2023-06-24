@@ -39,6 +39,7 @@ class constantsTest extends TestCase {
 		// DB connection method
 		ValidateConst($this,"DB_CONNECT", 2);
 		ValidateConst($this,"DB_PCONNECT", 1);
+		ValidateConst($this,"DB_RICC", 8); // RI Constraint Count.
 		// CleanVariable() Mask
 		ValidateConst($this,"VAR_DIGIT",       1);
 		ValidateConst($this,"VAR_LETTER",      2);

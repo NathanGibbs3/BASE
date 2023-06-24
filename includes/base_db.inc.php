@@ -475,8 +475,7 @@ class baseCon {
 				){ // MariaDB Check
 					$MariaDB = true;
 				}
-				$tmp = $tmp['version'];
-				$DBSV = VS2SV($tmp);
+				$DBSV = VS2SV($tmp['version']);
 				if( $DS ){ // Set RI if possible.
 					$QF = false; // Query Flag.
 					$RIE = false; // RI Enable Flag.
@@ -529,68 +528,151 @@ class baseCon {
 						}
 					}
 					if( $QF ){ // Query Info Schema for RI Information.
+						$SE = true; // Assume Success
 						$sqlPfx = 'SELECT ';
-						$LPfx = '';
-						$RPfx = 'referenced_';
+						$sqlIS = 'information_schema';
+						$SSfx = 'SCHEMA';
 						if( $this->DB_type == 'postgres' ){
-							$LPfx = 'kcu.';
-							$RPfx = 'ccu.';
-							$sqlPfx .= $LPfx . 'COLUMN_NAME, ' . $RPfx
-							. 'COLUMN_NAME AS REFERENCED_COLUMN_NAME FROM '
-							. 'information_schema.key_column_usage AS kcu JION'
-							. ' information_schema.constraint_column_usage'
-							. " AS ccu ON $RPfx" . 'constraint_name = '
-							. $LPfx . 'constraint_name';
-						}else{
-							$sqlPfx .= $LPfx . 'COLUMN_NAME, ' . $RPfx
-							. 'COLUMN_NAME FROM '
-							. 'information_schema.key_column_usage';
+							$SSfx = 'CATALOG';
 						}
-						$sqlPfx .= " WHERE $RPfx" . "table_name = 'event'"
-						. " AND $LPfx" . "TABLE_SCHEMA = '" . $this->DB_name
-						. "' AND $LPfx" . "TABLE_NAME = '";
-						foreach( $RItbls as $val ){
-							$EPfx = "$EMPfx$val ";
-							$Cval = $RIcl[$val];
-							$sql = "$sqlPfx$val' AND $LPfx"
-							. "CONSTRAINT_NAME = '"
-							. $Cval . "'";
-							DumpSQL($sql, 3);
-							$rs = $this->DB->Execute($sql);
-							if(
-								$rs != false && $this->baseErrorMessage() == ''
-							){ // Error Check
-								if( $rs->RecordCount() > 0 ){
-									$tmp = '';
-									if( $val  == 'acid_ag_alert' ){
-										$tmp = 'ag_';
+						$sql = $sqlPfx . 'CONSTRAINT_NAME, UPDATE_RULE, '
+						. 'DELETE_RULE FROM ' . $sqlIS
+						. '.referential_constraints WHERE '
+						. "CONSTRAINT_$SSfx = '" . $this->DB_name . "'";
+						DumpSQL($sql, 3);
+						$rs = $this->DB->Execute($sql);
+						if(
+							$rs != false && $this->baseErrorMessage() == ''
+						){ // Error Check
+							if( $rs->RecordCount() == DB_RICC ){
+								$tmp = array_values($RIcl);
+								while( !$rs->EOF ){
+									$myrow = $rs->fields;
+									if(
+										!in_array($myrow[0], $tmp)
+										|| $myrow[1] != $myrow[2]
+										|| $myrow[1] != 'CASCADE'
+									){
+										$RSC = true; // Restructure
+										break;
 									}
-									// RI setup in DB table, Verify Structure.
-									while( !$rs->EOF ){
-										$myrow = $rs->fields;
-										$myrow[0] = preg_replace(
-											'/^' . $tmp . '/', '', $myrow[0]
-										);
-										if( $myrow[0] != $myrow[1] ){
-											// @codeCoverageIgnoreStart
-											$rs->Close(); // Corrupt Structure.
-											$RSC = true; // Restructure
-											break 2;
-											// @codeCoverageIgnoreEnd
-										}
-										$rs->MoveNext();
-									}
-									$rs->Close();
-								}else{ // RI Not setup in DB table.
-									$RSC = true; // Restructure
-									break;
+									$rs->MoveNext();
 								}
-							}else{ // Transient DB Error.
-								// @codeCoverageIgnoreStart
-								KML($EPfx . 'access error.', 3);
-								$SE = false; // Failure
-								break;
-								// @codeCoverageIgnoreEnd
+								$rs->Close();
+							}else{
+								$RSC = true; // Restructure
+							}
+						}else{ // Transient DB Error.
+							// @codeCoverageIgnoreStart
+							KML($EPfx . 'access error.', 3);
+							$SE = false; // Failure
+							// @codeCoverageIgnoreEnd
+						}
+						if ( $SE && !$RSC ){
+							$tmp = '';
+							if( $this->DB_class == 1 ){
+								$tmp = ', referenced_COLUMN_NAME';
+							}
+							$sqlt = $sqlPfx . "COLUMN_NAME$tmp FROM $sqlIS"
+							. ".key_column_usage WHERE TABLE_$SSfx = '"
+							. $this->DB_name . "' AND TABLE_NAME = '";
+							foreach( $RItbls as $val ){
+								$EPfx = "$EMPfx$val ";
+								$Cval = $RIcl[$val];
+								$sql = "$sqlt$val' AND CONSTRAINT_NAME = '"
+								. $Cval . "'";
+								DumpSQL($sql, 3);
+								$rs = $this->DB->Execute($sql);
+								if(
+									$rs != false
+									&& $this->baseErrorMessage() == ''
+								){ // Error Check
+									if( $rs->RecordCount() > 0 ){
+										$RCN = array();
+										if( $this->DB_type == 'postgres' ){
+											$sql2 = $sqlPfx . 'COLUMN_NAME'
+											. " FROM $sqlIS"
+											. '.constraint_column_usage WHERE '
+											. "TABLE_$SSfx = '"
+											. $this->DB_name . "' AND "
+											. "CONSTRAINT_NAME = '" . $Cval
+											. "'";
+											DumpSQL($sql2, 3);
+											$rs2 = $this->DB->Execute($sql2);
+											if(
+												$rs2 != false
+												&& $this->baseErrorMessage()
+												== ''
+											){ // Error Check
+												if( $rs2->RecordCount() > 0 ){
+													while( !$rs2->EOF ){
+														$myrow = $rs2->fields;
+														array_push(
+															$RCN, $myrow[0]
+														);
+														$rs2->MoveNext();
+													}
+													$rs2->Close();
+												}else{
+													$RSC = true; // Restructure
+												}
+											}else{ // Transient DB Error.
+												// @codeCoverageIgnoreStart
+												KML($EPfx . 'access error.', 3);
+												$SE = false; // Failure
+												break;
+												// @codeCoverageIgnoreEnd
+											}
+										}
+										$tmp = '';
+										if( $val  == 'acid_ag_alert' ){
+											$tmp = 'ag_';
+										}
+										// RI setup in DB table, Verify
+										// Structure.
+										while( !$rs->EOF ){
+											$myrow = $rs->fields;
+											$myrow[0] = preg_replace(
+												'/^' . $tmp . '/', '',
+												$myrow[0]
+											);
+											$tmp2 = count($myrow);
+											if( $this->DB_class == 1 ){
+												if(
+													$tmp2 < 2
+													|| $myrow[0] != $myrow[1]
+												){
+													// @codeCoverageIgnoreStart
+													$rs->Close(); // Corrupt Structure.
+													$RSC = true; // Restructure
+													break 2;
+													// @codeCoverageIgnoreEnd
+												}
+											}else{
+												if(
+													!in_array($myrow[0], $RCN)
+												){
+													// @codeCoverageIgnoreStart
+													$rs->Close(); // Corrupt Structure.
+													$RSC = true; // Restructure
+													break 2;
+													// @codeCoverageIgnoreEnd
+												}
+											}
+											$rs->MoveNext();
+										}
+										$rs->Close();
+									}else{ // RI Not setup in DB table.
+										$RSC = true; // Restructure
+										break;
+									}
+								}else{ // Transient DB Error.
+									// @codeCoverageIgnoreStart
+									KML($EPfx . 'access error.', 3);
+									$SE = false; // Failure
+									break;
+									// @codeCoverageIgnoreEnd
+								}
 							}
 						}
 						if( $RSC ){ // Clear DB RI Structure
@@ -655,19 +737,24 @@ class baseCon {
 					foreach( $RItbls as $val ){
 						$EPfx = "$EMPfx$val ";
 						$Cval = $RIcl[$val];
-						$sql = "ALTER TABLE $val DROP $tmp $tmp2$Cval";
-						DumpSQL($sql, 3);
-						$rs = $this->DB->Execute($sql);
 						if(
-							$rs != false && $this->baseErrorMessage() == ''
-						){ // Error Check
-							$rs->Close();
-							KML($EPfx . 'RI disabled.', 3);
-						}else{ // Transient DB Error.
-							// @codeCoverageIgnoreStart
-							KML($EPfx . 'access error.', 3);
-							break;
-							// @codeCoverageIgnoreEnd
+							LoadedString($tmp2)
+							|| $this->baseFKeyExists($Cval)
+						){
+							$sql = "ALTER TABLE $val DROP $tmp $tmp2$Cval";
+							DumpSQL($sql, 3);
+							$rs = $this->DB->Execute($sql);
+							if(
+								$rs != false && $this->baseErrorMessage() == ''
+							){ // Error Check
+								$rs->Close();
+								KML($EPfx . 'RI disabled.', 3);
+							}else{ // Transient DB Error.
+								// @codeCoverageIgnoreStart
+								KML($EPfx . 'access error.', 3);
+								break;
+								// @codeCoverageIgnoreEnd
+							}
 						}
 					}
 				}
@@ -683,6 +770,60 @@ class baseCon {
 		$Ret = false;
 		if( is_bool($this->DBF_RI) ){
 			$Ret = $this->DBF_RI;
+		}
+		return $Ret;
+	}
+
+	function baseFKeyExists( $key = '' ){
+		// Returns true if RI is enabled and the RI Foreign Key exists in the
+		// DB structure, false otherwise.
+		GLOBAL $use_referential_integrity, $BCR;
+		$EMPfx = __FUNCTION__ . ': ';
+		$Ret = false; // Return Value
+		$RIF = false; // Referential Integrity Flag.
+		// @codeCoverageIgnoreStart
+		if( isset($BCR) && is_object($BCR) ){
+			$RIF = $BCR->GetCap('BASE_SSRI');
+		}else{
+			if( intval($use_referential_integrity) == 1 ){
+				$RIF = true;
+			}
+		}
+		// @codeCoverageIgnoreEnd
+		if( $RIF && $this->baseisDBUp(true) && LoadedString($key) ){
+			$SE = false; // Step Execution Flag Assume Failure.
+			$sqlPfx = 'SELECT ';
+			$sqlIS = 'information_schema';
+			$SSfx = 'SCHEMA';
+			if( $this->DB_type == 'postgres' ){
+				$SSfx = 'CATALOG';
+			}
+			$sql = $sqlPfx . 'CONSTRAINT_NAME, TABLE_NAME FROM '. $sqlIS
+			. '.table_constraints WHERE '
+			. "CONSTRAINT_$SSfx = '" . $this->DB_name
+			. "' AND CONSTRAINT_TYPE = 'FOREIGN KEY'";
+			DumpSQL($sql, 3);
+			$rs = $this->DB->Execute($sql);
+			if(
+				$rs != false && $this->baseErrorMessage() == ''
+				&& $rs->RecordCount() == DB_RICC
+			){ // Error Check
+				while( !$rs->EOF ){
+					$myrow = $rs->fields;
+					if( $myrow[0] == $key ){
+						$SE = true; // Key Exists.
+						break;
+					}
+					$rs->MoveNext();
+				}
+				$rs->Close();
+			}else{ // Transient DB Error.
+				// @codeCoverageIgnoreStart
+				KML($EPfx . 'access error.', 3);
+				$SE = false; // Failure
+				// @codeCoverageIgnoreEnd
+			}
+			$Ret = $SE;
 		}
 		return $Ret;
 	}

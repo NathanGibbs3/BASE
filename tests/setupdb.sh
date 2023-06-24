@@ -30,11 +30,11 @@ if [ "$DB" = "postgres" ]; then
 	psql -h $DBS -U postgres -c "DROP DATABASE IF EXISTS $DBN;"
 	psql -h $DBS -U postgres -c "CREATE DATABASE $DBN;"
 	echo "Creating SNORT Tables."
-	psql -h $DBS -d $DBN -f sql/create_snort_tbls_pgsql.sql
+	psql -h $DBS -U travis -d $DBN -f sql/create_snort_tbls_pgsql.sql
 	echo "Creating BASE Tables."
-	psql -h $DBS -d $DBN -f sql/create_base_tbls_pgsql.sql
+	psql -h $DBS -U travis -d $DBN -f sql/create_base_tbls_pgsql.sql
 	echo "Adding referential integrity to the database schema."
-	psql -h $DBS -d $DBN -f sql/enable_RI.sql
+	psql -h $DBS -U travis -d $DBN -f sql/enable_RI.sql
 elif [ "$DB" = "mysql" ]; then
 	echo "Creating $DB Database $DBN using InnoDB SE."
 	mysql -h $DBS -u travis $OPT -e "CREATE DATABASE IF NOT EXISTS $DBN;"
