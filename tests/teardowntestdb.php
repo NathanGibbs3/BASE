@@ -36,6 +36,9 @@ if( !$DB ){
 }elseif( $DB == 'postgres' ){
 	$DBT = array('testpig');
 	require('./tests/phpcommon/DB.pgsql.php');
+}elseif( $DB == 'mssql' ){
+	$DBT = array('testpig');
+	require('./tests/phpcommon/DB.mssql.php');
 }else{
 	self::markTestSkipped("CI Support unavialable for DB: $DB.");
 }

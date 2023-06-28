@@ -42,6 +42,15 @@ elif [ "$DB" = "mysql" ]; then
 	echo "Creating $DB Database $DBNNRI using MyISAM SE."
 	mysql -h $DBS -u travis $OPT -e "CREATE DATABASE IF NOT EXISTS $DBNNRI;"
 	mysql -h $DBS -u travis $OPT -D $DBNNRI < tests/phpcommon/DB.mysql.MyISAM.sql
+elif [ "$DB" = "mssql" ]; then
+	echo "Creating $DB Database $DBN."
+	echo "NOOp placeholder for MsSQL CLI."
+	echo "Creating SNORT Tables."
+	echo "NOOp placeholder for MsSQL CLI."
+	echo "Creating BASE Tables."
+	echo "NOOp placeholder for MsSQL CLI."
+	echo "Adding referential integrity to the database schema."
+	echo "NOOp placeholder for MsSQL CLI."
 else
 	echo "Not Setting up Database."
 fi

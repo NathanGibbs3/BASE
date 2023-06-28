@@ -58,6 +58,8 @@ class state_commonTest extends TestCase {
 			require('./tests/phpcommon/DB.mysql.RI.php');
 		}elseif( $DB == 'postgres' ){
 			require('./tests/phpcommon/DB.pgsql.php');
+		}elseif( $DB == 'mssql' ){
+			require('./tests/phpcommon/DB.mssql.php');
 		}else{
 			self::markTestSkipped("CI Support unavialable for DB: $DB.");
 		}
