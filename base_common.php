@@ -114,13 +114,13 @@ function PrintProtocolProfileGraphs( $db ){
 }
 
 function BuildIPFormVar( $ip = '', $type = 2, $idx = 0 ){
-	// Returns HTTP Query String fragment containing IP Address search
+	// Returns HTTP Query String fragment containing IP address search
 	// criteria; or empty string on invalid IP.
 	//
-	// Note: Curently the NULL_IP constant is also returned as valid foe
-	// backward compatibility reasons. This "feature" will be removed in the
-	// future, once we untagle the code that depends on NULL_IP being present
-	// in the passed param.
+	// Note: Curently the NULL_IP constant is also treated as valid for
+	// backward compatibility reasons. This "feature" will be removed in
+	// the future, when code depending on NULL_IP being in the HTTP Query
+	// String is removed.
 	$Ret = ''; // Default Return
 	if( is_ip($ip) || $ip == NULL_IP ){ // NULL_IP = Backwards Compat Hack.
 		$type = intval($type); // Type Lock this.
@@ -131,8 +131,13 @@ function BuildIPFormVar( $ip = '', $type = 2, $idx = 0 ){
 		if( $idx < 0 || $idx > 1 ){ // Input Validation.
 			$idx = 0;
 		}
-		// Lock to PHP 8.1+ settings.
-		$Flag = ENT_QUOTES | ENT_SUBSTITUTE | ENT_HTML401;
+		// Lock to PHP 8.1+ settings, when we can.
+		$PHPVer = GetPHPSV();
+		if( $PHPVer[0] > 5 || ($PHPVer[0] == 5 && $PHPVer[1] > 3) ){
+			$Flag = ENT_QUOTES | ENT_SUBSTITUTE | ENT_HTML401;
+		}else{ // PHP < 5.4
+			$Flag = ENT_QUOTES | ENT_HTML401;
+		}
 		$FPFX = htmlentities('&' . urlencode("ip_addr[$idx]["), $Flag);
 		$FSFX = urlencode(']') . '=';
 		$Pfx = $FPFX . "0$FSFX" . urlencode(' ') . $FPFX . "1$FSFX";

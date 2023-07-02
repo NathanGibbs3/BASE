@@ -623,7 +623,14 @@ function ipconvert( $ip = '' ){
 				if( GMPi() ){ // IPv6 Use Gmp lib.
 					$Ret = gmp_strval(gmp_init($t1, 2));
 				}elseif( BCMi() ){ // IPv6 Use BCMath lib.
-					$Obs = bcscale();
+					// Setup bcscale restore.
+					if(
+						$PHPVer[0] > 7 || ($PHPVer[0] == 7 && $PHPVer[1] > 2)
+					){ // PHP 7.3+ Save bcscale.
+						$Obs = bcscale();
+					}else{ // PHP < 7.3 Use php.ini default.
+						$Obs = intval(ini_get('bcmath.scale'));
+					}
 					bcscale(0);
 					$Ret = 0;
 					$tmp = strlen($t1);
@@ -631,7 +638,7 @@ function ipconvert( $ip = '' ){
 						$Ret = bcmul($Ret, '2');
 						$Ret = bcadd($Ret, $t1[$i]);
 					}
-					bcscale($Obs);
+					bcscale($Obs); // Restore bcscale.
 				}
 				// @codeCoverageIgnoreEnd
 			}
