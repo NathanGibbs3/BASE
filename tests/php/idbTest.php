@@ -28,12 +28,12 @@ use PHPUnit\Framework\TestCase;
 
 class dbTest extends TestCase {
 	// Pre Test Setup.
-	protected static $db;
 	protected static $DBlib_path;
-	protected static $dbt;
 	protected static $PHPUV;
 	protected static $UOV;
 	protected static $URV;
+	protected static $db;
+	protected static $dbt;
 	protected static $tc;
 
 	// Share class instance as common test fixture.
@@ -90,9 +90,7 @@ class dbTest extends TestCase {
 				);
 			}
 			self::assertInstanceOf(
-				'baseCon',
-				$db,
-				'DB Object Not Initialized.'
+				'baseCon', $db, 'DB Object Not Initialized.'
 			);
 			self::$DBlib_path = $DBlib_path;
 			self::$db = $db;

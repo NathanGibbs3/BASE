@@ -105,9 +105,7 @@ class base_qry_commonspTest extends TestCase {
 				);
 			}
 			self::assertInstanceOf(
-				'baseCon',
-				$db,
-				'DB Object Not Initialized.'
+				'baseCon', $db, 'DB Object Not Initialized.'
 			);
 			self::$db = $db;
 		}

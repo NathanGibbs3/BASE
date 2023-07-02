@@ -113,28 +113,45 @@ function PrintProtocolProfileGraphs( $db ){
 	PrintFramedBoxFooter(0,2);
 }
 
-function BuildIPFormVars( $ipaddr ){
-	return '' .
-    '&amp;ip_addr%5B0%5D%5B0%5D=+&amp;ip_addr%5B0%5D%5B1%5D=ip_src&amp;ip_addr%5B0%5D%5B2%5D=%3D'.
-    '&amp;ip_addr%5B0%5D%5B3%5D='.$ipaddr.
-    '&amp;ip_addr%5B0%5D%5B8%5D=+&amp;ip_addr%5B0%5D%5B9%5D=OR'.
-    '&amp;ip_addr%5B1%5D%5B0%5D=+&amp;ip_addr%5B1%5D%5B1%5D=ip_dst&amp;ip_addr%5B1%5D%5B2%5D=%3D'.
-    '&amp;ip_addr%5B1%5D%5B3%5D='.$ipaddr.
-    '&amp;ip_addr%5B1%5D%5B8%5D=+&amp;ip_addr%5B1%5D%5B9%5D=+';
-}
-
-function BuildSrcIPFormVars( $ipaddr ){
-	return '' .
-    '&amp;ip_addr%5B0%5D%5B0%5D=+&amp;ip_addr%5B0%5D%5B1%5D=ip_src&amp;ip_addr%5B0%5D%5B2%5D=%3D'.
-    '&amp;ip_addr%5B0%5D%5B3%5D='.$ipaddr.
-    '&amp;ip_addr%5B0%5D%5B8%5D=+&amp;ip_addr%5B0%5D%5B9%5D=+';
-}
-
-function BuildDstIPFormVars( $ipaddr ){
-	return '' .
-    '&amp;ip_addr%5B0%5D%5B0%5D=+&amp;ip_addr%5B0%5D%5B1%5D=ip_dst&amp;ip_addr%5B0%5D%5B2%5D=%3D'.
-    '&amp;ip_addr%5B0%5D%5B3%5D='.$ipaddr.
-    '&amp;ip_addr%5B0%5D%5B8%5D=+&amp;ip_addr%5B0%5D%5B9%5D=+';
+function BuildIPFormVar( $ip = '', $type = 2, $idx = 0 ){
+	// Returns HTTP Query String fragment containing IP Address search
+	// criteria; or empty string on invalid IP.
+	//
+	// Note: Curently the NULL_IP constant is also returned as valid foe
+	// backward compatibility reasons. This "feature" will be removed in the
+	// future, once we untagle the code that depends on NULL_IP being present
+	// in the passed param.
+	$Ret = ''; // Default Return
+	if( is_ip($ip) || $ip == NULL_IP ){ // NULL_IP = Backwards Compat Hack.
+		$type = intval($type); // Type Lock this.
+		$idx = intval($idx); // Type Lock this.
+		if( $type < 1 || $type > 3 ){ // Input Validation.
+			$type = 2;
+		}
+		if( $idx < 0 || $idx > 1 ){ // Input Validation.
+			$idx = 0;
+		}
+		// Lock to PHP 8.1+ settings.
+		$Flag = ENT_QUOTES | ENT_SUBSTITUTE | ENT_HTML401;
+		$FPFX = htmlentities('&' . urlencode("ip_addr[$idx]["), $Flag);
+		$FSFX = urlencode(']') . '=';
+		$Pfx = $FPFX . "0$FSFX" . urlencode(' ') . $FPFX . "1$FSFX";
+		$Mfx = $FPFX . "2$FSFX" . urlencode('=') . $FPFX . "3$FSFX";
+		$Sfx = $FPFX . "8$FSFX" . urlencode(' ') . $FPFX . "9$FSFX";
+		if( $type == 1 ){ // Src
+			$tmp = 'ip_src';
+		}elseif( $type == 2 ){ // Dst
+			$tmp = 'ip_dst';
+		}else{ // Both
+			$tmp = BuildIPFormVar($ip, 1);
+			$Ret = substr($tmp, 0, -1) . 'OR' . BuildIPFormVar($ip, 2, 1);
+			$tmp = '';
+		}
+		if( LoadedString($tmp)){
+			$Ret = "$Pfx$tmp$Mfx" . urlencode($ip) . $Sfx . urlencode(' ');
+		}
+	}
+	return $Ret;
 }
 
 function BuildUniqueAddressLink( $addr_type, $raw = '' ){
@@ -150,10 +167,9 @@ function BuildAddressLink( $ipaddr, $netmask ){
 	. '&amp;netmask=' . $netmask . '">';
 }
 
-// Add blank row to given criteria element.
 function AddCriteriaFormRow(
 	&$submit, $submit_value, &$cnt, &$criteria_array, $max
-){
+){ // Add blank row to given criteria element.
 	$submit = $submit_value;
 	++$cnt;
 	InitArray($criteria_array[$cnt-1], $max, 0, '');
@@ -1059,9 +1075,7 @@ function ChkLib ( $path = '', $LibLoc = '', $LibFile = '' ){
 			}else{
 				$Msg .= 'not ';
 			}
-			if( $tmp == 0 ){
-				$Msg .= 'file';
-			}elseif( $tmp == -1 ){
+			if( $tmp == -1 ){
 				$Msg .= 'found';
 			}elseif( $tmp == -2 ){
 				$Msg .= 'readable';

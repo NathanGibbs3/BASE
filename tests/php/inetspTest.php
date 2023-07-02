@@ -15,6 +15,9 @@ use PHPUnit\Framework\TestCase;
 
 class netSPTest extends TestCase {
 	// Pre Test Setup.
+	protected static $PHPUV;
+	protected static $UOV;
+	protected static $URV;
 	protected static $db;
 
 	// Share class instance as common test fixture.
@@ -77,90 +80,78 @@ class netSPTest extends TestCase {
 				);
 			}
 			self::assertInstanceOf(
-				'baseCon',
-				$db,
-				'DB Object Not Initialized.'
+				'baseCon', $db, 'DB Object Not Initialized.'
 			);
 			self::$db = $db;
 		}
+		$PHPUV = GetPHPUV(); // PHPUnit Version
+		if (version_compare($PHPUV, '9.0', '<')){ // PHPUnit < 9x
+			self::$PHPUV = 1;
+		}else{ // PHPUnit 9+
+			self::$PHPUV = 2;
+		}
 	}
 	public static function tearDownAfterClass() {
+		self::$PHPUV = null;
+		self::$UOV = null;
+		self::$URV = null;
 		self::$db = null;
 	}
 
 	// Tests go here.
-	public function testbaseGetHostByAddrNoIpThrowsError() {
-		$db = self::$db;
-		// Remove once we TD migrate this.
-		define('_ERRRESOLVEADDRESS','Unable to resolve address');
-		$EEM = "BASE baseGetHostByAddr() Invalid Parameter(s) \$ipaddr.";
-		$PHPUV = GetPHPUV();
-		if (version_compare($PHPUV, '3.0', '<')) {
-			$this->markTestSkipped('Requires Phpunit 3+ to run.');
-		}elseif (version_compare($PHPUV, '5.0', '<')) { // PHPUnit 3x - 4x
-			$this->setExpectedException(
-				"PHPUnit_Framework_Error_Notice", $EEM
-			);
-		}elseif (version_compare($PHPUV, '6.0', '<')) { // PHPUnit 5x
-			$this->expectException("PHPUnit_Framework_Error_Notice");
-			$this->expectExceptionMessage($EEM);
-		}elseif (version_compare($PHPUV, '9.0', '<')) { // PHPUnit 6x - 8x
-			$this->expectException("PHPUnit\Framework\Error\Notice");
-			$this->expectExceptionMessage($EEM);
-		}else{ // PHPUnit 9+
-			$this->expectNotice();
-			$this->expectNoticeMessage($EEM);
-		}
-		baseGetHostByAddr('',$db,-10);
-	}
 	public function testbaseGetHostByAddrNoIpReturnsExpected() {
+		$PHPUV = self::$PHPUV;
+		$UOV = self::$UOV . 'baseGetHostByAddr().';
+		$URV = self::$URV . 'baseGetHostByAddr().';
 		$db = self::$db;
 		// Remove once we TD migrate this.
 		define('_ERRRESOLVEADDRESS','Unable to resolve address');
-		// Test conditions will throw error.
-		// Use error suppression @ symbol.
+		$EOM = 'baseGetHostByAddr: Invalid Parameter \$ipaddr.';
+		$cur_e_l = ini_get( 'error_log' ); // Shim error_log output On
+		$capture = tmpfile();
+		$tmp = stream_get_meta_data($capture);
+		ini_set('error_log', $tmp['uri']);
 		$this->assertEquals(
-			"<I>"._ERRRESOLVEADDRESS."</I>",
-			@baseGetHostByAddr('',$db,-10),
-			'Unexpected return baseGetHostByAddr().'
+			'<I>' . _ERRRESOLVEADDRESS . '</I>',
+			baseGetHostByAddr('', $db, -10), $URV
 		);
-	}
-	public function testbaseGetHostByAddrInvalidIpThrowsError() {
-		$db = self::$db;
-		// Remove once we TD migrate this.
-		define('_ERRRESOLVEADDRESS','Unable to resolve address');
-		$EEM = "BASE baseGetHostByAddr() Invalid Parameter(s) \$ipaddr.";
-		$PHPUV = GetPHPUV();
-		if (version_compare($PHPUV, '3.0', '<')) {
-			$this->markTestSkipped('Requires Phpunit 3+ to run.');
-		}elseif (version_compare($PHPUV, '5.0', '<')) { // PHPUnit 3x - 4x
-			$this->setExpectedException(
-				"PHPUnit_Framework_Error_Notice", $EEM
+		ini_set( 'error_log', $cur_e_l ); // Shim error_log output Off
+		$elOutput = stream_get_contents($capture);
+		if ( $PHPUV > 1 ){ // PHPUnit 9+
+			$this->assertMatchesRegularExpression(
+				'/'.$EOM.'$/', $elOutput, $UOV
 			);
-		}elseif (version_compare($PHPUV, '6.0', '<')) { // PHPUnit 5x
-			$this->expectException("PHPUnit_Framework_Error_Notice");
-			$this->expectExceptionMessage($EEM);
-		}elseif (version_compare($PHPUV, '9.0', '<')) { // PHPUnit 6x - 8x
-			$this->expectException("PHPUnit\Framework\Error\Notice");
-			$this->expectExceptionMessage($EEM);
-		}else{ // PHPUnit 9+
-			$this->expectNotice();
-			$this->expectNoticeMessage($EEM);
+		}else{ // Legacy PHPUnit
+			$this->assertRegExp('/'.$EOM.'$/', $elOutput, $UOV);
 		}
-		baseGetHostByAddr('github.com',$db,-10);
 	}
+
 	public function testbaseGetHostByAddrInvalidIpReturnsExpected() {
+		$PHPUV = self::$PHPUV;
+		$UOV = self::$UOV . 'baseGetHostByAddr().';
+		$URV = self::$URV . 'baseGetHostByAddr().';
 		$db = self::$db;
 		// Remove once we TD migrate this.
 		define('_ERRRESOLVEADDRESS','Unable to resolve address');
-		// Test conditions will throw error.
-		// Use error suppression @ symbol.
+		$EOM = 'baseGetHostByAddr: Invalid Parameter \$ipaddr.';
+		$cur_e_l = ini_get( 'error_log' ); // Shim error_log output On
+		$capture = tmpfile();
+		$tmp = stream_get_meta_data($capture);
+		ini_set('error_log', $tmp['uri']);
 		$this->assertEquals(
-			'github.com',
-			@baseGetHostByAddr('github.com',$db,-10),
-			'Unexpected return baseGetHostByAddr().'
+			'github.com', baseGetHostByAddr('github.com', $db, -10), $URV
 		);
+		ini_set( 'error_log', $cur_e_l ); // Shim error_log output Off
+		$elOutput = stream_get_contents($capture);
+		if ( $PHPUV > 1 ){ // PHPUnit 9+
+			$this->assertMatchesRegularExpression(
+				'/'.$EOM.'$/', $elOutput, $UOV
+			);
+		}else{ // Legacy PHPUnit
+			$this->assertRegExp('/'.$EOM.'$/', $elOutput, $UOV);
+		}
 	}
+
 	public function testbaseGetHostByAddrValidIpCacheMiss() {
 		$db = self::$db;
 		// Remove once we TD migrate this.
@@ -257,41 +248,11 @@ class netSPTest extends TestCase {
 			'Unexpected return baseGetHostByAddr().'
 		);
 	}
-	public function testbaseGetHostByAddrValidIpOverflowFQDNThrowsError() {
-		$db = self::$db;
-		if ($db->DB_type == 'postgres' ){
-			// Doesn't apply to postgresql, so Pass.
-			$this->assertTrue(true,'Passing Test.');
-		}else{
-			// Remove once we TD migrate this.
-			define('_ERRRESOLVEADDRESS','Unable to resolve address');
-			$EEM = "BASE baseGetHostByAddr() DB Field Overflow, FQDN for ";
-			$EEM .= "3.24.117.66 concatenated to ";
-			$EEM .= "2-3-24-117-66.ap-southeast-2.compute.amazonaws.com. ";
-			$EEM .= "See: https://github.com/NathanGibbs3/BASE/issues/58";
-			$PHPUV = GetPHPUV();
-			if (version_compare($PHPUV, '3.0', '<')) {
-				$this->markTestSkipped('Requires Phpunit 3+ to run.');
-			}elseif (version_compare($PHPUV, '5.0', '<')) { // PHPUnit 3x - 4x
-				$this->setExpectedException(
-					"PHPUnit_Framework_Error_Notice", $EEM
-				);
-			}elseif (version_compare($PHPUV, '6.0', '<')) { // PHPUnit 5x
-				$this->expectException("PHPUnit_Framework_Error_Notice");
-				$this->expectExceptionMessage($EEM);
-			}elseif (version_compare($PHPUV, '9.0', '<')) { // PHPUnit 6x - 8x
-				$this->expectException("PHPUnit\Framework\Error\Notice");
-				$this->expectExceptionMessage($EEM);
-			}else{ // PHPUnit 9+
-				$this->expectNotice();
-				$this->expectNoticeMessage($EEM);
-			}
-			$tip = '3.24.117.66';
-			$thn = '2-3-24-117-66.ap-southeast-2.compute.amazonaws.com';
-			baseGetHostByAddr($tip,$db,10);
-		}
-	}
+
 	public function testbaseGetHostByAddrValidIpOverflowFQDNReturnsExpected() {
+		$PHPUV = self::$PHPUV;
+		$UOV = self::$UOV . 'baseGetHostByAddr().';
+		$URV = self::$URV . 'baseGetHostByAddr().';
 		$db = self::$db;
 		if ($db->DB_type == 'postgres' ){
 			// Doesn't apply to postgresql, so Pass.
@@ -301,13 +262,24 @@ class netSPTest extends TestCase {
 			define('_ERRRESOLVEADDRESS','Unable to resolve address');
 			$tip = '3.24.117.66';
 			$thn = '2-3-24-117-66.ap-southeast-2.compute.amazonaws.com';
-			// Test conditions will throw error.
-			// Use error suppression @ symbol.
-			$this->assertEquals(
-				$thn,
-				@baseGetHostByAddr($tip,$db,10),
-				'Unexpected return baseGetHostByAddr().'
-			);
+			$EOM = 'baseGetHostByAddr: Warning: Issue #58 DB Field Overflow, '
+			. 'FQDN for 3.24.117.66 concatenated to '
+			. '2-3-24-117-66.ap-southeast-2.compute.amazonaws.com. '
+			. 'See: https:\/\/github.com\/NathanGibbs3\/BASE\/issues\/58';
+			$cur_e_l = ini_get( 'error_log' ); // Shim error_log output On
+			$capture = tmpfile();
+			$tmp = stream_get_meta_data($capture);
+			ini_set('error_log', $tmp['uri']);
+			$this->assertEquals($thn, baseGetHostByAddr($tip,$db,10), $URV);
+			ini_set( 'error_log', $cur_e_l ); // Shim error_log output Off
+			$elOutput = stream_get_contents($capture);
+			if ( $PHPUV > 1 ){ // PHPUnit 9+
+				$this->assertMatchesRegularExpression(
+					'/' . $EOM . '$/', $elOutput, $UOV
+				);
+			}else{ // Legacy PHPUnit
+				$this->assertRegExp('/' . $EOM . '$/', $elOutput, $UOV);
+			}
 		}
 	}
 

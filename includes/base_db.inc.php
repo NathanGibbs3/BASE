@@ -1336,7 +1336,14 @@ function NewBASEDBConnection( $path, $type ){
 			// the mysql, mysqlt & maxsql drivers.
 			if ( $PHPVer[0] > 5 || ( $PHPVer[0] == 5 && $PHPVer[1] > 4) ){
 				mysqli_report(MYSQLI_REPORT_OFF); // Issue #162 temp fix.
-				$Wtype = "mysqli";
+				$Wtype = 'mysqli';
+			}
+		}
+		if( $type == 'mssql' ){
+			// On PHP 5.3+, use mssqlnative ADODB driver & gracefully
+			// deprecate the mssql driver.
+			if( $PHPVer[0] > 5 || ( $PHPVer[0] == 5 && $PHPVer[1] > 2) ){
+				$Wtype = 'mssqlnative';
 			}
 		}
 		KML($EMPfx . "DB Type Req: $AXtype Type FIN: $type Driver: $Wtype", 3);

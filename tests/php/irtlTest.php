@@ -30,6 +30,7 @@ class base_rtlTest extends TestCase {
 	protected static $TA;
 	protected static $NMHCv4;
 	protected static $NMHCv6;
+	protected static $TAIPInvalid;
 	protected static $TAIPv4;
 	protected static $TAIPv4cR;
 	protected static $TAIPv6;
@@ -61,6 +62,9 @@ class base_rtlTest extends TestCase {
 			'test' => 'string',
 			'array' => array ()
 		);
+		self::$TAIPInvalid = array (
+			'256.256.256.256', '::ffff:256.256.256.256'
+		);
 		self::$TAIPv4 = array (
 			'192.168.000.001', '192.168.0.1',
 			'192.168.129.1', '192.168.128.1',
@@ -79,6 +83,7 @@ class base_rtlTest extends TestCase {
 			'ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff',
 			'1050:0000:0000:0000:0005:0600:300c:326b',
 			'1050:0:0:0:5:600:300c:326b',
+			'1050::5:600:300c:326b',
 			'ff06:0:0:0:0:0:0:c3',
 			'ff06::c3',
 			'0:0:0:0:0:ffff:192.001.56.10',
@@ -95,6 +100,8 @@ class base_rtlTest extends TestCase {
 			'1050:0000:0000:0000:0005:0600:300c:326b'
 				=> '21683031681241440176744766643582546539',
 			'1050:0:0:0:5:600:300c:326b'
+				=> '21683031681241440176744766643582546539',
+			'1050::5:600:300c:326b'
 				=> '21683031681241440176744766643582546539',
 			'ff06:0:0:0:0:0:0:c3' => '338984292706304756556241983349463187651',
 			'ff06::c3' => '338984292706304756556241983349463187651',
@@ -290,6 +297,7 @@ class base_rtlTest extends TestCase {
 		self::$TA = null;
 		self::$NMHCv4 = null;
 		self::$NMHCv6 = null;
+		self::$TAIPInvalid = null;
 		self::$TAIPv4 = null;
 		self::$TAIPv4cR = null;
 		self::$TAIPv6 = null;
@@ -679,6 +687,13 @@ class base_rtlTest extends TestCase {
 		$URV = self::$URV.'is_ip().';
 		$this->assertFalse(is_ip(), $URV);
 	}
+	public function testis_ipInvalid(){
+		$URV = self::$URV.'is_ip().';
+		$TAIP = self::$TAIPInvalid;
+		foreach( $TAIP as $IP ){
+			$this->assertFalse(is_ip($IP), $URV);
+		}
+	}
 	public function testis_ipFilled(){
 		$URV = self::$URV.'is_ip().';
 		$TAv4 = self::$TAIPv4;
@@ -694,6 +709,13 @@ class base_rtlTest extends TestCase {
 		$URV = self::$URV.'is_ip4().';
 		$this->assertFalse(is_ip4(), $URV);
 	}
+	public function testis_ipv4Invalid(){
+		$URV = self::$URV.'is_ip4().';
+		$TAIP = self::$TAIPInvalid;
+		foreach( $TAIP as $IP ){
+			$this->assertFalse(is_ip4($IP), $URV);
+		}
+	}
 	public function testis_ip4Filled(){
 		$URV = self::$URV.'is_ip4().';
 		$TAv4 = self::$TAIPv4;
@@ -706,8 +728,15 @@ class base_rtlTest extends TestCase {
 		}
 	}
 	public function testis_ip6Empty(){
-		$URV = self::$URV.'is_ip().';
+		$URV = self::$URV.'is_ip6().';
 		$this->assertFalse(is_ip6(), $URV);
+	}
+	public function testis_ipv6Invalid(){
+		$URV = self::$URV.'is_ip6().';
+		$TAIP = self::$TAIPInvalid;
+		foreach( $TAIP as $IP ){
+			$this->assertFalse(is_ip6($IP), $URV);
+		}
 	}
 	public function testis_ip6Filled(){
 		$URV = self::$URV.'is_ip6().';
@@ -749,6 +778,13 @@ class base_rtlTest extends TestCase {
 		$URV = self::$URV.'ipconvert().';
 		$this->assertEQuals(0, ipconvert(), $URV);
 	}
+	public function testipconvertInvalid(){
+		$URV = self::$URV.'ipconvert().';
+		$TAIP = self::$TAIPInvalid;
+		foreach( $TAIP as $IP ){
+			$this->assertEQuals(0, ipconvert($IP), $URV);
+		}
+	}
 	public function testipconvertIPv4(){
 		$URV = self::$URV.'ipconvert().';
 		$TAv4 = self::$TAIPv4;
@@ -761,7 +797,7 @@ class base_rtlTest extends TestCase {
 		$URV = self::$URV.'ipconvert().';
 		$TAv6 = self::$TAIPv6;
 		$TAv6R = self::$TAIPv6cR;
-		if( defined('GMP_VERSION') ){
+		if( IPv6i() ){ // Can RTL do IPv6 on this install?
 			foreach( $TAv6 as $IP ){
 				$this->assertEQuals($TAv6R[$IP], ipconvert($IP), $URV);
 			}
@@ -786,7 +822,7 @@ class base_rtlTest extends TestCase {
 		$URV = self::$URV.'ipdeconvert().';
 		$TAv6 = self::$TAIPv6;
 		$TAv6R = self::$TAIPv6dR;
-		if( defined('GMP_VERSION') ){
+		if( IPv6i() ){ // Can RTL do IPv6 on this install?
 			foreach( $TAv6R as $key => $IP ){
 				$this->assertEQuals($IP, ipdeconvert($key), $URV);
 			}
@@ -812,7 +848,7 @@ class base_rtlTest extends TestCase {
 	public function testNMHCIpv6(){
 		$URV = self::$URV.'NMHC().';
 		$NMHC = self::$NMHCv6;
-		if( defined('GMP_VERSION') ){
+		if( IPv6i() ){ // Can RTL do IPv6 on this install?
 			for( $tmp = 0 ; $tmp != 129 ; $tmp++ ){
 				$this->assertEQuals($NMHC[$tmp], NMHC($tmp, true), $URV);
 			}

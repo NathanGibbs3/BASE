@@ -79,9 +79,7 @@ class dbspTest extends TestCase {
 				);
 			}
 			self::assertInstanceOf(
-				'baseCon',
-				$db,
-				'DB Object Not Initialized.'
+				'baseCon', $db, 'DB Object Not Initialized.'
 			);
 			self::$DBlib_path = $DBlib_path;
 			self::$db = $db;

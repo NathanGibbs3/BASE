@@ -65,13 +65,13 @@ if ( $addr_type == SOURCE_IP ){
 	if ( $addr_type != DEST_IP ){
 		ErrorMessage(_SUAERRCRITADDUNK);
 	}
+	$addr_type = DEST_IP;
 	$page_title = _UNIDADD;
 	$results_title = _SUADSTIP;
 	$addr_type_name = "ip_dst";
 }
 if ( $caller == 'most_frequent' && $sort_order = 'occur_d' ){
-	// Issue(s) #123 Fix
-	$sort_order = $CPTotal.'_occur_d';
+	$sort_order = $CPTotal . '_occur_d'; // Issue #123 Fix
 }
 $qs = new QueryState();
 if ( $caller == 'most_frequent' ){ // Issue #123 Fix
@@ -195,41 +195,44 @@ $qs->PrintResultCnt(); // Print current view number and # of rows.
 
   echo '<FORM METHOD="post" NAME="PacketForm" ACTION="base_stat_uaddr.php">';
   
-  $qro->PrintHeader();
-  
-   $i = 0;
-   while ( ($myrow = $result->baseFetchRow()) && ($i < $qs->GetDisplayRowCnt()) )
-   {
-      $currentIP = baseLong2IP($myrow[0]);
-      $num_events = $myrow[1];
-      $num_sensors = $myrow[2];
-      $num_sig = $myrow[3];
-      $num_ip = $myrow[4];
-
-      if ( $myrow[0] == NULL ) $no_ip = true; else $no_ip = false;
-
-	qroPrintEntryHeader($i);
-	// Generating checkbox value. -- nikns
-	// Fix for Issue #69 https://github.com/NathanGibbs3/BASE/issues/69
-	if ( $addr_type == SOURCE_IP ){
-		$src_ip = $myrow[0];
-		$dst_ip = '';
-	}else{
-		$src_ip = '';
-		$dst_ip = $myrow[0];
+$qro->PrintHeader();
+$DRC = $qs->GetDisplayRowCnt(); // Display Row Count
+for( $i = 0; $i < $DRC; $i++ ){
+	$myrow = $result->baseFetchRow();
+	if( !is_array($myrow) ){ // End of RS Cutout
+		break;
 	}
-	$tmp_rowid = $src_ip.'_'.$dst_ip;
+	$currentIP = '';
+	$src_ip = '';
+	$dst_ip = '';
+	if( $myrow[0] == NULL ){
+		$no_ip = true;
+	}else{
+		$no_ip = false;
+		$currentIP = baseLong2IP($myrow[0]);
+		// Fix for Issue #69 https://github.com/NathanGibbs3/BASE/issues/69
+		if ( $addr_type == SOURCE_IP ){
+			$src_ip = $myrow[0];
+		}else{
+			$dst_ip = $myrow[0];
+		}
+	}
+	$num_events = $myrow[1];
+	$num_sensors = $myrow[2];
+	$num_sig = $myrow[3];
+	$num_ip = $myrow[4];
+	qroPrintEntryHeader($i);
+	$tmp_rowid = $src_ip . '_' . $dst_ip; // Generate checkbox value. -- nikns
 	$tmp = "_lst[$i]";
 	qroPrintCheckBox($tmp, $tmp_rowid);
 	$tmp = '';
-	// Check for a NULL IP indicating an event (e.g. portscan) which has no IP.
-	if ( $no_ip ){
+	if( $no_ip ){ // Check for NULL IP  event (e.g. portscan) with no IP.
 		$tmp = '<A HREF="'.$BASE_urlpath.'/help/base_app_faq.php#1">'._UNKNOWN;
 	}else{
-		$tmp = BuildAddressLink($currentIP, 32).$currentIP;
+		$tmp = BuildAddressLink($currentIP, 32) . $currentIP;
 	}
 	$tmp .= '</a>';
-	qroPrintEntry($tmp,'right');
+	qroPrintEntry($tmp, 'right');
 	if ( $resolve_IP == 1 ){
 		qroPrintEntry(
 			baseGetHostByAddr($currentIP, $db, $dns_cache_lifetime), 'right'
@@ -244,16 +247,10 @@ $qs->PrintResultCnt(); // Print current view number and # of rows.
                        '&amp;num_result_rows=-1'.
                        '&amp;sort_order='.$sort_order.
                        '&amp;submit='._QUERYDBP.'&amp;current_view=-1&amp;ip_addr_cnt=1';
-	if ( $addr_type == 1 ){
-         if ( $no_ip )
-            $url_criteria = BuildSrcIPFormVars(NULL_IP);
-         else
-            $url_criteria = BuildSrcIPFormVars($currentIP);
-	}elseif ( $addr_type == 2 ){
-         if ( $no_ip )
-           $url_criteria = BuildDstIpFormVars(NULL_IP);
-         else 
-           $url_criteria = BuildDstIPFormVars($currentIP);
+	if( $no_ip ){
+		$url_criteria = BuildIPFormVar(NULL_IP, $addr_type);
+	}else{
+		$url_criteria = BuildIPFormVar($currentIP, $addr_type);
 	}
 	qroPrintEntry($num_sensors);
 	qroPrintEntry(
@@ -264,17 +261,15 @@ $qs->PrintResultCnt(); // Print current view number and # of rows.
 	);
 	qroPrintEntry($num_ip);
 	qroPrintEntryFooter();
-      ++$i;
 }
 $result->baseFreeRows();
-
 $qro->PrintFooter();
 $qs->PrintBrowseButtons();
 $qs->PrintAlertActionButtons();
 $qs->SaveState();
 ExportHTTPVar("addr_type", $addr_type);
 ExportHTTPVar("sort_order", $sort_order);
-NLIO('</form>',2);
+NLIO('</form>', 2);
 $et->Mark("Get Query Elements");
 PrintBASESubFooter();
 ?>

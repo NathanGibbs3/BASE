@@ -156,7 +156,7 @@ function search_dir($dir, $sid){
 ############# main() ##############
 AuthorizedRole(10000);
 PrintBASESubHeader('Local Rule Lookup');
-$tmp = ChkAccess($dir, 'd') > 0
+$tmp = ChkAccess($dir, 'd');
 if ( $tmp > 1 ){
 	echo "<H1>sid: $OSid</H1>\n";
 	if( $debug_mode > 0 ){

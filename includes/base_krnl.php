@@ -249,7 +249,7 @@ function ChkAccess( $path, $type='f' ){
 	if ( LoadedString($path) ){
 		$type = strtolower($type);
 		$rcf = 0;
-		$Ret = -1; // Type Error
+		$Ret = -1; // Type Error / Not Found
 		if ( $type == 'f' ){
 			if ( is_file($path) ){
 				$rcf = 1;

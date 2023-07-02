@@ -182,6 +182,7 @@ class QueryState {
   {
      $this->action_sql = $sql;
   }
+
 	function RunAction($submit, $which_page, $db){
 	GLOBAL $show_rows, $debug_mode;
 		if ( IsValidActionOp($submit, $this->valid_action_op_list) ){
@@ -197,6 +198,7 @@ class QueryState {
 			}
 		}
 	}
+
 	function GetNumResultRows( $cnt_sql = '', $db = NULL ){
 		if ( !($this->isCannedQuery()) && ($this->num_result_rows == -1) ){
 			$this->current_view = 0;
@@ -345,6 +347,7 @@ class QueryState {
 		PrintFramedBoxFooter(1,2);
     echo "</CENTER>\n\n";
 	}
+
 	function ReadState(){
      $this->current_canned_query = ImportHTTPVar("caller", VAR_LETTER | VAR_USCORE);
      $this->num_result_rows      = ImportHTTPVar("num_result_rows", VAR_DIGIT | VAR_SCORE);

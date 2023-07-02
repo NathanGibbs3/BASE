@@ -407,8 +407,10 @@ class BaseUser {
 					. chk_select($roleid, $myrow[0]) . '>' . $myrow[1]
 					. '</option>';
 					$Ret .= NLI($tmp, 8);
-				}else{
+				}else{ // Should never run.
+					// @codeCoverageIgnoreStart
 					break;
+					// @codeCoverageIgnoreEnd
 				}
 			}
 			$rs->baseFreeRows();
@@ -693,45 +695,60 @@ function AuthorizedClient (){
 		$IPV = 0;
 		$Snm = netmask ($IpTmp);
 		if ( $Snm > 0 ){
-			$MaskRE = '\/' . $Snm;
+			$MaskRE = "\/$Snm";
 			$IpTmp = preg_replace( '/'. $MaskRE .'$/', '', $IpTmp );
-			if( is_ip4 ($IpTmp) ){
-				if( $Snm > 32 ){ // Invalid IPv4 Netmask
-					$Snm = 32;
-				}
-				$IPC = NMHC($Snm);
-			}elseif( is_ip6 ($IpTmp) ){
-				$IPC = NMHC($Snm, true);
-			}
 		}
 		$IPF = ipconvert($IpTmp);
 		$IPL = $IPF;
 		if( is_ip4 ($IpTmp) ){
 			$IPV = 4;
-			if( $Snm > 0 ){
-				$IPL = $IPL + $IPC;
-			}
 		}elseif( is_ip6 ($IpTmp) ){
 			$IPV = 6;
-			if( $Snm > 0 && defined('GMP_VERSION') ){
-				$IPL = gmp_strval(gmp_add($IPF, $IPC));
+		}
+		if( $Snm > 0 ){
+			if( $IPV == 4 ){
+				if( $Snm > 32 ){ // Invalid IPv4 Netmask
+					$Snm = 32;
+				}
+				$IPC = NMHC($Snm);
+				$IPL = $IPF + $IPC;
+			}elseif( $IPV == 6 ){
+				$IPC = NMHC($Snm, true);
+				// @codeCoverageIgnoreStart
+				if( GMPi() ){ // IPv6 Use Gmp lib.
+					$IPL = gmp_strval(gmp_add($IPF, $IPC));
+				}elseif( BCMi() ){ // IPv6 Use BCMath lib.
+					$IPL = bcadd($IPF, $IPC);
+				}
+				// @codeCoverageIgnoreEnd
 			}
 		}
 		if( $IPV != 0 && is_key('REMOTE_ADDR', $_SERVER) ){
 			$ipcli = $_SERVER['REMOTE_ADDR'];
 			$ipcT = ipconvert($ipcli);
-			if( $IPV == 4 && is_ip4 ($ipcli) ){
+			if( $IPV == 4 && is_ip4($ipcli) ){
 				if( $ipcT >= $IPF && $ipcT <= $IPL ){
 					$Ret = true;
 				}
-			}elseif( $IPV == 6 && is_ip6 ($ipcli) && defined('GMP_VERSION') ){
-				if(
-					gmp_cmp($ipcT, $IPF) > -1 && gmp_cmp($ipcT, $IPL) < 1
-				){
-					$Ret = true;
+			}elseif( $IPV == 6 && is_ip6($ipcli) ){
+				// @codeCoverageIgnoreStart
+				if( GMPi() ){ // IPv6 Use Gmp lib.
+					if(
+						gmp_cmp($ipcT, $IPF) > -1 && gmp_cmp($ipcT, $IPL) < 1
+					){
+						$Ret = true;
+					}
+				}elseif( BCMi() ){ // IPv6 Use BCMath lib.
+					if(
+						bccomp($ipcT, $IPF) > -1 && bccomp($ipcT, $IPL) < 1
+					){
+						$Ret = true;
+					}
 				}
+				// @codeCoverageIgnoreEnd
 			}
 		}
+
 	}
 	return $Ret;
 }

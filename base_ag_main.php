@@ -102,7 +102,7 @@ $qs->AddValidAction("del_alert");
 $qs->AddValidAction("email_alert");
 $qs->AddValidAction("email_alert2");
 $qs->AddValidAction("clear_alert");
-  
+
 $qs->AddValidActionOp(_SELECTED);
 $qs->AddValidActionOp(_ALLONSCREEN);
 $qs->AddValidActionOp(_ENTIREQUERY);

@@ -153,7 +153,7 @@ if ($SaM == 'yes'){
 	);
 }
 if( $AdminAuth ){ // Issue #146 Fix
-	$PF_lst = array('Mail', 'GD', 'GMP');
+	$PF_lst = array('Mail', 'GD', 'GMP', 'BCMath');
 	foreach( $PF_lst as $val ){
 		$PF_St[$val] = $BCR->GetCap("PHP_$val");
 	}

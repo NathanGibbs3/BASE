@@ -57,11 +57,14 @@ class BaseCapsRegistry{ // Capabilities Registry class definition
 		if( function_exists('mail') ){ // PHP Mail
 			$this->AddCap('PHP_Mail');
 		}
-		if( function_exists('imagecreate') ){ // PHP GD
+		if( extension_loaded('gd') ){ // PHP GD
 			$this->AddCap('PHP_GD');
 		}
-		if( defined('GMP_VERSION') ){
+		if( extension_loaded('gmp') && defined('GMP_VERSION') ){ // PHP GMP
 			$this->AddCap('PHP_GMP', GMP_VERSION);
+		}
+		if( extension_loaded('bcmath') ){ // PHP BCMath
+			$this->AddCap('PHP_BCMath');
 		}
 		// BASE Kernel & RTL Registartion
 		if ( SetConst('BASE_KERNEL', 'None') ){

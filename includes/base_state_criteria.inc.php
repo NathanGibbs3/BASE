@@ -112,9 +112,16 @@ class CriteriaState {
 		}
 		// Save the current criteria into $back_list (history).
 		if ( $maintain_history == 1 ){
-			PushHistory();
+			// Catch #218
+			$submit = ImportHTTPVar(
+				'submit', '', array(_SELECTED, _ALLONSCREEN, _ENTIREQUERY)
+			);
+			if( !LoadedString($submit) ){
+				PushHistory();
+			}
 		}
 	}
+
   function GetBackLink()
   {
     return PrintBackButton();

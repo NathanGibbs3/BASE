@@ -78,16 +78,37 @@ function returnSMFN( $msg = '' ){
 	return $Ret;
 }
 
-function returnBuildError( $Desc = '', $Opt = ''){
+function returnBuildError( $Desc = '', $Opt = '', $dll = '' ){
 	// Standardiazed PHP build error.
-	if( LoadedString($Desc) && LoadedString($Opt) ){
+	if( LoadedString($Desc)){
 		$Desc = XSSPrintSafe($Desc);
-		$Opt = XSSPrintSafe($Opt);
 		$Ret = returnErrorMessage(_ERRPHPERROR . ':', 0, 1);
 		// TD this.
 		$Ret .=
-		NLI("<b>PHP build incomplete</b>: $Desc support required.<br/>")
-		. NLI("Recompile PHP with $Desc support (<code>$Opt</code>) .<br/>");
+		NLI("<b>PHP build incomplete</b>: $Desc support required.<br/>");
+		if( LoadedString($Opt) ){
+			$Opt = XSSPrintSafe($Opt);
+			$Ret .=
+			NLI(
+				"Recompile PHP with $Desc support (<code>$Opt</code>) .<br/>"
+			);
+		}
+		// @codeCoverageIgnoreStart
+		if(
+			LoadedString($dll) && strtoupper(substr(PHP_OS, 0, 3)) === 'WIN'
+		){
+			$dll = XSSPrintSafe($dll);
+			$Ret .=
+			NLI(
+				"To enable $Desc support, edit your <code>php.ini</code> file "
+				. 'and add the suggested line in the Extensions section.<br/>'
+				. "<code>Extension=$dll</code><br/>"
+				. 'Note: The suggested dll name may be different than the one '
+				. 'installed on your system. Please contact your OS vendor '
+				. 'for more detailed technical support.<br/>'
+			);
+		}
+		// @codeCoverageIgnoreEnd
 		return $Ret;
 	}
 }

@@ -6,6 +6,7 @@ use PHPUnit\Framework\TestCase;
 /**
   * Code Coverage Directives.
   * @covers ::BCS
+  * @covers ::BuildIPFormVar
   * @covers ::ChkArchive
   * @covers ::ChkCookie
   * @covers ::ChkGet
@@ -23,8 +24,12 @@ use PHPUnit\Framework\TestCase;
   * @uses ::HtmlColor
   * @uses ::LibIncError
   * @uses ::LoadedString
+  * @uses ::SetConst
   * @uses ::XSSPrintSafe
   * @uses ::VS2SV
+  * @uses ::is_ip
+  * @uses ::is_ip4
+  * @uses ::is_ip6
   * @uses ::returnErrorMessage
   */
 
@@ -928,6 +933,114 @@ class base_commonTest extends TestCase {
 		}else{ // Legacy PHPUnit
 			$this->assertRegExp('/' . $EOM . '/', $elOutput, $UOV);
 		}
+	}
+	public function testBuildIPFormVarDefault(){
+		$URV = self::$URV.'BuildIPFormVar().';
+		$this->assertEquals('', BuildIPFormVar(), $URV );
+	}
+	public function testBuildIPFormVarInvalid(){
+		$URV = self::$URV.'BuildIPFormVar().';
+		$ip = NULL_IP;
+		$EOM = '&amp;ip_addr%5B0%5D%5B0%5D=+&amp;ip_addr%5B0%5D%5B1%5D=ip_dst'
+		. '&amp;ip_addr%5B0%5D%5B2%5D=%3D'
+		. '&amp;ip_addr%5B0%5D%5B3%5D=' . urlencode($ip)
+		. '&amp;ip_addr%5B0%5D%5B8%5D=+&amp;ip_addr%5B0%5D%5B9%5D=+';
+		$this->assertEquals($EOM, BuildIPFormVar($ip, 0, -1), $URV );
+	}
+	public function testBuildIPFormVarNULL_IP(){
+		$URV = self::$URV.'BuildIPFormVar().';
+		$ip = NULL_IP;
+		$EOM = '&amp;ip_addr%5B0%5D%5B0%5D=+&amp;ip_addr%5B0%5D%5B1%5D=ip_dst'
+		. '&amp;ip_addr%5B0%5D%5B2%5D=%3D'
+		. '&amp;ip_addr%5B0%5D%5B3%5D=' . urlencode($ip)
+		. '&amp;ip_addr%5B0%5D%5B8%5D=+&amp;ip_addr%5B0%5D%5B9%5D=+';
+		$this->assertEquals($EOM, BuildIPFormVar($ip), $URV );
+	}
+	public function testBuildIPFormVarNULL_IPSrc(){
+		$URV = self::$URV.'BuildIPFormVar().';
+		$ip = NULL_IP;
+		$EOM = '&amp;ip_addr%5B0%5D%5B0%5D=+&amp;ip_addr%5B0%5D%5B1%5D=ip_src'
+		. '&amp;ip_addr%5B0%5D%5B2%5D=%3D'
+		. '&amp;ip_addr%5B0%5D%5B3%5D=' . urlencode($ip)
+		. '&amp;ip_addr%5B0%5D%5B8%5D=+&amp;ip_addr%5B0%5D%5B9%5D=+';
+		$this->assertEquals($EOM, BuildIPFormVar($ip, 1), $URV );
+	}
+	public function testBuildIPFormVarNULL_IPBoth(){
+		$URV = self::$URV.'BuildIPFormVar().';
+		$ip = NULL_IP;
+		$EOM = '&amp;ip_addr%5B0%5D%5B0%5D=+&amp;ip_addr%5B0%5D%5B1%5D=ip_src'
+		. '&amp;ip_addr%5B0%5D%5B2%5D=%3D'
+		. '&amp;ip_addr%5B0%5D%5B3%5D=' . urlencode($ip)
+		. '&amp;ip_addr%5B0%5D%5B8%5D=+&amp;ip_addr%5B0%5D%5B9%5D=OR'
+		. '&amp;ip_addr%5B1%5D%5B0%5D=+&amp;ip_addr%5B1%5D%5B1%5D=ip_dst'
+		. '&amp;ip_addr%5B1%5D%5B2%5D=%3D'
+		. '&amp;ip_addr%5B1%5D%5B3%5D=' . urlencode($ip)
+		. '&amp;ip_addr%5B1%5D%5B8%5D=+&amp;ip_addr%5B1%5D%5B9%5D=+';
+		$this->assertEquals($EOM, BuildIPFormVar($ip, 3), $URV );
+	}
+
+	public function testBuildIPFormVarIPv4(){
+		$URV = self::$URV.'BuildIPFormVar().';
+		$ip = '1.1.1.1';
+		$EOM = '&amp;ip_addr%5B0%5D%5B0%5D=+&amp;ip_addr%5B0%5D%5B1%5D=ip_dst'
+		. '&amp;ip_addr%5B0%5D%5B2%5D=%3D'
+		. '&amp;ip_addr%5B0%5D%5B3%5D=' . urlencode($ip)
+		. '&amp;ip_addr%5B0%5D%5B8%5D=+&amp;ip_addr%5B0%5D%5B9%5D=+';
+		$this->assertEquals($EOM, BuildIPFormVar($ip), $URV );
+	}
+	public function testBuildIPFormVarIPv4Src(){
+		$URV = self::$URV.'BuildIPFormVar().';
+		$ip = '1.1.1.1';
+		$EOM = '&amp;ip_addr%5B0%5D%5B0%5D=+&amp;ip_addr%5B0%5D%5B1%5D=ip_src'
+		. '&amp;ip_addr%5B0%5D%5B2%5D=%3D'
+		. '&amp;ip_addr%5B0%5D%5B3%5D=' . urlencode($ip)
+		. '&amp;ip_addr%5B0%5D%5B8%5D=+&amp;ip_addr%5B0%5D%5B9%5D=+';
+		$this->assertEquals($EOM, BuildIPFormVar($ip, 1), $URV );
+	}
+	public function testBuildIPFormVarIPv4Both(){
+		$URV = self::$URV.'BuildIPFormVar().';
+		$ip = '1.1.1.1';
+		$EOM = '&amp;ip_addr%5B0%5D%5B0%5D=+&amp;ip_addr%5B0%5D%5B1%5D=ip_src'
+		. '&amp;ip_addr%5B0%5D%5B2%5D=%3D'
+		. '&amp;ip_addr%5B0%5D%5B3%5D=' . urlencode($ip)
+		. '&amp;ip_addr%5B0%5D%5B8%5D=+&amp;ip_addr%5B0%5D%5B9%5D=OR'
+		. '&amp;ip_addr%5B1%5D%5B0%5D=+&amp;ip_addr%5B1%5D%5B1%5D=ip_dst'
+		. '&amp;ip_addr%5B1%5D%5B2%5D=%3D'
+		. '&amp;ip_addr%5B1%5D%5B3%5D=' . urlencode($ip)
+		. '&amp;ip_addr%5B1%5D%5B8%5D=+&amp;ip_addr%5B1%5D%5B9%5D=+';
+		$this->assertEquals($EOM, BuildIPFormVar($ip, 3), $URV );
+	}
+
+	public function testBuildIPFormVarIPv6(){
+		$URV = self::$URV.'BuildIPFormVar().';
+		$ip = 'ff06::c3';
+		$EOM = '&amp;ip_addr%5B0%5D%5B0%5D=+&amp;ip_addr%5B0%5D%5B1%5D=ip_dst'
+		. '&amp;ip_addr%5B0%5D%5B2%5D=%3D'
+		. '&amp;ip_addr%5B0%5D%5B3%5D=' . urlencode($ip)
+		. '&amp;ip_addr%5B0%5D%5B8%5D=+&amp;ip_addr%5B0%5D%5B9%5D=+';
+		$this->assertEquals($EOM, BuildIPFormVar($ip), $URV );
+	}
+	public function testBuildIPFormVarIPv6Src(){
+		$URV = self::$URV.'BuildIPFormVar().';
+		$ip = 'ff06::c3';
+		$EOM = '&amp;ip_addr%5B0%5D%5B0%5D=+&amp;ip_addr%5B0%5D%5B1%5D=ip_src'
+		. '&amp;ip_addr%5B0%5D%5B2%5D=%3D'
+		. '&amp;ip_addr%5B0%5D%5B3%5D=' . urlencode($ip)
+		. '&amp;ip_addr%5B0%5D%5B8%5D=+&amp;ip_addr%5B0%5D%5B9%5D=+';
+		$this->assertEquals($EOM, BuildIPFormVar($ip, 1), $URV );
+	}
+	public function testBuildIPFormVarIPv6Both(){
+		$URV = self::$URV.'BuildIPFormVar().';
+		$ip = 'ff06::c3';
+		$EOM = '&amp;ip_addr%5B0%5D%5B0%5D=+&amp;ip_addr%5B0%5D%5B1%5D=ip_src'
+		. '&amp;ip_addr%5B0%5D%5B2%5D=%3D'
+		. '&amp;ip_addr%5B0%5D%5B3%5D=' . urlencode($ip)
+		. '&amp;ip_addr%5B0%5D%5B8%5D=+&amp;ip_addr%5B0%5D%5B9%5D=OR'
+		. '&amp;ip_addr%5B1%5D%5B0%5D=+&amp;ip_addr%5B1%5D%5B1%5D=ip_dst'
+		. '&amp;ip_addr%5B1%5D%5B2%5D=%3D'
+		. '&amp;ip_addr%5B1%5D%5B3%5D=' . urlencode($ip)
+		. '&amp;ip_addr%5B1%5D%5B8%5D=+&amp;ip_addr%5B1%5D%5B9%5D=+';
+		$this->assertEquals($EOM, BuildIPFormVar($ip, 3), $URV );
 	}
 
 	// Add code to a function if needed.

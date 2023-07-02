@@ -26,6 +26,7 @@ use PHPUnit\Framework\TestCase;
   * @uses ::ipconvert
   * @uses ::is_ip4
   * @uses ::is_ip6
+  * @uses ::is_ip
   * @uses ::is_key
   * @uses ::netmask
   * @uses BaseUser
@@ -330,7 +331,7 @@ class authTest2 extends TestCase {
 	public function testAuthorizedClientIPv6Fail(){
 		GLOBAL $AllowedClients;
 		$URV = self::$URV . 'AuthorizedClient().';
-		if( defined('GMP_VERSION') ){
+		if( IPv6i() ){ // Can RTL Do IPv6 on this install.
 			$osv = $_SERVER;
 			$oAC = $AllowedClients;
 			$_SERVER['REMOTE_ADDR'] = '1000::1';
@@ -345,7 +346,7 @@ class authTest2 extends TestCase {
 	public function testAuthorizedClientIPv6Pass(){
 		GLOBAL $AllowedClients;
 		$URV = self::$URV . 'AuthorizedClient().';
-		if( defined('GMP_VERSION') ){
+		if( IPv6i() ){ // Can RTL Do IPv6 on this install.
 			$osv = $_SERVER;
 			$oAC = $AllowedClients;
 			$_SERVER['REMOTE_ADDR'] = '::1';

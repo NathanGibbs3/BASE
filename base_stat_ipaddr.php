@@ -229,9 +229,8 @@ function PrintPortscanEvents($db, $ip)
         </TABLE>';
 }
 
-function PrintEventsByIP($db, $ip)
-{
-  GLOBAL $debug_mode;
+function PrintEventsByIP( $db, $ip ){
+	GLOBAL $debug_mode;
 
   if (!isset($ip))
   {
@@ -287,16 +286,16 @@ function PrintEventsByIP($db, $ip)
    {
      SQLTraceLog(__FILE__ . ":" . __LINE__ . ":" . __FUNCTION__ . ": After BuildSigByID()");
    }
-   $tmp_iplookup = 'base_qry_main.php?new=1'.
-                   '&amp;sig%5B0%5D=%3D&amp;sig%5B1%5D='.(rawurlencode(GetSignatureName($unique_events[$i], $db))).
-                   '&amp;num_result_rows=-1'.
-                   '&amp;submit='._QUERYDBP.'&amp;current_view=-1&amp;ip_addr_cnt=2'.
-                   BuildIPFormVars($ip);
-
-   $tmp_sensor_lookup = 'base_stat_sensor.php?'.
-                        'sig%5B0%5D=%3D&amp;sig%5B1%5D='.
-                        (rawurlencode($unique_events[$i])).
-                        '&amp;ip_addr_cnt=2'.BuildIPFormVars($ip);
+		$tmp_iplookup = 'base_qry_main.php?new=1'
+		. '&amp;sig%5B0%5D=%3D&amp;sig%5B1%5D='
+		. rawurlencode(GetSignatureName($unique_events[$i], $db))
+		. '&amp;num_result_rows=-1&amp;submit='
+		. _QUERYDBP . '&amp;current_view=-1&amp;ip_addr_cnt=2'
+		. BuildIPFormVar($ip, 3);
+		$tmp_sensor_lookup = 'base_stat_sensor.php?'
+		. 'sig%5B0%5D=%3D&amp;sig%5B1%5D='
+		. rawurlencode($unique_events[$i])
+		. '&amp;ip_addr_cnt=2' . BuildIPFormVar($ip, 3);
 
    echo "  <TD align='center'> <A HREF=\"$tmp_iplookup\">$total</A> ";
    echo "  <TD align='center'> <A HREF=\"$tmp_sensor_lookup\">$num_sensors</A> ";
@@ -305,33 +304,29 @@ function PrintEventsByIP($db, $ip)
    echo '</TR>';
  }
 
- echo "</TABLE>\n";
+	PrintFramedBoxFooter(0,2);
 }
 
+$Sep = ' | '; // Separator.
   if ( sizeof($sig) != 0 && strstr($sig[1], "spp_portscan") )
      $sig[1] = "";
 
-  /*  Build new link for criteria-based sensor page 
-   *                    -- ALS <aschroll@mitre.org>
-   */
-   $tmp_sensor_lookup = 'base_stat_sensor.php?ip_addr_cnt=2'.
-                        BuildIPFormVars($ip);
+//  Build new link for criteria-based sensor page - ALS <aschroll@mitre.org>
+$tmp_sensor_lookup = 'base_stat_sensor.php?ip_addr_cnt=2'
+. BuildIPFormVar($ip, 3);
 
+$tmp_srcdst_iplookup = 'base_qry_main.php?new=2&amp;num_result_rows=-1'
+. '&amp;submit=' . _QUERYDBP . '&amp;current_view=-1&amp;ip_addr_cnt=2'
+. BuildIPFormVar($ip, 3);
 
-   $tmp_srcdst_iplookup = 'base_qry_main.php?new=2'.
-                          '&amp;num_result_rows=-1'.
-                          '&amp;submit='._QUERYDBP.'&amp;current_view=-1&amp;ip_addr_cnt=2'.
-                          BuildIPFormVars($ip);
+$tmp_src_iplookup = 'base_qry_main.php?new=2&amp;num_result_rows=-1'
+. '&amp;submit=' . _QUERYDBP . '&amp;current_view=-1&amp;ip_addr_cnt=1'
+. BuildIPFormVar($ip, 1);
 
-   $tmp_src_iplookup    = 'base_qry_main.php?new=2'.
-                          '&amp;num_result_rows=-1'.
-                          '&amp;submit='._QUERYDBP.'&amp;current_view=-1&amp;ip_addr_cnt=1'.
-                          BuildSrcIPFormVars($ip);
+$tmp_dst_iplookup = 'base_qry_main.php?new=2&amp;num_result_rows=-1'
+. '&amp;submit=' . _QUERYDBP . '&amp;current_view=-1&amp;ip_addr_cnt=1'
+. BuildIPFormVar($ip, 2);
 
-   $tmp_dst_iplookup    = 'base_qry_main.php?new=2'.
-                          '&amp;num_result_rows=-1'.
-                          '&amp;submit='._QUERYDBP.'&amp;current_view=-1&amp;ip_addr_cnt=1'.
-                          BuildDstIPFormVars($ip);
   echo '<CENTER>';
   printf ("<FONT>"._PSALLALERTSAS.":</FONT>",$ip,$netmask); 
   echo '
@@ -351,25 +346,39 @@ function PrintEventsByIP($db, $ip)
        <A HREF="http://www.db.ripe.net/whois?query='.$ip.'" target="_NEW">RIPE</A> |
        <A HREF="http://wq.apnic.net/apnic-bin/whois.pl?do_search=Search&amp;searchtext='.$ip.'" target="_NEW">APNIC</A> |
        <A HREF="http://lacnic.net/cgi-bin/lacnic/whois?lg=EN&amp;query='.$ip.'" target="_NEW">LACNIC</A><BR></FONT>';
-	// Have no idea why this code is here.
-	// Commenting it out as it was ccontributing to Issue #5
-	// $octet=preg_split("/\./", $ip);
-	// $classc=sprintf("%03s.%03s.%03s",$octet[0],$octet[1],$octet[2]);
-	print '<FONT>'._PSEXTERNAL.': ';
-	if (isset($external_dns_link)){
-		print '<A HREF="'.$external_dns_link.$ip.'" target="_NEW">DNS</A>';
-	}
-	if (isset($external_whois_link)){
-		print ' | <A HREF="'.$external_whois_link.$ip.'" target="_NEW">whois</A>';
-	}
-	if (isset($external_all_link)){
-		print ' | <A HREF="'.$external_all_link.$ip.'" target="_NEW">Extended whois</A>';
-	}
-	print ' | <A HREF="http://www.dshield.org/ipinfo.php?ip='.$ip.'&amp;Submit=Submit" target="_NEW">DShield.org IP Info</A> | '.
-      '<A HREF="http://www.trustedsource.org/query.php?q='.$ip.'" target="_NEW">TrustedSource.org IP Info</A> | '.
-      '<A HREF="http://isc.sans.org/ipinfo.html?ip='.$ip.'" target="_NEW">ISC Source/Subnet Report</A><BR> </FONT>';
+// Have no idea why this code is here.
+// Commenting it out as it was ccontributing to Issue #5
+// $octet=preg_split("/\./", $ip);
+// $classc=sprintf("%03s.%03s.%03s",$octet[0],$octet[1],$octet[2]);
+print _PSEXTERNAL . ': ';
+if( isset($external_dns_link) ){
+	NLIO(
+		"<a href='" . $external_dns_link . $ip
+		. "' target='_NEW'>DNS</a>$Sep", 2
+	);
+}
+if( isset($external_whois_link) ){
+	NLIO(
+		"<a href='" . $external_whois_link . $ip
+		. "' target='_NEW'>whois</a>$Sep", 2
+	);
+}
+if( isset($external_all_link) ){
+	NLIO(
+		"<a href='" . $external_all_link . $ip
+		. "' target='_NEW'>Extended whois</a>$Sep", 2
+	);
+}
+NLIO(
+	"<a href='" . 'https://www.dshield.org/ipinfo.html?ip=' . $ip
+	. "' target='_NEW'>DShield.org IP Info</a>$Sep", 2
+);
+NLIO(
+	"<a href='" . 'https://isc.sans.edu/ipinfo.html?ip=' . $ip
+	. "' target='_NEW'>ISC Source/Subnet Report</a>", 2
+);
+NLIO('<br/>');
 
-  
   echo '</CENTER>';
   echo '<HR>';
 
@@ -472,6 +481,6 @@ function PrintEventsByIP($db, $ip)
      PrintPortscanEvents($db, $ip);
      echo ' </CENTER>';	
   }
-NLIO('</form>',2);
+NLIO('</form>', 2);
 PrintBASESubFooter();
 ?>

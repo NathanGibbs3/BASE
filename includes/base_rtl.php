@@ -16,7 +16,7 @@
 //          Author(s): Nathan Gibbs
 //                     Kevin Johnson
 
-$BRTL_Ver = '0.0.11';
+$BRTL_Ver = '0.0.12';
 
 if( !function_exists('LoadedString') ){
 	// Returns true if var is a string containing data.
@@ -133,6 +133,27 @@ if( !function_exists('KML') ){
 		}
 	}
 }
+
+function BCMi(){ // BCMath installed?
+	return extension_loaded('bcmath');
+}
+
+function GMPi(){ // Gmp installed?
+	$Ret = false;
+	if( extension_loaded('gmp') && defined('GMP_VERSION') ){
+		$Ret = true;
+	}
+	return $Ret;
+}
+
+function IPv6i(){ // IPv6 supoort?
+	$Ret = false;
+	if( BCMi() || GMPi() ){
+		$Ret = true;
+	}
+	SetConst('BASE_RTL_IPv6', $Ret);
+	return $Ret;
+}
 // @codeCoverageIgnoreEnd
 
 if( !function_exists('ChkAccess') ){
@@ -143,7 +164,7 @@ if( !function_exists('ChkAccess') ){
 		if( LoadedString($path) ){
 			$type = strtolower($type);
 			$rcf = 0;
-			$Ret = -1; // Type Error
+			$Ret = -1; // Type Error / Not Found
 			if( $type == 'f' ){
 				if( is_file($path) ){
 					$rcf = 1;
@@ -324,9 +345,10 @@ function CCS(){
 	return array($Ret, $Stat);
 }
 
-function is_ip ( $ip = '' ){
+function is_ip( $ip = '' ){
 	$Ret = false;
 	if( LoadedString($ip) ){
+		$ip = trim($ip);
 		if( is_ip4($ip) || is_ip6($ip) ){
 			$Ret = true;
 		}
@@ -334,40 +356,64 @@ function is_ip ( $ip = '' ){
 	return $Ret;
 }
 
-function is_ip4 ( $ip = '' ){
+function is_ip4( $ip = '' ){
 	$Ret = false;
 	if( LoadedString($ip) ){
+		$ip = trim($ip);
 		$ReOc = '\d{1,3}';
-		$ReIp = str_repeat("$ReOc\.",3) . $ReOc;
-		if( preg_match ('/^'. $ReIp .'$/', $ip) ){
-			$Ret = true;
+		$ReIp = str_repeat("$ReOc\.", 3) . $ReOc;
+		if( preg_match ('/^' . $ReIp . '$/', $ip) ){
+			$ipa = explode('.', $ip);
+			$SE = true; // Step Execution Flag Assume Success
+			foreach( $ipa as $val ){ // Fix #224
+				if( $val < 0 || $val > 255 ){
+					$SE = false;
+					break;
+				}
+			}
+			$Ret = $SE;
 		}
 	}
 	return $Ret;
 }
 
-function is_ip6 ( $ip = '' ){
+function is_ip6( $ip = '' ){
 	$Ret = false;
 	if( LoadedString($ip) ){
+		$ip = trim($ip);
 		$ReOc = '\d{1,3}';
-		$ReIp = str_repeat("$ReOc\.",3) . $ReOc;
+		$ReIp = str_repeat("$ReOc\.", 3) . $ReOc;
 		$ReOc6 = '[[:xdigit:]]{1,4}';
-		$ReIp6 = "\:?(\:?$ReOc6){0,6}" . "\:($ReIp|($ReOc6)?\:$ReOc6)?";
-		if( preg_match ('/^'. $ReIp6 .'$/', $ip) ){
-			$Ret = true;
+		$ReIp6 = "\:?(\:?\:?$ReOc6){0,6}" . "\:($ReIp|($ReOc6)?\:$ReOc6)?";
+		$t6 = preg_match ('/^' . $ReIp6 . '$/', $ip, $t6m);
+		if( $t6 ){ // IPv6 Data Normalization.
+			IPv6i();
+			$SE = true; // Step Execution Flag Assume Success
+			$t6m = $t6m[0];
+			$t6t4 = preg_match ('/' . $ReIp . '$/', $t6m, $t6t4m);
+			if ( $t6t4 ){ // Fix #224
+				$t6t4m = explode('.', $t6t4m[0]);
+				foreach( $t6t4m as $val ){
+					if( $val < 0 || $val > 255 ){
+						$SE = false;
+						break;
+					}
+				}
+			}
+			$Ret = $SE;
 		}
 	}
 	return $Ret;
 }
 
-function netmask ( $ip = '' ){
+function netmask( $ip = '' ){
 	$Ret = 0;
 	if( LoadedString($ip) ){
 		$MaskRE = '\/\d{1,3}';
-		if( preg_match ('/'. $MaskRE .'$/', $ip , $Snm) ){
+		if( preg_match ('/' . $MaskRE . '$/', $ip , $Snm) ){
 			$Snm = $Snm[0];
-			$Ret = preg_replace( '/^'. '\/' .'/', '', $Snm );
-			if ( $Ret > 128 ){ // Lock down max value.
+			$Ret = preg_replace( '/^' . '\/' . '/', '', $Snm );
+			if( $Ret > 128 ){ // Lock down max value.
 				$Ret = 128;
 			}
 		}
@@ -375,7 +421,7 @@ function netmask ( $ip = '' ){
 	return $Ret;
 }
 
-function ipdeconvert ( $ip = '' ){
+function ipdeconvert( $ip = '' ){
 	$Ret = 0;
 	if( is_numeric($ip) ){
 		$ip = trim($ip);
@@ -384,14 +430,15 @@ function ipdeconvert ( $ip = '' ){
 		$OCA = array();
 		$t4 = 0;
 		$t6 = 0;
-		if( $ip < pow(256, 4) ){ // IPv4
+		if( $ip < pow(256, 4) ){ // IPv4 address.
 			$t4 = 1;
 			$tl = 4;
-		}else{ // IPv6
+		}else{ // IPv6 address.
+			IPv6i();
 			$t6 = 1;
 			$tl = 16;
 			if(
-				defined('GMP_VERSION')
+				GMPi()
 				&& (
 					$PHPVer[0] > 5
 					|| ($PHPVer[0] == 5 && $PHPVer[1] == 6 && $PHPVer[2] > 0)
@@ -404,11 +451,19 @@ function ipdeconvert ( $ip = '' ){
 		if( !$SF ){
 			for ( $i = $tl; $i > 0 ; $i-- ){
 				$pwr = $i - 1;
-				if ( $t6 ){ // IPv6 Use Gmp lib.
-					$tmp = gmp_strval(gmp_pow(256, $pwr));
-					$res = gmp_div_qr($ip, $tmp);
-					$tt = gmp_intval($res[0]);
-					$ip = gmp_strval($res[1]);
+				if ( $t6 && BASE_RTL_IPv6 == true ){ // IPv6
+					// @codeCoverageIgnoreStart
+					if( GMPi() ){ // IPv6 Use Gmp lib.
+						$tmp = gmp_strval(gmp_pow(256, $pwr));
+						$res = gmp_div_qr($ip, $tmp);
+						$tt = gmp_intval($res[0]);
+						$ip = gmp_strval($res[1]);
+					}elseif( BCMi() ){ // IPv6 Use BCMath lib.
+						$tmp = bcpow(256, $pwr);
+						$tt = intval(bcdiv($ip, $tmp));
+						$ip = bcsub($ip, bcmul($tmp, $tt));
+					}
+					// @codeCoverageIgnoreEnd
 				}else{ // IPv4 Use PHP
 					$tmp = pow(256, $pwr);
 					$tt = intval($ip / $tmp);
@@ -453,36 +508,40 @@ function ipdeconvert ( $ip = '' ){
 			// @codeCoverageIgnoreEnd
 		}
 	}
+	if( !is_ip($Ret) ){ // Final Sanity Check
+		$Ret = 0;
+	}
 	return $Ret;
 }
 
-function ipconvert ( $ip = '' ){
+function ipconvert( $ip = '' ){
 	$Ret = 0;
-	if( LoadedString($ip) ){
+	if( LoadedString($ip) && is_ip($ip) ){
 		$ip = trim($ip);
 		$PHPVer = GetPHPSV();
 		$SF = false;
 		$OCA = array();
 		$ReOc = '\d{1,3}';
-		$ReIp = str_repeat("$ReOc\.",3) . $ReOc;
+		$ReIp = str_repeat("$ReOc\.", 3) . $ReOc;
 		$ReOc6 = '[[:xdigit:]]{1,4}';
-		$ReIp6 = "\:?(\:?$ReOc6){0,6}" . "\:($ReIp|($ReOc6)?\:$ReOc6)?";
-		$t4 = preg_match ('/^'. $ReIp .'$/', $ip, $t4m);
-		if ( $t4 ){ // IPv4 Data Normalization.
-			$OCA = explode('.',$t4m[0]);
-			foreach ($OCA as $key => $val) {
+		$ReIp6 = "\:?(\:?\:?$ReOc6){0,6}" . "\:($ReIp|($ReOc6)?\:$ReOc6)?";
+		$t4 = preg_match ('/^' . $ReIp . '$/', $ip, $t4m);
+		if( $t4 ){ // IPv4 Data Normalization.
+			$OCA = explode('.', $t4m[0]);
+			foreach( $OCA as $key => $val ){
 				$OCA[$key] = intval($val);
 			}
 			$ip = implode('.', $OCA);
 		}
-		$t6 = preg_match ('/^'. $ReIp6 .'$/', $ip, $t6m);
-		if ( $t6 ){ // IPv6 Data Normalization.
+		$t6 = preg_match ('/^' . $ReIp6 . '$/', $ip, $t6m);
+		if( $t6 ){ // IPv6 Data Normalization.
+			IPv6i();
 			$t6mTmp = '';
 			$t6m = $t6m[0];
-			$t6t4 = preg_match ('/'. $ReIp .'$/', $t6m, $t6t4m);
+			$t6t4 = preg_match ('/' . $ReIp . '$/', $t6m, $t6t4m);
 			if ( $t6t4 ){
 				$t6mTmp = preg_replace(
-					'/'. preg_quote(':' . $t6t4m[0]) .'$/', '', $t6m
+					'/' . preg_quote($t6t4m[0]) . '$/', '', $t6m
 				);
 				$t6t4m = explode('.', $t6t4m[0]);
 				foreach ($t6t4m as $key => $val) {
@@ -490,7 +549,7 @@ function ipconvert ( $ip = '' ){
 				}
 				$t6m = $t6mTmp;
 				$OCA = $t6t4m;
-				$ip = $t6mTmp . ':' . implode('.',$t6t4m);
+				$ip = $t6m . implode('.', $t6t4m);
 			}
 		}
 		$tl = 0;
@@ -500,7 +559,7 @@ function ipconvert ( $ip = '' ){
 				$PHPVer[0] > 5
 				|| ($PHPVer[0] == 5 && $PHPVer[1] == 6 && $PHPVer[2] > 0)
 			){ // Fast way on PHP 5.6.1+
-				if( $t6 && defined('GMP_VERSION') ){
+				if( $t6 && GMPi() ){
 					$SF = true;
 					$Ret = gmp_strval(gmp_import($tmp));
 				}
@@ -512,7 +571,7 @@ function ipconvert ( $ip = '' ){
 				// Process Standard IPv6 Notation
 				while( $Snm > 0 ){
 					$t6Oc = preg_match (
-						'/'. "\:?($ReOc6)" .'$/', $t6m, $t6Ocm
+						'/' . "\:?($ReOc6)" . '$/', $t6m, $t6Ocm
 					);
 					if ( $t6Oc ){
 						$t6Ocr = $t6Ocm[0];
@@ -530,14 +589,14 @@ function ipconvert ( $ip = '' ){
 					}else{
 						$TOL = $Snm / 16;
 						$t6Oc = preg_match_all (
-							'/'. "$ReOc6\:" .'/', $t6m, $t6Ocm
+							'/' . "$ReOc6\:" . '/', $t6m, $t6Ocm
 						);
 						$t6m = preg_replace( '/' . '\:' . '$/', '', $t6m );
-						if ( $t6Oc !== false ){
+						if( $t6Oc !== false ){
 							$tmp = '00';
 							$TOL = $TOL * 2;
 							$t6Oc = $t6Oc * 2;
-							for ( $i = $TOL; $i > $t6Oc; $i-- ){
+							for( $i = $TOL; $i > $t6Oc; $i-- ){
 								array_unshift($OCA, intval(hexdec($tmp)));
 								$Snm = $Snm - 8;
 							}
@@ -546,7 +605,7 @@ function ipconvert ( $ip = '' ){
 				}
 			}
 			$tmp = '';
-			foreach ($OCA as $val) {
+			foreach( $OCA as $val ){
 				$tt = pack('C', $val);
 				$tmp .= $tt;
 			}
@@ -554,22 +613,34 @@ function ipconvert ( $ip = '' ){
 		}
 		if( !$SF ){
 			$t1 = '';
-			foreach (unpack('C*', $tmp) as $byte) {
+			foreach( unpack('C*', $tmp) as $byte ){
 				$t1 .= str_pad(decbin($byte), 8, '0', STR_PAD_LEFT);
 			}
-			if( $t4 ){ // IPv4
+			if( $t4 ){ // IPv4 address.
 				$Ret = base_convert(ltrim($t1, '0'), 2, 10);
-			}else{ // IPv6 returns 0 if gmp is not available.
-				if( defined('GMP_VERSION') ){
+			}else{ // IPv6 returns 0 if Gmp or BCMath is not available.
+				// @codeCoverageIgnoreStart
+				if( GMPi() ){ // IPv6 Use Gmp lib.
 					$Ret = gmp_strval(gmp_init($t1, 2));
+				}elseif( BCMi() ){ // IPv6 Use BCMath lib.
+					$Obs = bcscale();
+					bcscale(0);
+					$Ret = 0;
+					$tmp = strlen($t1);
+					for ($i = 0; $i < $tmp; $i++ ){
+						$Ret = bcmul($Ret, '2');
+						$Ret = bcadd($Ret, $t1[$i]);
+					}
+					bcscale($Obs);
 				}
+				// @codeCoverageIgnoreEnd
 			}
 		}
 	}
 	return $Ret;
 }
 
-function NMHC ( $Snm = 0, $v6 = false ){ // Get host Count from netmask.
+function NMHC( $Snm = 0, $v6 = false ){ // Get host Count from netmask.
 	$Ret = 0;
 	if( !is_bool($v6) ){
 		$v6 = false;
@@ -582,10 +653,15 @@ function NMHC ( $Snm = 0, $v6 = false ){ // Get host Count from netmask.
 			$Floor = 0;
 		}
 		if( $Snm > $Floor && $Snm < 129 ){ // IPv6
-			if( defined('GMP_VERSION') ){
+			// @codeCoverageIgnoreStart
+			if( GMPi() ){ // IPv6 Use Gmp lib.
 				$Top = gmp_pow(256, 16);
 				$Ret = gmp_strval(gmp_div($Top, gmp_pow(2, $Snm)));
+			}elseif( BCMi() ){ // IPv6 Use BCMath lib.
+				$Top = bcpow(256, 16);
+				$Ret = bcdiv($Top, bcpow(2, $Snm));
 			}
+			// @codeCoverageIgnoreEnd
 		}elseif( $Snm > 0 && $Snm < 33 ){ // IPv4
 			$Top = pow(256, 4);
 			$Ret = $Top / pow(2, $Snm);

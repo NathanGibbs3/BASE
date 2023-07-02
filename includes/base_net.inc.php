@@ -148,25 +148,23 @@ function getIPMask($ipaddr, $mask)
 //            $db             => DB handle.
 //            $cache_lifetime => lifetime of DNS resolution.
 //   Returns: hostname of $ipaddr
-//            OR an error message indicating resolution was not possible
+//            OR an error message indicating resolution was not possible.
 function baseGetHostByAddr($ipaddr, $db, $cache_lifetime){
-	$Epfx = 'BASE ' . __FUNCTION__ . '() ';
+	$EMPfx = __FUNCTION__ . ': ';
 	$Emsg = '';
-	// Need to extend this to support IPv6
-	$Validipv4 = '/(\d{1,3}\.){3}\d{1,3}/';
-	if ( !LoadedString($ipaddr) || ($ipaddr == '')){
-		$Emsg = $Epfx.'Invalid Parameter(s) $ipaddr.';
+	if ( !LoadedString($ipaddr) ){
+		$Emsg = $EMPfx . 'Invalid Parameter $ipaddr.';
 		$Ret = "<I>"._ERRRESOLVEADDRESS."</I>";
-	}elseif (!preg_match($Validipv4, $ipaddr)){
-		$Emsg = $Epfx.'Invalid Parameter(s) $ipaddr.';
+	}elseif( !is_ip4($ipaddr) ){ // Need to extend this to support IPv6
+		$Emsg = $EMPfx . 'Invalid Parameter $ipaddr.';
 		// Not sure why we are not returning the error message like above.
 		// The lagecy code returns the $ipaddr param in this instance, so
 		// we left it here until we can verify that changing it won't break
 		// soemthing else.
 		$Ret = $ipaddr;
 	}
-	if ( $Emsg != ''){
-		trigger_error($Emsg);
+	if( $Emsg != '' ){
+		KML($Emsg, 1);
 		return $Ret;
 	}
   $ip32 = baseIP2long($ipaddr);
@@ -185,29 +183,26 @@ function baseGetHostByAddr($ipaddr, $db, $cache_lifetime){
 	if ( $db->DB_type != 'postgres' ){
 		// Get the length of the ipc-fqdn field from the DB.
 		$maxlength = GetFieldLength($db,'acid_ip_cache','ipc_fqdn');
-		if ( strlen($tmp) > $maxlength) { // Concat data at to maxlength.
+		if ( strlen($tmp) > $maxlength) { // Concat data to maxlength.
 			$tmp = substr($tmp, -$maxlength);
-			$Emsg = $Epfx;
-			$Emsg .= "DB Field Overflow, FQDN for $ipaddr concatenated to $tmp. ";
-			$Emsg .= 'See: https://github.com/NathanGibbs3/BASE/issues/58';
-//			error_log($Emsg);
-			// Using trigger_error, as error_log trips up the Unit tests that
-			// currently requirs process isolation. We should be able to fix
-			// this once we fix Issue #11.
-			trigger_error($Emsg);
+			$Emsg = $EMPfx . 'Warning: Issue #58 DB Field Overflow, FQDN '
+			. "for $ipaddr concatenated to $tmp. "
+			. 'See: https://github.com/NathanGibbs3/BASE/issues/58';
+			KML($Emsg, 1);
 		}
 	}
 	if ( $ip_cache == "" ){ // Cache miss. Add to cache.
+		$SQLPfx = 'INSERT INTO acid_ip_cache (ipc_ip, ipc_fqdn, '
+		. 'ipc_dns_timestamp) VALUES (';
 		if( $db->DB_type == "oci8" ){
 			// @codeCoverageIgnoreStart
 			// We have no way of testing Oracle functionality.
-       $sql= "INSERT INTO acid_ip_cache (ipc_ip, ipc_fqdn, ipc_dns_timestamp) ".
-             "VALUES ($ip32, '$tmp', to_date( '$current_time', 'YYYY-MM-DD HH24:MI:SS' ) )";
+			$sql = $SQLPfx . "$ip32, '$tmp', to_date( '$current_time', 'YYYY-MM-DD HH24:MI:SS' ) ";
 			// @codeCoverageIgnoreEnd
 		}else{
-       $sql = "INSERT INTO acid_ip_cache (ipc_ip, ipc_fqdn, ipc_dns_timestamp) ".
-              "VALUES ('$ip32', '$tmp', '$current_time')";
+			$sql = $SQLPfx . "'$ip32', '$tmp', '$current_time'";
 		}
+		$sql .= ')';
 		$db->baseExecute($sql);
 	}else{ // Cache hit.
      if ($ip_cache[2] != "" && 

@@ -100,16 +100,13 @@ class BaseCriteria {
 		// Sets the number of items in this form element.
 	}
 
-	function Set( $value ){
-		// Set the value of this criteria.
+	function Set( $value ){ // Set the value of this criteria.
 	}
 
-	function Get(){
-		// Returns the value of this criteria.
+	function Get(){ // Returns the value of this criteria.
 	}
 
-	function ToSQL(){
-		// Convert this criteria to SQL.
+	function ToSQL(){ // Convert this criteria to SQL.
 	}
 
 	function Description( $value ){
@@ -585,6 +582,7 @@ class SignatureCriteria extends SingleElementCriteria {
 				}
 				$tmp .= $this->cs->GetClearCriteriaString($this->export_name);
 				$tmp .= '<br/>';
+				// 2023-06-30 HTML in returned value, seriously, fix this.
 			}
 		}
 		return $tmp;
@@ -641,9 +639,9 @@ class SignatureClassificationCriteria extends SingleElementCriteria {
                $tmp = $tmp._SIGCLASS.' = '.
                               htmlentities(GetSigClassName($this->criteria, $this->db)).
                               $this->cs->GetClearCriteriaString($this->export_name).'<BR>';
-         }
-      }
-
+				// 2023-06-30 HTML in returned value, seriously, fix this.
+			}
+		}
 		return $tmp;
 	}
 
@@ -735,6 +733,7 @@ class SignaturePriorityCriteria extends SingleElementCriteria {
              else
                 $tmp = $tmp._SIGPRIO.' '.htmlentities($this->criteria[0])." ".htmlentities($this->criteria[1]).
                        $this->cs->GetClearCriteriaString($this->export_name).'<BR>';
+				// 2023-06-30 HTML in returned value, seriously, fix this.
 			}
 		}
 		return $tmp;
@@ -781,7 +780,8 @@ class AlertGroupCriteria extends SingleElementCriteria {
         $tmp = $tmp._ALERTGROUP.' = ['.htmlentities($this->criteria).'] '.GetAGNameByID($this->criteria, $this->db).
                     $this->cs->GetClearCriteriaString($this->export_name).'<BR>';
 
-      return $tmp;
+				// 2023-06-30 HTML in returned value, seriously, fix this.
+		return $tmp;
 	}
 
 };  /* AlertGroupCriteria */
@@ -868,7 +868,8 @@ class SensorCriteria extends SingleElementCriteria {
                GetSensorName($this->criteria, $this->db).
                $this->cs->GetClearCriteriaString($this->export_name).'<BR>';
 
-      return $tmp;
+				// 2023-06-30 HTML in returned value, seriously, fix this.
+		return $tmp;
 	}
 
 }; // SensorCriteria
@@ -997,11 +998,12 @@ class TimeCriteria extends MultipleElementCriteria {
 
 class IPAddressCriteria extends MultipleElementCriteria {
 // * $ip_addr[MAX][10]: stores an ip address parameters/operators row
-//  - [][0] : (                          [][5] : octet3 of address
-//  - [][1] : source, dest               [][6] : octet4 of address
-//  - [][2] : =, !=                      [][7] : network mask
-//  - [][3] : octet1 of address          [][8] : (, )
-//  - [][4] : octet2 of address          [][9] : AND, OR
+//  - [][0] : (                          [][6]  : octet4 of address
+//  - [][1] : source, dest               [][7]  : network mask / IPv4 format.
+//  - [][2] : =, !=                      [][8]  : (, )
+//  - [][3] : octet1 of address          [][9]  : AND, OR
+//  - [][4] : octet2 of address          [][10] : Formerly undocumented
+//  - [][5] : octet3 of address                   network mask / INT.
 //
 // $ip_addr_cnt: number of rows in the $ip_addr[][] structure
 
@@ -1043,27 +1045,33 @@ class IPAddressCriteria extends MultipleElementCriteria {
 
 	function Import(){
 		parent::Import(); // Store ourselves in the session.
-		if ( is_array($this->criteria) ){
+		if( is_array($this->criteria) ){
 			// Expand IP into octets.
-			for ( $i = 0; $i < $this->criteria_cnt; $i++ ){
-        if ( (isset ($this->criteria[$i][3])) &&
-			(preg_match("/([0-9]*)\.([0-9]*)\.([0-9]*)\.([0-9]*)/", $this->criteria[$i][3])) )
-        {
+			for( $i = 0; $i < $this->criteria_cnt; $i++ ){
+				if(
+					isset ($this->criteria[$i][3])
+					&& (
+						is_ip4($this->criteria[$i][3])
+						|| $this->criteria[$i][3] == NULL_IP // Compat Hack.
+					)
+				){
            $tmp_ip_str = $this->criteria[$i][7] = $this->criteria[$i][3];
            $this->criteria[$i][3] = strtok($tmp_ip_str, ".");
            $this->criteria[$i][4] = strtok(".");
            $this->criteria[$i][5] = strtok(".");
            $this->criteria[$i][6] = strtok("/");
            $this->criteria[$i][10] = strtok("");
-        }
+				}
+				// We need an IPv6 implementation here.
 			}
 		}
-      $_SESSION['ip_addr'] = &$this->criteria;
-      $_SESSION['ip_addr_cnt'] = &$this->criteria_cnt;
+		$_SESSION['ip_addr'] = &$this->criteria;
+		$_SESSION['ip_addr_cnt'] = &$this->criteria_cnt;
 	}
-	function Clear(){
-		// Clears the criteria.
+
+	function Clear(){ // Clears the criteria.
 	}
+
 	function SanitizeElement($value) {
 		$i = 0; // Why is this function hardwired to check only the first
 		// criteria instance? Leaving it for now, but need to investigate.
@@ -1132,22 +1140,20 @@ class IPAddressCriteria extends MultipleElementCriteria {
         echo '<BR>';
       }
 	}
-	function ToSQL(){
-		// Convert this criteria to SQL.
+
+	function ToSQL(){ // Convert this criteria to SQL.
 	}
+
 	function Description($value) {
-      $human_fields["ip_src"] = _SOURCE;
-      $human_fields["ip_dst"] = _DEST;
-      $human_fields["ip_both"] = _SORD;
-      $human_fields[""] = ""; 
-      $human_fields["LIKE"] = _CONTAINS;
-      $human_fields["="] = "=";  
-
-      $tmp2 = "";
-
-      for ( $i = 0; $i < $this->criteria_cnt; $i++ )
-      {
-         $tmp = "";
+		$human_fields["ip_src"] = _SOURCE;
+		$human_fields["ip_dst"] = _DEST;
+		$human_fields["ip_both"] = _SORD;
+		$human_fields[''] = '';
+		$human_fields["LIKE"] = _CONTAINS;
+		$human_fields["="] = "=";
+		$Ret = '';
+		for ( $i = 0; $i < $this->criteria_cnt; $i++ ){
+			$tmp = '';
          if ( isset($this->criteria[$i][3]) && $this->criteria[$i][3] != "" )
          {
             $tmp = $tmp.$this->criteria[$i][3];
@@ -1175,19 +1181,21 @@ class IPAddressCriteria extends MultipleElementCriteria {
                $tmp = $tmp.'.*.*.*';
          }
          /* Make sure that the IP isn't blank */
-         if ( $tmp != "" )
-         {
+			if ( $tmp != "" ){
             $mask = "";
             if ( $this->criteria[$i][10] != "" )
                $mask = "/".$this->criteria[$i][10];
 
-             $tmp2 = $tmp2.$this->criteria[$i][0].
-                     $human_fields[($this->criteria[$i][1])].' '.$this->criteria[$i][2].
-                     ' '.$tmp.' '.$this->criteria[$i][8].' '.$this->criteria[$i][9].$mask.
-                     $this->cs->GetClearCriteriaString($this->export_name)."<BR>";
-         }
+				$Ret = $Ret . $this->criteria[$i][0]
+				. $human_fields[($this->criteria[$i][1])] . ' '
+				. $this->criteria[$i][2] . ' ' . $tmp . ' '
+				. $this->criteria[$i][8] . ' ' . $this->criteria[$i][9] . $mask
+				. $this->cs->GetClearCriteriaString($this->export_name)
+				. '<br/>';
+				// 2023-06-30 HTML in returned value, seriously, fix this.
+			}
 		}
-		return $tmp2;
+		return $Ret;
 	}
 };  /* IPAddressCriteria */
 
@@ -1440,9 +1448,11 @@ class TCPFlagsCriteria extends SingleElementCriteria{
                $tmp = $tmp.$human_fields[($this->criteria[$i])];
 
          $tmp = $tmp.$this->cs->GetClearCriteriaString("tcp_flags").'<BR>';
-      }
+				// 2023-06-30 HTML in returned value, seriously, fix this.
+		}
 		return $tmp;
 	}
+
 	function isEmpty(){
 		$Ret = false;
 		$TD = array ('', ' '); // Test Values
@@ -1555,9 +1565,11 @@ class UDPFieldCriteria extends ProtocolFieldCriteria {
    {
      /* convert this criteria to SQL */
    }
+
 	function Description($value) {
 		return parent::Description(array_merge ( array("" => ""), $this->valid_field_list) );
 	}
+
 };  /* UDPFieldCriteria */
 
 class ICMPFieldCriteria extends ProtocolFieldCriteria {
@@ -1611,9 +1623,11 @@ class ICMPFieldCriteria extends ProtocolFieldCriteria {
    {
      /* convert this criteria to SQL */
    }
+
 	function Description($value) {
 		return parent::Description(array_merge ( array("" => ""), $this->valid_field_list) );
 	}
+
 };  /* ICMPFieldCriteria */
 
 class Layer4Criteria extends SingleElementCriteria
@@ -1655,6 +1669,7 @@ class Layer4Criteria extends SingleElementCriteria
    {
      /* convert this criteria to SQL */
    }
+
 	function Description($value) {
       if ( $this->criteria == "TCP" )
          return _QCTCPCRIT;
@@ -1665,6 +1680,7 @@ class Layer4Criteria extends SingleElementCriteria
       else
          return _QCLAYER4CRIT;
 	}
+
 };  /* Layer4Criteria */
 
 class DataCriteria extends MultipleElementCriteria {
@@ -1806,9 +1822,10 @@ class DataCriteria extends MultipleElementCriteria {
          echo '<BR>';
       }
 	}
-	function ToSQL(){
-		// Convert this criteria to SQL.
+
+	function ToSQL(){ // Convert this criteria to SQL.
 	}
+
 	function Description($value) {
       $human_fields["LIKE"] = _CONTAINS;
       $human_fields["NOT LIKE"] = _DOESNTCONTAIN;

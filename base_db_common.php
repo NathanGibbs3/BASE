@@ -69,31 +69,44 @@ function verify_php_build( $DBtype ){
 		// On PHP 5.5+, use mysqli ADODB driver & gracefully deprecate the
 		// mysql, mysqlt & maxsql drivers.
 		if( $PHPVer[0] > 5 || ( $PHPVer[0] == 5 && $PHPVer[1] > 4) ){
-			if( !(function_exists('mysqli_connect')) ){
+			if( !extension_loaded('mysqli') ){
 				$Ret = returnBuildError('MySQLi', '--with-mysqli');
-				$Ret .= NLI('Unable to read ALERT DB.<br/>'); // TD This.
 			}
 		}else{
 			if( !(function_exists("mysql_connect")) ){
 				return _ERRPHPMYSQLSUP;
 			}
 		}
-	}elseif( $DBtype == "postgres" ){
+	}elseif( $DBtype == 'postgres' ){
 		if( !(function_exists("pg_connect")) ){
 			return _ERRPHPPOSTGRESSUP;
 		}
-	}elseif( $DBtype == "mssql" ){
-		if( !(function_exists("mssql_connect")) ){
-			return _ERRPHPMSSQLSUP;
+	// @codeCoverageIgnoreStart
+	}elseif( $DBtype == 'mssql' ){
+		// On PHP 5.3+, use mssqlnative ADODB driver & gracefully deprecate
+		// the mssql driver.
+		if( $PHPVer[0] > 5 || ( $PHPVer[0] == 5 && $PHPVer[1] > 2) ){
+			if( !extension_loaded('sqlsrv') ){
+				$Ret = returnBuildError(
+					'MS SQL Server', '--enable-sqlsrv', 'php_sqlsrv.dll'
+				);
+			}
+		}else{
+			if( !(function_exists("mssql_connect")) ){
+				return _ERRPHPMSSQLSUP;
+			}
 		}
 	}elseif( $DBtype == "oci8" ){
 		if( !(function_exists("ocilogon")) ){
 			return _ERRPHPORACLESUP;
 		}
-	// Additional DB Support would tie in here.
-	}else{
+	// @codeCoverageIgnoreEnd
+	}else{ // Additional DB Support would tie in here.
 		return '<b>' . _ERRSQLDBTYPE . '</b>: ' . _ERRSQLDBTYPEINFO1
 		. "'$DBtype'." . _ERRSQLDBTYPEINFO2;
+	}
+	if( LoadedString($Ret) ){
+		$Ret .= NLI('Unable to read ALERT DB.<br/>'); // TD This.
 	}
 	return $Ret;
 }
