@@ -136,7 +136,7 @@ function BuildIPFormVar( $ip = '', $type = 2, $idx = 0 ){
 		if( $PHPVer[0] > 5 || ($PHPVer[0] == 5 && $PHPVer[1] > 3) ){
 			$Flag = ENT_QUOTES | ENT_SUBSTITUTE | ENT_HTML401;
 		}else{ // PHP < 5.4
-			$Flag = ENT_QUOTES | ENT_HTML401;
+			$Flag = ENT_QUOTES;
 		}
 		$FPFX = htmlentities('&' . urlencode("ip_addr[$idx]["), $Flag);
 		$FSFX = urlencode(']') . '=';
