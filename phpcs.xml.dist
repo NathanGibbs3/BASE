@@ -28,6 +28,10 @@
 		<exclude name="PHPCompatibility.FunctionNameRestrictions.NewMagicMethods.__constructFound"/>
 		<exclude name="PHPCompatibility.IniDirectives.RemovedIniDirectives.safe_modeDeprecatedRemoved"/>
 		<exclude name="PHPCompatibility.FunctionUse.RemovedFunctions.get_magic_quotes_runtimeDeprecated"/>
+		<exclude name="PHPCompatibility.FunctionUse.NewFunctionParameters.debug_backtrace_optionsFound"/>
+		<exclude name="PHPCompatibility.FunctionUse.NewFunctionParameters.debug_backtrace_limitFound"/>
+		<exclude name="PHPCompatibility.FunctionUse.RequiredToOptionalFunctionParameters.bcscale_scaleMissing"/>
+		<exclude name="PHPCompatibility.ParameterValues.NewHTMLEntitiesEncodingDefault.NotSet"/>
 	</rule>
 	<rule ref="Generic.Arrays.ArrayIndent">
 	</rule>
@@ -59,6 +63,9 @@
 		</properties>
 	</rule>
 	<rule ref="Generic.Metrics.NestingLevel">
+		<properties>
+			<property name="nestingLevel" value="7" />
+		</properties>
 	</rule>
 	<rule ref="Generic.PHP.ForbiddenFunctions">
 	</rule>

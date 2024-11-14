@@ -1,23 +1,19 @@
 <?php
-/*******************************************************************************
-** Basic Analysis and Security Engine (BASE)
-** Copyright (C) 2004 BASE Project Team
-** Copyright (C) 2000 Carnegie Mellon University
-**
-** (see the file 'base_main.php' for license details)
-**
-** Project Leads: Kevin Johnson <kjohnson@secureideas.net>
-**                Sean Muller <samwise_diver@users.sourceforge.net>
-** Built upon work by Roman Danyliw <rdd@cert.org>, <roman@danyliw.com>
-**
-** Purpose: User Preferences page
-********************************************************************************
-** Authors:
-********************************************************************************
-** Kevin Johnson <kjohnson@secureideas.net
-**
-********************************************************************************
-*/
+// Basic Analysis and Security Engine (BASE)
+// Copyright (C) 2019-2024 Nathan Gibbs
+// Copyright (C) 2004 BASE Project Team
+// Copyright (C) 2000 Carnegie Mellon University
+//
+//   For license info: See the file 'base_main.php'
+//
+//       Project Lead: Nathan Gibbs
+// Built upon work by: Kevin Johnson & the BASE Project Team
+//                     Roman Danyliw <rdd@cert.org>, <roman@danyliw.com>
+//
+//            Purpose: User Preferences page.
+//
+//          Author(s): Nathan Gibbs
+//                     Kevin Johnson
 
 $sc = DIRECTORY_SEPARATOR;
 require_once("includes$sc" . 'base_krnl.php');
@@ -33,7 +29,9 @@ $userprefs = new BaseUserPrefs();
 $userobj = new BaseUser();
 $username = $userobj->returnUser();
 $page_title = _BASEUSERTITLE;
-PrintBASESubHeader($page_title, $page_title, $cs->GetBackLink(), $refresh_all_pages);
+PrintBASESubHeader(
+	$page_title, $page_title, $cs->GetBackLink(), $refresh_all_pages
+);
 
 $Action = 'display'; // Default Action.
 if ( isset($_GET['action']) ){
@@ -90,18 +88,16 @@ switch ( $Action ){
         $form = $form . "<tr><td width='25%' align='right'>"._FRMROLE."</td>";
         $form = $form . "<td align='left'>" . $user->roleName($userinfo[2]) ."</td></tr>";
         $form = $form . "</tr></table>";
-       
-        $page_body = $form;
-        break;
-        
-      default:
-        $page_body = $page_body . " ";
-    }
 
+		$page_body = $form;
+		break;
+	default:
+		$page_body = $page_body . " ";
+}
 // Design barrowed from PrintBASEAdminMenuHeader();
 $menu = NLI("<div>",2);
 $menu .= NLI("<div class='mainheadermenu' style='float: left; width: 15%;'>",3);
-$menu .= NLI(_USERPREF ."<hr/>",4);
+$menu .= NLI(_USERPREF . "<hr/>",4);
 // Html Templates
 $Hrst = "<a href='base_user.php?action="; // Href tag start.
 $Hrsp = " class='menuitem'>"; // Href tag end.

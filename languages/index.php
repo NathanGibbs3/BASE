@@ -1,6 +1,6 @@
 <?php
 // Basic Analysis and Security Engine (BASE)
-// Copyright (C) 2019-2023 Nathan Gibbs
+// Copyright (C) 2019-2024 Nathan Gibbs
 // Copyright (C) 2004 BASE Project Team
 // Copyright (C) 2000 Carnegie Mellon University
 //
@@ -17,8 +17,8 @@
 
 $sc = DIRECTORY_SEPARATOR;
 $tmp = dirname(__FILE__);
-$ReqRE = preg_quote($sc.'languages', '/').'.*';
-$tmp = preg_replace('/'.$ReqRE.'/', '', $tmp);
-require_once("$tmp$sc" . "includes$sc" . 'base_krnl.php');
+$ReqRE = preg_quote($sc . 'languages', '/') . '.*';
+$tmp = preg_replace('/' . $ReqRE . '/', '', $tmp) . $sc;
+require_once($tmp . "includes$sc" . 'base_krnl.php');
 HTTP_header("Location: $BASE_urlpath/base_main.php");
 ?>

@@ -1,24 +1,20 @@
 <?php
-/*******************************************************************************
-** Basic Analysis and Security Engine (BASE)
-** Copyright (C) 2004 BASE Project Team
-** Copyright (C) 2000 Carnegie Mellon University
-**
-** (see the file 'base_main.php' for license details)
-**
-** Project Leads: Kevin Johnson <kjohnson@secureideas.net>
-**                Sean Muller <samwise_diver@users.sourceforge.net>
-** Built upon work by Roman Danyliw <rdd@cert.org>, <roman@danyliw.com>
-**
-** Purpose: summary statistics
-********************************************************************************
-** Authors:
-********************************************************************************
-** Kevin Johnson <kjohnson@secureideas.net
-**
-********************************************************************************
-*/
-// Ensure the conf file has been loaded. Prevent direct access to this file.
+// Basic Analysis and Security Engine (BASE)
+// Copyright (C) 2019-2024 Nathan Gibbs
+// Copyright (C) 2004 BASE Project Team
+// Copyright (C) 2000 Carnegie Mellon University
+//
+//   For license info: See the file 'base_main.php'
+//
+//       Project Lead: Nathan Gibbs
+// Built upon work by: Kevin Johnson & the BASE Project Team
+//                     Roman Danyliw <rdd@cert.org>, <roman@danyliw.com>
+//
+//            Purpose: Summary statistics.
+//
+//          Author(s): Nathan Gibbs
+//                     Kevin Johnson
+// Ensure the conf file has been loaded.  Prevent direct access to this file.
 defined('_BASE_INC') or die('Accessing this file directly is not allowed.');
 
 function SensorCnt( $db, $join = '', $where = '' ){
@@ -208,12 +204,31 @@ function UniqueIPCnt( $db, $join = '', $where = '' ){
 }
 
 function StartStopTime( &$start_time, &$stop_time, $db ){
-   $result = $db->baseExecute("SELECT (SELECT timestamp FROM acid_event ORDER BY timestamp ASC LIMIT 1), ".
-                              "(SELECT timestamp FROM acid_event ORDER BY timestamp DESC LIMIT 1)");
-   $myrow = $result->baseFetchRow();
-   $start_time = $myrow[0];
-   $stop_time = $myrow[1];
-   $result->baseFreeRows();
+	$EMPfx = __FUNCTION__ . ': ';
+	$sql = 'SELECT ';
+	if( $db->DB_class == 1 || $db->DB_type == 'postgres' ){
+		// mstone 20050309 special case postgres.
+		// Expanded to MySQL in BASE 1.4.4.
+		$sql .=
+		'(SELECT timestamp FROM acid_event ORDER BY timestamp ASC LIMIT 1), '
+		. '(SELECT timestamp FROM acid_event ORDER BY timestamp DESC LIMIT 1)';
+	}else{ // Everyone else.
+		$sql .= 'min(timestamp), max(timestamp) FROM acid_event';
+	}
+	$rs = $db->baseExecute($sql);
+	if (
+		$rs != false
+		&& $db->baseErrorMessage() == '' && $rs->baseRecordCount() > 0
+	){ // Error Check
+		$myrow = $rs->baseFetchRow();
+		$start_time = $myrow[0];
+		$stop_time = $myrow[1];
+		$rs->baseFreeRows();
+	}else{ // Transient DB Error.
+		// @codeCoverageIgnoreStart
+		KML($EMPfx . 'access error.', 3);
+		// @codeCoverageIgnoreEnd
+	}
 }
 
 function UniqueAlertCnt($db, $join = '', $where = '' ){

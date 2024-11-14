@@ -10,7 +10,7 @@
 **                Sean Muller <samwise_diver@users.sourceforge.net>
 ** Built upon work by Roman Danyliw <rdd@cert.org>, <roman@danyliw.com>
 **
-** Purpose: Class to handle parsing variables into HTML template files for  
+** Purpose: Class to handle parsing variables into HTML template files for
 ** output.
 **
 ********************************************************************************

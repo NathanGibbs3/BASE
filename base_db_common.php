@@ -1,6 +1,6 @@
 <?php
 // Basic Analysis and Security Engine (BASE)
-// Copyright (C) 2019-2023 Nathan Gibbs
+// Copyright (C) 2019-2024 Nathan Gibbs
 // Copyright (C) 2004 BASE Project Team
 // Copyright (C) 2000 Carnegie Mellon University
 //
@@ -10,14 +10,14 @@
 // Built upon work by: Kevin Johnson & the BASE Project Team
 //                     Roman Danyliw <rdd@cert.org>, <roman@danyliw.com>
 //
-//            Purpose: database schema manipulation
+//            Purpose: DB schema manipulation.
 //
 //          Author(s): Nathan Gibbs
 //                     Kevin Johnson
 
-function createDBIndex($db, $table, $field, $index_name)
-{
-   $sql = 'CREATE INDEX '.$index_name.' ON '.$table.' ('.$field.')';
+function createDBIndex( $db, $table, $field, $index_name ){
+	$sql = 'CREATE INDEX ' . $index_name . ' ON ' . $table
+	. ' (' . $field . ')';
 
    $db->baseExecute($sql, -1, -1, false);
    if ( $db->baseErrorMessage() != "" )
@@ -26,8 +26,9 @@ function createDBIndex($db, $table, $field, $index_name)
       ErrorMessage(_DBINDEXCREATE." '".$field."'");
 }
 
-function verify_db($db, $alert_dbname, $alert_host){
-  $msg = '<B>'._ERRSNORTVER1.' '.$alert_dbname.'@'.$alert_host.' '._ERRSNORTVER2.'</B>';
+function verify_db( $db, $alert_dbname, $alert_host ){
+	$msg = '<B>' . _ERRSNORTVER1 . ' ' . $alert_dbname . '@' . $alert_host
+	. ' ' . _ERRSNORTVER2 . '</B>';
 
   $sql = "SELECT ip_src FROM iphdr";
   $result = $db->baseExecute($sql, 0, 1, false);
@@ -43,12 +44,11 @@ function verify_db($db, $alert_dbname, $alert_host){
                        "base_users",
                        "base_roles");
 
-  for ( $i = 0; $i < count($base_table); $i++)
-  { 
+	for ( $i = 0; $i < count($base_table); $i++ ){
      if ( !$db->baseTableExists($base_table[$i]) )
        return $msg.'.  <P>'._ERRDBSTRUCT1.' 
               (table: '.$base_table[$i].')'._ERRDBSTRUCT2;
-  }
+	}
 	return '';
 }
 
@@ -68,39 +68,48 @@ function verify_php_build( $DBtype ){
 	if( $DBtype == 'mysql' || $DBtype == 'mysqlt' || $DBtype == 'maxsql' ){
 		// On PHP 5.5+, use mysqli ADODB driver & gracefully deprecate the
 		// mysql, mysqlt & maxsql drivers.
-		if( $PHPVer[0] > 5 || ( $PHPVer[0] == 5 && $PHPVer[1] > 4) ){
+		if( $PHPVer[0] > 5 || ($PHPVer[0] == 5 && $PHPVer[1] > 4) ){
 			if( !extension_loaded('mysqli') ){
-				$Ret = returnBuildError('MySQLi', '--with-mysqli');
+				$Ret = returnBuildError('MySQLi', '--with-mysqli', 'mysqli');
 			}
 		}else{
+			// For appropriate driver & dll names see:
+			// https://github.com/NathanGibbs3/BASE/issues/226
 			if( !(function_exists("mysql_connect")) ){
 				return _ERRPHPMYSQLSUP;
 			}
 		}
 	}elseif( $DBtype == 'postgres' ){
+		// For appropriate driver & dll names see:
+		// https://github.com/NathanGibbs3/BASE/issues/226
 		if( !(function_exists("pg_connect")) ){
 			return _ERRPHPPOSTGRESSUP;
 		}
-	// @codeCoverageIgnoreStart
+		// @codeCoverageIgnoreStart
 	}elseif( $DBtype == 'mssql' ){
 		// On PHP 5.3+, use mssqlnative ADODB driver & gracefully deprecate
 		// the mssql driver.
-		if( $PHPVer[0] > 5 || ( $PHPVer[0] == 5 && $PHPVer[1] > 2) ){
+		if( $PHPVer[0] > 5 || ($PHPVer[0] == 5 && $PHPVer[1] > 2) ){
 			if( !extension_loaded('sqlsrv') ){
 				$Ret = returnBuildError(
-					'MS SQL Server', '--enable-sqlsrv', 'php_sqlsrv.dll'
+					'MS SQL Server', '--enable-sqlsrv',
+					'sqlsrv_' . $PHPVer[0] . $PHPVer[1]
 				);
 			}
 		}else{
+			// For appropriate driver & dll names see:
+			// https://github.com/NathanGibbs3/BASE/issues/226
 			if( !(function_exists("mssql_connect")) ){
 				return _ERRPHPMSSQLSUP;
 			}
 		}
 	}elseif( $DBtype == "oci8" ){
+		// For appropriate driver & dll names see:
+		// https://github.com/NathanGibbs3/BASE/issues/226
 		if( !(function_exists("ocilogon")) ){
 			return _ERRPHPORACLESUP;
 		}
-	// @codeCoverageIgnoreEnd
+		// @codeCoverageIgnoreEnd
 	}else{ // Additional DB Support would tie in here.
 		return '<b>' . _ERRSQLDBTYPE . '</b>: ' . _ERRSQLDBTYPEINFO1
 		. "'$DBtype'." . _ERRSQLDBTYPEINFO2;
@@ -112,8 +121,7 @@ function verify_php_build( $DBtype ){
 }
 
 /* ******************* DB Query Routines ************************************ */
-function EventsByAddr($db, $i, $ip)
-{
+function EventsByAddr( $db, $i, $ip ){
    $ip32 = baseIP2long($ip);
 
    $result = $db->baseExecute("SELECT signature FROM acid_event (ip_src='$ip32') OR (ip_dst='$ip32')");
@@ -126,8 +134,7 @@ function EventsByAddr($db, $i, $ip)
    return $sig[$i];
 }
 
-function EventCntByAddr($db, $ip)
-{
+function EventCntByAddr( $db, $ip ){
    $ip32 = baseIP2long($ip);
 
    $result = $db->baseExecute("SELECT count(ip_src) FROM acid_event WHERE ".
@@ -140,8 +147,7 @@ function EventCntByAddr($db, $ip)
    return $event_cnt;
 }
 
-function UniqueEventsByAddr($db, $i, $ip)
-{
+function UniqueEventsByAddr( $db, $i, $ip ){
      $ip32 = baseIP2long($ip);
      $result = $db->baseExecute("SELECT DISTINCT signature FROM acid_event WHERE ".
                   "(ip_src='$ip32') OR (ip_dst='$ip32')");
@@ -154,8 +160,7 @@ function UniqueEventsByAddr($db, $i, $ip)
    return $sig[$i];
 }
 
-function UniqueEventCntByAddr($db, $ip)
-{
+function UniqueEventCntByAddr( $db, $ip ){
      $ip32 = baseIP2long($ip);
      $result = $db->baseExecute("SELECT DISTINCT signature FROM acid_event WHERE ".
                   "(ip_src='$ip32') OR (ip_dst='$ip32')");
@@ -168,8 +173,7 @@ function UniqueEventCntByAddr($db, $ip)
    return $sig;
 }
 
-function UniqueEventTotalsByAddr($db, $ip, $current_event)
-{
+function UniqueEventTotalsByAddr( $db, $ip, $current_event ){
    $ip32 = baseIP2long($ip);
    $result = $db->baseExecute("SELECT count(signature) FROM acid_event WHERE ".
                   "( (ip_src='$ip32' OR ip_dst='$ip32') AND signature='$current_event')"); 
@@ -181,8 +185,7 @@ function UniqueEventTotalsByAddr($db, $ip, $current_event)
    return $tmp;
 }
 
-function UniqueSensorCntByAddr($db, $ip, $current_event)
-{
+function UniqueSensorCntByAddr( $db, $ip, $current_event ){
    $ip32 = baseIP2long($ip);
    $result = $db->baseExecute("SELECT DISTINCT sid FROM acid_event WHERE ".
                   "( (ip_src='$ip32' OR ip_dst='$ip32') AND signature='$current_event')");
@@ -196,8 +199,7 @@ function UniqueSensorCntByAddr($db, $ip, $current_event)
    return $count;
 }
 
-function StartTimeForUniqueEventByAddr($db, $ip, $current_event)
-{
+function StartTimeForUniqueEventByAddr( $db, $ip, $current_event ){
    $ip32 = baseIP2long($ip);
    $result = $db->baseExecute("SELECT min(timestamp) FROM acid_event WHERE ".
                   "((ip_src='$ip32' OR ip_dst='$ip32') AND signature = '$current_event');");
@@ -208,8 +210,7 @@ function StartTimeForUniqueEventByAddr($db, $ip, $current_event)
    return $start_time;
 }
 
-function StopTimeForUniqueEventByAddr($db, $ip, $current_event)
-{
+function StopTimeForUniqueEventByAddr( $db, $ip, $current_event ){
    $ip32 = baseIP2long($ip);
    $result = $db->baseExecute("SELECT max(timestamp) FROM acid_event WHERE ".
                   "((ip_src='$ip32' OR ip_dst='$ip32') AND signature = '$current_event');");
@@ -220,5 +221,4 @@ function StopTimeForUniqueEventByAddr($db, $ip, $current_event)
    $result->baseFreeRows();
    return $stop_time;
 }
-
 ?>

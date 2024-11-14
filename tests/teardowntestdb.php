@@ -48,7 +48,7 @@ if (!isset($DBtype)){
 	$OADB = $alert_dbname;
 	foreach( $DBT as $val ){
 		$alert_dbname = $val;
-		// Create Test User Set
+		// Remove Test User Set.
 		$user = new BaseUser();
 		$role = new BaseRole();
 		$uid = $user->returnUserID('TestAdmin');

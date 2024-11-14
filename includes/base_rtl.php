@@ -1,6 +1,6 @@
 <?php
 // Basic Analysis and Security Engine (BASE)
-// Copyright (C) 2019-2023 Nathan Gibbs
+// Copyright (C) 2019-2024 Nathan Gibbs
 // Copyright (C) 2004 BASE Project Team
 // Copyright (C) 2000 Carnegie Mellon University
 //
@@ -16,7 +16,7 @@
 //          Author(s): Nathan Gibbs
 //                     Kevin Johnson
 
-$BRTL_Ver = '0.0.12';
+$BRTL_Ver = '0.0.13';
 
 if( !function_exists('LoadedString') ){
 	// Returns true if var is a string containing data.
@@ -27,10 +27,11 @@ if( !function_exists('LoadedString') ){
 		}
 		return $Ret;
 	}
+
 }
 
 if( !function_exists('SetConst') ){
-	// Returns true if Constant can be defined, false otherwise..
+	// Returns true if Constant can be defined, false otherwise.
 	function SetConst( $const, $val ){
 		$Ret = false;
 		if ( LoadedString($const) ){
@@ -40,6 +41,7 @@ if( !function_exists('SetConst') ){
 		}
 		return $Ret;
 	}
+
 }
 
 SetConst('BASE_RTL', $BRTL_Ver);
@@ -58,7 +60,8 @@ function NLIO( $Item = '', $Count = 0 ){
 }
 
 if( !function_exists('VS2SV') ){
-	function VS2SV( $VS = '' ){ // Returns false or Semantic Version Array.
+	// Returns false or Semantic Version Array.
+	function VS2SV( $VS = '' ){
 		// Convert Version String to Semantic Version Array.
 		$Ret = false;
 		if( LoadedString($VS) ){
@@ -92,12 +95,15 @@ if( !function_exists('VS2SV') ){
 		}
 		return $Ret;
 	}
+
 }
 
 if( !function_exists('GetPHPSV') ){
-	function GetPHPSV (){ // Returns Semantic PHP Version Array.
+	// Returns Semantic PHP Version Array.
+	function GetPHPSV(){
 		return VS2SV(phpversion());
 	}
+
 }
 
 // @codeCoverageIgnoreStart
@@ -107,10 +113,10 @@ if( !function_exists('HTTP_header') ){
 		if( !is_int($status) ){ // Default to OK.
 			$status = 200;
 		}
-		if( preg_match ('/^Location\: /', $url) ){
+		if( preg_match('/^Location\: /', $url) ){
 			$status = 302;
 		}
-		if ( !headers_sent() ){
+		if( !headers_sent() ){
 			if( is_key('SERVER_PROTOCOL', $_SERVER) ){
 				header($_SERVER['SERVER_PROTOCOL'] . " $status");
 			}
@@ -120,11 +126,12 @@ if( !function_exists('HTTP_header') ){
 			exit;
 		}
 	}
+
 }
 
 if( !function_exists('KML') ){
 	// Mini KML mocking shim for testing code that calls the real KML.
-	function KML ( $msg = '', $lvl = 0 ){
+	function KML( $msg = '', $lvl = 0 ){
 		if( LoadedString($msg) ){
 			if ( !is_int($lvl) || $lvl < 0 ){
 				$lvl = 0;
@@ -132,6 +139,7 @@ if( !function_exists('KML') ){
 			error_log($msg);
 		}
 	}
+
 }
 
 function BCMi(){ // BCMath installed?
@@ -154,12 +162,13 @@ function IPv6i(){ // IPv6 supoort?
 	SetConst('BASE_RTL_IPv6', $Ret);
 	return $Ret;
 }
+
 // @codeCoverageIgnoreEnd
 
 if( !function_exists('ChkAccess') ){
 	// Returns > 0 if file or directory passes access checks.
 	// Returns < 1 error code otherwise.
-	function ChkAccess( $path, $type='f' ){
+	function ChkAccess( $path, $type = 'f' ){
 		$Ret = 0; // Path Error
 		if( LoadedString($path) ){
 			$type = strtolower($type);
@@ -239,6 +248,7 @@ if( !function_exists('ChkAccess') ){
 		}
 		return $Ret;
 	}
+
 }
 
 if( !function_exists('is_key') ){
@@ -251,36 +261,37 @@ if( !function_exists('is_key') ){
 			if(
 				$PHPVer[0] > 4 || ($PHPVer[0] == 4 && $PHPVer[1] > 0)
 				|| ($PHPVer[0] == 4 && $PHPVer[1] == 0 && $PHPVer[2] > 6)
-			){ // PHP > 4.0.7
-				$Ret = array_key_exists( $SKey, $SArray );
-			// @codeCoverageIgnoreStart
-			// PHPUnit tests woruld only covers this code path on PHP < 4.0.7
-			// Unable to validate in CI.
+			){ // PHP 4.0.7+
+				$Ret = array_key_exists($SKey, $SArray);
 			}elseif(
 				$PHPVer[0] == 4 && $PHPVer[1] == 0 && $PHPVer[2] > 5
-			){ // PHP > 4.0.5
+			){ // PHP 4.0.6+
+				// @codeCoverageIgnoreStart
+				// PHPUnit tests would only cover these code paths on
+				// PHP < 4.0.7.  Unable to validate in CI.
 				$Ret = key_exists($SKey, $SArray);
 			}else{ // No built in functions, PHP Version agnostic.
-				$Ret = in_array($SKey, array_keys($SArray) );
+				$Ret = in_array($SKey, array_keys($SArray));
+				// @codeCoverageIgnoreEnd
 			}
-			// @codeCoverageIgnoreEnd
 		}
 		return $Ret;
 	}
+
 }
 
 // Function: XSSPrintSafe()
 // @doc Converts unsafe html special characters to print safe
 //      equivalents as an Anti XSS defense.
 // @return a sanitized version of the passed variable.
-function XSSPrintSafe($item){
+function XSSPrintSafe( $item ){
 	if ( !isset($item) ){ // Unset Value.
 		return $item;
 	}else{
 		if ( is_array($item) ){ // Array.
 			// Recursively convert array elements.
 			// Works with both Keyed & NonKeyed arrays.
-			foreach ($item as $key => $value) {
+			foreach( $item as $key => $value ){
 				$item[$key] = XSSPrintSafe($value);
 			}
 			return $item;
@@ -291,7 +302,7 @@ function XSSPrintSafe($item){
 }
 
 // Returns true if color is valid html color code.
-function HtmlColor ( $color ){
+function HtmlColor( $color ){
 	$color = strtolower($color);
 	$wsc = array(
 		'black', 'silver', 'gray', 'white', 'maroon', 'red', 'pruple',
@@ -362,7 +373,7 @@ function is_ip4( $ip = '' ){
 		$ip = trim($ip);
 		$ReOc = '\d{1,3}';
 		$ReIp = str_repeat("$ReOc\.", 3) . $ReOc;
-		if( preg_match ('/^' . $ReIp . '$/', $ip) ){
+		if( preg_match('/^' . $ReIp . '$/', $ip) ){
 			$ipa = explode('.', $ip);
 			$SE = true; // Step Execution Flag Assume Success
 			foreach( $ipa as $val ){ // Fix #224
@@ -385,12 +396,12 @@ function is_ip6( $ip = '' ){
 		$ReIp = str_repeat("$ReOc\.", 3) . $ReOc;
 		$ReOc6 = '[[:xdigit:]]{1,4}';
 		$ReIp6 = "\:?(\:?\:?$ReOc6){0,6}" . "\:($ReIp|($ReOc6)?\:$ReOc6)?";
-		$t6 = preg_match ('/^' . $ReIp6 . '$/', $ip, $t6m);
+		$t6 = preg_match('/^' . $ReIp6 . '$/', $ip, $t6m);
 		if( $t6 ){ // IPv6 Data Normalization.
 			IPv6i();
 			$SE = true; // Step Execution Flag Assume Success
 			$t6m = $t6m[0];
-			$t6t4 = preg_match ('/' . $ReIp . '$/', $t6m, $t6t4m);
+			$t6t4 = preg_match('/' . $ReIp . '$/', $t6m, $t6t4m);
 			if ( $t6t4 ){ // Fix #224
 				$t6t4m = explode('.', $t6t4m[0]);
 				foreach( $t6t4m as $val ){
@@ -410,9 +421,9 @@ function netmask( $ip = '' ){
 	$Ret = 0;
 	if( LoadedString($ip) ){
 		$MaskRE = '\/\d{1,3}';
-		if( preg_match ('/' . $MaskRE . '$/', $ip , $Snm) ){
+		if( preg_match('/' . $MaskRE . '$/', $ip , $Snm) ){
 			$Snm = $Snm[0];
-			$Ret = preg_replace( '/^' . '\/' . '/', '', $Snm );
+			$Ret = preg_replace('/^\//', '', $Snm);
 			if( $Ret > 128 ){ // Lock down max value.
 				$Ret = 128;
 			}
@@ -449,9 +460,9 @@ function ipdeconvert( $ip = '' ){
 			}
 		}
 		if( !$SF ){
-			for ( $i = $tl; $i > 0 ; $i-- ){
+			for( $i = $tl; $i > 0; $i-- ){
 				$pwr = $i - 1;
-				if ( $t6 && BASE_RTL_IPv6 == true ){ // IPv6
+				if( $t6 && BASE_RTL_IPv6 == true ){ // IPv6
 					// @codeCoverageIgnoreStart
 					if( GMPi() ){ // IPv6 Use Gmp lib.
 						$tmp = gmp_strval(gmp_pow(256, $pwr));
@@ -476,7 +487,7 @@ function ipdeconvert( $ip = '' ){
 			// Use built in functions.
 			if( !$SF ){
 				$tmp = '';
-				foreach ($OCA as $val) {
+				foreach( $OCA as $val ){
 					$tt = pack('C*', $val);
 					$tmp .= $tt;
 				}
@@ -489,7 +500,7 @@ function ipdeconvert( $ip = '' ){
 				$Sep = ':';
 			}
 			$i = 1;
-			foreach ($OCA as $val) {
+			foreach( $OCA as $val ){
 				$tt = $val;
 				$SPF = true;
 				if( $t6 ){
@@ -525,7 +536,7 @@ function ipconvert( $ip = '' ){
 		$ReIp = str_repeat("$ReOc\.", 3) . $ReOc;
 		$ReOc6 = '[[:xdigit:]]{1,4}';
 		$ReIp6 = "\:?(\:?\:?$ReOc6){0,6}" . "\:($ReIp|($ReOc6)?\:$ReOc6)?";
-		$t4 = preg_match ('/^' . $ReIp . '$/', $ip, $t4m);
+		$t4 = preg_match('/^' . $ReIp . '$/', $ip, $t4m);
 		if( $t4 ){ // IPv4 Data Normalization.
 			$OCA = explode('.', $t4m[0]);
 			foreach( $OCA as $key => $val ){
@@ -533,18 +544,18 @@ function ipconvert( $ip = '' ){
 			}
 			$ip = implode('.', $OCA);
 		}
-		$t6 = preg_match ('/^' . $ReIp6 . '$/', $ip, $t6m);
+		$t6 = preg_match('/^' . $ReIp6 . '$/', $ip, $t6m);
 		if( $t6 ){ // IPv6 Data Normalization.
 			IPv6i();
 			$t6mTmp = '';
 			$t6m = $t6m[0];
-			$t6t4 = preg_match ('/' . $ReIp . '$/', $t6m, $t6t4m);
+			$t6t4 = preg_match('/' . $ReIp . '$/', $t6m, $t6t4m);
 			if ( $t6t4 ){
 				$t6mTmp = preg_replace(
 					'/' . preg_quote($t6t4m[0]) . '$/', '', $t6m
 				);
 				$t6t4m = explode('.', $t6t4m[0]);
-				foreach ($t6t4m as $key => $val) {
+				foreach( $t6t4m as $key => $val ){
 					$t6t4m[$key] = intval($val);
 				}
 				$t6m = $t6mTmp;
@@ -570,28 +581,32 @@ function ipconvert( $ip = '' ){
 				$Snm = 128 - (count($OCA) * 8);
 				// Process Standard IPv6 Notation
 				while( $Snm > 0 ){
-					$t6Oc = preg_match (
+					$t6Oc = preg_match(
 						'/' . "\:?($ReOc6)" . '$/', $t6m, $t6Ocm
 					);
-					if ( $t6Oc ){
+					if( $t6Oc ){
 						$t6Ocr = $t6Ocm[0];
 						$t6Ocm = $t6Ocm[1];
-						for ( $i = 4; $i > 0; $i = $i - 2 ){
+						for( $i = 4; $i > 0; $i = $i - 2 ){
 							$tmp = substr($t6Ocm, strlen($t6Ocm) - 2, 2);
 							if( !LoadedString($tmp) ){
 								$tmp = '00';
 							}
 							array_unshift($OCA, intval(hexdec($tmp)));
-							$t6Ocm = preg_replace( '/' . $tmp . '$/', '', $t6Ocm );
+							$t6Ocm = preg_replace(
+								'/' . $tmp . '$/', '', $t6Ocm
+							);
 						}
 						$Snm = $Snm - 16;
-						$t6m = preg_replace( '/' . preg_quote($t6Ocr) . '$/', '', $t6m );
+						$t6m = preg_replace(
+							'/' . preg_quote($t6Ocr) . '$/', '', $t6m
+						);
 					}else{
 						$TOL = $Snm / 16;
-						$t6Oc = preg_match_all (
+						$t6Oc = preg_match_all(
 							'/' . "$ReOc6\:" . '/', $t6m, $t6Ocm
 						);
-						$t6m = preg_replace( '/' . '\:' . '$/', '', $t6m );
+						$t6m = preg_replace('/' . '\:' . '$/', '', $t6m);
 						if( $t6Oc !== false ){
 							$tmp = '00';
 							$TOL = $TOL * 2;
@@ -634,7 +649,7 @@ function ipconvert( $ip = '' ){
 					bcscale(0);
 					$Ret = 0;
 					$tmp = strlen($t1);
-					for ($i = 0; $i < $tmp; $i++ ){
+					for( $i = 0; $i < $tmp; $i++ ){
 						$Ret = bcmul($Ret, '2');
 						$Ret = bcadd($Ret, $t1[$i]);
 					}

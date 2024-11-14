@@ -1,6 +1,6 @@
 <?php
 // Basic Analysis and Security Engine (BASE)
-// Copyright (C) 2019-2023 Nathan Gibbs
+// Copyright (C) 2019-2024 Nathan Gibbs
 // Copyright (C) 2004 BASE Project Team
 // Copyright (C) 2000 Carnegie Mellon University
 //
@@ -17,10 +17,10 @@
 
 $sc = DIRECTORY_SEPARATOR;
 $tmp = dirname(__FILE__);
-$ReqRE = preg_quote($sc.'admin', '/').'.*';
-$tmp = preg_replace('/'.$ReqRE.'/', '', $tmp);
-require_once("$tmp$sc" . "includes$sc" . 'base_krnl.php');
-include("$BASE_path/includes/base_include.inc.php");
+$ReqRE = preg_quote($sc . 'admin', '/') . '.*';
+$tmp = preg_replace('/' . $ReqRE . '/', '', $tmp) . $sc;
+require_once($tmp . "includes$sc" . 'base_krnl.php');
+include(BASE_IPath . 'base_include.inc.php');
 
 if ( $Use_Auth_System == 1 ){
 	AuthorizedRole(1,'base_main');

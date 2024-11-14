@@ -1,6 +1,6 @@
 <?php
 // Basic Analysis and Security Engine (BASE)
-// Copyright (C) 2019-2023 Nathan Gibbs
+// Copyright (C) 2019-2024 Nathan Gibbs
 // Copyright (C) 2004 BASE Project Team
 // Copyright (C) 2000 Carnegie Mellon University
 //
@@ -17,11 +17,11 @@
 //
 //          Author(s): Nathan Gibbs
 
-$BK_Ver = '0.0.7';
+$BK_Ver = '0.0.8';
 $BASE_path = dirname(__FILE__);
 $sc = DIRECTORY_SEPARATOR;
-$ReqRE =  "\\".$sc.'includes.*';
-$BK_Path = preg_replace('/'.$ReqRE.'/', '', $BASE_path);
+$ReqRE =  "\\" . $sc . 'includes.*';
+$BK_Path = preg_replace('/' . $ReqRE . '/', '', $BASE_path);
 $BASE_path = $BK_Path;
 $file = "$BASE_path$sc" . 'base_conf.php'; // BASE Conf File.
 
@@ -58,12 +58,14 @@ if( $tmp > 0 && filesize($file) > 10 ){
 	KML("Load: RTL", 2);
 	KML("BASE kernel $BK_Ver Runtime $BRTL_Ver");
 	if( !AuthorizedClient() ){ // Issue #175
-		KML(BASE_SecMsg . 'Krnl(): Unauthorized Client: '
-		. $_SERVER['REMOTE_ADDR']);
+		KML(
+			BASE_SecMsg . 'Krnl(): Unauthorized Client: '
+			. $_SERVER['REMOTE_ADDR']
+		);
 		HTTP_header('', 403);
 		exit;
 	}
-	include_once("$BASE_path$sc" . "base_common.php"); // BASE Common.
+	include_once("$BASE_path$sc" . 'base_common.php'); // BASE Common.
 	KML("Load: BASE Common", 2);
 	if ( !LoadedString(session_id()) ){ // Start new session.
 		if ( LoadedString($BASE_installID) ){
@@ -148,7 +150,7 @@ if( $tmp > 0 && filesize($file) > 10 ){
 
 // BASE Kernel Message Logger.
 // Not RTL as it supports a BASE conf val.
-function KML ( $msg = '', $lvl = 0 ){
+function KML( $msg = '', $lvl = 0 ){
 	GLOBAL $debug_mode;
 	if ( LoadedString($msg) ){
 		if ( !is_int($lvl) || $lvl < 0 ){
@@ -183,7 +185,7 @@ function SetConst( $const, $val ){
 	return $Ret;
 }
 
-function VS2SV ( $VS = '' ){ // Returns false or Semantic Version Array.
+function VS2SV( $VS = '' ){ // Returns false or Semantic Version Array.
 	// Convert Version String to Semantic Version Array.
 	$Ret = false;
 	if( LoadedString($VS) ){
@@ -217,7 +219,7 @@ function VS2SV ( $VS = '' ){ // Returns false or Semantic Version Array.
 	return $Ret;
 }
 
-function GetPHPSV (){ // Returns Semantic PHP Version Array.
+function GetPHPSV(){ // Returns Semantic PHP Version Array.
 	return VS2SV(phpversion());
 }
 
@@ -227,7 +229,7 @@ function HTTP_header( $url = '', $status = 200 ){
 	if( !is_int($status) ){ // Default to OK.
 		$status = 200;
 	}
-	if( preg_match ('/^Location\: /', $url) ){
+	if( preg_match('/^Location\: /', $url) ){
 		$status = 302;
 	}
 	if ( !headers_sent() ){
@@ -240,11 +242,12 @@ function HTTP_header( $url = '', $status = 200 ){
 		exit;
 	}
 }
+
 // @codeCoverageIgnoreEnd
 
 // Returns > 0 if file or directory passes access checks.
 // Returns < 1 error code otherwise.
-function ChkAccess( $path, $type='f' ){
+function ChkAccess( $path, $type = 'f' ){
 	$Ret = 0; // Path Error
 	if ( LoadedString($path) ){
 		$type = strtolower($type);
@@ -331,19 +334,19 @@ function is_key( $SKey, $SArray ){ // PHP Version Agnostic.
 		if(
 			$PHPVer[0] > 4 || ($PHPVer[0] == 4 && $PHPVer[1] > 0)
 			|| ($PHPVer[0] == 4 && $PHPVer[1] == 0 && $PHPVer[2] > 6)
-		){ // PHP > 4.0.7
-			$Ret = array_key_exists( $SKey, $SArray );
-		// @codeCoverageIgnoreStart
-		// PHPUnit tests woruld only covers this code path on PHP < 4.0.7
-		// Unable to validate in CI.
+		){ // PHP 4.0.7+
+			$Ret = array_key_exists($SKey, $SArray);
 		}elseif(
 			$PHPVer[0] == 4 && $PHPVer[1] == 0 && $PHPVer[2] > 5
-		){ // PHP > 4.0.5
+		){ // PHP 4.0.6+
+			// @codeCoverageIgnoreStart
+			// PHPUnit tests would only cover these code paths on
+			// PHP < 4.0.7.  Unable to validate in CI.
 			$Ret = key_exists($SKey, $SArray);
 		}else{ // No built in functions, PHP Version agnostic.
-			$Ret = in_array($SKey, array_keys($SArray) );
+			$Ret = in_array($SKey, array_keys($SArray));
+			// @codeCoverageIgnoreEnd
 		}
-		// @codeCoverageIgnoreEnd
 	}
 	return $Ret;
 }

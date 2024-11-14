@@ -71,8 +71,8 @@ if( ARC(10000) ){ // Redirect to base_main.php if user is authenticated.
 		if( $Authfail ){
 			$eMsg = _LOGINERROR;
 			NLIO(
-				"<div class='errorMsg' style='padding: 10px;'>$eMsg</div>", 3)
-			;
+				"<div class='errorMsg' style='padding: 10px;'>$eMsg</div>", 3
+			);
 		}
 		NLIO('</div>', 3);
 	}

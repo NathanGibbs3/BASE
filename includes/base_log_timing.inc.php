@@ -1,6 +1,6 @@
 <?php
 // Basic Analysis and Security Engine (BASE)
-// Copyright (C) 2019-2023 Nathan Gibbs
+// Copyright (C) 2019-2024 Nathan Gibbs
 // Copyright (C) 2004 BASE Project Team
 // Copyright (C) 2000 Carnegie Mellon University
 //
@@ -62,6 +62,7 @@ class EventTiming {
 		// @codeCoverageIgnoreEnd
 		$this->Mark("$tmp.");
 	}
+
 	function Mark( $desc = '' ){
 		if ( !LoadedString($desc) ){
 			$desc = 'MARK';
@@ -74,13 +75,13 @@ class EventTiming {
 			$ttime = $this->start_time;
 			$rt = time() - $ttime;
 			$ESfx = '</span>';
-			$Sfx = ' '._SECONDS.']<br/>';
+			$Sfx = ' ' . _SECONDS . ']<br/>';
 			$tmp = $this->Classify($rt);
 			NLIO('<!-- Timing Information -->', 6);
 			NLIO("<div class='systemdebug'>", 6);
 			NLIO($tmp . _LOADEDIN . "$ESfx [$rt$Sfx", 7);
 			if ( $this->verbose > 1 ){
-				NLIO ('Event Log:<br/>', 7);
+				NLIO('Event Log:<br/>', 7);
 				for ( $i = 0; $i < $this->num_events; $i++ ){
 					$ct = $i + 1;
 					if ( $i != 0 ){
@@ -92,7 +93,7 @@ class EventTiming {
 					NLIO("$ct $tmp [$ttime$Sfx", 7);
 				}
 			}
-			NLIO ('</div>', 6);
+			NLIO('</div>', 6);
 		}
 	}
 

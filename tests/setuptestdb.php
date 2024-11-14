@@ -48,7 +48,7 @@ if (!isset($DBtype)){
 	$OADB = $alert_dbname;
 	foreach( $DBT as $val ){
 		$alert_dbname = $val;
-		// Create Test User Set
+		// Create Test User Set.
 		$user = new BaseUser();
 		$role = new BaseRole();
 		$stat = $user->addUser('TestAdmin', '1', 'password', 'TestAdmin');

@@ -1,24 +1,20 @@
 <?php
-/*******************************************************************************
-** Basic Analysis and Security Engine (BASE)
-** Copyright (C) 2004 BASE Project Team
-** Copyright (C) 2000 Carnegie Mellon University
-**
-** (see the file 'base_main.php' for license details)
-**
-** Project Lead: Kevin Johnson <kjohnson@secureideas.net>
-**                Sean Muller <samwise_diver@users.sourceforge.net>
-** Built upon work by Roman Danyliw <rdd@cert.org>, <roman@danyliw.com>
-**
-** Purpose: Database abstraction layer
-********************************************************************************
-** Authors:
-********************************************************************************
-** Kevin Johnson <kjohnson@secureideas.net
-**
-********************************************************************************
-*/
-// Ensure the conf file has been loaded. Prevent direct access to this file.
+// Basic Analysis and Security Engine (BASE)
+// Copyright (C) 2019-2024 Nathan Gibbs
+// Copyright (C) 2004 BASE Project Team
+// Copyright (C) 2000 Carnegie Mellon University
+//
+//   For license info: See the file 'base_main.php'
+//
+//       Project Lead: Nathan Gibbs
+// Built upon work by: Kevin Johnson & the BASE Project Team
+//                     Roman Danyliw <rdd@cert.org>, <roman@danyliw.com>
+//
+//            Purpose: Database abstraction layer.
+//
+//          Author(s): Nathan Gibbs
+//                     Kevin Johnson
+// Ensure the conf file has been loaded.  Prevent direct access to this file.
 defined('_BASE_INC') or die('Accessing this file directly is not allowed.');
 
 class baseCon {
@@ -37,7 +33,7 @@ class baseCon {
 	var $Role = NULL; // Object Role Flag.
 	var $FLOP = NULL; // FLoP Extended DB Flag.
 
-	function __construct($type) { // PHP 5+ constructor Shim.
+	function __construct( $type ){ // PHP 5+ constructor Shim.
 		// Class/Method agnostic shim code.
 		$SCname = get_class();
 		if ( method_exists($this, $SCname) ) {
@@ -54,7 +50,7 @@ class baseCon {
 		}
 	}
 
-	function baseCon($type) { // PHP 4x constructor.
+	function baseCon( $type ){ // PHP 4x constructor.
 		$this->DB_type = $type;
 		// Mysql DB type? Note it in Class structure.
 		if( $type == 'mysql' || $type == 'mysqlt' || $type == 'maxsql' ){
@@ -104,7 +100,7 @@ class baseCon {
 		}
 	}
 
-	function baseConnect ( $database, $host, $port, $username, $password ){
+	function baseConnect( $database, $host, $port, $username, $password ){
 		GLOBAL $sql_trace_mode, $sql_trace_file;
 		$this->DB = NewADOConnection();
 		$this->DB_name = $database;
@@ -152,7 +148,7 @@ class baseCon {
 		return $db;
 	}
 
-	function basePConnect ( $database, $host, $port, $username, $password ){
+	function basePConnect( $database, $host, $port, $username, $password ){
 		GLOBAL $sql_trace_mode, $sql_trace_file;
 		$this->DB = NewADOConnection();
 		$this->DB_name = $database;
@@ -200,7 +196,7 @@ class baseCon {
 		return $db;
 	}
 
-	function baseClose (){
+	function baseClose(){
 		$this->DB->Close();
 		// Issue #204
 		$this->DB_name = NULL; // DB.
@@ -216,18 +212,22 @@ class baseCon {
 	}
 
 	function baseisDBUp( $LogError = false ){
-		$PHPVer = GetPHPSV();
+		$Ret = false;
+		$PHPVer = GetPHPSV(); // Capture calling function.
 		// @codeCoverageIgnoreStart
 		if( $PHPVer[0] > 5 || ($PHPVer[0] == 5 && $PHPVer[1] > 3) ){
-			$tmp = debug_backtrace(0, 2); // PHP 5.4+ Limit backtrace.
-		}else{
+			// PHP 5.4+ Limit backtrace.
+			$tmp = debug_backtrace(0, 2);
+		}elseif( $PHPVer[0] == 5 && $PHPVer[1] == 2 && $PHPVer[2] > 4 ){
+			// PHP 5.2.5+ Use backtrace Options.
 			$tmp = debug_backtrace(0);
+		}else{
+			$tmp = debug_backtrace();
 		}
 		// @codeCoverageIgnoreEnd
 		$EMPfx = $tmp[1]['function'] . ': ';
-		$Ret = false;
-		if( !is_bool($LogError) ){ // Input Validation
-			$DS = false;
+		if( !is_bool($LogError) ){ // Lock LogError to bool.
+			$LogError = false;
 		}
 		if( !is_null($this->DB) && $this->DB->isConnected() ){
 			$Ret = true;
@@ -245,7 +245,7 @@ class baseCon {
 		GLOBAL $debug_mode, $sql_trace_mode, $db_connect_method,
 			$alert_password, $archive_dbname, $archive_host, $archive_port,
 			$archive_user, $archive_password;
-		$EPfx = 'BASE DB ';
+		$EPfx = __FUNCTION__ . ': BASE DB ';
 		$tdt = $this->DB_type;
 		$tdn = $this->DB_name;
 		$DSN = $this->DB_host;
@@ -282,17 +282,17 @@ class baseCon {
 			// Try to reconnect of DB connection is down.
 			// Found via CI. Might be related to PHP 5.2x not supporting
 			// persistant DB connections.
-			error_log($EPfx."Disconnected: $tdt $TDSN");
-			error_log($EPfx."Reconnecting: $tdt $TDSN");
+			error_log($EPfx . "Disconnected: $tdt $TDSN");
+			error_log($EPfx . "Reconnecting: $tdt $TDSN");
 			if ( $db_connect_method == DB_CONNECT ){
-				$db = $this->DB->Connect( $DSN, $tdu, $tdpw, $tdn);
+				$db = $this->DB->Connect($DSN, $tdu, $tdpw, $tdn);
 			}else{
-				$db = $this->DB->PConnect( $DSN, $tdu, $tdpw, $tdn);
+				$db = $this->DB->PConnect($DSN, $tdu, $tdpw, $tdn);
 			}
 			if( !$this->DB->isConnected() ){
-				FatalError("$EPfx Reconnect Failed");
+				FatalError($EPfx . 'Reconnect Failed.');
 			}else{
-				error_log("$EPfx Reconnected");
+				error_log($EPfx . 'Reconnected.');
 			}
 		}
 		$this->lastSQL = $sql;
@@ -300,29 +300,32 @@ class baseCon {
 		if ( is_int($start_row) & is_int($num_rows) ){ // Issue #169
 			if ( $num_rows != -1 ){ // Do we add a LIMIT / TOP / ROWNUM clause.
 				if ( $this->DB_class == 1 ){
-					$limit_str = " LIMIT ".$start_row.", ".$num_rows;
-				// @codeCoverageIgnoreStart
-				// We have no way of testing Oracle functionality.
+					$limit_str = ' LIMIT ' . $start_row . ', ' . $num_rows;
 				}elseif ( $this->DB_type == "oci8" ){
+					// @codeCoverageIgnoreStart
+					// We have no way of testing Oracle functionality.
 					// $limit_str = " LIMIT ".$start_row.", ".$num_rows;
 					// Why, we don't use it.
-				// @codeCoverageIgnoreEnd
+					// @codeCoverageIgnoreEnd
 				}elseif ( $this->DB_type == "postgres" ){
-					$limit_str = " LIMIT ".$num_rows." OFFSET ".$start_row;
+					$limit_str = ' LIMIT ' . $num_rows . ' OFFSET '
+					. $start_row;
 				}
 			}
 		}else{ // Log error & quit.
-			$msg = $EPfx.'Query Halt: Invalid LIMIT.';
+			$msg = $EPfx . 'Query Halt: Invalid LIMIT.';
 			error_log($msg);
 			return $rs;
 		}
-		$qry = $sql.$limit_str;
+		$qry = $sql . $limit_str;
 		if ( $debug_mode > 1 ){
 			// See: https://github.com/NathanGibbs3/BASE/issues/113
 			// Some legecy code has " 1 = 1 " in the query string. Log it here.
 			if ( strstr($qry, ' 1 = 1 ') ){
 				error_log("Issue #113 $qry");
-				error_log('See: https://github.com/NathanGibbs3/BASE/issues/113');
+				error_log('
+					See: https://github.com/NathanGibbs3/BASE/issues/113'
+				);
 			}
 		}
 		// See: https://github.com/NathanGibbs3/BASE/issues/67
@@ -372,7 +375,7 @@ class baseCon {
 				)
 			){
 				$msg .= "<p>DB Engine: $tdt DB: $TDSN</p>";
-				$msg .= '<p>SQL QUERY: <code>'.$qry.'</code></p>';
+				$msg .= '<p>SQL QUERY: <code>' . $qry . '</code></p>';
 			}
 			FatalError($msg);
 		}else{
@@ -385,10 +388,10 @@ class baseCon {
 		$msg = '';
 		$tmp = $this->DB->ErrorMsg();
 		if ( $tmp ){
-			$msg = '<b>'._ERRSQLDB.'</b> ';
+			$msg = '<b>' . _ERRSQLDB . '</b> ';
 			$msg .= $tmp;
 			if ( $debug_mode > 0 ){
-				$msg .= '<p><code>'.$this->lastSQL.'</code></p>';
+				$msg .= '<p><code>' . $this->lastSQL . '</code></p>';
 			}
 			// @codeCoverageIgnoreStart
 			// We have no way of testing MsSQL functionality.
@@ -403,7 +406,7 @@ class baseCon {
 		return $msg;
 	}
 
-	function baseSetFLOP ( ){ // Detect FLoP Extended DB.
+	function baseSetFLOP(){ // Detect FLoP Extended DB.
 		$EMPfx = __FUNCTION__ . ': ';
 		$Ret = false;
 		if( $this->baseisDBUp() ){
@@ -422,7 +425,7 @@ class baseCon {
 		return $Ret;
 	}
 
-	function baseGetFLOP ( ){
+	function baseGetFLOP(){
 		$Ret = false;
 		if( !is_null($this->FLOP) ){
 			$Ret = $this->FLOP;
@@ -471,7 +474,7 @@ class baseCon {
 				$tmp = $this->DB->serverInfo();
 				if(
 					$this->DB_class == 1
-					&& preg_match( "/MariaDB/", $tmp['description'])
+					&& preg_match("/MariaDB/", $tmp['description'])
 				){ // MariaDB Check
 					$MariaDB = true;
 				}
@@ -488,7 +491,7 @@ class baseCon {
 							foreach( $RItbls as $val ){
 								// Check Tables for InnoDB or NDB SE.
 								if(
-									!preg_match (
+									!preg_match(
 										"/^(Inno|N)DB/", $this->baseTSE($val)
 									)
 								){ // Table failed SE check.
@@ -553,6 +556,7 @@ class baseCon {
 										|| $myrow[1] != $myrow[2]
 										|| $myrow[1] != 'CASCADE'
 									){
+										KML($EPfx . 'RI-SCP1 Content', 3);
 										$RSC = true; // Restructure
 										break;
 									}
@@ -560,6 +564,7 @@ class baseCon {
 								}
 								$rs->Close();
 							}else{
+								KML($EPfx . 'RI-SCP1 Count', 3);
 								$RSC = true; // Restructure
 							}
 						}else{ // Transient DB Error.
@@ -614,6 +619,10 @@ class baseCon {
 													}
 													$rs2->Close();
 												}else{
+													KML(
+														$EPfx
+														. 'RI-SCP3 Count', 3
+														);
 													$RSC = true; // Restructure
 												}
 											}else{ // Transient DB Error.
@@ -643,7 +652,12 @@ class baseCon {
 													|| $myrow[0] != $myrow[1]
 												){
 													// @codeCoverageIgnoreStart
-													$rs->Close(); // Corrupt Structure.
+													$rs->Close();
+													// Corrupt Structure.
+													KML(
+														$EPfx
+														. 'RI-SCP2 Content', 3
+													);
 													$RSC = true; // Restructure
 													break 2;
 													// @codeCoverageIgnoreEnd
@@ -653,7 +667,12 @@ class baseCon {
 													!in_array($myrow[0], $RCN)
 												){
 													// @codeCoverageIgnoreStart
-													$rs->Close(); // Corrupt Structure.
+													$rs->Close();
+													// Corrupt Structure.
+													KML(
+														$EPfx
+														. 'RI-SCP2 Content', 3
+													);
 													$RSC = true; // Restructure
 													break 2;
 													// @codeCoverageIgnoreEnd
@@ -663,6 +682,7 @@ class baseCon {
 										}
 										$rs->Close();
 									}else{ // RI Not setup in DB table.
+										KML($EPfx . 'RI-SCP2 Count', 3);
 										$RSC = true; // Restructure
 										break;
 									}
@@ -766,7 +786,7 @@ class baseCon {
 		return $Ret;
 	}
 
-	function baseGetRI ( ){
+	function baseGetRI(){
 		$Ret = false;
 		if( is_bool($this->DBF_RI) ){
 			$Ret = $this->DBF_RI;
@@ -798,7 +818,7 @@ class baseCon {
 			if( $this->DB_type == 'postgres' ){
 				$SSfx = 'CATALOG';
 			}
-			$sql = $sqlPfx . 'CONSTRAINT_NAME, TABLE_NAME FROM '. $sqlIS
+			$sql = $sqlPfx . 'CONSTRAINT_NAME, TABLE_NAME FROM ' . $sqlIS
 			. '.table_constraints WHERE '
 			. "CONSTRAINT_$SSfx = '" . $this->DB_name
 			. "' AND CONSTRAINT_TYPE = 'FOREIGN KEY'";
@@ -901,7 +921,6 @@ class baseCon {
 		return $Ret;
 	}
 
-	// This function is not used anywhere.
 	function baseIndexExists( $table = '', $index_name = '' ){
 		$EMPfx = __FUNCTION__ . ': ';
 		$Ret = false;
@@ -915,7 +934,7 @@ class baseCon {
 			if( $this->baseTableExists($table) ){
 				$tmp = $this->DB->MetaIndexes($table);
 				if( $tmp != false ){
-					foreach ($tmp as $key => $value) { // Iterate Index List
+					foreach( $tmp as $key => $value ){ // Iterate Index List
 						if( is_key('columns', $value) ){
 							if(
 								in_array(
@@ -1169,7 +1188,7 @@ class baseCon {
 		return $this->version;
 	}
 
-	function getSafeSQLString($str){
+	function getSafeSQLString( $str ){
    $t = str_replace("\\", "\\\\", $str);
    if ($this->DB_type != "mssql" && $this->DB_type != "oci8" )
      $t = str_replace("'", "\'", $t);
@@ -1179,6 +1198,7 @@ class baseCon {
 
    return $t;
 	}
+
 }
 
 class baseRS {
@@ -1186,7 +1206,7 @@ class baseRS {
 	var $DB_type;
 	var $DB_class;
 
-	function __construct($id, $type) { // PHP 5+ constructor Shim.
+	function __construct( $id, $type ){ // PHP 5+ constructor Shim.
 		// Class/Method agnostic shim code.
 		$SCname = get_class();
 		if ( method_exists($this, $SCname) ) {
@@ -1202,7 +1222,8 @@ class baseRS {
 			// @codeCoverageIgnoreEnd
 		}
 	}
-	function baseRS($id, $type) {
+
+	function baseRS( $id, $type ){
 		$this->row = $id;
 		$this->DB_type = $type;
 		// Are we a Mysql type? Note it in Class structure.
@@ -1212,6 +1233,7 @@ class baseRS {
 			$this->DB_class = 0;
 		}
 	}
+
 	function baseFetchRow(){
 		GLOBAL $debug_mode;
 		$Ret = '';
@@ -1237,6 +1259,7 @@ class baseRS {
 		}
 		return $Ret;
 	}
+
   function baseColCount()
   {
     // Not called anywhere???? -- Kevin
@@ -1334,7 +1357,7 @@ function NewBASEDBConnection( $path, $type ){
 		if( $type == 'mysql' || $type == 'mysqlt' || $type == 'maxsql' ){
 			// On PHP 5.5+, use mysqli ADODB driver & gracefully deprecate
 			// the mysql, mysqlt & maxsql drivers.
-			if ( $PHPVer[0] > 5 || ( $PHPVer[0] == 5 && $PHPVer[1] > 4) ){
+			if ( $PHPVer[0] > 5 || ($PHPVer[0] == 5 && $PHPVer[1] > 4) ){
 				mysqli_report(MYSQLI_REPORT_OFF); // Issue #162 temp fix.
 				$Wtype = 'mysqli';
 			}
@@ -1342,19 +1365,20 @@ function NewBASEDBConnection( $path, $type ){
 		if( $type == 'mssql' ){
 			// On PHP 5.3+, use mssqlnative ADODB driver & gracefully
 			// deprecate the mssql driver.
-			if( $PHPVer[0] > 5 || ( $PHPVer[0] == 5 && $PHPVer[1] > 2) ){
+			if( $PHPVer[0] > 5 || ($PHPVer[0] == 5 && $PHPVer[1] > 2) ){
 				$Wtype = 'mssqlnative';
 			}
 		}
 		KML($EMPfx . "DB Type Req: $AXtype Type FIN: $type Driver: $Wtype", 3);
 	}
 	if (
-		!LoadedString($Wtype) ||
-		!preg_match("/^(m(y|s|ax)sql|mysqlt|postgres|oci8)$/", $type)
+		!LoadedString($Wtype)
+		|| !preg_match("/^(m(y|s|ax)sql|mysqlt|postgres|oci8)$/", $type)
 	){
-		$msg = "<b>" . _ERRSQLDBTYPE . "</b>" . "<p>:" . _ERRSQLDBTYPEINFO1
-		. "<code>'" .XSSPrintSafe($AXtype) . "'</code>. ". _ERRSQLDBTYPEINFO2;
-		FatalError ($msg);
+		$msg = "<b>" . _ERRSQLDBTYPE . "</b><p>:" . _ERRSQLDBTYPEINFO1
+		. "<code>'" . XSSPrintSafe($AXtype) . "'</code>. "
+		. _ERRSQLDBTYPEINFO2;
+		FatalError($msg);
 	}
 	$sc = DIRECTORY_SEPARATOR;
 	if ( !LoadedString($path) ){ // Setup default for PHP module include.
@@ -1368,14 +1392,14 @@ function NewBASEDBConnection( $path, $type ){
 	}
 	$GLOBALS['ADODB_DIR'] = ADODB_DIR;
 	SetConst('ADODB_ERROR_HANDLER_TYPE',E_USER_NOTICE);
-//	Unit Tests had ADODB error logging in their output.
-//	Solution Make ADODB error logging configurable.
-//	See: https://github.com/NathanGibbs3/BASE/issues/68
-//	Commented out this line for now.
-//	SetConst('ADODB_ERROR_LOG_TYPE',0);
+	// Unit Tests had ADODB error logging in their output.
+	// Solution Make ADODB error logging configurable.
+	// See: https://github.com/NathanGibbs3/BASE/issues/68
+	// Commented out this line for now.
+	// SetConst('ADODB_ERROR_LOG_TYPE',0);
 	// Load ADODB Error Handler.
 	$LibFile = 'adodb-errorhandler.inc';
-	$Lib = implode( $sc, array($path, $LibFile) ) . '.php';
+	$Lib = implode($sc, array($path, $LibFile)) . '.php';
 	if( $debug_mode > 1 ){ // Issue 11 avoidance Test shim.
 		KML($EMPfx . _DBALCHECK . " '$Lib'", 3);
 	}
@@ -1387,11 +1411,11 @@ function NewBASEDBConnection( $path, $type ){
 	$DEH = false;
 	if ( LoadedString($tmp) == true ){
 		$DEH = include_once($tmp);
-		KML($EMPfx . "DAL Load: '$path$sc$LibFile" . ".php'", 3);
+		KML($EMPfx . "DAL Load: '$Lib" . ".php'", 3);
 	}
 	// Load ADODB Library.
 	$LibFile = 'adodb.inc';
-	$Lib = implode( $sc, array($path, $LibFile) ) . '.php';
+	$Lib = implode($sc, array($path, $LibFile)) . '.php';
 	if( $debug_mode > 1 ){ // Issue 11 avoidance Test shim.
 		KML($EMPfx . _DBALCHECK . " '$Lib'", 3);
 	}
@@ -1403,7 +1427,7 @@ function NewBASEDBConnection( $path, $type ){
 	$DAL = false;
 	if ( LoadedString($tmp) == true ){
 		$DAL = include_once($tmp);
-		KML($EMPfx . "DAL Load: '$path$sc$LibFile" . ".php'", 3);
+		KML($EMPfx . "DAL Load: '$Lib" . ".php'", 3);
 	}
 	if( $DEH == false || $DAL == false ){
 		// @codeCoverageIgnoreStart
@@ -1434,6 +1458,7 @@ function MssqlKludgeValue( $text ){
 	}
 	return $Ret;
 }
+
 function RepairDBTables($db)
 {
   /* This function was completely commented in original....
@@ -1456,6 +1481,7 @@ function ClearDataTables( $db ){
   $db->baseExecute("DELETE FROM tcphdr");
   $db->baseExecute("DELETE FROM udphdr");
 }
+
 // @codeCoverageIgnoreEnd
 
 // Get Max Length of field in table.
@@ -1491,7 +1517,7 @@ function GetFieldLength( $db, $table, $field ){
 // @param $item            value of the variable to filter
 // @param $force_alert_db  (default 0 - use current db)
 // @return a sanitized version of the passed variable.
-function filterSql( $item, $force_alert_db=0, $db = '' ){
+function filterSql( $item, $force_alert_db = 0, $db = '' ){
 	GLOBAL $DBlib_path, $DBtype, $db_connect_method, $alert_dbname,
 	$alert_host, $alert_port, $alert_user, $alert_password;
 	if( !isset($item) ){ // Unset Value.
@@ -1501,7 +1527,7 @@ function filterSql( $item, $force_alert_db=0, $db = '' ){
 			// Recursively convert array elements.
 			// Works with both Keyed & NonKeyed arrays.
 			foreach( $item as $key => $value ){
-				$item[$key] = filterSql( $value, $force_alert_db );
+				$item[$key] = filterSql($value, $force_alert_db);
 			}
 			return $item;
 		}else{
@@ -1535,7 +1561,7 @@ function filterSql( $item, $force_alert_db=0, $db = '' ){
 	}
 }
 
-function GetDALSV (){ // Returns ADOdb Semantic Version Array
+function GetDALSV(){ // Returns ADOdb Semantic Version Array
 	return VS2SV(strval(ADOConnection::version()));
 }
 

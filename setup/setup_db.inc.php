@@ -293,28 +293,50 @@ function CreateBASEAG($db) {
            $tblBaseEvent_present = $db->baseTableExists("acid_event");
      }
 
-     if ($db->DB_type == "mssql") {
-           /* Sheesh! If you create the indexes at the same time you create the */
-           /*   tables, you get Attention and a disconnect (no error message). */
-           /*   If you create the indexes here, it works. Go figure. */
-           $sql = 'CREATE INDEX acid_ag_ag_id_idx ON acid_ag (ag_id)
-                   CREATE INDEX acid_ag_alert_aid_idx ON acid_ag_alert (ag_id)
-                   CREATE INDEX acid_ag_alert_id_idx ON acid_ag_alert (ag_sid, ag_cid)        
-                   CREATE INDEX acid_event_sig_class_id ON acid_event (sig_class_id)
-                   CREATE INDEX acid_event_sig_priority ON acid_event (sig_priority)
-                   CREATE INDEX acid_event_timestamp ON acid_event (timestamp)
-                   CREATE INDEX acid_event_ip_src ON acid_event (ip_src)
-                   CREATE INDEX acid_event_ip_dst ON acid_event (ip_dst)
-                   CREATE INDEX acid_event_ip_proto ON acid_event (ip_proto)
-                   CREATE INDEX acid_event_layer4_sport ON acid_event (layer4_sport)
-                   CREATE INDEX acid_event_layer4_dport ON acid_event (layer4_dport)';
-           $db->baseExecute($sql, -1, -1, false);
-           if ($db->baseErrorMessage() != "")
-              ErrorMessage("Unable to CREATE MSSQL BASE table indexes : ".$db->baseErrorMessage());
-           else
-              ErrorMessage("Successfully created MSSQL BASE table indexes");
-     }
-      
+	if( $db->DB_type == 'mssql' ){ // MsSQL Index Creation Step.
+		// Sheesh! If you create the indexes at the same time you create the
+		// tables, you get Attention and a disconnect (no error message).
+		// If you create the indexes here, it works. Go figure.
+		$IdxList = array (
+			'acid_ag_ag_id_idx' => array('acid_ag', 'ag_id'),
+			'acid_ag_alert_aid_idx' => array('acid_ag_alert', 'ag_id'),
+			'acid_ag_alert_id_idx' => array('acid_ag_alert',
+				array('ag_sid', 'ag_cid')),
+			'acid_event_sig_class_id' => array('acid_event', 'sig_class_id'),
+			'acid_event_sig_priority' => array('acid_event', 'sig_priority'),
+			'acid_event_timestamp' => array('acid_event', 'timestamp'),
+			'acid_event_ip_src' => array('acid_event', 'ip_src'),
+			'acid_event_ip_dst' => array('acid_event', 'ip_dst'),
+			'acid_event_ip_proto' => array('acid_event', 'ip_proto'),
+			'acid_event_layer4_sport' => array('acid_event', 'layer4_sport'),
+			'acid_event_layer4_dport' => array('acid_event', 'layer4_dport')
+		);
+		$ICC = 0;
+		$tmp = '';
+		foreach ($IdxList as $Idx => $param) { // Iterate Index List
+			$table = $param[0];
+			if( is_array($param[1]) ){
+				$fields = implode(', ', $param[1]);
+			}else{
+				$fields = $param[1];
+			}
+			if( !baseIndexExists($table, $Idx) ){
+				$sql = "CREATE INDEX $Idx ON $table ($fields)";
+				$db->baseExecute($sql, -1, -1, false);
+				if( $db->baseErrorMessage() != '' ){
+					$tmp = "Unable to CREATE MSSQL BASE table index: $Idx "
+					. $db->baseErrorMessage();
+					break;
+				}
+				$ICC++;
+			}
+		}
+		if( !LoadedString($tmp) ){
+			$tmp = "Successfully created $ICC MSSQL BASE table indexes.";
+		}
+		ErrorMessage($tmp);
+	}
+
      /* Added for base_roles and base_users -- Kevin */
      if ( !$tblBaseRoles_present ) {
            if ( $db->DB_type == "mysql" ) {

@@ -1,27 +1,23 @@
 <?php
-/*******************************************************************************
-** Basic Analysis and Security Engine (BASE)
-** Copyright (C) 2004 BASE Project Team
-** Copyright (C) 2000 Carnegie Mellon University
-**
-** (see the file 'base_main.php' for license details)
-**
-** Project Lead: Kevin Johnson <kjohnson@secureideas.net>
-**                Sean Muller <samwise_diver@users.sourceforge.net>
-** Built upon work by Roman Danyliw <rdd@cert.org>, <roman@danyliw.com>
-**
-** Purpose: Creates a user preferences object.  This object will allow the system
-**  to track the preferences of the user.  It will also provide basic functions
-**  like change password, etc.....
-** 
-********************************************************************************
-** Authors:
-********************************************************************************
-** Kevin Johnson <kjohnson@secureideas.net
-**
-********************************************************************************
-*/
-// Ensure the conf file has been loaded. Prevent direct access to this file.
+// Basic Analysis and Security Engine (BASE)
+// Copyright (C) 2019-2024 Nathan Gibbs
+// Copyright (C) 2004 BASE Project Team
+// Copyright (C) 2000 Carnegie Mellon University
+//
+//   For license info: See the file 'base_main.php'
+//
+//       Project Lead: Nathan Gibbs
+// Built upon work by: Kevin Johnson & the BASE Project Team
+//                     Roman Danyliw <rdd@cert.org>, <roman@danyliw.com>
+//
+//            Purpose: Creates a user preferences object.  This object
+//                     will allow the system to track the preferences of
+//                     the user.  It will also provide basic functions like
+//                     change password, etc.
+//
+//          Author(s): Nathan Gibbs
+//                     Kevin Johnson
+// Ensure the conf file has been loaded.  Prevent direct access to this file.
 defined('_BASE_INC') or die('Accessing this file directly is not allowed.');
 
 class BaseUserPrefs {
@@ -43,6 +39,7 @@ class BaseUserPrefs {
 			// @codeCoverageIgnoreEnd
 		}
 	}
+
 	function BaseUserPrefs() { // PHP 4x constructor.
 		GLOBAL $DBlib_path, $DBtype, $db_connect_method, $alert_dbname,
 		$alert_host, $alert_port, $alert_user, $alert_password;
@@ -53,6 +50,6 @@ class BaseUserPrefs {
 		);
 		$this->db = $db;
 	}
-}
 
+}
 ?>

@@ -1,24 +1,20 @@
 <?php
-/*******************************************************************************
-** Basic Analysis and Security Engine (BASE)
-** Copyright (C) 2004 BASE Project Team
-** Copyright (C) 2000 Carnegie Mellon University
-**
-** (see the file 'base_main.php' for license details)
-**
-** Project Lead: Kevin Johnson <kjohnson@secureideas.net>
-**                Sean Muller <samwise_diver@users.sourceforge.net>
-** Built upon work by Roman Danyliw <rdd@cert.org>, <roman@danyliw.com>
-**
-** Purpose: debugging and logging routines   
-********************************************************************************
-** Authors:
-********************************************************************************
-** Kevin Johnson <kjohnson@secureideas.net
-**
-********************************************************************************
-*/
-// Ensure the conf file has been loaded. Prevent direct access to this file.
+// Basic Analysis and Security Engine (BASE)
+// Copyright (C) 2019-2024 Nathan Gibbs
+// Copyright (C) 2004 BASE Project Team
+// Copyright (C) 2000 Carnegie Mellon University
+//
+//   For license info: See the file 'base_main.php'
+//
+//       Project Lead: Nathan Gibbs
+// Built upon work by: Kevin Johnson & the BASE Project Team
+//                     Roman Danyliw <rdd@cert.org>, <roman@danyliw.com>
+//
+//            Purpose: Debugging and logging routines.
+//
+//          Author(s): Nathan Gibbs
+//                     Kevin Johnson
+// Ensure the conf file has been loaded.  Prevent direct access to this file.
 defined('_BASE_INC') or die('Accessing this file directly is not allowed.');
 
 function ErrorMessage( $message, $color = '#ff0000', $br = 0 ){
@@ -103,8 +99,10 @@ function returnBuildError( $Desc = '', $Opt = '', $dll = '' ){
 				"To enable $Desc support, edit your <code>php.ini</code> file "
 				. 'and add the suggested line in the Extensions section.<br/>'
 				. "<code>Extension=$dll</code><br/>"
-				. 'Note: The suggested dll name may be different than the one '
-				. 'installed on your system. Please contact your OS vendor '
+				. 'Check your PHP <code>extension_dir</code> for dll files '
+				. 'similar to <code>' . "php_$dll" . '.dll</code><br/>'
+				. 'Note: The suggested dll file name may be different than '
+				. 'what is installed on your system. Contact your OS vendor '
 				. 'for more detailed technical support.<br/>'
 			);
 		}
@@ -115,7 +113,7 @@ function returnBuildError( $Desc = '', $Opt = '', $dll = '' ){
 
 function BuildError( $message = '', $fmessage = '' ){
 	if( LoadedString($message) ){
-		ErrorMessage(_ERRPHPERROR.':',0,1);
+		ErrorMessage(_ERRPHPERROR . ':',0,1);
 		ErrorMessage($message, 'black', 1);
 		print '<br/>';
 	}
@@ -131,8 +129,8 @@ function LibIncError(
 		$Pear = 0
 	){
 	// Translation data this msg when we get to _ERRSQLDBALLOAD1 on Issue#11
-	$msg = "<b>Error loading the $Desc library:</b> ".
-	XSSPrintSafe('from "' . $Loc . '".');
+	$msg = "<b>Error loading the $Desc library:</b> "
+	. XSSPrintSafe('from "' . $Loc . '".');
 	if( LoadedString($LibName) ){
 		$msg .= '<br/>';
 		// Translation data this msg when we get to _ERRSQLDBALLOAD2 on Issue#11
@@ -150,22 +148,21 @@ function LibIncError(
 	}
 	$FLib = $Lib;
 	if( $Pear == 1 ){
-		$EMsg = "Check your Pear::$LibName installation!<br/>";
-		$EMsg .= 'Make sure PEAR libraries can be found by PHP.';
-		$EMsg .= '<pre>';
-		$EMsg .= XSSPrintSafe('pear config-show | grep "PEAR directory"'."\n");
-		$EMsg .= XSSPrintSafe('PEAR directory      php_dir     /usr/share/pear');
-		$EMsg .= '</pre>';
-		$EMsg .= 'This path must be part of the include path of php (cf. /etc/php.ini).';
-		$EMsg .= '<pre>';
-		$EMsg .= XSSPrintSafe('php -i | grep "include_path"');
-		$EMsg .= XSSPrintSafe(
-			'include_path => .:/usr/share/pear:/usr/share/php => .:/usr/share/pear:/usr/share/php'
-		);
-		$EMsg .= '</pre>';
+		$EMsg = "Check your Pear::$LibName installation!<br/>"
+		. 'Make sure PEAR libraries can be found by PHP.<pre>'
+		. XSSPrintSafe('pear config-show | grep "PEAR directory"' . "\n")
+		. XSSPrintSafe('PEAR directory      php_dir     /usr/share/pear')
+		. '</pre>This path must be part of the include path of php '
+		. '(cf. /etc/php.ini).<pre>'
+		. XSSPrintSafe('php -i | grep "include_path"')
+		. XSSPrintSafe(
+			'include_path => .:/usr/share/pear:/usr/share/php '
+			. '=> .:/usr/share/pear:/usr/share/php'
+		) . '</pre>';
 		if( ini_get('safe_mode') ){
 			$EMsg .= XSSPrintSafe(
-				'In "safe_mode" it must also be part of safe_mode_include_dir in /etc/php.ini'
+				'In "safe_mode" it must also be part of safe_mode_include_dir'
+				. ' in /etc/php.ini'
 			);
 		}
 		ErrorMessage($EMsg,'black',1);
@@ -219,22 +216,22 @@ function DDT(
 		if( $icnt > 0 ){
 			$style = '';
 			if ( $vf == 1 && $DF ){ // Vertical Dsiplay
-				$style = " class='sectiontitle' style='text-align: right;".
-				" padding-right: 10px; width: 10%'";
+				$style = " class='sectiontitle' style='text-align: right;"
+				. " padding-right: 10px; width: 10%'";
 			}
 			NLIO("<td$style>", $tab + 2);
 			if( $vf == 0 ){
 				if( $DF ){
-					for( $i = 0; $i < $icnt; $i++){
+					for( $i = 0; $i < $icnt; $i++ ){
 						NLIO($Desc[$i], $tab + 3);
 						if( $i != $icnt - 1 ){
 							NLIO('</td><td>', $tab + 2);
 						}
 					}
-					PrintTblNewRow(1, '', $tab + 2 );
+					PrintTblNewRow(1, '', $tab + 2);
 				}
 			}
-			for( $i = 0; $i < $icnt; $i++){
+			for( $i = 0; $i < $icnt; $i++ ){
 				if( $vf == 0 ){
 					NLIO($Items[$i], $tab + 3);
 					if( $i != $icnt - 1 ){
@@ -242,12 +239,12 @@ function DDT(
 					}
 				}else{
 					if( $DF ){
-						NLIO($Desc[$i].': ', $tab + 3);
+						NLIO($Desc[$i] . ': ', $tab + 3);
 						NLIO("</td><td style='padding-left:10px;'>", $tab + 2);
 					}
 					NLIO($Items[$i], $tab + 3);
 					if( $i != $icnt -1 ){
-						PrintTblNewRow(0, '', $tab + 2 );
+						PrintTblNewRow(0, '', $tab + 2);
 						NLIO("<td$style>", $tab + 2);
 					}
 				}
@@ -260,13 +257,15 @@ function DDT(
 
 // @codeCoverageIgnoreStart
 function FatalError( $message ){
-	print returnErrorMessage('<b>'._ERRBASEFATAL.'</b>',0,1)."\n".$message;
+	print returnErrorMessage('<b>' . _ERRBASEFATAL . '</b>',0,1)
+	. "\n" . $message;
 	$message = preg_replace("/\//", '', $message);
 	$message = preg_replace("/<br>/i", ' ', $message);
-	$message = strip_tags($message)."\n";
+	$message = strip_tags($message) . "\n";
 	error_log($message);
 	trigger_error($message, E_USER_ERROR);
 }
+
 // @codeCoverageIgnoreEnd
 
 function PrintServerInformation()

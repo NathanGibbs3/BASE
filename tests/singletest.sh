@@ -40,6 +40,7 @@ else
 	# What PHPUnit Version are we using?
 	puv=`$px --version|sed -e "s/^PHPUnit\s//" -e "s/\sby.*$//"`
 	echo "Will test with PHPUnit Version: $puv.";
+	sudo rm -f ./build/error.log
 	$ph ./tests/cptgenerate $puv # Generate PHPUnit Tests
 	$px --bootstrap $td/bootstrap.php $td/php/$1
 fi

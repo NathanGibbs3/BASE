@@ -1,6 +1,6 @@
 <?php
 // Basic Analysis and Security Engine (BASE)
-// Copyright (C) 2019-2023 Nathan Gibbs
+// Copyright (C) 2019-2024 Nathan Gibbs
 // Copyright (C) 2004 BASE Project Team
 // Copyright (C) 2000 Carnegie Mellon University
 //
@@ -10,7 +10,7 @@
 // Built upon work by: Kevin Johnson & the BASE Project Team
 //                     Roman Danyliw <rdd@cert.org>, <roman@danyliw.com>
 //
-//            Purpose: status and event/dns/whois cache maintenance 
+//            Purpose: status and event/dns/whois cache maintenance.
 //
 //          Author(s): Nathan Gibbs
 //                     Kevin Johnson
@@ -93,36 +93,24 @@ if ( $AdminAuth ){ // Issue #146 Fix
 	if( $submit == 'Update Alert Cache' ){
 		UpdateAlertCache($db);
 	}elseif( $submit == 'Rebuild Alert Cache' ){
-     DropAlertCache($db);
-     UpdateAlertCache($db);
-  }
-  else if ( $submit == "Update IP Cache" )
-  {
-     UpdateDNSCache($db);     
-  }
-  else if ( $submit == "Rebuild IP Cache" )
-  {
-     DropDNSCache($db);
-     UpdateDNSCache($db);
-  }
-  else if ( $submit == "Update Whois Cache" )
-  {
-     UpdateWhoisCache($db);     
-  }
-  else if ( $submit == "Rebuild Whois Cache" )
-  {
-     DropWhoisCache($db);
-     UpdateWhoisCache($db);
-  }
-  else if ( $submit == "Repair Tables")
-  {
-     //$repair_output = RepairDBTables($db);
-     CreateBASEAG($db);
-  }
-  else if ( $submit == "Clear Data Tables")
-  {
-     ClearDataTables($db);
-  }
+		DropAlertCache($db);
+		UpdateAlertCache($db);
+	}elseif ( $submit == "Update IP Cache" ){
+		UpdateDNSCache($db);
+	}elseif ( $submit == "Rebuild IP Cache" ){
+		DropDNSCache($db);
+		UpdateDNSCache($db);
+	}elseif ( $submit == "Update Whois Cache" ){
+		UpdateWhoisCache($db);
+	}elseif ( $submit == "Rebuild Whois Cache" ){
+		DropWhoisCache($db);
+		UpdateWhoisCache($db);
+	}elseif ( $submit == "Repair Tables" ){
+		//$repair_output = RepairDBTables($db);
+		CreateBASEAG($db);
+	}elseif ( $submit == "Clear Data Tables" ){
+		ClearDataTables($db);
+	}
 	if( $SaM == 'yes' ){
 		if( LoadedString($submit) ){
 			NLIO('Executed command: ' . XSSPrintSafe($submit));
@@ -143,7 +131,7 @@ if ($SaM == 'yes'){
 		if ($AdminAuth){
 			NLIO($title);
 		}
-		NLIO(_MNTCLIENT.' '.XSSPrintSafe($SW_Cli));
+		NLIO(_MNTCLIENT . ' ' . XSSPrintSafe($SW_Cli));
 	}
 }else{
 	PrintFramedBoxHeader($title, '#669999', 1,3,'left');
@@ -189,11 +177,11 @@ if( $AdminAuth ){ // Issue #146 Fix
 			$module_lst[$key] = "'$val'";
 		}
 	}
-	$PERL = ' '. implode(', ', $ER_lst);
+	$PERL = ' ' . implode(', ', $ER_lst);
 	$PLM = ' ' . implode(', ', $module_lst);
 	if ($SaM == 'yes'){
 		if ($submit == 'status'){
-			NLIO(_MNTSERVERHW .' ' . php_uname());
+			NLIO(_MNTSERVERHW . ' ' . php_uname());
 			NLIO(_MNTSERVER . ' ' . $SW_Svr);
 			NLIO(_MNTPHPVER . ' ' . phpversion());
 			NLIO('PHP API: ' . php_sapi_name());
@@ -257,7 +245,7 @@ if ($SaM == 'yes'){
 	}
 }else{
 	PrintFramedBoxFooter(1,3);
-	NLIO ('<br/>',3);
+	NLIO('<br/>',3);
 }
 
 $BV = $BCR->GetCap('BASE_Ver');
@@ -314,12 +302,13 @@ if( $AdminAuth ){ // Issue #146 Fix
 			NLIO(_DATABASE);
 			NLIO(_MNTDBALV . ' ' . implode('.', GetDALSV()));
 			NLIO(_MNTDBTYPE . " $DBtype");
-			NLIO(
-				_MNTDBALERTNAME
-				. " $alert_dbname Storage Engine: $DBSE"
-			);
+			$tmp = _MNTDBALERTNAME . " $alert_dbname";
+			if( LoadedString($DBSE) ){
+				$tmp .= " Storage Engine: $DBSE";
+			}
+			NLIO($tmp);
 			if( $BADB ){
-				$ADBStatus = _MNTDBARCHNAME." $archive_dbname";
+				$ADBStatus = _MNTDBARCHNAME . " $archive_dbname";
 			}else{
 				$ADBStatus = 'Archive DB: not enabled.'; // TD This.
 			}
@@ -328,7 +317,7 @@ if( $AdminAuth ){ // Issue #146 Fix
 			if( !$BARI ){
 				$RIStatus .= 'Not ';
 			}
-			$RIStatus .= 'Enabled. DB: ';
+			$RIStatus .= _ENABLED . '. Referential Integrity DB: ';
 			if( !$DBRI ){
 				$RIStatus .= 'Not ';
 			}
@@ -348,7 +337,8 @@ if( $AdminAuth ){ // Issue #146 Fix
 			$Icon = 'no';
 			$Desc = 'Not ' . _ENABLED;
 		}
-		$RIStatus .= _ENABLED . '.'. Icon($Icon, $Desc, 6) . '<b> DB: </b>';
+		$RIStatus .= _ENABLED . '.' . Icon($Icon, $Desc, 6)
+		. '<b> Referential Integrity DB: </b>'; // Issue #11 this.
 		$Icon = 'yes';
 		$Desc = _ENABLED;
 		if( !$DBRI ){
@@ -402,12 +392,14 @@ if( $AdminAuth ){ // Issue #146 Fix
 			'<b>' . _MNTDBTYPE . ': </b>' . XSSPrintSafe($DBtype) . '<br/>',
 			6
 		);
-		NLIO(
-			'<b>' . _MNTDBALERTNAME . ': </b>' . XSSPrintSafe($alert_dbname)
-			. '&nbsp;&nbsp;&nbsp;<b>Storage Engine: </b>'
-			. XSSPrintSafe($DBSE) . '<br/>',
-			6
-		);
+		$tmp = '<b>' . _MNTDBALERTNAME . ': </b>'
+		. XSSPrintSafe($alert_dbname);
+		if( LoadedString($DBSE) ){
+			$tmp .= '&nbsp;&nbsp;&nbsp;<b>Storage Engine: </b>'
+			. XSSPrintSafe($DBSE);
+		}
+		$tmp .= '<br/>';
+		NLIO($tmp, 6);
 		NLIO($RIStatus . '<br/>', 6);
 		NLIO("$ADBStatus$ADBI" . '<br/>', 6);
 		printIcon('tool', 'Repair Tables', 6);
@@ -422,7 +414,7 @@ if( $AdminAuth ){ // Issue #146 Fix
 			. " value='Clear Data Tables'>",
 			6
 		);
-  echo $repair_output;
+		echo $repair_output;
 	}
 }
 if( $SaM != 'yes' ){
@@ -442,7 +434,7 @@ if( $SaM != 'yes' ){
 
   $uncached_sip_cnt = UniqueSrcIPCnt($db);
   $uncached_dip_cnt = UniqueDstIPCnt($db);
-  
+
   $ip_result = $db->baseExecute("SELECT COUNT(DISTINCT ip_src) FROM acid_event ".
                                 "INNER JOIN acid_ip_cache ON ipc_ip = ip_src ".
                                 "WHERE ipc_fqdn is not NULL");
@@ -474,19 +466,20 @@ if( $SaM != 'yes' ){
 if( $SaM == 'yes' ){
 	if( $submit == 'status' ){
 		NLIO(_MNTAIC);
-		NLIO(_MNTAICTE.' '.$event_cnt);
-		NLIO(_MNTAICCE.' '.$cache_event_cnt);
+		NLIO(_MNTAICTE . ' ' . $event_cnt);
+		NLIO(_MNTAICCE . ' ' . $cache_event_cnt);
 		NLIO();
-		NLIO(_MNTIPAC.':');
+		NLIO(_MNTIPAC . ':');
 		NLIO(
-			_MNTIPACUSIP.' '.$uncached_sip_cnt.' '.
-			_MNTIPACDNSC.' '.$cached_sip_cnt.' '.
-			_MNTIPACWC.' '.$cached_swhois_cnt
+			_MNTIPACUSIP . ' ' . $uncached_sip_cnt . ' '
+			. _MNTIPACDNSC . ' ' . $cached_sip_cnt . ' '
+			. _MNTIPACWC . ' ' . $cached_swhois_cnt
 		);
 		NLIO(
-			_MNTIPACUDIP.' '.$uncached_dip_cnt.' '.
-			_MNTIPACDNSC.' '.$cached_dip_cnt.' '.
-			_MNTIPACWC.' '.$cached_dwhois_cnt);
+			_MNTIPACUDIP . ' ' . $uncached_dip_cnt . ' '
+			. _MNTIPACDNSC . ' ' . $cached_dip_cnt . ' '
+			. _MNTIPACWC . ' ' . $cached_dwhois_cnt
+		);
 		NLIO();
 	}
 }else{
@@ -508,7 +501,7 @@ if( $SaM == 'yes' ){
 		);
 	}
 	PrintFramedBoxFooter(1, 3);
-	NLIO ('<br/>', 3);
+	NLIO('<br/>', 3);
 	PrintFramedBoxHeader(_MNTIPAC, '#669999', 1, 3, 'left');
 
   echo '<B>'._MNTIPACUSIP.'</B> '.$uncached_sip_cnt.'&nbsp;&nbsp&nbsp;'.
@@ -538,8 +531,8 @@ if( $SaM == 'yes' ){
 		);
 	}
 	PrintFramedBoxFooter(1, 3);
-	NLIO ('<br/>', 3);
-	if ( $AdminAuth ){ // Issue #146 Fix
+	NLIO('<br/>', 3);
+	if( $AdminAuth ){ // Issue #146 Fix
 		NLIO('</form>', 2);
 		if( $BCR->GetCap('BASE_UIDiag') > 0 ){
 			$BCR->DumpCaps();

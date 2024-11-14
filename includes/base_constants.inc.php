@@ -15,7 +15,7 @@
 //          Author(s): Nathan Gibbs
 //                     Kevin Johnson
 // Ensure the conf file has been loaded.  Prevent direct access to this file.
-defined( '_BASE_INC' ) or die( 'Accessing this file directly is not allowed.' );
+defined('_BASE_INC') or die('Accessing this file directly is not allowed.');
 
 /* IP encapsulated layer4 proto */
 SetConst("UDP", 17);
@@ -69,6 +69,6 @@ SetConst("VAR_AT",       8192);
 SetConst("VAR_SCORE",   16384);
 SetConst("VAR_BOOLEAN", 32768);
 SetConst("VAR_COLON", 65536); // Char: :
-SetConst("VAR_BRACKETS", 131072); // Char(s): ][
+SetConst("VAR_BRACKETS", 131072); // Char: ] Char: [
 
 ?>

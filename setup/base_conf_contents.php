@@ -28,25 +28,23 @@ function returnContents()
         $arcdbport, $arcdbname, $arcdbusername, $arcdbpasswd;
         
     $contents = '<?php
-/*******************************************************************************
-** Basic Analysis and Security Engine (BASE)
-** Copyright (C) 2004 BASE Project Team
-** Copyright (C) 2000 Carnegie Mellon University
-**
-** (see the file "base_main.php" for license details)
-**
-** Project Leads: Kevin Johnson <kjohnson@secureideas.net>
-** Built upon work by Roman Danyliw <rdd@cert.org>, <roman@danyliw.com>
-**
-** Purpose: Vanilla Config file
-********************************************************************************
-** Authors:
-********************************************************************************
-** Kevin Johnson <kjohnson@secureideas.net
-**
-********************************************************************************
-*/
-    $BASE_VERSION = \'1.4.5 (lilias)\';
+// Basic Analysis and Security Engine (BASE)
+// Copyright (C) 2019-2024 Nathan Gibbs
+// Copyright (C) 2004 BASE Project Team
+// Copyright (C) 2000 Carnegie Mellon University
+//
+//   For license info: See the file 'base_main.php'
+//
+//       Project Lead: Nathan Gibbs
+// Built upon work by: Kevin Johnson & the BASE Project Team
+//                     Roman Danyliw <rdd@cert.org>, <roman@danyliw.com>
+//
+//            Purpose: Vanilla Config file.
+//
+//          Author(s): Nathan Gibbs
+//                     Kevin Johnson
+
+$BASE_VERSION = \'1.4.5 (lilias)\';
 
 // BASE Server Config settings
 
@@ -138,16 +136,16 @@ $base_custom_footer = \'\';
      */
     $DBtype = \''. $dbtype .'\';
     
-    /* Alert DB connection parameters
-     *   - $alert_dbname   : MySQL database name of Snort alert DB
-     *   - $alert_host     : host on which the DB is stored
-     *   - $alert_port     : port on which to access the DB
-     *   - $alert_user     : login to the database with this user
-     *   - $alert_password : password of the DB user
-     *
-     *  This information can be gleaned from the Snort database
-     *  output plugin configuration.
-     */
+// Alert DB connection parameters.
+// - $alert_dbname   : Name of Snort alert DB.
+// - $alert_host     : Host on which the DB is stored.
+// - $alert_port     : Port on which to access the DB.
+// - $alert_user     : Login to the DB with this user.
+// - $alert_password : Password of the DB user.
+//
+// This information can be gleaned from the Snort database output plugin
+// configuration.
+
     $alert_dbname   = \''. $dbname .'\';
     $alert_host     = \''. $dbhost .'\';
     $alert_port     = \''. $dbport .'\';

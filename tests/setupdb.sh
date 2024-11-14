@@ -17,6 +17,8 @@ else
 		PGPASSWORD="$PW"
 	elif [ "$DB" = "mysql" ]; then
 		OPT="-p$PW"
+	elif [ "$DB" = "mssql" ]; then
+		SQLCMDPASSWORD="$PW"
 	else
 		echo "Not Setting up Database."
 	fi
@@ -43,14 +45,15 @@ elif [ "$DB" = "mysql" ]; then
 	mysql -h $DBS -u travis $OPT -e "CREATE DATABASE IF NOT EXISTS $DBNNRI;"
 	mysql -h $DBS -u travis $OPT -D $DBNNRI < tests/phpcommon/DB.mysql.MyISAM.sql
 elif [ "$DB" = "mssql" ]; then
+	# Untested / Unverified, but it's a start.
 	echo "Creating $DB Database $DBN."
-	echo "NOOp placeholder for MsSQL CLI."
+	sqlcmd -S $DBS -U travis -d $DBN -Q "\"CREATE DATABASE IF NOT EXISTS $DBN;\""
 	echo "Creating SNORT Tables."
-	echo "NOOp placeholder for MsSQL CLI."
+	sqlcmd -S $DBS -U travis -d $DBN -i sql/create_snort_tbls_mssql.sql
 	echo "Creating BASE Tables."
-	echo "NOOp placeholder for MsSQL CLI."
+	sqlcmd -S $DBS -U travis -d $DBN -i sql/create_base_tbls_mssql.sql
 	echo "Adding referential integrity to the database schema."
-	echo "NOOp placeholder for MsSQL CLI."
+	sqlcmd -S $DBS -U travis -d $DBN -i sql/enable_RI.sql
 else
 	echo "Not Setting up Database."
 fi

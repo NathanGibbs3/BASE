@@ -1,6 +1,6 @@
 <?php
 // Basic Analysis and Security Engine (BASE)
-// Copyright (C) 2019-2023 Nathan Gibbs
+// Copyright (C) 2019-2024 Nathan Gibbs
 // Copyright (C) 2004 BASE Project Team
 // Copyright (C) 2000 Carnegie Mellon University
 //
@@ -10,14 +10,14 @@
 // Built upon work by: Kevin Johnson & the BASE Project Team
 //                     Roman Danyliw <rdd@cert.org>, <roman@danyliw.com>
 //
-//            Purpose: Prints or generates HTML to display
+//            Purpose: Prints or generates HTML to display.
 //
 //          Author(s): Nathan Gibbs
 //                     Kevin Johnson
 // Ensure the conf file has been loaded.  Prevent direct access to this file.
 defined('_BASE_INC') or die('Accessing this file directly is not allowed.');
 
-function PageStart ( $refresh = 0, $page_title = '' ){
+function PageStart( $refresh = 0, $page_title = '' ){
 	GLOBAL $BASE_VERSION, $BASE_installID, $base_style, $BASE_urlpath,
 	$html_no_cache, $refresh_stat_page, $stat_page_refresh_time, $UIL, $BCR,
 	$Use_Auth_System;
@@ -35,6 +35,8 @@ function PageStart ( $refresh = 0, $page_title = '' ){
 	// @codeCoverageIgnoreEnd
 	$MHE = "<meta http-equiv='";
 	$MNM = "<meta name='";
+	$CSSL = '<link rel="stylesheet" type="text/css" HREF="'
+	. $BASE_urlpath . '/styles/';
 	$GT = 'BASE'; // Generator Meta Attribute.
 	// Backport Shim
 	$Charset = _CHARSET;
@@ -70,13 +72,14 @@ function PageStart ( $refresh = 0, $page_title = '' ){
 		}
 		// @codeCoverageIgnoreEnd
 	}
-	print "<!DOCTYPE html PUBLIC '-//W3C//DTD HTML 4.01 Transitional//EN' 'http://www.w3.org/TR/html4/loose.dtd'>";
-	NLIO('<!-- '. $title . ' -->');
+	print "<!DOCTYPE html PUBLIC '-//W3C//DTD HTML 4.01 Transitional//EN' "
+	. "'http://www.w3.org/TR/html4/loose.dtd'>";
+	NLIO('<!-- ' . $title . ' -->');
 	NLIO('<html>');
 	NLIO('<head>', 1);
-	NLIO($MHE."Content-Type' content='text/html; charset=$Charset'>", 2);
+	NLIO($MHE . "Content-Type' content='text/html; charset=$Charset'>", 2);
 	if ( $html_no_cache == 1 ) {
-		NLIO($MHE."pragma' content='no-cache'>", 2);
+		NLIO($MHE . "pragma' content='no-cache'>", 2);
 	}
 	if ( $refresh == 1 && $refresh_stat_page == 1 ){
 		if (isset($_SERVER["REQUEST_URI"])){
@@ -89,27 +92,27 @@ function PageStart ( $refresh = 0, $page_title = '' ){
 		);
 		$tmp = htmlspecialchars($tmp,ENT_QUOTES);
 		NLIO(
-			$MHE."refresh' content='$stat_page_refresh_time; URL=$tmp'>",2
+			$MHE . "refresh' content='$stat_page_refresh_time; URL=$tmp'>",2
 		);
 	}
-	NLIO($MNM."Author' content='Nathan Gibbs'>",2);
-	NLIO($MNM."Generator' content='$GT'>",2);
-	NLIO($MNM."viewport' content='width=device-width, initial-scale=1'>",2);
+	NLIO($MNM . "Author' content='Nathan Gibbs'>",2);
+	NLIO($MNM . "Generator' content='$GT'>",2);
+	NLIO($MNM . "viewport' content='width=device-width, initial-scale=1'>",2);
 	NLIO("<title>$title</title>",2);
-//	NLIO('<meta name="color-scheme" content="light dark"/>',2);
-	NLIO('<link rel="stylesheet" type="text/css" HREF="'. $BASE_urlpath .'/styles/base_common.css'.'">', 2);
-	NLIO('<link rel="stylesheet" type="text/css" HREF="'. $BASE_urlpath .'/styles/'. $base_style .'">', 2);
+	// NLIO('<meta name="color-scheme" content="light dark"/>',2);
+	NLIO($CSSL . 'base_common.css">', 2);
+	NLIO($CSSL . $base_style . '">', 2);
 	NLIO('</head>', 1);
 	NLIO('<body>', 1);
-	NLIO('<div class="mainheadertitle">'.$HT.'</div>',2);
+	NLIO('<div class="mainheadertitle">' . $HT . '</div>',2);
 }
 
-function PageEnd (){
+function PageEnd(){
 	NLIO('</body>', 1);
 	NLIO('</html>');
 }
 
-function PrintBASESubHeader (
+function PrintBASESubHeader(
 	$page_title = '', $page_name = '', $back_link = '', $refresh = 0,
 	$page = ''
 ){
@@ -119,13 +122,13 @@ function PrintBASESubHeader (
 	}
 	$BCR->AddCap('UIMode', 'Web');
 	PageStart($refresh, $page_title);
-	PrintBASEMenu( 'Header', $back_link);
+	PrintBASEMenu('Header', $back_link);
 	if ( $debug_mode > 0 ){
 		PrintPageHeader();
 	}
 }
 
-function PrintBASESubFooter (){
+function PrintBASESubFooter(){
 	GLOBAL $BASE_path, $BASE_urlpath, $base_custom_footer, $BCR;
 	$BV = $BCR->GetCap('BASE_Ver');
 	NLIO('<!-- BASE Footer -->', 2);
@@ -149,8 +152,8 @@ function PrintBASESubFooter (){
 			NLIO('<!-- BASE Custom Footer -->', 2);
 			$tmp = base_include($base_custom_footer);
 			if( $tmp == false ){
-				$tmp = XSSPrintSafe ( $base_custom_footer );
-				$tmp = returnErrorMessage (
+				$tmp = XSSPrintSafe($base_custom_footer);
+				$tmp = returnErrorMessage(
 					"ERROR: Include custom footer file: $tmp"
 				);
 				NLIO($tmp, 2);
@@ -160,7 +163,7 @@ function PrintBASESubFooter (){
 	PageEnd();
 }
 
-function PrintBASEMenu ( $type = '', $back_link = '' ){
+function PrintBASEMenu( $type = '', $back_link = '' ){
 	GLOBAL $BASE_urlpath, $Use_Auth_System, $et;
 	if( LoadedString($type) == true ){
 		// Common
@@ -212,7 +215,7 @@ function PrintBASEMenu ( $type = '', $back_link = '' ){
 					}else{
 						$tmp = _CREATEU;
 					}
-					NLIO("$Sep$Hrst" . "admin/index.php'>$tmp</a>", 6);
+					NLIO($Sep . $Hrst . "admin/index.php'>$tmp</a>", 6);
 				}
 				if( is_object($et) && $et->verbose > 0 ){
 					print $Sep;
@@ -226,16 +229,14 @@ function PrintBASEMenu ( $type = '', $back_link = '' ){
 	}
 }
 
-function PrintFramedBoxHeader (
-	$title = '', $cc = 'black' , $td = 0, $tab = 3, $align = 'center',
-	$wd = 100
+function PrintFramedBoxHeader(
+	$title = '', $cc = 'black', $td = 0, $tab = 3, $align = 'center', $wd = 100
 ){
 	print FramedBoxHeader($title, $cc, $td, $tab, $align, $wd);
 }
 
-function FramedBoxHeader (
-	$title = '', $cc = 'black' , $td = 0, $tab = 3, $align = 'center',
-	$wd = 100
+function FramedBoxHeader(
+	$title = '', $cc = 'black', $td = 0, $tab = 3, $align = 'center', $wd = 100
 ){
 	$Ret = '';
 	// Input Validation
@@ -267,11 +268,12 @@ function FramedBoxHeader (
 	$Ret .= NLI($tmp, $tab) . NLI('<tr>', $tab + 1);
 	if( LoadedString($title) == true ){
 		$Ret .= NLI(
-			"<td class='sectiontitle' style='text-align: $align;' colspan='20'>",
+			"<td class='sectiontitle' style='text-align: $align;' "
+			. "colspan='20'>",
 			$tab + 2
 		);
 		$Ret .= NLI($title, $tab + 3);
-		$Ret .= TblNewRow( $td, $align, $tab + 2 );
+		$Ret .= TblNewRow($td, $align, $tab + 2);
 	}else{
 		if( $td != 0 ){
 			$Ret .= NLI('<td', $tab + 2);
@@ -284,11 +286,11 @@ function FramedBoxHeader (
 	return $Ret;
 }
 
-function PrintFramedBoxFooter ( $td = 0, $tab = 3 ){
+function PrintFramedBoxFooter( $td = 0, $tab = 3 ){
 	print FramedBoxFooter($td, $tab);
 }
 
-function FramedBoxFooter ( $td = 0, $tab = 3 ){
+function FramedBoxFooter( $td = 0, $tab = 3 ){
 	$Ret = '';
 	// Input Validation
 	if( !is_int($td) ){
@@ -306,7 +308,7 @@ function FramedBoxFooter ( $td = 0, $tab = 3 ){
 	return $Ret;
 }
 
-function TblNewRow ( $td = 0, $align = '', $tab = 3 ){
+function TblNewRow( $td = 0, $align = '', $tab = 3 ){
 	$Ret = '';
 	// Input Validation
 	if( !is_int($td) ){
@@ -322,7 +324,7 @@ function TblNewRow ( $td = 0, $align = '', $tab = 3 ){
 	}
 	// Input Validation End
 	$Ret = NLI('</td>', $tab);
-	$Ret .= NLI('</tr><tr>', $tab -1 );
+	$Ret .= NLI('</tr><tr>', $tab -1);
 	if( $td != 0 ){
 		$Ret .= NLI('<td', $tab);
 		if( $align != '' ){
@@ -333,11 +335,11 @@ function TblNewRow ( $td = 0, $align = '', $tab = 3 ){
 	return $Ret;
 }
 
-function PrintTblNewRow ( $td = 0, $align = '', $tab = 3 ){
+function PrintTblNewRow( $td = 0, $align = '', $tab = 3 ){
 	print TblNewRow($td, $align, $tab);
 }
 
-function LINext ( $tab = 3 ){
+function LINext( $tab = 3 ){
 	$Ret = '';
 	if( !is_int($tab) || $tab < 1 ){ // Input Validation
 		$tab = 3;
@@ -346,11 +348,11 @@ function LINext ( $tab = 3 ){
 	return $Ret;
 }
 
-function PrintLINext ( $tab = 3 ){
+function PrintLINext( $tab = 3 ){
 	print LINext($tab);
 }
 
-function Icon ( $icon = '', $desc = '', $tab = 3, $sclass = '' ){
+function Icon( $icon = '', $desc = '', $tab = 3, $sclass = '' ){
 	GLOBAL $BCR;
 	$Ret = '';
 	if( LoadedString($icon) ){
@@ -412,13 +414,13 @@ function Icon ( $icon = '', $desc = '', $tab = 3, $sclass = '' ){
 	return $Ret;
 }
 
-function PrintIcon ( $icon = '', $desc = '', $tab = 3, $sclass = '' ){
+function PrintIcon( $icon = '', $desc = '', $tab = 3, $sclass = '' ){
 	print Icon($icon, $desc, $tab, $sclass);
 }
 
-function returnExportHTTPVar ( $var_name = '', $var_value = '', $tab = 3 ){
+function returnExportHTTPVar( $var_name = '', $var_value = '', $tab = 3 ){
 	$Ret = '';
-	if( LoadedString( $var_name ) ){ // Input Validation
+	if( LoadedString($var_name) ){ // Input Validation
 		$var_name = CleanVariable(
 			$var_name, VAR_ALPHA
 			| VAR_SCORE | VAR_USCORE | VAR_PERIOD | VAR_COLON | VAR_BRACKETS
@@ -433,7 +435,7 @@ function returnExportHTTPVar ( $var_name = '', $var_value = '', $tab = 3 ){
 	return $Ret;
 }
 
-function chk_select ( $stored_value, $current_value ){
+function chk_select( $stored_value, $current_value ){
 	$msg = ' ';
 	if( strnatcmp($stored_value,$current_value) == 0 ){
 		$msg .= 'selected';
@@ -441,7 +443,7 @@ function chk_select ( $stored_value, $current_value ){
 	return $msg;
 }
 
-function chk_check ( $stored_value, $current_value ){
+function chk_check( $stored_value, $current_value ){
 	$msg = ' ';
 	if( $stored_value == $current_value ){
 		$msg .= 'checked';
@@ -449,7 +451,7 @@ function chk_check ( $stored_value, $current_value ){
 	return $msg;
 }
 
-function dispYearOptions ( $stored_value, $Start = 1999 ){
+function dispYearOptions( $stored_value, $Start = 1999 ){
 	// Creates the years for drop down boxes
 	if( !is_int($Start) || $Start < 1999 ){ // Input Validation
 		$Start = 1999;
@@ -464,7 +466,7 @@ function dispYearOptions ( $stored_value, $Start = 1999 ){
 	return $options;
 }
 
-function PrintBASEAdminMenuHeader (){
+function PrintBASEAdminMenuHeader(){
 	GLOBAL $Use_Auth_System;
 	$menu = NLI('<div>', 2);
 	$menu .= NLI(
@@ -478,13 +480,13 @@ function PrintBASEAdminMenuHeader (){
 	if( $Use_Auth_System == 1 ){ // Issue #144 Fix
 		$menu .= NLI($Hrst . "list'" . $Hrsp . _LISTU . '</a><br>', 4);
 	}
-	$menu .= NLI($Hrst . "create'" . $Hrsp . _CREATEU. '</a><br>', 4);
+	$menu .= NLI($Hrst . "create'" . $Hrsp . _CREATEU . '</a><br>', 4);
 	$Umca = "base_roleadmin.php?action="; // Role Managemnt Common Action.
 	$Hrst = "<a href='$Umca"; // Href tag start.
 	if( $Use_Auth_System == 1 ){ // Issue #144 Fix
 		$menu .= NLI('<br>' . _ROLEMAN . '<hr>', 4);
 		$menu .= NLI($Hrst . "list'" . $Hrsp . _LISTR . '</a><br>', 4);
-		$menu .= NLI($Hrst . "create'" . $Hrsp ._CREATER . '</a><br>', 4);
+		$menu .= NLI($Hrst . "create'" . $Hrsp . _CREATER . '</a><br>', 4);
 	}
 	$menu .= NLI('</div>', 3);
 	$menu .= NLI(
@@ -493,12 +495,12 @@ function PrintBASEAdminMenuHeader (){
 	print $menu;
 }
 
-function PrintBASEAdminMenuFooter (){
+function PrintBASEAdminMenuFooter(){
 	NLIO('</div>',3);
 	NLIO('</div>',2);
 }
 
-function PrintBASEHelpLink ( $target ){
+function PrintBASEHelpLink( $target ){
   /*
     This function will accept a target variable which will point to
     an anchor in the base_help.php file.  It will output a help icon
@@ -507,7 +509,7 @@ function PrintBASEHelpLink ( $target ){
 }
 
 // Generate Horizontal Bar Graph <td> tag set.
-function HBarGraph (
+function HBarGraph(
 	$Value = 1, $Count = 1, $color = 'ff0000', $bgcolor = 'ffffff'
 ){
 	$pfx = '<td bgcolor="#';
@@ -526,14 +528,14 @@ function HBarGraph (
 		$ent_pct = 100;
 		$ent_clr = $bgcolor;
 	}
-	$Ret = $pfx . $ent_clr . '" width="' . $ent_pct. '%">&nbsp;</td>';
+	$Ret = $pfx . $ent_clr . '" width="' . $ent_pct . '%">&nbsp;</td>';
 	if ( $ent_pct > 0 && $ent_pct < 100 ){
-		$Ret .= $pfx . $bgcolor.'"></td>';
+		$Ret .= $pfx . $bgcolor . '"></td>';
 	}
 	return $Ret;
 }
 
-function HtmlPercent ( $Value = 1, $Count = 1 ){
+function HtmlPercent( $Value = 1, $Count = 1 ){
 	if( !is_numeric($Value) ){ // Input Validation
 		$Value = 1;
 	}
